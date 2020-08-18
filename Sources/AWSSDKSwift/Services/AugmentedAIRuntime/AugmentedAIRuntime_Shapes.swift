@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AugmentedAIRuntime {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
         case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
@@ -41,7 +41,7 @@ extension AugmentedAIRuntime {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct DeleteHumanLoopRequest: AWSEncodableShape {
         public static var _encoding = [

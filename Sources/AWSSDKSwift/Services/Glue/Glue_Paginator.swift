@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Glue {
 
@@ -311,7 +311,8 @@ extension Glue.GetDatabasesRequest: AWSPaginateToken {
         return .init(
             catalogId: self.catalogId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            resourceShareType: self.resourceShareType
         )
 
     }
@@ -535,11 +536,11 @@ extension Glue.SearchTablesRequest: AWSPaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            resourceShareType: self.resourceShareType,
             searchText: self.searchText,
             sortCriteria: self.sortCriteria
         )
 
     }
 }
-
 

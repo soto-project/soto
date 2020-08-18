@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Kinesis {
 
@@ -30,7 +30,7 @@ extension Kinesis {
         return client.paginate(input: input, command: describeStream, tokenKey: \DescribeStreamOutput.streamDescription.shards.last?.shardId, on: eventLoop, onPage: onPage)
     }
 
-    ///  Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 10 transactions per second per account.
+    ///  Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 5 transactions per second per stream.
     public func listStreamConsumersPaginator(
         _ input: ListStreamConsumersInput,
         on eventLoop: EventLoop? = nil,
@@ -84,5 +84,4 @@ extension Kinesis.ListStreamsInput: AWSPaginateToken {
 
     }
 }
-
 

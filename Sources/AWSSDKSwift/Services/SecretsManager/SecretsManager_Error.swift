@@ -27,6 +27,7 @@ public enum SecretsManagerErrorType: AWSErrorType {
     case limitExceededException(message: String?)
     case malformedPolicyDocumentException(message: String?)
     case preconditionNotMetException(message: String?)
+    case publicPolicyException(message: String?)
     case resourceExistsException(message: String?)
     case resourceNotFoundException(message: String?)
 }
@@ -56,6 +57,8 @@ extension SecretsManagerErrorType {
             self = .malformedPolicyDocumentException(message: message)
         case "PreconditionNotMetException":
             self = .preconditionNotMetException(message: message)
+        case "PublicPolicyException":
+            self = .publicPolicyException(message: message)
         case "ResourceExistsException":
             self = .resourceExistsException(message: message)
         case "ResourceNotFoundException":
@@ -87,6 +90,8 @@ extension SecretsManagerErrorType: CustomStringConvertible {
             return "MalformedPolicyDocumentException: \(message ?? "")"
         case .preconditionNotMetException(let message):
             return "PreconditionNotMetException: \(message ?? "")"
+        case .publicPolicyException(let message):
+            return "PublicPolicyException: \(message ?? "")"
         case .resourceExistsException(let message):
             return "ResourceExistsException: \(message ?? "")"
         case .resourceNotFoundException(let message):

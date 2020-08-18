@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension OpsWorksCM {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BackupStatus: String, CustomStringConvertible, Codable {
         case inProgress = "IN_PROGRESS"
@@ -64,7 +64,7 @@ extension OpsWorksCM {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountAttribute: AWSDecodableShape {
 

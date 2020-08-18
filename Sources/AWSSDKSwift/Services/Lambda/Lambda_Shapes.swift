@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Lambda {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EventSourcePosition: String, CustomStringConvertible, Codable {
         case trimHorizon = "TRIM_HORIZON"
@@ -78,6 +78,7 @@ extension Lambda {
         case nodejs10X = "nodejs10.x"
         case nodejs12X = "nodejs12.x"
         case java8 = "java8"
+        case java8Al2 = "java8.al2"
         case java11 = "java11"
         case python27 = "python2.7"
         case python36 = "python3.6"
@@ -92,6 +93,7 @@ extension Lambda {
         case ruby25 = "ruby2.5"
         case ruby27 = "ruby2.7"
         case provided = "provided"
+        case providedAl2 = "provided.al2"
         public var description: String { return self.rawValue }
     }
 
@@ -123,7 +125,7 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountLimit: AWSDecodableShape {
 
@@ -445,32 +447,34 @@ extension Lambda {
 
     public struct CreateEventSourceMappingRequest: AWSEncodableShape {
 
-        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.  
+        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.  
         public let batchSize: Int?
         /// (Streams) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
         /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
-        /// Disables the event source mapping to pause polling and invocation.
+        /// If true, the event source mapping is active. Set to false to pause polling and invocation.
         public let enabled: Bool?
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.  
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.  
         public let eventSourceArn: String
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
         /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        /// (Streams) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams) The maximum number of times to retry when the function returns an error.
+        /// (Streams) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records will be retried until the record expires.
         public let maximumRetryAttempts: Int?
         /// (Streams) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Streams sources. AT_TIMESTAMP is only supported for Amazon Kinesis streams.
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is only supported for Amazon Kinesis streams.
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
         public let startingPositionTimestamp: TimeStamp?
+        ///  (MSK) The name of the Kafka topic. 
+        public let topics: [String]?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil, topics: [String]? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -483,6 +487,7 @@ extension Lambda {
             self.parallelizationFactor = parallelizationFactor
             self.startingPosition = startingPosition
             self.startingPositionTimestamp = startingPositionTimestamp
+            self.topics = topics
         }
 
         public func validate(name: String) throws {
@@ -496,11 +501,18 @@ extension Lambda {
             try validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604800)
-            try validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: 60)
+            try validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
             try validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
-            try validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: 0)
+            try validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
             try validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, max: 10)
             try validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, min: 1)
+            try self.topics?.forEach {
+                try validate($0, name: "topics[]", parent: name, max: 249)
+                try validate($0, name: "topics[]", parent: name, min: 1)
+                try validate($0, name: "topics[]", parent: name, pattern: "^[^.]([a-zA-Z0-9\\-_.]+)")
+            }
+            try validate(self.topics, name: "topics", parent: name, max: 1)
+            try validate(self.topics, name: "topics", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -516,6 +528,7 @@ extension Lambda {
             case parallelizationFactor = "ParallelizationFactor"
             case startingPosition = "StartingPosition"
             case startingPositionTimestamp = "StartingPositionTimestamp"
+            case topics = "Topics"
         }
     }
 
@@ -923,10 +936,12 @@ extension Lambda {
         public let state: String?
         /// Indicates whether the last change to the event source mapping was made by a user, or by the Lambda service.
         public let stateTransitionReason: String?
+        ///  (MSK) The name of the Kafka topic. 
+        public let topics: [String]?
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, state: String? = nil, stateTransitionReason: String? = nil, uuid: String? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, uuid: String? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -940,6 +955,7 @@ extension Lambda {
             self.parallelizationFactor = parallelizationFactor
             self.state = state
             self.stateTransitionReason = stateTransitionReason
+            self.topics = topics
             self.uuid = uuid
         }
 
@@ -957,6 +973,7 @@ extension Lambda {
             case parallelizationFactor = "ParallelizationFactor"
             case state = "State"
             case stateTransitionReason = "StateTransitionReason"
+            case topics = "Topics"
             case uuid = "UUID"
         }
     }
@@ -1969,7 +1986,7 @@ extension Lambda {
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.  
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.  
         public let eventSourceArn: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
@@ -2891,21 +2908,21 @@ extension Lambda {
             AWSMemberEncoding(label: "uuid", location: .uri(locationName: "UUID"))
         ]
 
-        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.  
+        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.  
         public let batchSize: Int?
         /// (Streams) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
         /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
-        /// Disables the event source mapping to pause polling and invocation.
+        /// If true, the event source mapping is active. Set to false to pause polling and invocation.
         public let enabled: Bool?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
         /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        /// (Streams) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams) The maximum number of times to retry when the function returns an error.
+        /// (Streams) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records will be retried until the record expires.
         public let maximumRetryAttempts: Int?
         /// (Streams) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
@@ -2935,9 +2952,9 @@ extension Lambda {
             try validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604800)
-            try validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: 60)
+            try validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
             try validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
-            try validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: 0)
+            try validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
             try validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, max: 10)
             try validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, min: 1)
         }

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension NetworkManager {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
@@ -77,7 +77,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateCustomerGatewayRequest: AWSEncodableShape {
         public static var _encoding = [

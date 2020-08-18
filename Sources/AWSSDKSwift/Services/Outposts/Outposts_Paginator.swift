@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Outposts {
 
@@ -61,5 +61,4 @@ extension Outposts.ListSitesInput: AWSPaginateToken {
 
     }
 }
-
 

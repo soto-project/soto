@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MarketplaceEntitlementService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable {
         case customerIdentifier = "CUSTOMER_IDENTIFIER"
@@ -26,7 +26,7 @@ extension MarketplaceEntitlementService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Entitlement: AWSDecodableShape {
 

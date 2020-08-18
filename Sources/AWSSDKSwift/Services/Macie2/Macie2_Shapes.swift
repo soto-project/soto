@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Macie2 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AdminStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
@@ -177,6 +177,8 @@ extension Macie2 {
         case resigned = "Resigned"
         case emailverificationinprogress = "EmailVerificationInProgress"
         case emailverificationfailed = "EmailVerificationFailed"
+        case regiondisabled = "RegionDisabled"
+        case accountsuspended = "AccountSuspended"
         public var description: String { return self.rawValue }
     }
 
@@ -232,14 +234,30 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum UsageStatisticsFilterComparator: String, CustomStringConvertible, Codable {
+        case gt = "GT"
+        case gte = "GTE"
+        case lt = "LT"
+        case lte = "LTE"
+        case eq = "EQ"
+        case ne = "NE"
+        case contains = "CONTAINS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UsageStatisticsFilterKey: String, CustomStringConvertible, Codable {
         case accountid = "accountId"
+        case servicelimit = "serviceLimit"
+        case freetrialstartdate = "freeTrialStartDate"
+        case total = "total"
         public var description: String { return self.rawValue }
     }
 
     public enum UsageStatisticsSortKey: String, CustomStringConvertible, Codable {
         case accountid = "accountId"
         case total = "total"
+        case servicelimitvalue = "serviceLimitValue"
+        case freetrialstartdate = "freeTrialStartDate"
         public var description: String { return self.rawValue }
     }
 
@@ -259,7 +277,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
 
@@ -1707,12 +1725,14 @@ extension Macie2 {
 
     public struct FindingsFilterListItem: AWSDecodableShape {
 
+        public let action: FindingsFilterAction?
         public let arn: String?
         public let id: String?
         public let name: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(action: FindingsFilterAction? = nil, arn: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.action = action
             self.arn = arn
             self.id = id
             self.name = name
@@ -1720,6 +1740,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case action = "action"
             case arn = "arn"
             case id = "id"
             case name = "name"
@@ -3564,15 +3585,18 @@ extension Macie2 {
 
     public struct UsageStatisticsFilter: AWSEncodableShape {
 
+        public let comparator: UsageStatisticsFilterComparator?
         public let key: UsageStatisticsFilterKey?
         public let values: [String]?
 
-        public init(key: UsageStatisticsFilterKey? = nil, values: [String]? = nil) {
+        public init(comparator: UsageStatisticsFilterComparator? = nil, key: UsageStatisticsFilterKey? = nil, values: [String]? = nil) {
+            self.comparator = comparator
             self.key = key
             self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
+            case comparator = "comparator"
             case key = "key"
             case values = "values"
         }

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudTrail {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EventCategory: String, CustomStringConvertible, Codable {
         case insight = "insight"
@@ -49,7 +49,7 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddTagsRequest: AWSEncodableShape {
 

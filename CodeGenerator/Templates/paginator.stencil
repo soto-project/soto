@@ -2,7 +2,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension {{name}} {
 
@@ -38,4 +38,3 @@ extension {{name}}.{{page.operation.inputShape}}: {{page.paginatorProtocol}} {
 }
 
 {%endfor %}
-

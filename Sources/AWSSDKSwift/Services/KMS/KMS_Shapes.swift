@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension KMS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AlgorithmSpec: String, CustomStringConvertible, Codable {
         case rsaesPkcs1V15 = "RSAES_PKCS1_V1_5"
@@ -161,7 +161,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AliasListEntry: AWSDecodableShape {
 

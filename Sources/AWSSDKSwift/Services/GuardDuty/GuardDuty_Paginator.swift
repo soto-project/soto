@@ -16,9 +16,19 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension GuardDuty {
+
+    ///  Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources the cost returned will include only the usage so far under 30 days, this may differ from the cost metrics in the console, which projects usage over 30 days to provide a monthly cost estimate. For more information see Understanding How Usage Costs are Calculated.
+    public func getUsageStatisticsPaginator(
+        _ input: GetUsageStatisticsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (GetUsageStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getUsageStatistics, tokenKey: \GetUsageStatisticsResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
 
     ///  Lists detectorIds of all the existing Amazon GuardDuty detector resources.
     public func listDetectorsPaginator(
@@ -110,6 +120,20 @@ extension GuardDuty {
         return client.paginate(input: input, command: listThreatIntelSets, tokenKey: \ListThreatIntelSetsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
+}
+
+extension GuardDuty.GetUsageStatisticsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> GuardDuty.GetUsageStatisticsRequest {
+        return .init(
+            detectorId: self.detectorId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            unit: self.unit,
+            usageCriteria: self.usageCriteria,
+            usageStatisticType: self.usageStatisticType
+        )
+
+    }
 }
 
 extension GuardDuty.ListDetectorsRequest: AWSPaginateToken {
@@ -210,5 +234,4 @@ extension GuardDuty.ListThreatIntelSetsRequest: AWSPaginateToken {
 
     }
 }
-
 

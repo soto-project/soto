@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudSearchDomain {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ContentType: String, CustomStringConvertible, Codable {
         case applicationJson = "application/json"
@@ -34,7 +34,7 @@ extension CloudSearchDomain {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Bucket: AWSDecodableShape {
 

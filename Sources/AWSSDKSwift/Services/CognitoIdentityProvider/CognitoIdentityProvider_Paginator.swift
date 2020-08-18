@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CognitoIdentityProvider {
 
@@ -214,5 +214,4 @@ extension CognitoIdentityProvider.ListUsersInGroupRequest: AWSPaginateToken {
 
     }
 }
-
 

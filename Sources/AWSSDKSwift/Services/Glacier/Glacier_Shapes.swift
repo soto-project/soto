@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Glacier {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActionCode: String, CustomStringConvertible, Codable {
         case archiveretrieval = "ArchiveRetrieval"
@@ -92,7 +92,7 @@ extension Glacier {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AbortMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [

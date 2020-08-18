@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CostandUsageReportService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AWSRegion: String, CustomStringConvertible, Codable {
         case usEast1 = "us-east-1"
@@ -72,7 +72,7 @@ extension CostandUsageReportService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct DeleteReportDefinitionRequest: AWSEncodableShape {
 

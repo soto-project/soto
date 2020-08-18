@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ForecastService {
 
@@ -145,5 +145,4 @@ extension ForecastService.ListPredictorsRequest: AWSPaginateToken {
 
     }
 }
-
 

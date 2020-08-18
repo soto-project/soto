@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Snowball {
 
@@ -61,5 +61,4 @@ extension Snowball.ListJobsRequest: AWSPaginateToken {
 
     }
 }
-
 

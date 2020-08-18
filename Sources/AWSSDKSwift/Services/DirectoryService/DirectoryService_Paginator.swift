@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension DirectoryService {
 
@@ -43,5 +43,4 @@ extension DirectoryService.DescribeDomainControllersRequest: AWSPaginateToken {
 
     }
 }
-
 

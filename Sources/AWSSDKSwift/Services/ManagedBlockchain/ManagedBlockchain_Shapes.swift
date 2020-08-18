@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ManagedBlockchain {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Edition: String, CustomStringConvertible, Codable {
         case starter = "STARTER"
@@ -91,7 +91,7 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ApprovalThresholdPolicy: AWSEncodableShape & AWSDecodableShape {
 

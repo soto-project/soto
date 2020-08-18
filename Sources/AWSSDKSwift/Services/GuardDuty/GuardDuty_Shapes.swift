@@ -18,11 +18,25 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension GuardDuty {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AdminStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disableInProgress = "DISABLE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSource: String, CustomStringConvertible, Codable {
+        case flowLogs = "FLOW_LOGS"
+        case cloudTrail = "CLOUD_TRAIL"
+        case dnsLogs = "DNS_LOGS"
+        case s3Logs = "S3_LOGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -117,7 +131,15 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    public enum UsageStatisticType: String, CustomStringConvertible, Codable {
+        case sumByAccount = "SUM_BY_ACCOUNT"
+        case sumByDataSource = "SUM_BY_DATA_SOURCE"
+        case sumByResource = "SUM_BY_RESOURCE"
+        case topResources = "TOP_RESOURCES"
+        public var description: String { return self.rawValue }
+    }
+
+    // MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
         public static var _encoding = [
@@ -436,6 +458,20 @@ extension GuardDuty {
         }
     }
 
+    public struct CloudTrailConfigurationResult: AWSDecodableShape {
+
+        /// Describes whether CloudTrail is enabled as a data source for the detector.
+        public let status: DataSourceStatus
+
+        public init(status: DataSourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
 
         /// Represents an equal  condition to be applied to a single field when querying for findings.
@@ -492,6 +528,8 @@ extension GuardDuty {
 
         /// The idempotency token for the create request.
         public let clientToken: String?
+        /// An object that describes which data sources will be enabled for the detector.
+        public let dataSources: DataSourceConfigurations?
         /// A Boolean value that specifies whether the detector is to be enabled.
         public let enable: Bool
         /// An enum value that specifies how frequently updated findings are exported.
@@ -499,8 +537,9 @@ extension GuardDuty {
         /// The tags to be added to a new detector resource.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), enable: Bool, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), dataSources: DataSourceConfigurations? = nil, enable: Bool, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
+            self.dataSources = dataSources
             self.enable = enable
             self.findingPublishingFrequency = findingPublishingFrequency
             self.tags = tags
@@ -519,6 +558,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case dataSources = "dataSources"
             case enable = "enable"
             case findingPublishingFrequency = "findingPublishingFrequency"
             case tags = "tags"
@@ -890,6 +930,60 @@ extension GuardDuty {
         }
     }
 
+    public struct DNSLogsConfigurationResult: AWSDecodableShape {
+
+        /// Denotes whether DNS logs is enabled as a data source.
+        public let status: DataSourceStatus
+
+        public init(status: DataSourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct DataSourceConfigurations: AWSEncodableShape {
+
+        /// Describes whether S3 data event logs are enabled as a data source.
+        public let s3Logs: S3LogsConfiguration?
+
+        public init(s3Logs: S3LogsConfiguration? = nil) {
+            self.s3Logs = s3Logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Logs = "s3Logs"
+        }
+    }
+
+    public struct DataSourceConfigurationsResult: AWSDecodableShape {
+
+        /// An object that contains information on the status of CloudTrail as a data source.
+        public let cloudTrail: CloudTrailConfigurationResult
+        /// An object that contains information on the status of DNS logs as a data source.
+        public let dNSLogs: DNSLogsConfigurationResult
+        /// An object that contains information on the status of VPC flow logs as a data source.
+        public let flowLogs: FlowLogsConfigurationResult
+        /// An object that contains information on the status of S3 Data event logs as a data source.
+        public let s3Logs: S3LogsConfigurationResult
+
+        public init(cloudTrail: CloudTrailConfigurationResult, dNSLogs: DNSLogsConfigurationResult, flowLogs: FlowLogsConfigurationResult, s3Logs: S3LogsConfigurationResult) {
+            self.cloudTrail = cloudTrail
+            self.dNSLogs = dNSLogs
+            self.flowLogs = flowLogs
+            self.s3Logs = s3Logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudTrail = "cloudTrail"
+            case dNSLogs = "dnsLogs"
+            case flowLogs = "flowLogs"
+            case s3Logs = "s3Logs"
+        }
+    }
+
     public struct DeclineInvitationsRequest: AWSEncodableShape {
 
         /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from.
@@ -1207,16 +1301,20 @@ extension GuardDuty {
 
         /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization.
         public let autoEnable: Bool
+        /// An object that describes which data sources are enabled automatically for member accounts.
+        public let dataSources: OrganizationDataSourceConfigurationsResult?
         /// Indicates whether the maximum number of allowed member accounts are already associated with the delegated administrator master account.
         public let memberAccountLimitReached: Bool
 
-        public init(autoEnable: Bool, memberAccountLimitReached: Bool) {
+        public init(autoEnable: Bool, dataSources: OrganizationDataSourceConfigurationsResult? = nil, memberAccountLimitReached: Bool) {
             self.autoEnable = autoEnable
+            self.dataSources = dataSources
             self.memberAccountLimitReached = memberAccountLimitReached
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoEnable = "autoEnable"
+            case dataSources = "dataSources"
             case memberAccountLimitReached = "memberAccountLimitReached"
         }
     }
@@ -1570,6 +1668,20 @@ extension GuardDuty {
         }
     }
 
+    public struct FlowLogsConfigurationResult: AWSDecodableShape {
+
+        /// Denotes whether VPC flow logs is enabled as a data source.
+        public let status: DataSourceStatus
+
+        public init(status: DataSourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct GeoLocation: AWSDecodableShape {
 
         /// The latitude information of the remote IP address.
@@ -1612,6 +1724,8 @@ extension GuardDuty {
 
         /// The timestamp of when the detector was created.
         public let createdAt: String?
+        /// An object that describes which data sources are enabled for the detector.
+        public let dataSources: DataSourceConfigurationsResult?
         /// The publishing frequency of the finding.
         public let findingPublishingFrequency: FindingPublishingFrequency?
         /// The GuardDuty service role.
@@ -1623,8 +1737,9 @@ extension GuardDuty {
         /// The last-updated timestamp for the detector.
         public let updatedAt: String?
 
-        public init(createdAt: String? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String, status: DetectorStatus, tags: [String: String]? = nil, updatedAt: String? = nil) {
+        public init(createdAt: String? = nil, dataSources: DataSourceConfigurationsResult? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String, status: DetectorStatus, tags: [String: String]? = nil, updatedAt: String? = nil) {
             self.createdAt = createdAt
+            self.dataSources = dataSources
             self.findingPublishingFrequency = findingPublishingFrequency
             self.serviceRole = serviceRole
             self.status = status
@@ -1634,6 +1749,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case dataSources = "dataSources"
             case findingPublishingFrequency = "findingPublishingFrequency"
             case serviceRole = "serviceRole"
             case status = "status"
@@ -1904,6 +2020,55 @@ extension GuardDuty {
         }
     }
 
+    public struct GetMemberDetectorsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+        ]
+
+        /// The account ID of the member account.
+        public let accountIds: [String]
+        /// The detector ID for the master account.
+        public let detectorId: String
+
+        public init(accountIds: [String], detectorId: String) {
+            self.accountIds = accountIds
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+            }
+            try validate(self.accountIds, name: "accountIds", parent: name, max: 50)
+            try validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+            try validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+        }
+    }
+
+    public struct GetMemberDetectorsResponse: AWSDecodableShape {
+
+        /// An object that describes which data sources are enabled for a member account.
+        public let memberDataSourceConfigurations: [MemberDataSourceConfiguration]
+        /// A list of member account IDs that were unable to be processed along with an explanation for why they were not processed.
+        public let unprocessedAccounts: [UnprocessedAccount]
+
+        public init(memberDataSourceConfigurations: [MemberDataSourceConfiguration], unprocessedAccounts: [UnprocessedAccount]) {
+            self.memberDataSourceConfigurations = memberDataSourceConfigurations
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberDataSourceConfigurations = "members"
+            case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
     public struct GetMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
@@ -2004,6 +2169,68 @@ extension GuardDuty {
             case name = "name"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct GetUsageStatisticsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+        ]
+
+        /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
+        public let detectorId: String
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+        /// The currency unit you would like to view your usage statistics in. Current valid values are USD.
+        public let unit: String?
+        /// Represents the criteria used for querying usage.
+        public let usageCriteria: UsageCriteria
+        /// The type of usage statistics to retrieve.
+        public let usageStatisticType: UsageStatisticType
+
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, unit: String? = nil, usageCriteria: UsageCriteria, usageStatisticType: UsageStatisticType) {
+            self.detectorId = detectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.unit = unit
+            self.usageCriteria = usageCriteria
+            self.usageStatisticType = usageStatisticType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.usageCriteria.validate(name: "\(name).usageCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case unit = "unit"
+            case usageCriteria = "usageCriteria"
+            case usageStatisticType = "usageStatisticsType"
+        }
+    }
+
+    public struct GetUsageStatisticsResponse: AWSDecodableShape {
+
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
+        public let nextToken: String?
+        /// The usage statistics object. If a UsageStatisticType was provided, the objects representing other types will be null.
+        public let usageStatistics: UsageStatistics?
+
+        public init(nextToken: String? = nil, usageStatistics: UsageStatistics? = nil) {
+            self.nextToken = nextToken
+            self.usageStatistics = usageStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case usageStatistics = "usageStatistics"
         }
     }
 
@@ -2122,9 +2349,9 @@ extension GuardDuty {
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account that you want to invite members with.
         public let detectorId: String
-        /// A Boolean value that specifies whether you want to disable email notification to the accounts that you’re inviting to GuardDuty as members.
+        /// A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
         public let disableEmailNotification: Bool?
-        /// The invitation message that you want to send to the accounts that you’re inviting to GuardDuty as members.
+        /// The invitation message that you want to send to the accounts that you're inviting to GuardDuty as members.
         public let message: String?
 
         public init(accountIds: [String], detectorId: String, disableEmailNotification: Bool? = nil, message: String? = nil) {
@@ -2722,6 +2949,24 @@ extension GuardDuty {
         }
     }
 
+    public struct MemberDataSourceConfiguration: AWSDecodableShape {
+
+        /// The account ID for the member account.
+        public let accountId: String
+        /// Contains information on the status of data sources for the account.
+        public let dataSources: DataSourceConfigurationsResult
+
+        public init(accountId: String, dataSources: DataSourceConfigurationsResult) {
+            self.accountId = accountId
+            self.dataSources = dataSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case dataSources = "dataSources"
+        }
+    }
+
     public struct NetworkConnectionAction: AWSDecodableShape {
 
         /// Indicates whether EC2 blocked the network connection to your instance.
@@ -2833,6 +3078,62 @@ extension GuardDuty {
             case asnOrg = "asnOrg"
             case isp = "isp"
             case org = "org"
+        }
+    }
+
+    public struct OrganizationDataSourceConfigurations: AWSEncodableShape {
+
+        /// Describes whether S3 data event logs are enabled for new members of the organization.
+        public let s3Logs: OrganizationS3LogsConfiguration?
+
+        public init(s3Logs: OrganizationS3LogsConfiguration? = nil) {
+            self.s3Logs = s3Logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Logs = "s3Logs"
+        }
+    }
+
+    public struct OrganizationDataSourceConfigurationsResult: AWSDecodableShape {
+
+        /// Describes whether S3 data event logs are enabled as a data source.
+        public let s3Logs: OrganizationS3LogsConfigurationResult
+
+        public init(s3Logs: OrganizationS3LogsConfigurationResult) {
+            self.s3Logs = s3Logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Logs = "s3Logs"
+        }
+    }
+
+    public struct OrganizationS3LogsConfiguration: AWSEncodableShape {
+
+        /// A value that contains information on whether S3 data event logs will be enabled automatically as a data source for the organization.
+        public let autoEnable: Bool
+
+        public init(autoEnable: Bool) {
+            self.autoEnable = autoEnable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "autoEnable"
+        }
+    }
+
+    public struct OrganizationS3LogsConfigurationResult: AWSDecodableShape {
+
+        /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
+        public let autoEnable: Bool
+
+        public init(autoEnable: Bool) {
+            self.autoEnable = autoEnable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -3075,6 +3376,34 @@ extension GuardDuty {
             case publicAccess = "publicAccess"
             case tags = "tags"
             case `type` = "type"
+        }
+    }
+
+    public struct S3LogsConfiguration: AWSEncodableShape {
+
+        ///  The status of S3 data event logs as a data source.
+        public let enable: Bool
+
+        public init(enable: Bool) {
+            self.enable = enable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enable = "enable"
+        }
+    }
+
+    public struct S3LogsConfigurationResult: AWSDecodableShape {
+
+        /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
+        public let status: DataSourceStatus
+
+        public init(status: DataSourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
@@ -3328,6 +3657,24 @@ extension GuardDuty {
         }
     }
 
+    public struct Total: AWSDecodableShape {
+
+        /// The total usage.
+        public let amount: String?
+        /// The currency unit that the amount is given in.
+        public let unit: String?
+
+        public init(amount: String? = nil, unit: String? = nil) {
+            self.amount = amount
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "amount"
+            case unit = "unit"
+        }
+    }
+
     public struct UnarchiveFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
@@ -3428,6 +3775,8 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
 
+        /// An object that describes which data sources will be updated.
+        public let dataSources: DataSourceConfigurations?
         /// The unique ID of the detector to update.
         public let detectorId: String
         /// Specifies whether the detector is enabled or not enabled.
@@ -3435,7 +3784,8 @@ extension GuardDuty {
         /// An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
         public let findingPublishingFrequency: FindingPublishingFrequency?
 
-        public init(detectorId: String, enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
+        public init(dataSources: DataSourceConfigurations? = nil, detectorId: String, enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
+            self.dataSources = dataSources
             self.detectorId = detectorId
             self.enable = enable
             self.findingPublishingFrequency = findingPublishingFrequency
@@ -3447,6 +3797,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataSources = "dataSources"
             case enable = "enable"
             case findingPublishingFrequency = "findingPublishingFrequency"
         }
@@ -3615,6 +3966,55 @@ extension GuardDuty {
 
     }
 
+    public struct UpdateMemberDetectorsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+        ]
+
+        /// A list of member account IDs to be updated.
+        public let accountIds: [String]
+        /// An object describes which data sources will be updated.
+        public let dataSources: DataSourceConfigurations?
+        /// The detector ID of the master account.
+        public let detectorId: String
+
+        public init(accountIds: [String], dataSources: DataSourceConfigurations? = nil, detectorId: String) {
+            self.accountIds = accountIds
+            self.dataSources = dataSources
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+            }
+            try validate(self.accountIds, name: "accountIds", parent: name, max: 50)
+            try validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+            try validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case dataSources = "dataSources"
+        }
+    }
+
+    public struct UpdateMemberDetectorsResponse: AWSDecodableShape {
+
+        /// A list of member account IDs that were unable to be processed along with an explanation for why they were not processed.
+        public let unprocessedAccounts: [UnprocessedAccount]
+
+        public init(unprocessedAccounts: [UnprocessedAccount]) {
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
     public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
@@ -3622,11 +4022,14 @@ extension GuardDuty {
 
         /// Indicates whether to automatically enable member accounts in the organization.
         public let autoEnable: Bool
+        /// An object describes which data sources will be updated.
+        public let dataSources: OrganizationDataSourceConfigurations?
         /// The ID of the detector to update the delegated administrator for.
         public let detectorId: String
 
-        public init(autoEnable: Bool, detectorId: String) {
+        public init(autoEnable: Bool, dataSources: OrganizationDataSourceConfigurations? = nil, detectorId: String) {
             self.autoEnable = autoEnable
+            self.dataSources = dataSources
             self.detectorId = detectorId
         }
 
@@ -3637,6 +4040,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case autoEnable = "autoEnable"
+            case dataSources = "dataSources"
         }
     }
 
@@ -3732,5 +4136,116 @@ extension GuardDuty {
         public init() {
         }
 
+    }
+
+    public struct UsageAccountResult: AWSDecodableShape {
+
+        /// The Account ID that generated usage.
+        public let accountId: String?
+        /// Represents the total of usage for the Account ID.
+        public let total: Total?
+
+        public init(accountId: String? = nil, total: Total? = nil) {
+            self.accountId = accountId
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case total = "total"
+        }
+    }
+
+    public struct UsageCriteria: AWSEncodableShape {
+
+        /// The account IDs to aggregate usage statistics from.
+        public let accountIds: [String]?
+        /// The data sources to aggregate usage statistics from.
+        public let dataSources: [DataSource]
+        /// The resources to aggregate usage statistics from. Only accepts exact resource names.
+        public let resources: [String]?
+
+        public init(accountIds: [String]? = nil, dataSources: [DataSource], resources: [String]? = nil) {
+            self.accountIds = accountIds
+            self.dataSources = dataSources
+            self.resources = resources
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+            }
+            try validate(self.accountIds, name: "accountIds", parent: name, max: 50)
+            try validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case dataSources = "dataSources"
+            case resources = "resources"
+        }
+    }
+
+    public struct UsageDataSourceResult: AWSDecodableShape {
+
+        /// The data source type that generated usage.
+        public let dataSource: DataSource?
+        /// Represents the total of usage for the specified data source.
+        public let total: Total?
+
+        public init(dataSource: DataSource? = nil, total: Total? = nil) {
+            self.dataSource = dataSource
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "dataSource"
+            case total = "total"
+        }
+    }
+
+    public struct UsageResourceResult: AWSDecodableShape {
+
+        /// The AWS resource that generated usage.
+        public let resource: String?
+        /// Represents the sum total of usage for the specified resource type.
+        public let total: Total?
+
+        public init(resource: String? = nil, total: Total? = nil) {
+            self.resource = resource
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+            case total = "total"
+        }
+    }
+
+    public struct UsageStatistics: AWSDecodableShape {
+
+        /// The usage statistic sum organized by account ID.
+        public let sumByAccount: [UsageAccountResult]?
+        /// The usage statistic sum organized by on data source.
+        public let sumByDataSource: [UsageDataSourceResult]?
+        /// The usage statistic sum organized by resource.
+        public let sumByResource: [UsageResourceResult]?
+        /// Lists the top 50 resources that have generated the most GuardDuty usage, in order from most to least expensive.
+        public let topResources: [UsageResourceResult]?
+
+        public init(sumByAccount: [UsageAccountResult]? = nil, sumByDataSource: [UsageDataSourceResult]? = nil, sumByResource: [UsageResourceResult]? = nil, topResources: [UsageResourceResult]? = nil) {
+            self.sumByAccount = sumByAccount
+            self.sumByDataSource = sumByDataSource
+            self.sumByResource = sumByResource
+            self.topResources = topResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sumByAccount = "sumByAccount"
+            case sumByDataSource = "sumByDataSource"
+            case sumByResource = "sumByResource"
+            case topResources = "topResources"
+        }
     }
 }

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MigrationHub {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ApplicationStatus: String, CustomStringConvertible, Codable {
         case notStarted = "NOT_STARTED"
@@ -49,7 +49,7 @@ extension MigrationHub {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ApplicationState: AWSDecodableShape {
 

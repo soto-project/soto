@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension WorkMail {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccessControlRuleEffect: String, CustomStringConvertible, Codable {
         case allow = "ALLOW"
@@ -75,7 +75,7 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessControlRule: AWSDecodableShape {
 

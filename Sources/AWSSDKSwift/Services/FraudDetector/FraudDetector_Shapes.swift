@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension FraudDetector {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DataSource: String, CustomStringConvertible, Codable {
         case event = "EVENT"
@@ -76,14 +76,8 @@ extension FraudDetector {
     }
 
     public enum ModelVersionStatus: String, CustomStringConvertible, Codable {
-        case trainingInProgress = "TRAINING_IN_PROGRESS"
-        case trainingComplete = "TRAINING_COMPLETE"
-        case activateRequested = "ACTIVATE_REQUESTED"
-        case activateInProgress = "ACTIVATE_IN_PROGRESS"
         case active = "ACTIVE"
-        case inactivateInProgress = "INACTIVATE_IN_PROGRESS"
         case inactive = "INACTIVE"
-        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -93,7 +87,12 @@ extension FraudDetector {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    public enum TrainingDataSourceEnum: String, CustomStringConvertible, Codable {
+        case externalEvents = "EXTERNAL_EVENTS"
+        public var description: String { return self.rawValue }
+    }
+
+    // MARK: Shapes
 
     public struct BatchCreateVariableError: AWSDecodableShape {
 
@@ -119,19 +118,28 @@ extension FraudDetector {
 
     public struct BatchCreateVariableRequest: AWSEncodableShape {
 
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
         /// The list of variables for the batch create variable request.
         public let variableEntries: [VariableEntry]
 
-        public init(variableEntries: [VariableEntry]) {
+        public init(tags: [Tag]? = nil, variableEntries: [VariableEntry]) {
+            self.tags = tags
             self.variableEntries = variableEntries
         }
 
         public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
             try validate(self.variableEntries, name: "variableEntries", parent: name, max: 25)
             try validate(self.variableEntries, name: "variableEntries", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
             case variableEntries = "variableEntries"
         }
     }
@@ -223,14 +231,17 @@ extension FraudDetector {
         public let ruleExecutionMode: RuleExecutionMode?
         /// The rules to include in the detector version.
         public let rules: [Rule]
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, detectorId: String, externalModelEndpoints: [String]? = nil, modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule]) {
+        public init(description: String? = nil, detectorId: String, externalModelEndpoints: [String]? = nil, modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule], tags: [Tag]? = nil) {
             self.description = description
             self.detectorId = detectorId
             self.externalModelEndpoints = externalModelEndpoints
             self.modelVersions = modelVersions
             self.ruleExecutionMode = ruleExecutionMode
             self.rules = rules
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -245,6 +256,11 @@ extension FraudDetector {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -254,6 +270,7 @@ extension FraudDetector {
             case modelVersions = "modelVersions"
             case ruleExecutionMode = "ruleExecutionMode"
             case rules = "rules"
+            case tags = "tags"
         }
     }
 
@@ -279,19 +296,25 @@ extension FraudDetector {
         }
     }
 
-    public struct CreateModelVersionRequest: AWSEncodableShape {
+    public struct CreateModelRequest: AWSEncodableShape {
 
-        /// The model version description.
+        /// The model description. 
         public let description: String?
-        /// The model ID. 
+        /// The name of the event type.
+        public let eventTypeName: String
+        /// The model ID.
         public let modelId: String
-        /// The model type.
+        /// The model type. 
         public let modelType: ModelTypeEnum
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, modelId: String, modelType: ModelTypeEnum) {
+        public init(description: String? = nil, eventTypeName: String, modelId: String, modelType: ModelTypeEnum, tags: [Tag]? = nil) {
             self.description = description
+            self.eventTypeName = eventTypeName
             self.modelId = modelId
             self.modelType = modelType
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -299,23 +322,84 @@ extension FraudDetector {
             try validate(self.description, name: "description", parent: name, min: 1)
             try validate(self.modelId, name: "modelId", parent: name, max: 64)
             try validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case eventTypeName = "eventTypeName"
             case modelId = "modelId"
             case modelType = "modelType"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateModelResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateModelVersionRequest: AWSEncodableShape {
+
+        /// Details for the external events data used for model version training. Required if trainingDataSource is EXTERNAL_EVENTS.
+        public let externalEventsDetail: ExternalEventsDetail?
+        /// The model ID. 
+        public let modelId: String
+        /// The model type.
+        public let modelType: ModelTypeEnum
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
+        /// The training data schema.
+        public let trainingDataSchema: TrainingDataSchema
+        /// The training data source location in Amazon S3. 
+        public let trainingDataSource: TrainingDataSourceEnum
+
+        public init(externalEventsDetail: ExternalEventsDetail? = nil, modelId: String, modelType: ModelTypeEnum, tags: [Tag]? = nil, trainingDataSchema: TrainingDataSchema, trainingDataSource: TrainingDataSourceEnum) {
+            self.externalEventsDetail = externalEventsDetail
+            self.modelId = modelId
+            self.modelType = modelType
+            self.tags = tags
+            self.trainingDataSchema = trainingDataSchema
+            self.trainingDataSource = trainingDataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.externalEventsDetail?.validate(name: "\(name).externalEventsDetail")
+            try validate(self.modelId, name: "modelId", parent: name, max: 64)
+            try validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalEventsDetail = "externalEventsDetail"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case tags = "tags"
+            case trainingDataSchema = "trainingDataSchema"
+            case trainingDataSource = "trainingDataSource"
         }
     }
 
     public struct CreateModelVersionResult: AWSDecodableShape {
 
-        /// The model ID. 
+        /// The model ID.
         public let modelId: String?
         /// The model type.
         public let modelType: ModelTypeEnum?
-        /// The version of the model. 
+        /// The model version number of the model version created.
         public let modelVersionNumber: String?
         /// The model version status. 
         public let status: String?
@@ -349,14 +433,17 @@ extension FraudDetector {
         public let outcomes: [String]
         /// The rule ID.
         public let ruleId: String
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, detectorId: String, expression: String, language: Language, outcomes: [String], ruleId: String) {
+        public init(description: String? = nil, detectorId: String, expression: String, language: Language, outcomes: [String], ruleId: String, tags: [Tag]? = nil) {
             self.description = description
             self.detectorId = detectorId
             self.expression = expression
             self.language = language
             self.outcomes = outcomes
             self.ruleId = ruleId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -371,6 +458,11 @@ extension FraudDetector {
             try validate(self.ruleId, name: "ruleId", parent: name, max: 64)
             try validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -380,6 +472,7 @@ extension FraudDetector {
             case language = "language"
             case outcomes = "outcomes"
             case ruleId = "ruleId"
+            case tags = "tags"
         }
     }
 
@@ -409,16 +502,27 @@ extension FraudDetector {
         public let description: String?
         /// The name of the variable.
         public let name: String
-        /// The variable type.
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
+        /// The variable type. For more information see Variable types.  Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT | SHIPPING_ZIP | USERAGENT 
         public let variableType: String?
 
-        public init(dataSource: DataSource, dataType: DataType, defaultValue: String, description: String? = nil, name: String, variableType: String? = nil) {
+        public init(dataSource: DataSource, dataType: DataType, defaultValue: String, description: String? = nil, name: String, tags: [Tag]? = nil, variableType: String? = nil) {
             self.dataSource = dataSource
             self.dataType = dataType
             self.defaultValue = defaultValue
             self.description = description
             self.name = name
+            self.tags = tags
             self.variableType = variableType
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -427,6 +531,7 @@ extension FraudDetector {
             case defaultValue = "defaultValue"
             case description = "description"
             case name = "name"
+            case tags = "tags"
             case variableType = "variableType"
         }
     }
@@ -437,6 +542,24 @@ extension FraudDetector {
         public init() {
         }
 
+    }
+
+    public struct DataValidationMetrics: AWSDecodableShape {
+
+        /// The field-specific model training validation messages.
+        public let fieldLevelMessages: [FieldValidationMessage]?
+        /// The file-specific model training validation messages.
+        public let fileLevelMessages: [FileValidationMessage]?
+
+        public init(fieldLevelMessages: [FieldValidationMessage]? = nil, fileLevelMessages: [FileValidationMessage]? = nil) {
+            self.fieldLevelMessages = fieldLevelMessages
+            self.fileLevelMessages = fileLevelMessages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelMessages = "fieldLevelMessages"
+            case fileLevelMessages = "fileLevelMessages"
+        }
     }
 
     public struct DeleteDetectorRequest: AWSEncodableShape {
@@ -483,7 +606,9 @@ extension FraudDetector {
             try validate(self.detectorId, name: "detectorId", parent: name, max: 64)
             try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, max: 5)
             try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, min: 1)
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, pattern: "^([1-9][0-9]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -504,13 +629,17 @@ extension FraudDetector {
 
         /// The ID of the event to delete.
         public let eventId: String
+        /// The name of the event type.
+        public let eventTypeName: String
 
-        public init(eventId: String) {
+        public init(eventId: String, eventTypeName: String) {
             self.eventId = eventId
+            self.eventTypeName = eventTypeName
         }
 
         private enum CodingKeys: String, CodingKey {
             case eventId = "eventId"
+            case eventTypeName = "eventTypeName"
         }
     }
 
@@ -522,39 +651,24 @@ extension FraudDetector {
 
     }
 
-    public struct DeleteRuleVersionRequest: AWSEncodableShape {
+    public struct DeleteRuleRequest: AWSEncodableShape {
 
-        /// The ID of the detector that includes the rule version to delete.
-        public let detectorId: String
-        /// The rule ID of the rule version to delete.
-        public let ruleId: String
-        /// The rule version to delete.
-        public let ruleVersion: String
+        public let rule: Rule
 
-        public init(detectorId: String, ruleId: String, ruleVersion: String) {
-            self.detectorId = detectorId
-            self.ruleId = ruleId
-            self.ruleVersion = ruleVersion
+        public init(rule: Rule) {
+            self.rule = rule
         }
 
         public func validate(name: String) throws {
-            try validate(self.detectorId, name: "detectorId", parent: name, max: 64)
-            try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
-            try validate(self.ruleId, name: "ruleId", parent: name, max: 64)
-            try validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[0-9a-z_-]+$")
-            try validate(self.ruleVersion, name: "ruleVersion", parent: name, min: 1)
+            try self.rule.validate(name: "\(name).rule")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case ruleId = "ruleId"
-            case ruleVersion = "ruleVersion"
+            case rule = "rule"
         }
     }
 
-    public struct DeleteRuleVersionResult: AWSDecodableShape {
+    public struct DeleteRuleResult: AWSDecodableShape {
 
 
         public init() {
@@ -594,6 +708,8 @@ extension FraudDetector {
 
     public struct DescribeDetectorResult: AWSDecodableShape {
 
+        /// The detector ARN.
+        public let arn: String?
         /// The detector ID.
         public let detectorId: String?
         /// The status and description for each detector version.
@@ -601,13 +717,15 @@ extension FraudDetector {
         /// The next token to be used for subsequent requests.
         public let nextToken: String?
 
-        public init(detectorId: String? = nil, detectorVersionSummaries: [DetectorVersionSummary]? = nil, nextToken: String? = nil) {
+        public init(arn: String? = nil, detectorId: String? = nil, detectorVersionSummaries: [DetectorVersionSummary]? = nil, nextToken: String? = nil) {
+            self.arn = arn
             self.detectorId = detectorId
             self.detectorVersionSummaries = detectorVersionSummaries
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case detectorId = "detectorId"
             case detectorVersionSummaries = "detectorVersionSummaries"
             case nextToken = "nextToken"
@@ -622,7 +740,7 @@ extension FraudDetector {
         public let modelId: String?
         /// The model type.
         public let modelType: ModelTypeEnum?
-        /// The model version. 
+        /// The model version number.
         public let modelVersionNumber: String?
         /// The next token from the previous results.
         public let nextToken: String?
@@ -640,8 +758,10 @@ extension FraudDetector {
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try validate(self.modelId, name: "modelId", parent: name, max: 64)
             try validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_-]+$")
-            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, min: 1)
+            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
+            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, max: 7)
+            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, min: 3)
+            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, pattern: "^[1-9][0-9]{0,3}\\.[0-9]{1,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -673,26 +793,34 @@ extension FraudDetector {
 
     public struct Detector: AWSDecodableShape {
 
+        /// The detector ARN.
+        public let arn: String?
         /// Timestamp of when the detector was created.
         public let createdTime: String?
         /// The detector description.
         public let description: String?
         /// The detector ID.
         public let detectorId: String?
+        /// The name of the event type.
+        public let eventTypeName: String?
         /// Timestamp of when the detector was last updated.
         public let lastUpdatedTime: String?
 
-        public init(createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, lastUpdatedTime: String? = nil) {
+        public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, eventTypeName: String? = nil, lastUpdatedTime: String? = nil) {
+            self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.detectorId = detectorId
+            self.eventTypeName = eventTypeName
             self.lastUpdatedTime = lastUpdatedTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdTime = "createdTime"
             case description = "description"
             case detectorId = "detectorId"
+            case eventTypeName = "eventTypeName"
             case lastUpdatedTime = "lastUpdatedTime"
         }
     }
@@ -723,12 +851,139 @@ extension FraudDetector {
         }
     }
 
+    public struct Entity: AWSEncodableShape {
+
+        /// The entity ID. If you do not know the entityId, you can pass unknown, which is areserved string literal.
+        public let entityId: String
+        /// The entity type.
+        public let entityType: String
+
+        public init(entityId: String, entityType: String) {
+            self.entityId = entityId
+            self.entityType = entityType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.entityId, name: "entityId", parent: name, max: 64)
+            try validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try validate(self.entityId, name: "entityId", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "entityId"
+            case entityType = "entityType"
+        }
+    }
+
+    public struct EntityType: AWSDecodableShape {
+
+        /// The entity type ARN.
+        public let arn: String?
+        /// Timestamp of when the entity type was created.
+        public let createdTime: String?
+        /// The entity type description.
+        public let description: String?
+        /// Timestamp of when the entity type was last updated.
+        public let lastUpdatedTime: String?
+        /// The entity type name.
+        public let name: String?
+
+        public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+        }
+    }
+
+    public struct EventType: AWSDecodableShape {
+
+        /// The entity type ARN.
+        public let arn: String?
+        /// Timestamp of when the event type was created.
+        public let createdTime: String?
+        /// The event type description.
+        public let description: String?
+        /// The event type entity types.
+        public let entityTypes: [String]?
+        /// The event type event variables.
+        public let eventVariables: [String]?
+        /// The event type labels.
+        public let labels: [String]?
+        /// Timestamp of when the event type was last updated.
+        public let lastUpdatedTime: String?
+        /// The event type name.
+        public let name: String?
+
+        public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, entityTypes: [String]? = nil, eventVariables: [String]? = nil, labels: [String]? = nil, lastUpdatedTime: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.entityTypes = entityTypes
+            self.eventVariables = eventVariables
+            self.labels = labels
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case entityTypes = "entityTypes"
+            case eventVariables = "eventVariables"
+            case labels = "labels"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+        }
+    }
+
+    public struct ExternalEventsDetail: AWSEncodableShape & AWSDecodableShape {
+
+        /// The ARN of the role that provides Amazon Fraud Detector access to the data location.
+        public let dataAccessRoleArn: String
+        /// The Amazon S3 bucket location for the data.
+        public let dataLocation: String
+
+        public init(dataAccessRoleArn: String, dataLocation: String) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.dataLocation = dataLocation
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 256)
+            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 1)
+            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn\\:aws[a-z-]{0,15}\\:iam\\:\\:[0-9]{12}\\:role\\/[^\\s]{2,64}$")
+            try validate(self.dataLocation, name: "dataLocation", parent: name, max: 512)
+            try validate(self.dataLocation, name: "dataLocation", parent: name, min: 1)
+            try validate(self.dataLocation, name: "dataLocation", parent: name, pattern: "^s3:\\/\\/(.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "dataAccessRoleArn"
+            case dataLocation = "dataLocation"
+        }
+    }
+
     public struct ExternalModel: AWSDecodableShape {
 
+        /// The model ARN.
+        public let arn: String?
         /// Timestamp of when the model was last created.
         public let createdTime: String?
         /// The input configuration.
         public let inputConfiguration: ModelInputConfiguration?
+        /// The role used to invoke the model. 
+        public let invokeModelEndpointRoleArn: String?
         /// Timestamp of when the model was last updated.
         public let lastUpdatedTime: String?
         /// The Amazon SageMaker model endpoints.
@@ -739,29 +994,81 @@ extension FraudDetector {
         public let modelSource: ModelSource?
         /// The output configuration.
         public let outputConfiguration: ModelOutputConfiguration?
-        /// The role used to invoke the model. 
-        public let role: Role?
 
-        public init(createdTime: String? = nil, inputConfiguration: ModelInputConfiguration? = nil, lastUpdatedTime: String? = nil, modelEndpoint: String? = nil, modelEndpointStatus: ModelEndpointStatus? = nil, modelSource: ModelSource? = nil, outputConfiguration: ModelOutputConfiguration? = nil, role: Role? = nil) {
+        public init(arn: String? = nil, createdTime: String? = nil, inputConfiguration: ModelInputConfiguration? = nil, invokeModelEndpointRoleArn: String? = nil, lastUpdatedTime: String? = nil, modelEndpoint: String? = nil, modelEndpointStatus: ModelEndpointStatus? = nil, modelSource: ModelSource? = nil, outputConfiguration: ModelOutputConfiguration? = nil) {
+            self.arn = arn
             self.createdTime = createdTime
             self.inputConfiguration = inputConfiguration
+            self.invokeModelEndpointRoleArn = invokeModelEndpointRoleArn
             self.lastUpdatedTime = lastUpdatedTime
             self.modelEndpoint = modelEndpoint
             self.modelEndpointStatus = modelEndpointStatus
             self.modelSource = modelSource
             self.outputConfiguration = outputConfiguration
-            self.role = role
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdTime = "createdTime"
             case inputConfiguration = "inputConfiguration"
+            case invokeModelEndpointRoleArn = "invokeModelEndpointRoleArn"
             case lastUpdatedTime = "lastUpdatedTime"
             case modelEndpoint = "modelEndpoint"
             case modelEndpointStatus = "modelEndpointStatus"
             case modelSource = "modelSource"
             case outputConfiguration = "outputConfiguration"
-            case role = "role"
+        }
+    }
+
+    public struct FieldValidationMessage: AWSDecodableShape {
+
+        /// The message content.
+        public let content: String?
+        /// The field name.
+        public let fieldName: String?
+        /// The message ID.
+        public let identifier: String?
+        /// The message title.
+        public let title: String?
+        /// The message type.
+        public let `type`: String?
+
+        public init(content: String? = nil, fieldName: String? = nil, identifier: String? = nil, title: String? = nil, type: String? = nil) {
+            self.content = content
+            self.fieldName = fieldName
+            self.identifier = identifier
+            self.title = title
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case fieldName = "fieldName"
+            case identifier = "identifier"
+            case title = "title"
+            case `type` = "type"
+        }
+    }
+
+    public struct FileValidationMessage: AWSDecodableShape {
+
+        /// The message content.
+        public let content: String?
+        /// The message title.
+        public let title: String?
+        /// The message type.
+        public let `type`: String?
+
+        public init(content: String? = nil, title: String? = nil, type: String? = nil) {
+            self.content = content
+            self.title = title
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case title = "title"
+            case `type` = "type"
         }
     }
 
@@ -781,7 +1088,9 @@ extension FraudDetector {
             try validate(self.detectorId, name: "detectorId", parent: name, max: 64)
             try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, max: 5)
             try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, min: 1)
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, pattern: "^([1-9][0-9]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -792,6 +1101,8 @@ extension FraudDetector {
 
     public struct GetDetectorVersionResult: AWSDecodableShape {
 
+        /// The detector version ARN.
+        public let arn: String?
         /// The timestamp when the detector version was created. 
         public let createdTime: String?
         /// The detector version description.
@@ -813,7 +1124,8 @@ extension FraudDetector {
         /// The status of the detector version.
         public let status: DetectorVersionStatus?
 
-        public init(createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, detectorVersionId: String? = nil, externalModelEndpoints: [String]? = nil, lastUpdatedTime: String? = nil, modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule]? = nil, status: DetectorVersionStatus? = nil) {
+        public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, detectorVersionId: String? = nil, externalModelEndpoints: [String]? = nil, lastUpdatedTime: String? = nil, modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule]? = nil, status: DetectorVersionStatus? = nil) {
+            self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.detectorId = detectorId
@@ -827,6 +1139,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdTime = "createdTime"
             case description = "description"
             case detectorId = "detectorId"
@@ -888,6 +1201,180 @@ extension FraudDetector {
         }
     }
 
+    public struct GetEntityTypesRequest: AWSEncodableShape {
+
+        /// The maximum number of objects to return for the request.
+        public let maxResults: Int?
+        /// The name.
+        public let name: String?
+        /// The next token for the subsequent request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+            try validate(self.name, name: "name", parent: name, max: 64)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetEntityTypesResult: AWSDecodableShape {
+
+        /// An array of entity types.
+        public let entityTypes: [EntityType]?
+        /// The next page token.
+        public let nextToken: String?
+
+        public init(entityTypes: [EntityType]? = nil, nextToken: String? = nil) {
+            self.entityTypes = entityTypes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityTypes = "entityTypes"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetEventPredictionRequest: AWSEncodableShape {
+
+        /// The detector ID.
+        public let detectorId: String
+        /// The detector version ID.
+        public let detectorVersionId: String?
+        /// The entity type (associated with the detector's event type) and specific entity ID representing who performed the event. If an entity id is not available, use "UNKNOWN."
+        public let entities: [Entity]
+        /// The unique ID used to identify the event.
+        public let eventId: String
+        /// Timestamp that defines when the event under evaluation occurred.
+        public let eventTimestamp: String
+        /// The event type associated with the detector specified for the prediction.
+        public let eventTypeName: String
+        /// Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and their corresponding values for the event you are sending for evaluation.
+        public let eventVariables: [String: String]
+        /// The Amazon SageMaker model endpoint input data blobs.
+        public let externalModelEndpointDataBlobs: [String: ModelEndpointDataBlob]?
+
+        public init(detectorId: String, detectorVersionId: String? = nil, entities: [Entity], eventId: String, eventTimestamp: String, eventTypeName: String, eventVariables: [String: String], externalModelEndpointDataBlobs: [String: ModelEndpointDataBlob]? = nil) {
+            self.detectorId = detectorId
+            self.detectorVersionId = detectorVersionId
+            self.entities = entities
+            self.eventId = eventId
+            self.eventTimestamp = eventTimestamp
+            self.eventTypeName = eventTypeName
+            self.eventVariables = eventVariables
+            self.externalModelEndpointDataBlobs = externalModelEndpointDataBlobs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, max: 5)
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, min: 1)
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, pattern: "^([1-9][0-9]*)$")
+            try self.entities.forEach {
+                try $0.validate(name: "\(name).entities[]")
+            }
+            try self.eventVariables.forEach {
+                try validate($0.key, name: "eventVariables.key", parent: name, max: 64)
+                try validate($0.key, name: "eventVariables.key", parent: name, min: 1)
+                try validate($0.value, name: "eventVariables[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "eventVariables[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.externalModelEndpointDataBlobs?.forEach {
+                try $0.value.validate(name: "\(name).externalModelEndpointDataBlobs[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case entities = "entities"
+            case eventId = "eventId"
+            case eventTimestamp = "eventTimestamp"
+            case eventTypeName = "eventTypeName"
+            case eventVariables = "eventVariables"
+            case externalModelEndpointDataBlobs = "externalModelEndpointDataBlobs"
+        }
+    }
+
+    public struct GetEventPredictionResult: AWSDecodableShape {
+
+        /// The model scores. Amazon Fraud Detector generates model scores between 0 and 1000, where 0 is low fraud risk and 1000 is high fraud risk. Model scores are directly related to the false positive rate (FPR). For example, a score of 600 corresponds to an estimated 10% false positive rate whereas a score of 900 corresponds to an estimated 2% false positive rate.
+        public let modelScores: [ModelScores]?
+        /// The results.
+        public let ruleResults: [RuleResult]?
+
+        public init(modelScores: [ModelScores]? = nil, ruleResults: [RuleResult]? = nil) {
+            self.modelScores = modelScores
+            self.ruleResults = ruleResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelScores = "modelScores"
+            case ruleResults = "ruleResults"
+        }
+    }
+
+    public struct GetEventTypesRequest: AWSEncodableShape {
+
+        /// The maximum number of objects to return for the request.
+        public let maxResults: Int?
+        /// The name.
+        public let name: String?
+        /// The next token for the subsequent request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+            try validate(self.name, name: "name", parent: name, max: 64)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetEventTypesResult: AWSDecodableShape {
+
+        /// An array of event types.
+        public let eventTypes: [EventType]?
+        /// The next page token.
+        public let nextToken: String?
+
+        public init(eventTypes: [EventType]? = nil, nextToken: String? = nil) {
+            self.eventTypes = eventTypes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventTypes = "eventTypes"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct GetExternalModelsRequest: AWSEncodableShape {
 
         /// The maximum number of objects to return for the request.
@@ -933,13 +1420,75 @@ extension FraudDetector {
         }
     }
 
+    public struct GetKMSEncryptionKeyResult: AWSDecodableShape {
+
+        /// The KMS encryption key.
+        public let kmsKey: KMSKey?
+
+        public init(kmsKey: KMSKey? = nil) {
+            self.kmsKey = kmsKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKey = "kmsKey"
+        }
+    }
+
+    public struct GetLabelsRequest: AWSEncodableShape {
+
+        /// The maximum number of objects to return for the request.
+        public let maxResults: Int?
+        /// The name of the label or labels to get.
+        public let name: String?
+        /// The next token for the subsequent request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try validate(self.name, name: "name", parent: name, max: 64)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetLabelsResult: AWSDecodableShape {
+
+        /// An array of labels.
+        public let labels: [Label]?
+        /// The next page token.
+        public let nextToken: String?
+
+        public init(labels: [Label]? = nil, nextToken: String? = nil) {
+            self.labels = labels
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labels = "labels"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct GetModelVersionRequest: AWSEncodableShape {
 
-        /// The model ID. 
+        /// The model ID.
         public let modelId: String
-        /// The model type. 
+        /// The model type.
         public let modelType: ModelTypeEnum
-        /// The model version. 
+        /// The model version number.
         public let modelVersionNumber: String
 
         public init(modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String) {
@@ -951,8 +1500,10 @@ extension FraudDetector {
         public func validate(name: String) throws {
             try validate(self.modelId, name: "modelId", parent: name, max: 64)
             try validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_-]+$")
-            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, min: 1)
+            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
+            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, max: 7)
+            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, min: 3)
+            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, pattern: "^[1-9][0-9]{0,3}\\.[0-9]{1,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -964,43 +1515,55 @@ extension FraudDetector {
 
     public struct GetModelVersionResult: AWSDecodableShape {
 
-        /// The model version description.
-        public let description: String?
-        /// The model ID. 
+        /// The model version ARN.
+        public let arn: String?
+        /// The event details.
+        public let externalEventsDetail: ExternalEventsDetail?
+        /// The model ID.
         public let modelId: String?
-        /// The model type. 
+        /// The model type.
         public let modelType: ModelTypeEnum?
-        /// The model version. 
+        /// The model version number.
         public let modelVersionNumber: String?
-        /// The model version status. 
+        /// The model version status.
         public let status: String?
+        /// The training data schema.
+        public let trainingDataSchema: TrainingDataSchema?
+        /// The training data source.
+        public let trainingDataSource: TrainingDataSourceEnum?
 
-        public init(description: String? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil) {
-            self.description = description
+        public init(arn: String? = nil, externalEventsDetail: ExternalEventsDetail? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil, trainingDataSchema: TrainingDataSchema? = nil, trainingDataSource: TrainingDataSourceEnum? = nil) {
+            self.arn = arn
+            self.externalEventsDetail = externalEventsDetail
             self.modelId = modelId
             self.modelType = modelType
             self.modelVersionNumber = modelVersionNumber
             self.status = status
+            self.trainingDataSchema = trainingDataSchema
+            self.trainingDataSource = trainingDataSource
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "description"
+            case arn = "arn"
+            case externalEventsDetail = "externalEventsDetail"
             case modelId = "modelId"
             case modelType = "modelType"
             case modelVersionNumber = "modelVersionNumber"
             case status = "status"
+            case trainingDataSchema = "trainingDataSchema"
+            case trainingDataSource = "trainingDataSource"
         }
     }
 
     public struct GetModelsRequest: AWSEncodableShape {
 
-        /// The maximum results to return for the request.
+        /// The maximum number of objects to return for the request. 
         public let maxResults: Int?
         /// The model ID.
         public let modelId: String?
         /// The model type.
         public let modelType: ModelTypeEnum?
-        /// The next token for the request.
+        /// The next token for the subsequent request.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, nextToken: String? = nil) {
@@ -1015,7 +1578,7 @@ extension FraudDetector {
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try validate(self.modelId, name: "modelId", parent: name, max: 64)
             try validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1028,9 +1591,9 @@ extension FraudDetector {
 
     public struct GetModelsResult: AWSDecodableShape {
 
-        /// The returned models. 
+        /// The array of models.
         public let models: [Model]?
-        /// The next token for subsequent requests. 
+        /// The next page token to be used in subsequent requests.
         public let nextToken: String?
 
         public init(models: [Model]? = nil, nextToken: String? = nil) {
@@ -1092,70 +1655,6 @@ extension FraudDetector {
         }
     }
 
-    public struct GetPredictionRequest: AWSEncodableShape {
-
-        /// The detector ID. 
-        public let detectorId: String
-        /// The detector version ID.
-        public let detectorVersionId: String?
-        /// Names of variables you defined in Amazon Fraud Detector to represent event data elements and their corresponding values for the event you are sending for evaluation.
-        public let eventAttributes: [String: String]?
-        /// The unique ID used to identify the event.
-        public let eventId: String
-        /// The Amazon SageMaker model endpoint input data blobs.
-        public let externalModelEndpointDataBlobs: [String: ModelEndpointDataBlob]?
-
-        public init(detectorId: String, detectorVersionId: String? = nil, eventAttributes: [String: String]? = nil, eventId: String, externalModelEndpointDataBlobs: [String: ModelEndpointDataBlob]? = nil) {
-            self.detectorId = detectorId
-            self.detectorVersionId = detectorVersionId
-            self.eventAttributes = eventAttributes
-            self.eventId = eventId
-            self.externalModelEndpointDataBlobs = externalModelEndpointDataBlobs
-        }
-
-        public func validate(name: String) throws {
-            try self.eventAttributes?.forEach {
-                try validate($0.key, name: "eventAttributes.key", parent: name, max: 64)
-                try validate($0.key, name: "eventAttributes.key", parent: name, min: 1)
-                try validate($0.value, name: "eventAttributes[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "eventAttributes[\"\($0.key)\"]", parent: name, min: 1)
-            }
-            try self.externalModelEndpointDataBlobs?.forEach {
-                try $0.value.validate(name: "\(name).externalModelEndpointDataBlobs[\"\($0.key)\"]")
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case detectorVersionId = "detectorVersionId"
-            case eventAttributes = "eventAttributes"
-            case eventId = "eventId"
-            case externalModelEndpointDataBlobs = "externalModelEndpointDataBlobs"
-        }
-    }
-
-    public struct GetPredictionResult: AWSDecodableShape {
-
-        /// The model scores for models used in the detector version.
-        public let modelScores: [ModelScores]?
-        /// The prediction outcomes.
-        public let outcomes: [String]?
-        /// The rule results in the prediction.
-        public let ruleResults: [RuleResult]?
-
-        public init(modelScores: [ModelScores]? = nil, outcomes: [String]? = nil, ruleResults: [RuleResult]? = nil) {
-            self.modelScores = modelScores
-            self.outcomes = outcomes
-            self.ruleResults = ruleResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case modelScores = "modelScores"
-            case outcomes = "outcomes"
-            case ruleResults = "ruleResults"
-        }
-    }
-
     public struct GetRulesRequest: AWSEncodableShape {
 
         /// The detector ID.
@@ -1186,7 +1685,9 @@ extension FraudDetector {
             try validate(self.ruleId, name: "ruleId", parent: name, max: 64)
             try validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.ruleVersion, name: "ruleVersion", parent: name, max: 5)
             try validate(self.ruleVersion, name: "ruleVersion", parent: name, min: 1)
+            try validate(self.ruleVersion, name: "ruleVersion", parent: name, pattern: "^([1-9][0-9]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1261,63 +1762,173 @@ extension FraudDetector {
         }
     }
 
+    public struct KMSKey: AWSDecodableShape {
+
+        /// The encryption key ARN.
+        public let kmsEncryptionKeyArn: String?
+
+        public init(kmsEncryptionKeyArn: String? = nil) {
+            self.kmsEncryptionKeyArn = kmsEncryptionKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsEncryptionKeyArn = "kmsEncryptionKeyArn"
+        }
+    }
+
+    public struct Label: AWSDecodableShape {
+
+        /// The label ARN.
+        public let arn: String?
+        /// Timestamp of when the event type was created.
+        public let createdTime: String?
+        /// The label description.
+        public let description: String?
+        /// Timestamp of when the label was last updated.
+        public let lastUpdatedTime: String?
+        /// The label name.
+        public let name: String?
+
+        public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+        }
+    }
+
     public struct LabelSchema: AWSEncodableShape & AWSDecodableShape {
 
-        /// The label key.
-        public let labelKey: String
-        /// The label mapper maps the Amazon Fraud Detector supported label to the appropriate source labels. For example, if "FRAUD" and "LEGIT" are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" =&gt; ["0"], "LEGIT" =&gt; ["1"]} or {"FRAUD" =&gt; ["false"], "LEGIT" =&gt; ["true"]} or {"FRAUD" =&gt; ["fraud", "abuse"], "LEGIT" =&gt; ["legit", "safe"]}. The value part of the mapper is a list, because you may have multiple variants for a single Amazon Fraud Detector label. 
+        /// The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD, LEGIT) to the appropriate event type labels. For example, if "FRAUD" and "LEGIT" are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" =&gt; ["0"], "LEGIT" =&gt; ["1"]} or {"FRAUD" =&gt; ["false"], "LEGIT" =&gt; ["true"]} or {"FRAUD" =&gt; ["fraud", "abuse"], "LEGIT" =&gt; ["legit", "safe"]}. The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud Detector label. 
         public let labelMapper: [String: [String]]
 
-        public init(labelKey: String, labelMapper: [String: [String]]) {
-            self.labelKey = labelKey
+        public init(labelMapper: [String: [String]]) {
             self.labelMapper = labelMapper
         }
 
         private enum CodingKeys: String, CodingKey {
-            case labelKey = "labelKey"
             case labelMapper = "labelMapper"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+
+        /// The maximum number of objects to return for the request. 
+        public let maxResults: Int?
+        /// The next token from the previous results.
+        public let nextToken: String?
+        /// The ARN that specifies the resource whose tags you want to list.
+        public let resourceARN: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 50)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, max: 256)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn\\:aws[a-z-]{0,15}\\:frauddetector\\:[a-z0-9-]{3,20}\\:[0-9]{12}\\:[^\\s]{2,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceARN = "resourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResult: AWSDecodableShape {
+
+        /// The next token for subsequent requests. 
+        public let nextToken: String?
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tags = "tags"
+        }
+    }
+
+    public struct MetricDataPoint: AWSDecodableShape {
+
+        /// The false positive rate. This is the percentage of total legitimate events that are incorrectly predicted as fraud.
+        public let fpr: Float?
+        /// The percentage of fraud events correctly predicted as fraudulent as compared to all events predicted as fraudulent.
+        public let precision: Float?
+        /// The model threshold that specifies an acceptable fraud capture rate. For example, a threshold of 500 means any model score 500 or above is labeled as fraud.
+        public let threshold: Float?
+        /// The true positive rate. This is the percentage of total fraud the model detects. Also known as capture rate.
+        public let tpr: Float?
+
+        public init(fpr: Float? = nil, precision: Float? = nil, threshold: Float? = nil, tpr: Float? = nil) {
+            self.fpr = fpr
+            self.precision = precision
+            self.threshold = threshold
+            self.tpr = tpr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fpr = "fpr"
+            case precision = "precision"
+            case threshold = "threshold"
+            case tpr = "tpr"
         }
     }
 
     public struct Model: AWSDecodableShape {
 
+        /// The ARN of the model.
+        public let arn: String?
         /// Timestamp of when the model was created.
         public let createdTime: String?
         /// The model description.
         public let description: String?
-        /// The model label schema.
-        public let labelSchema: LabelSchema?
+        /// The name of the event type.
+        public let eventTypeName: String?
         /// Timestamp of last time the model was updated.
         public let lastUpdatedTime: String?
         /// The model ID.
         public let modelId: String?
         /// The model type.
         public let modelType: ModelTypeEnum?
-        /// The model input variables.
-        public let modelVariables: [ModelVariable]?
-        /// The model training data source in Amazon S3.
-        public let trainingDataSource: TrainingDataSource?
 
-        public init(createdTime: String? = nil, description: String? = nil, labelSchema: LabelSchema? = nil, lastUpdatedTime: String? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVariables: [ModelVariable]? = nil, trainingDataSource: TrainingDataSource? = nil) {
+        public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, eventTypeName: String? = nil, lastUpdatedTime: String? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil) {
+            self.arn = arn
             self.createdTime = createdTime
             self.description = description
-            self.labelSchema = labelSchema
+            self.eventTypeName = eventTypeName
             self.lastUpdatedTime = lastUpdatedTime
             self.modelId = modelId
             self.modelType = modelType
-            self.modelVariables = modelVariables
-            self.trainingDataSource = trainingDataSource
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdTime = "createdTime"
             case description = "description"
-            case labelSchema = "labelSchema"
+            case eventTypeName = "eventTypeName"
             case lastUpdatedTime = "lastUpdatedTime"
             case modelId = "modelId"
             case modelType = "modelType"
-            case modelVariables = "modelVariables"
-            case trainingDataSource = "trainingDataSource"
         }
     }
 
@@ -1348,25 +1959,35 @@ extension FraudDetector {
 
         ///  Template for constructing the CSV input-data sent to SageMaker. At event-evaluation, the placeholders for variable-names in the template will be replaced with the variable values before being sent to SageMaker. 
         public let csvInputTemplate: String?
+        /// The event type name.
+        public let eventTypeName: String?
         ///  The format of the model input configuration. The format differs depending on if it is passed through to SageMaker or constructed by Amazon Fraud Detector.
         public let format: ModelInputDataFormat?
-        ///  For an opaque-model, the input to the model will be a ByteBuffer blob provided in the getPrediction request, and will be passed to SageMaker as-is. For non-opaque models, the input will be constructed by Amazon Fraud Detector based on the model-configuration. 
-        public let isOpaque: Bool
         ///  Template for constructing the JSON input-data sent to SageMaker. At event-evaluation, the placeholders for variable names in the template will be replaced with the variable values before being sent to SageMaker. 
         public let jsonInputTemplate: String?
+        /// The event variables.
+        public let useEventVariables: Bool
 
-        public init(csvInputTemplate: String? = nil, format: ModelInputDataFormat? = nil, isOpaque: Bool, jsonInputTemplate: String? = nil) {
+        public init(csvInputTemplate: String? = nil, eventTypeName: String? = nil, format: ModelInputDataFormat? = nil, jsonInputTemplate: String? = nil, useEventVariables: Bool) {
             self.csvInputTemplate = csvInputTemplate
+            self.eventTypeName = eventTypeName
             self.format = format
-            self.isOpaque = isOpaque
             self.jsonInputTemplate = jsonInputTemplate
+            self.useEventVariables = useEventVariables
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.eventTypeName, name: "eventTypeName", parent: name, max: 64)
+            try validate(self.eventTypeName, name: "eventTypeName", parent: name, min: 1)
+            try validate(self.eventTypeName, name: "eventTypeName", parent: name, pattern: "^[0-9a-z_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case csvInputTemplate = "csvInputTemplate"
+            case eventTypeName = "eventTypeName"
             case format = "format"
-            case isOpaque = "isOpaque"
             case jsonInputTemplate = "jsonInputTemplate"
+            case useEventVariables = "useEventVariables"
         }
     }
 
@@ -1410,47 +2031,36 @@ extension FraudDetector {
         }
     }
 
-    public struct ModelVariable: AWSEncodableShape & AWSDecodableShape {
-
-        /// The model variable's index.&gt;
-        public let index: Int?
-        /// The model variable's name.&gt;
-        public let name: String
-
-        public init(index: Int? = nil, name: String) {
-            self.index = index
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case index = "index"
-            case name = "name"
-        }
-    }
-
     public struct ModelVersion: AWSEncodableShape & AWSDecodableShape {
 
-        /// The parent model ID.
+        /// The model version ARN.
+        public let arn: String?
+        /// The model ID.
         public let modelId: String
         /// The model type.
         public let modelType: ModelTypeEnum
-        /// The model version.
+        /// The model version number.
         public let modelVersionNumber: String
 
-        public init(modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String) {
+        public init(arn: String? = nil, modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String) {
+            self.arn = arn
             self.modelId = modelId
             self.modelType = modelType
             self.modelVersionNumber = modelVersionNumber
         }
 
         public func validate(name: String) throws {
+            try validate(self.arn, name: "arn", parent: name, max: 256)
+            try validate(self.arn, name: "arn", parent: name, min: 1)
+            try validate(self.arn, name: "arn", parent: name, pattern: "^arn\\:aws[a-z-]{0,15}\\:frauddetector\\:[a-z0-9-]{3,20}\\:[0-9]{12}\\:[^\\s]{2,128}$")
             try validate(self.modelId, name: "modelId", parent: name, max: 64)
             try validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
             try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case modelId = "modelId"
             case modelType = "modelType"
             case modelVersionNumber = "modelVersionNumber"
@@ -1459,64 +2069,62 @@ extension FraudDetector {
 
     public struct ModelVersionDetail: AWSDecodableShape {
 
+        /// The model version ARN.
+        public let arn: String?
         /// The timestamp when the model was created.
         public let createdTime: String?
-        /// The model description.
-        public let description: String?
-        /// The model label schema.
-        public let labelSchema: LabelSchema?
+        /// The event details.
+        public let externalEventsDetail: ExternalEventsDetail?
         /// The timestamp when the model was last updated.
         public let lastUpdatedTime: String?
         /// The model ID.
         public let modelId: String?
         /// The model type.
         public let modelType: ModelTypeEnum?
-        /// The model variables.
-        public let modelVariables: [ModelVariable]?
-        /// The model version.
+        /// The model version number.
         public let modelVersionNumber: String?
-        /// The model status.
+        /// The status of the model version.
         public let status: String?
-        /// The model training data source.
-        public let trainingDataSource: TrainingDataSource?
-        /// The model training metrics.
-        public let trainingMetrics: [String: String]?
-        /// The model validation metrics.
-        public let validationMetrics: [String: String]?
+        /// The training data schema.
+        public let trainingDataSchema: TrainingDataSchema?
+        /// The model version training data source.
+        public let trainingDataSource: TrainingDataSourceEnum?
+        /// The training results.
+        public let trainingResult: TrainingResult?
 
-        public init(createdTime: String? = nil, description: String? = nil, labelSchema: LabelSchema? = nil, lastUpdatedTime: String? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVariables: [ModelVariable]? = nil, modelVersionNumber: String? = nil, status: String? = nil, trainingDataSource: TrainingDataSource? = nil, trainingMetrics: [String: String]? = nil, validationMetrics: [String: String]? = nil) {
+        public init(arn: String? = nil, createdTime: String? = nil, externalEventsDetail: ExternalEventsDetail? = nil, lastUpdatedTime: String? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil, trainingDataSchema: TrainingDataSchema? = nil, trainingDataSource: TrainingDataSourceEnum? = nil, trainingResult: TrainingResult? = nil) {
+            self.arn = arn
             self.createdTime = createdTime
-            self.description = description
-            self.labelSchema = labelSchema
+            self.externalEventsDetail = externalEventsDetail
             self.lastUpdatedTime = lastUpdatedTime
             self.modelId = modelId
             self.modelType = modelType
-            self.modelVariables = modelVariables
             self.modelVersionNumber = modelVersionNumber
             self.status = status
+            self.trainingDataSchema = trainingDataSchema
             self.trainingDataSource = trainingDataSource
-            self.trainingMetrics = trainingMetrics
-            self.validationMetrics = validationMetrics
+            self.trainingResult = trainingResult
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdTime = "createdTime"
-            case description = "description"
-            case labelSchema = "labelSchema"
+            case externalEventsDetail = "externalEventsDetail"
             case lastUpdatedTime = "lastUpdatedTime"
             case modelId = "modelId"
             case modelType = "modelType"
-            case modelVariables = "modelVariables"
             case modelVersionNumber = "modelVersionNumber"
             case status = "status"
+            case trainingDataSchema = "trainingDataSchema"
             case trainingDataSource = "trainingDataSource"
-            case trainingMetrics = "trainingMetrics"
-            case validationMetrics = "validationMetrics"
+            case trainingResult = "trainingResult"
         }
     }
 
     public struct Outcome: AWSDecodableShape {
 
+        /// The outcome ARN.
+        public let arn: String?
         /// The timestamp when the outcome was created.
         public let createdTime: String?
         /// The outcome description.
@@ -1526,7 +2134,8 @@ extension FraudDetector {
         /// The outcome name.
         public let name: String?
 
-        public init(createdTime: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil) {
+            self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.lastUpdatedTime = lastUpdatedTime
@@ -1534,6 +2143,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdTime = "createdTime"
             case description = "description"
             case lastUpdatedTime = "lastUpdatedTime"
@@ -1547,10 +2157,16 @@ extension FraudDetector {
         public let description: String?
         /// The detector ID. 
         public let detectorId: String
+        /// The name of the event type.
+        public let eventTypeName: String
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, detectorId: String) {
+        public init(description: String? = nil, detectorId: String, eventTypeName: String, tags: [Tag]? = nil) {
             self.description = description
             self.detectorId = detectorId
+            self.eventTypeName = eventTypeName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1559,11 +2175,21 @@ extension FraudDetector {
             try validate(self.detectorId, name: "detectorId", parent: name, max: 64)
             try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.eventTypeName, name: "eventTypeName", parent: name, max: 64)
+            try validate(self.eventTypeName, name: "eventTypeName", parent: name, min: 1)
+            try validate(self.eventTypeName, name: "eventTypeName", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case detectorId = "detectorId"
+            case eventTypeName = "eventTypeName"
+            case tags = "tags"
         }
     }
 
@@ -1575,10 +2201,112 @@ extension FraudDetector {
 
     }
 
+    public struct PutEntityTypeRequest: AWSEncodableShape {
+
+        /// The description.
+        public let description: String?
+        /// The name of the entity type.
+        public let name: String
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, name: String, tags: [Tag]? = nil) {
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name: "description", parent: name, max: 128)
+            try validate(self.description, name: "description", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, max: 64)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct PutEntityTypeResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct PutEventTypeRequest: AWSEncodableShape {
+
+        /// The description of the event type.
+        public let description: String?
+        /// The entity type for the event type. Example entity types: customer, merchant, account.
+        public let entityTypes: [String]
+        /// The event type variables.
+        public let eventVariables: [String]
+        /// The event type labels.
+        public let labels: [String]?
+        /// The name.
+        public let name: String
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, entityTypes: [String], eventVariables: [String], labels: [String]? = nil, name: String, tags: [Tag]? = nil) {
+            self.description = description
+            self.entityTypes = entityTypes
+            self.eventVariables = eventVariables
+            self.labels = labels
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name: "description", parent: name, max: 128)
+            try validate(self.description, name: "description", parent: name, min: 1)
+            try validate(self.entityTypes, name: "entityTypes", parent: name, min: 1)
+            try validate(self.eventVariables, name: "eventVariables", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, max: 64)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case entityTypes = "entityTypes"
+            case eventVariables = "eventVariables"
+            case labels = "labels"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct PutEventTypeResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct PutExternalModelRequest: AWSEncodableShape {
 
         /// The model endpoint input configuration.
         public let inputConfiguration: ModelInputConfiguration
+        /// The IAM role used to invoke the model endpoint.
+        public let invokeModelEndpointRoleArn: String
         /// The model endpoints name.
         public let modelEndpoint: String
         /// The model endpoint’s status in Amazon Fraud Detector.
@@ -1587,25 +2315,39 @@ extension FraudDetector {
         public let modelSource: ModelSource
         /// The model endpoint output configuration.
         public let outputConfiguration: ModelOutputConfiguration
-        /// The IAM role used to invoke the model endpoint.
-        public let role: Role
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
 
-        public init(inputConfiguration: ModelInputConfiguration, modelEndpoint: String, modelEndpointStatus: ModelEndpointStatus, modelSource: ModelSource, outputConfiguration: ModelOutputConfiguration, role: Role) {
+        public init(inputConfiguration: ModelInputConfiguration, invokeModelEndpointRoleArn: String, modelEndpoint: String, modelEndpointStatus: ModelEndpointStatus, modelSource: ModelSource, outputConfiguration: ModelOutputConfiguration, tags: [Tag]? = nil) {
             self.inputConfiguration = inputConfiguration
+            self.invokeModelEndpointRoleArn = invokeModelEndpointRoleArn
             self.modelEndpoint = modelEndpoint
             self.modelEndpointStatus = modelEndpointStatus
             self.modelSource = modelSource
             self.outputConfiguration = outputConfiguration
-            self.role = role
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.inputConfiguration.validate(name: "\(name).inputConfiguration")
+            try validate(self.modelEndpoint, name: "modelEndpoint", parent: name, max: 63)
+            try validate(self.modelEndpoint, name: "modelEndpoint", parent: name, min: 1)
+            try validate(self.modelEndpoint, name: "modelEndpoint", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case inputConfiguration = "inputConfiguration"
+            case invokeModelEndpointRoleArn = "invokeModelEndpointRoleArn"
             case modelEndpoint = "modelEndpoint"
             case modelEndpointStatus = "modelEndpointStatus"
             case modelSource = "modelSource"
             case outputConfiguration = "outputConfiguration"
-            case role = "role"
+            case tags = "tags"
         }
     }
 
@@ -1617,50 +2359,69 @@ extension FraudDetector {
 
     }
 
-    public struct PutModelRequest: AWSEncodableShape {
+    public struct PutKMSEncryptionKeyRequest: AWSEncodableShape {
 
-        /// The model description. 
+        /// The KMS encryption key ARN.
+        public let kmsEncryptionKeyArn: String
+
+        public init(kmsEncryptionKeyArn: String) {
+            self.kmsEncryptionKeyArn = kmsEncryptionKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kmsEncryptionKeyArn, name: "kmsEncryptionKeyArn", parent: name, max: 80)
+            try validate(self.kmsEncryptionKeyArn, name: "kmsEncryptionKeyArn", parent: name, min: 7)
+            try validate(self.kmsEncryptionKeyArn, name: "kmsEncryptionKeyArn", parent: name, pattern: "^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$|DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\\d{12}:key:[a-zA-Z0-9-_]+|[a-zA-Z0-9-_]\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsEncryptionKeyArn = "kmsEncryptionKeyArn"
+        }
+    }
+
+    public struct PutKMSEncryptionKeyResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct PutLabelRequest: AWSEncodableShape {
+
+        /// The label description.
         public let description: String?
-        /// The label schema.
-        public let labelSchema: LabelSchema
-        /// The model ID.
-        public let modelId: String
-        /// The model type. 
-        public let modelType: ModelTypeEnum
-        /// The model input variables.
-        public let modelVariables: [ModelVariable]
-        /// The training data source location in Amazon S3. 
-        public let trainingDataSource: TrainingDataSource
+        /// The label name.
+        public let name: String
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, labelSchema: LabelSchema, modelId: String, modelType: ModelTypeEnum, modelVariables: [ModelVariable], trainingDataSource: TrainingDataSource) {
+        public init(description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.description = description
-            self.labelSchema = labelSchema
-            self.modelId = modelId
-            self.modelType = modelType
-            self.modelVariables = modelVariables
-            self.trainingDataSource = trainingDataSource
+            self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.description, name: "description", parent: name, max: 128)
             try validate(self.description, name: "description", parent: name, min: 1)
-            try validate(self.modelId, name: "modelId", parent: name, max: 64)
-            try validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_-]+$")
-            try self.trainingDataSource.validate(name: "\(name).trainingDataSource")
+            try validate(self.name, name: "name", parent: name, max: 64)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
-            case labelSchema = "labelSchema"
-            case modelId = "modelId"
-            case modelType = "modelType"
-            case modelVariables = "modelVariables"
-            case trainingDataSource = "trainingDataSource"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
-    public struct PutModelResult: AWSDecodableShape {
+    public struct PutLabelResult: AWSDecodableShape {
 
 
         public init() {
@@ -1674,10 +2435,13 @@ extension FraudDetector {
         public let description: String?
         /// The name of the outcome.
         public let name: String
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, name: String) {
+        public init(description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1686,11 +2450,17 @@ extension FraudDetector {
             try validate(self.name, name: "name", parent: name, max: 64)
             try validate(self.name, name: "name", parent: name, min: 1)
             try validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1700,24 +2470,6 @@ extension FraudDetector {
         public init() {
         }
 
-    }
-
-    public struct Role: AWSEncodableShape & AWSDecodableShape {
-
-        /// The role ARN.
-        public let arn: String
-        /// The role name.
-        public let name: String
-
-        public init(arn: String, name: String) {
-            self.arn = arn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case name = "name"
-        }
     }
 
     public struct Rule: AWSEncodableShape & AWSDecodableShape {
@@ -1742,7 +2494,9 @@ extension FraudDetector {
             try validate(self.ruleId, name: "ruleId", parent: name, max: 64)
             try validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.ruleVersion, name: "ruleVersion", parent: name, max: 5)
             try validate(self.ruleVersion, name: "ruleVersion", parent: name, min: 1)
+            try validate(self.ruleVersion, name: "ruleVersion", parent: name, pattern: "^([1-9][0-9]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1754,6 +2508,8 @@ extension FraudDetector {
 
     public struct RuleDetail: AWSDecodableShape {
 
+        /// The rule ARN.
+        public let arn: String?
         /// The timestamp of when the rule was created.
         public let createdTime: String?
         /// The rule description.
@@ -1773,7 +2529,8 @@ extension FraudDetector {
         /// The rule version.
         public let ruleVersion: String?
 
-        public init(createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, expression: String? = nil, language: Language? = nil, lastUpdatedTime: String? = nil, outcomes: [String]? = nil, ruleId: String? = nil, ruleVersion: String? = nil) {
+        public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, expression: String? = nil, language: Language? = nil, lastUpdatedTime: String? = nil, outcomes: [String]? = nil, ruleId: String? = nil, ruleVersion: String? = nil) {
+            self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.detectorId = detectorId
@@ -1786,6 +2543,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdTime = "createdTime"
             case description = "description"
             case detectorId = "detectorId"
@@ -1816,31 +2574,159 @@ extension FraudDetector {
         }
     }
 
-    public struct TrainingDataSource: AWSEncodableShape & AWSDecodableShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
-        /// The data access role ARN for the training data source.
-        public let dataAccessRoleArn: String
-        /// The data location of the training data source.
-        public let dataLocation: String
+        /// A tag key.
+        public let key: String
+        /// A value assigned to a tag key.
+        public let value: String
 
-        public init(dataAccessRoleArn: String, dataLocation: String) {
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.dataLocation = dataLocation
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
         }
 
         public func validate(name: String) throws {
-            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 256)
-            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 1)
-            try validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn\\:aws\\:iam\\:\\:[0-9]{12}\\:role\\/[^\\s]{2,64}$")
-            try validate(self.dataLocation, name: "dataLocation", parent: name, max: 512)
-            try validate(self.dataLocation, name: "dataLocation", parent: name, min: 1)
-            try validate(self.dataLocation, name: "dataLocation", parent: name, pattern: "^s3:\\/\\/(.+)$")
+            try validate(self.key, name: "key", parent: name, max: 128)
+            try validate(self.key, name: "key", parent: name, min: 1)
+            try validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.value, name: "value", parent: name, max: 256)
+            try validate(self.value, name: "value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataAccessRoleArn = "dataAccessRoleArn"
-            case dataLocation = "dataLocation"
+            case key = "key"
+            case value = "value"
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+
+        /// The resource ARN.
+        public let resourceARN: String
+        /// The tags to assign to the resource.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name: "resourceARN", parent: name, max: 256)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn\\:aws[a-z-]{0,15}\\:frauddetector\\:[a-z0-9-]{3,20}\\:[0-9]{12}\\:[^\\s]{2,128}$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "resourceARN"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct TrainingDataSchema: AWSEncodableShape & AWSDecodableShape {
+
+        public let labelSchema: LabelSchema
+        /// The training data schema variables.
+        public let modelVariables: [String]
+
+        public init(labelSchema: LabelSchema, modelVariables: [String]) {
+            self.labelSchema = labelSchema
+            self.modelVariables = modelVariables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelSchema = "labelSchema"
+            case modelVariables = "modelVariables"
+        }
+    }
+
+    public struct TrainingMetrics: AWSDecodableShape {
+
+        /// The area under the curve. This summarizes true positive rate (TPR) and false positive rate (FPR) across all possible model score thresholds. A model with no predictive power has an AUC of 0.5, whereas a perfect model has a score of 1.0.
+        public let auc: Float?
+        /// The data points details.
+        public let metricDataPoints: [MetricDataPoint]?
+
+        public init(auc: Float? = nil, metricDataPoints: [MetricDataPoint]? = nil) {
+            self.auc = auc
+            self.metricDataPoints = metricDataPoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auc = "auc"
+            case metricDataPoints = "metricDataPoints"
+        }
+    }
+
+    public struct TrainingResult: AWSDecodableShape {
+
+        /// The validation metrics.
+        public let dataValidationMetrics: DataValidationMetrics?
+        /// The training metric details.
+        public let trainingMetrics: TrainingMetrics?
+
+        public init(dataValidationMetrics: DataValidationMetrics? = nil, trainingMetrics: TrainingMetrics? = nil) {
+            self.dataValidationMetrics = dataValidationMetrics
+            self.trainingMetrics = trainingMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataValidationMetrics = "dataValidationMetrics"
+            case trainingMetrics = "trainingMetrics"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+
+        /// The ARN of the resource from which to remove the tag.
+        public let resourceARN: String
+        /// The resource ARN.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name: "resourceARN", parent: name, max: 256)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn\\:aws[a-z-]{0,15}\\:frauddetector\\:[a-z0-9-]{3,20}\\:[0-9]{12}\\:[^\\s]{2,128}$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "resourceARN"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateDetectorVersionMetadataRequest: AWSEncodableShape {
@@ -1864,7 +2750,9 @@ extension FraudDetector {
             try validate(self.detectorId, name: "detectorId", parent: name, max: 64)
             try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, max: 5)
             try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, min: 1)
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, pattern: "^([1-9][0-9]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1915,7 +2803,9 @@ extension FraudDetector {
             try validate(self.detectorId, name: "detectorId", parent: name, max: 64)
             try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, max: 5)
             try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, min: 1)
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, pattern: "^([1-9][0-9]*)$")
             try self.modelVersions?.forEach {
                 try $0.validate(name: "\(name).modelVersions[]")
             }
@@ -1962,7 +2852,9 @@ extension FraudDetector {
             try validate(self.detectorId, name: "detectorId", parent: name, max: 64)
             try validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, max: 5)
             try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, min: 1)
+            try validate(self.detectorVersionId, name: "detectorVersionId", parent: name, pattern: "^([1-9][0-9]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1980,25 +2872,19 @@ extension FraudDetector {
 
     }
 
-    public struct UpdateModelVersionRequest: AWSEncodableShape {
+    public struct UpdateModelRequest: AWSEncodableShape {
 
-        /// The model description.
-        public let description: String
+        /// The new model description.
+        public let description: String?
         /// The model ID.
         public let modelId: String
         /// The model type.
         public let modelType: ModelTypeEnum
-        /// The model version.
-        public let modelVersionNumber: String
-        /// The new model status.
-        public let status: ModelVersionStatus
 
-        public init(description: String, modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String, status: ModelVersionStatus) {
+        public init(description: String? = nil, modelId: String, modelType: ModelTypeEnum) {
             self.description = description
             self.modelId = modelId
             self.modelType = modelType
-            self.modelVersionNumber = modelVersionNumber
-            self.status = status
         }
 
         public func validate(name: String) throws {
@@ -2006,12 +2892,88 @@ extension FraudDetector {
             try validate(self.description, name: "description", parent: name, min: 1)
             try validate(self.modelId, name: "modelId", parent: name, max: 64)
             try validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_-]+$")
-            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, min: 1)
+            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case modelId = "modelId"
+            case modelType = "modelType"
+        }
+    }
+
+    public struct UpdateModelResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateModelVersionRequest: AWSEncodableShape {
+
+        /// The event details.
+        public let externalEventsDetail: ExternalEventsDetail?
+        /// The major version number.
+        public let majorVersionNumber: String
+        /// The model ID.
+        public let modelId: String
+        /// The model type.
+        public let modelType: ModelTypeEnum
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
+
+        public init(externalEventsDetail: ExternalEventsDetail? = nil, majorVersionNumber: String, modelId: String, modelType: ModelTypeEnum, tags: [Tag]? = nil) {
+            self.externalEventsDetail = externalEventsDetail
+            self.majorVersionNumber = majorVersionNumber
+            self.modelId = modelId
+            self.modelType = modelType
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.externalEventsDetail?.validate(name: "\(name).externalEventsDetail")
+            try validate(self.majorVersionNumber, name: "majorVersionNumber", parent: name, max: 5)
+            try validate(self.majorVersionNumber, name: "majorVersionNumber", parent: name, min: 1)
+            try validate(self.majorVersionNumber, name: "majorVersionNumber", parent: name, pattern: "^([1-9][0-9]*)$")
+            try validate(self.modelId, name: "modelId", parent: name, max: 64)
+            try validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalEventsDetail = "externalEventsDetail"
+            case majorVersionNumber = "majorVersionNumber"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case tags = "tags"
+        }
+    }
+
+    public struct UpdateModelVersionResult: AWSDecodableShape {
+
+        /// The model ID.
+        public let modelId: String?
+        /// The model type.
+        public let modelType: ModelTypeEnum?
+        /// The model version number of the model version updated.
+        public let modelVersionNumber: String?
+        /// The status of the updated model version.
+        public let status: String?
+
+        public init(modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil) {
+            self.modelId = modelId
+            self.modelType = modelType
+            self.modelVersionNumber = modelVersionNumber
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case modelId = "modelId"
             case modelType = "modelType"
             case modelVersionNumber = "modelVersionNumber"
@@ -2019,7 +2981,42 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateModelVersionResult: AWSDecodableShape {
+    public struct UpdateModelVersionStatusRequest: AWSEncodableShape {
+
+        /// The model ID of the model version to update.
+        public let modelId: String
+        /// The model type.
+        public let modelType: ModelTypeEnum
+        /// The model version number.
+        public let modelVersionNumber: String
+        /// The model version status.
+        public let status: ModelVersionStatus
+
+        public init(modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String, status: ModelVersionStatus) {
+            self.modelId = modelId
+            self.modelType = modelType
+            self.modelVersionNumber = modelVersionNumber
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.modelId, name: "modelId", parent: name, max: 64)
+            try validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
+            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, max: 7)
+            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, min: 3)
+            try validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, pattern: "^[1-9][0-9]{0,3}\\.[0-9]{1,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
+            case status = "status"
+        }
+    }
+
+    public struct UpdateModelVersionStatusResult: AWSDecodableShape {
 
 
         public init() {
@@ -2071,13 +3068,16 @@ extension FraudDetector {
         public let outcomes: [String]
         /// The rule to update.
         public let rule: Rule
+        /// The tags to assign to the rule version.
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, expression: String, language: Language, outcomes: [String], rule: Rule) {
+        public init(description: String? = nil, expression: String, language: Language, outcomes: [String], rule: Rule, tags: [Tag]? = nil) {
             self.description = description
             self.expression = expression
             self.language = language
             self.outcomes = outcomes
             self.rule = rule
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2087,6 +3087,11 @@ extension FraudDetector {
             try validate(self.expression, name: "expression", parent: name, min: 1)
             try validate(self.outcomes, name: "outcomes", parent: name, min: 1)
             try self.rule.validate(name: "\(name).rule")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2095,6 +3100,7 @@ extension FraudDetector {
             case language = "language"
             case outcomes = "outcomes"
             case rule = "rule"
+            case tags = "tags"
         }
     }
 
@@ -2120,7 +3126,7 @@ extension FraudDetector {
         public let description: String?
         /// The name of the variable.
         public let name: String
-        /// The variable type.
+        /// The variable type. For more information see Variable types.
         public let variableType: String?
 
         public init(defaultValue: String? = nil, description: String? = nil, name: String, variableType: String? = nil) {
@@ -2148,11 +3154,13 @@ extension FraudDetector {
 
     public struct Variable: AWSDecodableShape {
 
+        /// The ARN of the variable.
+        public let arn: String?
         /// The time when the variable was created.
         public let createdTime: String?
         /// The data source of the variable.
         public let dataSource: DataSource?
-        /// The data type of the variable.
+        /// The data type of the variable. For more information see Variable types.
         public let dataType: DataType?
         /// The default value of the variable.
         public let defaultValue: String?
@@ -2162,10 +3170,11 @@ extension FraudDetector {
         public let lastUpdatedTime: String?
         /// The name of the variable.
         public let name: String?
-        /// The variable type of the variable.
+        /// The variable type of the variable. Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT | SHIPPING_ZIP | USERAGENT 
         public let variableType: String?
 
-        public init(createdTime: String? = nil, dataSource: DataSource? = nil, dataType: DataType? = nil, defaultValue: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil, variableType: String? = nil) {
+        public init(arn: String? = nil, createdTime: String? = nil, dataSource: DataSource? = nil, dataType: DataType? = nil, defaultValue: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil, variableType: String? = nil) {
+            self.arn = arn
             self.createdTime = createdTime
             self.dataSource = dataSource
             self.dataType = dataType
@@ -2177,6 +3186,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdTime = "createdTime"
             case dataSource = "dataSource"
             case dataType = "dataType"
@@ -2190,17 +3200,17 @@ extension FraudDetector {
 
     public struct VariableEntry: AWSEncodableShape {
 
-        /// The data source of the variable entry.
+        /// The data source of the variable.
         public let dataSource: String?
-        /// The data type of the variable entry.
+        /// The data type of the variable.
         public let dataType: String?
-        /// The default value of the variable entry.
+        /// The default value of the variable.
         public let defaultValue: String?
-        /// The description of the variable entry.
+        /// The description of the variable.
         public let description: String?
-        /// The name of the variable entry.
+        /// The name of the variable.
         public let name: String?
-        /// The type of the variable entry.
+        /// The type of the variable. For more information see Variable types. Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT | SHIPPING_ZIP | USERAGENT 
         public let variableType: String?
 
         public init(dataSource: String? = nil, dataType: String? = nil, defaultValue: String? = nil, description: String? = nil, name: String? = nil, variableType: String? = nil) {

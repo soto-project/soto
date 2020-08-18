@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaLive {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AacCodingMode: String, CustomStringConvertible, Codable {
         case adReceiverMix = "AD_RECEIVER_MIX"
@@ -103,6 +103,11 @@ extension MediaLive {
     public enum Ac3MetadataControl: String, CustomStringConvertible, Codable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcceptHeader: String, CustomStringConvertible, Codable {
+        case imageJpeg = "image/jpeg"
         public var description: String { return self.rawValue }
     }
 
@@ -253,6 +258,11 @@ extension MediaLive {
         case deleted = "DELETED"
         case updating = "UPDATING"
         case updateFailed = "UPDATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentType: String, CustomStringConvertible, Codable {
+        case imageJpeg = "image/jpeg"
         public var description: String { return self.rawValue }
     }
 
@@ -414,6 +424,18 @@ extension MediaLive {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case notIndicated = "NOT_INDICATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EbuTtDDestinationStyleControl: String, CustomStringConvertible, Codable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EbuTtDFillLineGapControl: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -729,6 +751,7 @@ extension MediaLive {
     }
 
     public enum H265ScanType: String, CustomStringConvertible, Codable {
+        case interlaced = "INTERLACED"
         case progressive = "PROGRESSIVE"
         public var description: String { return self.rawValue }
     }
@@ -845,6 +868,7 @@ extension MediaLive {
     public enum HlsOutputSelection: String, CustomStringConvertible, Codable {
         case manifestsAndSegments = "MANIFESTS_AND_SEGMENTS"
         case segmentsOnly = "SEGMENTS_ONLY"
+        case variantManifestsAndSegments = "VARIANT_MANIFESTS_AND_SEGMENTS"
         public var description: String { return self.rawValue }
     }
 
@@ -1555,7 +1579,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AacSettings: AWSEncodableShape & AWSDecodableShape {
 
@@ -1799,7 +1823,7 @@ extension MediaLive {
         public let audioTypeControl: AudioDescriptionAudioTypeControl?
         /// Audio codec settings.
         public let codecSettings: AudioCodecSettings?
-        /// Indicates the language of the audio output track. Only used if languageControlMode is useConfigured, or there is no ISO 639 language code specified in the input.
+        /// RFC 5646 language code representing the language of the audio output track. Only used if languageControlMode is useConfigured, or there is no ISO 639 language code specified in the input.
         public let languageCode: String?
         /// Choosing followInput will cause the ISO 639 language code of the output to follow the ISO 639 language code of the input. The languageCode will be used when useConfigured is set, or when followInput is selected but there is no ISO 639 language code specified by the input.
         public let languageCodeControl: AudioDescriptionLanguageCodeControl?
@@ -1825,8 +1849,8 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.codecSettings?.validate(name: "\(name).codecSettings")
-            try validate(self.languageCode, name: "languageCode", parent: name, max: 3)
-            try validate(self.languageCode, name: "languageCode", parent: name, min: 3)
+            try validate(self.languageCode, name: "languageCode", parent: name, max: 35)
+            try validate(self.languageCode, name: "languageCode", parent: name, min: 1)
             try self.remixSettings?.validate(name: "\(name).remixSettings")
         }
 
@@ -2370,6 +2394,7 @@ extension MediaLive {
         public let aribDestinationSettings: AribDestinationSettings?
         public let burnInDestinationSettings: BurnInDestinationSettings?
         public let dvbSubDestinationSettings: DvbSubDestinationSettings?
+        public let ebuTtDDestinationSettings: EbuTtDDestinationSettings?
         public let embeddedDestinationSettings: EmbeddedDestinationSettings?
         public let embeddedPlusScte20DestinationSettings: EmbeddedPlusScte20DestinationSettings?
         public let rtmpCaptionInfoDestinationSettings: RtmpCaptionInfoDestinationSettings?
@@ -2380,10 +2405,11 @@ extension MediaLive {
         public let ttmlDestinationSettings: TtmlDestinationSettings?
         public let webvttDestinationSettings: WebvttDestinationSettings?
 
-        public init(aribDestinationSettings: AribDestinationSettings? = nil, burnInDestinationSettings: BurnInDestinationSettings? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, embeddedPlusScte20DestinationSettings: EmbeddedPlusScte20DestinationSettings? = nil, rtmpCaptionInfoDestinationSettings: RtmpCaptionInfoDestinationSettings? = nil, scte20PlusEmbeddedDestinationSettings: Scte20PlusEmbeddedDestinationSettings? = nil, scte27DestinationSettings: Scte27DestinationSettings? = nil, smpteTtDestinationSettings: SmpteTtDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil, webvttDestinationSettings: WebvttDestinationSettings? = nil) {
+        public init(aribDestinationSettings: AribDestinationSettings? = nil, burnInDestinationSettings: BurnInDestinationSettings? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, ebuTtDDestinationSettings: EbuTtDDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, embeddedPlusScte20DestinationSettings: EmbeddedPlusScte20DestinationSettings? = nil, rtmpCaptionInfoDestinationSettings: RtmpCaptionInfoDestinationSettings? = nil, scte20PlusEmbeddedDestinationSettings: Scte20PlusEmbeddedDestinationSettings? = nil, scte27DestinationSettings: Scte27DestinationSettings? = nil, smpteTtDestinationSettings: SmpteTtDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil, webvttDestinationSettings: WebvttDestinationSettings? = nil) {
             self.aribDestinationSettings = aribDestinationSettings
             self.burnInDestinationSettings = burnInDestinationSettings
             self.dvbSubDestinationSettings = dvbSubDestinationSettings
+            self.ebuTtDDestinationSettings = ebuTtDDestinationSettings
             self.embeddedDestinationSettings = embeddedDestinationSettings
             self.embeddedPlusScte20DestinationSettings = embeddedPlusScte20DestinationSettings
             self.rtmpCaptionInfoDestinationSettings = rtmpCaptionInfoDestinationSettings
@@ -2404,6 +2430,7 @@ extension MediaLive {
             case aribDestinationSettings = "aribDestinationSettings"
             case burnInDestinationSettings = "burnInDestinationSettings"
             case dvbSubDestinationSettings = "dvbSubDestinationSettings"
+            case ebuTtDDestinationSettings = "ebuTtDDestinationSettings"
             case embeddedDestinationSettings = "embeddedDestinationSettings"
             case embeddedPlusScte20DestinationSettings = "embeddedPlusScte20DestinationSettings"
             case rtmpCaptionInfoDestinationSettings = "rtmpCaptionInfoDestinationSettings"
@@ -3356,6 +3383,57 @@ extension MediaLive {
         }
     }
 
+    public struct DescribeInputDeviceThumbnailRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accept", location: .header(locationName: "accept")), 
+            AWSMemberEncoding(label: "inputDeviceId", location: .uri(locationName: "inputDeviceId"))
+        ]
+
+        public let accept: AcceptHeader
+        public let inputDeviceId: String
+
+        public init(accept: AcceptHeader, inputDeviceId: String) {
+            self.accept = accept
+            self.inputDeviceId = inputDeviceId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeInputDeviceThumbnailResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "body"
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified"))
+        ]
+
+        public let body: AWSPayload?
+        public let contentLength: Int64?
+        public let contentType: ContentType?
+        public let eTag: String?
+        public let lastModified: TimeStamp?
+
+        public init(body: AWSPayload? = nil, contentLength: Int64? = nil, contentType: ContentType? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil) {
+            self.body = body
+            self.contentLength = contentLength
+            self.contentType = contentType
+            self.eTag = eTag
+            self.lastModified = lastModified
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+            case contentLength = "Content-Length"
+            case contentType = "Content-Type"
+            case eTag = "ETag"
+            case lastModified = "Last-Modified"
+        }
+    }
+
     public struct DescribeInputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputId", location: .uri(locationName: "inputId"))
@@ -4027,6 +4105,35 @@ extension MediaLive {
         }
     }
 
+    public struct EbuTtDDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
+        /// Specifies how to handle the gap between the lines (in multi-line captions).
+        /// - enabled: Fill with the captions background color (as specified in the input captions).
+        /// - disabled: Leave the gap unfilled.
+        public let fillLineGap: EbuTtDFillLineGapControl?
+        /// Specifies the font family to include in the font data attached to the EBU-TT captions. Valid only if styleControl is set to include. If you leave this field empty, the font family is set to "monospaced". (If styleControl is set to exclude, the font family is always set to "monospaced".)
+        /// You specify only the font family. All other style information (color, bold, position and so on) is copied from the input captions. The size is always set to 100% to allow the downstream player to choose the size.
+        /// - Enter a list of font families, as a comma-separated list of font names, in order of preference. The name can be a font family (such as “Arial”), or a generic font family (such as “serif”), or “default” (to let the downstream player choose the font).
+        /// - Leave blank to set the family to “monospace”.
+        public let fontFamily: String?
+        /// Specifies the style information (font color, font position, and so on) to include in the font data that is attached to the EBU-TT captions.
+        /// - include: Take the style information (font color, font position, and so on) from the source captions and include that information in the font data attached to the EBU-TT captions. This option is valid only if the source captions are Embedded or Teletext.
+        /// - exclude: In the font data attached to the EBU-TT captions, set the font family to "monospaced". Do not include any other style information.
+        public let styleControl: EbuTtDDestinationStyleControl?
+
+        public init(fillLineGap: EbuTtDFillLineGapControl? = nil, fontFamily: String? = nil, styleControl: EbuTtDDestinationStyleControl? = nil) {
+            self.fillLineGap = fillLineGap
+            self.fontFamily = fontFamily
+            self.styleControl = styleControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fillLineGap = "fillLineGap"
+            case fontFamily = "fontFamily"
+            case styleControl = "styleControl"
+        }
+    }
+
     public struct EmbeddedDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
@@ -4538,6 +4645,7 @@ extension MediaLive {
             try validate(self.numRefFrames, name: "numRefFrames", parent: name, max: 6)
             try validate(self.numRefFrames, name: "numRefFrames", parent: name, min: 1)
             try validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
+            try validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
             try validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
             try validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
             try validate(self.slices, name: "slices", parent: name, max: 32)
@@ -4617,6 +4725,19 @@ extension MediaLive {
         }
     }
 
+    public struct H265FilterSettings: AWSEncodableShape & AWSDecodableShape {
+
+        public let temporalFilterSettings: TemporalFilterSettings?
+
+        public init(temporalFilterSettings: TemporalFilterSettings? = nil) {
+            self.temporalFilterSettings = temporalFilterSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case temporalFilterSettings = "temporalFilterSettings"
+        }
+    }
+
     public struct H265Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
@@ -4633,6 +4754,8 @@ extension MediaLive {
         public let colorMetadata: H265ColorMetadata?
         /// Color Space settings
         public let colorSpaceSettings: H265ColorSpaceSettings?
+        /// Optional filters that you can apply to an encode.
+        public let filterSettings: H265FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public let fixedAfd: FixedAfd?
         /// If set to enabled, adjust quantization within each frame to reduce flicker or 'pop' on I-frames.
@@ -4673,6 +4796,9 @@ extension MediaLive {
         /// maximum bitrate.  Recommended if you or your viewers pay for bandwidth.
         /// CBR: Quality varies, depending on the video complexity. Recommended only if you distribute
         /// your assets to devices that cannot handle variable bitrates.
+        /// Multiplex: This rate control mode is only supported (and is required) when the video is being
+        /// delivered to a MediaLive Multiplex in which case the rate control configuration is controlled
+        /// by the properties within the Multiplex Program.
         public let rateControlMode: H265RateControlMode?
         /// Sets the scan type of the output to progressive or top-field-first interlaced.
         public let scanType: H265ScanType?
@@ -4688,7 +4814,7 @@ extension MediaLive {
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H265TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, alternativeTransferFunction: H265AlternativeTransferFunction? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorMetadata: H265ColorMetadata? = nil, colorSpaceSettings: H265ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H265FlickerAq? = nil, framerateDenominator: Int, framerateNumerator: Int, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, level: H265Level? = nil, lookAheadRateControl: H265LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H265Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H265RateControlMode? = nil, scanType: H265ScanType? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, tier: H265Tier? = nil, timecodeInsertion: H265TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, alternativeTransferFunction: H265AlternativeTransferFunction? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorMetadata: H265ColorMetadata? = nil, colorSpaceSettings: H265ColorSpaceSettings? = nil, filterSettings: H265FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H265FlickerAq? = nil, framerateDenominator: Int, framerateNumerator: Int, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, level: H265Level? = nil, lookAheadRateControl: H265LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H265Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H265RateControlMode? = nil, scanType: H265ScanType? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, tier: H265Tier? = nil, timecodeInsertion: H265TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.alternativeTransferFunction = alternativeTransferFunction
@@ -4696,6 +4822,7 @@ extension MediaLive {
             self.bufSize = bufSize
             self.colorMetadata = colorMetadata
             self.colorSpaceSettings = colorSpaceSettings
+            self.filterSettings = filterSettings
             self.fixedAfd = fixedAfd
             self.flickerAq = flickerAq
             self.framerateDenominator = framerateDenominator
@@ -4749,6 +4876,7 @@ extension MediaLive {
             case bufSize = "bufSize"
             case colorMetadata = "colorMetadata"
             case colorSpaceSettings = "colorSpaceSettings"
+            case filterSettings = "filterSettings"
             case fixedAfd = "fixedAfd"
             case flickerAq = "flickerAq"
             case framerateDenominator = "framerateDenominator"
@@ -5755,13 +5883,13 @@ extension MediaLive {
     public struct InputPrepareScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the input attachment that should be prepared by this action. If no name is provided, the action will stop the most recent prepare (if any) when activated.
-        public let inputAttachmentNameReference: String
+        public let inputAttachmentNameReference: String?
         /// Settings to let you create a clip of the file input, in order to set up the input to ingest only a portion of the file.
         public let inputClippingSettings: InputClippingSettings?
         /// The value for the variable portion of the URL for the dynamic input, for this instance of the input. Each time you use the same dynamic input in an input switch action, you can provide a different value, in order to connect the input to a different content source.
         public let urlPath: [String]?
 
-        public init(inputAttachmentNameReference: String, inputClippingSettings: InputClippingSettings? = nil, urlPath: [String]? = nil) {
+        public init(inputAttachmentNameReference: String? = nil, inputClippingSettings: InputClippingSettings? = nil, urlPath: [String]? = nil) {
             self.inputAttachmentNameReference = inputAttachmentNameReference
             self.inputClippingSettings = inputClippingSettings
             self.urlPath = urlPath

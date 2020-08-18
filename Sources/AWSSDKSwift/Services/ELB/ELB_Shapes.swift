@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ELB {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessLog: AWSEncodableShape & AWSDecodableShape {
 
@@ -119,9 +119,9 @@ extension ELB {
 
     public struct AdditionalAttribute: AWSEncodableShape & AWSDecodableShape {
 
-        /// This parameter is reserved.
+        /// The name of the attribute. The following attribute is supported.    elb.http.desyncmitigationmode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.  
         public let key: String?
-        /// This parameter is reserved.
+        /// This value of the attribute.
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
@@ -1043,7 +1043,7 @@ extension ELB {
 
         /// The port on which the instance is listening.
         public let instancePort: Int
-        /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is HTTP, HTTPS, TCP, or SSL, InstanceProtocol must be at the same protocol. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
+        /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is TCP or SSL, the back-end protocol must be TCP or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol must be HTTP or HTTPS. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
         public let instanceProtocol: String?
         /// The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535.
         public let loadBalancerPort: Int
@@ -1097,7 +1097,7 @@ extension ELB {
 
         /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide.
         public let accessLog: AccessLog?
-        /// This parameter is reserved.
+        /// Any additional attributes.
         @OptionalCoding<DefaultArrayCoder>
         public var additionalAttributes: [AdditionalAttribute]?
         /// If enabled, the load balancer allows existing requests to complete before the load balancer shifts traffic away from a deregistered or unhealthy instance. For more information, see Configure Connection Draining in the Classic Load Balancers Guide.

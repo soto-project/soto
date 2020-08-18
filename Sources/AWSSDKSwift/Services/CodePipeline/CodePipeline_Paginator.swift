@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CodePipeline {
 
@@ -144,5 +144,4 @@ extension CodePipeline.ListWebhooksInput: AWSPaginateToken {
 
     }
 }
-
 

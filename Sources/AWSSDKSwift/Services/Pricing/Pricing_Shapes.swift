@@ -18,14 +18,14 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Pricing {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum FilterType: String, CustomStringConvertible, Codable {
         case termMatch = "TERM_MATCH"
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AttributeValue: AWSDecodableShape {
 

@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ServiceQuotas {
 
@@ -150,5 +150,4 @@ extension ServiceQuotas.ListServicesRequest: AWSPaginateToken {
 
     }
 }
-
 

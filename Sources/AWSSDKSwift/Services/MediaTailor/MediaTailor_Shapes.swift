@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaTailor {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Mode: String, CustomStringConvertible, Codable {
         case off = "OFF"
@@ -32,7 +32,7 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AvailSuppression: AWSEncodableShape & AWSDecodableShape {
 

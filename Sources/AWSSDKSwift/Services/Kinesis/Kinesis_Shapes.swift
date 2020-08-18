@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Kinesis {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ConsumerStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
@@ -50,6 +50,16 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
+    public enum ShardFilterType: String, CustomStringConvertible, Codable {
+        case afterShardId = "AFTER_SHARD_ID"
+        case atTrimHorizon = "AT_TRIM_HORIZON"
+        case fromTrimHorizon = "FROM_TRIM_HORIZON"
+        case atLatest = "AT_LATEST"
+        case atTimestamp = "AT_TIMESTAMP"
+        case fromTimestamp = "FROM_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ShardIteratorType: String, CustomStringConvertible, Codable {
         case atSequenceNumber = "AT_SEQUENCE_NUMBER"
         case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
@@ -67,7 +77,7 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddTagsToStreamInput: AWSEncodableShape {
 
@@ -96,6 +106,25 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case streamName = "StreamName"
             case tags = "Tags"
+        }
+    }
+
+    public struct ChildShard: AWSDecodableShape {
+
+        public let hashKeyRange: HashKeyRange
+        public let parentShards: [String]
+        public let shardId: String
+
+        public init(hashKeyRange: HashKeyRange, parentShards: [String], shardId: String) {
+            self.hashKeyRange = hashKeyRange
+            self.parentShards = parentShards
+            self.shardId = shardId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hashKeyRange = "HashKeyRange"
+            case parentShards = "ParentShards"
+            case shardId = "ShardId"
         }
     }
 
@@ -155,7 +184,7 @@ extension Kinesis {
 
     public struct CreateStreamInput: AWSEncodableShape {
 
-        /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput. DefaultShardLimit;
+        /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput.
         public let shardCount: Int
         /// A name to identify the stream. The stream name is scoped to the AWS account used by the application that creates the stream. It is also scoped by AWS Region. That is, two streams in two different AWS accounts can have the same name. Two streams in the same AWS account but in two different Regions can also have the same name.
         public let streamName: String
@@ -166,7 +195,6 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
-            try validate(self.shardCount, name: "shardCount", parent: name, max: 100000)
             try validate(self.shardCount, name: "shardCount", parent: name, min: 1)
             try validate(self.streamName, name: "streamName", parent: name, max: 128)
             try validate(self.streamName, name: "streamName", parent: name, min: 1)
@@ -192,8 +220,6 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
-            try validate(self.retentionPeriodHours, name: "retentionPeriodHours", parent: name, max: 168)
-            try validate(self.retentionPeriodHours, name: "retentionPeriodHours", parent: name, min: 1)
             try validate(self.streamName, name: "streamName", parent: name, max: 128)
             try validate(self.streamName, name: "streamName", parent: name, min: 1)
             try validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -253,7 +279,7 @@ extension Kinesis {
             try validate(self.consumerName, name: "consumerName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
+            try validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -313,7 +339,7 @@ extension Kinesis {
             try validate(self.consumerName, name: "consumerName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
+            try validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -508,7 +534,7 @@ extension Kinesis {
 
     public struct GetRecordsInput: AWSEncodableShape {
 
-        /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException.
+        /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException. The default value is 10,000.
         public let limit: Int?
         /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
         public let shardIterator: String
@@ -533,6 +559,7 @@ extension Kinesis {
 
     public struct GetRecordsOutput: AWSDecodableShape {
 
+        public let childShards: [ChildShard]?
         /// The number of milliseconds the GetRecords response is from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates that record processing is caught up, and there are no new records to process at this moment.
         public let millisBehindLatest: Int64?
         /// The next position in the shard from which to start sequentially reading data records. If set to null, the shard has been closed and the requested iterator does not return any more data. 
@@ -540,13 +567,15 @@ extension Kinesis {
         /// The data records retrieved from the shard.
         public let records: [Record]
 
-        public init(millisBehindLatest: Int64? = nil, nextShardIterator: String? = nil, records: [Record]) {
+        public init(childShards: [ChildShard]? = nil, millisBehindLatest: Int64? = nil, nextShardIterator: String? = nil, records: [Record]) {
+            self.childShards = childShards
             self.millisBehindLatest = millisBehindLatest
             self.nextShardIterator = nextShardIterator
             self.records = records
         }
 
         private enum CodingKeys: String, CodingKey {
+            case childShards = "ChildShards"
             case millisBehindLatest = "MillisBehindLatest"
             case nextShardIterator = "NextShardIterator"
             case records = "Records"
@@ -638,8 +667,6 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
-            try validate(self.retentionPeriodHours, name: "retentionPeriodHours", parent: name, max: 168)
-            try validate(self.retentionPeriodHours, name: "retentionPeriodHours", parent: name, min: 1)
             try validate(self.streamName, name: "streamName", parent: name, max: 128)
             try validate(self.streamName, name: "streamName", parent: name, min: 1)
             try validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -752,19 +779,21 @@ extension Kinesis {
 
         /// Specify this parameter to indicate that you want to list the shards starting with the shard whose ID immediately follows ExclusiveStartShardId. If you don't specify this parameter, the default behavior is for ListShards to list the shards starting with the first one in the stream. You cannot specify this parameter if you specify NextToken.
         public let exclusiveStartShardId: String?
-        /// The maximum number of shards to return in a single call to ListShards. The minimum value you can specify for this parameter is 1, and the maximum is 1,000, which is also the default. When the number of shards to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListShards to list the next set of shards.
+        /// The maximum number of shards to return in a single call to ListShards. The minimum value you can specify for this parameter is 1, and the maximum is 10,000, which is also the default. When the number of shards to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListShards to list the next set of shards.
         public let maxResults: Int?
         /// When the number of shards in the data stream is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of shards in the data stream, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListShards to list the next set of shards. Don't specify StreamName or StreamCreationTimestamp if you specify NextToken because the latter unambiguously identifies the stream. You can optionally specify a value for the MaxResults parameter when you specify NextToken. If you specify a MaxResults value that is less than the number of shards that the operation returns if you don't specify MaxResults, the response will contain a new NextToken value. You can use the new NextToken value in a subsequent call to the ListShards operation.  Tokens expire after 300 seconds. When you obtain a value for NextToken in the response to a call to ListShards, you have 300 seconds to use that value. If you specify an expired token in a call to ListShards, you get ExpiredNextTokenException. 
         public let nextToken: String?
+        public let shardFilter: ShardFilter?
         /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the shards for. You cannot specify this parameter if you specify the NextToken parameter.
         public let streamCreationTimestamp: TimeStamp?
         /// The name of the data stream whose shards you want to list.  You cannot specify this parameter if you specify the NextToken parameter.
         public let streamName: String?
 
-        public init(exclusiveStartShardId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, streamCreationTimestamp: TimeStamp? = nil, streamName: String? = nil) {
+        public init(exclusiveStartShardId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, shardFilter: ShardFilter? = nil, streamCreationTimestamp: TimeStamp? = nil, streamName: String? = nil) {
             self.exclusiveStartShardId = exclusiveStartShardId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.shardFilter = shardFilter
             self.streamCreationTimestamp = streamCreationTimestamp
             self.streamName = streamName
         }
@@ -777,6 +806,7 @@ extension Kinesis {
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try validate(self.nextToken, name: "nextToken", parent: name, max: 1048576)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.shardFilter?.validate(name: "\(name).shardFilter")
             try validate(self.streamName, name: "streamName", parent: name, max: 128)
             try validate(self.streamName, name: "streamName", parent: name, min: 1)
             try validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -786,6 +816,7 @@ extension Kinesis {
             case exclusiveStartShardId = "ExclusiveStartShardId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case shardFilter = "ShardFilter"
             case streamCreationTimestamp = "StreamCreationTimestamp"
             case streamName = "StreamName"
         }
@@ -834,7 +865,7 @@ extension Kinesis {
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
+            try validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -993,7 +1024,7 @@ extension Kinesis {
 
     public struct PutRecordInput: AWSEncodableShape {
 
-        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
+        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
         public let data: Data
         /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
         public let explicitHashKey: String?
@@ -1108,7 +1139,7 @@ extension Kinesis {
 
     public struct PutRecordsRequestEntry: AWSEncodableShape {
 
-        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
+        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
         public let data: Data
         /// The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash.
         public let explicitHashKey: String?
@@ -1166,7 +1197,7 @@ extension Kinesis {
 
         /// The approximate time that the record was inserted into the stream.
         public let approximateArrivalTimestamp: TimeStamp?
-        /// The data blob. The data in the blob is both opaque and immutable to Kinesis Data Streams, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
+        /// The data blob. The data in the blob is both opaque and immutable to Kinesis Data Streams, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
         public let data: Data
         /// The encryption type used on the record. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed AWS KMS key.  
         public let encryptionType: EncryptionType?
@@ -1210,7 +1241,7 @@ extension Kinesis {
             try validate(self.consumerName, name: "consumerName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
+            try validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1339,6 +1370,31 @@ extension Kinesis {
         }
     }
 
+    public struct ShardFilter: AWSEncodableShape {
+
+        public let shardId: String?
+        public let timestamp: TimeStamp?
+        public let `type`: ShardFilterType
+
+        public init(shardId: String? = nil, timestamp: TimeStamp? = nil, type: ShardFilterType) {
+            self.shardId = shardId
+            self.timestamp = timestamp
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.shardId, name: "shardId", parent: name, max: 128)
+            try validate(self.shardId, name: "shardId", parent: name, min: 1)
+            try validate(self.shardId, name: "shardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shardId = "ShardId"
+            case timestamp = "Timestamp"
+            case `type` = "Type"
+        }
+    }
+
     public struct SplitShardInput: AWSEncodableShape {
 
         /// A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard.
@@ -1403,8 +1459,11 @@ extension Kinesis {
 
     public struct StartingPosition: AWSEncodableShape {
 
+        /// The sequence number of the data record in the shard from which to start streaming. To specify a sequence number, set StartingPosition to AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER.
         public let sequenceNumber: String?
+        /// The time stamp of the data record from which to start reading. To specify a time stamp, set StartingPosition to Type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, records will be streamed from the next (later) record. If the time stamp is older than the current trim horizon, records will be streamed from the oldest untrimmed data record (TRIM_HORIZON).
         public let timestamp: TimeStamp?
+        /// You can set the starting position to one of the following values:  AT_SEQUENCE_NUMBER: Start streaming from the position denoted by the sequence number specified in the SequenceNumber field.  AFTER_SEQUENCE_NUMBER: Start streaming right after the position denoted by the sequence number specified in the SequenceNumber field.  AT_TIMESTAMP: Start streaming from the position denoted by the time stamp specified in the Timestamp field.  TRIM_HORIZON: Start streaming at the last untrimmed record in the shard, which is the oldest data record in the shard.  LATEST: Start streaming just after the most recent record in the shard, so that you always read the most recent data in the shard.
         public let `type`: ShardIteratorType
 
         public init(sequenceNumber: String? = nil, timestamp: TimeStamp? = nil, type: ShardIteratorType) {
@@ -1464,7 +1523,7 @@ extension Kinesis {
         public let hasMoreShards: Bool
         /// The GUID for the customer-managed AWS KMS key to use for encryption. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kinesis.   Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012    Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName    Master key owned by Kinesis Data Streams: alias/aws/kinesis   
         public let keyId: String?
-        /// The current retention period, in hours.
+        /// The current retention period, in hours. Minimum value of 24. Maximum value of 168.
         public let retentionPeriodHours: Int
         /// The shards that comprise the stream.
         public let shards: [Shard]
@@ -1556,19 +1615,22 @@ extension Kinesis {
 
     public struct SubscribeToShardEvent: AWSDecodableShape {
 
-        /// Use this as StartingSequenceNumber in the next call to SubscribeToShard.
+        public let childShards: [ChildShard]?
+        /// Use this as SequenceNumber in the next call to SubscribeToShard, with StartingPosition set to AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER. Use ContinuationSequenceNumber for checkpointing because it captures your shard progress even when no data is written to the shard.
         public let continuationSequenceNumber: String
         /// The number of milliseconds the read records are from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates that record processing is caught up, and there are no new records to process at this moment.
         public let millisBehindLatest: Int64
         public let records: [Record]
 
-        public init(continuationSequenceNumber: String, millisBehindLatest: Int64, records: [Record]) {
+        public init(childShards: [ChildShard]? = nil, continuationSequenceNumber: String, millisBehindLatest: Int64, records: [Record]) {
+            self.childShards = childShards
             self.continuationSequenceNumber = continuationSequenceNumber
             self.millisBehindLatest = millisBehindLatest
             self.records = records
         }
 
         private enum CodingKeys: String, CodingKey {
+            case childShards = "ChildShards"
             case continuationSequenceNumber = "ContinuationSequenceNumber"
             case millisBehindLatest = "MillisBehindLatest"
             case records = "Records"
@@ -1577,6 +1639,7 @@ extension Kinesis {
 
     public struct SubscribeToShardEventStream: AWSDecodableShape {
 
+        /// The processing of the request failed because of an unknown error, exception, or failure.
         public let internalFailureException: InternalFailureException?
         public let kMSAccessDeniedException: KMSAccessDeniedException?
         public let kMSDisabledException: KMSDisabledException?
@@ -1586,6 +1649,7 @@ extension Kinesis {
         public let kMSThrottlingException: KMSThrottlingException?
         public let resourceInUseException: ResourceInUseException?
         public let resourceNotFoundException: ResourceNotFoundException?
+        /// After you call SubscribeToShard, Kinesis Data Streams sends events of this type to your consumer. For an example of how to handle these events, see Enhanced Fan-Out Using the Kinesis Data Streams API.
         public let subscribeToShardEvent: SubscribeToShardEvent
 
         public init(internalFailureException: InternalFailureException? = nil, kMSAccessDeniedException: KMSAccessDeniedException? = nil, kMSDisabledException: KMSDisabledException? = nil, kMSInvalidStateException: KMSInvalidStateException? = nil, kMSNotFoundException: KMSNotFoundException? = nil, kMSOptInRequired: KMSOptInRequired? = nil, kMSThrottlingException: KMSThrottlingException? = nil, resourceInUseException: ResourceInUseException? = nil, resourceNotFoundException: ResourceNotFoundException? = nil, subscribeToShardEvent: SubscribeToShardEvent) {
@@ -1684,7 +1748,7 @@ extension Kinesis {
         public let scalingType: ScalingType
         /// The name of the stream.
         public let streamName: String
-        /// The new number of shards.
+        /// The new number of shards. This value has the following default limits. By default, you cannot do the following:    Set this value to more than double your current shard count for a stream.   Set this value below half your current shard count for a stream.   Set this value to more than 500 shards in a stream (the default limit for shard count per stream is 500 per account per region), unless you request a limit increase.   Scale a stream with more than 500 shards down unless you set this value to less than 500 shards.  
         public let targetShardCount: Int
 
         public init(scalingType: ScalingType, streamName: String, targetShardCount: Int) {
@@ -1697,7 +1761,6 @@ extension Kinesis {
             try validate(self.streamName, name: "streamName", parent: name, max: 128)
             try validate(self.streamName, name: "streamName", parent: name, min: 1)
             try validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try validate(self.targetShardCount, name: "targetShardCount", parent: name, max: 100000)
             try validate(self.targetShardCount, name: "targetShardCount", parent: name, min: 1)
         }
 

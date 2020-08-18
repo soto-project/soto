@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension EFS {
 
@@ -108,5 +108,4 @@ extension EFS.ListTagsForResourceRequest: AWSPaginateToken {
 
     }
 }
-
 

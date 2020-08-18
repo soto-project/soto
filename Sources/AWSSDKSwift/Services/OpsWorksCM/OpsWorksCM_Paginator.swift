@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension OpsWorksCM {
 
@@ -106,5 +106,4 @@ extension OpsWorksCM.ListTagsForResourceRequest: AWSPaginateToken {
 
     }
 }
-
 

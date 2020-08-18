@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension WorkMailMessageFlow {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct GetRawMessageContentRequest: AWSEncodableShape {
         public static var _encoding = [

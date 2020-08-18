@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Detective {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum MemberDisabledReason: String, CustomStringConvertible, Codable {
         case volumeTooHigh = "VOLUME_TOO_HIGH"
@@ -35,7 +35,7 @@ extension Detective {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
 

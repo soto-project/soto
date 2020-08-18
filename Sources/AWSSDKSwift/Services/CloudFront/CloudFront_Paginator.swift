@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CloudFront {
 
@@ -102,5 +102,4 @@ extension CloudFront.ListStreamingDistributionsRequest: AWSPaginateToken {
 
     }
 }
-
 

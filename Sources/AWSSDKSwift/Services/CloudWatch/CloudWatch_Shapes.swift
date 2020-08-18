@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudWatch {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AlarmType: String, CustomStringConvertible, Codable {
         case compositealarm = "CompositeAlarm"
@@ -48,6 +48,11 @@ extension CloudWatch {
         case configurationupdate = "ConfigurationUpdate"
         case stateupdate = "StateUpdate"
         case action = "Action"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecentlyActive: String, CustomStringConvertible, Codable {
+        case pt3h = "PT3H"
         public var description: String { return self.rawValue }
     }
 
@@ -111,7 +116,7 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AlarmHistoryItem: AWSDecodableShape {
 
@@ -639,13 +644,13 @@ extension CloudWatch {
         /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
         @OptionalCoding<DefaultArrayCoder>
         public var alarmTypes: [AlarmType]?
-        /// If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you will receive a validation error.  Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter. 
+        /// If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error.  Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter. 
         public let childrenOfAlarmName: String?
         /// The maximum number of alarm descriptions to retrieve.
         public let maxRecords: Int?
         /// The token returned by a previous call to indicate that there is more data available.
         public let nextToken: String?
-        /// If you use this parameter and specify the name of a metric or composite alarm, the operation returns information about the "parent" alarms of the alarm you specify. These are the composite alarms that have AlarmRule parameters that reference the alarm named in ParentsOfAlarmName. Information about the alarm that you specify in ParentsOfAlarmName is not returned. If you specify ParentsOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you will receive a validation error.  Only the Alarm Name and ARN are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter. 
+        /// If you use this parameter and specify the name of a metric or composite alarm, the operation returns information about the "parent" alarms of the alarm you specify. These are the composite alarms that have AlarmRule parameters that reference the alarm named in ParentsOfAlarmName. Information about the alarm that you specify in ParentsOfAlarmName is not returned. If you specify ParentsOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error.  Only the Alarm Name and ARN are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter. 
         public let parentsOfAlarmName: String?
         /// Specify this parameter to receive information only about alarms that are currently in the state that you specify.
         public let stateValue: StateValue?
@@ -782,7 +787,7 @@ extension CloudWatch {
 
     public struct DescribeInsightRulesInput: AWSEncodableShape {
 
-        /// This parameter is not currently used. Reserved for future use. If it is used in the future, the maximum value may be different.
+        /// This parameter is not currently used. Reserved for future use. If it is used in the future, the maximum value might be different.
         public let maxResults: Int?
         /// Reserved for future use.
         public let nextToken: String?
@@ -824,9 +829,9 @@ extension CloudWatch {
 
     public struct Dimension: AWSEncodableShape & AWSDecodableShape {
 
-        /// The name of the dimension.
+        /// The name of the dimension. Dimension names cannot contain blank spaces or non-ASCII characters.
         public let name: String
-        /// The value representing the dimension measurement.
+        /// The value of the dimension.
         public let value: String
 
         public init(name: String, value: String) {
@@ -1036,7 +1041,7 @@ extension CloudWatch {
         public let endTime: TimeStamp
         /// The maximum number of contributors to include in the report. The range is 1 to 100. If you omit this, the default of 10 is used.
         public let maxContributorCount: Int?
-        /// Specifies which metrics to use for aggregation of contributor values for the report. You can specify one or more of the following metrics:    UniqueContributors -- the number of unique contributors for each data point.    MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor may change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.  
+        /// Specifies which metrics to use for aggregation of contributor values for the report. You can specify one or more of the following metrics:    UniqueContributors -- the number of unique contributors for each data point.    MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.  
         @OptionalCoding<DefaultArrayCoder>
         public var metrics: [String]?
         /// Determines what statistic to use to rank the contributors. Valid values are SUM and MAXIMUM.
@@ -1164,7 +1169,7 @@ extension CloudWatch {
 
     public struct GetMetricDataOutput: AWSDecodableShape {
 
-        /// Contains a message about this GetMetricData operation, if the operation results in such a message. An example of a message that may be returned is Maximum number of allowed metrics exceeded. If there is a message, as much of the operation as possible is still executed. A message appears here only if it is related to the global GetMetricData operation. Any message about a specific metric returned by the operation appears in the MetricDataResult object returned for that metric.
+        /// Contains a message about this GetMetricData operation, if the operation results in such a message. An example of a message that might be returned is Maximum number of allowed metrics exceeded. If there is a message, as much of the operation as possible is still executed. A message appears here only if it is related to the global GetMetricData operation. Any message about a specific metric returned by the operation appears in the MetricDataResult object returned for that metric.
         @OptionalCoding<DefaultArrayCoder>
         public var messages: [MessageData]?
         /// The metrics that are returned, including the metric name, namespace, and dimensions.
@@ -1207,7 +1212,7 @@ extension CloudWatch {
         /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistics. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both.
         @OptionalCoding<DefaultArrayCoder>
         public var statistics: [Statistic]?
-        /// The unit for a given metric. If you omit Unit, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
+        /// The unit for a given metric. If you omit Unit, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
         public let unit: StandardUnit?
 
         public init(dimensions: [Dimension]? = nil, endTime: TimeStamp, extendedStatistics: [String]? = nil, metricName: String, namespace: String, period: Int, startTime: TimeStamp, statistics: [Statistic]? = nil, unit: StandardUnit? = nil) {
@@ -1294,7 +1299,7 @@ extension CloudWatch {
 
     public struct GetMetricWidgetImageOutput: AWSDecodableShape {
 
-        /// The image of the graph, in the output format specified.
+        /// The image of the graph, in the output format specified. The output is base64-encoded.
         public let metricWidgetImage: Data?
 
         public init(metricWidgetImage: Data? = nil) {
@@ -1464,12 +1469,15 @@ extension CloudWatch {
         public let namespace: String?
         /// The token returned by a previous call to indicate that there is more data available.
         public let nextToken: String?
+        /// To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H. This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results include metrics with last published data as much as 40 minutes more than the specified time interval.
+        public let recentlyActive: RecentlyActive?
 
-        public init(dimensions: [DimensionFilter]? = nil, metricName: String? = nil, namespace: String? = nil, nextToken: String? = nil) {
+        public init(dimensions: [DimensionFilter]? = nil, metricName: String? = nil, namespace: String? = nil, nextToken: String? = nil, recentlyActive: RecentlyActive? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
             self.nextToken = nextToken
+            self.recentlyActive = recentlyActive
         }
 
         public func validate(name: String) throws {
@@ -1489,15 +1497,16 @@ extension CloudWatch {
             case metricName = "MetricName"
             case namespace = "Namespace"
             case nextToken = "NextToken"
+            case recentlyActive = "RecentlyActive"
         }
     }
 
     public struct ListMetricsOutput: AWSDecodableShape {
 
-        /// The metrics.
+        /// The metrics that match your request. 
         @OptionalCoding<DefaultArrayCoder>
         public var metrics: [Metric]?
-        /// The token that marks the start of the next batch of returned results.
+        /// The token that marks the start of the next batch of returned results. 
         public let nextToken: String?
 
         public init(metrics: [Metric]? = nil, nextToken: String? = nil) {
@@ -1513,7 +1522,7 @@ extension CloudWatch {
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
 
-        /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
+        /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -1868,7 +1877,7 @@ extension CloudWatch {
         public let period: Int
         /// The statistic to return. It can include any CloudWatch statistic or extended statistic.
         public let stat: String
-        /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, if you omit Unit then all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
+        /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, if you omit Unit then all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
         public let unit: StandardUnit?
 
         public init(metric: Metric, period: Int, stat: String, unit: StandardUnit? = nil) {
@@ -1979,7 +1988,7 @@ extension CloudWatch {
         public var alarmActions: [String]?
         /// The description for the composite alarm.
         public let alarmDescription: String?
-        /// The name for the composite alarm. This name must be unique within your AWS account.
+        /// The name for the composite alarm. This name must be unique within the Region.
         public let alarmName: String
         /// An expression that specifies which other alarms are to be evaluated to determine this composite alarm's state. For each alarm that you reference, you designate a function that specifies whether that alarm needs to be in ALARM state, OK state, or INSUFFICIENT_DATA state. You can use operators (AND, OR and NOT) to combine multiple functions in a single expression. You can use parenthesis to logically group the functions in your expression. You can use either alarm names or ARNs to reference the other alarms that are to be evaluated. Functions can include the following:    ALARM("alarm-name or alarm-ARN") is TRUE if the named alarm is in ALARM state.    OK("alarm-name or alarm-ARN") is TRUE if the named alarm is in OK state.    INSUFFICIENT_DATA("alarm-name or alarm-ARN") is TRUE if the named alarm is in INSUFFICIENT_DATA state.    TRUE always evaluates to TRUE.    FALSE always evaluates to FALSE.   TRUE and FALSE are useful for testing a complex AlarmRule structure, and for testing your alarm actions. Alarm names specified in AlarmRule can be surrounded with double-quotes ("), but do not have to be. The following are some examples of AlarmRule:    ALARM(CPUUtilizationTooHigh) AND ALARM(DiskReadOpsTooHigh) specifies that the composite alarm goes into ALARM state only if both CPUUtilizationTooHigh and DiskReadOpsTooHigh alarms are in ALARM state.    ALARM(CPUUtilizationTooHigh) AND NOT ALARM(DeploymentInProgress) specifies that the alarm goes to ALARM state if CPUUtilizationTooHigh is in ALARM state and DeploymentInProgress is not in ALARM state. This example reduces alarm noise during a known deployment window.    (ALARM(CPUUtilizationTooHigh) OR ALARM(DiskReadOpsTooHigh)) AND OK(NetworkOutTooHigh) goes into ALARM state if CPUUtilizationTooHigh OR DiskReadOpsTooHigh is in ALARM state, and if NetworkOutTooHigh is in OK state. This provides another example of using a composite alarm to prevent noise. This rule ensures that you are not notified with an alarm action on high CPU or disk usage if a known network problem is also occurring.   The AlarmRule can specify as many as 100 "children" alarms. The AlarmRule expression can have as many as 500 elements. Elements are child alarms, TRUE or FALSE statements, and parentheses.
         public let alarmRule: String
@@ -2063,7 +2072,7 @@ extension CloudWatch {
 
     public struct PutDashboardOutput: AWSDecodableShape {
 
-        /// If the input for PutDashboard was correct and the dashboard was successfully created or modified, this result is empty. If this result includes only warning messages, then the input was valid enough for the dashboard to be created or modified, but some elements of the dashboard may not render. If this result includes error messages, the input was not valid and the operation failed.
+        /// If the input for PutDashboard was correct and the dashboard was successfully created or modified, this result is empty. If this result includes only warning messages, then the input was valid enough for the dashboard to be created or modified, but some elements of the dashboard might not render. If this result includes error messages, the input was not valid and the operation failed.
         @OptionalCoding<DefaultArrayCoder>
         public var dashboardValidationMessages: [DashboardValidationMessage]?
 
@@ -2135,7 +2144,7 @@ extension CloudWatch {
         public var alarmActions: [String]?
         /// The description for the alarm.
         public let alarmDescription: String?
-        /// The name for the alarm. This name must be unique within your AWS account.
+        /// The name for the alarm. This name must be unique within the Region.
         public let alarmName: String
         ///  The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand. The values LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, and GreaterThanUpperThreshold are used only for alarms based on anomaly detection models.
         public let comparisonOperator: ComparisonOperator
@@ -2163,11 +2172,11 @@ extension CloudWatch {
         /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
         @OptionalCoding<DefaultArrayCoder>
         public var oKActions: [String]?
-        /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm may often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
+        /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
         public let period: Int?
         /// The statistic for the metric specified in MetricName, other than percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
         public let statistic: Statistic?
-        /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values.
+        /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
         @OptionalCoding<DefaultArrayCoder>
         public var tags: [Tag]?
         /// The value against which the specified statistic is compared. This parameter is required for alarms based on static thresholds, but should not be used for alarms based on anomaly detection models.
@@ -2176,7 +2185,7 @@ extension CloudWatch {
         public let thresholdMetricId: String?
         ///  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing 
         public let treatMissingData: String?
-        /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually metrics are published with only one unit, so the alarm will work as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and will behave un-predictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
+        /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves predictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
         public let unit: StandardUnit?
 
         public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, comparisonOperator: ComparisonOperator, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
@@ -2325,7 +2334,7 @@ extension CloudWatch {
 
     public struct SetAlarmStateInput: AWSEncodableShape {
 
-        /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
+        /// The name of the alarm.
         public let alarmName: String
         /// The reason that this alarm is set to this specific state, in text format.
         public let stateReason: String
@@ -2411,7 +2420,7 @@ extension CloudWatch {
 
     public struct TagResourceInput: AWSEncodableShape {
 
-        /// The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
+        /// The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
         /// The list of key-value pairs to associate with the alarm.
         @Coding<DefaultArrayCoder>
@@ -2446,7 +2455,7 @@ extension CloudWatch {
 
     public struct UntagResourceInput: AWSEncodableShape {
 
-        /// The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
+        /// The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
         /// The list of tag keys to remove from the resource.
         @Coding<DefaultArrayCoder>

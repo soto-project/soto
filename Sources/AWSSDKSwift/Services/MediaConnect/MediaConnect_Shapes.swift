@@ -18,12 +18,18 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaConnect {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Algorithm: String, CustomStringConvertible, Codable {
         case aes128 = "aes128"
         case aes192 = "aes192"
         case aes256 = "aes256"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntitlementStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -65,7 +71,7 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddFlowOutputsRequest: AWSEncodableShape {
         public static var _encoding = [
@@ -406,16 +412,19 @@ extension MediaConnect {
         public let encryption: Encryption?
         /// The ARN of the entitlement.
         public let entitlementArn: String
+        /// An indication of whether the entitlement is enabled.
+        public let entitlementStatus: EntitlementStatus?
         /// The name of the entitlement.
         public let name: String
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementArn: String, name: String, subscribers: [String]) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementArn: String, entitlementStatus: EntitlementStatus? = nil, name: String, subscribers: [String]) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
             self.entitlementArn = entitlementArn
+            self.entitlementStatus = entitlementStatus
             self.name = name
             self.subscribers = subscribers
         }
@@ -425,6 +434,7 @@ extension MediaConnect {
             case description = "description"
             case encryption = "encryption"
             case entitlementArn = "entitlementArn"
+            case entitlementStatus = "entitlementStatus"
             case name = "name"
             case subscribers = "subscribers"
         }
@@ -510,15 +520,18 @@ extension MediaConnect {
         public let description: String?
         /// The type of encryption that will be used on the output that is associated with this entitlement.
         public let encryption: Encryption?
+        /// An indication of whether the new entitlement should be enabled or disabled as soon as it is created. If you don’t specify the entitlementStatus field in your request, MediaConnect sets it to ENABLED.
+        public let entitlementStatus: EntitlementStatus?
         /// The name of the entitlement. This value must be unique within the current flow.
         public let name: String?
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
         public let subscribers: [String]
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, name: String? = nil, subscribers: [String]) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
+            self.entitlementStatus = entitlementStatus
             self.name = name
             self.subscribers = subscribers
         }
@@ -527,6 +540,7 @@ extension MediaConnect {
             case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
             case description = "description"
             case encryption = "encryption"
+            case entitlementStatus = "entitlementStatus"
             case name = "name"
             case subscribers = "subscribers"
         }
@@ -1265,14 +1279,17 @@ extension MediaConnect {
         /// The type of encryption that will be used on the output associated with this entitlement.
         public let encryption: UpdateEncryption?
         public let entitlementArn: String
+        /// An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscriber’s flow temporarily. If you don’t specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged.
+        public let entitlementStatus: EntitlementStatus?
         public let flowArn: String
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]?
 
-        public init(description: String? = nil, encryption: UpdateEncryption? = nil, entitlementArn: String, flowArn: String, subscribers: [String]? = nil) {
+        public init(description: String? = nil, encryption: UpdateEncryption? = nil, entitlementArn: String, entitlementStatus: EntitlementStatus? = nil, flowArn: String, subscribers: [String]? = nil) {
             self.description = description
             self.encryption = encryption
             self.entitlementArn = entitlementArn
+            self.entitlementStatus = entitlementStatus
             self.flowArn = flowArn
             self.subscribers = subscribers
         }
@@ -1280,6 +1297,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case encryption = "encryption"
+            case entitlementStatus = "entitlementStatus"
             case subscribers = "subscribers"
         }
     }

@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension QLDBSession {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AbortTransactionRequest: AWSEncodableShape {
 

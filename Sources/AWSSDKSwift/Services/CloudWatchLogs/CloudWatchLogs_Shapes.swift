@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudWatchLogs {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Distribution: String, CustomStringConvertible, Codable {
         case random = "Random"
@@ -51,7 +51,7 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateKmsKeyRequest: AWSEncodableShape {
 

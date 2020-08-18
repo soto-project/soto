@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension EMR {
 
@@ -169,5 +169,4 @@ extension EMR.ListStepsInput: AWSPaginateToken {
 
     }
 }
-
 

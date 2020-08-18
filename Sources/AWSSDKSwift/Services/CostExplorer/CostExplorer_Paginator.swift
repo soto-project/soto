@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CostExplorer {
 
@@ -89,5 +89,4 @@ extension CostExplorer.ListCostCategoryDefinitionsRequest: AWSPaginateToken {
 
     }
 }
-
 

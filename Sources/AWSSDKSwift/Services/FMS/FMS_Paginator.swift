@@ -16,11 +16,11 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension FMS {
 
-    ///  Returns an array of PolicyComplianceStatus objects in the response. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
+    ///  Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
     public func listComplianceStatusPaginator(
         _ input: ListComplianceStatusRequest,
         on eventLoop: EventLoop? = nil,
@@ -40,7 +40,7 @@ extension FMS {
         return client.paginate(input: input, command: listMemberAccounts, tokenKey: \ListMemberAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Returns an array of PolicySummary objects in the response.
+    ///  Returns an array of PolicySummary objects.
     public func listPoliciesPaginator(
         _ input: ListPoliciesRequest,
         on eventLoop: EventLoop? = nil,
@@ -82,5 +82,4 @@ extension FMS.ListPoliciesRequest: AWSPaginateToken {
 
     }
 }
-
 

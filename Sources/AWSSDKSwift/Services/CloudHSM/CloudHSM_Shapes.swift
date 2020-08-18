@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudHSM {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ClientVersion: String, CustomStringConvertible, Codable {
         case clientVersion51 = "5.1"
@@ -49,7 +49,7 @@ extension CloudHSM {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddTagsToResourceRequest: AWSEncodableShape {
 

@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoTDataPlane {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct DeleteThingShadowRequest: AWSEncodableShape {
         public static var _encoding = [

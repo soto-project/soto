@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension NetworkManager {
 
@@ -179,5 +179,4 @@ extension NetworkManager.GetTransitGatewayRegistrationsRequest: AWSPaginateToken
 
     }
 }
-
 

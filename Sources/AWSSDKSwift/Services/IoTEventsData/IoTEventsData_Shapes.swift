@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoTEventsData {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case resourcenotfoundexception = "ResourceNotFoundException"
@@ -29,7 +29,7 @@ extension IoTEventsData {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BatchPutMessageErrorEntry: AWSDecodableShape {
 

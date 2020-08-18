@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Glacier {
 
@@ -111,5 +111,4 @@ extension Glacier.ListVaultsInput: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Kafka {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BrokerAZDistribution: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
@@ -59,7 +59,7 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BrokerEBSVolumeInfo: AWSEncodableShape & AWSDecodableShape {
 
@@ -1474,6 +1474,43 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case jmxExporter = "jmxExporter"
             case nodeExporter = "nodeExporter"
+        }
+    }
+
+    public struct RebootBrokerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
+        ]
+
+        /// The list of broker ids to be rebooted.
+        public let brokerIds: [String]
+        public let clusterArn: String
+
+        public init(brokerIds: [String], clusterArn: String) {
+            self.brokerIds = brokerIds
+            self.clusterArn = clusterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerIds = "brokerIds"
+        }
+    }
+
+    public struct RebootBrokerResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 

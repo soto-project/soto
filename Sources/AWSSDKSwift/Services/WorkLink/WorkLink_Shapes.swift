@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension WorkLink {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AuthorizationProviderType: String, CustomStringConvertible, Codable {
         case saml = "SAML"
@@ -58,7 +58,7 @@ extension WorkLink {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateDomainRequest: AWSEncodableShape {
 

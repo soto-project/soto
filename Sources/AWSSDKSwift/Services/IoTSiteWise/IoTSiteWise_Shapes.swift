@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoTSiteWise {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AggregateType: String, CustomStringConvertible, Codable {
         case average = "AVERAGE"
@@ -157,7 +157,7 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessPolicySummary: AWSDecodableShape {
 
@@ -2524,7 +2524,7 @@ extension IoTSiteWise {
         /// The ID of the asset.
         public let assetId: String?
         /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
-        public let endDate: TimeStamp
+        public let endDate: TimeStamp?
         /// The maximum number of results to be returned per paginated request.
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -2536,11 +2536,11 @@ extension IoTSiteWise {
         /// The quality by which to filter asset data.
         public let qualities: [Quality]?
         /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
-        public let startDate: TimeStamp
+        public let startDate: TimeStamp?
         /// The chronological sorting order of the requested information.
         public let timeOrdering: TimeOrdering?
 
-        public init(assetId: String? = nil, endDate: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, startDate: TimeStamp, timeOrdering: TimeOrdering? = nil) {
+        public init(assetId: String? = nil, endDate: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, startDate: TimeStamp? = nil, timeOrdering: TimeOrdering? = nil) {
             self.assetId = assetId
             self.endDate = endDate
             self.maxResults = maxResults

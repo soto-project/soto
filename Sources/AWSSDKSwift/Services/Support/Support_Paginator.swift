@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Support {
 
@@ -71,5 +71,4 @@ extension Support.DescribeCommunicationsRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension TranscribeStreamingService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ItemType: String, CustomStringConvertible, Codable {
         case pronunciation = "pronunciation"
@@ -48,7 +48,7 @@ extension TranscribeStreamingService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Alternative: AWSDecodableShape {
 

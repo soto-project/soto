@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ElasticInference {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum LocationType: String, CustomStringConvertible, Codable {
         case region = "region"
@@ -27,7 +27,7 @@ extension ElasticInference {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceleratorType: AWSDecodableShape {
 

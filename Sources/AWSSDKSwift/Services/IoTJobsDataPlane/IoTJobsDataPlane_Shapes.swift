@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoTJobsDataPlane {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum JobExecutionStatus: String, CustomStringConvertible, Codable {
         case queued = "QUEUED"
@@ -32,7 +32,7 @@ extension IoTJobsDataPlane {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct DescribeJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [

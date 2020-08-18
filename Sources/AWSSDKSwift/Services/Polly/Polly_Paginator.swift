@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Polly {
 
@@ -42,5 +42,4 @@ extension Polly.ListSpeechSynthesisTasksInput: AWSPaginateToken {
 
     }
 }
-
 

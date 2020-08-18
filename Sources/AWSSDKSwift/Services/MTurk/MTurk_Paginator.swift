@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MTurk {
 
@@ -238,5 +238,4 @@ extension MTurk.ListWorkersWithQualificationTypeRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -24,6 +24,7 @@ public enum CloudWatchEventsErrorType: AWSErrorType {
     case invalidStateException(message: String?)
     case limitExceededException(message: String?)
     case managedRuleException(message: String?)
+    case operationDisabledException(message: String?)
     case policyLengthExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
     case resourceNotFoundException(message: String?)
@@ -48,6 +49,8 @@ extension CloudWatchEventsErrorType {
             self = .limitExceededException(message: message)
         case "ManagedRuleException":
             self = .managedRuleException(message: message)
+        case "OperationDisabledException":
+            self = .operationDisabledException(message: message)
         case "PolicyLengthExceededException":
             self = .policyLengthExceededException(message: message)
         case "ResourceAlreadyExistsException":
@@ -75,6 +78,8 @@ extension CloudWatchEventsErrorType: CustomStringConvertible {
             return "LimitExceededException: \(message ?? "")"
         case .managedRuleException(let message):
             return "ManagedRuleException: \(message ?? "")"
+        case .operationDisabledException(let message):
+            return "OperationDisabledException: \(message ?? "")"
         case .policyLengthExceededException(let message):
             return "PolicyLengthExceededException: \(message ?? "")"
         case .resourceAlreadyExistsException(let message):

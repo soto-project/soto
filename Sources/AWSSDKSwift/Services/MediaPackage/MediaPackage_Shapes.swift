@@ -18,12 +18,13 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaPackage {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AdMarkers: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case scte35Enhanced = "SCTE35_ENHANCED"
         case passthrough = "PASSTHROUGH"
+        case daterange = "DATERANGE"
         public var description: String { return self.rawValue }
     }
 
@@ -104,7 +105,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Authorization: AWSEncodableShape & AWSDecodableShape {
 
@@ -829,6 +830,9 @@ extension MediaPackage {
         /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
         /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
         /// messages in the input source.
+        /// "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition events 
+        /// in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value 
+        /// that is greater than 0.
         public let adMarkers: AdMarkers?
         /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
         public let id: String
@@ -886,6 +890,9 @@ extension MediaPackage {
         /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
         /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
         /// messages in the input source.
+        /// "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition events 
+        /// in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value 
+        /// that is greater than 0.
         public let adMarkers: AdMarkers?
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [Adtriggerselement]?
@@ -945,6 +952,9 @@ extension MediaPackage {
         /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
         /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
         /// messages in the input source.
+        /// "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition events 
+        /// in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value 
+        /// that is greater than 0.
         public let adMarkers: AdMarkers?
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [Adtriggerselement]?

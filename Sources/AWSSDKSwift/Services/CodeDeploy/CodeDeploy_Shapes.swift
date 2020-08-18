@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodeDeploy {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable {
         case registertime = "registerTime"
@@ -295,7 +295,7 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddTagsToOnPremisesInstancesInput: AWSEncodableShape {
 

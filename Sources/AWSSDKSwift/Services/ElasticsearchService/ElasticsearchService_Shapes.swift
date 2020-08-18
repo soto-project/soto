@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ElasticsearchService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DeploymentStatus: String, CustomStringConvertible, Codable {
         case pendingUpdate = "PENDING_UPDATE"
@@ -201,7 +201,7 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptInboundCrossClusterSearchConnectionRequest: AWSEncodableShape {
         public static var _encoding = [

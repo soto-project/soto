@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodeArtifact {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DomainStatus: String, CustomStringConvertible, Codable {
         case active = "Active"
@@ -71,7 +71,7 @@ extension CodeArtifact {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssetSummary: AWSDecodableShape {
 

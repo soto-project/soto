@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension AppConfig {
 
@@ -147,5 +147,4 @@ extension AppConfig.ListHostedConfigurationVersionsRequest: AWSPaginateToken {
 
     }
 }
-
 

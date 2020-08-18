@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Backup {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BackupJobState: String, CustomStringConvertible, Codable {
         case created = "CREATED"
@@ -88,7 +88,7 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BackupJob: AWSDecodableShape {
 

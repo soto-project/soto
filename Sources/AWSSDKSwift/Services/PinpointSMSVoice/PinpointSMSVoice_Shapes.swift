@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension PinpointSMSVoice {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EventType: String, CustomStringConvertible, Codable {
         case initiatedCall = "INITIATED_CALL"
@@ -31,7 +31,7 @@ extension PinpointSMSVoice {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CallInstructionsMessageType: AWSEncodableShape {
 

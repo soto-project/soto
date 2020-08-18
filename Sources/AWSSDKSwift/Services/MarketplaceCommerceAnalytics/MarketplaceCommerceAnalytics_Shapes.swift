@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MarketplaceCommerceAnalytics {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DataSetType: String, CustomStringConvertible, Codable {
         case customerSubscriberHourlyMonthlySubscriptions = "customer_subscriber_hourly_monthly_subscriptions"
@@ -55,7 +55,7 @@ extension MarketplaceCommerceAnalytics {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct GenerateDataSetRequest: AWSEncodableShape {
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MediaConvert {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AacAudioDescriptionBroadcasterMix: String, CustomStringConvertible, Codable {
         case broadcasterMixedAd = "BROADCASTER_MIXED_AD"
@@ -2168,7 +2168,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AacSettings: AWSEncodableShape & AWSDecodableShape {
 

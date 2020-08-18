@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ApiGatewayManagementApi {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct DeleteConnectionRequest: AWSEncodableShape {
         public static var _encoding = [

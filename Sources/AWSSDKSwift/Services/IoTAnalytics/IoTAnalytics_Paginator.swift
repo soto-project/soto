@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension IoTAnalytics {
 
@@ -124,5 +124,4 @@ extension IoTAnalytics.ListPipelinesRequest: AWSPaginateToken {
 
     }
 }
-
 

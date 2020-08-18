@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Comprehend {
 
@@ -189,5 +189,4 @@ extension Comprehend.ListTopicsDetectionJobsRequest: AWSPaginateToken {
 
     }
 }
-
 

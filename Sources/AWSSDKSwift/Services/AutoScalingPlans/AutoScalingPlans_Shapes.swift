@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AutoScalingPlans {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ForecastDataType: String, CustomStringConvertible, Codable {
         case capacityforecast = "CapacityForecast"
@@ -126,7 +126,7 @@ extension AutoScalingPlans {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ApplicationSource: AWSEncodableShape & AWSDecodableShape {
 

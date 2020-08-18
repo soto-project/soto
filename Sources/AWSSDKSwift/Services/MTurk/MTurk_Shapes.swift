@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MTurk {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AssignmentStatus: String, CustomStringConvertible, Codable {
         case submitted = "Submitted"
@@ -126,7 +126,7 @@ extension MTurk {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptQualificationRequestRequest: AWSEncodableShape {
 

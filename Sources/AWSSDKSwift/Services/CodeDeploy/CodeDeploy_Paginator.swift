@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CodeDeploy {
 
@@ -151,5 +151,4 @@ extension CodeDeploy.ListDeploymentsInput: AWSPaginateToken {
 
     }
 }
-
 

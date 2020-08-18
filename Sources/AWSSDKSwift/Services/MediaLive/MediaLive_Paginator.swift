@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MediaLive {
 
@@ -221,5 +221,4 @@ extension MediaLive.ListReservationsRequest: AWSPaginateToken {
 
     }
 }
-
 

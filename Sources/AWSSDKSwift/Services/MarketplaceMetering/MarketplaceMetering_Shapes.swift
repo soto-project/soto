@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MarketplaceMetering {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable {
         case success = "Success"
@@ -27,7 +27,7 @@ extension MarketplaceMetering {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BatchMeterUsageRequest: AWSEncodableShape {
 

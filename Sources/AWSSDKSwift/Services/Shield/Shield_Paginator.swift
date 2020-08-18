@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Shield {
 
@@ -64,5 +64,4 @@ extension Shield.ListProtectionsRequest: AWSPaginateToken {
 
     }
 }
-
 

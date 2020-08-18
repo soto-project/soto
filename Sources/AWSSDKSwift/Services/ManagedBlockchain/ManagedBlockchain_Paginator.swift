@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ManagedBlockchain {
 
@@ -154,5 +154,4 @@ extension ManagedBlockchain.ListProposalsInput: AWSPaginateToken {
 
     }
 }
-
 

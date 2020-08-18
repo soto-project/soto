@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Imagebuilder {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ComponentFormat: String, CustomStringConvertible, Codable {
         case shell = "SHELL"
@@ -80,7 +80,7 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Ami: AWSDecodableShape {
 
@@ -146,7 +146,7 @@ extension Imagebuilder {
             try self.launchPermission?.validate(name: "\(name).launchPermission")
             try validate(self.name, name: "name", parent: name, max: 127)
             try validate(self.name, name: "name", parent: name, min: 1)
-            try validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z0-9{][-_A-Za-z0-9\\s:{}]+[-_A-Za-z0-9}]$")
+            try validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z0-9{][-_A-Za-z0-9\\s:{}\\.]+[-_A-Za-z0-9}]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2435,7 +2435,7 @@ extension Imagebuilder {
 
     public struct ListDistributionConfigurationsRequest: AWSEncodableShape {
 
-        /// The filters. 
+        /// The filters.     name - The name of this distribution configuration.  
         public let filters: [Filter]?
         /// The maximum items to return in a request. 
         public let maxResults: Int?

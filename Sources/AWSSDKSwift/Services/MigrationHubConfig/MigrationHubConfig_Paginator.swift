@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MigrationHubConfig {
 
@@ -44,5 +44,4 @@ extension MigrationHubConfig.DescribeHomeRegionControlsRequest: AWSPaginateToken
 
     }
 }
-
 

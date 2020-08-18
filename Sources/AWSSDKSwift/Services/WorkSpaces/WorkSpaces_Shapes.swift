@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension WorkSpaces {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccessPropertyValue: String, CustomStringConvertible, Codable {
         case allow = "ALLOW"
@@ -59,6 +59,12 @@ extension WorkSpaces {
     public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageType: String, CustomStringConvertible, Codable {
+        case owned = "OWNED"
+        case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
@@ -161,7 +167,7 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountModification: AWSDecodableShape {
 
@@ -489,7 +495,7 @@ extension WorkSpaces {
 
     public struct DefaultWorkspaceCreationProperties: AWSDecodableShape {
 
-        /// The identifier of any security groups to apply to WorkSpaces when they are created.
+        /// The identifier of the default security group to apply to WorkSpaces when they are created. For more information, see  Security Groups for Your WorkSpaces.
         public let customSecurityGroupId: String?
         /// The organizational unit (OU) in the directory for the WorkSpace machine accounts.
         public let defaultOu: String?
@@ -919,17 +925,72 @@ extension WorkSpaces {
         }
     }
 
-    public struct DescribeWorkspaceImagesRequest: AWSEncodableShape {
+    public struct DescribeWorkspaceImagePermissionsRequest: AWSEncodableShape {
 
         /// The identifier of the image.
-        public let imageIds: [String]?
+        public let imageId: String
         /// The maximum number of items to return.
         public let maxResults: Int?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
-        public init(imageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(imageId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.imageId = imageId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeWorkspaceImagePermissionsResult: AWSDecodableShape {
+
+        /// The identifier of the image.
+        public let imageId: String?
+        /// The identifiers of the AWS accounts that the image has been shared with.
+        public let imagePermissions: [ImagePermission]?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+
+        public init(imageId: String? = nil, imagePermissions: [ImagePermission]? = nil, nextToken: String? = nil) {
+            self.imageId = imageId
+            self.imagePermissions = imagePermissions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+            case imagePermissions = "ImagePermissions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeWorkspaceImagesRequest: AWSEncodableShape {
+
+        /// The identifier of the image.
+        public let imageIds: [String]?
+        /// The type (owned or shared) of the image.
+        public let imageType: ImageType?
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+
+        public init(imageIds: [String]? = nil, imageType: ImageType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.imageIds = imageIds
+            self.imageType = imageType
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -948,6 +1009,7 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case imageIds = "ImageIds"
+            case imageType = "ImageType"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -1199,6 +1261,20 @@ extension WorkSpaces {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct ImagePermission: AWSDecodableShape {
+
+        /// The identifier of the AWS account that an image has been shared with.
+        public let sharedAccountId: String?
+
+        public init(sharedAccountId: String? = nil) {
+            self.sharedAccountId = sharedAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedAccountId = "SharedAccountId"
         }
     }
 
@@ -2110,6 +2186,41 @@ extension WorkSpaces {
 
     }
 
+    public struct UpdateWorkspaceImagePermissionRequest: AWSEncodableShape {
+
+        /// The permission to copy the image. This permission can be revoked only after an image has been shared.
+        public let allowCopyImage: Bool
+        /// The identifier of the image.
+        public let imageId: String
+        /// The identifier of the AWS account to share or unshare the image with.
+        public let sharedAccountId: String
+
+        public init(allowCopyImage: Bool, imageId: String, sharedAccountId: String) {
+            self.allowCopyImage = allowCopyImage
+            self.imageId = imageId
+            self.sharedAccountId = sharedAccountId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
+            try validate(self.sharedAccountId, name: "sharedAccountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowCopyImage = "AllowCopyImage"
+            case imageId = "ImageId"
+            case sharedAccountId = "SharedAccountId"
+        }
+    }
+
+    public struct UpdateWorkspaceImagePermissionResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct UserStorage: AWSDecodableShape {
 
         /// The size of the user storage.
@@ -2128,7 +2239,7 @@ extension WorkSpaces {
 
         /// The identifier of the bundle used to create the WorkSpace.
         public let bundleId: String?
-        /// The name of the WorkSpace, as seen by the operating system.
+        /// The name of the WorkSpace, as seen by the operating system. The format of this name varies. For more information, see  Launch a WorkSpace. 
         public let computerName: String?
         /// The identifier of the AWS Directory Service directory for the WorkSpace.
         public let directoryId: String?
@@ -2314,14 +2425,17 @@ extension WorkSpaces {
         public let enableInternetAccess: Bool?
         /// Indicates whether maintenance mode is enabled for your WorkSpaces. For more information, see WorkSpace Maintenance. 
         public let enableMaintenanceMode: Bool?
+        /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces.  If WorkDocs is already enabled for a WorkSpaces directory and you disable it, new WorkSpaces launched in the directory will not have WorkDocs enabled. However, WorkDocs remains enabled for any existing WorkSpaces, unless you either disable users' access to WorkDocs or you delete the WorkDocs site. To disable users' access to WorkDocs, see Disabling Users in the Amazon WorkDocs Administration Guide. To delete a WorkDocs site, see Deleting a Site in the Amazon WorkDocs Administration Guide. If you enable WorkDocs on a directory that already has existing WorkSpaces, the existing WorkSpaces and any new WorkSpaces that are launched in the directory will have WorkDocs enabled. 
+        public let enableWorkDocs: Bool?
         /// Indicates whether users are local administrators of their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
 
-        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
+        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
+            self.enableWorkDocs = enableWorkDocs
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
 
@@ -2336,6 +2450,7 @@ extension WorkSpaces {
             case defaultOu = "DefaultOu"
             case enableInternetAccess = "EnableInternetAccess"
             case enableMaintenanceMode = "EnableMaintenanceMode"
+            case enableWorkDocs = "EnableWorkDocs"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
     }
@@ -2416,6 +2531,8 @@ extension WorkSpaces {
 
     public struct WorkspaceImage: AWSDecodableShape {
 
+        /// The date when the image was created. If the image has been shared, the AWS account that the image has been shared with sees the original creation date of the image.
+        public let created: TimeStamp?
         /// The description of the image.
         public let description: String?
         /// The error code that is returned for the image.
@@ -2428,29 +2545,35 @@ extension WorkSpaces {
         public let name: String?
         /// The operating system that the image is running. 
         public let operatingSystem: OperatingSystem?
+        /// The identifier of the AWS account that owns the image.
+        public let ownerAccountId: String?
         /// Specifies whether the image is running on dedicated hardware. When Bring Your Own License (BYOL) is enabled, this value is set to DEDICATED. For more information, see Bring Your Own Windows Desktop Images.
         public let requiredTenancy: WorkspaceImageRequiredTenancy?
         /// The status of the image.
         public let state: WorkspaceImageState?
 
-        public init(description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
+        public init(created: TimeStamp? = nil, description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
+            self.created = created
             self.description = description
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.imageId = imageId
             self.name = name
             self.operatingSystem = operatingSystem
+            self.ownerAccountId = ownerAccountId
             self.requiredTenancy = requiredTenancy
             self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
+            case created = "Created"
             case description = "Description"
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case imageId = "ImageId"
             case name = "Name"
             case operatingSystem = "OperatingSystem"
+            case ownerAccountId = "OwnerAccountId"
             case requiredTenancy = "RequiredTenancy"
             case state = "State"
         }
@@ -2460,13 +2583,13 @@ extension WorkSpaces {
 
         /// The compute type. For more information, see Amazon WorkSpaces Bundles.
         public let computeTypeName: Compute?
-        /// The size of the root volume.
+        /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?
         /// The running mode. For more information, see Manage the WorkSpace Running Mode.
         public let runningMode: RunningMode?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60-minute intervals.
         public let runningModeAutoStopTimeoutInMinutes: Int?
-        /// The size of the user storage.
+        /// The size of the user storage. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let userVolumeSizeGib: Int?
 
         public init(computeTypeName: Compute? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DynamoDBStreams {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum KeyType: String, CustomStringConvertible, Codable {
         case hash = "HASH"
@@ -57,7 +57,7 @@ extension DynamoDBStreams {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public class AttributeValue: AWSDecodableShape {
 

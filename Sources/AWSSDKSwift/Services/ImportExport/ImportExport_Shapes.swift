@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ImportExport {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum JobType: String, CustomStringConvertible, Codable {
         case `import` = "Import"
@@ -26,7 +26,7 @@ extension ImportExport {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Artifact: AWSDecodableShape {
 

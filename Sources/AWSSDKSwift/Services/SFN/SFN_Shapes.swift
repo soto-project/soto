@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SFN {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ExecutionStatus: String, CustomStringConvertible, Codable {
         case running = "RUNNING"
@@ -108,7 +108,7 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActivityFailedEventDetails: AWSDecodableShape {
 

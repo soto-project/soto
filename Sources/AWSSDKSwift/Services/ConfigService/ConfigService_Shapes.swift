@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ConfigService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
@@ -304,6 +304,9 @@ extension ConfigService {
         case awsSqsQueue = "AWS::SQS::Queue"
         case awsKmsKey = "AWS::KMS::Key"
         case awsQldbLedger = "AWS::QLDB::Ledger"
+        case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
+        case awsSnsTopic = "AWS::SNS::Topic"
+        case awsSsmFiledata = "AWS::SSM::FileData"
         public var description: String { return self.rawValue }
     }
 
@@ -312,7 +315,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountAggregationSource: AWSEncodableShape & AWSDecodableShape {
 
@@ -542,7 +545,7 @@ extension ConfigService {
         public let configuration: String?
         /// The time when the configuration recording was initiated.
         public let configurationItemCaptureTime: TimeStamp?
-        /// The configuration item status.
+        /// The configuration item status. The valid values are:   OK – The resource configuration has been updated   ResourceDiscovered – The resource was newly discovered   ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder excludes the recording of resources of this type   ResourceDeleted – The resource was deleted   ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type    The CIs do not incur any cost. 
         public let configurationItemStatus: ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public let configurationStateId: String?
@@ -849,7 +852,7 @@ extension ConfigService {
         public let inputParameters: String?
         /// The maximum frequency with which AWS Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:   You are using an AWS managed rule that is triggered at a periodic frequency.   Your custom rule is triggered when AWS Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties.    By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. 
         public let maximumExecutionFrequency: MaximumExecutionFrequency?
-        /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
+        /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.  The scope can be empty.  
         public let scope: Scope?
         /// Provides the rule owner (AWS or customer), the rule identifier, and the notifications that cause the function to evaluate your AWS resources.
         public let source: Source
@@ -970,6 +973,7 @@ extension ConfigService {
         public let firstActivatedTime: TimeStamp?
         /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.  
         public let firstEvaluationStarted: Bool?
+        /// The time that you last turned off the AWS Config rule.
         public let lastDeactivatedTime: TimeStamp?
         /// The error code that AWS Config returned when the rule last failed.
         public let lastErrorCode: String?
@@ -1063,6 +1067,8 @@ extension ConfigService {
         public let configurationAggregatorArn: String?
         /// The name of the aggregator.
         public let configurationAggregatorName: String?
+        /// AWS service that created the configuration aggregator.
+        public let createdBy: String?
         /// The time stamp when the configuration aggregator was created.
         public let creationTime: TimeStamp?
         /// The time of the last update.
@@ -1070,10 +1076,11 @@ extension ConfigService {
         /// Provides an organization and list of regions to be aggregated.
         public let organizationAggregationSource: OrganizationAggregationSource?
 
-        public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorArn: String? = nil, configurationAggregatorName: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, organizationAggregationSource: OrganizationAggregationSource? = nil) {
+        public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorArn: String? = nil, configurationAggregatorName: String? = nil, createdBy: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, organizationAggregationSource: OrganizationAggregationSource? = nil) {
             self.accountAggregationSources = accountAggregationSources
             self.configurationAggregatorArn = configurationAggregatorArn
             self.configurationAggregatorName = configurationAggregatorName
+            self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastUpdatedTime = lastUpdatedTime
             self.organizationAggregationSource = organizationAggregationSource
@@ -1083,6 +1090,7 @@ extension ConfigService {
             case accountAggregationSources = "AccountAggregationSources"
             case configurationAggregatorArn = "ConfigurationAggregatorArn"
             case configurationAggregatorName = "ConfigurationAggregatorName"
+            case createdBy = "CreatedBy"
             case creationTime = "CreationTime"
             case lastUpdatedTime = "LastUpdatedTime"
             case organizationAggregationSource = "OrganizationAggregationSource"
@@ -1105,7 +1113,7 @@ extension ConfigService {
         public let configurationItemCaptureTime: TimeStamp?
         /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
         public let configurationItemMD5Hash: String?
-        /// The configuration item status.
+        /// The configuration item status. The valid values are:   OK – The resource configuration has been updated   ResourceDiscovered – The resource was newly discovered   ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder excludes the recording of resources of this type   ResourceDeleted – The resource was deleted   ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type    The CIs do not incur any cost. 
         public let configurationItemStatus: ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public let configurationStateId: String?
@@ -5217,19 +5225,19 @@ extension ConfigService {
         public let createdByService: String?
         /// An ExecutionControls object.
         public let executionControls: ExecutionControls?
-        /// The maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5. For example, if you specify MaximumAutomaticAttempts as 5 with RetryAttemptsSeconds as 50 seconds, AWS Config throws an exception after the 5th failed attempt within 50 seconds.
+        /// The maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5. For example, if you specify MaximumAutomaticAttempts as 5 with RetryAttemptsSeconds as 50 seconds, AWS Config will put a RemediationException on your behalf for the failing resource after the 5th failed attempt within 50 seconds.
         public let maximumAutomaticAttempts: Int?
         /// An object of the RemediationParameterValue.
         public let parameters: [String: RemediationParameterValue]?
         /// The type of a resource. 
         public let resourceType: String?
-        /// Maximum time in seconds that AWS Config runs auto-remediation. If you do not select a number, the default is 60 seconds.  For example, if you specify RetryAttemptsSeconds as 50 seconds and MaximumAutomaticAttempts as 5, AWS Config will run auto-remediations 5 times within 50 seconds before throwing an exception. 
+        /// Maximum time in seconds that AWS Config runs auto-remediation. If you do not select a number, the default is 60 seconds.  For example, if you specify RetryAttemptsSeconds as 50 seconds and MaximumAutomaticAttempts as 5, AWS Config will run auto-remediations 5 times within 50 seconds before throwing an exception.
         public let retryAttemptSeconds: Int64?
         /// Target ID is the name of the public document.
         public let targetId: String
         /// The type of the target. Target executes remediation. For example, SSM document.
         public let targetType: RemediationTargetType
-        /// Version of the target. For example, version of the SSM document.
+        /// Version of the target. For example, version of the SSM document.  If you make backward incompatible changes to the SSM document, you must call PutRemediationConfiguration API again to ensure the remediations can run. 
         public let targetVersion: String?
 
         public init(arn: String? = nil, automatic: Bool? = nil, configRuleName: String, createdByService: String? = nil, executionControls: ExecutionControls? = nil, maximumAutomaticAttempts: Int? = nil, parameters: [String: RemediationParameterValue]? = nil, resourceType: String? = nil, retryAttemptSeconds: Int64? = nil, targetId: String, targetType: RemediationTargetType, targetVersion: String? = nil) {
@@ -5631,6 +5639,7 @@ extension ConfigService {
         public let expression: String
         /// The maximum number of query results returned on each page. 
         public let limit: Int?
+        /// The maximum number of query results returned on each page. AWS Config also allows the Limit request parameter.
         public let maxResults: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response. 
         public let nextToken: String?

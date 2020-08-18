@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ELBV2 {
 
@@ -88,5 +88,4 @@ extension ELBV2.DescribeTargetGroupsInput: AWSPaginateToken {
 
     }
 }
-
 

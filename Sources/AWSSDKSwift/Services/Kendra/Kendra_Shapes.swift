@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Kendra {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AdditionalResultAttributeValueType: String, CustomStringConvertible, Codable {
         case textWithHighlightsValue = "TEXT_WITH_HIGHLIGHTS_VALUE"
@@ -123,6 +123,12 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum QueryIdentifiersEnclosingOption: String, CustomStringConvertible, Codable {
+        case doubleQuotes = "DOUBLE_QUOTES"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QueryResultType: String, CustomStringConvertible, Codable {
         case document = "DOCUMENT"
         case questionAnswer = "QUESTION_ANSWER"
@@ -187,7 +193,13 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case desc = "DESC"
+        case asc = "ASC"
+        public var description: String { return self.rawValue }
+    }
+
+    // MARK: Shapes
 
     public struct AccessControlListConfiguration: AWSEncodableShape & AWSDecodableShape {
 
@@ -1092,13 +1104,16 @@ extension Kendra {
         public let connectionConfiguration: ConnectionConfiguration
         /// The type of database engine that runs the database.
         public let databaseEngineType: DatabaseEngineType
+        /// Provides information about how Amazon Kendra uses quote marks around SQL identifiers when querying a database data source.
+        public let sqlConfiguration: SqlConfiguration?
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
-        public init(aclConfiguration: AclConfiguration? = nil, columnConfiguration: ColumnConfiguration, connectionConfiguration: ConnectionConfiguration, databaseEngineType: DatabaseEngineType, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(aclConfiguration: AclConfiguration? = nil, columnConfiguration: ColumnConfiguration, connectionConfiguration: ConnectionConfiguration, databaseEngineType: DatabaseEngineType, sqlConfiguration: SqlConfiguration? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.aclConfiguration = aclConfiguration
             self.columnConfiguration = columnConfiguration
             self.connectionConfiguration = connectionConfiguration
             self.databaseEngineType = databaseEngineType
+            self.sqlConfiguration = sqlConfiguration
             self.vpcConfiguration = vpcConfiguration
         }
 
@@ -1114,6 +1129,7 @@ extension Kendra {
             case columnConfiguration = "ColumnConfiguration"
             case connectionConfiguration = "ConnectionConfiguration"
             case databaseEngineType = "DatabaseEngineType"
+            case sqlConfiguration = "SqlConfiguration"
             case vpcConfiguration = "VpcConfiguration"
         }
     }
@@ -1511,7 +1527,7 @@ extension Kendra {
 
     public struct DocumentAttributeValue: AWSEncodableShape & AWSDecodableShape {
 
-        /// A date value expressed as seconds from the Unix epoch.
+        /// A date expressed as an ISO 8601 string.
         public let dateValue: TimeStamp?
         /// A long integer value.
         public let longValue: Int64?
@@ -2036,7 +2052,7 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
@@ -2047,7 +2063,7 @@ extension Kendra {
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
@@ -2146,8 +2162,10 @@ extension Kendra {
         public let queryText: String
         /// An array of document attributes to include in the response. No other document attributes are included in the response. By default all document attributes are included in the response. 
         public let requestedDocumentAttributes: [String]?
+        /// Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
+        public let sortingConfiguration: SortingConfiguration?
 
-        public init(attributeFilter: AttributeFilter? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil) {
+        public init(attributeFilter: AttributeFilter? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, sortingConfiguration: SortingConfiguration? = nil) {
             self.attributeFilter = attributeFilter
             self.facets = facets
             self.indexId = indexId
@@ -2156,6 +2174,7 @@ extension Kendra {
             self.queryResultTypeFilter = queryResultTypeFilter
             self.queryText = queryText
             self.requestedDocumentAttributes = requestedDocumentAttributes
+            self.sortingConfiguration = sortingConfiguration
         }
 
         public func validate(name: String) throws {
@@ -2176,6 +2195,7 @@ extension Kendra {
             }
             try validate(self.requestedDocumentAttributes, name: "requestedDocumentAttributes", parent: name, max: 100)
             try validate(self.requestedDocumentAttributes, name: "requestedDocumentAttributes", parent: name, min: 1)
+            try self.sortingConfiguration?.validate(name: "\(name).sortingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2187,6 +2207,7 @@ extension Kendra {
             case queryResultTypeFilter = "QueryResultTypeFilter"
             case queryText = "QueryText"
             case requestedDocumentAttributes = "RequestedDocumentAttributes"
+            case sortingConfiguration = "SortingConfiguration"
         }
     }
 
@@ -2352,13 +2373,13 @@ extension Kendra {
             try validate(self.bucketName, name: "bucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
             try self.documentsMetadataConfiguration?.validate(name: "\(name).documentsMetadataConfiguration")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
             try validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
             try self.inclusionPrefixes?.forEach {
-                try validate($0, name: "inclusionPrefixes[]", parent: name, max: 50)
+                try validate($0, name: "inclusionPrefixes[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPrefixes[]", parent: name, min: 1)
             }
             try validate(self.inclusionPrefixes, name: "inclusionPrefixes", parent: name, max: 100)
@@ -2478,13 +2499,13 @@ extension Kendra {
         public func validate(name: String) throws {
             try self.chatterFeedConfiguration?.validate(name: "\(name).chatterFeedConfiguration")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
             try validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, min: 0)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
@@ -2706,17 +2727,21 @@ extension Kendra {
         public let facetable: Bool?
         /// Determines whether the field is used in the search. If the Searchable field is true, you can use relevance tuning to manually tune how Amazon Kendra weights the field in the search. The default is true for string fields and false for number and date fields.
         public let searchable: Bool?
+        /// Determines whether the field can be used to sort the results of a query. If you specify sorting on a field that does not have Sortable set to true, Amazon Kendra returns an exception. The default is false.
+        public let sortable: Bool?
 
-        public init(displayable: Bool? = nil, facetable: Bool? = nil, searchable: Bool? = nil) {
+        public init(displayable: Bool? = nil, facetable: Bool? = nil, searchable: Bool? = nil, sortable: Bool? = nil) {
             self.displayable = displayable
             self.facetable = facetable
             self.searchable = searchable
+            self.sortable = sortable
         }
 
         private enum CodingKeys: String, CodingKey {
             case displayable = "Displayable"
             case facetable = "Facetable"
             case searchable = "Searchable"
+            case sortable = "Sortable"
         }
     }
 
@@ -2812,7 +2837,7 @@ extension Kendra {
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
@@ -2823,7 +2848,7 @@ extension Kendra {
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
@@ -2872,7 +2897,7 @@ extension Kendra {
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
@@ -2883,7 +2908,7 @@ extension Kendra {
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
@@ -2906,7 +2931,7 @@ extension Kendra {
         public let crawlAttachments: Bool?
         /// The Microsoft SharePoint attribute field that contains the title of the document.
         public let documentTitleFieldName: String?
-        /// A list of regulary expression patterns. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
+        /// A list of regular expression patterns. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
         public let exclusionPatterns: [String]?
         /// A list of DataSourceToIndexFieldMapping objects that map Microsoft SharePoint attributes to custom fields in the Amazon Kendra index. You must first create the index fields using the operation before you map SharePoint attributes. For more information, see Mapping Data Source Fields.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
@@ -2940,7 +2965,7 @@ extension Kendra {
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
@@ -2951,7 +2976,7 @@ extension Kendra {
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
@@ -2980,6 +3005,44 @@ extension Kendra {
             case urls = "Urls"
             case useChangeLog = "UseChangeLog"
             case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct SortingConfiguration: AWSEncodableShape {
+
+        /// The name of the document attribute used to sort the response. You can use any field that has the Sortable flag set to true. You can also sort by any of the following built-in attributes:   _category   _created_at   _last_updated_at   _version   _view_count  
+        public let documentAttributeKey: String
+        /// The order that the results should be returned in. In case of ties, the relevance assigned to the result by Amazon Kendra is used as the tie-breaker.
+        public let sortOrder: SortOrder
+
+        public init(documentAttributeKey: String, sortOrder: SortOrder) {
+            self.documentAttributeKey = documentAttributeKey
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, max: 200)
+            try validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, min: 1)
+            try validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, pattern: "[a-zA-Z0-9_][a-zA-Z0-9_-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentAttributeKey = "DocumentAttributeKey"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct SqlConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// Determines whether Amazon Kendra encloses SQL identifiers in double quotes (") when making a database query. By default, Amazon Kendra passes SQL identifiers the way that they are entered into the data source configuration. It does not change the case of identifiers or enclose them in quotes. PostgreSQL internally converts uppercase characters to lower case characters in identifiers unless they are quoted. Choosing this option encloses identifiers in quotes so that PostgreSQL does not convert the character's case. For MySQL databases, you must enable the ansi_quotes option when you choose this option.
+        public let queryIdentifiersEnclosingOption: QueryIdentifiersEnclosingOption?
+
+        public init(queryIdentifiersEnclosingOption: QueryIdentifiersEnclosingOption? = nil) {
+            self.queryIdentifiersEnclosingOption = queryIdentifiersEnclosingOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryIdentifiersEnclosingOption = "QueryIdentifiersEnclosingOption"
         }
     }
 

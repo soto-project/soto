@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DeviceFarm {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ArtifactCategory: String, CustomStringConvertible, Codable {
         case screenshot = "SCREENSHOT"
@@ -325,7 +325,7 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountSettings: AWSDecodableShape {
 

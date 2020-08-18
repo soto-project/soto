@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ComputeOptimizer {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ExportableAutoScalingGroupField: String, CustomStringConvertible, Codable {
         case accountid = "AccountId"
@@ -155,7 +155,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AutoScalingGroupConfiguration: AWSDecodableShape {
 

@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension APIGateway {
 
@@ -276,5 +276,4 @@ extension APIGateway.GetVpcLinksRequest: AWSPaginateToken {
 
     }
 }
-
 

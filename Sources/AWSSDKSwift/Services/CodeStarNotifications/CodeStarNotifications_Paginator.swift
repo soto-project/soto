@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension CodeStarNotifications {
 
@@ -84,5 +84,4 @@ extension CodeStarNotifications.ListTargetsRequest: AWSPaginateToken {
 
     }
 }
-
 

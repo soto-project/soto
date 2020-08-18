@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DAX {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ChangeType: String, CustomStringConvertible, Codable {
         case immediate = "IMMEDIATE"
@@ -54,7 +54,7 @@ extension DAX {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Cluster: AWSDecodableShape {
 

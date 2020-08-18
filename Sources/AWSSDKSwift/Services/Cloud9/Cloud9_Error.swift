@@ -19,6 +19,7 @@ import AWSSDKSwiftCore
 /// Error enum for Cloud9
 public enum Cloud9ErrorType: AWSErrorType {
     case badRequestException(message: String?)
+    case concurrentAccessException(message: String?)
     case conflictException(message: String?)
     case forbiddenException(message: String?)
     case internalServerErrorException(message: String?)
@@ -36,6 +37,8 @@ extension Cloud9ErrorType {
         switch errorCode {
         case "BadRequestException":
             self = .badRequestException(message: message)
+        case "ConcurrentAccessException":
+            self = .concurrentAccessException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
         case "ForbiddenException":
@@ -59,6 +62,8 @@ extension Cloud9ErrorType: CustomStringConvertible {
         switch self {
         case .badRequestException(let message):
             return "BadRequestException: \(message ?? "")"
+        case .concurrentAccessException(let message):
+            return "ConcurrentAccessException: \(message ?? "")"
         case .conflictException(let message):
             return "ConflictException: \(message ?? "")"
         case .forbiddenException(let message):

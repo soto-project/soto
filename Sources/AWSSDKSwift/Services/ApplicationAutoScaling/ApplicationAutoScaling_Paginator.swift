@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ApplicationAutoScaling {
 
@@ -115,5 +115,4 @@ extension ApplicationAutoScaling.DescribeScheduledActionsRequest: AWSPaginateTok
 
     }
 }
-
 

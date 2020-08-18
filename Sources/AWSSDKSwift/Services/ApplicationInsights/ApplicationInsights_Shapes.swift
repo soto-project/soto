@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ApplicationInsights {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CloudWatchEventSource: String, CustomStringConvertible, Codable {
         case ec2 = "EC2"
@@ -83,7 +83,7 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ApplicationComponent: AWSDecodableShape {
 

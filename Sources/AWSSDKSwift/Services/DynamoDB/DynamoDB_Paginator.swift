@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension DynamoDB {
 
@@ -151,5 +151,4 @@ extension DynamoDB.ScanInput: AWSPaginateToken {
 
     }
 }
-
 

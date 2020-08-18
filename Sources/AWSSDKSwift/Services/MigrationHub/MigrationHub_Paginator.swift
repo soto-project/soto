@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MigrationHub {
 
@@ -127,5 +127,4 @@ extension MigrationHub.ListProgressUpdateStreamsRequest: AWSPaginateToken {
 
     }
 }
-
 

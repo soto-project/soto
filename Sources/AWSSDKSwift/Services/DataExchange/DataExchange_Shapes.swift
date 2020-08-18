@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DataExchange {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AssetType: String, CustomStringConvertible, Codable {
         case s3Snapshot = "S3_SNAPSHOT"
@@ -78,7 +78,7 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssetDestinationEntry: AWSEncodableShape & AWSDecodableShape {
 

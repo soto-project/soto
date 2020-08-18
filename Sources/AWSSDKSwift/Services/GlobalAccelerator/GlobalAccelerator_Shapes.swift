@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension GlobalAccelerator {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AcceleratorStatus: String, CustomStringConvertible, Codable {
         case deployed = "DEPLOYED"
@@ -72,7 +72,7 @@ extension GlobalAccelerator {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Accelerator: AWSDecodableShape {
 

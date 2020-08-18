@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SimpleDB {
 
@@ -62,5 +62,4 @@ extension SimpleDB.SelectRequest: AWSPaginateToken {
 
     }
 }
-
 

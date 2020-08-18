@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DynamoDB {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AttributeAction: String, CustomStringConvertible, Codable {
         case add = "ADD"
@@ -350,7 +350,7 @@ extension DynamoDB {
         }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ArchivalSummary: AWSDecodableShape {
 

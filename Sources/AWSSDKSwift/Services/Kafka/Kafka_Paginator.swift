@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Kafka {
 
@@ -145,5 +145,4 @@ extension Kafka.ListNodesRequest: AWSPaginateToken {
 
     }
 }
-
 

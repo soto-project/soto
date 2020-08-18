@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension IoTSiteWise {
 
@@ -268,5 +268,4 @@ extension IoTSiteWise.ListProjectsRequest: AWSPaginateToken {
 
     }
 }
-
 

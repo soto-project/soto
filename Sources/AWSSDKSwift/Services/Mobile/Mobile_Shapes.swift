@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Mobile {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Platform: String, CustomStringConvertible, Codable {
         case osx = "OSX"
@@ -38,7 +38,7 @@ extension Mobile {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BundleDetails: AWSDecodableShape {
 

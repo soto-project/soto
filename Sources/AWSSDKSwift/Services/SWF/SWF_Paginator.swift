@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SWF {
 
@@ -192,5 +192,4 @@ extension SWF.PollForDecisionTaskInput: AWSPaginateToken {
 
     }
 }
-
 

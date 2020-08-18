@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ElastiCache {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AZMode: String, CustomStringConvertible, Codable {
         case singleAz = "single-az"
@@ -129,7 +129,7 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddTagsToResourceMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }

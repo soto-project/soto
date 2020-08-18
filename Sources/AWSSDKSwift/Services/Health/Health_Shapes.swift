@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Health {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EntityStatusCode: String, CustomStringConvertible, Codable {
         case impaired = "IMPAIRED"
@@ -54,7 +54,7 @@ extension Health {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AffectedEntity: AWSDecodableShape {
 
@@ -72,7 +72,7 @@ extension Health {
         public let lastUpdatedTime: TimeStamp?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
         public let statusCode: EntityStatusCode?
-        /// A map of entity tags attached to the affected entity.
+        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported. 
         public let tags: [String: String]?
 
         public init(awsAccountId: String? = nil, entityArn: String? = nil, entityUrl: String? = nil, entityValue: String? = nil, eventArn: String? = nil, lastUpdatedTime: TimeStamp? = nil, statusCode: EntityStatusCode? = nil, tags: [String: String]? = nil) {
@@ -152,6 +152,7 @@ extension Health {
 
         /// A JSON set of elements of the affected accounts.
         public let affectedAccounts: [String]?
+        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.  
         public let eventScopeCode: EventScopeCode?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
@@ -213,7 +214,7 @@ extension Health {
 
     public struct DescribeAffectedEntitiesForOrganizationResponse: AWSDecodableShape {
 
-        /// A JSON set of elements including the awsAccountId and its entityArn, entityValue and its entityArn, lastUpdatedTime, statusCode, and tags.
+        /// A JSON set of elements including the awsAccountId and its entityArn, entityValue and its entityArn, lastUpdatedTime, and statusCode.
         public let entities: [AffectedEntity]?
         /// A JSON set of elements of the failed response, including the awsAccountId, errorMessage, errorName, and eventArn.
         public let failedSet: [OrganizationAffectedEntitiesErrorItem]?
@@ -658,7 +659,7 @@ extension Health {
 
     public struct EntityAggregate: AWSDecodableShape {
 
-        /// The number entities that match the criteria for the specified events.
+        /// The number of entities that match the criteria for the specified events.
         public let count: Int?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String?
@@ -686,7 +687,7 @@ extension Health {
         public let lastUpdatedTimes: [DateTimeRange]?
         /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
         public let statusCodes: [EntityStatusCode]?
-        /// A map of entity tags attached to the affected entity.
+        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported. 
         public let tags: [[String: String]]?
 
         public init(entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String], lastUpdatedTimes: [DateTimeRange]? = nil, statusCodes: [EntityStatusCode]? = nil, tags: [[String: String]]? = nil) {
@@ -742,6 +743,7 @@ extension Health {
         public let availabilityZone: String?
         /// The date and time that the event ended.
         public let endTime: TimeStamp?
+        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.  
         public let eventScopeCode: EventScopeCode?
         /// The category of the event. Possible values are issue, scheduledChange, and accountNotification.
         public let eventTypeCategory: EventTypeCategory?
@@ -914,7 +916,7 @@ extension Health {
         public let services: [String]?
         /// A list of dates and times that the event began.
         public let startTimes: [DateTimeRange]?
-        /// A map of entity tags attached to the affected entity.
+        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported. 
         public let tags: [[String: String]]?
 
         public init(availabilityZones: [String]? = nil, endTimes: [DateTimeRange]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, regions: [String]? = nil, services: [String]? = nil, startTimes: [DateTimeRange]? = nil, tags: [[String: String]]? = nil) {
@@ -1103,6 +1105,7 @@ extension Health {
         public let arn: String?
         /// The date and time that the event ended.
         public let endTime: TimeStamp?
+        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.  
         public let eventScopeCode: EventScopeCode?
         /// The category of the event type.
         public let eventTypeCategory: EventTypeCategory?
@@ -1201,13 +1204,13 @@ extension Health {
         /// A list of 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountIds: [String]?
         public let endTime: DateTimeRange?
-        /// REPLACEME
+        /// A list of entity ARNs (unique identifiers).
         public let entityArns: [String]?
         /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS volumes (vol-426ab23e).
         public let entityValues: [String]?
         /// A list of event status codes.
         public let eventStatusCodes: [EventStatusCode]?
-        /// REPLACEME
+        /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
         /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED". 
         public let eventTypeCodes: [String]?

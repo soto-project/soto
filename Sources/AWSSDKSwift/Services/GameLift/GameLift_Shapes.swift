@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension GameLift {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AcceptanceType: String, CustomStringConvertible, Codable {
         case accept = "ACCEPT"
@@ -397,7 +397,7 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptMatchInput: AWSEncodableShape {
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Pinpoint {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Action: String, CustomStringConvertible, Codable {
         case openApp = "OPEN_APP"
@@ -203,7 +203,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ADMChannelRequest: AWSEncodableShape {
 

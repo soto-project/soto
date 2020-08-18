@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Textract {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BlockType: String, CustomStringConvertible, Codable {
         case keyValueSet = "KEY_VALUE_SET"
@@ -69,7 +69,7 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AnalyzeDocumentRequest: AWSEncodableShape {
 

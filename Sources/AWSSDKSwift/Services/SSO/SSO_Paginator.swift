@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SSO {
 
@@ -64,5 +64,4 @@ extension SSO.ListAccountsRequest: AWSPaginateToken {
 
     }
 }
-
 

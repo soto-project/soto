@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ElasticInference {
 
@@ -43,5 +43,4 @@ extension ElasticInference.DescribeAcceleratorsRequest: AWSPaginateToken {
 
     }
 }
-
 

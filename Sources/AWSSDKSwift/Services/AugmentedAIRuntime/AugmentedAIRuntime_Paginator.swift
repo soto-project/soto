@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension AugmentedAIRuntime {
 
@@ -45,5 +45,4 @@ extension AugmentedAIRuntime.ListHumanLoopsRequest: AWSPaginateToken {
 
     }
 }
-
 

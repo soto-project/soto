@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AccessAnalyzer {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AnalyzerStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
@@ -78,7 +78,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AnalyzedResource: AWSDecodableShape {
 

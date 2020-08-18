@@ -16,11 +16,11 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ResourceGroups {
 
-    ///  Returns a list of ARNs of resources that are members of a specified resource group.
+    ///  Returns a list of ARNs of the resources that are members of a specified resource group.
     public func listGroupResourcesPaginator(
         _ input: ListGroupResourcesInput,
         on eventLoop: EventLoop? = nil,
@@ -40,7 +40,7 @@ extension ResourceGroups {
         return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
+    ///  Returns a list of AWS resource identifiers that matches tne specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
     public func searchResourcesPaginator(
         _ input: SearchResourcesInput,
         on eventLoop: EventLoop? = nil,
@@ -56,7 +56,7 @@ extension ResourceGroups.ListGroupResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroups.ListGroupResourcesInput {
         return .init(
             filters: self.filters,
-            groupName: self.groupName,
+            group: self.group,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -85,5 +85,4 @@ extension ResourceGroups.SearchResourcesInput: AWSPaginateToken {
 
     }
 }
-
 

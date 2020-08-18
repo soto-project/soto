@@ -6,7 +6,7 @@
 import {{ middlewareFramework }}
 
 {% endif %}
-/**
+/*
 Client object for interacting with AWS {{name}} service.
 
 {%if description %}
@@ -15,12 +15,12 @@ Client object for interacting with AWS {{name}} service.
 */
 public struct {{ name }} {
 
-    //MARK: Member variables
+    // MARK: Member variables
 
     public let client: AWSClient
     public let serviceConfig: AWSServiceConfig
 
-    //MARK: Initialization
+    // MARK: Initialization
 
     /// Initialize the {{name}} client
     /// - parameters:
@@ -67,7 +67,7 @@ public struct {{ name }} {
         )
     }
     
-    //MARK: API Calls
+    // MARK: API Calls
 {%for op in operations %}
 
 {%for comment in op.comment %}
@@ -80,12 +80,12 @@ public struct {{ name }} {
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
     {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil, logger: {{logger}} = AWSClient.loggingDisabled) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: serviceConfig{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: serviceConfig{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger)
     }
 {%endfor %}
 {%if streamingOperations.count > 0 %}
 
-    //MARK: Streaming API Calls
+    // MARK: Streaming API Calls
 {%for op in streamingOperations %}
 
 {%for comment in op.comment %}
@@ -95,7 +95,7 @@ public struct {{ name }} {
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
     {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil, logger: {{logger}} = AWSClient.loggingDisabled{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: serviceConfig{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger{% if op.streaming %}, stream: stream{% endif %})
+        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: serviceConfig{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger{% if op.streaming %}, stream: stream{% endif %})
     }
 {%endfor %}
 {%endif %}

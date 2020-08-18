@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension EMR {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActionOnFailure: String, CustomStringConvertible, Codable {
         case terminateJobFlow = "TERMINATE_JOB_FLOW"
@@ -302,7 +302,7 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddInstanceFleetInput: AWSEncodableShape {
 

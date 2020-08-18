@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Translate {
 
@@ -62,5 +62,4 @@ extension Translate.ListTextTranslationJobsRequest: AWSPaginateToken {
 
     }
 }
-
 

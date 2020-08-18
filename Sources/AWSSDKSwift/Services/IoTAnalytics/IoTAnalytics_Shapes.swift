@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoTAnalytics {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ChannelStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
@@ -73,7 +73,7 @@ extension IoTAnalytics {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AddAttributesActivity: AWSEncodableShape & AWSDecodableShape {
 

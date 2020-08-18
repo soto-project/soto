@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension OpsWorks {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AppAttributesKeys: String, CustomStringConvertible, Codable {
         case documentroot = "DocumentRoot"
@@ -252,7 +252,7 @@ extension OpsWorks {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AgentVersion: AWSDecodableShape {
 

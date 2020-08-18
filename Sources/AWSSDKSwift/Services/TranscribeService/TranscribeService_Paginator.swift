@@ -16,9 +16,19 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension TranscribeService {
+
+    ///  Provides more information about the custom language models you've created. You can use the information in this list to find a specific custom language model. You can then use the operation to get more information about it.
+    public func listLanguageModelsPaginator(
+        _ input: ListLanguageModelsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListLanguageModelsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listLanguageModels, tokenKey: \ListLanguageModelsResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
 
     ///  Lists medical transcription jobs with a specified status or substring that matches their names.
     public func listMedicalTranscriptionJobsPaginator(
@@ -30,7 +40,7 @@ extension TranscribeService {
         return client.paginate(input: input, command: listMedicalTranscriptionJobs, tokenKey: \ListMedicalTranscriptionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Returns a list of vocabularies that match the specified criteria. You get the entire list of vocabularies if you don't enter a value in any of the request parameters.
+    ///  Returns a list of vocabularies that match the specified criteria. If you don't enter a value in any of the request parameters, returns the entire list of vocabularies.
     public func listMedicalVocabulariesPaginator(
         _ input: ListMedicalVocabulariesRequest,
         on eventLoop: EventLoop? = nil,
@@ -70,6 +80,18 @@ extension TranscribeService {
         return client.paginate(input: input, command: listVocabularyFilters, tokenKey: \ListVocabularyFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
+}
+
+extension TranscribeService.ListLanguageModelsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> TranscribeService.ListLanguageModelsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            statusEquals: self.statusEquals
+        )
+
+    }
 }
 
 extension TranscribeService.ListMedicalTranscriptionJobsRequest: AWSPaginateToken {
@@ -130,5 +152,4 @@ extension TranscribeService.ListVocabularyFiltersRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Greengrass {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum BulkDeploymentStatus: String, CustomStringConvertible, Codable {
         case initializing = "Initializing"
@@ -111,7 +111,7 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateRoleToGroupRequest: AWSEncodableShape {
         public static var _encoding = [

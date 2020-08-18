@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ComprehendMedical {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AttributeName: String, CustomStringConvertible, Codable {
         case sign = "SIGN"
@@ -169,7 +169,7 @@ extension ComprehendMedical {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Attribute: AWSDecodableShape {
 

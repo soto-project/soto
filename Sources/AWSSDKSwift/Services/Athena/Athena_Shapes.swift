@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Athena {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ColumnNullable: String, CustomStringConvertible, Codable {
         case notNull = "NOT_NULL"
@@ -63,7 +63,7 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BatchGetNamedQueryInput: AWSEncodableShape {
 

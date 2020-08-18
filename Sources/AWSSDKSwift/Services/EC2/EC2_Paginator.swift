@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension EC2 {
 
@@ -38,6 +38,16 @@ extension EC2 {
         onPage: @escaping (DescribeCapacityReservationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCapacityReservations, tokenKey: \DescribeCapacityReservationsResult.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Describes one or more of your carrier gateways.
+    public func describeCarrierGatewaysPaginator(
+        _ input: DescribeCarrierGatewaysRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (DescribeCarrierGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCarrierGateways, tokenKey: \DescribeCarrierGatewaysResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Describes one or more of your linked EC2-Classic instances. This request only returns information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot use this request to return information about other instances.
@@ -310,7 +320,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeIpv6Pools, tokenKey: \DescribeIpv6PoolsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions.
+    ///  Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account.
     public func describeLaunchTemplateVersionsPaginator(
         _ input: DescribeLaunchTemplateVersionsRequest,
         on eventLoop: EventLoop? = nil,
@@ -570,7 +580,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeSpotInstanceRequests, tokenKey: \DescribeSpotInstanceRequestsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Describes the Spot price history. For more information, see Spot Instance Pricing History in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, this operation returns the prices of the instance types within the time range that you specified and the time when the price changed. The price is valid within the time period that you specified; the response merely indicates the last time that the price changed.
+    ///  Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, this operation returns the prices of the instance types within the time range that you specified and the time when the price changed. The price is valid within the time period that you specified; the response merely indicates the last time that the price changed.
     public func describeSpotPriceHistoryPaginator(
         _ input: DescribeSpotPriceHistoryRequest,
         on eventLoop: EventLoop? = nil,
@@ -820,6 +830,16 @@ extension EC2 {
         return client.paginate(input: input, command: getAssociatedIpv6PoolCidrs, tokenKey: \GetAssociatedIpv6PoolCidrsResult.nextToken, on: eventLoop, onPage: onPage)
     }
 
+    ///  Lists the resource groups to which a Capacity Reservation has been added.
+    public func getGroupsForCapacityReservationPaginator(
+        _ input: GetGroupsForCapacityReservationRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (GetGroupsForCapacityReservationResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getGroupsForCapacityReservation, tokenKey: \GetGroupsForCapacityReservationResult.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Gets information about the resources that are associated with the specified managed prefix list.
     public func getManagedPrefixListAssociationsPaginator(
         _ input: GetManagedPrefixListAssociationsRequest,
@@ -917,6 +937,19 @@ extension EC2.DescribeCapacityReservationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeCapacityReservationsRequest {
         return .init(
             capacityReservationIds: self.capacityReservationIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeCarrierGatewaysRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeCarrierGatewaysRequest {
+        return .init(
+            carrierGatewayIds: self.carrierGatewayIds,
             dryRun: self.dryRun,
             filters: self.filters,
             maxResults: self.maxResults,
@@ -1954,6 +1987,18 @@ extension EC2.GetAssociatedIpv6PoolCidrsRequest: AWSPaginateToken {
     }
 }
 
+extension EC2.GetGroupsForCapacityReservationRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetGroupsForCapacityReservationRequest {
+        return .init(
+            capacityReservationId: self.capacityReservationId,
+            dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
+}
+
 extension EC2.GetManagedPrefixListAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetManagedPrefixListAssociationsRequest {
         return .init(
@@ -2056,5 +2101,4 @@ extension EC2.SearchTransitGatewayMulticastGroupsRequest: AWSPaginateToken {
 
     }
 }
-
 

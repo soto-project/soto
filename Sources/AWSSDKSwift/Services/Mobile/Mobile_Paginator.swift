@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Mobile {
 
@@ -61,5 +61,4 @@ extension Mobile.ListProjectsRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -16,9 +16,19 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Transfer {
+
+    ///  Lists the security policies that are attached to your file transfer protocol-enabled servers.
+    public func listSecurityPoliciesPaginator(
+        _ input: ListSecurityPoliciesRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListSecurityPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSecurityPolicies, tokenKey: \ListSecurityPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
 
     ///  Lists the file transfer protocol-enabled servers that are associated with your AWS account.
     public func listServersPaginator(
@@ -52,6 +62,16 @@ extension Transfer {
 
 }
 
+extension Transfer.ListSecurityPoliciesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Transfer.ListSecurityPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
+}
+
 extension Transfer.ListServersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Transfer.ListServersRequest {
         return .init(
@@ -83,5 +103,4 @@ extension Transfer.ListUsersRequest: AWSPaginateToken {
 
     }
 }
-
 

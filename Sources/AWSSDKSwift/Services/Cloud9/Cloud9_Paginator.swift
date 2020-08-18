@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Cloud9 {
 
@@ -64,5 +64,4 @@ extension Cloud9.ListEnvironmentsRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -16,9 +16,19 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension QuickSight {
+
+    ///  Lists Amazon QuickSight analyses that exist in the specified AWS account.
+    public func listAnalysesPaginator(
+        _ input: ListAnalysesRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListAnalysesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAnalyses, tokenKey: \ListAnalysesResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
 
     ///  Lists all the versions of the dashboards in the QuickSight subscription.
     public func listDashboardVersionsPaginator(
@@ -70,6 +80,16 @@ extension QuickSight {
         return client.paginate(input: input, command: listIngestions, tokenKey: \ListIngestionsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
+    ///  Lists the namespaces for the specified AWS account.
+    public func listNamespacesPaginator(
+        _ input: ListNamespacesRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListNamespacesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNamespaces, tokenKey: \ListNamespacesResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Lists all the aliases of a template.
     public func listTemplateAliasesPaginator(
         _ input: ListTemplateAliasesRequest,
@@ -100,7 +120,17 @@ extension QuickSight {
         return client.paginate(input: input, command: listTemplates, tokenKey: \ListTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Searchs for dashboards that belong to a user. 
+    ///  Searches for analyses that belong to the user specified in the filter.
+    public func searchAnalysesPaginator(
+        _ input: SearchAnalysesRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (SearchAnalysesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchAnalyses, tokenKey: \SearchAnalysesResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Searches for dashboards that belong to a user. 
     public func searchDashboardsPaginator(
         _ input: SearchDashboardsRequest,
         on eventLoop: EventLoop? = nil,
@@ -110,6 +140,17 @@ extension QuickSight {
         return client.paginate(input: input, command: searchDashboards, tokenKey: \SearchDashboardsResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
+}
+
+extension QuickSight.ListAnalysesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListAnalysesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
 }
 
 extension QuickSight.ListDashboardVersionsRequest: AWSPaginateToken {
@@ -169,6 +210,17 @@ extension QuickSight.ListIngestionsRequest: AWSPaginateToken {
     }
 }
 
+extension QuickSight.ListNamespacesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListNamespacesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
+}
+
 extension QuickSight.ListTemplateAliasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplateAliasesRequest {
         return .init(
@@ -204,6 +256,18 @@ extension QuickSight.ListTemplatesRequest: AWSPaginateToken {
     }
 }
 
+extension QuickSight.SearchAnalysesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchAnalysesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
+}
+
 extension QuickSight.SearchDashboardsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.SearchDashboardsRequest {
         return .init(
@@ -215,5 +279,4 @@ extension QuickSight.SearchDashboardsRequest: AWSPaginateToken {
 
     }
 }
-
 

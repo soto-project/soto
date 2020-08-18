@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ApplicationDiscoveryService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AgentStatus: String, CustomStringConvertible, Codable {
         case healthy = "HEALTHY"
@@ -102,7 +102,7 @@ extension ApplicationDiscoveryService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AgentConfigurationStatus: AWSDecodableShape {
 

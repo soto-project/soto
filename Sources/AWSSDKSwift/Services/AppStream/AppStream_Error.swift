@@ -25,6 +25,7 @@ public enum AppStreamErrorType: AWSErrorType {
     case invalidRoleException(message: String?)
     case limitExceededException(message: String?)
     case operationNotPermittedException(message: String?)
+    case requestLimitExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
     case resourceInUseException(message: String?)
     case resourceNotAvailableException(message: String?)
@@ -52,6 +53,8 @@ extension AppStreamErrorType {
             self = .limitExceededException(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
+        case "RequestLimitExceededException":
+            self = .requestLimitExceededException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
         case "ResourceInUseException":
@@ -83,6 +86,8 @@ extension AppStreamErrorType: CustomStringConvertible {
             return "LimitExceededException: \(message ?? "")"
         case .operationNotPermittedException(let message):
             return "OperationNotPermittedException: \(message ?? "")"
+        case .requestLimitExceededException(let message):
+            return "RequestLimitExceededException: \(message ?? "")"
         case .resourceAlreadyExistsException(let message):
             return "ResourceAlreadyExistsException: \(message ?? "")"
         case .resourceInUseException(let message):

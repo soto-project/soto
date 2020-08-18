@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension MediaStoreData {
 
@@ -42,5 +42,4 @@ extension MediaStoreData.ListItemsRequest: AWSPaginateToken {
 
     }
 }
-
 

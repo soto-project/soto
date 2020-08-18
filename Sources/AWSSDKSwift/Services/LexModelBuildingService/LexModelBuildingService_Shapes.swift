@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension LexModelBuildingService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ChannelStatus: String, CustomStringConvertible, Codable {
         case inProgress = "IN_PROGRESS"
@@ -139,7 +139,7 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct BotAliasMetadata: AWSDecodableShape {
 
@@ -426,6 +426,8 @@ extension LexModelBuildingService {
         public let description: String?
         /// Indicates whether utterances entered by the user should be sent to Amazon Comprehend for sentiment analysis.
         public let detectSentiment: Bool?
+        /// Indicates whether the bot uses the new natural language understanding (NLU) model or the original NLU. True indicates that the bot is using the new model, otherwise, false.
+        public let enableModelImprovements: Bool?
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
@@ -445,7 +447,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interactions with the user.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, detectSentiment: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -453,6 +455,7 @@ extension LexModelBuildingService {
             self.createdDate = createdDate
             self.description = description
             self.detectSentiment = detectSentiment
+            self.enableModelImprovements = enableModelImprovements
             self.failureReason = failureReason
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.intents = intents
@@ -472,6 +475,7 @@ extension LexModelBuildingService {
             case createdDate = "createdDate"
             case description = "description"
             case detectSentiment = "detectSentiment"
+            case enableModelImprovements = "enableModelImprovements"
             case failureReason = "failureReason"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
@@ -1280,6 +1284,8 @@ extension LexModelBuildingService {
         public let description: String?
         /// Indicates whether user utterances should be sent to Amazon Comprehend for sentiment analysis.
         public let detectSentiment: Bool?
+        /// Indicates whether the bot uses the new natural language understanding (NLU) model or the original NLU. True indicates that the bot is using the new model, otherwise, false.
+        public let enableModelImprovements: Bool?
         /// If status is FAILED, Amazon Lex explains why it failed to build the bot.
         public let failureReason: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
@@ -1292,6 +1298,8 @@ extension LexModelBuildingService {
         public let locale: Locale?
         /// The name of the bot.
         public let name: String?
+        /// The score that determines where Amazon Lex inserts the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a PostContent or PostText response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.
+        public let nluIntentConfidenceThreshold: Double?
         /// The status of the bot.  When the status is BUILDING Amazon Lex is building the bot for testing and use. If the status of the bot is READY_BASIC_TESTING, you can test the bot using the exact utterances specified in the bot's intents. When the bot is ready for full testing or to run, the status is READY. If there was a problem with building the bot, the status is FAILED and the failureReason field explains why the bot did not build. If the bot was saved but not built, the status is NOT_BUILT.
         public let status: Status?
         /// The version of the bot. For a new bot, the version is always $LATEST.
@@ -1299,7 +1307,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, detectSentiment: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, nluIntentConfidenceThreshold: Double? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -1307,12 +1315,14 @@ extension LexModelBuildingService {
             self.createdDate = createdDate
             self.description = description
             self.detectSentiment = detectSentiment
+            self.enableModelImprovements = enableModelImprovements
             self.failureReason = failureReason
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.intents = intents
             self.lastUpdatedDate = lastUpdatedDate
             self.locale = locale
             self.name = name
+            self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.status = status
             self.version = version
             self.voiceId = voiceId
@@ -1326,12 +1336,14 @@ extension LexModelBuildingService {
             case createdDate = "createdDate"
             case description = "description"
             case detectSentiment = "detectSentiment"
+            case enableModelImprovements = "enableModelImprovements"
             case failureReason = "failureReason"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
             case lastUpdatedDate = "lastUpdatedDate"
             case locale = "locale"
             case name = "name"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
             case status = "status"
             case version = "version"
             case voiceId = "voiceId"
@@ -2506,6 +2518,8 @@ extension LexModelBuildingService {
         public let description: String?
         /// When set to true user utterances are sent to Amazon Comprehend for sentiment analysis. If you don't specify detectSentiment, the default is false.
         public let detectSentiment: Bool?
+        /// Set to true to enable the use of a new natural language understanding (NLU) model. Using the new NLU may improve the performance of your bot.  When you set the enableModelImprovements parameter to true you can use the nluIntentConfidenceThreshold parameter to configure confidence scores. For more information, see Confidence Scores. You can only set the enableModelImprovements parameter in certain Regions. If you set the parameter to true, your bot will use the new NLU. If you set the parameter to false, your bot will continue to use the original NLU. If you set the parameter to false after setting it to true, your bot will return to the original NLU. The Regions where you can set the enableModelImprovements parameter to true are:   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Asia Pacific (Sydney) (ap-southeast-2)   EU (Ireland) (eu-west-1)   In other Regions, the enableModelImprovements parameter is set to true by default. In these Regions setting the parameter to false throws a ValidationException exception.   Asia Pacific (Singapore) (ap-southeast-1)   Asia Pacific (Tokyo) (ap-northeast-1)   EU (Frankfurt) (eu-central-1)   EU (London) (eu-west-2)  
+        public let enableModelImprovements: Bool?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. A user interaction session remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. For example, suppose that a user chooses the OrderPizza intent, but gets sidetracked halfway through placing an order. If the user doesn't complete the order within the specified time, Amazon Lex discards the slot information that it gathered, and the user must start over. If you don't include the idleSessionTTLInSeconds element in a PutBot operation request, Amazon Lex uses the default value. This is also true if the request replaces an existing bot. The default is 300 seconds (5 minutes).
         public let idleSessionTTLInSeconds: Int?
         /// An array of Intent objects. Each intent represents a command that a user can express. For example, a pizza ordering bot might support an OrderPizza intent. For more information, see how-it-works.
@@ -2514,6 +2528,8 @@ extension LexModelBuildingService {
         public let locale: Locale
         /// The name of the bot. The name is not case sensitive. 
         public let name: String
+        /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a PostContent or PostText response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. You must set the enableModelImprovements parameter to true to use confidence scores. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC  
+        public let nluIntentConfidenceThreshold: Double?
         /// If you set the processBehavior element to BUILD, Amazon Lex builds the bot so that it can be run. If you set the element to SAVE Amazon Lex saves the bot, but doesn't build it.  If you don't specify this value, the default value is BUILD.
         public let processBehavior: ProcessBehavior?
         /// A list of tags to add to the bot. You can only add tags when you create a bot, you can't use the PutBot operation to update the tags on a bot. To update tags, use the TagResource operation.
@@ -2521,7 +2537,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Voices in Amazon Polly in the Amazon Polly Developer Guide.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, locale: Locale, name: String, processBehavior: ProcessBehavior? = nil, tags: [Tag]? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, locale: Locale, name: String, nluIntentConfidenceThreshold: Double? = nil, processBehavior: ProcessBehavior? = nil, tags: [Tag]? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -2529,10 +2545,12 @@ extension LexModelBuildingService {
             self.createVersion = createVersion
             self.description = description
             self.detectSentiment = detectSentiment
+            self.enableModelImprovements = enableModelImprovements
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.intents = intents
             self.locale = locale
             self.name = name
+            self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.processBehavior = processBehavior
             self.tags = tags
             self.voiceId = voiceId
@@ -2551,6 +2569,8 @@ extension LexModelBuildingService {
             try validate(self.name, name: "name", parent: name, max: 50)
             try validate(self.name, name: "name", parent: name, min: 2)
             try validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1)
+            try validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2566,9 +2586,11 @@ extension LexModelBuildingService {
             case createVersion = "createVersion"
             case description = "description"
             case detectSentiment = "detectSentiment"
+            case enableModelImprovements = "enableModelImprovements"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
             case locale = "locale"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
             case processBehavior = "processBehavior"
             case tags = "tags"
             case voiceId = "voiceId"
@@ -2593,6 +2615,8 @@ extension LexModelBuildingService {
         public let description: String?
         ///  true if the bot is configured to send user utterances to Amazon Comprehend for sentiment analysis. If the detectSentiment field was not specified in the request, the detectSentiment field is false in the response.
         public let detectSentiment: Bool?
+        /// Indicates whether the bot uses the new natural language understanding (NLU) model or the original NLU. True indicates that the bot is using the new model, otherwise, false.
+        public let enableModelImprovements: Bool?
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
         /// The maximum length of time that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
@@ -2605,6 +2629,8 @@ extension LexModelBuildingService {
         public let locale: Locale?
         /// The name of the bot.
         public let name: String?
+        /// The score that determines where Amazon Lex inserts the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a PostContent or PostText response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.
+        public let nluIntentConfidenceThreshold: Double?
         ///  When you send a request to create a bot with processBehavior set to BUILD, Amazon Lex sets the status response element to BUILDING. In the READY_BASIC_TESTING state you can test the bot with user inputs that exactly match the utterances configured for the bot's intents and values in the slot types. If Amazon Lex can't build the bot, Amazon Lex sets status to FAILED. Amazon Lex returns the reason for the failure in the failureReason response element.  When you set processBehavior to SAVE, Amazon Lex sets the status code to NOT BUILT. When the bot is in the READY state you can test and publish the bot.
         public let status: Status?
         /// A list of tags associated with the bot.
@@ -2614,7 +2640,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, tags: [Tag]? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, nluIntentConfidenceThreshold: Double? = nil, status: Status? = nil, tags: [Tag]? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -2623,12 +2649,14 @@ extension LexModelBuildingService {
             self.createVersion = createVersion
             self.description = description
             self.detectSentiment = detectSentiment
+            self.enableModelImprovements = enableModelImprovements
             self.failureReason = failureReason
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.intents = intents
             self.lastUpdatedDate = lastUpdatedDate
             self.locale = locale
             self.name = name
+            self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.status = status
             self.tags = tags
             self.version = version
@@ -2644,12 +2672,14 @@ extension LexModelBuildingService {
             case createVersion = "createVersion"
             case description = "description"
             case detectSentiment = "detectSentiment"
+            case enableModelImprovements = "enableModelImprovements"
             case failureReason = "failureReason"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
             case lastUpdatedDate = "lastUpdatedDate"
             case locale = "locale"
             case name = "name"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
             case status = "status"
             case tags = "tags"
             case version = "version"

@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension AppStream {
 
@@ -66,5 +66,4 @@ extension AppStream.DescribeImagesRequest: AWSPaginateToken {
 
     }
 }
-
 

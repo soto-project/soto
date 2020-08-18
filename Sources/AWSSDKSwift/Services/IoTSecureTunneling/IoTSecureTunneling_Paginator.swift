@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension IoTSecureTunneling {
 
@@ -42,5 +42,4 @@ extension IoTSecureTunneling.ListTunnelsRequest: AWSPaginateToken {
 
     }
 }
-
 

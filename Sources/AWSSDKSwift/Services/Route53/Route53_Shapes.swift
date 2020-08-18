@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Route53 {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccountLimitType: String, CustomStringConvertible, Codable {
         case maxHealthChecksByOwner = "MAX_HEALTH_CHECKS_BY_OWNER"
@@ -224,7 +224,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountLimit: AWSDecodableShape {
 

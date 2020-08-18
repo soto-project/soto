@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension StorageGateway {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActiveDirectoryStatus: String, CustomStringConvertible, Codable {
         case accessDenied = "ACCESS_DENIED"
@@ -35,6 +35,12 @@ extension StorageGateway {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CaseSensitivity: String, CustomStringConvertible, Codable {
+        case clientspecified = "ClientSpecified"
+        case casesensitive = "CaseSensitive"
         public var description: String { return self.rawValue }
     }
 
@@ -71,7 +77,7 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActivateGatewayInput: AWSEncodableShape {
 
@@ -460,6 +466,20 @@ extension StorageGateway {
         }
     }
 
+    public struct CacheAttributes: AWSEncodableShape & AWSDecodableShape {
+
+        /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket. The TTL duration is in seconds. Valid Values: 300 to 2,592,000 seconds (5 minutes to 30 days)
+        public let cacheStaleTimeoutInSeconds: Int?
+
+        public init(cacheStaleTimeoutInSeconds: Int? = nil) {
+            self.cacheStaleTimeoutInSeconds = cacheStaleTimeoutInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheStaleTimeoutInSeconds = "CacheStaleTimeoutInSeconds"
+        }
+    }
+
     public struct CachediSCSIVolume: AWSDecodableShape {
 
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
@@ -667,6 +687,7 @@ extension StorageGateway {
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
             try validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
             try validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
             try validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, max: 500)
@@ -713,12 +734,16 @@ extension StorageGateway {
 
     public struct CreateNFSFileShareInput: AWSEncodableShape {
 
+        /// Refresh cache information.
+        public let cacheAttributes: CacheAttributes?
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
         /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
         public let clientToken: String
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA 
         public let defaultStorageClass: String?
+        /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN. 
+        public let fileShareName: String?
         /// The Amazon Resource Name (ARN) of the file gateway on which you want to create a file share.
         public let gatewayARN: String
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false 
@@ -727,7 +752,7 @@ extension StorageGateway {
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
-        /// The ARN of the backed storage used for storing file data.
+        /// The ARN of the backend storage used for storing file data. A prefix name can be added to the S3 bucket name. It must end with a "/".
         public let locationARN: String
         /// File share default values. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
@@ -744,10 +769,12 @@ extension StorageGateway {
         /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
         public let tags: [Tag]?
 
-        public init(clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil) {
+        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil) {
+            self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.clientToken = clientToken
             self.defaultStorageClass = defaultStorageClass
+            self.fileShareName = fileShareName
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.kMSEncrypted = kMSEncrypted
@@ -772,15 +799,19 @@ extension StorageGateway {
             try validate(self.clientToken, name: "clientToken", parent: name, min: 5)
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
+            try validate(self.fileShareName, name: "fileShareName", parent: name, max: 255)
+            try validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try validate(self.locationARN, name: "locationARN", parent: name, max: 310)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
+            try validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try validate(self.locationARN, name: "locationARN", parent: name, min: 16)
             try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
             try validate(self.role, name: "role", parent: name, max: 2048)
             try validate(self.role, name: "role", parent: name, min: 20)
+            try validate(self.role, name: "role", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\\S+)$")
             try validate(self.squash, name: "squash", parent: name, max: 15)
             try validate(self.squash, name: "squash", parent: name, min: 5)
             try self.tags?.forEach {
@@ -789,9 +820,11 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheAttributes = "CacheAttributes"
             case clientList = "ClientList"
             case clientToken = "ClientToken"
             case defaultStorageClass = "DefaultStorageClass"
+            case fileShareName = "FileShareName"
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case kMSEncrypted = "KMSEncrypted"
@@ -823,27 +856,33 @@ extension StorageGateway {
 
     public struct CreateSMBFileShareInput: AWSEncodableShape {
 
-        /// A list of users in the Active Directory that will be granted administrator privileges on the file share. These users can do all file operations as the super-user.  Use this option very carefully, because any user in this list can do anything they like on the file share, regardless of file permissions. 
+        /// A list of users or groups in the Active Directory that will be granted administrator privileges on the file share. These users can do all file operations as the super-user. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1.  Use this option very carefully, because any user in this list can do anything they like on the file share, regardless of file permissions. 
         public let adminUserList: [String]?
         /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
         public let auditDestinationARN: String?
         /// The authentication method that users use to access the file share. The default is ActiveDirectory. Valid Values: ActiveDirectory | GuestAccess 
         public let authentication: String?
+        /// Refresh cache information.
+        public let cacheAttributes: CacheAttributes?
+        /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
+        public let caseSensitivity: CaseSensitivity?
         /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
         public let clientToken: String
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA 
         public let defaultStorageClass: String?
+        /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN. 
+        public let fileShareName: String?
         /// The ARN of the file gateway on which you want to create a file share.
         public let gatewayARN: String
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false 
         public let guessMIMETypeEnabled: Bool?
-        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example, @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
         /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false 
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
-        /// The ARN of the backed storage used for storing file data.
+        /// The ARN of the backend storage used for storing file data. A prefix name can be added to the S3 bucket name. It must end with a "/".
         public let locationARN: String
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
@@ -857,15 +896,18 @@ extension StorageGateway {
         public let sMBACLEnabled: Bool?
         /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
         public let tags: [Tag]?
-        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. For example, @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users or groups in the Active Directory that are allowed to access the file  share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
-        public init(adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, clientToken: String, defaultStorageClass: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
+        public init(adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
             self.authentication = authentication
+            self.cacheAttributes = cacheAttributes
+            self.caseSensitivity = caseSensitivity
             self.clientToken = clientToken
             self.defaultStorageClass = defaultStorageClass
+            self.fileShareName = fileShareName
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.invalidUserList = invalidUserList
@@ -895,6 +937,8 @@ extension StorageGateway {
             try validate(self.clientToken, name: "clientToken", parent: name, min: 5)
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
+            try validate(self.fileShareName, name: "fileShareName", parent: name, max: 255)
+            try validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.invalidUserList?.forEach {
@@ -905,10 +949,12 @@ extension StorageGateway {
             try validate(self.invalidUserList, name: "invalidUserList", parent: name, min: 0)
             try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try validate(self.locationARN, name: "locationARN", parent: name, max: 310)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
+            try validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try validate(self.locationARN, name: "locationARN", parent: name, min: 16)
             try validate(self.role, name: "role", parent: name, max: 2048)
             try validate(self.role, name: "role", parent: name, min: 20)
+            try validate(self.role, name: "role", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\\S+)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -924,8 +970,11 @@ extension StorageGateway {
             case adminUserList = "AdminUserList"
             case auditDestinationARN = "AuditDestinationARN"
             case authentication = "Authentication"
+            case cacheAttributes = "CacheAttributes"
+            case caseSensitivity = "CaseSensitivity"
             case clientToken = "ClientToken"
             case defaultStorageClass = "DefaultStorageClass"
+            case fileShareName = "FileShareName"
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case invalidUserList = "InvalidUserList"
@@ -1099,6 +1148,7 @@ extension StorageGateway {
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
             try validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
             try validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
             try self.tags?.forEach {
@@ -1176,6 +1226,7 @@ extension StorageGateway {
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
             try validate(self.poolId, name: "poolId", parent: name, max: 100)
             try validate(self.poolId, name: "poolId", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1251,6 +1302,7 @@ extension StorageGateway {
             try validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
             try validate(self.numTapesToCreate, name: "numTapesToCreate", parent: name, max: 10)
             try validate(self.numTapesToCreate, name: "numTapesToCreate", parent: name, min: 1)
             try validate(self.poolId, name: "poolId", parent: name, max: 100)
@@ -1833,6 +1885,8 @@ extension StorageGateway {
 
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Log Group that is used to monitor events in the gateway.
         public let cloudWatchLogGroupARN: String?
+        /// Date after which this gateway will not receive software updates for new features and bug fixes.
+        public let deprecationDate: String?
         /// The ID of the Amazon EC2 instance that was used to launch the gateway.
         public let ec2InstanceId: String?
         /// The AWS Region where the Amazon EC2 instance is located.
@@ -1858,13 +1912,16 @@ extension StorageGateway {
         public let lastSoftwareUpdate: String?
         /// The date on which an update to the gateway is available. This date is in the time zone of the gateway. If the gateway is not available for an update this field is not returned in the response.
         public let nextUpdateAvailabilityDate: String?
+        /// Date after which this gateway will not receive software updates for new features.
+        public let softwareUpdatesEndDate: String?
         /// A list of up to 50 tags assigned to the gateway, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
         /// The configuration settings for the virtual private cloud (VPC) endpoint for your gateway.
         public let vPCEndpoint: String?
 
-        public init(cloudWatchLogGroupARN: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, endpointType: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, tags: [Tag]? = nil, vPCEndpoint: String? = nil) {
+        public init(cloudWatchLogGroupARN: String? = nil, deprecationDate: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, endpointType: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, softwareUpdatesEndDate: String? = nil, tags: [Tag]? = nil, vPCEndpoint: String? = nil) {
             self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
+            self.deprecationDate = deprecationDate
             self.ec2InstanceId = ec2InstanceId
             self.ec2InstanceRegion = ec2InstanceRegion
             self.endpointType = endpointType
@@ -1878,12 +1935,14 @@ extension StorageGateway {
             self.hostEnvironment = hostEnvironment
             self.lastSoftwareUpdate = lastSoftwareUpdate
             self.nextUpdateAvailabilityDate = nextUpdateAvailabilityDate
+            self.softwareUpdatesEndDate = softwareUpdatesEndDate
             self.tags = tags
             self.vPCEndpoint = vPCEndpoint
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogGroupARN = "CloudWatchLogGroupARN"
+            case deprecationDate = "DeprecationDate"
             case ec2InstanceId = "Ec2InstanceId"
             case ec2InstanceRegion = "Ec2InstanceRegion"
             case endpointType = "EndpointType"
@@ -1897,6 +1956,7 @@ extension StorageGateway {
             case hostEnvironment = "HostEnvironment"
             case lastSoftwareUpdate = "LastSoftwareUpdate"
             case nextUpdateAvailabilityDate = "NextUpdateAvailabilityDate"
+            case softwareUpdatesEndDate = "SoftwareUpdatesEndDate"
             case tags = "Tags"
             case vPCEndpoint = "VPCEndpoint"
         }
@@ -2690,6 +2750,8 @@ extension StorageGateway {
 
         public func validate(name: String) throws {
             try self.domainControllers?.forEach {
+                try validate($0, name: "domainControllers[]", parent: name, max: 1024)
+                try validate($0, name: "domainControllers[]", parent: name, min: 6)
                 try validate($0, name: "domainControllers[]", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(:(\\d+))?$")
             }
             try validate(self.domainName, name: "domainName", parent: name, max: 1024)
@@ -3159,11 +3221,15 @@ extension StorageGateway {
 
     public struct NFSFileShareInfo: AWSDecodableShape {
 
+        /// Refresh cache information.
+        public let cacheAttributes: CacheAttributes?
         public let clientList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA 
         public let defaultStorageClass: String?
         public let fileShareARN: String?
         public let fileShareId: String?
+        /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN. 
+        public let fileShareName: String?
         public let fileShareStatus: String?
         public let gatewayARN: String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false 
@@ -3184,11 +3250,13 @@ extension StorageGateway {
         /// A list of up to 50 tags assigned to the NFS file share, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
 
-        public init(clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil) {
+        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil) {
+            self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.defaultStorageClass = defaultStorageClass
             self.fileShareARN = fileShareARN
             self.fileShareId = fileShareId
+            self.fileShareName = fileShareName
             self.fileShareStatus = fileShareStatus
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -3206,10 +3274,12 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheAttributes = "CacheAttributes"
             case clientList = "ClientList"
             case defaultStorageClass = "DefaultStorageClass"
             case fileShareARN = "FileShareARN"
             case fileShareId = "FileShareId"
+            case fileShareName = "FileShareName"
             case fileShareStatus = "FileShareStatus"
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
@@ -3486,20 +3556,26 @@ extension StorageGateway {
 
     public struct SMBFileShareInfo: AWSDecodableShape {
 
-        /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
         /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
         public let auditDestinationARN: String?
         public let authentication: String?
+        /// Refresh cache information.
+        public let cacheAttributes: CacheAttributes?
+        /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
+        public let caseSensitivity: CaseSensitivity?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA 
         public let defaultStorageClass: String?
         public let fileShareARN: String?
         public let fileShareId: String?
+        /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN. 
+        public let fileShareName: String?
         public let fileShareStatus: String?
         public let gatewayARN: String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false 
         public let guessMIMETypeEnabled: Bool?
-        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
         /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false 
         public let kMSEncrypted: Bool?
@@ -3517,16 +3593,19 @@ extension StorageGateway {
         public let sMBACLEnabled: Bool?
         /// A list of up to 50 tags assigned to the SMB file share, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
-        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. For example, @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
-        public init(adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
+        public init(adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
             self.authentication = authentication
+            self.cacheAttributes = cacheAttributes
+            self.caseSensitivity = caseSensitivity
             self.defaultStorageClass = defaultStorageClass
             self.fileShareARN = fileShareARN
             self.fileShareId = fileShareId
+            self.fileShareName = fileShareName
             self.fileShareStatus = fileShareStatus
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -3548,9 +3627,12 @@ extension StorageGateway {
             case adminUserList = "AdminUserList"
             case auditDestinationARN = "AuditDestinationARN"
             case authentication = "Authentication"
+            case cacheAttributes = "CacheAttributes"
+            case caseSensitivity = "CaseSensitivity"
             case defaultStorageClass = "DefaultStorageClass"
             case fileShareARN = "FileShareARN"
             case fileShareId = "FileShareId"
+            case fileShareName = "FileShareName"
             case fileShareStatus = "FileShareStatus"
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
@@ -4268,12 +4350,16 @@ extension StorageGateway {
 
     public struct UpdateNFSFileShareInput: AWSEncodableShape {
 
+        /// Refresh cache information.
+        public let cacheAttributes: CacheAttributes?
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA 
         public let defaultStorageClass: String?
         /// The Amazon Resource Name (ARN) of the file share to be updated.
         public let fileShareARN: String
+        /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN. 
+        public let fileShareName: String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false 
         public let guessMIMETypeEnabled: Bool?
         /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false 
@@ -4291,10 +4377,12 @@ extension StorageGateway {
         /// The user mapped to anonymous user. Valid values are the following:    RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to anonymous user.    AllSquash: Everyone is mapped to anonymous user.  
         public let squash: String?
 
-        public init(clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
+        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
+            self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.defaultStorageClass = defaultStorageClass
             self.fileShareARN = fileShareARN
+            self.fileShareName = fileShareName
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.kMSEncrypted = kMSEncrypted
             self.kMSKey = kMSKey
@@ -4315,17 +4403,22 @@ extension StorageGateway {
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
             try validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
             try validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
+            try validate(self.fileShareName, name: "fileShareName", parent: name, max: 255)
+            try validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
             try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
             try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
             try validate(self.squash, name: "squash", parent: name, max: 15)
             try validate(self.squash, name: "squash", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheAttributes = "CacheAttributes"
             case clientList = "ClientList"
             case defaultStorageClass = "DefaultStorageClass"
             case fileShareARN = "FileShareARN"
+            case fileShareName = "FileShareName"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case kMSEncrypted = "KMSEncrypted"
             case kMSKey = "KMSKey"
@@ -4353,17 +4446,23 @@ extension StorageGateway {
 
     public struct UpdateSMBFileShareInput: AWSEncodableShape {
 
-        /// A list of users in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example, @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
         /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
         public let auditDestinationARN: String?
+        /// Refresh cache information.
+        public let cacheAttributes: CacheAttributes?
+        /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
+        public let caseSensitivity: CaseSensitivity?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA 
         public let defaultStorageClass: String?
         /// The Amazon Resource Name (ARN) of the SMB file share that you want to update.
         public let fileShareARN: String
+        /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN. 
+        public let fileShareName: String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false 
         public let guessMIMETypeEnabled: Bool?
-        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
         /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false 
         public let kMSEncrypted: Bool?
@@ -4377,14 +4476,17 @@ extension StorageGateway {
         public let requesterPays: Bool?
         /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the AWS Storage Gateway User Guide. Valid Values: true | false 
         public let sMBACLEnabled: Bool?
-        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. For example, @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
-        public init(adminUserList: [String]? = nil, auditDestinationARN: String? = nil, defaultStorageClass: String? = nil, fileShareARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, sMBACLEnabled: Bool? = nil, validUserList: [String]? = nil) {
+        public init(adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, sMBACLEnabled: Bool? = nil, validUserList: [String]? = nil) {
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
+            self.cacheAttributes = cacheAttributes
+            self.caseSensitivity = caseSensitivity
             self.defaultStorageClass = defaultStorageClass
             self.fileShareARN = fileShareARN
+            self.fileShareName = fileShareName
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.invalidUserList = invalidUserList
             self.kMSEncrypted = kMSEncrypted
@@ -4408,6 +4510,8 @@ extension StorageGateway {
             try validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
             try validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
             try validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
+            try validate(self.fileShareName, name: "fileShareName", parent: name, max: 255)
+            try validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
             try self.invalidUserList?.forEach {
                 try validate($0, name: "invalidUserList[]", parent: name, max: 64)
                 try validate($0, name: "invalidUserList[]", parent: name, min: 1)
@@ -4416,6 +4520,7 @@ extension StorageGateway {
             try validate(self.invalidUserList, name: "invalidUserList", parent: name, min: 0)
             try validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
+            try validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
             try self.validUserList?.forEach {
                 try validate($0, name: "validUserList[]", parent: name, max: 64)
                 try validate($0, name: "validUserList[]", parent: name, min: 1)
@@ -4427,8 +4532,11 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case adminUserList = "AdminUserList"
             case auditDestinationARN = "AuditDestinationARN"
+            case cacheAttributes = "CacheAttributes"
+            case caseSensitivity = "CaseSensitivity"
             case defaultStorageClass = "DefaultStorageClass"
             case fileShareARN = "FileShareARN"
+            case fileShareName = "FileShareName"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case invalidUserList = "InvalidUserList"
             case kMSEncrypted = "KMSEncrypted"

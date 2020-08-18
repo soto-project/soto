@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodeCommit {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ApprovalState: String, CustomStringConvertible, Codable {
         case approve = "APPROVE"
@@ -128,7 +128,7 @@ extension CodeCommit {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Approval: AWSDecodableShape {
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodePipeline {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ActionCategory: String, CustomStringConvertible, Codable {
         case source = "Source"
@@ -146,7 +146,7 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AWSSessionCredentials: AWSDecodableShape {
 

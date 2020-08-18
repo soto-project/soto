@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SESV2 {
 
@@ -38,6 +38,16 @@ extension SESV2 {
         onPage: @escaping (ListConfigurationSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listConfigurationSets, tokenKey: \ListConfigurationSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func listCustomVerificationEmailTemplatesPaginator(
+        _ input: ListCustomVerificationEmailTemplatesRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListCustomVerificationEmailTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listCustomVerificationEmailTemplates, tokenKey: \ListCustomVerificationEmailTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  List all of the dedicated IP pools that exist in your AWS account in the current Region.
@@ -80,6 +90,16 @@ extension SESV2 {
         return client.paginate(input: input, command: listEmailIdentities, tokenKey: \ListEmailIdentitiesResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
+    ///  Lists the email templates present in your Amazon SES account in the current AWS Region. You can execute this operation no more than once per second.
+    public func listEmailTemplatesPaginator(
+        _ input: ListEmailTemplatesRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListEmailTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEmailTemplates, tokenKey: \ListEmailTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
+    }
+
     ///  Retrieves a list of email addresses that are on the suppression list for your account.
     public func listSuppressedDestinationsPaginator(
         _ input: ListSuppressedDestinationsRequest,
@@ -105,6 +125,16 @@ extension SESV2.GetDedicatedIpsRequest: AWSPaginateToken {
 
 extension SESV2.ListConfigurationSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListConfigurationSetsRequest {
+        return .init(
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+
+    }
+}
+
+extension SESV2.ListCustomVerificationEmailTemplatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SESV2.ListCustomVerificationEmailTemplatesRequest {
         return .init(
             nextToken: token,
             pageSize: self.pageSize
@@ -156,6 +186,16 @@ extension SESV2.ListEmailIdentitiesRequest: AWSPaginateToken {
     }
 }
 
+extension SESV2.ListEmailTemplatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SESV2.ListEmailTemplatesRequest {
+        return .init(
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+
+    }
+}
+
 extension SESV2.ListSuppressedDestinationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListSuppressedDestinationsRequest {
         return .init(
@@ -168,5 +208,4 @@ extension SESV2.ListSuppressedDestinationsRequest: AWSPaginateToken {
 
     }
 }
-
 

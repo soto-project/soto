@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension SecurityHub {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable {
         case active = "Active"
@@ -189,7 +189,7 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
 
@@ -2433,7 +2433,7 @@ extension SecurityHub {
         public let userDefinedFields: [MapFilter]?
         /// The veracity of a finding.
         public let verificationState: [StringFilter]?
-        /// The workflow state of a finding.
+        /// The workflow state of a finding. Note that this field is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
         public let workflowState: [StringFilter]?
         /// The status of the investigation into a finding. Allowed values are the following.    NEW - The initial state of a finding, before it is reviewed.    NOTIFIED - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    SUPPRESSED - The finding will not be reviewed again and will not be acted upon.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.   
         public let workflowStatus: [StringFilter]?
@@ -3780,17 +3780,21 @@ extension SecurityHub {
 
     public struct DescribeHubResponse: AWSDecodableShape {
 
+        /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled.
+        public let autoEnableControls: Bool?
         /// The ARN of the Hub resource that was retrieved.
         public let hubArn: String?
         /// The date and time when Security Hub was enabled in the account.
         public let subscribedAt: String?
 
-        public init(hubArn: String? = nil, subscribedAt: String? = nil) {
+        public init(autoEnableControls: Bool? = nil, hubArn: String? = nil, subscribedAt: String? = nil) {
+            self.autoEnableControls = autoEnableControls
             self.hubArn = hubArn
             self.subscribedAt = subscribedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoEnableControls = "AutoEnableControls"
             case hubArn = "HubArn"
             case subscribedAt = "SubscribedAt"
         }
@@ -4133,7 +4137,7 @@ extension SecurityHub {
 
     public struct GetFindingsRequest: AWSEncodableShape {
 
-        /// The finding attributes used to define a condition to filter the returned findings.
+        /// The finding attributes used to define a condition to filter the returned findings. Note that in the available filter fields, WorkflowState is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
         public let filters: AwsSecurityFindingFilters?
         /// The maximum number of findings to return.
         public let maxResults: Int?
@@ -5432,9 +5436,9 @@ extension SecurityHub {
 
     public struct Severity: AWSEncodableShape & AWSDecodableShape {
 
-        /// The severity value of the finding. The allowed values are the following.    INFORMATIONAL - No issue was found.    LOW - The issue does not require action on its own.    MEDIUM - The issue must be addressed but not urgently.    HIGH - The issue must be addressed as a priority.    CRITICAL - The issue must be remediated immediately to avoid it escalating.  
+        /// The severity value of the finding. The allowed values are the following.    INFORMATIONAL - No issue was found.    LOW - The issue does not require action on its own.    MEDIUM - The issue must be addressed but not urgently.    HIGH - The issue must be addressed as a priority.    CRITICAL - The issue must be remediated immediately to avoid it escalating.   If you provide Normalized and do not provide Label, then Label is set automatically as follows.    0 - INFORMATIONAL    1–39 - LOW    40–69 - MEDIUM    70–89 - HIGH    90–100 - CRITICAL   
         public let label: SeverityLabel?
-        /// Deprecated. This attribute is being deprecated. Instead of providing Normalized, provide Label. If you provide Normalized and do not provide Label, Label is set automatically as follows.    0 - INFORMATIONAL    1–39 - LOW    40–69 - MEDIUM    70–89 - HIGH    90–100 - CRITICAL   
+        /// Deprecated. The normalized severity of a finding. This attribute is being deprecated. Instead of providing Normalized, provide Label. If you provide Label and do not provide Normalized, then Normalized is set automatically as follows.    INFORMATIONAL - 0    LOW - 1    MEDIUM - 40    HIGH - 70    CRITICAL - 90  
         public let normalized: Int?
         /// The native severity from the finding product that generated the finding.
         public let original: String?
@@ -5947,6 +5951,28 @@ extension SecurityHub {
     }
 
     public struct UpdateInsightResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateSecurityHubConfigurationRequest: AWSEncodableShape {
+
+        /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false. 
+        public let autoEnableControls: Bool?
+
+        public init(autoEnableControls: Bool? = nil) {
+            self.autoEnableControls = autoEnableControls
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnableControls = "AutoEnableControls"
+        }
+    }
+
+    public struct UpdateSecurityHubConfigurationResponse: AWSDecodableShape {
 
 
         public init() {

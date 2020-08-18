@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension ServiceCatalog {
 
@@ -405,5 +405,4 @@ extension ServiceCatalog.SearchProvisionedProductsInput: AWSPaginateToken {
 
     }
 }
-
 

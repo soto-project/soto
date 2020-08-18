@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DirectoryService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum CertificateState: String, CustomStringConvertible, Codable {
         case registering = "Registering"
@@ -211,7 +211,7 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptSharedDirectoryRequest: AWSEncodableShape {
 

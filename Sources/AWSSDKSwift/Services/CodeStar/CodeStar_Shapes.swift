@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CodeStar {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateTeamMemberRequest: AWSEncodableShape {
 

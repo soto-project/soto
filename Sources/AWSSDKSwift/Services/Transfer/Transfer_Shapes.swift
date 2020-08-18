@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Transfer {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum EndpointType: String, CustomStringConvertible, Codable {
         case `public` = "PUBLIC"
@@ -56,7 +56,7 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateServerRequest: AWSEncodableShape {
 
@@ -74,12 +74,14 @@ extension Transfer {
         public let identityProviderType: IdentityProviderType?
         /// Allows the service to write your users' activity to your Amazon CloudWatch logs for monitoring and auditing purposes.
         public let loggingRole: String?
-        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in AWS Certificate Manager (ACM) which will be used to identify your server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED. 
+        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in AWS Certificate Manager (ACM) which will be used to identify your file transfer protocol-enabled server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED. 
         public let protocols: [Protocol]?
+        /// Specifies the name of the security policy that is attached to the server.
+        public let securityPolicyName: String?
         /// Key-value pairs that can be used to group and search for file transfer protocol-enabled servers.
         public let tags: [Tag]?
 
-        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, tags: [Tag]? = nil) {
+        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil) {
             self.certificate = certificate
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
@@ -88,6 +90,7 @@ extension Transfer {
             self.identityProviderType = identityProviderType
             self.loggingRole = loggingRole
             self.protocols = protocols
+            self.securityPolicyName = securityPolicyName
             self.tags = tags
         }
 
@@ -101,6 +104,8 @@ extension Transfer {
             try validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "arn:.*role/.*")
             try validate(self.protocols, name: "protocols", parent: name, max: 3)
             try validate(self.protocols, name: "protocols", parent: name, min: 1)
+            try validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
+            try validate(self.securityPolicyName, name: "securityPolicyName", parent: name, pattern: "TransferSecurityPolicy-.+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -117,6 +122,7 @@ extension Transfer {
             case identityProviderType = "IdentityProviderType"
             case loggingRole = "LoggingRole"
             case protocols = "Protocols"
+            case securityPolicyName = "SecurityPolicyName"
             case tags = "Tags"
         }
     }
@@ -139,7 +145,7 @@ extension Transfer {
 
         /// The landing directory (folder) for a user when they log in to the file transfer protocol-enabled server using the client. An example is  your-Amazon-S3-bucket-name&gt;/home/username .
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 paths and keys should be visible to your user and how you want to make them visible. You will need to specify the "Entry" and "Target" pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 path. If you only specify a target, it will be displayed as is. You will need to also make sure that your IAM role provides access to paths in Target. The following is an example.  '[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'  In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.  If the target of a logical directory entry does not exist in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 api to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api call instead of s3 so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a '/' for it to be considered a folder. 
+        /// Logical directory mappings that specify what Amazon S3 paths and keys should be visible to your user and how you want to make them visible. You will need to specify the "Entry" and "Target" pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 path. If you only specify a target, it will be displayed as is. You will need to also make sure that your IAM role provides access to paths in Target. The following is an example.  '[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'  In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.  If the target of a logical directory entry does not exist in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api call instead of s3 so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a '/' for it to be considered a folder. 
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
         /// The type of landing directory (folder) you want your users' home directory to be when they log into the file transfer protocol-enabled server. If you set it to PATH, the user will see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
@@ -153,7 +159,7 @@ extension Transfer {
         public let sshPublicKeyBody: String?
         /// Key-value pairs that can be used to group and search for users. Tags are metadata attached to users for any purpose.
         public let tags: [Tag]?
-        /// A unique string that identifies a user and is associated with a file transfer protocol-enabled server as specified by the ServerId. This user name must be a minimum of 3 and a maximum of 32 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore, and hyphen. The user name can't start with a hyphen.
+        /// A unique string that identifies a user and is associated with a file transfer protocol-enabled server as specified by the ServerId. This user name must be a minimum of 3 and a maximum of 100 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign '@'. The user name can't start with a hyphen, period, and at sign.
         public let userName: String
 
         public init(homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, role: String, serverId: String, sshPublicKeyBody: String? = nil, tags: [Tag]? = nil, userName: String) {
@@ -190,9 +196,9 @@ extension Transfer {
             }
             try validate(self.tags, name: "tags", parent: name, max: 50)
             try validate(self.tags, name: "tags", parent: name, min: 1)
-            try validate(self.userName, name: "userName", parent: name, max: 32)
+            try validate(self.userName, name: "userName", parent: name, max: 100)
             try validate(self.userName, name: "userName", parent: name, min: 3)
-            try validate(self.userName, name: "userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -268,9 +274,9 @@ extension Transfer {
             try validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, max: 21)
             try validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, min: 21)
             try validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, pattern: "^key-[0-9a-f]{17}$")
-            try validate(self.userName, name: "userName", parent: name, max: 32)
+            try validate(self.userName, name: "userName", parent: name, max: 100)
             try validate(self.userName, name: "userName", parent: name, min: 3)
-            try validate(self.userName, name: "userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -296,14 +302,47 @@ extension Transfer {
             try validate(self.serverId, name: "serverId", parent: name, max: 19)
             try validate(self.serverId, name: "serverId", parent: name, min: 19)
             try validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(self.userName, name: "userName", parent: name, max: 32)
+            try validate(self.userName, name: "userName", parent: name, max: 100)
             try validate(self.userName, name: "userName", parent: name, min: 3)
-            try validate(self.userName, name: "userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
             case userName = "UserName"
+        }
+    }
+
+    public struct DescribeSecurityPolicyRequest: AWSEncodableShape {
+
+        /// Specifies the name of the security policy that is attached to the server.
+        public let securityPolicyName: String
+
+        public init(securityPolicyName: String) {
+            self.securityPolicyName = securityPolicyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
+            try validate(self.securityPolicyName, name: "securityPolicyName", parent: name, pattern: "TransferSecurityPolicy-.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityPolicyName = "SecurityPolicyName"
+        }
+    }
+
+    public struct DescribeSecurityPolicyResponse: AWSDecodableShape {
+
+        /// An array containing the properties of the security policy.
+        public let securityPolicy: DescribedSecurityPolicy
+
+        public init(securityPolicy: DescribedSecurityPolicy) {
+            self.securityPolicy = securityPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityPolicy = "SecurityPolicy"
         }
     }
 
@@ -357,9 +396,9 @@ extension Transfer {
             try validate(self.serverId, name: "serverId", parent: name, max: 19)
             try validate(self.serverId, name: "serverId", parent: name, min: 19)
             try validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(self.userName, name: "userName", parent: name, max: 32)
+            try validate(self.userName, name: "userName", parent: name, max: 100)
             try validate(self.userName, name: "userName", parent: name, min: 3)
-            try validate(self.userName, name: "userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -386,9 +425,43 @@ extension Transfer {
         }
     }
 
+    public struct DescribedSecurityPolicy: AWSDecodableShape {
+
+        /// Specifies whether this policy enables Federal Information Processing Standards (FIPS).
+        public let fips: Bool?
+        /// Specifies the name of the security policy that is attached to the server.
+        public let securityPolicyName: String
+        /// Specifies the enabled Secure Shell (SSH) cipher encryption algorithms in the security policy that is attached to the server.
+        public let sshCiphers: [String]?
+        /// Specifies the enabled SSH key exchange (KEX) encryption algorithms in the security policy that is attached to the server.
+        public let sshKexs: [String]?
+        /// Specifies the enabled SSH message authentication code (MAC) encryption algorithms in the security policy that is attached to the server.
+        public let sshMacs: [String]?
+        /// Specifies the enabled Transport Layer Security (TLS) cipher encryption algorithms in the security policy that is attached to the server.
+        public let tlsCiphers: [String]?
+
+        public init(fips: Bool? = nil, securityPolicyName: String, sshCiphers: [String]? = nil, sshKexs: [String]? = nil, sshMacs: [String]? = nil, tlsCiphers: [String]? = nil) {
+            self.fips = fips
+            self.securityPolicyName = securityPolicyName
+            self.sshCiphers = sshCiphers
+            self.sshKexs = sshKexs
+            self.sshMacs = sshMacs
+            self.tlsCiphers = tlsCiphers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fips = "Fips"
+            case securityPolicyName = "SecurityPolicyName"
+            case sshCiphers = "SshCiphers"
+            case sshKexs = "SshKexs"
+            case sshMacs = "SshMacs"
+            case tlsCiphers = "TlsCiphers"
+        }
+    }
+
     public struct DescribedServer: AWSDecodableShape {
 
-        /// Specifies the unique Amazon Resource Name (ARN) for a file transfer protocol-enabled server to be described.
+        /// Specifies the unique Amazon Resource Name (ARN) of the file transfer protocol-enabled server.
         public let arn: String
         /// Specifies the ARN of the AWS Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
         public let certificate: String?
@@ -406,6 +479,8 @@ extension Transfer {
         public let loggingRole: String?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer  
         public let protocols: [Protocol]?
+        /// Specifies the name of the security policy that is attached to the server.
+        public let securityPolicyName: String?
         /// Specifies the unique system-assigned identifier for a file transfer protocol-enabled server that you instantiate.
         public let serverId: String?
         /// Specifies the condition of a file transfer protocol-enabled server for the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations. The states of STARTING and STOPPING indicate that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
@@ -415,7 +490,7 @@ extension Transfer {
         /// Specifies the number of users that are assigned to a file transfer protocol-enabled server you specified with the ServerId.
         public let userCount: Int?
 
-        public init(arn: String, certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil) {
+        public init(arn: String, certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil) {
             self.arn = arn
             self.certificate = certificate
             self.endpointDetails = endpointDetails
@@ -425,6 +500,7 @@ extension Transfer {
             self.identityProviderType = identityProviderType
             self.loggingRole = loggingRole
             self.protocols = protocols
+            self.securityPolicyName = securityPolicyName
             self.serverId = serverId
             self.state = state
             self.tags = tags
@@ -441,6 +517,7 @@ extension Transfer {
             case identityProviderType = "IdentityProviderType"
             case loggingRole = "LoggingRole"
             case protocols = "Protocols"
+            case securityPolicyName = "SecurityPolicyName"
             case serverId = "ServerId"
             case state = "State"
             case tags = "Tags"
@@ -597,9 +674,9 @@ extension Transfer {
             try validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
             try validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, max: 2048)
             try validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
-            try validate(self.userName, name: "userName", parent: name, max: 32)
+            try validate(self.userName, name: "userName", parent: name, max: 100)
             try validate(self.userName, name: "userName", parent: name, min: 3)
-            try validate(self.userName, name: "userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -631,11 +708,54 @@ extension Transfer {
         }
     }
 
+    public struct ListSecurityPoliciesRequest: AWSEncodableShape {
+
+        /// Specifies the number of security policies to return as a response to the ListSecurityPolicies query.
+        public let maxResults: Int?
+        /// When additional results are obtained from the ListSecurityPolicies command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional security policies.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSecurityPoliciesResponse: AWSDecodableShape {
+
+        /// When you can get additional results from the ListSecurityPolicies operation, a NextToken parameter is returned in the output. In a following command, you can pass in the NextToken parameter to continue listing security policies.
+        public let nextToken: String?
+        /// An array of security policies that were listed.
+        public let securityPolicyNames: [String]
+
+        public init(nextToken: String? = nil, securityPolicyNames: [String]) {
+            self.nextToken = nextToken
+            self.securityPolicyNames = securityPolicyNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case securityPolicyNames = "SecurityPolicyNames"
+        }
+    }
+
     public struct ListServersRequest: AWSEncodableShape {
 
         /// Specifies the number of file transfer protocol-enabled servers to return as a response to the ListServers query.
         public let maxResults: Int?
-        /// When additional results are obtained from theListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional file transfer protocol-enabled servers.
+        /// When additional results are obtained from the ListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional file transfer protocol-enabled servers.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -995,9 +1115,9 @@ extension Transfer {
             try validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
             try validate(self.sourceIp, name: "sourceIp", parent: name, max: 32)
             try validate(self.sourceIp, name: "sourceIp", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
-            try validate(self.userName, name: "userName", parent: name, max: 32)
+            try validate(self.userName, name: "userName", parent: name, max: 100)
             try validate(self.userName, name: "userName", parent: name, min: 3)
-            try validate(self.userName, name: "userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
             try validate(self.userPassword, name: "userPassword", parent: name, max: 2048)
         }
 
@@ -1081,10 +1201,12 @@ extension Transfer {
         public let loggingRole: String?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:   Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File Transfer Protocol Secure (FTPS): File transfer with TLS encryption   File Transfer Protocol (FTP): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in AWS Certificate Manager (ACM) which will be used to identify your server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED. 
         public let protocols: [Protocol]?
+        /// Specifies the name of the security policy that is attached to the server.
+        public let securityPolicyName: String?
         /// A system-assigned unique identifier for a file transfer protocol-enabled server instance that the user account is assigned to.
         public let serverId: String
 
-        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, serverId: String) {
+        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String) {
             self.certificate = certificate
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
@@ -1092,6 +1214,7 @@ extension Transfer {
             self.identityProviderDetails = identityProviderDetails
             self.loggingRole = loggingRole
             self.protocols = protocols
+            self.securityPolicyName = securityPolicyName
             self.serverId = serverId
         }
 
@@ -1104,6 +1227,8 @@ extension Transfer {
             try validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^$|arn:.*role/.*")
             try validate(self.protocols, name: "protocols", parent: name, max: 3)
             try validate(self.protocols, name: "protocols", parent: name, min: 1)
+            try validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
+            try validate(self.securityPolicyName, name: "securityPolicyName", parent: name, pattern: "TransferSecurityPolicy-.+")
             try validate(self.serverId, name: "serverId", parent: name, max: 19)
             try validate(self.serverId, name: "serverId", parent: name, min: 19)
             try validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
@@ -1117,6 +1242,7 @@ extension Transfer {
             case identityProviderDetails = "IdentityProviderDetails"
             case loggingRole = "LoggingRole"
             case protocols = "Protocols"
+            case securityPolicyName = "SecurityPolicyName"
             case serverId = "ServerId"
         }
     }
@@ -1139,7 +1265,7 @@ extension Transfer {
 
         /// Specifies the landing directory (folder) for a user when they log in to the file transfer protocol-enabled server using their file transfer protocol client. An example is your-Amazon-S3-bucket-name&gt;/home/username.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 paths and keys should be visible to your user and how you want to make them visible. You will need to specify the "Entry" and "Target" pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 path. If you only specify a target, it will be displayed as is. You will need to also make sure that your IAM role provides access to paths in Target. The following is an example.  '[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'  In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.  If the target of a logical directory entry does not exist in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 api to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api call instead of s3 so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder. 
+        /// Logical directory mappings that specify what Amazon S3 paths and keys should be visible to your user and how you want to make them visible. You will need to specify the "Entry" and "Target" pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 path. If you only specify a target, it will be displayed as is. You will need to also make sure that your IAM role provides access to paths in Target. The following is an example.  '[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'  In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.  If the target of a logical directory entry does not exist in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api call instead of s3 so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder. 
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
         /// The type of landing directory (folder) you want your users' home directory to be when they log into the file transfer protocol-enabled server. If you set it to PATH, the user will see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
@@ -1149,7 +1275,7 @@ extension Transfer {
         public let role: String?
         /// A system-assigned unique identifier for a file transfer protocol-enabled server instance that the user account is assigned to.
         public let serverId: String
-        /// A unique string that identifies a user and is associated with a file transfer protocol-enabled server as specified by the ServerId. This is the string that will be used by your user when they log in to your server. This user name is a minimum of 3 and a maximum of 32 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore, and hyphen. The user name can't start with a hyphen.
+        /// A unique string that identifies a user and is associated with a file transfer protocol-enabled server as specified by the ServerId. This user name must be a minimum of 3 and a maximum of 100 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign '@'. The user name can't start with a hyphen, period, and at sign.
         public let userName: String
 
         public init(homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, role: String? = nil, serverId: String, userName: String) {
@@ -1177,9 +1303,9 @@ extension Transfer {
             try validate(self.serverId, name: "serverId", parent: name, max: 19)
             try validate(self.serverId, name: "serverId", parent: name, min: 19)
             try validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(self.userName, name: "userName", parent: name, max: 32)
+            try validate(self.userName, name: "userName", parent: name, max: 100)
             try validate(self.userName, name: "userName", parent: name, min: 3)
-            try validate(self.userName, name: "userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
         }
 
         private enum CodingKeys: String, CodingKey {

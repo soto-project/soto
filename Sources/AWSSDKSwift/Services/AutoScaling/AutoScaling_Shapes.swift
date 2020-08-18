@@ -18,7 +18,19 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension AutoScaling {
-    //MARK: Enums
+    // MARK: Enums
+
+    public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable {
+        case disabled = "disabled"
+        case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceMetadataHttpTokensState: String, CustomStringConvertible, Codable {
+        case optional = "optional"
+        case required = "required"
+        public var description: String { return self.rawValue }
+    }
 
     public enum InstanceRefreshStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
@@ -85,7 +97,7 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ActivitiesType: AWSDecodableShape {
 
@@ -789,7 +801,7 @@ extension AutoScaling {
         public var loadBalancerNames: [String]?
         /// The maximum amount of time, in seconds, that an instance can be in service. The default is null. This parameter is optional, but if you specify a value for it, you must specify a value of at least 604,800 seconds (7 days). To clear a previously set value, specify a new value of 0. For more information, see Replacing Auto Scaling Instances Based on Maximum Instance Lifetime in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 0.
         public let maxInstanceLifetime: Int?
-        /// The maximum size of the group.  With a mixed instances policy that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize by more than your maximum instance weight (weights that define how many capacity units each instance contributes to the capacity of the group). 
+        /// The maximum size of the group.  With a mixed instances policy that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize by more than your largest instance weight (weights that define how many units each instance contributes to the desired capacity of the group). 
         public let maxSize: Int
         /// The minimum size of the group.
         public let minSize: Int
@@ -947,6 +959,8 @@ extension AutoScaling {
         public let keyName: String?
         /// The name of the launch configuration. This name must be unique per Region per account.
         public let launchConfigurationName: String
+        /// The metadata options for the instances. For more information, see Instance Metadata and User Data in the Amazon EC2 User Guide for Linux Instances.
+        public let metadataOptions: InstanceMetadataOptions?
         /// The tenancy of the instance. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC. To launch dedicated instances into a shared tenancy VPC (a VPC with the instance placement tenancy attribute set to default), you must set the value of this parameter to dedicated. If you specify PlacementTenancy, you must specify at least one subnet for VPCZoneIdentifier when you create your group. For more information, see Instance Placement Tenancy in the Amazon EC2 Auto Scaling User Guide. Valid Values: default | dedicated 
         public let placementTenancy: String?
         /// The ID of the RAM disk to select.
@@ -959,7 +973,7 @@ extension AutoScaling {
         /// The Base64-encoded user data to make available to the launched EC2 instances. For more information, see Instance Metadata and User Data in the Amazon EC2 User Guide for Linux Instances.
         public let userData: String?
 
-        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchConfigurationName: String, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchConfigurationName: String, metadataOptions: InstanceMetadataOptions? = nil, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.blockDeviceMappings = blockDeviceMappings
             self.classicLinkVPCId = classicLinkVPCId
@@ -973,6 +987,7 @@ extension AutoScaling {
             self.kernelId = kernelId
             self.keyName = keyName
             self.launchConfigurationName = launchConfigurationName
+            self.metadataOptions = metadataOptions
             self.placementTenancy = placementTenancy
             self.ramdiskId = ramdiskId
             self.securityGroups = securityGroups
@@ -1013,6 +1028,7 @@ extension AutoScaling {
             try validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, max: 255)
             try validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, min: 1)
             try validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.metadataOptions?.validate(name: "\(name).metadataOptions")
             try validate(self.placementTenancy, name: "placementTenancy", parent: name, max: 64)
             try validate(self.placementTenancy, name: "placementTenancy", parent: name, min: 1)
             try validate(self.placementTenancy, name: "placementTenancy", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1042,6 +1058,7 @@ extension AutoScaling {
             case kernelId = "KernelId"
             case keyName = "KeyName"
             case launchConfigurationName = "LaunchConfigurationName"
+            case metadataOptions = "MetadataOptions"
             case placementTenancy = "PlacementTenancy"
             case ramdiskId = "RamdiskId"
             case securityGroups = "SecurityGroups"
@@ -2298,6 +2315,33 @@ extension AutoScaling {
         }
     }
 
+    public struct InstanceMetadataOptions: AWSEncodableShape & AWSDecodableShape {
+
+        /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.  
+        public let httpEndpoint: InstanceMetadataEndpointState?
+        /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1 Possible values: Integers from 1 to 64
+        public let httpPutResponseHopLimit: Int?
+        /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available.
+        public let httpTokens: InstanceMetadataHttpTokensState?
+
+        public init(httpEndpoint: InstanceMetadataEndpointState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: InstanceMetadataHttpTokensState? = nil) {
+            self.httpEndpoint = httpEndpoint
+            self.httpPutResponseHopLimit = httpPutResponseHopLimit
+            self.httpTokens = httpTokens
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.httpPutResponseHopLimit, name: "httpPutResponseHopLimit", parent: name, max: 64)
+            try validate(self.httpPutResponseHopLimit, name: "httpPutResponseHopLimit", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpEndpoint = "HttpEndpoint"
+            case httpPutResponseHopLimit = "HttpPutResponseHopLimit"
+            case httpTokens = "HttpTokens"
+        }
+    }
+
     public struct InstanceMonitoring: AWSEncodableShape & AWSDecodableShape {
 
         /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
@@ -2427,6 +2471,8 @@ extension AutoScaling {
         public let launchConfigurationARN: String?
         /// The name of the launch configuration.
         public let launchConfigurationName: String
+        /// The metadata options for the instances. For more information, see Instance Metadata and User Data in the Amazon EC2 User Guide for Linux Instances.
+        public let metadataOptions: InstanceMetadataOptions?
         /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC. For more information, see Instance Placement Tenancy in the Amazon EC2 Auto Scaling User Guide.
         public let placementTenancy: String?
         /// The ID of the RAM disk associated with the AMI.
@@ -2439,7 +2485,7 @@ extension AutoScaling {
         /// The Base64-encoded user data to make available to the launched EC2 instances. For more information, see Instance Metadata and User Data in the Amazon EC2 User Guide for Linux Instances.
         public let userData: String?
 
-        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, createdTime: TimeStamp, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String, kernelId: String? = nil, keyName: String? = nil, launchConfigurationARN: String? = nil, launchConfigurationName: String, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, createdTime: TimeStamp, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String, kernelId: String? = nil, keyName: String? = nil, launchConfigurationARN: String? = nil, launchConfigurationName: String, metadataOptions: InstanceMetadataOptions? = nil, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.blockDeviceMappings = blockDeviceMappings
             self.classicLinkVPCId = classicLinkVPCId
@@ -2454,6 +2500,7 @@ extension AutoScaling {
             self.keyName = keyName
             self.launchConfigurationARN = launchConfigurationARN
             self.launchConfigurationName = launchConfigurationName
+            self.metadataOptions = metadataOptions
             self.placementTenancy = placementTenancy
             self.ramdiskId = ramdiskId
             self.securityGroups = securityGroups
@@ -2476,6 +2523,7 @@ extension AutoScaling {
             case keyName = "KeyName"
             case launchConfigurationARN = "LaunchConfigurationARN"
             case launchConfigurationName = "LaunchConfigurationName"
+            case metadataOptions = "MetadataOptions"
             case placementTenancy = "PlacementTenancy"
             case ramdiskId = "RamdiskId"
             case securityGroups = "SecurityGroups"
@@ -2779,7 +2827,7 @@ extension AutoScaling {
 
     public struct MetricCollectionType: AWSDecodableShape {
 
-        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
+        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity   
         public let metric: String?
 
         public init(metric: String? = nil) {
@@ -3066,7 +3114,7 @@ extension AutoScaling {
 
     public struct PutScalingPolicyType: AWSEncodableShape {
 
-        /// Specifies how the scaling adjustment is interpreted (either an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. Required if the policy type is StepScaling or SimpleScaling. For more information, see Scaling Adjustment Types in the Amazon EC2 Auto Scaling User Guide.
+        /// Specifies how the scaling adjustment is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. Required if the policy type is StepScaling or SimpleScaling. For more information, see Scaling Adjustment Types in the Amazon EC2 Auto Scaling User Guide.
         public let adjustmentType: String?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -3278,7 +3326,7 @@ extension AutoScaling {
 
     public struct ScalingPolicy: AWSDecodableShape {
 
-        /// Specifies how the scaling adjustment is interpreted (either an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
+        /// Specifies how the scaling adjustment is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
         /// The CloudWatch alarms related to the policy.
         @OptionalCoding<DefaultArrayCoder>
@@ -3843,7 +3891,7 @@ extension AutoScaling {
         public let launchTemplate: LaunchTemplateSpecification?
         /// The maximum amount of time, in seconds, that an instance can be in service. The default is null. This parameter is optional, but if you specify a value for it, you must specify a value of at least 604,800 seconds (7 days). To clear a previously set value, specify a new value of 0. For more information, see Replacing Auto Scaling Instances Based on Maximum Instance Lifetime in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 0.
         public let maxInstanceLifetime: Int?
-        /// The maximum size of the Auto Scaling group.  With a mixed instances policy that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize by more than your maximum instance weight (weights that define how many capacity units each instance contributes to the capacity of the group). 
+        /// The maximum size of the Auto Scaling group.  With a mixed instances policy that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize by more than your largest instance weight (weights that define how many units each instance contributes to the desired capacity of the group). 
         public let maxSize: Int?
         /// The minimum size of the Auto Scaling group.
         public let minSize: Int?

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Snowball {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ClusterState: String, CustomStringConvertible, Codable {
         case awaitingquorum = "AwaitingQuorum"
@@ -82,7 +82,7 @@ extension Snowball {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Address: AWSEncodableShape & AWSDecodableShape {
 

@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension EC2InstanceConnect {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct SendSSHPublicKeyRequest: AWSEncodableShape {
 

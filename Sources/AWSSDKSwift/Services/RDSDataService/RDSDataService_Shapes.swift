@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension RDSDataService {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DecimalReturnType: String, CustomStringConvertible, Codable {
         case doubleOrLong = "DOUBLE_OR_LONG"
@@ -34,7 +34,7 @@ extension RDSDataService {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public class ArrayValue: AWSEncodableShape & AWSDecodableShape {
 

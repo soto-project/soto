@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension IAM {
 
@@ -592,5 +592,4 @@ extension IAM.SimulatePrincipalPolicyRequest: AWSPaginateToken {
 
     }
 }
-
 

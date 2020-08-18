@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Rekognition {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Attribute: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
@@ -204,7 +204,7 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AgeRange: AWSDecodableShape {
 

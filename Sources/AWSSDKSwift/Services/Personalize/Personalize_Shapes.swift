@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Personalize {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum RecipeProvider: String, CustomStringConvertible, Codable {
         case service = "SERVICE"
@@ -31,7 +31,7 @@ extension Personalize {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Algorithm: AWSDecodableShape {
 
@@ -146,6 +146,8 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public let batchInferenceJobArn: String?
+        /// A string to string map of the configuration details of a batch inference job.
+        public let batchInferenceJobConfig: BatchInferenceJobConfig?
         /// The time at which the batch inference job was created.
         public let creationDateTime: TimeStamp?
         /// If the batch inference job failed, the reason for the failure.
@@ -169,8 +171,9 @@ extension Personalize {
         /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED  
         public let status: String?
 
-        public init(batchInferenceJobArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: TimeStamp? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(batchInferenceJobArn: String? = nil, batchInferenceJobConfig: BatchInferenceJobConfig? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: TimeStamp? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.batchInferenceJobArn = batchInferenceJobArn
+            self.batchInferenceJobConfig = batchInferenceJobConfig
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.filterArn = filterArn
@@ -186,6 +189,7 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case batchInferenceJobArn = "batchInferenceJobArn"
+            case batchInferenceJobConfig = "batchInferenceJobConfig"
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
             case filterArn = "filterArn"
@@ -197,6 +201,27 @@ extension Personalize {
             case roleArn = "roleArn"
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
+        }
+    }
+
+    public struct BatchInferenceJobConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// A string to string map specifying the inference hyperparameters you wish to use for hyperparameter optimization. See customizing-solution-config-hpo.
+        public let itemExplorationConfig: [String: String]?
+
+        public init(itemExplorationConfig: [String: String]? = nil) {
+            self.itemExplorationConfig = itemExplorationConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.itemExplorationConfig?.forEach {
+                try validate($0.key, name: "itemExplorationConfig.key", parent: name, max: 256)
+                try validate($0.value, name: "itemExplorationConfig[\"\($0.key)\"]", parent: name, max: 1000)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemExplorationConfig = "itemExplorationConfig"
         }
     }
 
@@ -278,6 +303,8 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the campaign. 
         public let campaignArn: String?
+        /// The configuration details of a campaign.
+        public let campaignConfig: CampaignConfig?
         /// The date and time (in Unix format) that the campaign was created.
         public let creationDateTime: TimeStamp?
         /// If a campaign fails, the reason behind the failure.
@@ -294,8 +321,9 @@ extension Personalize {
         /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
-        public init(campaignArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, latestCampaignUpdate: CampaignUpdateSummary? = nil, minProvisionedTPS: Int? = nil, name: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(campaignArn: String? = nil, campaignConfig: CampaignConfig? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, latestCampaignUpdate: CampaignUpdateSummary? = nil, minProvisionedTPS: Int? = nil, name: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.campaignArn = campaignArn
+            self.campaignConfig = campaignConfig
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -308,6 +336,7 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
+            case campaignConfig = "campaignConfig"
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
@@ -316,6 +345,27 @@ extension Personalize {
             case name = "name"
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
+        }
+    }
+
+    public struct CampaignConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// A string to string map specifying the inference hyperparameters you wish to use for hyperparameter optimization. See customizing-solution-config-hpo.
+        public let itemExplorationConfig: [String: String]?
+
+        public init(itemExplorationConfig: [String: String]? = nil) {
+            self.itemExplorationConfig = itemExplorationConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.itemExplorationConfig?.forEach {
+                try validate($0.key, name: "itemExplorationConfig.key", parent: name, max: 256)
+                try validate($0.value, name: "itemExplorationConfig[\"\($0.key)\"]", parent: name, max: 1000)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemExplorationConfig = "itemExplorationConfig"
         }
     }
 
@@ -355,6 +405,7 @@ extension Personalize {
 
     public struct CampaignUpdateSummary: AWSDecodableShape {
 
+        public let campaignConfig: CampaignConfig?
         /// The date and time (in Unix time) that the campaign update was created.
         public let creationDateTime: TimeStamp?
         /// If a campaign update fails, the reason behind the failure.
@@ -368,7 +419,8 @@ extension Personalize {
         /// The status of the campaign update. A campaign update can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
-        public init(creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(campaignConfig: CampaignConfig? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+            self.campaignConfig = campaignConfig
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -378,6 +430,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case campaignConfig = "campaignConfig"
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
@@ -443,6 +496,8 @@ extension Personalize {
 
     public struct CreateBatchInferenceJobRequest: AWSEncodableShape {
 
+        /// The configuration details of a batch inference job.
+        public let batchInferenceJobConfig: BatchInferenceJobConfig?
         /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Using Filters with Amazon Personalize.
         public let filterArn: String?
         /// The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format.
@@ -458,7 +513,8 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations.
         public let solutionVersionArn: String
 
-        public init(filterArn: String? = nil, jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String) {
+        public init(batchInferenceJobConfig: BatchInferenceJobConfig? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String) {
+            self.batchInferenceJobConfig = batchInferenceJobConfig
             self.filterArn = filterArn
             self.jobInput = jobInput
             self.jobName = jobName
@@ -469,6 +525,7 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
+            try self.batchInferenceJobConfig?.validate(name: "\(name).batchInferenceJobConfig")
             try validate(self.filterArn, name: "filterArn", parent: name, max: 256)
             try validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.jobInput.validate(name: "\(name).jobInput")
@@ -483,6 +540,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchInferenceJobConfig = "batchInferenceJobConfig"
             case filterArn = "filterArn"
             case jobInput = "jobInput"
             case jobName = "jobName"
@@ -509,6 +567,8 @@ extension Personalize {
 
     public struct CreateCampaignRequest: AWSEncodableShape {
 
+        /// The configuration details of a campaign.
+        public let campaignConfig: CampaignConfig?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
         public let minProvisionedTPS: Int
         /// A name for the new campaign. The campaign name must be unique within your account.
@@ -516,13 +576,15 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version to deploy.
         public let solutionVersionArn: String
 
-        public init(minProvisionedTPS: Int, name: String, solutionVersionArn: String) {
+        public init(campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int, name: String, solutionVersionArn: String) {
+            self.campaignConfig = campaignConfig
             self.minProvisionedTPS = minProvisionedTPS
             self.name = name
             self.solutionVersionArn = solutionVersionArn
         }
 
         public func validate(name: String) throws {
+            try self.campaignConfig?.validate(name: "\(name).campaignConfig")
             try validate(self.minProvisionedTPS, name: "minProvisionedTPS", parent: name, min: 1)
             try validate(self.name, name: "name", parent: name, max: 63)
             try validate(self.name, name: "name", parent: name, min: 1)
@@ -532,6 +594,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case campaignConfig = "campaignConfig"
             case minProvisionedTPS = "minProvisionedTPS"
             case name = "name"
             case solutionVersionArn = "solutionVersionArn"
@@ -3125,13 +3188,16 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
+        /// The configuration details of a campaign.
+        public let campaignConfig: CampaignConfig?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
         public let minProvisionedTPS: Int?
         /// The ARN of a new solution version to deploy.
         public let solutionVersionArn: String?
 
-        public init(campaignArn: String, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil) {
+        public init(campaignArn: String, campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil) {
             self.campaignArn = campaignArn
+            self.campaignConfig = campaignConfig
             self.minProvisionedTPS = minProvisionedTPS
             self.solutionVersionArn = solutionVersionArn
         }
@@ -3139,6 +3205,7 @@ extension Personalize {
         public func validate(name: String) throws {
             try validate(self.campaignArn, name: "campaignArn", parent: name, max: 256)
             try validate(self.campaignArn, name: "campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.campaignConfig?.validate(name: "\(name).campaignConfig")
             try validate(self.minProvisionedTPS, name: "minProvisionedTPS", parent: name, min: 1)
             try validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
@@ -3146,6 +3213,7 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
+            case campaignConfig = "campaignConfig"
             case minProvisionedTPS = "minProvisionedTPS"
             case solutionVersionArn = "solutionVersionArn"
         }

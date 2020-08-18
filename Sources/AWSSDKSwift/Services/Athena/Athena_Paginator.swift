@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Athena {
 
@@ -189,5 +189,4 @@ extension Athena.ListWorkGroupsInput: AWSPaginateToken {
 
     }
 }
-
 

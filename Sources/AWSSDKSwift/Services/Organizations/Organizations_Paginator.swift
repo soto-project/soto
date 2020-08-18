@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Organizations {
 
@@ -90,7 +90,7 @@ extension Organizations {
         return client.paginate(input: input, command: listDelegatedServicesForAccount, tokenKey: \ListDelegatedServicesForAccountResponse.nextToken, on: eventLoop, onPage: onPage)
     }
 
-    ///  Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called from any account in the organization.
     public func listHandshakesForAccountPaginator(
         _ input: ListHandshakesForAccountRequest,
         on eventLoop: EventLoop? = nil,
@@ -355,5 +355,4 @@ extension Organizations.ListTargetsForPolicyRequest: AWSPaginateToken {
 
     }
 }
-
 

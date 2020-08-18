@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Amplify {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DomainStatus: String, CustomStringConvertible, Codable {
         case pendingVerification = "PENDING_VERIFICATION"
@@ -65,7 +65,7 @@ extension Amplify {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct App: AWSDecodableShape {
 
@@ -95,7 +95,7 @@ extension Amplify {
         public let enableBasicAuth: Bool
         ///  Enables the auto-building of branches for the Amplify app. 
         public let enableBranchAutoBuild: Bool
-        ///  Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository. 
+        ///  Automatically disconnect a branch in the Amplify Console when you delete a branch from your Git repository. 
         public let enableBranchAutoDeletion: Bool?
         ///  The environment variables for the Amplify app. 
         public let environmentVariables: [String: String]

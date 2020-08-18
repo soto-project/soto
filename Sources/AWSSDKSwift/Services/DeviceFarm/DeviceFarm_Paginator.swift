@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension DeviceFarm {
 
@@ -391,5 +391,4 @@ extension DeviceFarm.ListUploadsRequest: AWSPaginateToken {
 
     }
 }
-
 

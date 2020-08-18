@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension KinesisVideoArchivedMedia {
 
@@ -43,5 +43,4 @@ extension KinesisVideoArchivedMedia.ListFragmentsInput: AWSPaginateToken {
 
     }
 }
-
 

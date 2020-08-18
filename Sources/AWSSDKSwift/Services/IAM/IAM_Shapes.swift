@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IAM {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccessAdvisorUsageGranularityType: String, CustomStringConvertible, Codable {
         case serviceLevel = "SERVICE_LEVEL"
@@ -191,7 +191,7 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessDetail: AWSDecodableShape {
 

@@ -16,9 +16,20 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension AppMesh {
+
+    ///  Returns a list of existing gateway routes that are associated to a virtual
+    ///           gateway.
+    public func listGatewayRoutesPaginator(
+        _ input: ListGatewayRoutesInput,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListGatewayRoutesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listGatewayRoutes, tokenKey: \ListGatewayRoutesOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
 
     ///  Returns a list of existing service meshes.
     public func listMeshesPaginator(
@@ -48,6 +59,16 @@ extension AppMesh {
         onPage: @escaping (ListTagsForResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceOutput.nextToken, on: eventLoop, onPage: onPage)
+    }
+
+    ///  Returns a list of existing virtual gateways in a service mesh.
+    public func listVirtualGatewaysPaginator(
+        _ input: ListVirtualGatewaysInput,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListVirtualGatewaysOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listVirtualGateways, tokenKey: \ListVirtualGatewaysOutput.nextToken, on: eventLoop, onPage: onPage)
     }
 
     ///  Returns a list of existing virtual nodes.
@@ -82,6 +103,19 @@ extension AppMesh {
 
 }
 
+extension AppMesh.ListGatewayRoutesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListGatewayRoutesInput {
+        return .init(
+            limit: self.limit,
+            meshName: self.meshName,
+            meshOwner: self.meshOwner,
+            nextToken: token,
+            virtualGatewayName: self.virtualGatewayName
+        )
+
+    }
+}
+
 extension AppMesh.ListMeshesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppMesh.ListMeshesInput {
         return .init(
@@ -111,6 +145,18 @@ extension AppMesh.ListTagsForResourceInput: AWSPaginateToken {
             limit: self.limit,
             nextToken: token,
             resourceArn: self.resourceArn
+        )
+
+    }
+}
+
+extension AppMesh.ListVirtualGatewaysInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListVirtualGatewaysInput {
+        return .init(
+            limit: self.limit,
+            meshName: self.meshName,
+            meshOwner: self.meshOwner,
+            nextToken: token
         )
 
     }
@@ -151,5 +197,4 @@ extension AppMesh.ListVirtualServicesInput: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,9 +18,9 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension STS {
-    //MARK: Enums
+    // MARK: Enums
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssumeRoleRequest: AWSEncodableShape {
 

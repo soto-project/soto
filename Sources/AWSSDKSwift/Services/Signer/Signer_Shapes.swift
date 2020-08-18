@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Signer {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum Category: String, CustomStringConvertible, Codable {
         case awsiot = "AWSIoT"
@@ -57,7 +57,7 @@ extension Signer {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CancelSigningProfileRequest: AWSEncodableShape {
         public static var _encoding = [

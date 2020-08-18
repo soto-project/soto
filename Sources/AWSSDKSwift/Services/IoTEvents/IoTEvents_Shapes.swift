@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoTEvents {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum DetectorModelVersionStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
@@ -58,7 +58,7 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
 

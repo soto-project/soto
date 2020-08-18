@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Inspector {
 
@@ -236,5 +236,4 @@ extension Inspector.PreviewAgentsRequest: AWSPaginateToken {
 
     }
 }
-
 

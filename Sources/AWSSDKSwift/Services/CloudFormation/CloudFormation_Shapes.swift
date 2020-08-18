@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension CloudFormation {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccountGateStatus: String, CustomStringConvertible, Codable {
         case succeeded = "SUCCEEDED"
@@ -341,7 +341,7 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccountGateResult: AWSDecodableShape {
 

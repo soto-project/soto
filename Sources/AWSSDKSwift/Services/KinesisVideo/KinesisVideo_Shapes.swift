@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension KinesisVideo {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum APIName: String, CustomStringConvertible, Codable {
         case putMedia = "PUT_MEDIA"
@@ -67,7 +67,7 @@ extension KinesisVideo {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct ChannelInfo: AWSDecodableShape {
 

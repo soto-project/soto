@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension S3Control {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum JobManifestFieldName: String, CustomStringConvertible, Codable {
         case ignore = "Ignore"
@@ -158,7 +158,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AccessPoint: AWSDecodableShape {
 

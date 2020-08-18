@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Batch {
 
@@ -110,5 +110,4 @@ extension Batch.ListJobsRequest: AWSPaginateToken {
 
     }
 }
-
 

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension RAM {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ResourceOwner: String, CustomStringConvertible, Codable {
         case `self` = "SELF"
@@ -74,7 +74,7 @@ extension RAM {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AcceptResourceShareInvitationRequest: AWSEncodableShape {
 

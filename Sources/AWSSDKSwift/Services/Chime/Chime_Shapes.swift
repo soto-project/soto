@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Chime {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AccountType: String, CustomStringConvertible, Codable {
         case team = "Team"
@@ -65,6 +65,7 @@ extension Chime {
         case accessdenied = "AccessDenied"
         case serviceunavailable = "ServiceUnavailable"
         case throttled = "Throttled"
+        case throttling = "Throttling"
         case unauthorized = "Unauthorized"
         case unprocessable = "Unprocessable"
         case voiceconnectorgroupassociationsexist = "VoiceConnectorGroupAssociationsExist"
@@ -198,7 +199,7 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Account: AWSDecodableShape {
 
@@ -1097,7 +1098,7 @@ extension Chime {
             try self.attendees?.forEach {
                 try $0.validate(name: "\(name).attendees[]")
             }
-            try validate(self.attendees, name: "attendees", parent: name, max: 5)
+            try validate(self.attendees, name: "attendees", parent: name, max: 10)
             try validate(self.attendees, name: "attendees", parent: name, min: 1)
             try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)

@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension DataSync {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AgentStatus: String, CustomStringConvertible, Codable {
         case online = "ONLINE"
@@ -70,6 +70,12 @@ extension DataSync {
         case nfs3 = "NFS3"
         case nfs40 = "NFS4_0"
         case nfs41 = "NFS4_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectStorageServerProtocol: String, CustomStringConvertible, Codable {
+        case https = "HTTPS"
+        case http = "HTTP"
         public var description: String { return self.rawValue }
     }
 
@@ -147,6 +153,12 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransferMode: String, CustomStringConvertible, Codable {
+        case changed = "CHANGED"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Uid: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case intValue = "INT_VALUE"
@@ -162,7 +174,7 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AgentListEntry: AWSDecodableShape {
 
@@ -225,7 +237,7 @@ extension DataSync {
         public let subnetArns: [String]?
         /// The key-value pair that represents the tag that you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.  
         public let tags: [TagListEntry]?
-        /// The ID of the VPC (Virtual Private Cloud) endpoint that the agent has access to. This is the client-side VPC endpoint, also called a PrivateLink. If you don't have a PrivateLink VPC endpoint, see Creating a VPC Endpoint Service Configuration in the AWS VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
+        /// The ID of the VPC (virtual private cloud) endpoint that the agent has access to. This is the client-side VPC endpoint, also called a PrivateLink. If you don't have a PrivateLink VPC endpoint, see Creating a VPC Endpoint Service Configuration in the Amazon VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
         public let vpcEndpointId: String?
 
         public init(activationKey: String, agentName: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil, tags: [TagListEntry]? = nil, vpcEndpointId: String? = nil) {
@@ -258,7 +270,7 @@ extension DataSync {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(self.tags, name: "tags", parent: name, max: 55)
+            try validate(self.tags, name: "tags", parent: name, max: 50)
             try validate(self.tags, name: "tags", parent: name, min: 0)
             try validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{17}$")
         }
@@ -293,7 +305,7 @@ extension DataSync {
         public let ec2Config: Ec2Config
         /// The Amazon Resource Name (ARN) for the Amazon EFS file system.
         public let efsFilesystemArn: String
-        /// A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, AWS DataSync uses the root directory.   Subdirectory must be specified with forward slashes. For example /path/to/folder. 
+        /// A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, AWS DataSync uses the root directory.   Subdirectory must be specified with forward slashes. For example, /path/to/folder. 
         public let subdirectory: String?
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
@@ -314,7 +326,7 @@ extension DataSync {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(self.tags, name: "tags", parent: name, max: 55)
+            try validate(self.tags, name: "tags", parent: name, max: 50)
             try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
@@ -385,7 +397,7 @@ extension DataSync {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(self.tags, name: "tags", parent: name, max: 55)
+            try validate(self.tags, name: "tags", parent: name, max: 50)
             try validate(self.tags, name: "tags", parent: name, min: 0)
             try validate(self.user, name: "user", parent: name, max: 104)
             try validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
@@ -420,11 +432,11 @@ extension DataSync {
 
         /// The NFS mount options that DataSync can use to mount your NFS share.
         public let mountOptions: NfsMountOptions?
-        /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to connect to an NFS server.
+        /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to connect to an NFS server.  If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information.
         public let onPremConfig: OnPremConfig
-        /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this host name to mount the NFS server in a network.   This name must either be DNS-compliant or must be an IP version 4 (IPv4) address. 
+        /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this host name to mount the NFS server in a network.  If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address. 
         public let serverHostname: String
-        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server. run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server. run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
@@ -446,7 +458,7 @@ extension DataSync {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(self.tags, name: "tags", parent: name, max: 55)
+            try validate(self.tags, name: "tags", parent: name, max: 50)
             try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
@@ -462,6 +474,95 @@ extension DataSync {
     public struct CreateLocationNfsResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the source NFS file system location that is created.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct CreateLocationObjectStorageRequest: AWSEncodableShape {
+
+        /// Optional. The access key is used if credentials are required to access the self-managed object storage server.
+        public let accessKey: String?
+        /// The Amazon Resource Name (ARN) of the agents associated with the self-managed object storage server location.
+        public let agentArns: [String]
+        /// The bucket on the self-managed object storage server that is used to read data from.
+        public let bucketName: String
+        /// Optional. The secret key is used if credentials are required to access the self-managed object storage server.
+        public let secretKey: String?
+        /// The name of the self-managed object storage server. This value is the IP address or Domain Name Service (DNS) name of the object storage server. An agent uses this host name to mount the object storage server in a network. 
+        public let serverHostname: String
+        /// The port that your self-managed object storage server accepts inbound network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS). You can specify a custom port if your self-managed object storage server requires one.
+        public let serverPort: Int?
+        /// The protocol that the object storage server uses to communicate. Valid values are HTTP or HTTPS.
+        public let serverProtocol: ObjectStorageServerProtocol?
+        /// The subdirectory in the self-managed object storage server that is used to read data from.
+        public let subdirectory: String?
+        /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
+        public let tags: [TagListEntry]?
+
+        public init(accessKey: String? = nil, agentArns: [String], bucketName: String, secretKey: String? = nil, serverHostname: String, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+            self.accessKey = accessKey
+            self.agentArns = agentArns
+            self.bucketName = bucketName
+            self.secretKey = secretKey
+            self.serverHostname = serverHostname
+            self.serverPort = serverPort
+            self.serverProtocol = serverProtocol
+            self.subdirectory = subdirectory
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accessKey, name: "accessKey", parent: name, max: 200)
+            try validate(self.accessKey, name: "accessKey", parent: name, min: 8)
+            try validate(self.accessKey, name: "accessKey", parent: name, pattern: "^.+$")
+            try self.agentArns.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+            try validate(self.secretKey, name: "secretKey", parent: name, max: 200)
+            try validate(self.secretKey, name: "secretKey", parent: name, min: 8)
+            try validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.+$")
+            try validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
+            try validate(self.serverHostname, name: "serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+            try validate(self.serverPort, name: "serverPort", parent: name, max: 65536)
+            try validate(self.serverPort, name: "serverPort", parent: name, min: 1)
+            try validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 50)
+            try validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKey = "AccessKey"
+            case agentArns = "AgentArns"
+            case bucketName = "BucketName"
+            case secretKey = "SecretKey"
+            case serverHostname = "ServerHostname"
+            case serverPort = "ServerPort"
+            case serverProtocol = "ServerProtocol"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLocationObjectStorageResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the agents associated with the self-managed object storage server location.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -502,7 +603,7 @@ extension DataSync {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(self.tags, name: "tags", parent: name, max: 55)
+            try validate(self.tags, name: "tags", parent: name, max: 50)
             try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
@@ -541,7 +642,7 @@ extension DataSync {
         public let password: String
         /// The name of the SMB server. This value is the IP address or Domain Name Service (DNS) name of the SMB server. An agent that is installed on-premises uses this hostname to mount the SMB server in a network.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address. 
         public let serverHostname: String
-        /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network.   Subdirectory must be specified with forward slashes. For example /path/to/folder.  To transfer all the data in the folder you specified, DataSync needs to have permissions to mount the SMB share, as well as to access all the data in that share. To ensure this, either ensure that the user/password specified belongs to the user who can mount the share, and who has the appropriate permissions for all of the files and directories that you want DataSync to access, or use credentials of a member of the Backup Operators group to mount the share. Doing either enables the agent to access the data. For the agent to access directories, you must additionally enable all execute access.
+        /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network.   Subdirectory must be specified with forward slashes. For example, /path/to/folder.  To transfer all the data in the folder you specified, DataSync needs to have permissions to mount the SMB share, as well as to access all the data in that share. To ensure this, either ensure that the user/password specified belongs to the user who can mount the share, and who has the appropriate permissions for all of the files and directories that you want DataSync to access, or use credentials of a member of the Backup Operators group to mount the share. Doing either enables the agent to access the data. For the agent to access directories, you must additionally enable all execute access.
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
@@ -564,7 +665,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try validate(self.agentArns, name: "agentArns", parent: name, max: 64)
+            try validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try validate(self.domain, name: "domain", parent: name, max: 253)
             try validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
@@ -577,7 +678,7 @@ extension DataSync {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(self.tags, name: "tags", parent: name, max: 55)
+            try validate(self.tags, name: "tags", parent: name, max: 50)
             try validate(self.tags, name: "tags", parent: name, min: 0)
             try validate(self.user, name: "user", parent: name, max: 104)
             try validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
@@ -611,7 +712,7 @@ extension DataSync {
 
     public struct CreateTaskRequest: AWSEncodableShape {
 
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task.  For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.  For more information about how to use CloudWatch Logs with DataSync, see Monitoring Your Task in the AWS DataSync User Guide. 
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task. 
         public let cloudWatchLogGroupArn: String?
         /// The Amazon Resource Name (ARN) of an AWS storage resource's location. 
         public let destinationLocationArn: String
@@ -619,7 +720,7 @@ extension DataSync {
         public let excludes: [FilterRule]?
         /// The name of a task. This value is a text reference that is used to identify the task in the console. 
         public let name: String?
-        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group ID (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the OverrideOptions before starting a the task execution. For more information, see the operation. 
+        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group ID (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the OverrideOptions before starting the task execution. For more information, see the operation. 
         public let options: Options?
         /// Specifies a schedule used to periodically transfer files from a source to a destination location. The schedule should be specified in UTC time. For more information, see task-scheduling.
         public let schedule: TaskSchedule?
@@ -641,7 +742,7 @@ extension DataSync {
 
         public func validate(name: String) throws {
             try validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, max: 562)
-            try validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([^:\\*]*)$")
+            try validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([^:\\*]*)(:\\*)?$")
             try validate(self.destinationLocationArn, name: "destinationLocationArn", parent: name, max: 128)
             try validate(self.destinationLocationArn, name: "destinationLocationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.excludes?.forEach {
@@ -659,7 +760,7 @@ extension DataSync {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(self.tags, name: "tags", parent: name, max: 55)
+            try validate(self.tags, name: "tags", parent: name, max: 50)
             try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
@@ -795,7 +896,7 @@ extension DataSync {
         public let agentArn: String?
         /// The time that the agent was activated (that is, created in your account).
         public let creationTime: TimeStamp?
-        /// The type of endpoint that your agent is connected to. If the endpoint is a VPC endpoint, the agent is not accessible over the public Internet. 
+        /// The type of endpoint that your agent is connected to. If the endpoint is a VPC endpoint, the agent is not accessible over the public internet. 
         public let endpointType: EndpointType?
         /// The time that the agent last connected to DataSyc.
         public let lastConnectionTime: TimeStamp?
@@ -851,7 +952,7 @@ extension DataSync {
         /// The time that the EFS location was created.
         public let creationTime: TimeStamp?
         public let ec2Config: Ec2Config?
-        /// The Amazon resource Name (ARN) of the EFS location that was described.
+        /// The Amazon Resource Name (ARN) of the EFS location that was described.
         public let locationArn: String?
         /// The URL of the EFS location that was described.
         public let locationUri: String?
@@ -896,11 +997,11 @@ extension DataSync {
         public let creationTime: TimeStamp?
         /// The name of the Windows domain that the FSx for Windows server belongs to.
         public let domain: String?
-        /// The Amazon resource Name (ARN) of the FSx for Windows location that was described.
+        /// The Amazon Resource Name (ARN) of the FSx for Windows location that was described.
         public let locationArn: String?
         /// The URL of the FSx for Windows location that was described.
         public let locationUri: String?
-        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the for the FSx for Windows file system.
+        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the FSx for Windows file system.
         public let securityGroupArns: [String]?
         /// The user who has the permissions to access files and folders in the FSx for Windows file system.
         public let user: String?
@@ -926,7 +1027,7 @@ extension DataSync {
 
     public struct DescribeLocationNfsRequest: AWSEncodableShape {
 
-        /// The Amazon resource Name (ARN) of the NFS location to describe.
+        /// The Amazon Resource Name (ARN) of the NFS location to describe.
         public let locationArn: String
 
         public init(locationArn: String) {
@@ -947,7 +1048,7 @@ extension DataSync {
 
         /// The time that the NFS location was created.
         public let creationTime: TimeStamp?
-        /// The Amazon resource Name (ARN) of the NFS location that was described.
+        /// The Amazon Resource Name (ARN) of the NFS location that was described.
         public let locationArn: String?
         /// The URL of the source NFS location that was described.
         public let locationUri: String?
@@ -969,6 +1070,63 @@ extension DataSync {
             case locationUri = "LocationUri"
             case mountOptions = "MountOptions"
             case onPremConfig = "OnPremConfig"
+        }
+    }
+
+    public struct DescribeLocationObjectStorageRequest: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the self-managed object storage server location that was described.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationObjectStorageResponse: AWSDecodableShape {
+
+        /// Optional. The access key is used if credentials are required to access the self-managed object storage server.
+        public let accessKey: String?
+        /// The Amazon Resource Name (ARN) of the agents associated with the self-managed object storage server location.
+        public let agentArns: [String]?
+        /// The time that the self-managed object storage server agent was created.
+        public let creationTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the self-managed object storage server location to describe.
+        public let locationArn: String?
+        /// The URL of the source self-managed object storage server location that was described.
+        public let locationUri: String?
+        /// The port that your self-managed object storage server accepts inbound network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS).
+        public let serverPort: Int?
+        /// The protocol that the object storage server uses to communicate. Valid values are HTTP or HTTPS.
+        public let serverProtocol: ObjectStorageServerProtocol?
+
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil) {
+            self.accessKey = accessKey
+            self.agentArns = agentArns
+            self.creationTime = creationTime
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+            self.serverPort = serverPort
+            self.serverProtocol = serverProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKey = "AccessKey"
+            case agentArns = "AgentArns"
+            case creationTime = "CreationTime"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+            case serverPort = "ServerPort"
+            case serverProtocol = "ServerProtocol"
         }
     }
 
@@ -1022,7 +1180,7 @@ extension DataSync {
 
     public struct DescribeLocationSmbRequest: AWSEncodableShape {
 
-        /// The Amazon resource Name (ARN) of the SMB location to describe.
+        /// The Amazon Resource Name (ARN) of the SMB location to describe.
         public let locationArn: String
 
         public init(locationArn: String) {
@@ -1047,7 +1205,7 @@ extension DataSync {
         public let creationTime: TimeStamp?
         /// The name of the Windows domain that the SMB server belongs to.
         public let domain: String?
-        /// The Amazon resource Name (ARN) of the SMB location that was described.
+        /// The Amazon Resource Name (ARN) of the SMB location that was described.
         public let locationArn: String?
         /// The URL of the source SBM location that was described.
         public let locationUri: String?
@@ -1567,7 +1725,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try validate(self.agentArns, name: "agentArns", parent: name, max: 64)
+            try validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try validate(self.agentArns, name: "agentArns", parent: name, min: 1)
         }
 
@@ -1584,7 +1742,7 @@ extension DataSync {
         public let bytesPerSecond: Int64?
         /// The group ID (GID) of the file's owners.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of user ID (UID) and GID (recommended). NONE: Ignore UID and GID. 
         public let gid: Gid?
-        /// A value that determines the type of logs DataSync will deliver to your AWS CloudWatch Logs file. If set to OFF, no logs will be delivered. BASIC will deliver a few logs per transfer operation and TRANSFER will deliver a verbose log that contains logs for every file that is transferred.
+        /// A value that determines the type of logs that DataSync publishes to a log stream in the Amazon CloudWatch log group that you provide. For more information about providing a log group for DataSync, see CloudWatchLogGroupArn. If set to OFF, no logs are published. BASIC publishes logs on errors for individual files transferred, and TRANSFER publishes logs for every file or object that is transferred and integrity checked.
         public let logLevel: LogLevel?
         /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase.  Default value: PRESERVE.  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.  
         public let mtime: Mtime?
@@ -1596,14 +1754,16 @@ extension DataSync {
         public let preserveDeletedFiles: PreserveDeletedFiles?
         /// A value that determines whether AWS DataSync should preserve the metadata of block and character devices in the source file system, and recreate the files with that device name and metadata on the destination.  AWS DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS. 
         public let preserveDevices: PreserveDevices?
-        /// A value that determines whether tasks should be queued before executing the tasks. If set to ENABLED, the tasks will be queued. The default is ENABLED. If you use the same agent to run multiple tasks you can enable the tasks to run in series. For more information see queue-task-execution.
+        /// A value that determines whether tasks should be queued before executing the tasks. If set to ENABLED, the tasks will be queued. The default is ENABLED. If you use the same agent to run multiple tasks, you can enable the tasks to run in series. For more information, see queue-task-execution.
         public let taskQueueing: TaskQueueing?
+        /// TransferMode has two values: CHANGED and ALL. CHANGED performs an "incremental" or "delta sync", it compares file modification time between source and destination to determine which files need to be transferred. ALL skips destination inventory and transfers all files discovered on the source.
+        public let transferMode: TransferMode?
         /// The user ID (UID) of the file's owner.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID. 
         public let uid: Uid?
-        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred.  Default value: POINT_IN_TIME_CONSISTENT. POINT_IN_TIME_CONSISTENT: Perform verification (recommended).  ONLY_FILES_TRANSFERRED: Perform verification on only files that were transferred. NONE: Skip verification.
+        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred. For more information, see create-task  Default value: POINT_IN_TIME_CONSISTENT. ONLY_FILES_TRANSFERRED (recommended): Perform verification only on files that were transferred.  POINT_IN_TIME_CONSISTENT: Scan the entire source and entire destination at the end of the transfer to verify that source and destination are fully synchronized. This option isn't supported when transferring to S3 Glacier or S3 Glacier Deep Archive storage classes. NONE: No additional verification is done at the end of the transfer, but all data transmissions are integrity-checked with checksum verification during the transfer.
         public let verifyMode: VerifyMode?
 
-        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, taskQueueing: TaskQueueing? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
+        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
             self.gid = gid
@@ -1614,6 +1774,7 @@ extension DataSync {
             self.preserveDeletedFiles = preserveDeletedFiles
             self.preserveDevices = preserveDevices
             self.taskQueueing = taskQueueing
+            self.transferMode = transferMode
             self.uid = uid
             self.verifyMode = verifyMode
         }
@@ -1633,6 +1794,7 @@ extension DataSync {
             case preserveDeletedFiles = "PreserveDeletedFiles"
             case preserveDevices = "PreserveDevices"
             case taskQueueing = "TaskQueueing"
+            case transferMode = "TransferMode"
             case uid = "Uid"
             case verifyMode = "VerifyMode"
         }
@@ -1640,13 +1802,13 @@ extension DataSync {
 
     public struct PrivateLinkConfig: AWSDecodableShape {
 
-        /// The private endpoint that is configured for an agent that has access to IP addresses in a PrivateLink. An agent that is configured with this endpoint will not be accessible over the public Internet.
+        /// The private endpoint that is configured for an agent that has access to IP addresses in a PrivateLink. An agent that is configured with this endpoint will not be accessible over the public internet.
         public let privateLinkEndpoint: String?
         /// The Amazon Resource Names (ARNs) of the security groups that are configured for the EC2 resource that hosts an agent activated in a VPC or an agent that has access to a VPC endpoint.
         public let securityGroupArns: [String]?
         /// The Amazon Resource Names (ARNs) of the subnets that are configured for an agent activated in a VPC or an agent that has access to a VPC endpoint.
         public let subnetArns: [String]?
-        /// The ID of the VPC endpoint that is configured for an agent. An agent that is configured with a VPC endpoint will not be accessible over the public Internet.
+        /// The ID of the VPC endpoint that is configured for an agent. An agent that is configured with a VPC endpoint will not be accessible over the public internet.
         public let vpcEndpointId: String?
 
         public init(privateLinkEndpoint: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil, vpcEndpointId: String? = nil) {
@@ -1788,7 +1950,7 @@ extension DataSync {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(self.tags, name: "tags", parent: name, max: 55)
+            try validate(self.tags, name: "tags", parent: name, max: 50)
             try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
@@ -2008,7 +2170,7 @@ extension DataSync {
 
         public func validate(name: String) throws {
             try validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, max: 562)
-            try validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([^:\\*]*)$")
+            try validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([^:\\*]*)(:\\*)?$")
             try self.excludes?.forEach {
                 try $0.validate(name: "\(name).excludes[]")
             }

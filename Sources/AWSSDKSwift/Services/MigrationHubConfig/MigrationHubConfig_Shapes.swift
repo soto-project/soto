@@ -18,14 +18,14 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension MigrationHubConfig {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum TargetType: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CreateHomeRegionControlRequest: AWSEncodableShape {
 

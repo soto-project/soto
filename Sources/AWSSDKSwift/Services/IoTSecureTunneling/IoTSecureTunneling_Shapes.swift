@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension IoTSecureTunneling {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum ConnectionStatus: String, CustomStringConvertible, Codable {
         case connected = "CONNECTED"
@@ -32,7 +32,7 @@ extension IoTSecureTunneling {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct CloseTunnelRequest: AWSEncodableShape {
 

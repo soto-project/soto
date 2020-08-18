@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension Macie {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum S3ContinuousClassificationType: String, CustomStringConvertible, Codable {
         case full = "FULL"
@@ -31,7 +31,7 @@ extension Macie {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct AssociateMemberAccountRequest: AWSEncodableShape {
 

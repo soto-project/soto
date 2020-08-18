@@ -18,7 +18,7 @@ import AWSSDKSwiftCore
 import Foundation
 
 extension ECS {
-    //MARK: Enums
+    // MARK: Enums
 
     public enum AgentUpdateStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
@@ -352,7 +352,7 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    //MARK: Shapes
+    // MARK: Shapes
 
     public struct Attachment: AWSDecodableShape {
 

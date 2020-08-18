@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension Route53Domains {
 
@@ -62,5 +62,4 @@ extension Route53Domains.ListOperationsRequest: AWSPaginateToken {
 
     }
 }
-
 

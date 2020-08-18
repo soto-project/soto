@@ -16,7 +16,7 @@
 
 import AWSSDKSwiftCore
 
-//MARK: Paginators
+// MARK: Paginators
 
 extension SecurityHub {
 
@@ -228,5 +228,4 @@ extension SecurityHub.ListMembersRequest: AWSPaginateToken {
 
     }
 }
-
 
