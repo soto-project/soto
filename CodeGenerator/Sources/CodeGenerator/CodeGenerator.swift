@@ -44,8 +44,8 @@ struct CodeGenerator {
         let directories = self.getModelDirectories()
 
         return try directories.map {
-            guard let apiFile = Glob.entries(pattern: $0 + "/**/api-*.json").first else { fatalError("No API file for \($0)")}
-            guard let docFile = Glob.entries(pattern: $0 + "/**/docs-*.json").first else { fatalError("No Doc file for \($0)")}
+            guard let apiFile = Glob.entries(pattern: $0 + "/**/api-*.json").first else { fatalError("No API file for \($0)") }
+            guard let docFile = Glob.entries(pattern: $0 + "/**/docs-*.json").first else { fatalError("No Doc file for \($0)") }
             let data = try Data(contentsOf: URL(fileURLWithPath: apiFile))
             var api = try JSONDecoder().decode(API.self, from: data)
             try api.postProcess()
