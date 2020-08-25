@@ -86,7 +86,7 @@ class STSTests: XCTestCase {
             ]
         }
         """
-        let name = TestEnvironment.generateResourceName()
+        let name = TestEnvironment.generateResourceName("federationToken")
         let federationRequest = STS.GetFederationTokenRequest(name: name, policy: policyDocument)
         let client = AWSClient(
             credentialProvider: .stsFederationToken(
