@@ -4,30 +4,22 @@ on:
   schedule:
     - cron: '0 1 * * *'
 
+env:
+  AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DISABLE_LOCALSTACK : "true"
+  AWS_ENABLE_LOGGING : "true"
+
 jobs:
   linux:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         tag: ['nightly-bionic', 'nightly-focal', 'nightly-centos8', 'nightly-amazonlinux2']
-    services:
-      localstack:
-        image: localstack/localstack
-        env:
-          SERVICES: 'apigateway,dynamodb,ec2,iam,s3,sns,sqs,ssm,sts'
     container:
       image: swiftlang/swift:${{ matrix.tag }}
-      env:
-        APIGATEWAY_ENDPOINT : "http://localstack:4566"
-        DYNAMODB_ENDPOINT   : "http://localstack:4566"
-        EC2_ENDPOINT        : "http://localstack:4566"
-        IAM_ENDPOINT        : "http://localstack:4566"
-        S3_ENDPOINT         : "http://localstack:4566"
-        SNS_ENDPOINT        : "http://localstack:4566"
-        SQS_ENDPOINT        : "http://localstack:4566"
-        SSM_ENDPOINT        : "http://localstack:4566"
-        STS_ENDPOINT        : "http://localstack:4566"
-        AWS_ENABLE_LOGGING  : "true"
+    env:
+      AWS_TEST_RESOURCE_PREFIX : ${{ matrix.image }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1

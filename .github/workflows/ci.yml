@@ -8,6 +8,12 @@ on:
     branches:
     - main
 
+env:
+  AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DISABLE_LOCALSTACK : "true"
+  AWS_ENABLE_LOGGING : "true"
+
 jobs:
   macos:
     runs-on: macOS-latest
@@ -24,24 +30,10 @@ jobs:
     strategy:
       matrix:
         image: ['swift:5.1', 'swift:5.2']
-    services:
-      localstack:
-        image: localstack/localstack
-        env:
-          SERVICES: 'apigateway,dynamodb,ec2,iam,s3,sns,sqs,ssm,sts'
     container:
       image: ${{ matrix.image }}
-      env:
-        APIGATEWAY_ENDPOINT : "http://localstack:4566"
-        DYNAMODB_ENDPOINT   : "http://localstack:4566"
-        EC2_ENDPOINT        : "http://localstack:4566"
-        IAM_ENDPOINT        : "http://localstack:4566"
-        S3_ENDPOINT         : "http://localstack:4566"
-        SNS_ENDPOINT        : "http://localstack:4566"
-        SQS_ENDPOINT        : "http://localstack:4566"
-        SSM_ENDPOINT        : "http://localstack:4566"
-        STS_ENDPOINT        : "http://localstack:4566"
-        AWS_ENABLE_LOGGING  : "true"
+    env:
+      AWS_TEST_RESOURCE_PREFIX : ${{ matrix.image }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1

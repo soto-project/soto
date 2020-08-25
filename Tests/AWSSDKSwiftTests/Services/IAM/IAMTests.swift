@@ -174,16 +174,29 @@ class IAMTests: XCTestCase {
                 let request = IAM.SimulatePrincipalPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], policySourceArn: userArn)
                 return Self.iam.simulatePrincipalPolicy(request)
             }
-            .map { response in
+            .map { response -> Void in
                 XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
                 XCTAssertEqual(response.evaluationResults?[1].evalDecision, .allowed)
                 XCTAssertEqual(response.evaluationResults?[2].evalDecision, .implicitdeny)
             }
-            .flatAlways { _ in
-                return self.deleteUser(userName: username)
+            .flatAlways { _ -> EventLoopFuture<Void> in
+                let eventLoop = Self.iam.client.eventLoopGroup.next()
+                if TestEnvironment.isUsingLocalstack {
+                    return self.deleteUser(userName: username)
+                }
+                // wait ten seconds for user to be deleted. This is to avoid throttled errors
+                let scheduled: Scheduled<Void> = eventLoop.flatScheduleTask(deadline: .now() + .seconds(10)) { return self.deleteUser(userName: username) }
+                return scheduled.futureResult.map {}
             }
 
-        XCTAssertNoThrow(try response.wait())
+        // this test is quite good at creating a throttling error
+        do {
+            try response.wait()
+        } catch let error as AWSClientError where error == .throttling {
+            print("Throttling error")
+        } catch {
+            XCTFail("\(error)")
+        }
     }
 
     func testUserTags() {
