@@ -186,7 +186,7 @@ class IAMTests: XCTestCase {
                 }
                 // wait ten seconds for user to be deleted. This is to avoid throttled errors
                 let scheduled: Scheduled<Void> = eventLoop.flatScheduleTask(deadline: .now() + .seconds(10)) { return self.deleteUser(userName: username) }
-                return scheduled.futureResult.map { }
+                return scheduled.futureResult.map {}
             }
 
         XCTAssertNoThrow(try response.wait())

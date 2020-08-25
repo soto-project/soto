@@ -25,7 +25,7 @@ class APIGatewayTests: XCTestCase {
     static var client: AWSClient!
     static var apiGateway: APIGateway!
 
-    static let restApiName: String = "awssdkswift-APIGatewayTests"
+    static let restApiName: String = TestEnvironment.generateResourceName("APIGatewayTests")
     static var restApiId: String!
 
     override class func setUp() {
