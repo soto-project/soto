@@ -8,6 +8,12 @@ on:
     branches:
     - main
 
+env:
+  AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DISABLE_LOCALSTACK : true
+  AWS_ENABLE_LOGGING : false
+
 jobs:
   macos:
     runs-on: macOS-latest
