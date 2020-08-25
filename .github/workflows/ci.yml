@@ -32,16 +32,17 @@ jobs:
         image: ['swift:5.1', 'swift:5.2']
     container:
       image: ${{ matrix.image }}
-    env:
-      AWS_TEST_RESOURCE_PREFIX : ${{ matrix.image }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
     - name: Install dependencies
+      # set AWS_TEST_RESOURCE_PREFIX environment variable to a random series of 8 letters
       run: |
+        echo ::set-env name=AWS_TEST_RESOURCE_PREFIX::$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)
         apt-get update -qq
         apt-get install -q -y tzdata zlib1g-dev
     - name: Test
-      run: swift test --enable-test-discovery --sanitize=thread
+      run: |
+        swift test --enable-test-discovery --sanitize=thread
