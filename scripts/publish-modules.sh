@@ -57,14 +57,14 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
 
     GIT_STATUS_R=$(git status --porcelain)
     if [[ -z $GIT_STATUS_R ]]; then
-        # need to add commit to create master to reset later
+        # need to add commit to create main to reset later
         git add .
         git commit -m "dummy commit"
     fi
 
     git fetch
-    git branch --set-upstream-to=origin/master master
-    git reset origin/master
+    git branch --set-upstream-to=origin/main main
+    git reset origin/main
 
     echo "Enter in $D"
 
@@ -87,7 +87,7 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
 
     git add .
     git commit -am "$COMMENT"
-    git push origin master
+    git push origin main
     if [ -n "${TAG}" ]; then
         git tag $TAG
         git push origin $TAG

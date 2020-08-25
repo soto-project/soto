@@ -24,7 +24,7 @@ let package = Package(
 {%endfor %}
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("master"))
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("main"))
     ],
     targets: [
 {%for target in targets %}

@@ -3,12 +3,12 @@
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
 [<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/CI/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions?query=workflow%3ACI)
 
-AWS SDK for the Swift programming language working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services. 
+AWS SDK for the Swift programming language working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services.
 
-The library consists of three parts 
-1. [aws-sdk-swift-core](https://github.com/swift-aws/aws-sdk-swift-core) which does all the core request encoding and signing, response decoding and error handling. 
-2. The service [api files](https://github.com/swift-aws/aws-sdk-swift/tree/master/Sources/AWSSDKSwift/Services) which define the individual AWS services and their commands with their input and output structures.
-3. The [CodeGenerator](https://github.com/swift-aws/aws-sdk-swift/tree/master/CodeGenerator) which builds the service api files from the [JSON model](https://github.com/swift-aws/aws-sdk-swift/tree/master/models/apis) files supplied by Amazon.
+The library consists of three parts
+1. [aws-sdk-swift-core](https://github.com/swift-aws/aws-sdk-swift-core) which does all the core request encoding and signing, response decoding and error handling.
+2. The service [api files](https://github.com/swift-aws/aws-sdk-swift/tree/main/Sources/AWSSDKSwift/Services) which define the individual AWS services and their commands with their input and output structures.
+3. The [CodeGenerator](https://github.com/swift-aws/aws-sdk-swift/tree/main/CodeGenerator) which builds the service api files from the [JSON model](https://github.com/swift-aws/aws-sdk-swift/tree/main/models/apis) files supplied by Amazon.
 
 ## Installation
 
@@ -31,7 +31,7 @@ Then add target dependencies for each of the AWSSDKSwift targets you want to use
     ]
 )
 ```
-If you are using one of the v5.0.0 pre-releases then the `name` parameter in the package dependencies is unnecessary, the `package` parameter of the target dependencies is `aws-sdk-swift` instead of `AWSSDKSwift` and also all the target names are prefixed with `AWS`. 
+If you are using one of the v5.0.0 pre-releases then the `name` parameter in the package dependencies is unnecessary, the `package` parameter of the target dependencies is `aws-sdk-swift` instead of `AWSSDKSwift` and also all the target names are prefixed with `AWS`.
 
 Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to AWSSDKSwift through that.
 
@@ -99,7 +99,7 @@ AWS Swift Modules can be imported into any swift project. Each module provides a
 
 Each aws-sdk-swift command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of aws-sdk-swift.
 
-The recommended manner to interact with `EventLoopFutures` is chaining. The following function returns an `EventLoopFuture` that creates an S3 bucket, puts a file in the bucket, reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next. 
+The recommended manner to interact with `EventLoopFutures` is chaining. The following function returns an `EventLoopFuture` that creates an S3 bucket, puts a file in the bucket, reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next.
 
 ```swift
 import S3 //ensure this module is specified as a dependency in your package.swift
@@ -133,7 +133,7 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 
 ## HTTP client (v5.x.x)
 
-The AWS SDK sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses one of two different HTTP clients depending on what platform you are running on. We have [extended](https://github.com/swift-aws/aws-sdk-swift-core/blob/master/Sources/AWSSDKSwiftCore/HTTP/AsyncHTTPClient.swift) the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) so it conforms with `AWSHTTPClient`. This is the default client if you are running on Linux or macOS 10.14 and earlier. `AsyncHTTPClient` is not available on iOS. We have also supplied are own client `NIOTSHTTPClient` which uses [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework. This is the default client if you are running on iOS or macOS 10.15 and later. `NIOTSHTTPClient` is not available on Linux or versions of macOS earlier than 10.15.
+The AWS SDK sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses one of two different HTTP clients depending on what platform you are running on. We have [extended](https://github.com/swift-aws/aws-sdk-swift-core/blob/main/Sources/AWSSDKSwiftCore/HTTP/AsyncHTTPClient.swift) the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) so it conforms with `AWSHTTPClient`. This is the default client if you are running on Linux or macOS 10.14 and earlier. `AsyncHTTPClient` is not available on iOS. We have also supplied are own client `NIOTSHTTPClient` which uses [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework. This is the default client if you are running on iOS or macOS 10.15 and later. `NIOTSHTTPClient` is not available on Linux or versions of macOS earlier than 10.15.
 
 You can provide your own HTTP client as follows
 ```
@@ -204,7 +204,7 @@ s3.createBucket(createBucketRequest).whenSuccess { response in
 -->
 ## Documentation
 
-Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the aws-sdk-swift api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands. 
+Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the aws-sdk-swift api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands.
 
 ## upgrading from <3.0.x
 
