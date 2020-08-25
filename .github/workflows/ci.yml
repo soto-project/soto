@@ -11,8 +11,8 @@ on:
 env:
   AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DISABLE_LOCALSTACK : true
-  AWS_ENABLE_LOGGING : false
+  AWS_DISABLE_LOCALSTACK : "true"
+  AWS_ENABLE_LOGGING : "false"
 
 jobs:
   macos:
@@ -30,24 +30,8 @@ jobs:
     strategy:
       matrix:
         image: ['swift:5.1', 'swift:5.2']
-    services:
-      localstack:
-        image: localstack/localstack
-        env:
-          SERVICES: 'apigateway,dynamodb,ec2,iam,s3,sns,sqs,ssm,sts'
     container:
       image: ${{ matrix.image }}
-      env:
-        APIGATEWAY_ENDPOINT : "http://localstack:4566"
-        DYNAMODB_ENDPOINT   : "http://localstack:4566"
-        EC2_ENDPOINT        : "http://localstack:4566"
-        IAM_ENDPOINT        : "http://localstack:4566"
-        S3_ENDPOINT         : "http://localstack:4566"
-        SNS_ENDPOINT        : "http://localstack:4566"
-        SQS_ENDPOINT        : "http://localstack:4566"
-        SSM_ENDPOINT        : "http://localstack:4566"
-        STS_ENDPOINT        : "http://localstack:4566"
-        AWS_ENABLE_LOGGING  : "true"
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -57,5 +41,6 @@ jobs:
       run: |
         apt-get update -qq
         apt-get install -q -y tzdata zlib1g-dev
+        echo $AWS_ACCESS_KEY_ID
     - name: Test
       run: swift test --enable-test-discovery --sanitize=thread
