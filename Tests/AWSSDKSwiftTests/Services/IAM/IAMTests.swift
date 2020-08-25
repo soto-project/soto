@@ -189,7 +189,14 @@ class IAMTests: XCTestCase {
                 return scheduled.futureResult.map {}
             }
 
-        XCTAssertNoThrow(try response.wait())
+        // this test is quite good at creating a throttling error
+        do {
+            try response.wait()
+        } catch let error as AWSClientError where error == .throttling {
+            print("Throttling error")
+        } catch {
+            XCTFail("\(error)")
+        }
     }
 
     func testUserTags() {
