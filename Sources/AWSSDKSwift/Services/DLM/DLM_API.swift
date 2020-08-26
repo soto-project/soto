@@ -21,12 +21,12 @@ Client object for interacting with AWS DLM service.
 
 Amazon Data Lifecycle Manager With Amazon Data Lifecycle Manager, you can manage the lifecycle of your AWS resources. You create lifecycle policies, which are used to automate operations on the specified resources. Amazon DLM supports Amazon EBS volumes and snapshots. For information about using Amazon DLM with Amazon EBS, see Automating the Amazon EBS Snapshot Lifecycle in the Amazon EC2 User Guide.
 */
-public struct DLM {
+public struct DLM: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct DLM {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "dlm",
@@ -61,41 +61,41 @@ public struct DLM {
 
     ///  Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.
     public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateLifecyclePolicyResponse> {
-        return self.client.execute(operation: "CreateLifecyclePolicy", path: "/policies", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateLifecyclePolicy", path: "/policies", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified lifecycle policy and halts the automated operations that the policy specified.
     public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteLifecyclePolicyResponse> {
-        return self.client.execute(operation: "DeleteLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use GetLifecyclePolicy.
     public func getLifecyclePolicies(_ input: GetLifecyclePoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetLifecyclePoliciesResponse> {
-        return self.client.execute(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets detailed information about the specified lifecycle policy.
     public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetLifecyclePolicyResponse> {
-        return self.client.execute(operation: "GetLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the tags for the specified resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds the specified tags to the specified resource.
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes the specified tags from the specified resource.
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the specified lifecycle policy.
     public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateLifecyclePolicyResponse> {
-        return self.client.execute(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: .PATCH, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 }

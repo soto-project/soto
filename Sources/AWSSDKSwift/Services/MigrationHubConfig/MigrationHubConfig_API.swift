@@ -21,12 +21,12 @@ Client object for interacting with AWS MigrationHubConfig service.
 
 The AWS Migration Hub home region APIs are available specifically for working with your Migration Hub home region. You can use these APIs to determine a home region, as well as to create and work with controls that describe the home region.   You must make API calls for write actions (create, notify, associate, disassociate, import, or put) while in your home region, or a HomeRegionNotSetException error is returned.   API calls for read actions (list, describe, stop, and delete) are permitted outside of your home region.   If you call a write API outside the home region, an InvalidInputException is returned.   You can call GetHomeRegion action to obtain the account's Migration Hub home region.   For specific API usage, see the sections that follow in this AWS Migration Hub Home Region API reference. 
 */
-public struct MigrationHubConfig {
+public struct MigrationHubConfig: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct MigrationHubConfig {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSMigrationHubMultiAccountService",
@@ -63,16 +63,16 @@ public struct MigrationHubConfig {
 
     ///  This API sets up the home region for the calling account only.
     public func createHomeRegionControl(_ input: CreateHomeRegionControlRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateHomeRegionControlResult> {
-        return self.client.execute(operation: "CreateHomeRegionControl", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateHomeRegionControl", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  This API permits filtering on the ControlId and HomeRegion fields.
     public func describeHomeRegionControls(_ input: DescribeHomeRegionControlsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeHomeRegionControlsResult> {
-        return self.client.execute(operation: "DescribeHomeRegionControls", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribeHomeRegionControls", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
     public func getHomeRegion(_ input: GetHomeRegionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetHomeRegionResult> {
-        return self.client.execute(operation: "GetHomeRegion", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetHomeRegion", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 }

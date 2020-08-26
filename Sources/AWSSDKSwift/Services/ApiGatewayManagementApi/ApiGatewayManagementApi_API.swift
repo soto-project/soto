@@ -21,12 +21,12 @@ Client object for interacting with AWS ApiGatewayManagementApi service.
 
 The Amazon API Gateway Management API allows you to directly manage runtime aspects of your deployed APIs. To use it, you must explicitly set the SDK's endpoint to point to the endpoint of your deployed API. The endpoint will be of the form https://{api-id}.execute-api.{region}.amazonaws.com/{stage}, or will be the endpoint corresponding to your API's custom domain and base path, if applicable.
 */
-public struct ApiGatewayManagementApi {
+public struct ApiGatewayManagementApi: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct ApiGatewayManagementApi {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "execute-api",
@@ -61,16 +61,16 @@ public struct ApiGatewayManagementApi {
 
     ///  Delete the connection with the provided id.
     @discardableResult public func deleteConnection(_ input: DeleteConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteConnection", path: "/@connections/{connectionId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteConnection", path: "/@connections/{connectionId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get information about the connection with the provided id.
     public func getConnection(_ input: GetConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetConnectionResponse> {
-        return self.client.execute(operation: "GetConnection", path: "/@connections/{connectionId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetConnection", path: "/@connections/{connectionId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Sends the provided data to the specified connection.
     @discardableResult public func postToConnection(_ input: PostToConnectionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 }

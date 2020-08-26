@@ -21,12 +21,12 @@ Client object for interacting with AWS PersonalizeEvents service.
 
 Amazon Personalize can consume real-time user event data, such as stream or click data, and use it for model training either alone or combined with historical data. For more information see recording-events.
 */
-public struct PersonalizeEvents {
+public struct PersonalizeEvents: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct PersonalizeEvents {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "personalize-events",
@@ -62,6 +62,6 @@ public struct PersonalizeEvents {
 
     ///  Records user interaction event data. For more information see event-record-api.
     @discardableResult public func putEvents(_ input: PutEventsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 }

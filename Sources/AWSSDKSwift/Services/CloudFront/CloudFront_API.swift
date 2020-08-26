@@ -21,12 +21,12 @@ Client object for interacting with AWS CloudFront service.
 
 Amazon CloudFront This is the Amazon CloudFront API Reference. This guide is for developers who need detailed information about CloudFront API actions, data types, and errors. For detailed information about CloudFront features, see the Amazon CloudFront Developer Guide.
 */
-public struct CloudFront {
+public struct CloudFront: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -43,7 +43,7 @@ public struct CloudFront {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: nil,
             partition: partition,
             service: "cloudfront",
@@ -61,296 +61,296 @@ public struct CloudFront {
 
     ///  Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it’s attached to a cache behavior, the cache policy determines the following:   The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.   The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can’t find an object in its cache that matches the request’s cache key. If you want to send values to the origin but not include them in the cache key, use CreateOriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the Amazon CloudFront Developer Guide.
     public func createCachePolicy(_ input: CreateCachePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCachePolicyResult> {
-        return self.client.execute(operation: "CreateCachePolicy2020_05_31", path: "/2020-05-31/cache-policy", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateCachePolicy2020_05_31", path: "/2020-05-31/cache-policy", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
     public func createCloudFrontOriginAccessIdentity(_ input: CreateCloudFrontOriginAccessIdentityRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCloudFrontOriginAccessIdentityResult> {
-        return self.client.execute(operation: "CreateCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new web distribution. You create a CloudFront distribution to tell CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery. Send a POST request to the /CloudFront API version/distribution/distribution ID resource.  When you update a distribution, there are more required fields than when you create a distribution. When you update your distribution by using UpdateDistribution, follow the steps included in the documentation to get the current configuration and then make your updates. This helps to make sure that you include all of the required fields. To view a summary, see Required Fields for Create Distribution and Update Distribution in the Amazon CloudFront Developer Guide. 
     public func createDistribution(_ input: CreateDistributionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDistributionResult> {
-        return self.client.execute(operation: "CreateDistribution2020_05_31", path: "/2020-05-31/distribution", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateDistribution2020_05_31", path: "/2020-05-31/distribution", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Create a new distribution with tags.
     public func createDistributionWithTags(_ input: CreateDistributionWithTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDistributionWithTagsResult> {
-        return self.client.execute(operation: "CreateDistributionWithTags2020_05_31", path: "/2020-05-31/distribution?WithTags", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateDistributionWithTags2020_05_31", path: "/2020-05-31/distribution?WithTags", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Create a new field-level encryption configuration.
     public func createFieldLevelEncryptionConfig(_ input: CreateFieldLevelEncryptionConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateFieldLevelEncryptionConfigResult> {
-        return self.client.execute(operation: "CreateFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Create a field-level encryption profile.
     public func createFieldLevelEncryptionProfile(_ input: CreateFieldLevelEncryptionProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateFieldLevelEncryptionProfileResult> {
-        return self.client.execute(operation: "CreateFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Create a new invalidation. 
     public func createInvalidation(_ input: CreateInvalidationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateInvalidationResult> {
-        return self.client.execute(operation: "CreateInvalidation2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateInvalidation2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it’s attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:   The request body and the URL path (without the domain name) from the viewer request.   The headers that CloudFront automatically includes in every origin request, including Host, User-Agent, and X-Amz-Cf-Id.   All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.   CloudFront sends a request when it can’t find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CreateCachePolicy. For more information about origin request policies, see Controlling origin requests in the Amazon CloudFront Developer Guide.
     public func createOriginRequestPolicy(_ input: CreateOriginRequestPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateOriginRequestPolicyResult> {
-        return self.client.execute(operation: "CreateOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Add a new public key to CloudFront to use, for example, for field-level encryption. You can add a maximum of 10 public keys with one AWS account.
     public func createPublicKey(_ input: CreatePublicKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePublicKeyResult> {
-        return self.client.execute(operation: "CreatePublicKey2020_05_31", path: "/2020-05-31/public-key", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreatePublicKey2020_05_31", path: "/2020-05-31/public-key", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new RTMP distribution. An RTMP distribution is similar to a web distribution, but an RTMP distribution streams media files using the Adobe Real-Time Messaging Protocol (RTMP) instead of serving files using HTTP.  To create a new distribution, submit a POST request to the CloudFront API version/distribution resource. The request body must include a document with a StreamingDistributionConfig element. The response echoes the StreamingDistributionConfig element and returns other information about the RTMP distribution. To get the status of your request, use the GET StreamingDistribution API action. When the value of Enabled is true and the value of Status is Deployed, your distribution is ready. A distribution usually deploys in less than 15 minutes. For more information about web distributions, see Working with RTMP Distributions in the Amazon CloudFront Developer Guide.  Beginning with the 2012-05-05 version of the CloudFront API, we made substantial changes to the format of the XML document that you include in the request body when you create or update a web distribution or an RTMP distribution, and when you invalidate objects. With previous versions of the API, we discovered that it was too easy to accidentally delete one or more values for an element that accepts multiple values, for example, CNAMEs and trusted signers. Our changes for the 2012-05-05 release are intended to prevent these accidental deletions and to notify you when there's a mismatch between the number of values you say you're specifying in the Quantity element and the number of values specified. 
     public func createStreamingDistribution(_ input: CreateStreamingDistributionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateStreamingDistributionResult> {
-        return self.client.execute(operation: "CreateStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Create a new streaming distribution with tags.
     public func createStreamingDistributionWithTags(_ input: CreateStreamingDistributionWithTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateStreamingDistributionWithTagsResult> {
-        return self.client.execute(operation: "CreateStreamingDistributionWithTags2020_05_31", path: "/2020-05-31/streaming-distribution?WithTags", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateStreamingDistributionWithTags2020_05_31", path: "/2020-05-31/streaming-distribution?WithTags", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a cache policy. You cannot delete a cache policy if it’s attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy’s identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy.
     @discardableResult public func deleteCachePolicy(_ input: DeleteCachePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteCachePolicy2020_05_31", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteCachePolicy2020_05_31", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Delete an origin access identity. 
     @discardableResult public func deleteCloudFrontOriginAccessIdentity(_ input: DeleteCloudFrontOriginAccessIdentityRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Delete a distribution. 
     @discardableResult public func deleteDistribution(_ input: DeleteDistributionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDistribution2020_05_31", path: "/2020-05-31/distribution/{Id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteDistribution2020_05_31", path: "/2020-05-31/distribution/{Id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Remove a field-level encryption configuration.
     @discardableResult public func deleteFieldLevelEncryptionConfig(_ input: DeleteFieldLevelEncryptionConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Remove a field-level encryption profile.
     @discardableResult public func deleteFieldLevelEncryptionProfile(_ input: DeleteFieldLevelEncryptionProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes an origin request policy. You cannot delete an origin request policy if it’s attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy’s identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
     @discardableResult public func deleteOriginRequestPolicy(_ input: DeleteOriginRequestPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Remove a public key you previously added to CloudFront.
     @discardableResult public func deletePublicKey(_ input: DeletePublicKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeletePublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeletePublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.  To delete an RTMP distribution using the CloudFront API:   Disable the RTMP distribution.   Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution.    Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false.   Submit a PUT Streaming Distribution Config request to update the configuration for your distribution. In the request body, include the XML document that you updated in Step 3. Then set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to the PUT Streaming Distribution Config request to confirm that the distribution was successfully disabled.   Submit a GET Streaming Distribution Config request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.   Submit a DELETE Streaming Distribution request. Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the Amazon CloudFront Developer Guide.
     @discardableResult public func deleteStreamingDistribution(_ input: DeleteStreamingDistributionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a cache policy, including the following metadata:   The policy’s identifier.   The date and time when the policy was last modified.   To get a cache policy, you must provide the policy’s identifier. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     public func getCachePolicy(_ input: GetCachePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCachePolicyResult> {
-        return self.client.execute(operation: "GetCachePolicy2020_05_31", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetCachePolicy2020_05_31", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy’s identifier. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     public func getCachePolicyConfig(_ input: GetCachePolicyConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCachePolicyConfigResult> {
-        return self.client.execute(operation: "GetCachePolicyConfig2020_05_31", path: "/2020-05-31/cache-policy/{Id}/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetCachePolicyConfig2020_05_31", path: "/2020-05-31/cache-policy/{Id}/config", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the information about an origin access identity. 
     public func getCloudFrontOriginAccessIdentity(_ input: GetCloudFrontOriginAccessIdentityRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityResult> {
-        return self.client.execute(operation: "GetCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the configuration information about an origin access identity. 
     public func getCloudFrontOriginAccessIdentityConfig(_ input: GetCloudFrontOriginAccessIdentityConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityConfigResult> {
-        return self.client.execute(operation: "GetCloudFrontOriginAccessIdentityConfig2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetCloudFrontOriginAccessIdentityConfig2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the information about a distribution.
     public func getDistribution(_ input: GetDistributionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDistributionResult> {
-        return self.client.execute(operation: "GetDistribution2020_05_31", path: "/2020-05-31/distribution/{Id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetDistribution2020_05_31", path: "/2020-05-31/distribution/{Id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the configuration information about a distribution. 
     public func getDistributionConfig(_ input: GetDistributionConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDistributionConfigResult> {
-        return self.client.execute(operation: "GetDistributionConfig2020_05_31", path: "/2020-05-31/distribution/{Id}/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetDistributionConfig2020_05_31", path: "/2020-05-31/distribution/{Id}/config", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the field-level encryption configuration information.
     public func getFieldLevelEncryption(_ input: GetFieldLevelEncryptionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetFieldLevelEncryptionResult> {
-        return self.client.execute(operation: "GetFieldLevelEncryption2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetFieldLevelEncryption2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the field-level encryption configuration information.
     public func getFieldLevelEncryptionConfig(_ input: GetFieldLevelEncryptionConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetFieldLevelEncryptionConfigResult> {
-        return self.client.execute(operation: "GetFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the field-level encryption profile information.
     public func getFieldLevelEncryptionProfile(_ input: GetFieldLevelEncryptionProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetFieldLevelEncryptionProfileResult> {
-        return self.client.execute(operation: "GetFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the field-level encryption profile configuration information.
     public func getFieldLevelEncryptionProfileConfig(_ input: GetFieldLevelEncryptionProfileConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetFieldLevelEncryptionProfileConfigResult> {
-        return self.client.execute(operation: "GetFieldLevelEncryptionProfileConfig2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetFieldLevelEncryptionProfileConfig2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the information about an invalidation. 
     public func getInvalidation(_ input: GetInvalidationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetInvalidationResult> {
-        return self.client.execute(operation: "GetInvalidation2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation/{Id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetInvalidation2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation/{Id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets an origin request policy, including the following metadata:   The policy’s identifier.   The date and time when the policy was last modified.   To get an origin request policy, you must provide the policy’s identifier. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     public func getOriginRequestPolicy(_ input: GetOriginRequestPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOriginRequestPolicyResult> {
-        return self.client.execute(operation: "GetOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy’s identifier. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     public func getOriginRequestPolicyConfig(_ input: GetOriginRequestPolicyConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOriginRequestPolicyConfigResult> {
-        return self.client.execute(operation: "GetOriginRequestPolicyConfig2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetOriginRequestPolicyConfig2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}/config", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the public key information.
     public func getPublicKey(_ input: GetPublicKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPublicKeyResult> {
-        return self.client.execute(operation: "GetPublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetPublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Return public key configuration informaation
     public func getPublicKeyConfig(_ input: GetPublicKeyConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPublicKeyConfigResult> {
-        return self.client.execute(operation: "GetPublicKeyConfig2020_05_31", path: "/2020-05-31/public-key/{Id}/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetPublicKeyConfig2020_05_31", path: "/2020-05-31/public-key/{Id}/config", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets information about a specified RTMP distribution, including the distribution configuration.
     public func getStreamingDistribution(_ input: GetStreamingDistributionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetStreamingDistributionResult> {
-        return self.client.execute(operation: "GetStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Get the configuration information about a streaming distribution. 
     public func getStreamingDistributionConfig(_ input: GetStreamingDistributionConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetStreamingDistributionConfigResult> {
-        return self.client.execute(operation: "GetStreamingDistributionConfig2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetStreamingDistributionConfig2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by AWS, or only the custom policies created in your AWS account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listCachePolicies(_ input: ListCachePoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCachePoliciesResult> {
-        return self.client.execute(operation: "ListCachePolicies2020_05_31", path: "/2020-05-31/cache-policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListCachePolicies2020_05_31", path: "/2020-05-31/cache-policy", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists origin access identities.
     public func listCloudFrontOriginAccessIdentities(_ input: ListCloudFrontOriginAccessIdentitiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCloudFrontOriginAccessIdentitiesResult> {
-        return self.client.execute(operation: "ListCloudFrontOriginAccessIdentities2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListCloudFrontOriginAccessIdentities2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  List CloudFront distributions.
     public func listDistributions(_ input: ListDistributionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDistributionsResult> {
-        return self.client.execute(operation: "ListDistributions2020_05_31", path: "/2020-05-31/distribution", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListDistributions2020_05_31", path: "/2020-05-31/distribution", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listDistributionsByCachePolicyId(_ input: ListDistributionsByCachePolicyIdRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDistributionsByCachePolicyIdResult> {
-        return self.client.execute(operation: "ListDistributionsByCachePolicyId2020_05_31", path: "/2020-05-31/distributionsByCachePolicyId/{CachePolicyId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListDistributionsByCachePolicyId2020_05_31", path: "/2020-05-31/distributionsByCachePolicyId/{CachePolicyId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listDistributionsByOriginRequestPolicyId(_ input: ListDistributionsByOriginRequestPolicyIdRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDistributionsByOriginRequestPolicyIdResult> {
-        return self.client.execute(operation: "ListDistributionsByOriginRequestPolicyId2020_05_31", path: "/2020-05-31/distributionsByOriginRequestPolicyId/{OriginRequestPolicyId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListDistributionsByOriginRequestPolicyId2020_05_31", path: "/2020-05-31/distributionsByOriginRequestPolicyId/{OriginRequestPolicyId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  List the distributions that are associated with a specified AWS WAF web ACL. 
     public func listDistributionsByWebACLId(_ input: ListDistributionsByWebACLIdRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDistributionsByWebACLIdResult> {
-        return self.client.execute(operation: "ListDistributionsByWebACLId2020_05_31", path: "/2020-05-31/distributionsByWebACLId/{WebACLId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListDistributionsByWebACLId2020_05_31", path: "/2020-05-31/distributionsByWebACLId/{WebACLId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  List all field-level encryption configurations that have been created in CloudFront for this account.
     public func listFieldLevelEncryptionConfigs(_ input: ListFieldLevelEncryptionConfigsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListFieldLevelEncryptionConfigsResult> {
-        return self.client.execute(operation: "ListFieldLevelEncryptionConfigs2020_05_31", path: "/2020-05-31/field-level-encryption", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListFieldLevelEncryptionConfigs2020_05_31", path: "/2020-05-31/field-level-encryption", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Request a list of field-level encryption profiles that have been created in CloudFront for this account.
     public func listFieldLevelEncryptionProfiles(_ input: ListFieldLevelEncryptionProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListFieldLevelEncryptionProfilesResult> {
-        return self.client.execute(operation: "ListFieldLevelEncryptionProfiles2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListFieldLevelEncryptionProfiles2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists invalidation batches. 
     public func listInvalidations(_ input: ListInvalidationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInvalidationsResult> {
-        return self.client.execute(operation: "ListInvalidations2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListInvalidations2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by AWS, or only the custom policies created in your AWS account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listOriginRequestPolicies(_ input: ListOriginRequestPoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOriginRequestPoliciesResult> {
-        return self.client.execute(operation: "ListOriginRequestPolicies2020_05_31", path: "/2020-05-31/origin-request-policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListOriginRequestPolicies2020_05_31", path: "/2020-05-31/origin-request-policy", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  List all public keys that have been added to CloudFront for this account.
     public func listPublicKeys(_ input: ListPublicKeysRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPublicKeysResult> {
-        return self.client.execute(operation: "ListPublicKeys2020_05_31", path: "/2020-05-31/public-key", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListPublicKeys2020_05_31", path: "/2020-05-31/public-key", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  List streaming distributions. 
     public func listStreamingDistributions(_ input: ListStreamingDistributionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStreamingDistributionsResult> {
-        return self.client.execute(operation: "ListStreamingDistributions2020_05_31", path: "/2020-05-31/streaming-distribution", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListStreamingDistributions2020_05_31", path: "/2020-05-31/streaming-distribution", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  List tags for a CloudFront resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResult> {
-        return self.client.execute(operation: "ListTagsForResource2020_05_31", path: "/2020-05-31/tagging", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListTagsForResource2020_05_31", path: "/2020-05-31/tagging", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Add tags to a CloudFront resource.
     @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource2020_05_31", path: "/2020-05-31/tagging?Operation=Tag", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "TagResource2020_05_31", path: "/2020-05-31/tagging?Operation=Tag", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Remove tags from a CloudFront resource.
     @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource2020_05_31", path: "/2020-05-31/tagging?Operation=Untag", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UntagResource2020_05_31", path: "/2020-05-31/tagging?Operation=Untag", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to update.   Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn’t.  
     public func updateCachePolicy(_ input: UpdateCachePolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateCachePolicyResult> {
-        return self.client.execute(operation: "UpdateCachePolicy2020_05_31", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateCachePolicy2020_05_31", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Update an origin access identity. 
     public func updateCloudFrontOriginAccessIdentity(_ input: UpdateCloudFrontOriginAccessIdentityRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateCloudFrontOriginAccessIdentityResult> {
-        return self.client.execute(operation: "UpdateCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the configuration for a web distribution.   When you update a distribution, there are more required fields than when you create a distribution. When you update your distribution by using this API action, follow the steps here to get the current configuration and then make your updates, to make sure that you include all of the required fields. To view a summary, see Required Fields for Create Distribution and Update Distribution in the Amazon CloudFront Developer Guide.  The update process includes getting the current distribution configuration, updating the XML document that is returned to make your changes, and then submitting an UpdateDistribution request to make the updates. For information about updating a distribution using the CloudFront console instead, see Creating a Distribution in the Amazon CloudFront Developer Guide.  To update a web distribution using the CloudFront API    Submit a GetDistributionConfig request to get the current configuration and an Etag header for the distribution.  If you update the distribution again, you must get a new Etag header.    Update the XML document that was returned in the response to your GetDistributionConfig request to include your changes.   When you edit the XML file, be aware of the following:   You must strip out the ETag parameter that is returned.   Additional fields are required when you update a distribution. There may be fields included in the XML file for features that you haven't configured for your distribution. This is expected and required to successfully update the distribution.   You can't change the value of CallerReference. If you try to change this value, CloudFront returns an IllegalUpdate error.    The new configuration replaces the existing configuration; the values that you specify in an UpdateDistribution request are not merged into your existing configuration. When you add, delete, or replace values in an element that allows multiple values (for example, CNAME), you must specify all of the values that you want to appear in the updated distribution. In addition, you must update the corresponding Quantity element.      Submit an UpdateDistribution request to update the configuration for your distribution:   In the request body, include the XML document that you updated in Step 2. The request body must include an XML document with a DistributionConfig element.   Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GetDistributionConfig request in Step 1.     Review the response to the UpdateDistribution request to confirm that the configuration was successfully updated.   Optional: Submit a GetDistribution request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.  
     public func updateDistribution(_ input: UpdateDistributionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDistributionResult> {
-        return self.client.execute(operation: "UpdateDistribution2020_05_31", path: "/2020-05-31/distribution/{Id}/config", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateDistribution2020_05_31", path: "/2020-05-31/distribution/{Id}/config", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Update a field-level encryption configuration. 
     public func updateFieldLevelEncryptionConfig(_ input: UpdateFieldLevelEncryptionConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateFieldLevelEncryptionConfigResult> {
-        return self.client.execute(operation: "UpdateFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Update a field-level encryption profile. 
     public func updateFieldLevelEncryptionProfile(_ input: UpdateFieldLevelEncryptionProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateFieldLevelEncryptionProfileResult> {
-        return self.client.execute(operation: "UpdateFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration:   Use GetOriginRequestPolicyConfig to get the current configuration.   Locally modify the fields in the origin request policy configuration that you want to update.   Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn’t.  
     public func updateOriginRequestPolicy(_ input: UpdateOriginRequestPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateOriginRequestPolicyResult> {
-        return self.client.execute(operation: "UpdateOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Update public key information. Note that the only value you can change is the comment.
     public func updatePublicKey(_ input: UpdatePublicKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePublicKeyResult> {
-        return self.client.execute(operation: "UpdatePublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}/config", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdatePublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}/config", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Update a streaming distribution. 
     public func updateStreamingDistribution(_ input: UpdateStreamingDistributionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateStreamingDistributionResult> {
-        return self.client.execute(operation: "UpdateStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 }

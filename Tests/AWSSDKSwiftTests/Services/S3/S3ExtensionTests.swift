@@ -287,12 +287,12 @@ class S3ExtensionTests: XCTestCase {
         let request = try AWSRequest(
             region: .useast1,
             url: url,
-            serviceProtocol: Self.s3.serviceConfig.serviceProtocol,
+            serviceProtocol: Self.s3.config.serviceProtocol,
             operation: "TestOperation",
             httpMethod: .GET,
             httpHeaders: [:],
             body: .empty
-        ).applyMiddlewares(Self.s3.serviceConfig.middlewares)
+        ).applyMiddlewares(Self.s3.config.middlewares)
         return request.url.relativeString
     }
 

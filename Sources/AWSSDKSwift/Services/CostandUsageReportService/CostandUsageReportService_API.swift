@@ -21,12 +21,12 @@ Client object for interacting with AWS CostandUsageReportService service.
 
 The AWS Cost and Usage Report API enables you to programmatically create, query, and delete AWS Cost and Usage report definitions. AWS Cost and Usage reports track the monthly AWS costs and usage associated with your AWS account. The report contains line items for each unique combination of AWS product, usage type, and operation that your AWS account uses. You can configure the AWS Cost and Usage report to show only the data that you want, using the AWS Cost and Usage API. Service Endpoint The AWS Cost and Usage Report API provides the following endpoint:   cur.us-east-1.amazonaws.com  
 */
-public struct CostandUsageReportService {
+public struct CostandUsageReportService: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct CostandUsageReportService {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSOrigamiServiceGatewayService",
@@ -62,21 +62,21 @@ public struct CostandUsageReportService {
 
     ///  Deletes the specified report.
     public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteReportDefinitionResponse> {
-        return self.client.execute(operation: "DeleteReportDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteReportDefinition", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the AWS Cost and Usage reports available to this account.
     public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
-        return self.client.execute(operation: "DescribeReportDefinitions", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribeReportDefinitions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Allows you to programatically update your report preferences.
     public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyReportDefinitionResponse> {
-        return self.client.execute(operation: "ModifyReportDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ModifyReportDefinition", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new report using the description that you provide.
     public func putReportDefinition(_ input: PutReportDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutReportDefinitionResponse> {
-        return self.client.execute(operation: "PutReportDefinition", path: "/", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "PutReportDefinition", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 }
