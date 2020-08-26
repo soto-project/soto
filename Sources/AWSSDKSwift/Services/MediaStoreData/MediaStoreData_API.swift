@@ -21,12 +21,12 @@ Client object for interacting with AWS MediaStoreData service.
 
 An AWS Elemental MediaStore asset is an object, similar to an object in the Amazon S3 service. Objects are the fundamental entities that are stored in AWS Elemental MediaStore.
 */
-public struct MediaStoreData {
+public struct MediaStoreData: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct MediaStoreData {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "data.mediastore",
@@ -62,33 +62,33 @@ public struct MediaStoreData {
 
     ///  Deletes an object at the specified path.
     public func deleteObject(_ input: DeleteObjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteObjectResponse> {
-        return self.client.execute(operation: "DeleteObject", path: "/{Path+}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteObject", path: "/{Path+}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the headers for an object at the specified path.
     public func describeObject(_ input: DescribeObjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeObjectResponse> {
-        return self.client.execute(operation: "DescribeObject", path: "/{Path+}", httpMethod: .HEAD, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribeObject", path: "/{Path+}", httpMethod: .HEAD, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     public func getObject(_ input: GetObjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetObjectResponse> {
-        return self.client.execute(operation: "GetObject", path: "/{Path+}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetObject", path: "/{Path+}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Provides a list of metadata entries about folders and objects in the specified folder.
     public func listItems(_ input: ListItemsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListItemsResponse> {
-        return self.client.execute(operation: "ListItems", path: "/", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListItems", path: "/", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
     public func putObject(_ input: PutObjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutObjectResponse> {
-        return self.client.execute(operation: "PutObject", path: "/{Path+}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "PutObject", path: "/{Path+}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     // MARK: Streaming API Calls
 
     ///  Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     public func getObjectStreaming(_ input: GetObjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetObjectResponse> {
-        return self.client.execute(operation: "GetObject", path: "/{Path+}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger, stream: stream)
+        return self.client.execute(operation: "GetObject", path: "/{Path+}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger, stream: stream)
     }
 }

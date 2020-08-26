@@ -40,12 +40,12 @@ The AWS Serverless Application Repository makes it easy for developers and enter
  
  
 */
-public struct ServerlessApplicationRepository {
+public struct ServerlessApplicationRepository: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -64,7 +64,7 @@ public struct ServerlessApplicationRepository {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "serverlessrepo",
@@ -81,57 +81,57 @@ public struct ServerlessApplicationRepository {
 
     ///  Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
     public func createApplication(_ input: CreateApplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateApplicationResponse> {
-        return self.client.execute(operation: "CreateApplication", path: "/applications", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateApplication", path: "/applications", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates an application version.
     public func createApplicationVersion(_ input: CreateApplicationVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateApplicationVersionResponse> {
-        return self.client.execute(operation: "CreateApplicationVersion", path: "/applications/{applicationId}/versions/{semanticVersion}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateApplicationVersion", path: "/applications/{applicationId}/versions/{semanticVersion}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates an AWS CloudFormation change set for the given application.
     public func createCloudFormationChangeSet(_ input: CreateCloudFormationChangeSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCloudFormationChangeSetResponse> {
-        return self.client.execute(operation: "CreateCloudFormationChangeSet", path: "/applications/{applicationId}/changesets", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateCloudFormationChangeSet", path: "/applications/{applicationId}/changesets", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates an AWS CloudFormation template.
     public func createCloudFormationTemplate(_ input: CreateCloudFormationTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCloudFormationTemplateResponse> {
-        return self.client.execute(operation: "CreateCloudFormationTemplate", path: "/applications/{applicationId}/templates", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateCloudFormationTemplate", path: "/applications/{applicationId}/templates", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified application.
     @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the specified application.
     public func getApplication(_ input: GetApplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetApplicationResponse> {
-        return self.client.execute(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves the policy for the application.
     public func getApplicationPolicy(_ input: GetApplicationPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetApplicationPolicyResponse> {
-        return self.client.execute(operation: "GetApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets the specified AWS CloudFormation template.
     public func getCloudFormationTemplate(_ input: GetCloudFormationTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCloudFormationTemplateResponse> {
-        return self.client.execute(operation: "GetCloudFormationTemplate", path: "/applications/{applicationId}/templates/{templateId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetCloudFormationTemplate", path: "/applications/{applicationId}/templates/{templateId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves the list of applications nested in the containing application.
     public func listApplicationDependencies(_ input: ListApplicationDependenciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListApplicationDependenciesResponse> {
-        return self.client.execute(operation: "ListApplicationDependencies", path: "/applications/{applicationId}/dependencies", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListApplicationDependencies", path: "/applications/{applicationId}/dependencies", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists versions for the specified application.
     public func listApplicationVersions(_ input: ListApplicationVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListApplicationVersionsResponse> {
-        return self.client.execute(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists applications owned by the requester.
     public func listApplications(_ input: ListApplicationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListApplicationsResponse> {
-        return self.client.execute(operation: "ListApplications", path: "/applications", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListApplications", path: "/applications", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Sets the permission policy for an application. For the list of actions supported for this operation, see
@@ -139,16 +139,16 @@ public struct ServerlessApplicationRepository {
     ///   Permissions
     ///   .
     public func putApplicationPolicy(_ input: PutApplicationPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutApplicationPolicyResponse> {
-        return self.client.execute(operation: "PutApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "PutApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Unshares an application from an AWS Organization.This operation can be called only from the organization's master account.
     @discardableResult public func unshareApplication(_ input: UnshareApplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UnshareApplication", path: "/applications/{applicationId}/unshare", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UnshareApplication", path: "/applications/{applicationId}/unshare", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the specified application.
     public func updateApplication(_ input: UpdateApplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateApplicationResponse> {
-        return self.client.execute(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: .PATCH, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: .PATCH, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 }

@@ -21,12 +21,12 @@ Client object for interacting with AWS MediaPackage service.
 
 AWS Elemental MediaPackage
 */
-public struct MediaPackage {
+public struct MediaPackage: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -45,7 +45,7 @@ public struct MediaPackage {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "mediapackage",
@@ -61,89 +61,89 @@ public struct MediaPackage {
 
     ///  Creates a new Channel.
     public func createChannel(_ input: CreateChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateChannelResponse> {
-        return self.client.execute(operation: "CreateChannel", path: "/channels", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateChannel", path: "/channels", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new HarvestJob record.
     public func createHarvestJob(_ input: CreateHarvestJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateHarvestJobResponse> {
-        return self.client.execute(operation: "CreateHarvestJob", path: "/harvest_jobs", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateHarvestJob", path: "/harvest_jobs", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Creates a new OriginEndpoint record.
     public func createOriginEndpoint(_ input: CreateOriginEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateOriginEndpointResponse> {
-        return self.client.execute(operation: "CreateOriginEndpoint", path: "/origin_endpoints", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "CreateOriginEndpoint", path: "/origin_endpoints", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes an existing Channel.
     public func deleteChannel(_ input: DeleteChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteChannelResponse> {
-        return self.client.execute(operation: "DeleteChannel", path: "/channels/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteChannel", path: "/channels/{id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes an existing OriginEndpoint.
     public func deleteOriginEndpoint(_ input: DeleteOriginEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteOriginEndpointResponse> {
-        return self.client.execute(operation: "DeleteOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DeleteOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets details about a Channel.
     public func describeChannel(_ input: DescribeChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeChannelResponse> {
-        return self.client.execute(operation: "DescribeChannel", path: "/channels/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribeChannel", path: "/channels/{id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets details about an existing HarvestJob.
     public func describeHarvestJob(_ input: DescribeHarvestJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeHarvestJobResponse> {
-        return self.client.execute(operation: "DescribeHarvestJob", path: "/harvest_jobs/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribeHarvestJob", path: "/harvest_jobs/{id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Gets details about an existing OriginEndpoint.
     public func describeOriginEndpoint(_ input: DescribeOriginEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeOriginEndpointResponse> {
-        return self.client.execute(operation: "DescribeOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribeOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a collection of Channels.
     public func listChannels(_ input: ListChannelsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListChannelsResponse> {
-        return self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a collection of HarvestJob records.
     public func listHarvestJobs(_ input: ListHarvestJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListHarvestJobsResponse> {
-        return self.client.execute(operation: "ListHarvestJobs", path: "/harvest_jobs", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListHarvestJobs", path: "/harvest_jobs", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a collection of OriginEndpoint records.
     public func listOriginEndpoints(_ input: ListOriginEndpointsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOriginEndpointsResponse> {
-        return self.client.execute(operation: "ListOriginEndpoints", path: "/origin_endpoints", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListOriginEndpoints", path: "/origin_endpoints", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
     @available(*, deprecated, message:"This API is deprecated. Please use RotateIngestEndpointCredentials instead")
     public func rotateChannelCredentials(_ input: RotateChannelCredentialsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RotateChannelCredentialsResponse> {
-        return self.client.execute(operation: "RotateChannelCredentials", path: "/channels/{id}/credentials", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "RotateChannelCredentials", path: "/channels/{id}/credentials", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
     public func rotateIngestEndpointCredentials(_ input: RotateIngestEndpointCredentialsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RotateIngestEndpointCredentialsResponse> {
-        return self.client.execute(operation: "RotateIngestEndpointCredentials", path: "/channels/{id}/ingest_endpoints/{ingest_endpoint_id}/credentials", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "RotateIngestEndpointCredentials", path: "/channels/{id}/ingest_endpoints/{ingest_endpoint_id}/credentials", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates an existing Channel.
     public func updateChannel(_ input: UpdateChannelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateChannelResponse> {
-        return self.client.execute(operation: "UpdateChannel", path: "/channels/{id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateChannel", path: "/channels/{id}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates an existing OriginEndpoint.
     public func updateOriginEndpoint(_ input: UpdateOriginEndpointRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateOriginEndpointResponse> {
-        return self.client.execute(operation: "UpdateOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 }

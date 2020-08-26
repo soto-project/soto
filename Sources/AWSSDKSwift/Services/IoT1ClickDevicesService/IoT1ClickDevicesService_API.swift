@@ -23,12 +23,12 @@ Describes all of the AWS IoT 1-Click device-related API operations for the servi
  Also provides sample requests, responses, and errors for the supported web services
  protocols.
 */
-public struct IoT1ClickDevicesService {
+public struct IoT1ClickDevicesService: AWSService {
 
     // MARK: Member variables
 
     public let client: AWSClient
-    public let serviceConfig: AWSServiceConfig
+    public let config: AWSServiceConfig
 
     // MARK: Initialization
 
@@ -47,7 +47,7 @@ public struct IoT1ClickDevicesService {
         timeout: TimeAmount? = nil
     ) {
         self.client = client
-        self.serviceConfig = AWSServiceConfig(
+        self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
             service: "devices.iot1click",
@@ -65,13 +65,13 @@ public struct IoT1ClickDevicesService {
     ///  Adds device(s) to your account (i.e., claim one or more devices) if and only if you
     ///   received a claim code with the device(s).
     public func claimDevicesByClaimCode(_ input: ClaimDevicesByClaimCodeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ClaimDevicesByClaimCodeResponse> {
-        return self.client.execute(operation: "ClaimDevicesByClaimCode", path: "/claims/{claimCode}", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ClaimDevicesByClaimCode", path: "/claims/{claimCode}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Given a device ID, returns a DescribeDeviceResponse object describing the
     ///   details of the device.
     public func describeDevice(_ input: DescribeDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDeviceResponse> {
-        return self.client.execute(operation: "DescribeDevice", path: "/devices/{deviceId}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "DescribeDevice", path: "/devices/{deviceId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Given a device ID, finalizes the claim request for the associated device.
@@ -80,12 +80,12 @@ public struct IoT1ClickDevicesService {
     ///   be published by simply clicking the device.
     ///   
     public func finalizeDeviceClaim(_ input: FinalizeDeviceClaimRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<FinalizeDeviceClaimResponse> {
-        return self.client.execute(operation: "FinalizeDeviceClaim", path: "/devices/{deviceId}/finalize-claim", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "FinalizeDeviceClaim", path: "/devices/{deviceId}/finalize-claim", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Given a device ID, returns the invokable methods associated with the device.
     public func getDeviceMethods(_ input: GetDeviceMethodsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeviceMethodsResponse> {
-        return self.client.execute(operation: "GetDeviceMethods", path: "/devices/{deviceId}/methods", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "GetDeviceMethods", path: "/devices/{deviceId}/methods", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Given a device ID, initiates a claim request for the associated device.
@@ -94,51 +94,51 @@ public struct IoT1ClickDevicesService {
     ///   be published by simply clicking the device.
     ///   
     public func initiateDeviceClaim(_ input: InitiateDeviceClaimRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InitiateDeviceClaimResponse> {
-        return self.client.execute(operation: "InitiateDeviceClaim", path: "/devices/{deviceId}/initiate-claim", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "InitiateDeviceClaim", path: "/devices/{deviceId}/initiate-claim", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Given a device ID, issues a request to invoke a named device method (with possible
     ///   parameters). See the "Example POST" code snippet below.
     public func invokeDeviceMethod(_ input: InvokeDeviceMethodRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InvokeDeviceMethodResponse> {
-        return self.client.execute(operation: "InvokeDeviceMethod", path: "/devices/{deviceId}/methods", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "InvokeDeviceMethod", path: "/devices/{deviceId}/methods", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Using a device ID, returns a DeviceEventsResponse object containing an
     ///   array of events for the device.
     public func listDeviceEvents(_ input: ListDeviceEventsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeviceEventsResponse> {
-        return self.client.execute(operation: "ListDeviceEvents", path: "/devices/{deviceId}/events", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListDeviceEvents", path: "/devices/{deviceId}/events", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the 1-Click compatible devices associated with your AWS account.
     public func listDevices(_ input: ListDevicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDevicesResponse> {
-        return self.client.execute(operation: "ListDevices", path: "/devices", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListDevices", path: "/devices", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Lists the tags associated with the specified resource ARN.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Adds or updates the tags associated with the resource ARN. See AWS IoT 1-Click Service Limits for the maximum number of tags allowed per
     ///   resource.
     @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Disassociates a device from your AWS account using its device ID.
     public func unclaimDevice(_ input: UnclaimDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UnclaimDeviceResponse> {
-        return self.client.execute(operation: "UnclaimDevice", path: "/devices/{deviceId}/unclaim", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UnclaimDevice", path: "/devices/{deviceId}/unclaim", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Using tag keys, deletes the tags (key/value pairs) associated with the specified
     ///   resource ARN.
     @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Using a Boolean value (true or false), this operation
     ///   enables or disables the device given a device ID.
     public func updateDeviceState(_ input: UpdateDeviceStateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDeviceStateResponse> {
-        return self.client.execute(operation: "UpdateDeviceState", path: "/devices/{deviceId}/state", httpMethod: .PUT, serviceConfig: serviceConfig, input: input, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "UpdateDeviceState", path: "/devices/{deviceId}/state", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 }
