@@ -16,6 +16,7 @@ import AWSCrypto
 import AWSSDKSwiftCore
 import AWSXML
 import Foundation
+import NIO
 
 public struct S3RequestMiddleware: AWSServiceMiddleware {
     public init() {}
@@ -97,7 +98,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
     func calculateMD5(request: inout AWSRequest) {
         // if request has a body, calculate the MD5 for that body
-        if let byteBuffer = request.body.asByteBuffer() {
+        if let byteBuffer = request.body.asByteBuffer(byteBufferAllocator: ByteBufferAllocator()) {
             let byteBufferView = byteBuffer.readableBytesView
             if let encoded = byteBufferView.withContiguousStorageIfAvailable({ bytes in
                 return Data(Insecure.MD5.hash(data: bytes)).base64EncodedString()
