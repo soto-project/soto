@@ -289,7 +289,7 @@ extension S3 {
         inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>,
         skipStream: @escaping (EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
-        //var completedParts: [S3.CompletedPart] = []
+        // var completedParts: [S3.CompletedPart] = []
         let listPartsRequest = ListPartsRequest(
             bucket: input.bucket,
             key: input.key,
@@ -297,12 +297,12 @@ extension S3 {
             uploadId: uploadId
         )
         /* commented out until paginators with more_results flag are working
-        return listPartsPaginator(listPartsRequest) { output, eventLoop in
-            if let parts = output.parts {
-                completedParts += parts.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber)}
-            }
-            return eventLoop.makeSucceededFuture(true)
-        }*/
+         return listPartsPaginator(listPartsRequest) { output, eventLoop in
+             if let parts = output.parts {
+                 completedParts += parts.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber)}
+             }
+             return eventLoop.makeSucceededFuture(true)
+         }*/
         return listParts(listPartsRequest).flatMap { response in
             let completedParts = response.parts?.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber) } ?? []
             // upload all the parts
@@ -377,7 +377,7 @@ extension S3 {
                 uploadId: uploadId,
                 abortOnFail: abortOnFail,
                 on: eventLoop,
-                inputStream:  { eventLoop in
+                inputStream: { eventLoop in
                     let size = min(partSize, fileSize - progressAmount)
                     guard size > 0 else { return eventLoop.makeSucceededFuture(.empty) }
                     prevProgressAmount = progressAmount
@@ -397,7 +397,8 @@ extension S3 {
                     let size = min(partSize, fileSize - progressAmount)
                     progressAmount += size
                     return eventLoop.makeSucceededFuture(size == 0)
-            })
+                }
+            )
         }
     }
 }
@@ -439,7 +440,6 @@ extension S3 {
                     return rt
                 }
         }
-
     }
 
     /// used internally in multipartUpload, loads all the parts once the multipart upload has been initiated
