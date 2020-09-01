@@ -31,7 +31,7 @@ extension Kinesis {
             input: input,
             command: describeStream,
             tokenKey: \DescribeStreamOutput.streamDescription.shards.last?.shardId,
-            moreResultsKey: \DescribeStreamOutput.streamDescription.HasMoreShards,
+            moreResultsKey: \DescribeStreamOutput.streamDescription.hasMoreShards,
             on: eventLoop,
             onPage: onPage
         )

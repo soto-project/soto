@@ -31,7 +31,7 @@ extension CloudFront {
             input: input,
             command: listCloudFrontOriginAccessIdentities,
             tokenKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker,
-            moreResultsKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList.IsTruncated,
+            moreResultsKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.isTruncated,
             on: eventLoop,
             onPage: onPage
         )
@@ -48,7 +48,7 @@ extension CloudFront {
             input: input,
             command: listDistributions,
             tokenKey: \ListDistributionsResult.distributionList?.nextMarker,
-            moreResultsKey: \ListDistributionsResult.distributionList.IsTruncated,
+            moreResultsKey: \ListDistributionsResult.distributionList?.isTruncated,
             on: eventLoop,
             onPage: onPage
         )
@@ -65,7 +65,7 @@ extension CloudFront {
             input: input,
             command: listInvalidations,
             tokenKey: \ListInvalidationsResult.invalidationList?.nextMarker,
-            moreResultsKey: \ListInvalidationsResult.invalidationList.IsTruncated,
+            moreResultsKey: \ListInvalidationsResult.invalidationList?.isTruncated,
             on: eventLoop,
             onPage: onPage
         )
@@ -82,7 +82,7 @@ extension CloudFront {
             input: input,
             command: listStreamingDistributions,
             tokenKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker,
-            moreResultsKey: \ListStreamingDistributionsResult.streamingDistributionList.IsTruncated,
+            moreResultsKey: \ListStreamingDistributionsResult.streamingDistributionList?.isTruncated,
             on: eventLoop,
             onPage: onPage
         )
