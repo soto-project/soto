@@ -18,7 +18,7 @@ import Foundation
 public class Glob {
     public static func entries(pattern: String) -> [String] {
         var files = [String]()
-        var gt: glob_t = glob_t()
+        var gt = glob_t()
         let res = glob(pattern.cString(using: .utf8)!, 0, nil, &gt)
         if res != 0 {
             return files
