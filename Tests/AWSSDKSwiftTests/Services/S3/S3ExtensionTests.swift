@@ -142,7 +142,7 @@ class S3ExtensionTests: XCTestCase {
     }
 
     func testMultiPartUpload() {
-        let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1024)
+        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartUploadTest"
 

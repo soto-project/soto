@@ -179,7 +179,7 @@ extension S3 {
     public func multipartUpload(
         _ input: CreateMultipartUploadRequest,
         on eventLoop: EventLoop,
-        inputStream: @escaping (EventLoop) -> EventLoopFuture<ByteBuffer>
+        inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         // initialize multipart upload
         let result = createMultipartUpload(input, on: eventLoop).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
@@ -245,25 +245,28 @@ extension S3 {
 
         return fileIO.openFile(path: filename, eventLoop: eventLoop).flatMap {
             (fileHandle, fileRegion) -> EventLoopFuture<CompleteMultipartUploadOutput> in
-            var progressAmount: Int64 = 0
-            var prevProgressAmount: Int64 = 0
+            var progressAmount: Int = 0
+            var prevProgressAmount: Int = 0
 
             let fileSize = fileRegion.readableBytes
 
             let upload = self.multipartUpload(input, on: eventLoop) { eventLoop in
-                eventLoop.submit {
-                    try progress(Double(prevProgressAmount) / Double(fileSize))
-                }.flatMap { _ in
-                    return fileIO.read(fileHandle: fileHandle, byteCount: partSize, allocator: byteBufferAllocator, eventLoop: eventLoop)
-                }.map { buffer in
-                    prevProgressAmount = progressAmount
-                    progressAmount += Int64(buffer.readableBytes)
-                    return buffer
+                let size = min(partSize, fileSize - progressAmount)
+                guard size > 0 else { return eventLoop.makeSucceededFuture(.empty) }
+                prevProgressAmount = progressAmount
+                progressAmount += size
+                let payload = AWSPayload.fileHandle(
+                    fileHandle,
+                    size: size,
+                    fileIO: fileIO,
+                    byteBufferAllocator: byteBufferAllocator
+                ) { downloaded in
+                    try progress(Double(downloaded + prevProgressAmount) / Double(fileSize))
                 }
+                return eventLoop.makeSucceededFuture(payload)
             }
 
             upload.whenComplete { _ in
-                try? progress(Double(prevProgressAmount) / Double(fileSize))
                 if case .createNew = threadPoolProvider {
                     threadPool.shutdownGracefully { _ in }
                 }
@@ -288,50 +291,48 @@ extension S3 {
         _ input: CreateMultipartUploadRequest,
         uploadId: String,
         on eventLoop: EventLoop,
-        inputStream: @escaping (EventLoop) -> EventLoopFuture<ByteBuffer>
+        inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>
     ) -> EventLoopFuture<[S3.CompletedPart]> {
         let promise = eventLoop.makePromise(of: [S3.CompletedPart].self)
         var completedParts: [S3.CompletedPart] = []
         // function uploading part of a file and queueing up upload of the next part
-        func multipartUploadPart(partNumber: Int, uploadId: String, body: ByteBuffer) {
-            let request = S3.UploadPartRequest(
-                body: .byteBuffer(body),
-                bucket: input.bucket,
-                contentLength: Int64(body.readableBytes),
-                key: input.key,
-                partNumber: partNumber,
-                requestPayer: input.requestPayer,
-                sSECustomerAlgorithm: input.sSECustomerAlgorithm,
-                sSECustomerKey: input.sSECustomerKey,
-                sSECustomerKeyMD5: input.sSECustomerKeyMD5,
-                uploadId: uploadId
-            )
-            // request upload future
-            let uploadResult = self.uploadPart(request, on: eventLoop).map { output -> [S3.CompletedPart] in
-                let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
-                completedParts.append(part)
-                return completedParts
-            }
-
-            // load data EventLoopFuture
+        func multipartUploadPart(partNumber: Int, uploadId: String) {
+            // supply payload data
             inputStream(eventLoop)
-                .and(uploadResult)
-                .map { (data, parts) -> Void in
-                    guard data.readableBytes > 0 else {
-                        return promise.succeed(parts)
+                .flatMap { payload -> EventLoopFuture<Bool> in
+                    // if no data returned then return success
+                    guard let size = payload.size, size > 0 else {
+                        return eventLoop.makeSucceededFuture(true)
                     }
-                    multipartUploadPart(partNumber: partNumber + 1, uploadId: uploadId, body: data)
+                    // upload payload
+                    let request = S3.UploadPartRequest(
+                        body: payload,
+                        bucket: input.bucket,
+                        key: input.key,
+                        partNumber: partNumber,
+                        requestPayer: input.requestPayer,
+                        sSECustomerAlgorithm: input.sSECustomerAlgorithm,
+                        sSECustomerKey: input.sSECustomerKey,
+                        sSECustomerKeyMD5: input.sSECustomerKeyMD5,
+                        uploadId: uploadId
+                    )
+                    // request upload future
+                    return self.uploadPart(request, on: eventLoop).map { output -> Bool in
+                        let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
+                        completedParts.append(part)
+                        return false
+                    }
+                }.map { finished -> Void in
+                    if finished {
+                        promise.succeed(completedParts)
+                        return
+                    }
+                    multipartUploadPart(partNumber: partNumber + 1, uploadId: uploadId)
                 }.cascadeFailure(to: promise)
         }
 
-        // read first block and initiate first upload with result
-        inputStream(eventLoop).map { (buffer) -> Void in
-            guard buffer.readableBytes > 0 else {
-                return promise.succeed([])
-            }
-            // Multipart uploads part numbers start at 1 not 0
-            multipartUploadPart(partNumber: 1, uploadId: uploadId, body: buffer)
-        }.cascadeFailure(to: promise)
+        // Multipart uploads part numbers start at 1 not 0
+        multipartUploadPart(partNumber: 1, uploadId: uploadId)
 
         return promise.futureResult
     }
