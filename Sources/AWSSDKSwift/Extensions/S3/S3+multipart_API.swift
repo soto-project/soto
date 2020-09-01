@@ -222,6 +222,10 @@ extension S3 {
 
     /// Multipart upload of file to S3.
     ///
+    /// Uploads file using multipart upload commands. If you want the function to not abort the multipart upload when it receives an error then set `abortOnFail` to false. With this you
+    /// can then use `resumeMultipartUpload` to resume the failed upload. If you set `abortOnFail` to false but don't call `resumeMultipartUpload` on failure you will have
+    /// to call `abortMultipartUpload` yourself.
+    ///
     /// - parameters:
     ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
     ///     - partSize: Size of each part to upload. This has to be at least 5MB
@@ -289,22 +293,19 @@ extension S3 {
         inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>,
         skipStream: @escaping (EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
-        // var completedParts: [S3.CompletedPart] = []
+        var completedParts: [S3.CompletedPart] = []
         let listPartsRequest = ListPartsRequest(
             bucket: input.bucket,
             key: input.key,
             requestPayer: input.requestPayer,
             uploadId: uploadId
         )
-        /* commented out until paginators with more_results flag are working
-         return listPartsPaginator(listPartsRequest) { output, eventLoop in
-             if let parts = output.parts {
-                 completedParts += parts.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber)}
-             }
-             return eventLoop.makeSucceededFuture(true)
-         }*/
-        return listParts(listPartsRequest).flatMap { response in
-            let completedParts = response.parts?.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber) } ?? []
+        return listPartsPaginator(listPartsRequest) { output, eventLoop in
+            if let parts = output.parts {
+                completedParts += parts.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber) }
+            }
+            return eventLoop.makeSucceededFuture(true)
+        }.flatMap { _ in
             // upload all the parts
             return self.multipartUploadParts(
                 input,
@@ -338,6 +339,9 @@ extension S3 {
     }
 
     /// Resume multipart upload of file to S3.
+    ///
+    /// When calling this make sure you are using the same `input`, `partSize`and `filename` as you used when calling `multipartUpload`. The `uploadId` will come
+    /// from the `abortedUpload` error thrown by the previous `multipartUpload`
     ///
     /// - parameters:
     ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
