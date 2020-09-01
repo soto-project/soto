@@ -27,7 +27,13 @@ extension IVS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listChannels,
+            tokenKey: \ListChannelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets summary information about stream keys for the specified channel.
@@ -37,7 +43,13 @@ extension IVS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamKeysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreamKeys, tokenKey: \ListStreamKeysResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listStreamKeys,
+            tokenKey: \ListStreamKeysResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets summary information about live streams in your account, in the AWS region where the API request is processed.
@@ -47,7 +59,13 @@ extension IVS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreams, tokenKey: \ListStreamsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listStreams,
+            tokenKey: \ListStreamsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about AWS tags for the specified ARN.
@@ -57,7 +75,13 @@ extension IVS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTagsForResource,
+            tokenKey: \ListTagsForResourceResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

@@ -27,7 +27,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAlgorithmsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAlgorithms, tokenKey: \ListAlgorithmsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAlgorithms,
+            tokenKey: \ListAlgorithmsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists apps.
@@ -37,7 +43,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAppsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApps, tokenKey: \ListAppsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listApps,
+            tokenKey: \ListAppsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Request a list of jobs.
@@ -47,7 +59,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAutoMLJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAutoMLJobs, tokenKey: \ListAutoMLJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAutoMLJobs,
+            tokenKey: \ListAutoMLJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List the Candidates created for the job.
@@ -57,7 +75,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCandidatesForAutoMLJobResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCandidatesForAutoMLJob, tokenKey: \ListCandidatesForAutoMLJobResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCandidatesForAutoMLJob,
+            tokenKey: \ListCandidatesForAutoMLJobResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of the Git repositories in your account.
@@ -67,7 +91,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCodeRepositoriesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCodeRepositories, tokenKey: \ListCodeRepositoriesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCodeRepositories,
+            tokenKey: \ListCodeRepositoriesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists model compilation jobs that satisfy various filters. To create a model compilation job, use CreateCompilationJob. To get information about a particular model compilation job you have created, use DescribeCompilationJob.
@@ -77,7 +107,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCompilationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCompilationJobs, tokenKey: \ListCompilationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCompilationJobs,
+            tokenKey: \ListCompilationJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the domains.
@@ -87,7 +123,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDomains,
+            tokenKey: \ListDomainsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists endpoint configurations.
@@ -97,7 +139,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEndpointConfigsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEndpointConfigs, tokenKey: \ListEndpointConfigsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEndpointConfigs,
+            tokenKey: \ListEndpointConfigsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists endpoints.
@@ -107,7 +155,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEndpointsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEndpoints, tokenKey: \ListEndpointsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEndpoints,
+            tokenKey: \ListEndpointsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
@@ -117,7 +171,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListExperimentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listExperiments, tokenKey: \ListExperimentsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listExperiments,
+            tokenKey: \ListExperimentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the flow definitions in your account.
@@ -127,7 +187,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFlowDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFlowDefinitions, tokenKey: \ListFlowDefinitionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFlowDefinitions,
+            tokenKey: \ListFlowDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the human task user interfaces in your account.
@@ -137,7 +203,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHumanTaskUisResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHumanTaskUis, tokenKey: \ListHumanTaskUisResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHumanTaskUis,
+            tokenKey: \ListHumanTaskUisResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account.
@@ -147,7 +219,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHyperParameterTuningJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHyperParameterTuningJobs, tokenKey: \ListHyperParameterTuningJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHyperParameterTuningJobs,
+            tokenKey: \ListHyperParameterTuningJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of labeling jobs.
@@ -157,7 +235,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLabelingJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLabelingJobs, tokenKey: \ListLabelingJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLabelingJobs,
+            tokenKey: \ListLabelingJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of labeling jobs assigned to a specified work team.
@@ -167,7 +251,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLabelingJobsForWorkteamResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLabelingJobsForWorkteam, tokenKey: \ListLabelingJobsForWorkteamResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLabelingJobsForWorkteam,
+            tokenKey: \ListLabelingJobsForWorkteamResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the model packages that have been created.
@@ -177,7 +267,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListModelPackagesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listModelPackages, tokenKey: \ListModelPackagesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listModelPackages,
+            tokenKey: \ListModelPackagesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists models created with the CreateModel API.
@@ -187,7 +283,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListModelsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listModels, tokenKey: \ListModelsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listModels,
+            tokenKey: \ListModelsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns list of all monitoring job executions.
@@ -197,7 +299,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMonitoringExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMonitoringExecutions, tokenKey: \ListMonitoringExecutionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMonitoringExecutions,
+            tokenKey: \ListMonitoringExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns list of all monitoring schedules.
@@ -207,7 +315,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMonitoringSchedulesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMonitoringSchedules, tokenKey: \ListMonitoringSchedulesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMonitoringSchedules,
+            tokenKey: \ListMonitoringSchedulesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API.
@@ -217,7 +331,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNotebookInstanceLifecycleConfigsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNotebookInstanceLifecycleConfigs, tokenKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNotebookInstanceLifecycleConfigs,
+            tokenKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the Amazon SageMaker notebook instances in the requester's account in an AWS Region. 
@@ -227,7 +347,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNotebookInstancesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNotebookInstances, tokenKey: \ListNotebookInstancesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNotebookInstances,
+            tokenKey: \ListNotebookInstancesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists processing jobs that satisfy various filters.
@@ -237,7 +363,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProcessingJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProcessingJobs, tokenKey: \ListProcessingJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProcessingJobs,
+            tokenKey: \ListProcessingJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of the work teams that you are subscribed to in the AWS Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
@@ -247,7 +379,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSubscribedWorkteamsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSubscribedWorkteams, tokenKey: \ListSubscribedWorkteamsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSubscribedWorkteams,
+            tokenKey: \ListSubscribedWorkteamsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the tags for the specified Amazon SageMaker resource.
@@ -257,7 +395,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTags, tokenKey: \ListTagsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTags,
+            tokenKey: \ListTagsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists training jobs.
@@ -267,7 +411,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrainingJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTrainingJobs, tokenKey: \ListTrainingJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTrainingJobs,
+            tokenKey: \ListTrainingJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched.
@@ -277,7 +427,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrainingJobsForHyperParameterTuningJobResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTrainingJobsForHyperParameterTuningJob, tokenKey: \ListTrainingJobsForHyperParameterTuningJobResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTrainingJobsForHyperParameterTuningJob,
+            tokenKey: \ListTrainingJobsForHyperParameterTuningJobResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists transform jobs.
@@ -287,7 +443,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTransformJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTransformJobs, tokenKey: \ListTransformJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTransformJobs,
+            tokenKey: \ListTransformJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following:    ExperimentName     SourceArn     TrialName   
@@ -297,7 +459,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrialComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTrialComponents, tokenKey: \ListTrialComponentsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTrialComponents,
+            tokenKey: \ListTrialComponentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
@@ -307,7 +475,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrialsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTrials, tokenKey: \ListTrialsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTrials,
+            tokenKey: \ListTrialsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists user profiles.
@@ -317,7 +491,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUserProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUserProfiles, tokenKey: \ListUserProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUserProfiles,
+            tokenKey: \ListUserProfilesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Use this operation to list all private and vendor workforces in an AWS Region. Note that you can only have one private workforce per AWS Region.
@@ -327,7 +507,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkforcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorkforces, tokenKey: \ListWorkforcesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorkforces,
+            tokenKey: \ListWorkforcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
@@ -337,7 +523,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkteamsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorkteams, tokenKey: \ListWorkteamsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorkteams,
+            tokenKey: \ListWorkteamsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Finds Amazon SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.
@@ -347,7 +539,13 @@ extension SageMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: search, tokenKey: \SearchResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: search,
+            tokenKey: \SearchResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

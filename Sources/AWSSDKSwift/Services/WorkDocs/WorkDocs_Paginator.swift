@@ -27,7 +27,13 @@ extension WorkDocs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDocumentVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDocumentVersions, tokenKey: \DescribeDocumentVersionsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDocumentVersions,
+            tokenKey: \DescribeDocumentVersionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
@@ -37,7 +43,13 @@ extension WorkDocs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeFolderContentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeFolderContents, tokenKey: \DescribeFolderContentsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeFolderContents,
+            tokenKey: \DescribeFolderContentsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
@@ -47,7 +59,13 @@ extension WorkDocs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeUsers, tokenKey: \DescribeUsersResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeUsers,
+            tokenKey: \DescribeUsersResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

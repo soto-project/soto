@@ -27,7 +27,13 @@ extension MediaPackageVod {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssets, tokenKey: \ListAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAssets,
+            tokenKey: \ListAssetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingConfiguration resources.
@@ -37,7 +43,13 @@ extension MediaPackageVod {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackagingConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPackagingConfigurations, tokenKey: \ListPackagingConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPackagingConfigurations,
+            tokenKey: \ListPackagingConfigurationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingGroup resources.
@@ -47,7 +59,13 @@ extension MediaPackageVod {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackagingGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPackagingGroups, tokenKey: \ListPackagingGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPackagingGroups,
+            tokenKey: \ListPackagingGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

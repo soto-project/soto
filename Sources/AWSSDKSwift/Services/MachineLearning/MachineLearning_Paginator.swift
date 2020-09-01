@@ -27,7 +27,13 @@ extension MachineLearning {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeBatchPredictionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeBatchPredictions, tokenKey: \DescribeBatchPredictionsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeBatchPredictions,
+            tokenKey: \DescribeBatchPredictionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of DataSource that match the search criteria in the request.
@@ -37,7 +43,13 @@ extension MachineLearning {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDataSourcesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDataSources, tokenKey: \DescribeDataSourcesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDataSources,
+            tokenKey: \DescribeDataSourcesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of DescribeEvaluations that match the search criteria in the request.
@@ -47,7 +59,13 @@ extension MachineLearning {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEvaluationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvaluations, tokenKey: \DescribeEvaluationsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEvaluations,
+            tokenKey: \DescribeEvaluationsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of MLModel that match the search criteria in the request.
@@ -57,7 +75,13 @@ extension MachineLearning {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMLModelsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMLModels, tokenKey: \DescribeMLModelsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMLModels,
+            tokenKey: \DescribeMLModelsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

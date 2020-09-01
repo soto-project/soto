@@ -27,7 +27,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCodeCoveragesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCodeCoverages, tokenKey: \DescribeCodeCoveragesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCodeCoverages,
+            tokenKey: \DescribeCodeCoveragesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of details about test cases for a report. 
@@ -37,7 +43,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTestCasesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeTestCases, tokenKey: \DescribeTestCasesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeTestCases,
+            tokenKey: \DescribeTestCasesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the identifiers of your build batches in the current region.
@@ -47,7 +59,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBuildBatchesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBuildBatches, tokenKey: \ListBuildBatchesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBuildBatches,
+            tokenKey: \ListBuildBatchesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the identifiers of the build batches for a specific project.
@@ -57,7 +75,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBuildBatchesForProjectOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBuildBatchesForProject, tokenKey: \ListBuildBatchesForProjectOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBuildBatchesForProject,
+            tokenKey: \ListBuildBatchesForProjectOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of build IDs, with each build ID representing a single build.
@@ -67,7 +91,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBuildsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBuilds, tokenKey: \ListBuildsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBuilds,
+            tokenKey: \ListBuildsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of build IDs for the specified build project, with each build ID representing a single build.
@@ -77,7 +107,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBuildsForProjectOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBuildsForProject, tokenKey: \ListBuildsForProjectOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBuildsForProject,
+            tokenKey: \ListBuildsForProjectOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of build project names, with each build project name representing a single build project.
@@ -87,7 +123,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProjects,
+            tokenKey: \ListProjectsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Gets a list ARNs for the report groups in the current AWS account. 
@@ -97,7 +139,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReportGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReportGroups, tokenKey: \ListReportGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listReportGroups,
+            tokenKey: \ListReportGroupsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of ARNs for the reports in the current AWS account. 
@@ -107,7 +155,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReportsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReports, tokenKey: \ListReportsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listReports,
+            tokenKey: \ListReportsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of ARNs for the reports that belong to a ReportGroup. 
@@ -117,7 +171,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReportsForReportGroupOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReportsForReportGroup, tokenKey: \ListReportsForReportGroupOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listReportsForReportGroup,
+            tokenKey: \ListReportsForReportGroupOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Gets a list of projects that are shared with other AWS accounts or users. 
@@ -127,7 +187,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSharedProjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSharedProjects, tokenKey: \ListSharedProjectsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSharedProjects,
+            tokenKey: \ListSharedProjectsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Gets a list of report groups that are shared with other AWS accounts or users. 
@@ -137,7 +203,13 @@ extension CodeBuild {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSharedReportGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSharedReportGroups, tokenKey: \ListSharedReportGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSharedReportGroups,
+            tokenKey: \ListSharedReportGroupsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

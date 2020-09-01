@@ -27,7 +27,13 @@ extension ApplicationDiscoveryService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeContinuousExportsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeContinuousExports, tokenKey: \DescribeContinuousExportsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeContinuousExports,
+            tokenKey: \DescribeContinuousExportsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
@@ -37,7 +43,13 @@ extension ApplicationDiscoveryService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImportTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImportTasks, tokenKey: \DescribeImportTasksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeImportTasks,
+            tokenKey: \DescribeImportTasksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

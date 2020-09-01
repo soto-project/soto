@@ -27,7 +27,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetUsageStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUsageStatistics, tokenKey: \GetUsageStatisticsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getUsageStatistics,
+            tokenKey: \GetUsageStatisticsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists detectorIds of all the existing Amazon GuardDuty detector resources.
@@ -37,7 +43,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDetectorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDetectors, tokenKey: \ListDetectorsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDetectors,
+            tokenKey: \ListDetectorsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a paginated list of the current filters.
@@ -47,7 +59,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFilters, tokenKey: \ListFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFilters,
+            tokenKey: \ListFiltersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists Amazon GuardDuty findings for the specified detector ID.
@@ -57,7 +75,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFindings, tokenKey: \ListFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFindings,
+            tokenKey: \ListFindingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated master account.
@@ -67,7 +91,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIPSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIPSets, tokenKey: \ListIPSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listIPSets,
+            tokenKey: \ListIPSetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all GuardDuty membership invitations that were sent to the current AWS account.
@@ -77,7 +107,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInvitations,
+            tokenKey: \ListInvitationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists details about all member accounts for the current GuardDuty master account.
@@ -87,7 +123,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMembers,
+            tokenKey: \ListMembersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the accounts configured as GuardDuty delegated administrators.
@@ -97,7 +139,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOrganizationAdminAccounts, tokenKey: \ListOrganizationAdminAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOrganizationAdminAccounts,
+            tokenKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of publishing destinations associated with the specified dectectorId.
@@ -107,7 +155,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPublishingDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPublishingDestinations, tokenKey: \ListPublishingDestinationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPublishingDestinations,
+            tokenKey: \ListPublishingDestinationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the master account are returned.
@@ -117,7 +171,13 @@ extension GuardDuty {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListThreatIntelSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listThreatIntelSets, tokenKey: \ListThreatIntelSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listThreatIntelSets,
+            tokenKey: \ListThreatIntelSetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

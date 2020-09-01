@@ -27,7 +27,13 @@ extension XRay {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (BatchGetTracesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: batchGetTraces, tokenKey: \BatchGetTracesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: batchGetTraces,
+            tokenKey: \BatchGetTracesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves all active group details.
@@ -37,7 +43,13 @@ extension XRay {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getGroups, tokenKey: \GetGroupsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getGroups,
+            tokenKey: \GetGroupsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves all sampling rules.
@@ -47,7 +59,13 @@ extension XRay {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSamplingRulesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getSamplingRules, tokenKey: \GetSamplingRulesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getSamplingRules,
+            tokenKey: \GetSamplingRulesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about recent sampling results for all sampling rules.
@@ -57,7 +75,13 @@ extension XRay {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSamplingStatisticSummariesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getSamplingStatisticSummaries, tokenKey: \GetSamplingStatisticSummariesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getSamplingStatisticSummaries,
+            tokenKey: \GetSamplingStatisticSummariesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a document that describes services that process incoming requests, and downstream services that they call as a result. Root services process incoming requests and make calls to downstream services. Root services are applications that use the AWS X-Ray SDK. Downstream services can be other applications, AWS resources, HTTP web APIs, or SQL databases.
@@ -67,7 +91,13 @@ extension XRay {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetServiceGraphResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getServiceGraph, tokenKey: \GetServiceGraphResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getServiceGraph,
+            tokenKey: \GetServiceGraphResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Get an aggregation of service statistics defined by a specific time range.
@@ -77,7 +107,13 @@ extension XRay {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTimeSeriesServiceStatisticsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTimeSeriesServiceStatistics, tokenKey: \GetTimeSeriesServiceStatisticsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getTimeSeriesServiceStatistics,
+            tokenKey: \GetTimeSeriesServiceStatisticsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a service graph for one or more specific trace IDs.
@@ -87,7 +123,13 @@ extension XRay {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTraceGraphResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTraceGraph, tokenKey: \GetTraceGraphResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getTraceGraph,
+            tokenKey: \GetTraceGraphResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com:  service("api.example.com")  This filter expression finds traces that have an annotation named account with the value 12345:  annotation.account = "12345"  For a full list of indexed fields and keywords that you can use in filter expressions, see Using Filter Expressions in the AWS X-Ray Developer Guide.
@@ -97,7 +139,13 @@ extension XRay {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTraceSummariesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTraceSummaries, tokenKey: \GetTraceSummariesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getTraceSummaries,
+            tokenKey: \GetTraceSummariesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

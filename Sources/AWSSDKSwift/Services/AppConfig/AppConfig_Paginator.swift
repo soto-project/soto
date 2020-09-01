@@ -27,7 +27,13 @@ extension AppConfig {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Applications, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplications, tokenKey: \Applications.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listApplications,
+            tokenKey: \Applications.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the configuration profiles for an application.
@@ -37,7 +43,13 @@ extension AppConfig {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ConfigurationProfiles, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigurationProfiles, tokenKey: \ConfigurationProfiles.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listConfigurationProfiles,
+            tokenKey: \ConfigurationProfiles.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List deployment strategies.
@@ -47,7 +59,13 @@ extension AppConfig {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DeploymentStrategies, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeploymentStrategies, tokenKey: \DeploymentStrategies.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDeploymentStrategies,
+            tokenKey: \DeploymentStrategies.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the deployments for an environment.
@@ -57,7 +75,13 @@ extension AppConfig {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Deployments, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeployments, tokenKey: \Deployments.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDeployments,
+            tokenKey: \Deployments.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List the environments for an application.
@@ -67,7 +91,13 @@ extension AppConfig {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Environments, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEnvironments, tokenKey: \Environments.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEnvironments,
+            tokenKey: \Environments.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  View a list of configurations stored in the AppConfig configuration store by version.
@@ -77,7 +107,13 @@ extension AppConfig {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (HostedConfigurationVersions, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHostedConfigurationVersions, tokenKey: \HostedConfigurationVersions.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHostedConfigurationVersions,
+            tokenKey: \HostedConfigurationVersions.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

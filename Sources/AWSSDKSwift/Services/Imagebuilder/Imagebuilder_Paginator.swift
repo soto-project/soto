@@ -27,7 +27,13 @@ extension Imagebuilder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComponentBuildVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listComponentBuildVersions, tokenKey: \ListComponentBuildVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listComponentBuildVersions,
+            tokenKey: \ListComponentBuildVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the list of component build versions for the specified semantic version. 
@@ -37,7 +43,13 @@ extension Imagebuilder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listComponents, tokenKey: \ListComponentsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listComponents,
+            tokenKey: \ListComponentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of distribution configurations. 
@@ -47,7 +59,13 @@ extension Imagebuilder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDistributionConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDistributionConfigurations, tokenKey: \ListDistributionConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDistributionConfigurations,
+            tokenKey: \ListDistributionConfigurationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of image build versions. 
@@ -57,7 +75,13 @@ extension Imagebuilder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImageBuildVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listImageBuildVersions, tokenKey: \ListImageBuildVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listImageBuildVersions,
+            tokenKey: \ListImageBuildVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of images created by the specified pipeline. 
@@ -67,7 +91,13 @@ extension Imagebuilder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImagePipelineImagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listImagePipelineImages, tokenKey: \ListImagePipelineImagesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listImagePipelineImages,
+            tokenKey: \ListImagePipelineImagesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of image pipelines. 
@@ -77,7 +107,13 @@ extension Imagebuilder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImagePipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listImagePipelines, tokenKey: \ListImagePipelinesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listImagePipelines,
+            tokenKey: \ListImagePipelinesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of image recipes. 
@@ -87,7 +123,13 @@ extension Imagebuilder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImageRecipesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listImageRecipes, tokenKey: \ListImageRecipesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listImageRecipes,
+            tokenKey: \ListImageRecipesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns the list of images that you have access to. 
@@ -97,7 +139,13 @@ extension Imagebuilder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListImagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listImages, tokenKey: \ListImagesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listImages,
+            tokenKey: \ListImagesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of infrastructure configurations. 
@@ -107,7 +155,13 @@ extension Imagebuilder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInfrastructureConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInfrastructureConfigurations, tokenKey: \ListInfrastructureConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInfrastructureConfigurations,
+            tokenKey: \ListInfrastructureConfigurationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

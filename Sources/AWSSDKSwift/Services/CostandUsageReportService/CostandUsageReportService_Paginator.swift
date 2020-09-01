@@ -27,7 +27,13 @@ extension CostandUsageReportService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReportDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReportDefinitions, tokenKey: \DescribeReportDefinitionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReportDefinitions,
+            tokenKey: \DescribeReportDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

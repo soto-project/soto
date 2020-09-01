@@ -27,7 +27,13 @@ extension EBS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChangedBlocksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChangedBlocks, tokenKey: \ListChangedBlocksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listChangedBlocks,
+            tokenKey: \ListChangedBlocksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the block indexes and block tokens for blocks in an Amazon Elastic Block Store snapshot.
@@ -37,7 +43,13 @@ extension EBS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSnapshotBlocksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSnapshotBlocks, tokenKey: \ListSnapshotBlocksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSnapshotBlocks,
+            tokenKey: \ListSnapshotBlocksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

@@ -27,7 +27,14 @@ extension CloudFront {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCloudFrontOriginAccessIdentitiesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCloudFrontOriginAccessIdentities, tokenKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCloudFrontOriginAccessIdentities,
+            tokenKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker,
+            moreResultsKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.isTruncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List CloudFront distributions.
@@ -37,7 +44,14 @@ extension CloudFront {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDistributionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDistributions, tokenKey: \ListDistributionsResult.distributionList?.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDistributions,
+            tokenKey: \ListDistributionsResult.distributionList?.nextMarker,
+            moreResultsKey: \ListDistributionsResult.distributionList?.isTruncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists invalidation batches. 
@@ -47,7 +61,14 @@ extension CloudFront {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvalidationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvalidations, tokenKey: \ListInvalidationsResult.invalidationList?.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInvalidations,
+            tokenKey: \ListInvalidationsResult.invalidationList?.nextMarker,
+            moreResultsKey: \ListInvalidationsResult.invalidationList?.isTruncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List streaming distributions. 
@@ -57,7 +78,14 @@ extension CloudFront {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamingDistributionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreamingDistributions, tokenKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listStreamingDistributions,
+            tokenKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker,
+            moreResultsKey: \ListStreamingDistributionsResult.streamingDistributionList?.isTruncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

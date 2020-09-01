@@ -27,7 +27,13 @@ extension CognitoIdentityProvider {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (AdminListGroupsForUserResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: adminListGroupsForUser, tokenKey: \AdminListGroupsForUserResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: adminListGroupsForUser,
+            tokenKey: \AdminListGroupsForUserResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists a history of user activity and any risks detected as part of Amazon Cognito advanced security.
@@ -37,7 +43,13 @@ extension CognitoIdentityProvider {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (AdminListUserAuthEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: adminListUserAuthEvents, tokenKey: \AdminListUserAuthEventsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: adminListUserAuthEvents,
+            tokenKey: \AdminListUserAuthEventsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the groups associated with a user pool. Calling this action requires developer credentials.
@@ -47,7 +59,13 @@ extension CognitoIdentityProvider {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGroups,
+            tokenKey: \ListGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists information about all identity providers for a user pool.
@@ -57,7 +75,13 @@ extension CognitoIdentityProvider {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIdentityProvidersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIdentityProviders, tokenKey: \ListIdentityProvidersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listIdentityProviders,
+            tokenKey: \ListIdentityProvidersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the resource servers for a user pool.
@@ -67,7 +91,13 @@ extension CognitoIdentityProvider {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourceServersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResourceServers, tokenKey: \ListResourceServersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResourceServers,
+            tokenKey: \ListResourceServersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the clients that have been created for the specified user pool.
@@ -77,7 +107,13 @@ extension CognitoIdentityProvider {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUserPoolClientsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUserPoolClients, tokenKey: \ListUserPoolClientsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUserPoolClients,
+            tokenKey: \ListUserPoolClientsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the user pools associated with an AWS account.
@@ -87,7 +123,13 @@ extension CognitoIdentityProvider {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUserPoolsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUserPools, tokenKey: \ListUserPoolsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUserPools,
+            tokenKey: \ListUserPoolsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the users in the Amazon Cognito user pool.
@@ -97,7 +139,13 @@ extension CognitoIdentityProvider {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.paginationToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUsers,
+            tokenKey: \ListUsersResponse.paginationToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the users in the specified group. Calling this action requires developer credentials.
@@ -107,7 +155,13 @@ extension CognitoIdentityProvider {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersInGroupResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsersInGroup, tokenKey: \ListUsersInGroupResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUsersInGroup,
+            tokenKey: \ListUsersInGroupResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

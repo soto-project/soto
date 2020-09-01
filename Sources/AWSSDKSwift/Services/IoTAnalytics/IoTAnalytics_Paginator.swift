@@ -27,7 +27,13 @@ extension IoTAnalytics {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listChannels,
+            tokenKey: \ListChannelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists information about data set contents that have been created.
@@ -37,7 +43,13 @@ extension IoTAnalytics {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatasetContentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatasetContents, tokenKey: \ListDatasetContentsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDatasetContents,
+            tokenKey: \ListDatasetContentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about data sets.
@@ -47,7 +59,13 @@ extension IoTAnalytics {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatasetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatasets, tokenKey: \ListDatasetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDatasets,
+            tokenKey: \ListDatasetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of data stores.
@@ -57,7 +75,13 @@ extension IoTAnalytics {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatastoresResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatastores, tokenKey: \ListDatastoresResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDatastores,
+            tokenKey: \ListDatastoresResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of pipelines.
@@ -67,7 +91,13 @@ extension IoTAnalytics {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPipelines,
+            tokenKey: \ListPipelinesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

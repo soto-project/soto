@@ -27,7 +27,13 @@ extension Lambda {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAliases, tokenKey: \ListAliasesResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAliases,
+            tokenKey: \ListAliasesResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists event source mappings. Specify an EventSourceArn to only show event source mappings for a single event source.
@@ -37,7 +43,13 @@ extension Lambda {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEventSourceMappingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEventSourceMappings, tokenKey: \ListEventSourceMappingsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEventSourceMappings,
+            tokenKey: \ListEventSourceMappingsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
@@ -47,7 +59,13 @@ extension Lambda {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFunctionEventInvokeConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFunctionEventInvokeConfigs, tokenKey: \ListFunctionEventInvokeConfigsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFunctionEventInvokeConfigs,
+            tokenKey: \ListFunctionEventInvokeConfigsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. To get more information about a function or version, use GetFunction.
@@ -57,7 +75,13 @@ extension Lambda {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFunctionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFunctions, tokenKey: \ListFunctionsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFunctions,
+            tokenKey: \ListFunctionsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the versions of an AWS Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime.
@@ -67,7 +91,13 @@ extension Lambda {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLayerVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLayerVersions, tokenKey: \ListLayerVersionsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLayerVersions,
+            tokenKey: \ListLayerVersionsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists AWS Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime.
@@ -77,7 +107,13 @@ extension Lambda {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLayersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLayers, tokenKey: \ListLayersResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLayers,
+            tokenKey: \ListLayersResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of provisioned concurrency configurations for a function.
@@ -87,7 +123,13 @@ extension Lambda {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProvisionedConcurrencyConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProvisionedConcurrencyConfigs, tokenKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProvisionedConcurrencyConfigs,
+            tokenKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of versions, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
@@ -97,7 +139,13 @@ extension Lambda {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVersionsByFunctionResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVersionsByFunction, tokenKey: \ListVersionsByFunctionResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVersionsByFunction,
+            tokenKey: \ListVersionsByFunctionResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

@@ -27,7 +27,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetClassifiersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getClassifiers, tokenKey: \GetClassifiersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getClassifiers,
+            tokenKey: \GetClassifiersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of connection definitions from the Data Catalog.
@@ -37,7 +43,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getConnections, tokenKey: \GetConnectionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getConnections,
+            tokenKey: \GetConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves metrics about specified crawlers.
@@ -47,7 +59,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCrawlerMetricsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCrawlerMetrics, tokenKey: \GetCrawlerMetricsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getCrawlerMetrics,
+            tokenKey: \GetCrawlerMetricsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves metadata for all crawlers defined in the customer account.
@@ -57,7 +75,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCrawlersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCrawlers, tokenKey: \GetCrawlersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getCrawlers,
+            tokenKey: \GetCrawlersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves all databases defined in a given Data Catalog.
@@ -67,7 +91,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDatabasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDatabases, tokenKey: \GetDatabasesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getDatabases,
+            tokenKey: \GetDatabasesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves all the development endpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
@@ -77,7 +107,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDevEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDevEndpoints, tokenKey: \GetDevEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getDevEndpoints,
+            tokenKey: \GetDevEndpointsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves metadata for all runs of a given job definition.
@@ -87,7 +123,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetJobRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getJobRuns, tokenKey: \GetJobRunsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getJobRuns,
+            tokenKey: \GetJobRunsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves all current job definitions.
@@ -97,7 +139,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getJobs, tokenKey: \GetJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getJobs,
+            tokenKey: \GetJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
@@ -107,7 +155,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetMLTaskRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getMLTaskRuns, tokenKey: \GetMLTaskRunsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getMLTaskRuns,
+            tokenKey: \GetMLTaskRunsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a sortable, filterable list of existing AWS Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue, and you can retrieve their metadata by calling GetMLTransforms.
@@ -117,7 +171,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetMLTransformsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getMLTransforms, tokenKey: \GetMLTransformsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getMLTransforms,
+            tokenKey: \GetMLTransformsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about the partitions in a table.
@@ -127,7 +187,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetPartitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getPartitions, tokenKey: \GetPartitionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getPartitions,
+            tokenKey: \GetPartitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of all security configurations.
@@ -137,7 +203,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSecurityConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getSecurityConfigurations, tokenKey: \GetSecurityConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getSecurityConfigurations,
+            tokenKey: \GetSecurityConfigurationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of strings that identify available versions of a specified table.
@@ -147,7 +219,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTableVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTableVersions, tokenKey: \GetTableVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getTableVersions,
+            tokenKey: \GetTableVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the definitions of some or all of the tables in a given Database.
@@ -157,7 +235,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTablesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTables, tokenKey: \GetTablesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getTables,
+            tokenKey: \GetTablesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets all the triggers associated with a job.
@@ -167,7 +251,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTriggersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTriggers, tokenKey: \GetTriggersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getTriggers,
+            tokenKey: \GetTriggersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves multiple function definitions from the Data Catalog.
@@ -177,7 +267,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetUserDefinedFunctionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUserDefinedFunctions, tokenKey: \GetUserDefinedFunctionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getUserDefinedFunctions,
+            tokenKey: \GetUserDefinedFunctionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves metadata for all runs of a given workflow.
@@ -187,7 +283,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetWorkflowRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getWorkflowRuns, tokenKey: \GetWorkflowRunsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getWorkflowRuns,
+            tokenKey: \GetWorkflowRunsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the names of all crawler resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
@@ -197,7 +299,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCrawlersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCrawlers, tokenKey: \ListCrawlersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCrawlers,
+            tokenKey: \ListCrawlersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the names of all DevEndpoint resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
@@ -207,7 +315,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDevEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDevEndpoints, tokenKey: \ListDevEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDevEndpoints,
+            tokenKey: \ListDevEndpointsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the names of all job resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
@@ -217,7 +331,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJobs,
+            tokenKey: \ListJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Retrieves a sortable, filterable list of existing AWS Glue machine learning transforms in this AWS account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved. 
@@ -227,7 +347,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMLTransformsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMLTransforms, tokenKey: \ListMLTransformsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMLTransforms,
+            tokenKey: \ListMLTransformsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
@@ -237,7 +363,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTriggersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTriggers, tokenKey: \ListTriggersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTriggers,
+            tokenKey: \ListTriggersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists names of workflows created in the account.
@@ -247,7 +379,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkflowsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorkflows, tokenKey: \ListWorkflowsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorkflows,
+            tokenKey: \ListWorkflowsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search. 
@@ -257,7 +395,13 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchTablesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchTables, tokenKey: \SearchTablesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchTables,
+            tokenKey: \SearchTablesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

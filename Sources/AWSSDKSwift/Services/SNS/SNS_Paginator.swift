@@ -27,7 +27,13 @@ extension SNS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEndpointsByPlatformApplicationResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEndpointsByPlatformApplication, tokenKey: \ListEndpointsByPlatformApplicationResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEndpointsByPlatformApplication,
+            tokenKey: \ListEndpointsByPlatformApplicationResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the platform application objects for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 15 transactions per second (TPS).
@@ -37,7 +43,13 @@ extension SNS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPlatformApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPlatformApplications, tokenKey: \ListPlatformApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPlatformApplications,
+            tokenKey: \ListPlatformApplicationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the requester's subscriptions. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptions call to get further results. This action is throttled at 30 transactions per second (TPS).
@@ -47,7 +59,13 @@ extension SNS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSubscriptionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSubscriptions, tokenKey: \ListSubscriptionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSubscriptions,
+            tokenKey: \ListSubscriptionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the subscriptions to a specific topic. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptionsByTopic call to get further results. This action is throttled at 30 transactions per second (TPS).
@@ -57,7 +75,13 @@ extension SNS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSubscriptionsByTopicResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSubscriptionsByTopic, tokenKey: \ListSubscriptionsByTopicResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSubscriptionsByTopic,
+            tokenKey: \ListSubscriptionsByTopicResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the requester's topics. Each call returns a limited list of topics, up to 100. If there are more topics, a NextToken is also returned. Use the NextToken parameter in a new ListTopics call to get further results. This action is throttled at 30 transactions per second (TPS).
@@ -67,7 +91,13 @@ extension SNS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTopicsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTopics, tokenKey: \ListTopicsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTopics,
+            tokenKey: \ListTopicsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

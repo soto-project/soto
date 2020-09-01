@@ -27,7 +27,13 @@ extension Synthetics {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCanariesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCanaries, tokenKey: \DescribeCanariesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCanaries,
+            tokenKey: \DescribeCanariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Use this operation to see information from the most recent run of each canary that you have created.
@@ -37,7 +43,13 @@ extension Synthetics {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCanariesLastRunResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCanariesLastRun, tokenKey: \DescribeCanariesLastRunResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCanariesLastRun,
+            tokenKey: \DescribeCanariesLastRunResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of Synthetics canary runtime versions. For more information, see  Canary Runtime Versions.
@@ -47,7 +59,13 @@ extension Synthetics {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeRuntimeVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeRuntimeVersions, tokenKey: \DescribeRuntimeVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeRuntimeVersions,
+            tokenKey: \DescribeRuntimeVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of runs for a specified canary.
@@ -57,7 +75,13 @@ extension Synthetics {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCanaryRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCanaryRuns, tokenKey: \GetCanaryRunsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getCanaryRuns,
+            tokenKey: \GetCanaryRunsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

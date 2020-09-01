@@ -27,7 +27,13 @@ extension Transfer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSecurityPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSecurityPolicies, tokenKey: \ListSecurityPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSecurityPolicies,
+            tokenKey: \ListSecurityPoliciesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the file transfer protocol-enabled servers that are associated with your AWS account.
@@ -37,7 +43,13 @@ extension Transfer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listServers, tokenKey: \ListServersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listServers,
+            tokenKey: \ListServersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all of the tags associated with the Amazon Resource Number (ARN) you specify. The resource can be a user, server, or role.
@@ -47,7 +59,13 @@ extension Transfer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTagsForResource,
+            tokenKey: \ListTagsForResourceResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter.
@@ -57,7 +75,13 @@ extension Transfer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUsers,
+            tokenKey: \ListUsersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

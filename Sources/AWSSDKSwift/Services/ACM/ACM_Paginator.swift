@@ -27,7 +27,13 @@ extension ACM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCertificatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCertificates, tokenKey: \ListCertificatesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCertificates,
+            tokenKey: \ListCertificatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

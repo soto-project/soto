@@ -27,7 +27,13 @@ extension Macie2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeBucketsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeBuckets, tokenKey: \DescribeBucketsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeBuckets,
+            tokenKey: \DescribeBucketsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves (queries) quotas and aggregated usage data for one or more accounts.
@@ -37,7 +43,13 @@ extension Macie2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetUsageStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUsageStatistics, tokenKey: \GetUsageStatisticsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getUsageStatistics,
+            tokenKey: \GetUsageStatisticsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a subset of information about one or more classification jobs.
@@ -47,7 +59,13 @@ extension Macie2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClassificationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClassificationJobs, tokenKey: \ListClassificationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listClassificationJobs,
+            tokenKey: \ListClassificationJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a subset of information about all the custom data identifiers for an account.
@@ -57,7 +75,13 @@ extension Macie2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCustomDataIdentifiersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCustomDataIdentifiers, tokenKey: \ListCustomDataIdentifiersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCustomDataIdentifiers,
+            tokenKey: \ListCustomDataIdentifiersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Retrieves a subset of information about one or more findings.
@@ -67,7 +91,13 @@ extension Macie2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFindings, tokenKey: \ListFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFindings,
+            tokenKey: \ListFindingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a subset of information about all the findings filters for an account.
@@ -77,7 +107,13 @@ extension Macie2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFindingsFilters, tokenKey: \ListFindingsFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFindingsFilters,
+            tokenKey: \ListFindingsFiltersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about all the Amazon Macie membership invitations that were received by an account.
@@ -87,7 +123,13 @@ extension Macie2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInvitations,
+            tokenKey: \ListInvitationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about the accounts that are associated with an Amazon Macie master account.
@@ -97,7 +139,13 @@ extension Macie2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMembers,
+            tokenKey: \ListMembersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about the account that's designated as the delegated administrator of Amazon Macie for an AWS organization.
@@ -107,7 +155,13 @@ extension Macie2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOrganizationAdminAccounts, tokenKey: \ListOrganizationAdminAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOrganizationAdminAccounts,
+            tokenKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

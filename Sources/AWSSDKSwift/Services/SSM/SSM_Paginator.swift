@@ -27,7 +27,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeActivationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeActivations, tokenKey: \DescribeActivationsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeActivations,
+            tokenKey: \DescribeActivationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Use this API action to view information about a specific execution of a specific association.
@@ -37,7 +43,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAssociationExecutionTargetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAssociationExecutionTargets, tokenKey: \DescribeAssociationExecutionTargetsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeAssociationExecutionTargets,
+            tokenKey: \DescribeAssociationExecutionTargetsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Use this API action to view all executions for a specific association ID. 
@@ -47,7 +59,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAssociationExecutionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAssociationExecutions, tokenKey: \DescribeAssociationExecutionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeAssociationExecutions,
+            tokenKey: \DescribeAssociationExecutionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Provides details about all active and terminated Automation executions.
@@ -57,7 +75,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAutomationExecutionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAutomationExecutions, tokenKey: \DescribeAutomationExecutionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeAutomationExecutions,
+            tokenKey: \DescribeAutomationExecutionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Information about all active and terminated step executions in an Automation workflow.
@@ -67,7 +91,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAutomationStepExecutionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAutomationStepExecutions, tokenKey: \DescribeAutomationStepExecutionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeAutomationStepExecutions,
+            tokenKey: \DescribeAutomationStepExecutionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all patches eligible to be included in a patch baseline.
@@ -77,7 +107,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAvailablePatchesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAvailablePatches, tokenKey: \DescribeAvailablePatchesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeAvailablePatches,
+            tokenKey: \DescribeAvailablePatchesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  All associations for the instance(s).
@@ -87,7 +123,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEffectiveInstanceAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEffectiveInstanceAssociations, tokenKey: \DescribeEffectiveInstanceAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEffectiveInstanceAssociations,
+            tokenKey: \DescribeEffectiveInstanceAssociationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Note that this API applies only to Windows patch baselines.
@@ -97,7 +139,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEffectivePatchesForPatchBaselineResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEffectivePatchesForPatchBaseline, tokenKey: \DescribeEffectivePatchesForPatchBaselineResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEffectivePatchesForPatchBaseline,
+            tokenKey: \DescribeEffectivePatchesForPatchBaselineResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  The status of the associations for the instance(s).
@@ -107,7 +155,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstanceAssociationsStatusResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInstanceAssociationsStatus, tokenKey: \DescribeInstanceAssociationsStatusResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeInstanceAssociationsStatus,
+            tokenKey: \DescribeInstanceAssociationsStatusResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes one or more of your instances, including information about the operating system platform, the version of SSM Agent installed on the instance, instance status, and so on. If you specify one or more instance IDs, it returns information for those instances. If you do not specify instance IDs, it returns information for all your instances. If you specify an instance ID that is not valid or an instance that you do not own, you receive an error.  The IamRole field for this API action is the Amazon Identity and Access Management (IAM) role assigned to on-premises instances. This call does not return the IAM role for EC2 instances. 
@@ -117,7 +171,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstanceInformationResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInstanceInformation, tokenKey: \DescribeInstanceInformationResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeInstanceInformation,
+            tokenKey: \DescribeInstanceInformationResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the high-level patch state of one or more instances.
@@ -127,7 +187,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstancePatchStatesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInstancePatchStates, tokenKey: \DescribeInstancePatchStatesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeInstancePatchStates,
+            tokenKey: \DescribeInstancePatchStatesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the high-level patch state for the instances in the specified patch group.
@@ -137,7 +203,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstancePatchStatesForPatchGroupResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInstancePatchStatesForPatchGroup, tokenKey: \DescribeInstancePatchStatesForPatchGroupResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeInstancePatchStatesForPatchGroup,
+            tokenKey: \DescribeInstancePatchStatesForPatchGroupResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about the patches on the specified instance and their state relative to the patch baseline being used for the instance.
@@ -147,7 +219,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInstancePatchesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInstancePatches, tokenKey: \DescribeInstancePatchesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeInstancePatches,
+            tokenKey: \DescribeInstancePatchesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes a specific delete inventory operation.
@@ -157,7 +235,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInventoryDeletionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInventoryDeletions, tokenKey: \DescribeInventoryDeletionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeInventoryDeletions,
+            tokenKey: \DescribeInventoryDeletionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution.
@@ -167,7 +251,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMaintenanceWindowExecutionTaskInvocationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMaintenanceWindowExecutionTaskInvocations, tokenKey: \DescribeMaintenanceWindowExecutionTaskInvocationsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMaintenanceWindowExecutionTaskInvocations,
+            tokenKey: \DescribeMaintenanceWindowExecutionTaskInvocationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  For a given maintenance window execution, lists the tasks that were run.
@@ -177,7 +267,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMaintenanceWindowExecutionTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMaintenanceWindowExecutionTasks, tokenKey: \DescribeMaintenanceWindowExecutionTasksResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMaintenanceWindowExecutionTasks,
+            tokenKey: \DescribeMaintenanceWindowExecutionTasksResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window.
@@ -187,7 +283,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMaintenanceWindowExecutionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMaintenanceWindowExecutions, tokenKey: \DescribeMaintenanceWindowExecutionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMaintenanceWindowExecutions,
+            tokenKey: \DescribeMaintenanceWindowExecutionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about upcoming executions of a maintenance window.
@@ -197,7 +299,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMaintenanceWindowScheduleResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMaintenanceWindowSchedule, tokenKey: \DescribeMaintenanceWindowScheduleResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMaintenanceWindowSchedule,
+            tokenKey: \DescribeMaintenanceWindowScheduleResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the targets registered with the maintenance window.
@@ -207,7 +315,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMaintenanceWindowTargetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMaintenanceWindowTargets, tokenKey: \DescribeMaintenanceWindowTargetsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMaintenanceWindowTargets,
+            tokenKey: \DescribeMaintenanceWindowTargetsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the tasks in a maintenance window.
@@ -217,7 +331,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMaintenanceWindowTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMaintenanceWindowTasks, tokenKey: \DescribeMaintenanceWindowTasksResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMaintenanceWindowTasks,
+            tokenKey: \DescribeMaintenanceWindowTasksResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the maintenance windows in an AWS account.
@@ -227,7 +347,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMaintenanceWindowsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMaintenanceWindows, tokenKey: \DescribeMaintenanceWindowsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMaintenanceWindows,
+            tokenKey: \DescribeMaintenanceWindowsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves information about the maintenance window targets or tasks that an instance is associated with.
@@ -237,7 +363,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMaintenanceWindowsForTargetResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMaintenanceWindowsForTarget, tokenKey: \DescribeMaintenanceWindowsForTargetResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMaintenanceWindowsForTarget,
+            tokenKey: \DescribeMaintenanceWindowsForTargetResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Query a set of OpsItems. You must have permission in AWS Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Getting started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide. 
@@ -247,7 +379,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeOpsItemsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOpsItems, tokenKey: \DescribeOpsItemsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeOpsItems,
+            tokenKey: \DescribeOpsItemsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Get information about a parameter.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
@@ -257,7 +395,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeParameters, tokenKey: \DescribeParametersResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeParameters,
+            tokenKey: \DescribeParametersResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the patch baselines in your AWS account.
@@ -267,7 +411,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePatchBaselinesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePatchBaselines, tokenKey: \DescribePatchBaselinesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describePatchBaselines,
+            tokenKey: \DescribePatchBaselinesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all patch groups that have been registered with patch baselines.
@@ -277,7 +427,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePatchGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePatchGroups, tokenKey: \DescribePatchGroupsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describePatchGroups,
+            tokenKey: \DescribePatchGroupsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for actions such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  WINDOWS  Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY  AMAZON_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  AMAZON_LINUX_2  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  UBUNTU   Valid properties: PRODUCT, PRIORITY  REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  SUSE  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  CENTOS  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  
@@ -287,7 +443,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePatchPropertiesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePatchProperties, tokenKey: \DescribePatchPropertiesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describePatchProperties,
+            tokenKey: \DescribePatchPropertiesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of all active sessions (both connected and disconnected) or terminated sessions from the past 30 days.
@@ -297,7 +459,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSessionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeSessions, tokenKey: \DescribeSessionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeSessions,
+            tokenKey: \DescribeSessionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Query inventory information.
@@ -307,7 +475,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetInventoryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getInventory, tokenKey: \GetInventoryResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getInventory,
+            tokenKey: \GetInventoryResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Return a list of inventory type names for the account, or return a list of attribute names for a specific Inventory item type.
@@ -317,7 +491,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetInventorySchemaResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getInventorySchema, tokenKey: \GetInventorySchemaResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getInventorySchema,
+            tokenKey: \GetInventorySchemaResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  View a summary of OpsItems based on specified filters and aggregators.
@@ -327,7 +507,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetOpsSummaryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getOpsSummary, tokenKey: \GetOpsSummaryResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getOpsSummary,
+            tokenKey: \GetOpsSummaryResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Query a list of all parameters used by the AWS account.
@@ -337,7 +523,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetParameterHistoryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getParameterHistory, tokenKey: \GetParameterHistoryResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getParameterHistory,
+            tokenKey: \GetParameterHistoryResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieve information about one or more parameters in a specific hierarchy.   Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
@@ -347,7 +539,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetParametersByPathResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getParametersByPath, tokenKey: \GetParametersByPathResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getParametersByPath,
+            tokenKey: \GetParametersByPathResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves all versions of an association for a specific association ID.
@@ -357,7 +555,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssociationVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssociationVersions, tokenKey: \ListAssociationVersionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAssociationVersions,
+            tokenKey: \ListAssociationVersionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns all State Manager associations in the current AWS account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter.
@@ -367,7 +571,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssociations, tokenKey: \ListAssociationsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAssociations,
+            tokenKey: \ListAssociationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user runs SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.
@@ -377,7 +587,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCommandInvocationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCommandInvocations, tokenKey: \ListCommandInvocationsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCommandInvocations,
+            tokenKey: \ListCommandInvocationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the commands requested by users of the AWS account.
@@ -387,7 +603,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCommandsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCommands, tokenKey: \ListCommandsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCommands,
+            tokenKey: \ListCommandsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  For a specified resource ID, this API action returns a list of compliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter.
@@ -397,7 +619,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComplianceItemsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listComplianceItems, tokenKey: \ListComplianceItemsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listComplianceItems,
+            tokenKey: \ListComplianceItemsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager associations, patches, or custom compliance types according to the filter criteria that you specify.
@@ -407,7 +635,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComplianceSummariesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listComplianceSummaries, tokenKey: \ListComplianceSummariesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listComplianceSummaries,
+            tokenKey: \ListComplianceSummariesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List all versions for a document.
@@ -417,7 +651,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDocumentVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDocumentVersions, tokenKey: \ListDocumentVersionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDocumentVersions,
+            tokenKey: \ListDocumentVersionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns all Systems Manager (SSM) documents in the current AWS account and Region. You can limit the results of this request by using a filter.
@@ -427,7 +667,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDocumentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDocuments, tokenKey: \ListDocumentsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDocuments,
+            tokenKey: \ListDocumentsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a resource-level summary count. The summary includes information about compliant and non-compliant statuses and detailed compliance-item severity counts, according to the filter criteria you specify.
@@ -437,7 +683,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourceComplianceSummariesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResourceComplianceSummaries, tokenKey: \ListResourceComplianceSummariesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResourceComplianceSummaries,
+            tokenKey: \ListResourceComplianceSummariesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists your resource data sync configurations. Includes information about the last time a sync attempted to start, the last sync status, and the last time a sync successfully completed. The number of sync configurations might be too large to return using a single call to ListResourceDataSync. You can limit the number of sync configurations returned by using the MaxResults parameter. To determine whether there are more sync configurations to list, check the value of NextToken in the output. If there are more sync configurations to list, you can request them by specifying the NextToken returned in the call to the parameter of a subsequent call. 
@@ -447,7 +699,13 @@ extension SSM {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourceDataSyncResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResourceDataSync, tokenKey: \ListResourceDataSyncResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResourceDataSync,
+            tokenKey: \ListResourceDataSyncResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

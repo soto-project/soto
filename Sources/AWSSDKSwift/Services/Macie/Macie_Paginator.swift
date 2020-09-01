@@ -27,7 +27,13 @@ extension Macie {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMemberAccountsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMemberAccounts, tokenKey: \ListMemberAccountsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMemberAccounts,
+            tokenKey: \ListMemberAccountsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the S3 resources associated with Amazon Macie Classic. If memberAccountId isn't specified, the action lists the S3 resources associated with Amazon Macie Classic for the current master account. If memberAccountId is specified, the action lists the S3 resources associated with Amazon Macie Classic for the specified member account. 
@@ -37,7 +43,13 @@ extension Macie {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListS3ResourcesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listS3Resources, tokenKey: \ListS3ResourcesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listS3Resources,
+            tokenKey: \ListS3ResourcesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

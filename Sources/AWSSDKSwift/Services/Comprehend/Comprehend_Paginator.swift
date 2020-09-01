@@ -27,7 +27,13 @@ extension Comprehend {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDocumentClassificationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDocumentClassificationJobs, tokenKey: \ListDocumentClassificationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDocumentClassificationJobs,
+            tokenKey: \ListDocumentClassificationJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of the document classifiers that you have created.
@@ -37,7 +43,13 @@ extension Comprehend {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDocumentClassifiersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDocumentClassifiers, tokenKey: \ListDocumentClassifiersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDocumentClassifiers,
+            tokenKey: \ListDocumentClassifiersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of the dominant language detection jobs that you have submitted.
@@ -47,7 +59,13 @@ extension Comprehend {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDominantLanguageDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDominantLanguageDetectionJobs, tokenKey: \ListDominantLanguageDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDominantLanguageDetectionJobs,
+            tokenKey: \ListDominantLanguageDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of the entity detection jobs that you have submitted.
@@ -57,7 +75,13 @@ extension Comprehend {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntitiesDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEntitiesDetectionJobs, tokenKey: \ListEntitiesDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEntitiesDetectionJobs,
+            tokenKey: \ListEntitiesDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.
@@ -67,7 +91,13 @@ extension Comprehend {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntityRecognizersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEntityRecognizers, tokenKey: \ListEntityRecognizersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEntityRecognizers,
+            tokenKey: \ListEntityRecognizersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Get a list of key phrase detection jobs that you have submitted.
@@ -77,7 +107,13 @@ extension Comprehend {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListKeyPhrasesDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listKeyPhrasesDetectionJobs, tokenKey: \ListKeyPhrasesDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listKeyPhrasesDetectionJobs,
+            tokenKey: \ListKeyPhrasesDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of sentiment detection jobs that you have submitted.
@@ -87,7 +123,13 @@ extension Comprehend {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSentimentDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSentimentDetectionJobs, tokenKey: \ListSentimentDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSentimentDetectionJobs,
+            tokenKey: \ListSentimentDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of the topic detection jobs that you have submitted.
@@ -97,7 +139,13 @@ extension Comprehend {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTopicsDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTopicsDetectionJobs, tokenKey: \ListTopicsDetectionJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTopicsDetectionJobs,
+            tokenKey: \ListTopicsDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

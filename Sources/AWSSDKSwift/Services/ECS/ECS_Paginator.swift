@@ -27,7 +27,13 @@ extension ECS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccountSettings, tokenKey: \ListAccountSettingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAccountSettings,
+            tokenKey: \ListAccountSettingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, ListAttributes returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value, for example, to see which container instances in a cluster are running a Linux AMI (ecs.os-type=linux). 
@@ -37,7 +43,13 @@ extension ECS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttributesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAttributes, tokenKey: \ListAttributesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAttributes,
+            tokenKey: \ListAttributesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of existing clusters.
@@ -47,7 +59,13 @@ extension ECS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClustersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listClusters,
+            tokenKey: \ListClustersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of container instances in a specified cluster. You can filter the results of a ListContainerInstances operation with cluster query language statements inside the filter parameter. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
@@ -57,7 +75,13 @@ extension ECS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListContainerInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listContainerInstances, tokenKey: \ListContainerInstancesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listContainerInstances,
+            tokenKey: \ListContainerInstancesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the services that are running in a specified cluster.
@@ -67,7 +91,13 @@ extension ECS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listServices, tokenKey: \ListServicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listServices,
+            tokenKey: \ListServicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of task definition families that are registered to your account (which may include task definition families that no longer have any ACTIVE task definition revisions). You can filter out task definition families that do not contain any ACTIVE task definition revisions by setting the status parameter to ACTIVE. You can also filter the results with the familyPrefix parameter.
@@ -77,7 +107,13 @@ extension ECS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTaskDefinitionFamiliesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTaskDefinitionFamilies, tokenKey: \ListTaskDefinitionFamiliesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTaskDefinitionFamilies,
+            tokenKey: \ListTaskDefinitionFamiliesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of task definitions that are registered to your account. You can filter the results by family name with the familyPrefix parameter or by status with the status parameter.
@@ -87,7 +123,13 @@ extension ECS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTaskDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTaskDefinitions, tokenKey: \ListTaskDefinitionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTaskDefinitions,
+            tokenKey: \ListTaskDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of tasks for a specified cluster. You can filter the results by family name, by a particular container instance, or by the desired status of the task with the family, containerInstance, and desiredStatus parameters. Recently stopped tasks might appear in the returned results. Currently, stopped tasks appear in the returned results for at least one hour. 
@@ -97,7 +139,13 @@ extension ECS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTasks, tokenKey: \ListTasksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTasks,
+            tokenKey: \ListTasksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

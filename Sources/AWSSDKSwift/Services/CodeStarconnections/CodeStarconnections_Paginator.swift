@@ -27,7 +27,13 @@ extension CodeStarconnections {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConnectionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConnections, tokenKey: \ListConnectionsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listConnections,
+            tokenKey: \ListConnectionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the hosts associated with your account.
@@ -37,7 +43,13 @@ extension CodeStarconnections {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHostsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHosts, tokenKey: \ListHostsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHosts,
+            tokenKey: \ListHostsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

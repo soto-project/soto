@@ -27,7 +27,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeApplicableIndividualAssessmentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeApplicableIndividualAssessments, tokenKey: \DescribeApplicableIndividualAssessmentsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeApplicableIndividualAssessments,
+            tokenKey: \DescribeApplicableIndividualAssessmentsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Provides a description of the certificate.
@@ -37,7 +43,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeCertificatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCertificates, tokenKey: \DescribeCertificatesResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCertificates,
+            tokenKey: \DescribeCertificatesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
@@ -47,7 +59,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeConnections, tokenKey: \DescribeConnectionsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeConnections,
+            tokenKey: \DescribeConnectionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the type of endpoints available.
@@ -57,7 +75,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEndpointTypesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEndpointTypes, tokenKey: \DescribeEndpointTypesResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEndpointTypes,
+            tokenKey: \DescribeEndpointTypesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the endpoints for your account in the current region.
@@ -67,7 +91,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEndpoints, tokenKey: \DescribeEndpointsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEndpoints,
+            tokenKey: \DescribeEndpointsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.  If you specify SubscriptionName, this action lists the description for that subscription.
@@ -77,7 +107,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEventSubscriptionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \DescribeEventSubscriptionsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEventSubscriptions,
+            tokenKey: \DescribeEventSubscriptionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on AWS DMS events, see Working with Events and Notifications in the AWS Database Migration User Guide. 
@@ -87,7 +123,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvents, tokenKey: \DescribeEventsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEvents,
+            tokenKey: \DescribeEventsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the replication instance types that can be created in the specified region.
@@ -97,7 +139,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeOrderableReplicationInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOrderableReplicationInstances, tokenKey: \DescribeOrderableReplicationInstancesResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeOrderableReplicationInstances,
+            tokenKey: \DescribeOrderableReplicationInstancesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  For internal use only
@@ -107,7 +155,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePendingMaintenanceActionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePendingMaintenanceActions, tokenKey: \DescribePendingMaintenanceActionsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describePendingMaintenanceActions,
+            tokenKey: \DescribePendingMaintenanceActionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the task logs for the specified task.
@@ -117,7 +171,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationInstanceTaskLogsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReplicationInstanceTaskLogs, tokenKey: \DescribeReplicationInstanceTaskLogsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReplicationInstanceTaskLogs,
+            tokenKey: \DescribeReplicationInstanceTaskLogsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about replication instances for your account in the current region.
@@ -127,7 +187,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReplicationInstances, tokenKey: \DescribeReplicationInstancesResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReplicationInstances,
+            tokenKey: \DescribeReplicationInstancesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the replication subnet groups.
@@ -137,7 +203,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationSubnetGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReplicationSubnetGroups, tokenKey: \DescribeReplicationSubnetGroupsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReplicationSubnetGroups,
+            tokenKey: \DescribeReplicationSubnetGroupsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the task assessment results from Amazon S3. This action always returns the latest results.
@@ -147,7 +219,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationTaskAssessmentResultsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReplicationTaskAssessmentResults, tokenKey: \DescribeReplicationTaskAssessmentResultsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReplicationTaskAssessmentResults,
+            tokenKey: \DescribeReplicationTaskAssessmentResultsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values.  This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.  
@@ -157,7 +235,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationTaskAssessmentRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReplicationTaskAssessmentRuns, tokenKey: \DescribeReplicationTaskAssessmentRunsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReplicationTaskAssessmentRuns,
+            tokenKey: \DescribeReplicationTaskAssessmentRunsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values.
@@ -167,7 +251,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationTaskIndividualAssessmentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReplicationTaskIndividualAssessments, tokenKey: \DescribeReplicationTaskIndividualAssessmentsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReplicationTaskIndividualAssessments,
+            tokenKey: \DescribeReplicationTaskIndividualAssessmentsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about replication tasks for your account in the current region.
@@ -177,7 +267,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReplicationTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReplicationTasks, tokenKey: \DescribeReplicationTasksResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReplicationTasks,
+            tokenKey: \DescribeReplicationTasksResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the schema for the specified endpoint. 
@@ -187,7 +283,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSchemasResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeSchemas, tokenKey: \DescribeSchemasResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeSchemas,
+            tokenKey: \DescribeSchemasResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that AWS DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
@@ -197,7 +299,13 @@ extension DatabaseMigrationService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTableStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeTableStatistics, tokenKey: \DescribeTableStatisticsResponse.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeTableStatistics,
+            tokenKey: \DescribeTableStatisticsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

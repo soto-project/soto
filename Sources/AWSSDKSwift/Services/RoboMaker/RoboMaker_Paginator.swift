@@ -27,7 +27,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeploymentJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeploymentJobs, tokenKey: \ListDeploymentJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDeploymentJobs,
+            tokenKey: \ListDeploymentJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. 
@@ -37,7 +43,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFleetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFleets, tokenKey: \ListFleetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFleets,
+            tokenKey: \ListFleetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
@@ -47,7 +59,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRobotApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRobotApplications, tokenKey: \ListRobotApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRobotApplications,
+            tokenKey: \ListRobotApplicationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.
@@ -57,7 +75,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRobotsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRobots, tokenKey: \ListRobotsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRobots,
+            tokenKey: \ListRobotsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
@@ -67,7 +91,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSimulationApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSimulationApplications, tokenKey: \ListSimulationApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSimulationApplications,
+            tokenKey: \ListSimulationApplicationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs. 
@@ -77,7 +107,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSimulationJobBatchesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSimulationJobBatches, tokenKey: \ListSimulationJobBatchesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSimulationJobBatches,
+            tokenKey: \ListSimulationJobBatchesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
@@ -87,7 +123,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSimulationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSimulationJobs, tokenKey: \ListSimulationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSimulationJobs,
+            tokenKey: \ListSimulationJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists world export jobs.
@@ -97,7 +139,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorldExportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorldExportJobs, tokenKey: \ListWorldExportJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorldExportJobs,
+            tokenKey: \ListWorldExportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists world generator jobs.
@@ -107,7 +155,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorldGenerationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorldGenerationJobs, tokenKey: \ListWorldGenerationJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorldGenerationJobs,
+            tokenKey: \ListWorldGenerationJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists world templates.
@@ -117,7 +171,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorldTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorldTemplates, tokenKey: \ListWorldTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorldTemplates,
+            tokenKey: \ListWorldTemplatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists worlds.
@@ -127,7 +187,13 @@ extension RoboMaker {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorldsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorlds, tokenKey: \ListWorldsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorlds,
+            tokenKey: \ListWorldsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

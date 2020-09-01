@@ -27,7 +27,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAnalysesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAnalyses, tokenKey: \ListAnalysesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAnalyses,
+            tokenKey: \ListAnalysesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the versions of the dashboards in the QuickSight subscription.
@@ -37,7 +43,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDashboardVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDashboardVersions, tokenKey: \ListDashboardVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDashboardVersions,
+            tokenKey: \ListDashboardVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists dashboards in an AWS account.
@@ -47,7 +59,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDashboards, tokenKey: \ListDashboardsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDashboards,
+            tokenKey: \ListDashboardsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all of the datasets belonging to the current AWS account in an AWS Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
@@ -57,7 +75,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSets, tokenKey: \ListDataSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSets,
+            tokenKey: \ListDataSetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists data sources in current AWS Region that belong to this AWS account.
@@ -67,7 +91,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSources,
+            tokenKey: \ListDataSourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the history of SPICE ingestions for a dataset.
@@ -77,7 +107,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIngestionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIngestions, tokenKey: \ListIngestionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listIngestions,
+            tokenKey: \ListIngestionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the namespaces for the specified AWS account.
@@ -87,7 +123,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNamespacesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNamespaces, tokenKey: \ListNamespacesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNamespaces,
+            tokenKey: \ListNamespacesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the aliases of a template.
@@ -97,7 +139,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTemplateAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTemplateAliases, tokenKey: \ListTemplateAliasesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTemplateAliases,
+            tokenKey: \ListTemplateAliasesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the versions of the templates in the current Amazon QuickSight account.
@@ -107,7 +155,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTemplateVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTemplateVersions, tokenKey: \ListTemplateVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTemplateVersions,
+            tokenKey: \ListTemplateVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the templates in the current Amazon QuickSight account.
@@ -117,7 +171,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTemplates, tokenKey: \ListTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTemplates,
+            tokenKey: \ListTemplatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches for analyses that belong to the user specified in the filter.
@@ -127,7 +187,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchAnalysesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchAnalyses, tokenKey: \SearchAnalysesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchAnalyses,
+            tokenKey: \SearchAnalysesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches for dashboards that belong to a user. 
@@ -137,7 +203,13 @@ extension QuickSight {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchDashboards, tokenKey: \SearchDashboardsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchDashboards,
+            tokenKey: \SearchDashboardsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

@@ -139,6 +139,7 @@ extension AWSService {
     struct PaginatorContext {
         let operation: OperationContext
         let output: String
+        let moreResults: String?
         let initParams: [String]
         let paginatorProtocol: String
         let tokenType: String
@@ -357,6 +358,31 @@ extension AWSService {
         return context
     }
 
+    /// convert paginator token to KeyPath
+    func toKeyPath(token: String, type: Shape.ShapeType.StructureType) -> String {
+        var split = token.split(separator: ".")
+        for i in 0..<split.count {
+            // if string contains [-1] replace with '.last'.
+            if let negativeIndexRange = split[i].range(of: "[-1]") {
+                split[i].removeSubrange(negativeIndexRange)
+
+                var replacement = "last"
+                // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
+                if split.count > i + 1 {
+                    replacement += "?"
+                }
+                split.insert(Substring(replacement), at: i + 1)
+            }
+        }
+        // if output token is member of an optional struct add ? suffix
+        if type.required.first(where: { $0 == String(split[0]) }) == nil,
+            split.count > 1
+        {
+            split[0] += "?"
+        }
+        return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
+    }
+
     /// Generate paginator context
     func generatePaginatorContext() throws -> [String: Any] {
         guard let pagination = paginators?.pagination else { return [:] }
@@ -394,28 +420,9 @@ extension AWSService {
 
             // process output tokens
             let processedOutputTokens = outputTokens.map { (token) -> String in
-                var split = token.split(separator: ".")
-                for i in 0..<split.count {
-                    // if string contains [-1] replace with '.last'.
-                    if let negativeIndexRange = split[i].range(of: "[-1]") {
-                        split[i].removeSubrange(negativeIndexRange)
-
-                        var replacement = "last"
-                        // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
-                        if split.count > i + 1 {
-                            replacement += "?"
-                        }
-                        split.insert(Substring(replacement), at: i + 1)
-                    }
-                }
-                // if output token is member of an optional struct add ? suffix
-                if outputStructure.required.first(where: { $0 == String(split[0]) }) == nil,
-                    split.count > 1
-                {
-                    split[0] += "?"
-                }
-                return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
+                return self.toKeyPath(token: token, type: outputStructure)
             }
+            let moreResultsKey = paginator.value.moreResults.map { self.toKeyPath(token: $0, type: outputStructure) }
 
             var initParams: [String: String] = [:]
             for member in inputStructure.members {
@@ -427,6 +434,7 @@ extension AWSService {
                 PaginatorContext(
                     operation: self.generateOperationContext(operation, name: paginator.key),
                     output: processedOutputTokens[0],
+                    moreResults: moreResultsKey,
                     initParams: initParamsArray,
                     paginatorProtocol: paginatorProtocol,
                     tokenType: tokenType

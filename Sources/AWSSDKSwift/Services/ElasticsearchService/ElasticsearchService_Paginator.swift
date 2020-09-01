@@ -27,7 +27,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeInboundCrossClusterSearchConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInboundCrossClusterSearchConnections, tokenKey: \DescribeInboundCrossClusterSearchConnectionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeInboundCrossClusterSearchConnections,
+            tokenKey: \DescribeInboundCrossClusterSearchConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the outbound cross-cluster search connections for a source domain.
@@ -37,7 +43,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeOutboundCrossClusterSearchConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOutboundCrossClusterSearchConnections, tokenKey: \DescribeOutboundCrossClusterSearchConnectionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeOutboundCrossClusterSearchConnections,
+            tokenKey: \DescribeOutboundCrossClusterSearchConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
@@ -47,7 +59,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePackagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePackages, tokenKey: \DescribePackagesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describePackages,
+            tokenKey: \DescribePackagesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists available reserved Elasticsearch instance offerings.
@@ -57,7 +75,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReservedElasticsearchInstanceOfferingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedElasticsearchInstanceOfferings, tokenKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReservedElasticsearchInstanceOfferings,
+            tokenKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about reserved Elasticsearch instances for this account.
@@ -67,7 +91,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeReservedElasticsearchInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedElasticsearchInstances, tokenKey: \DescribeReservedElasticsearchInstancesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReservedElasticsearchInstances,
+            tokenKey: \DescribeReservedElasticsearchInstancesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves the complete history of the last 10 upgrades that were performed on the domain.
@@ -77,7 +107,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetUpgradeHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUpgradeHistory, tokenKey: \GetUpgradeHistoryResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getUpgradeHistory,
+            tokenKey: \GetUpgradeHistoryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all Amazon ES domains associated with the package.
@@ -87,7 +123,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsForPackageResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomainsForPackage, tokenKey: \ListDomainsForPackageResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDomainsForPackage,
+            tokenKey: \ListDomainsForPackageResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List all Elasticsearch instance types that are supported for given ElasticsearchVersion
@@ -97,7 +139,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListElasticsearchInstanceTypesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listElasticsearchInstanceTypes, tokenKey: \ListElasticsearchInstanceTypesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listElasticsearchInstanceTypes,
+            tokenKey: \ListElasticsearchInstanceTypesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List all supported Elasticsearch versions
@@ -107,7 +155,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListElasticsearchVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listElasticsearchVersions, tokenKey: \ListElasticsearchVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listElasticsearchVersions,
+            tokenKey: \ListElasticsearchVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all packages associated with the Amazon ES domain.
@@ -117,7 +171,13 @@ extension ElasticsearchService {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackagesForDomainResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPackagesForDomain, tokenKey: \ListPackagesForDomainResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPackagesForDomain,
+            tokenKey: \ListPackagesForDomainResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

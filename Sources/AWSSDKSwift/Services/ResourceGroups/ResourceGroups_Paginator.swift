@@ -27,7 +27,13 @@ extension ResourceGroups {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroupResources, tokenKey: \ListGroupResourcesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGroupResources,
+            tokenKey: \ListGroupResourcesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of existing resource groups in your account.
@@ -37,7 +43,13 @@ extension ResourceGroups {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGroups,
+            tokenKey: \ListGroupsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of AWS resource identifiers that matches tne specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
@@ -47,7 +59,13 @@ extension ResourceGroups {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchResources, tokenKey: \SearchResourcesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchResources,
+            tokenKey: \SearchResourcesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

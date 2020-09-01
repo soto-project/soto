@@ -27,7 +27,13 @@ extension KinesisVideoArchivedMedia {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFragmentsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFragments, tokenKey: \ListFragmentsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFragments,
+            tokenKey: \ListFragmentsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

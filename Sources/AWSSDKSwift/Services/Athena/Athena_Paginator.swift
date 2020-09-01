@@ -27,7 +27,13 @@ extension Athena {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetQueryResultsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getQueryResults, tokenKey: \GetQueryResultsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getQueryResults,
+            tokenKey: \GetQueryResultsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the data catalogs in the current AWS account.
@@ -37,7 +43,13 @@ extension Athena {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataCatalogsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataCatalogs, tokenKey: \ListDataCatalogsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataCatalogs,
+            tokenKey: \ListDataCatalogsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the databases in the specified data catalog.
@@ -47,7 +59,13 @@ extension Athena {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDatabasesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatabases, tokenKey: \ListDatabasesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDatabases,
+            tokenKey: \ListDatabasesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
@@ -57,7 +75,13 @@ extension Athena {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNamedQueriesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNamedQueries, tokenKey: \ListNamedQueriesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNamedQueries,
+            tokenKey: \ListNamedQueriesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
@@ -67,7 +91,13 @@ extension Athena {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQueryExecutionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listQueryExecutions, tokenKey: \ListQueryExecutionsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listQueryExecutions,
+            tokenKey: \ListQueryExecutionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the metadata for the tables in the specified data catalog database.
@@ -77,7 +107,13 @@ extension Athena {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTableMetadataOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTableMetadata, tokenKey: \ListTableMetadataOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTableMetadata,
+            tokenKey: \ListTableMetadataOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the tags associated with an Athena workgroup or data catalog resource.
@@ -87,7 +123,13 @@ extension Athena {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTagsForResource,
+            tokenKey: \ListTagsForResourceOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists available workgroups for the account.
@@ -97,7 +139,13 @@ extension Athena {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorkGroups, tokenKey: \ListWorkGroupsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorkGroups,
+            tokenKey: \ListWorkGroupsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

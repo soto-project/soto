@@ -27,7 +27,13 @@ extension ElasticInference {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeAcceleratorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeAccelerators, tokenKey: \DescribeAcceleratorsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeAccelerators,
+            tokenKey: \DescribeAcceleratorsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

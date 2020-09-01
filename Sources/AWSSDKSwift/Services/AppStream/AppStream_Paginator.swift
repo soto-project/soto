@@ -27,7 +27,13 @@ extension AppStream {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImagePermissionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImagePermissions, tokenKey: \DescribeImagePermissionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeImagePermissions,
+            tokenKey: \DescribeImagePermissionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
@@ -37,7 +43,13 @@ extension AppStream {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeImagesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImages, tokenKey: \DescribeImagesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeImages,
+            tokenKey: \DescribeImagesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

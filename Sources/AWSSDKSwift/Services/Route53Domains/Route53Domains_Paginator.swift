@@ -27,7 +27,13 @@ extension Route53Domains {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextPageMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDomains,
+            tokenKey: \ListDomainsResponse.nextPageMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about all of the operations that return an operation ID and that have ever been performed on domains that were registered by the current account. 
@@ -37,7 +43,13 @@ extension Route53Domains {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOperationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOperations, tokenKey: \ListOperationsResponse.nextPageMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOperations,
+            tokenKey: \ListOperationsResponse.nextPageMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

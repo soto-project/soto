@@ -27,7 +27,13 @@ extension KinesisVideo {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSignalingChannelsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSignalingChannels, tokenKey: \ListSignalingChannelsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSignalingChannels,
+            tokenKey: \ListSignalingChannelsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only streams that satisfy a specific condition, you can specify a StreamNameCondition. 
@@ -37,7 +43,13 @@ extension KinesisVideo {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreams, tokenKey: \ListStreamsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listStreams,
+            tokenKey: \ListStreamsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

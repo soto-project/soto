@@ -27,7 +27,13 @@ extension QLDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJournalKinesisStreamsForLedgerResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJournalKinesisStreamsForLedger, tokenKey: \ListJournalKinesisStreamsForLedgerResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJournalKinesisStreamsForLedger,
+            tokenKey: \ListJournalKinesisStreamsForLedgerResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns an array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see Export Job Expiration in the Amazon QLDB Developer Guide.
@@ -37,7 +43,13 @@ extension QLDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJournalS3ExportsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJournalS3Exports, tokenKey: \ListJournalS3ExportsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJournalS3Exports,
+            tokenKey: \ListJournalS3ExportsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns an array of journal export job descriptions for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times. This action does not return any expired export jobs. For more information, see Export Job Expiration in the Amazon QLDB Developer Guide.
@@ -47,7 +59,13 @@ extension QLDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJournalS3ExportsForLedgerResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJournalS3ExportsForLedger, tokenKey: \ListJournalS3ExportsForLedgerResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJournalS3ExportsForLedger,
+            tokenKey: \ListJournalS3ExportsForLedgerResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns an array of ledger summaries that are associated with the current AWS account and Region. This action returns a maximum of 100 items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
@@ -57,7 +75,13 @@ extension QLDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLedgersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLedgers, tokenKey: \ListLedgersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLedgers,
+            tokenKey: \ListLedgersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

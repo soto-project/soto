@@ -27,7 +27,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssignmentsForHITResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssignmentsForHIT, tokenKey: \ListAssignmentsForHITResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAssignmentsForHIT,
+            tokenKey: \ListAssignmentsForHITResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   The ListBonusPayments operation retrieves the amounts of bonuses you have paid to Workers for a given HIT or assignment. 
@@ -37,7 +43,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBonusPaymentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBonusPayments, tokenKey: \ListBonusPaymentsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBonusPayments,
+            tokenKey: \ListBonusPaymentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   The ListHITs operation returns all of a Requester's HITs. The operation returns HITs of any status, except for HITs that have been deleted of with the DeleteHIT operation or that have been auto-deleted. 
@@ -47,7 +59,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHITsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHITs, tokenKey: \ListHITsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHITs,
+            tokenKey: \ListHITsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   The ListHITsForQualificationType operation returns the HITs that use the given Qualification type for a Qualification requirement. The operation returns HITs of any status, except for HITs that have been deleted with the DeleteHIT operation or that have been auto-deleted. 
@@ -57,7 +75,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHITsForQualificationTypeResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHITsForQualificationType, tokenKey: \ListHITsForQualificationTypeResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHITsForQualificationType,
+            tokenKey: \ListHITsForQualificationTypeResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   The ListQualificationRequests operation retrieves requests for Qualifications of a particular Qualification type. The owner of the Qualification type calls this operation to poll for pending requests, and accepts them using the AcceptQualification operation. 
@@ -67,7 +91,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQualificationRequestsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listQualificationRequests, tokenKey: \ListQualificationRequestsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listQualificationRequests,
+            tokenKey: \ListQualificationRequestsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   The ListQualificationTypes operation returns a list of Qualification types, filtered by an optional search term. 
@@ -77,7 +107,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQualificationTypesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listQualificationTypes, tokenKey: \ListQualificationTypesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listQualificationTypes,
+            tokenKey: \ListQualificationTypesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   The ListReviewPolicyResultsForHIT operation retrieves the computed results and the actions taken in the course of executing your Review Policies for a given HIT. For information about how to specify Review Policies when you call CreateHIT, see Review Policies. The ListReviewPolicyResultsForHIT operation can return results for both Assignment-level and HIT-level review results. 
@@ -87,7 +123,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReviewPolicyResultsForHITResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReviewPolicyResultsForHIT, tokenKey: \ListReviewPolicyResultsForHITResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listReviewPolicyResultsForHIT,
+            tokenKey: \ListReviewPolicyResultsForHITResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   The ListReviewableHITs operation retrieves the HITs with Status equal to Reviewable or Status equal to Reviewing that belong to the Requester calling the operation. 
@@ -97,7 +139,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReviewableHITsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReviewableHITs, tokenKey: \ListReviewableHITsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listReviewableHITs,
+            tokenKey: \ListReviewableHITsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  The ListWorkersBlocks operation retrieves a list of Workers who are blocked from working on your HITs.
@@ -107,7 +155,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkerBlocksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorkerBlocks, tokenKey: \ListWorkerBlocksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorkerBlocks,
+            tokenKey: \ListWorkerBlocksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   The ListWorkersWithQualificationType operation returns all of the Workers that have been associated with a given Qualification type. 
@@ -117,7 +171,13 @@ extension MTurk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWorkersWithQualificationTypeResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorkersWithQualificationType, tokenKey: \ListWorkersWithQualificationTypeResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWorkersWithQualificationType,
+            tokenKey: \ListWorkersWithQualificationTypeResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

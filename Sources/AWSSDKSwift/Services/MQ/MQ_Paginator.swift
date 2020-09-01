@@ -27,7 +27,13 @@ extension MQ {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBrokersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBrokers, tokenKey: \ListBrokersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBrokers,
+            tokenKey: \ListBrokersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

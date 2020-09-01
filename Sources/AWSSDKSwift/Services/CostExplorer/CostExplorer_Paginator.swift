@@ -27,7 +27,13 @@ extension CostExplorer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSavingsPlansCoverageResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getSavingsPlansCoverage, tokenKey: \GetSavingsPlansCoverageResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getSavingsPlansCoverage,
+            tokenKey: \GetSavingsPlansCoverageResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization, but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values.   GetSavingsPlanUtilizationDetails internally groups data by SavingsPlansArn. 
@@ -37,7 +43,13 @@ extension CostExplorer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSavingsPlansUtilizationDetailsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getSavingsPlansUtilizationDetails, tokenKey: \GetSavingsPlansUtilizationDetailsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getSavingsPlansUtilizationDetails,
+            tokenKey: \GetSavingsPlansUtilizationDetailsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the name, ARN, NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
@@ -47,7 +59,13 @@ extension CostExplorer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCostCategoryDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCostCategoryDefinitions, tokenKey: \ListCostCategoryDefinitionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCostCategoryDefinitions,
+            tokenKey: \ListCostCategoryDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

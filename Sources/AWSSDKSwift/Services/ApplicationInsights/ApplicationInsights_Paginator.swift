@@ -27,7 +27,13 @@ extension ApplicationInsights {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplications, tokenKey: \ListApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listApplications,
+            tokenKey: \ListApplicationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the auto-grouped, standalone, and custom components of the application.
@@ -37,7 +43,13 @@ extension ApplicationInsights {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listComponents, tokenKey: \ListComponentsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listComponents,
+            tokenKey: \ListComponentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.   
@@ -47,7 +59,13 @@ extension ApplicationInsights {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConfigurationHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigurationHistory, tokenKey: \ListConfigurationHistoryResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listConfigurationHistory,
+            tokenKey: \ListConfigurationHistoryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the log pattern sets in the specific application.
@@ -57,7 +75,13 @@ extension ApplicationInsights {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLogPatternSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLogPatternSets, tokenKey: \ListLogPatternSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLogPatternSets,
+            tokenKey: \ListLogPatternSetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the log patterns in the specific log LogPatternSet.
@@ -67,7 +91,13 @@ extension ApplicationInsights {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLogPatternsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLogPatterns, tokenKey: \ListLogPatternsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLogPatterns,
+            tokenKey: \ListLogPatternsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the problems with your application.
@@ -77,7 +107,13 @@ extension ApplicationInsights {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProblemsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProblems, tokenKey: \ListProblemsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProblems,
+            tokenKey: \ListProblemsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }
