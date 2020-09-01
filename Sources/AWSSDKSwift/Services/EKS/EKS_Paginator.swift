@@ -27,7 +27,13 @@ extension EKS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClustersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listClusters,
+            tokenKey: \ListClustersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the AWS Fargate profiles associated with the specified cluster in your AWS account in the specified Region.
@@ -37,7 +43,13 @@ extension EKS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFargateProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFargateProfiles, tokenKey: \ListFargateProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFargateProfiles,
+            tokenKey: \ListFargateProfilesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the Amazon EKS managed node groups associated with the specified cluster in your AWS account in the specified Region. Self-managed node groups are not listed.
@@ -47,7 +59,13 @@ extension EKS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNodegroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNodegroups, tokenKey: \ListNodegroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNodegroups,
+            tokenKey: \ListNodegroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the updates associated with an Amazon EKS cluster or managed node group in your AWS account, in the specified Region.
@@ -57,7 +75,13 @@ extension EKS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUpdatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUpdates, tokenKey: \ListUpdatesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUpdates,
+            tokenKey: \ListUpdatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

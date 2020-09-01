@@ -27,7 +27,13 @@ extension MediaStore {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListContainersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listContainers, tokenKey: \ListContainersOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listContainers,
+            tokenKey: \ListContainersOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

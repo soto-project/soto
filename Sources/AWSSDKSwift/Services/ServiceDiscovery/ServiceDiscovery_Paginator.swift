@@ -27,7 +27,13 @@ extension ServiceDiscovery {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetInstancesHealthStatusResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getInstancesHealthStatus, tokenKey: \GetInstancesHealthStatusResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getInstancesHealthStatus,
+            tokenKey: \GetInstancesHealthStatusResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists summary information about the instances that you registered by using a specified service.
@@ -37,7 +43,13 @@ extension ServiceDiscovery {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInstances, tokenKey: \ListInstancesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInstances,
+            tokenKey: \ListInstancesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists summary information about the namespaces that were created by the current AWS account.
@@ -47,7 +59,13 @@ extension ServiceDiscovery {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNamespacesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNamespaces, tokenKey: \ListNamespacesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNamespaces,
+            tokenKey: \ListNamespacesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists operations that match the criteria that you specify.
@@ -57,7 +75,13 @@ extension ServiceDiscovery {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOperationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOperations, tokenKey: \ListOperationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOperations,
+            tokenKey: \ListOperationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists summary information for all the services that are associated with one or more specified namespaces.
@@ -67,7 +91,13 @@ extension ServiceDiscovery {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listServices, tokenKey: \ListServicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listServices,
+            tokenKey: \ListServicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

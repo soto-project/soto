@@ -27,7 +27,13 @@ extension SSO {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountRolesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccountRoles, tokenKey: \ListAccountRolesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAccountRoles,
+            tokenKey: \ListAccountRolesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see Assign User Access in the AWS SSO User Guide. This operation returns a paginated response.
@@ -37,7 +43,13 @@ extension SSO {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccounts, tokenKey: \ListAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAccounts,
+            tokenKey: \ListAccountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

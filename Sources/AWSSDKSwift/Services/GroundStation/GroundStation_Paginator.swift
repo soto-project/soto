@@ -27,7 +27,13 @@ extension GroundStation {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigs, tokenKey: \ListConfigsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listConfigs,
+            tokenKey: \ListConfigsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn. 
@@ -37,7 +43,13 @@ extension GroundStation {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListContactsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listContacts, tokenKey: \ListContactsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listContacts,
+            tokenKey: \ListContactsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of DataflowEndpoint groups.
@@ -47,7 +59,13 @@ extension GroundStation {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataflowEndpointGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataflowEndpointGroups, tokenKey: \ListDataflowEndpointGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataflowEndpointGroups,
+            tokenKey: \ListDataflowEndpointGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of ground stations. 
@@ -57,7 +75,13 @@ extension GroundStation {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroundStationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroundStations, tokenKey: \ListGroundStationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGroundStations,
+            tokenKey: \ListGroundStationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of mission profiles.
@@ -67,7 +91,13 @@ extension GroundStation {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMissionProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMissionProfiles, tokenKey: \ListMissionProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMissionProfiles,
+            tokenKey: \ListMissionProfilesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of satellites.
@@ -77,7 +107,13 @@ extension GroundStation {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSatellitesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSatellites, tokenKey: \ListSatellitesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSatellites,
+            tokenKey: \ListSatellitesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

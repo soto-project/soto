@@ -27,7 +27,13 @@ extension CloudTrail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPublicKeysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPublicKeys, tokenKey: \ListPublicKeysResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPublicKeys,
+            tokenKey: \ListPublicKeysResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the tags for the trail in the current region.
@@ -37,7 +43,13 @@ extension CloudTrail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTags,
+            tokenKey: \ListTagsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists trails that are in the current account.
@@ -47,7 +59,13 @@ extension CloudTrail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTrailsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTrails, tokenKey: \ListTrailsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTrails,
+            tokenKey: \ListTrailsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Looks up management events or CloudTrail Insights events that are captured by CloudTrail. You can look up events that occurred in a region within the last 90 days. Lookup supports the following attributes for management events:   AWS access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second per account. If this limit is exceeded, a throttling error occurs. 
@@ -57,7 +75,13 @@ extension CloudTrail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (LookupEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: lookupEvents, tokenKey: \LookupEventsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: lookupEvents,
+            tokenKey: \LookupEventsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

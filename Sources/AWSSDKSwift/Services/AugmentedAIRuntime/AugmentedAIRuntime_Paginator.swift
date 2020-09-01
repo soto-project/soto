@@ -27,7 +27,13 @@ extension AugmentedAIRuntime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHumanLoopsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHumanLoops, tokenKey: \ListHumanLoopsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHumanLoops,
+            tokenKey: \ListHumanLoopsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

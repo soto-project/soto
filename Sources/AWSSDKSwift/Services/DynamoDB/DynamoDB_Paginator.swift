@@ -27,7 +27,13 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (BatchGetItemOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: batchGetItem, tokenKey: \BatchGetItemOutput.unprocessedKeys, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: batchGetItem,
+            tokenKey: \BatchGetItemOutput.unprocessedKeys,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
@@ -37,7 +43,13 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListContributorInsightsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listContributorInsights, tokenKey: \ListContributorInsightsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listContributorInsights,
+            tokenKey: \ListContributorInsightsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
@@ -47,7 +59,13 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTablesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTables, tokenKey: \ListTablesOutput.lastEvaluatedTableName, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTables,
+            tokenKey: \ListTablesOutput.lastEvaluatedTableName,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  The Query operation finds items based on primary key values. You can query any table or secondary index that has a composite primary key (a partition key and a sort key).  Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can optionally narrow the scope of the Query operation by specifying a sort key value and a comparison operator in KeyConditionExpression. To further refine the Query results, you can optionally provide a FilterExpression. A FilterExpression determines which items within the results should be returned to you. All of the other results are discarded.   A Query operation always returns a result set. If no matching items are found, the result set will be empty. Queries that do not return results consume the minimum number of read capacity units for that type of read operation.    DynamoDB calculates the number of read capacity units consumed based on item size, not on the amount of data that is returned to an application. The number of capacity units consumed will be the same whether you request all of the attributes (the default behavior) or just some of them (using a projection expression). The number will also be the same whether or not you use a FilterExpression.    Query results are always sorted by the sort key value. If the data type of the sort key is Number, the results are returned in numeric order; otherwise, the results are returned in order of UTF-8 bytes. By default, the sort order is ascending. To reverse the order, set the ScanIndexForward parameter to false.   A single Query operation will read up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is present in the response, you will need to paginate the result set. For more information, see Paginating the Results in the Amazon DynamoDB Developer Guide.   FilterExpression is applied after a Query finishes, but before the results are returned. A FilterExpression cannot contain partition key or sort key attributes. You need to specify those attributes in the KeyConditionExpression.    A Query operation can return an empty result set and a LastEvaluatedKey if all the items read for the page of results are filtered out.   You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the ConsistentRead parameter to true and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify ConsistentRead when querying a global secondary index.
@@ -57,7 +75,13 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (QueryOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: query, tokenKey: \QueryOutput.lastEvaluatedKey, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: query,
+            tokenKey: \QueryOutput.lastEvaluatedKey,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a FilterExpression operation. If the total number of scanned items exceeds the maximum dataset size limit of 1 MB, the scan stops and results are returned to the user as a LastEvaluatedKey value to continue the scan in a subsequent operation. The results also include the number of items exceeding the limit. A scan can result in no table data meeting the filter criteria.  A single Scan operation reads up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is present in the response, you need to paginate the result set. For more information, see Paginating the Results in the Amazon DynamoDB Developer Guide.   Scan operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel Scan operation by providing the Segment and TotalSegments parameters. For more information, see Parallel Scan in the Amazon DynamoDB Developer Guide.  Scan uses eventually consistent reads when accessing the data in a table; therefore, the result set might not include the changes to data in the table immediately before the operation began. If you need a consistent copy of the data, as of the time that the Scan begins, you can set the ConsistentRead parameter to true.
@@ -67,7 +91,13 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ScanOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: scan, tokenKey: \ScanOutput.lastEvaluatedKey, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: scan,
+            tokenKey: \ScanOutput.lastEvaluatedKey,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

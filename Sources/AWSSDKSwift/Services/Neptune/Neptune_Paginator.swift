@@ -27,7 +27,13 @@ extension Neptune {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBEngineVersionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBEngineVersions,
+            tokenKey: \DBEngineVersionMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about provisioned instances, and supports pagination.  This operation can also return information for Amazon RDS instances and Amazon DocDB instances. 
@@ -37,7 +43,13 @@ extension Neptune {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBInstances,
+            tokenKey: \DBInstanceMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
@@ -47,7 +59,13 @@ extension Neptune {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBParameterGroups, tokenKey: \DBParameterGroupsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBParameterGroups,
+            tokenKey: \DBParameterGroupsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the detailed parameter list for a particular DB parameter group.
@@ -57,7 +75,13 @@ extension Neptune {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBParameters, tokenKey: \DBParameterGroupDetails.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBParameters,
+            tokenKey: \DBParameterGroupDetails.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial.
@@ -67,7 +91,13 @@ extension Neptune {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBSubnetGroups,
+            tokenKey: \DBSubnetGroupMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the default engine and system parameter information for the specified database engine.
@@ -77,7 +107,13 @@ extension Neptune {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEngineDefaultParameters, tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEngineDefaultParameters,
+            tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
@@ -87,7 +123,13 @@ extension Neptune {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventSubscriptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEventSubscriptions,
+            tokenKey: \EventSubscriptionsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
@@ -97,7 +139,13 @@ extension Neptune {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEvents,
+            tokenKey: \EventsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of orderable DB instance options for the specified engine.
@@ -107,7 +155,13 @@ extension Neptune {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeOrderableDBInstanceOptions,
+            tokenKey: \OrderableDBInstanceOptionsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

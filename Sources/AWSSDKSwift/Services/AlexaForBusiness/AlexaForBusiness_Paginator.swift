@@ -27,7 +27,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBusinessReportSchedulesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBusinessReportSchedules, tokenKey: \ListBusinessReportSchedulesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBusinessReportSchedules,
+            tokenKey: \ListBusinessReportSchedulesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists conference providers under a specific AWS account.
@@ -37,7 +43,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConferenceProvidersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConferenceProviders, tokenKey: \ListConferenceProvidersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listConferenceProviders,
+            tokenKey: \ListConferenceProvidersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the device event history, including device connection status, for up to 30 days.
@@ -47,7 +59,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDeviceEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeviceEvents, tokenKey: \ListDeviceEventsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDeviceEvents,
+            tokenKey: \ListDeviceEventsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a specific gateway group.
@@ -57,7 +75,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGatewayGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGatewayGroups, tokenKey: \ListGatewayGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGatewayGroups,
+            tokenKey: \ListGatewayGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries of gateways that are associated with that gateway group ARN.
@@ -67,7 +91,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGatewaysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGateways, tokenKey: \ListGatewaysResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGateways,
+            tokenKey: \ListGatewaysResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all enabled skills in a specific skill group.
@@ -77,7 +107,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSkillsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSkills, tokenKey: \ListSkillsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSkills,
+            tokenKey: \ListSkillsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all categories in the Alexa skill store.
@@ -87,7 +123,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSkillsStoreCategoriesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSkillsStoreCategories, tokenKey: \ListSkillsStoreCategoriesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSkillsStoreCategories,
+            tokenKey: \ListSkillsStoreCategoriesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all skills in the Alexa skill store by category.
@@ -97,7 +139,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSkillsStoreSkillsByCategoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSkillsStoreSkillsByCategory, tokenKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSkillsStoreSkillsByCategory,
+            tokenKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all of the smart home appliances associated with a room.
@@ -107,7 +155,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSmartHomeAppliancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSmartHomeAppliances, tokenKey: \ListSmartHomeAppliancesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSmartHomeAppliances,
+            tokenKey: \ListSmartHomeAppliancesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all tags for the specified resource.
@@ -117,7 +171,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTags,
+            tokenKey: \ListTagsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches address books and lists the ones that meet a set of filter and sort criteria.
@@ -127,7 +187,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchAddressBooksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchAddressBooks, tokenKey: \SearchAddressBooksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchAddressBooks,
+            tokenKey: \SearchAddressBooksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches contacts and lists the ones that meet a set of filter and sort criteria.
@@ -137,7 +203,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchContactsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchContacts, tokenKey: \SearchContactsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchContacts,
+            tokenKey: \SearchContactsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches devices and lists the ones that meet a set of filter criteria.
@@ -147,7 +219,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchDevices, tokenKey: \SearchDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchDevices,
+            tokenKey: \SearchDevicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches network profiles and lists the ones that meet a set of filter and sort criteria.
@@ -157,7 +235,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchNetworkProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchNetworkProfiles, tokenKey: \SearchNetworkProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchNetworkProfiles,
+            tokenKey: \SearchNetworkProfilesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches room profiles and lists the ones that meet a set of filter criteria.
@@ -167,7 +251,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchProfiles, tokenKey: \SearchProfilesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchProfiles,
+            tokenKey: \SearchProfilesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches rooms and lists the ones that meet a set of filter and sort criteria.
@@ -177,7 +267,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchRoomsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchRooms, tokenKey: \SearchRoomsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchRooms,
+            tokenKey: \SearchRoomsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches skill groups and lists the ones that meet a set of filter and sort criteria.
@@ -187,7 +283,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchSkillGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchSkillGroups, tokenKey: \SearchSkillGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchSkillGroups,
+            tokenKey: \SearchSkillGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches users and lists the ones that meet a set of filter and sort criteria.
@@ -197,7 +299,13 @@ extension AlexaForBusiness {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchUsers, tokenKey: \SearchUsersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchUsers,
+            tokenKey: \SearchUsersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

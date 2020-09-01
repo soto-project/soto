@@ -27,7 +27,13 @@ extension ElasticBeanstalk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEnvironmentManagedActionHistoryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEnvironmentManagedActionHistory, tokenKey: \DescribeEnvironmentManagedActionHistoryResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEnvironmentManagedActionHistory,
+            tokenKey: \DescribeEnvironmentManagedActionHistoryResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns list of event descriptions matching criteria up to the last 6 weeks.  This action returns the most recent 1,000 events from the specified NextToken. 
@@ -37,7 +43,13 @@ extension ElasticBeanstalk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventDescriptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvents, tokenKey: \EventDescriptionsMessage.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEvents,
+            tokenKey: \EventDescriptionsMessage.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
@@ -47,7 +59,13 @@ extension ElasticBeanstalk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPlatformBranchesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPlatformBranches, tokenKey: \ListPlatformBranchesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPlatformBranches,
+            tokenKey: \ListPlatformBranchesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
@@ -57,7 +75,13 @@ extension ElasticBeanstalk {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPlatformVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPlatformVersions, tokenKey: \ListPlatformVersionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPlatformVersions,
+            tokenKey: \ListPlatformVersionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

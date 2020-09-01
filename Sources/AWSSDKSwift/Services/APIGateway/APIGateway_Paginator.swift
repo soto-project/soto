@@ -27,7 +27,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ApiKeys, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getApiKeys, tokenKey: \ApiKeys.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getApiKeys,
+            tokenKey: \ApiKeys.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Represents a collection of BasePathMapping resources.
@@ -37,7 +43,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (BasePathMappings, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getBasePathMappings, tokenKey: \BasePathMappings.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getBasePathMappings,
+            tokenKey: \BasePathMappings.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a collection of ClientCertificate resources.
@@ -47,7 +59,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ClientCertificates, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getClientCertificates, tokenKey: \ClientCertificates.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getClientCertificates,
+            tokenKey: \ClientCertificates.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about a Deployments collection.
@@ -57,7 +75,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Deployments, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDeployments, tokenKey: \Deployments.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getDeployments,
+            tokenKey: \Deployments.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Represents a collection of DomainName resources.
@@ -67,7 +91,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DomainNames, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDomainNames, tokenKey: \DomainNames.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getDomainNames,
+            tokenKey: \DomainNames.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes existing Models defined for a RestApi resource.
@@ -77,7 +107,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Models, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getModels, tokenKey: \Models.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getModels,
+            tokenKey: \Models.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists information about a collection of Resource resources.
@@ -87,7 +123,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Resources, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getResources, tokenKey: \Resources.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getResources,
+            tokenKey: \Resources.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the RestApis resources for your collection.
@@ -97,7 +139,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (RestApis, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getRestApis, tokenKey: \RestApis.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getRestApis,
+            tokenKey: \RestApis.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets the usage data of a usage plan in a specified time interval.
@@ -107,7 +155,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (Usage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUsage, tokenKey: \Usage.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getUsage,
+            tokenKey: \Usage.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
@@ -117,7 +171,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (UsagePlanKeys, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUsagePlanKeys, tokenKey: \UsagePlanKeys.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getUsagePlanKeys,
+            tokenKey: \UsagePlanKeys.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets all the usage plans of the caller's account.
@@ -127,7 +187,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (UsagePlans, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUsagePlans, tokenKey: \UsagePlans.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getUsagePlans,
+            tokenKey: \UsagePlans.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets the VpcLinks collection under the caller's account in a selected region.
@@ -137,7 +203,13 @@ extension APIGateway {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (VpcLinks, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getVpcLinks, tokenKey: \VpcLinks.position, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getVpcLinks,
+            tokenKey: \VpcLinks.position,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

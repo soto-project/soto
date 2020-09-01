@@ -27,7 +27,13 @@ extension Cloud9 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEnvironmentMembershipsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEnvironmentMemberships, tokenKey: \DescribeEnvironmentMembershipsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEnvironmentMemberships,
+            tokenKey: \DescribeEnvironmentMembershipsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of AWS Cloud9 development environment identifiers.
@@ -37,7 +43,13 @@ extension Cloud9 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEnvironmentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEnvironments, tokenKey: \ListEnvironmentsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEnvironments,
+            tokenKey: \ListEnvironmentsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

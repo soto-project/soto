@@ -27,7 +27,13 @@ extension MarketplaceCatalog {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChangeSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChangeSets, tokenKey: \ListChangeSetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listChangeSets,
+            tokenKey: \ListChangeSetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Provides the list of entities of a given type.
@@ -37,7 +43,13 @@ extension MarketplaceCatalog {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntitiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEntities, tokenKey: \ListEntitiesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEntities,
+            tokenKey: \ListEntitiesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

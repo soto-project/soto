@@ -27,7 +27,13 @@ extension Route53Resolver {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResolverEndpointIpAddressesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResolverEndpointIpAddresses, tokenKey: \ListResolverEndpointIpAddressesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResolverEndpointIpAddresses,
+            tokenKey: \ListResolverEndpointIpAddressesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all the resolver endpoints that were created using the current AWS account.
@@ -37,7 +43,13 @@ extension Route53Resolver {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResolverEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResolverEndpoints, tokenKey: \ListResolverEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResolverEndpoints,
+            tokenKey: \ListResolverEndpointsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the associations that were created between resolver rules and VPCs using the current AWS account.
@@ -47,7 +59,13 @@ extension Route53Resolver {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResolverRuleAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResolverRuleAssociations, tokenKey: \ListResolverRuleAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResolverRuleAssociations,
+            tokenKey: \ListResolverRuleAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the resolver rules that were created using the current AWS account.
@@ -57,7 +75,13 @@ extension Route53Resolver {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResolverRulesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResolverRules, tokenKey: \ListResolverRulesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResolverRules,
+            tokenKey: \ListResolverRulesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

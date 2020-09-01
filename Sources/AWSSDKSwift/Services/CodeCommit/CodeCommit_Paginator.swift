@@ -27,7 +27,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMergeConflictsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMergeConflicts, tokenKey: \DescribeMergeConflictsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMergeConflicts,
+            tokenKey: \DescribeMergeConflictsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about one or more pull request events.
@@ -37,7 +43,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribePullRequestEventsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePullRequestEvents, tokenKey: \DescribePullRequestEventsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describePullRequestEvents,
+            tokenKey: \DescribePullRequestEventsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
@@ -47,7 +59,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCommentReactionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCommentReactions, tokenKey: \GetCommentReactionsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getCommentReactions,
+            tokenKey: \GetCommentReactionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about comments made on the comparison between two commits.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. 
@@ -57,7 +75,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCommentsForComparedCommitOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCommentsForComparedCommit, tokenKey: \GetCommentsForComparedCommitOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getCommentsForComparedCommit,
+            tokenKey: \GetCommentsForComparedCommitOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns comments made on a pull request.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. 
@@ -67,7 +91,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCommentsForPullRequestOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCommentsForPullRequest, tokenKey: \GetCommentsForPullRequestOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getCommentsForPullRequest,
+            tokenKey: \GetCommentsForPullRequestOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
@@ -77,7 +107,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDifferencesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDifferences, tokenKey: \GetDifferencesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getDifferences,
+            tokenKey: \GetDifferencesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
@@ -87,7 +123,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetMergeConflictsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getMergeConflicts, tokenKey: \GetMergeConflictsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getMergeConflicts,
+            tokenKey: \GetMergeConflictsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
@@ -97,7 +139,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApprovalRuleTemplatesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApprovalRuleTemplates, tokenKey: \ListApprovalRuleTemplatesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listApprovalRuleTemplates,
+            tokenKey: \ListApprovalRuleTemplatesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all approval rule templates that are associated with a specified repository.
@@ -107,7 +155,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssociatedApprovalRuleTemplatesForRepositoryOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssociatedApprovalRuleTemplatesForRepository, tokenKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAssociatedApprovalRuleTemplatesForRepository,
+            tokenKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about one or more branches in a repository.
@@ -117,7 +171,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBranchesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBranches, tokenKey: \ListBranchesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBranches,
+            tokenKey: \ListBranchesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
@@ -127,7 +187,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPullRequestsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPullRequests, tokenKey: \ListPullRequestsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPullRequests,
+            tokenKey: \ListPullRequestsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about one or more repositories.
@@ -137,7 +203,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoriesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRepositories, tokenKey: \ListRepositoriesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRepositories,
+            tokenKey: \ListRepositoriesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all repositories associated with the specified approval rule template.
@@ -147,7 +219,13 @@ extension CodeCommit {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoriesForApprovalRuleTemplateOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRepositoriesForApprovalRuleTemplate, tokenKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRepositoriesForApprovalRuleTemplate,
+            tokenKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

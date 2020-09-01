@@ -27,7 +27,13 @@ extension DocDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBClusterMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBClusters,
+            tokenKey: \DBClusterMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the available engines.
@@ -37,7 +43,13 @@ extension DocDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBEngineVersionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBEngineVersions,
+            tokenKey: \DBEngineVersionMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
@@ -47,7 +59,13 @@ extension DocDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBInstances,
+            tokenKey: \DBInstanceMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
@@ -57,7 +75,13 @@ extension DocDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DBSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDBSubnetGroups,
+            tokenKey: \DBSubnetGroupMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
@@ -67,7 +91,13 @@ extension DocDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEvents,
+            tokenKey: \EventsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of orderable instance options for the specified engine.
@@ -77,7 +107,13 @@ extension DocDB {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeOrderableDBInstanceOptions,
+            tokenKey: \OrderableDBInstanceOptionsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

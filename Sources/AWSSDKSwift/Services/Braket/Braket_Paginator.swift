@@ -27,7 +27,13 @@ extension Braket {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchDevices, tokenKey: \SearchDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchDevices,
+            tokenKey: \SearchDevicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Searches for tasks that match the specified filter values.
@@ -37,7 +43,13 @@ extension Braket {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchQuantumTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchQuantumTasks, tokenKey: \SearchQuantumTasksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchQuantumTasks,
+            tokenKey: \SearchQuantumTasksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

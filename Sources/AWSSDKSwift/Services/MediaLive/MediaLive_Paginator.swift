@@ -27,7 +27,13 @@ extension MediaLive {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeScheduleResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeSchedule, tokenKey: \DescribeScheduleResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeSchedule,
+            tokenKey: \DescribeScheduleResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Produces list of channels that have been created
@@ -37,7 +43,13 @@ extension MediaLive {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listChannels,
+            tokenKey: \ListChannelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List input devices
@@ -47,7 +59,13 @@ extension MediaLive {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInputDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInputDevices, tokenKey: \ListInputDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInputDevices,
+            tokenKey: \ListInputDevicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Produces a list of Input Security Groups for an account
@@ -57,7 +75,13 @@ extension MediaLive {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInputSecurityGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInputSecurityGroups, tokenKey: \ListInputSecurityGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInputSecurityGroups,
+            tokenKey: \ListInputSecurityGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Produces list of inputs that have been created
@@ -67,7 +91,13 @@ extension MediaLive {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInputsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInputs, tokenKey: \ListInputsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInputs,
+            tokenKey: \ListInputsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List the programs that currently exist for a specific multiplex.
@@ -77,7 +107,13 @@ extension MediaLive {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMultiplexProgramsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMultiplexPrograms, tokenKey: \ListMultiplexProgramsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMultiplexPrograms,
+            tokenKey: \ListMultiplexProgramsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieve a list of the existing multiplexes.
@@ -87,7 +123,13 @@ extension MediaLive {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMultiplexesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMultiplexes, tokenKey: \ListMultiplexesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMultiplexes,
+            tokenKey: \ListMultiplexesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List offerings available for purchase.
@@ -97,7 +139,13 @@ extension MediaLive {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOfferingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOfferings, tokenKey: \ListOfferingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOfferings,
+            tokenKey: \ListOfferingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List purchased reservations.
@@ -107,7 +155,13 @@ extension MediaLive {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListReservationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReservations, tokenKey: \ListReservationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listReservations,
+            tokenKey: \ListReservationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

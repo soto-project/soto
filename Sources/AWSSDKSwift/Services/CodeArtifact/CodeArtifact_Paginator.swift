@@ -27,7 +27,13 @@ extension CodeArtifact {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDomains,
+            tokenKey: \ListDomainsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of  AssetSummary  objects for assets in a package version. 
@@ -37,7 +43,13 @@ extension CodeArtifact {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackageVersionAssetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPackageVersionAssets, tokenKey: \ListPackageVersionAssetsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPackageVersionAssets,
+            tokenKey: \ListPackageVersionAssetsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters. 
@@ -47,7 +59,13 @@ extension CodeArtifact {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackageVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPackageVersions, tokenKey: \ListPackageVersionsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPackageVersions,
+            tokenKey: \ListPackageVersionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters. 
@@ -57,7 +75,13 @@ extension CodeArtifact {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPackagesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPackages, tokenKey: \ListPackagesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPackages,
+            tokenKey: \ListPackagesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified AWS account and that matches the input parameters. 
@@ -67,7 +91,13 @@ extension CodeArtifact {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoriesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRepositories, tokenKey: \ListRepositoriesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRepositories,
+            tokenKey: \ListRepositoriesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters. 
@@ -77,7 +107,13 @@ extension CodeArtifact {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoriesInDomainResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRepositoriesInDomain, tokenKey: \ListRepositoriesInDomainResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRepositoriesInDomain,
+            tokenKey: \ListRepositoriesInDomainResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

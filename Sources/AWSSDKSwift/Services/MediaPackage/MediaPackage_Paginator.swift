@@ -27,7 +27,13 @@ extension MediaPackage {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listChannels,
+            tokenKey: \ListChannelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a collection of HarvestJob records.
@@ -37,7 +43,13 @@ extension MediaPackage {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListHarvestJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHarvestJobs, tokenKey: \ListHarvestJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listHarvestJobs,
+            tokenKey: \ListHarvestJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a collection of OriginEndpoint records.
@@ -47,7 +59,13 @@ extension MediaPackage {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOriginEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOriginEndpoints, tokenKey: \ListOriginEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOriginEndpoints,
+            tokenKey: \ListOriginEndpointsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

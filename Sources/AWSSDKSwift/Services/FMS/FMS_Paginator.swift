@@ -27,7 +27,13 @@ extension FMS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListComplianceStatusResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listComplianceStatus, tokenKey: \ListComplianceStatusResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listComplianceStatus,
+            tokenKey: \ListComplianceStatusResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a MemberAccounts object that lists the member accounts in the administrator's AWS organization. The ListMemberAccounts must be submitted by the account that is set as the AWS Firewall Manager administrator.
@@ -37,7 +43,13 @@ extension FMS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMemberAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMemberAccounts, tokenKey: \ListMemberAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMemberAccounts,
+            tokenKey: \ListMemberAccountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns an array of PolicySummary objects.
@@ -47,7 +59,13 @@ extension FMS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPolicies, tokenKey: \ListPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPolicies,
+            tokenKey: \ListPoliciesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

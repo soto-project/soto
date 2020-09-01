@@ -27,7 +27,13 @@ extension WorkSpaces {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeWorkspaceBundlesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeWorkspaceBundles, tokenKey: \DescribeWorkspaceBundlesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeWorkspaceBundles,
+            tokenKey: \DescribeWorkspaceBundlesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes the available directories that are registered with Amazon WorkSpaces.
@@ -37,7 +43,13 @@ extension WorkSpaces {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeWorkspaceDirectoriesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeWorkspaceDirectories, tokenKey: \DescribeWorkspaceDirectoriesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeWorkspaceDirectories,
+            tokenKey: \DescribeWorkspaceDirectoriesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes the specified WorkSpaces. You can filter the results by using the bundle identifier, directory identifier, or owner, but you can specify only one filter at a time.
@@ -47,7 +59,13 @@ extension WorkSpaces {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeWorkspacesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeWorkspaces, tokenKey: \DescribeWorkspacesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeWorkspaces,
+            tokenKey: \DescribeWorkspacesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

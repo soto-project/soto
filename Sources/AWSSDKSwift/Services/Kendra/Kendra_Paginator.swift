@@ -27,7 +27,13 @@ extension Kendra {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSourceSyncJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSourceSyncJobs, tokenKey: \ListDataSourceSyncJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSourceSyncJobs,
+            tokenKey: \ListDataSourceSyncJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the data sources that you have created.
@@ -37,7 +43,13 @@ extension Kendra {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDataSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDataSources,
+            tokenKey: \ListDataSourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the Amazon Kendra indexes that you have created.
@@ -47,7 +59,13 @@ extension Kendra {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListIndicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIndices, tokenKey: \ListIndicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listIndices,
+            tokenKey: \ListIndicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

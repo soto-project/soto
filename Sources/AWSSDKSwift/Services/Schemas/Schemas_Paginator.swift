@@ -27,7 +27,13 @@ extension Schemas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDiscoverersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDiscoverers, tokenKey: \ListDiscoverersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDiscoverers,
+            tokenKey: \ListDiscoverersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List the registries.
@@ -37,7 +43,13 @@ extension Schemas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRegistriesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRegistries, tokenKey: \ListRegistriesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRegistries,
+            tokenKey: \ListRegistriesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Provides a list of the schema versions and related information.
@@ -47,7 +59,13 @@ extension Schemas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSchemaVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSchemaVersions, tokenKey: \ListSchemaVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSchemaVersions,
+            tokenKey: \ListSchemaVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List the schemas.
@@ -57,7 +75,13 @@ extension Schemas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListSchemasResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSchemas, tokenKey: \ListSchemasResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listSchemas,
+            tokenKey: \ListSchemasResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Search the schemas
@@ -67,7 +91,13 @@ extension Schemas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (SearchSchemasResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchSchemas, tokenKey: \SearchSchemasResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: searchSchemas,
+            tokenKey: \SearchSchemasResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

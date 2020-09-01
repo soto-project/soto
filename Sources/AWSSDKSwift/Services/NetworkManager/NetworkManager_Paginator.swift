@@ -27,7 +27,13 @@ extension NetworkManager {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeGlobalNetworksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeGlobalNetworks, tokenKey: \DescribeGlobalNetworksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeGlobalNetworks,
+            tokenKey: \DescribeGlobalNetworksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets the association information for customer gateways that are associated with devices and links in your global network.
@@ -37,7 +43,13 @@ extension NetworkManager {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetCustomerGatewayAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCustomerGatewayAssociations, tokenKey: \GetCustomerGatewayAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getCustomerGatewayAssociations,
+            tokenKey: \GetCustomerGatewayAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about one or more of your devices in a global network.
@@ -47,7 +59,13 @@ extension NetworkManager {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDevices, tokenKey: \GetDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getDevices,
+            tokenKey: \GetDevicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
@@ -57,7 +75,13 @@ extension NetworkManager {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetLinkAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getLinkAssociations, tokenKey: \GetLinkAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getLinkAssociations,
+            tokenKey: \GetLinkAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
@@ -67,7 +91,13 @@ extension NetworkManager {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetLinksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getLinks, tokenKey: \GetLinksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getLinks,
+            tokenKey: \GetLinksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about one or more of your sites in a global network.
@@ -77,7 +107,13 @@ extension NetworkManager {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetSitesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getSites, tokenKey: \GetSitesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getSites,
+            tokenKey: \GetSitesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets information about the transit gateway registrations in a specified global network.
@@ -87,7 +123,13 @@ extension NetworkManager {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTransitGatewayRegistrationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTransitGatewayRegistrations, tokenKey: \GetTransitGatewayRegistrationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getTransitGatewayRegistrations,
+            tokenKey: \GetTransitGatewayRegistrationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

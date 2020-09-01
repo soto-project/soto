@@ -27,7 +27,13 @@ extension MediaConnect {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEntitlementsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEntitlements, tokenKey: \ListEntitlementsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEntitlements,
+            tokenKey: \ListEntitlementsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Displays a list of flows that are associated with this account. This request returns a paginated result.
@@ -37,7 +43,13 @@ extension MediaConnect {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFlowsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFlows, tokenKey: \ListFlowsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFlows,
+            tokenKey: \ListFlowsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

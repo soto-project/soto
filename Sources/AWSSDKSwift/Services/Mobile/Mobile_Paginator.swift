@@ -27,7 +27,13 @@ extension Mobile {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBundlesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBundles, tokenKey: \ListBundlesResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBundles,
+            tokenKey: \ListBundlesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Lists projects in AWS Mobile Hub. 
@@ -37,7 +43,13 @@ extension Mobile {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProjects,
+            tokenKey: \ListProjectsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

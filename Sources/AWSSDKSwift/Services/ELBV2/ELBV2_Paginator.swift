@@ -27,7 +27,13 @@ extension ELBV2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeListenersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeListeners, tokenKey: \DescribeListenersOutput.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeListeners,
+            tokenKey: \DescribeListenersOutput.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes the specified load balancers or all of your load balancers. To describe the listeners for a load balancer, use DescribeListeners. To describe the attributes for a load balancer, use DescribeLoadBalancerAttributes.
@@ -37,7 +43,13 @@ extension ELBV2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLoadBalancersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeLoadBalancers, tokenKey: \DescribeLoadBalancersOutput.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeLoadBalancers,
+            tokenKey: \DescribeLoadBalancersOutput.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Describes the specified target groups or all of your target groups. By default, all target groups are described. Alternatively, you can specify one of the following to filter the results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of one or more target groups. To describe the targets for a target group, use DescribeTargetHealth. To describe the attributes of a target group, use DescribeTargetGroupAttributes.
@@ -47,7 +59,13 @@ extension ELBV2 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeTargetGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeTargetGroups, tokenKey: \DescribeTargetGroupsOutput.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeTargetGroups,
+            tokenKey: \DescribeTargetGroupsOutput.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

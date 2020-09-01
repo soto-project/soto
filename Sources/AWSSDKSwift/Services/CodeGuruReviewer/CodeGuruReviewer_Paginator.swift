@@ -27,7 +27,13 @@ extension CodeGuruReviewer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListCodeReviewsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCodeReviews, tokenKey: \ListCodeReviewsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listCodeReviews,
+            tokenKey: \ListCodeReviewsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of  RecommendationFeedbackSummary  objects that contain customer recommendation feedback for all CodeGuru Reviewer users. 
@@ -37,7 +43,13 @@ extension CodeGuruReviewer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRecommendationFeedbackResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRecommendationFeedback, tokenKey: \ListRecommendationFeedbackResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRecommendationFeedback,
+            tokenKey: \ListRecommendationFeedbackResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns the list of all recommendations for a completed code review. 
@@ -47,7 +59,13 @@ extension CodeGuruReviewer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRecommendations, tokenKey: \ListRecommendationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRecommendations,
+            tokenKey: \ListRecommendationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of  RepositoryAssociationSummary  objects that contain summary information about a repository association. You can filter the returned list by  ProviderType ,  Name ,  State , and  Owner . 
@@ -57,7 +75,13 @@ extension CodeGuruReviewer {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRepositoryAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRepositoryAssociations, tokenKey: \ListRepositoryAssociationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRepositoryAssociations,
+            tokenKey: \ListRepositoryAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

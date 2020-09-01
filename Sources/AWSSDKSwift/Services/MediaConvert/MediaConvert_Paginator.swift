@@ -27,7 +27,13 @@ extension MediaConvert {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEndpoints, tokenKey: \DescribeEndpointsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEndpoints,
+            tokenKey: \DescribeEndpointsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
@@ -37,7 +43,13 @@ extension MediaConvert {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobTemplates, tokenKey: \ListJobTemplatesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJobTemplates,
+            tokenKey: \ListJobTemplatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
@@ -47,7 +59,13 @@ extension MediaConvert {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJobs,
+            tokenKey: \ListJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
@@ -57,7 +75,13 @@ extension MediaConvert {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPresetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPresets, tokenKey: \ListPresetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPresets,
+            tokenKey: \ListPresetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
@@ -67,7 +91,13 @@ extension MediaConvert {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListQueuesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listQueues, tokenKey: \ListQueuesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listQueues,
+            tokenKey: \ListQueuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

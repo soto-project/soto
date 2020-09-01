@@ -27,7 +27,14 @@ extension ImportExport {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsOutput.jobs?.last?.jobId, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJobs,
+            tokenKey: \ListJobsOutput.jobs?.last?.jobId,
+            moreResultsKey: \ListJobsOutput.isTruncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

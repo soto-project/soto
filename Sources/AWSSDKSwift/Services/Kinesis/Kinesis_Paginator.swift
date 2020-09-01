@@ -27,7 +27,14 @@ extension Kinesis {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStreamOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeStream, tokenKey: \DescribeStreamOutput.streamDescription.shards.last?.shardId, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeStream,
+            tokenKey: \DescribeStreamOutput.streamDescription.shards.last?.shardId,
+            moreResultsKey: \DescribeStreamOutput.streamDescription.HasMoreShards,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 5 transactions per second per stream.
@@ -37,7 +44,13 @@ extension Kinesis {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamConsumersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreamConsumers, tokenKey: \ListStreamConsumersOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listStreamConsumers,
+            tokenKey: \ListStreamConsumersOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists your Kinesis data streams. The number of streams may be too large to return from a single call to ListStreams. You can limit the number of returned streams using the Limit parameter. If you do not specify a value for the Limit parameter, Kinesis Data Streams uses the default limit, which is currently 10. You can detect if there are more streams available to list by using the HasMoreStreams flag from the returned output. If there are more streams available, you can request more streams by using the name of the last stream returned by the ListStreams request in the ExclusiveStartStreamName parameter in a subsequent request to ListStreams. The group of stream names returned by the subsequent request is then added to the list. You can continue this process until all the stream names have been collected in the list.   ListStreams has a limit of five transactions per second per account.
@@ -47,7 +60,14 @@ extension Kinesis {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListStreamsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreams, tokenKey: \ListStreamsOutput.streamNames.last, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listStreams,
+            tokenKey: \ListStreamsOutput.streamNames.last,
+            moreResultsKey: \ListStreamsOutput.hasMoreStreams,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

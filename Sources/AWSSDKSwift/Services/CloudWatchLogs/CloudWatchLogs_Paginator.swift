@@ -27,7 +27,13 @@ extension CloudWatchLogs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDestinations, tokenKey: \DescribeDestinationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeDestinations,
+            tokenKey: \DescribeDestinationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the specified log groups. You can list all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name.
@@ -37,7 +43,13 @@ extension CloudWatchLogs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLogGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeLogGroups, tokenKey: \DescribeLogGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeLogGroups,
+            tokenKey: \DescribeLogGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the log streams for the specified log group. You can list all the log streams or filter the results by prefix. You can also control how the results are ordered. This operation has a limit of five transactions per second, after which transactions are throttled.
@@ -47,7 +59,13 @@ extension CloudWatchLogs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeLogStreamsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeLogStreams, tokenKey: \DescribeLogStreamsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeLogStreams,
+            tokenKey: \DescribeLogStreamsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the specified metric filters. You can list all the metric filters or filter the results by log name, prefix, metric name, or metric namespace. The results are ASCII-sorted by filter name.
@@ -57,7 +75,13 @@ extension CloudWatchLogs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeMetricFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMetricFilters, tokenKey: \DescribeMetricFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeMetricFilters,
+            tokenKey: \DescribeMetricFiltersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the subscription filters for the specified log group. You can list all the subscription filters or filter the results by prefix. The results are ASCII-sorted by filter name.
@@ -67,7 +91,13 @@ extension CloudWatchLogs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSubscriptionFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeSubscriptionFilters, tokenKey: \DescribeSubscriptionFiltersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeSubscriptionFilters,
+            tokenKey: \DescribeSubscriptionFiltersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists log events from the specified log group. You can list all the log events or filter the results using a filter pattern, a time range, and the name of the log stream. By default, this operation returns as many log events as can fit in 1 MB (up to 10,000 log events), or all the events found within the time range that you specify. If the results include a token, then there are more log events available, and you can get additional results by specifying the token in a subsequent call.
@@ -77,7 +107,13 @@ extension CloudWatchLogs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (FilterLogEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: filterLogEvents, tokenKey: \FilterLogEventsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: filterLogEvents,
+            tokenKey: \FilterLogEventsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists log events from the specified log stream. You can list all the log events or filter using a time range. By default, this operation returns as many log events as can fit in a response size of 1MB (up to 10,000 log events). You can get additional log events by specifying one of the tokens in a subsequent call.
@@ -87,7 +123,13 @@ extension CloudWatchLogs {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetLogEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getLogEvents, tokenKey: \GetLogEventsResponse.nextForwardToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getLogEvents,
+            tokenKey: \GetLogEventsResponse.nextForwardToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

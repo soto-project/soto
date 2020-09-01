@@ -27,7 +27,14 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMultipartUploadsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMultipartUploads, tokenKey: \ListMultipartUploadsOutput.nextKeyMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMultipartUploads,
+            tokenKey: \ListMultipartUploadsOutput.nextKeyMarker,
+            moreResultsKey: \ListMultipartUploadsOutput.isTruncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns metadata about all of the versions of objects in a bucket. You can also use request parameters as selection criteria to return metadata about a subset of all the object versions.    A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately.  To use this operation, you must have READ access to the bucket. The following operations are related to ListObjectVersions:    ListObjectsV2     GetObject     PutObject     DeleteObject   
@@ -37,7 +44,14 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectVersionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listObjectVersions, tokenKey: \ListObjectVersionsOutput.nextKeyMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listObjectVersions,
+            tokenKey: \ListObjectVersionsOutput.nextKeyMarker,
+            moreResultsKey: \ListObjectVersionsOutput.isTruncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns some or all (up to 1,000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Be sure to design your application to parse the contents of the response and handle it appropriately.  This API has been revised. We recommend that you use the newer version, ListObjectsV2, when developing applications. For backward compatibility, Amazon S3 continues to support ListObjects.  The following operations are related to ListObjects:    ListObjectsV2     GetObject     PutObject     CreateBucket     ListBuckets   
@@ -47,7 +61,14 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listObjects, tokenKey: \ListObjectsOutput.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listObjects,
+            tokenKey: \ListObjectsOutput.nextMarker,
+            moreResultsKey: \ListObjectsOutput.isTruncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns some or all (up to 1,000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately. To use this operation, you must have READ access to the bucket. To use this operation in an AWS Identity and Access Management (IAM) policy, you must have permissions to perform the s3:ListBucket action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.  This section describes the latest revision of the API. We recommend that you use this revised API for application development. For backward compatibility, Amazon S3 continues to support the prior version of this API, ListObjects.  To get a list of your buckets, see ListBuckets. The following operations are related to ListObjectsV2:    GetObject     PutObject     CreateBucket   
@@ -57,7 +78,13 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListObjectsV2Output, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listObjectsV2, tokenKey: \ListObjectsV2Output.nextContinuationToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listObjectsV2,
+            tokenKey: \ListObjectsV2Output.nextContinuationToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the parts that have been uploaded for a specific multipart upload. This operation must include the upload ID, which you obtain by sending the initiate multipart upload request (see CreateMultipartUpload). This request returns a maximum of 1,000 uploaded parts. The default number of parts returned is 1,000 parts. You can restrict the number of parts returned by specifying the max-parts request parameter. If your multipart upload consists of more than 1,000 parts, the response returns an IsTruncated field with the value of true, and a NextPartNumberMarker element. In subsequent ListParts requests you can include the part-number-marker query string parameter and set its value to the NextPartNumberMarker field value from the previous response. For more information on multipart uploads, see Uploading Objects Using Multipart Upload. For information on permissions required to use the multipart upload API, see Multipart Upload API and Permissions. The following operations are related to ListParts:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload     AbortMultipartUpload     ListMultipartUploads   
@@ -67,7 +94,14 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPartsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listParts, tokenKey: \ListPartsOutput.nextPartNumberMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listParts,
+            tokenKey: \ListPartsOutput.nextPartNumberMarker,
+            moreResultsKey: \ListPartsOutput.isTruncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

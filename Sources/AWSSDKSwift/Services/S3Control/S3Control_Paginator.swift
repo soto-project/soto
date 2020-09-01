@@ -27,7 +27,13 @@ extension S3Control {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccessPointsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccessPoints, tokenKey: \ListAccessPointsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAccessPoints,
+            tokenKey: \ListAccessPointsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists current Amazon S3 Batch Operations jobs and jobs that have ended within the last 30 days for the AWS account making the request. For more information, see Amazon S3 Batch Operations in the Amazon Simple Storage Service Developer Guide. Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus   
@@ -37,7 +43,13 @@ extension S3Control {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJobs,
+            tokenKey: \ListJobsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

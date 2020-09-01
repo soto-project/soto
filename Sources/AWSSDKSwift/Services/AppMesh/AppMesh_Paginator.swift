@@ -28,7 +28,13 @@ extension AppMesh {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGatewayRoutesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGatewayRoutes, tokenKey: \ListGatewayRoutesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGatewayRoutes,
+            tokenKey: \ListGatewayRoutesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of existing service meshes.
@@ -38,7 +44,13 @@ extension AppMesh {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMeshesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMeshes, tokenKey: \ListMeshesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMeshes,
+            tokenKey: \ListMeshesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of existing routes in a service mesh.
@@ -48,7 +60,13 @@ extension AppMesh {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRoutesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRoutes, tokenKey: \ListRoutesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRoutes,
+            tokenKey: \ListRoutesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List the tags for an App Mesh resource.
@@ -58,7 +76,13 @@ extension AppMesh {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTagsForResource,
+            tokenKey: \ListTagsForResourceOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of existing virtual gateways in a service mesh.
@@ -68,7 +92,13 @@ extension AppMesh {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVirtualGatewaysOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVirtualGateways, tokenKey: \ListVirtualGatewaysOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVirtualGateways,
+            tokenKey: \ListVirtualGatewaysOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of existing virtual nodes.
@@ -78,7 +108,13 @@ extension AppMesh {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVirtualNodesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVirtualNodes, tokenKey: \ListVirtualNodesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVirtualNodes,
+            tokenKey: \ListVirtualNodesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of existing virtual routers in a service mesh.
@@ -88,7 +124,13 @@ extension AppMesh {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVirtualRoutersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVirtualRouters, tokenKey: \ListVirtualRoutersOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVirtualRouters,
+            tokenKey: \ListVirtualRoutersOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of existing virtual services in a service mesh.
@@ -98,7 +140,13 @@ extension AppMesh {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVirtualServicesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVirtualServices, tokenKey: \ListVirtualServicesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVirtualServices,
+            tokenKey: \ListVirtualServicesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

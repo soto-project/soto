@@ -27,7 +27,13 @@ extension OpsWorks {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEcsClustersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEcsClusters, tokenKey: \DescribeEcsClustersResult.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEcsClusters,
+            tokenKey: \DescribeEcsClustersResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

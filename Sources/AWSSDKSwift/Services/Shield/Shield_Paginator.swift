@@ -27,7 +27,13 @@ extension Shield {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttacksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAttacks, tokenKey: \ListAttacksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAttacks,
+            tokenKey: \ListAttacksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all Protection objects for the account.
@@ -37,7 +43,13 @@ extension Shield {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProtectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProtections, tokenKey: \ListProtectionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProtections,
+            tokenKey: \ListProtectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

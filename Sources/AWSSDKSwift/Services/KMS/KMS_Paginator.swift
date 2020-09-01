@@ -27,7 +27,14 @@ extension KMS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAliases, tokenKey: \ListAliasesResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAliases,
+            tokenKey: \ListAliasesResponse.nextMarker,
+            moreResultsKey: \ListAliasesResponse.truncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of all grants for the specified customer master key (CMK). To perform this operation on a CMK in a different AWS account, specify the key ARN in the value of the KeyId parameter.  The GranteePrincipal field in the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, when the grantee principal in the grant is an AWS service, the GranteePrincipal field contains the service principal, which might represent several different grantee principals. 
@@ -37,7 +44,14 @@ extension KMS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGrantsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGrants, tokenKey: \ListGrantsResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGrants,
+            tokenKey: \ListGrantsResponse.nextMarker,
+            moreResultsKey: \ListGrantsResponse.truncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets the names of the key policies that are attached to a customer master key (CMK). This operation is designed to get policy names that you can use in a GetKeyPolicy operation. However, the only valid policy name is default. You cannot perform this operation on a CMK in a different AWS account.
@@ -47,7 +61,14 @@ extension KMS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListKeyPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listKeyPolicies, tokenKey: \ListKeyPoliciesResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listKeyPolicies,
+            tokenKey: \ListKeyPoliciesResponse.nextMarker,
+            moreResultsKey: \ListKeyPoliciesResponse.truncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets a list of all customer master keys (CMKs) in the caller's AWS account and Region.
@@ -57,7 +78,14 @@ extension KMS {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListKeysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listKeys, tokenKey: \ListKeysResponse.nextMarker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listKeys,
+            tokenKey: \ListKeysResponse.nextMarker,
+            moreResultsKey: \ListKeysResponse.truncated,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

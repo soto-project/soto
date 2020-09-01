@@ -27,7 +27,13 @@ extension Kafka {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClusterOperationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClusterOperations, tokenKey: \ListClusterOperationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listClusterOperations,
+            tokenKey: \ListClusterOperationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of all the MSK clusters in the current Region.
@@ -37,7 +43,13 @@ extension Kafka {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListClustersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listClusters, tokenKey: \ListClustersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listClusters,
+            tokenKey: \ListClustersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of all the revisions of an MSK configuration.
@@ -47,7 +59,13 @@ extension Kafka {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConfigurationRevisionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigurationRevisions, tokenKey: \ListConfigurationRevisionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listConfigurationRevisions,
+            tokenKey: \ListConfigurationRevisionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of all the MSK configurations in this Region.
@@ -57,7 +75,13 @@ extension Kafka {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigurations, tokenKey: \ListConfigurationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listConfigurations,
+            tokenKey: \ListConfigurationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of Kafka versions.
@@ -67,7 +91,13 @@ extension Kafka {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListKafkaVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listKafkaVersions, tokenKey: \ListKafkaVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listKafkaVersions,
+            tokenKey: \ListKafkaVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the broker nodes in the cluster.
@@ -77,7 +107,13 @@ extension Kafka {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNodesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNodes,
+            tokenKey: \ListNodesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

@@ -27,7 +27,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetAssetPropertyAggregatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getAssetPropertyAggregates, tokenKey: \GetAssetPropertyAggregatesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getAssetPropertyAggregates,
+            tokenKey: \GetAssetPropertyAggregatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Gets the history of an asset property's values. For more information, see Querying Historical Property Values in the AWS IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.  
@@ -37,7 +43,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetAssetPropertyValueHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getAssetPropertyValueHistory, tokenKey: \GetAssetPropertyValueHistoryResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getAssetPropertyValueHistory,
+            tokenKey: \GetAssetPropertyValueHistoryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a paginated list of access policies for an AWS SSO identity (a user or group) or an AWS IoT SiteWise Monitor resource (a portal or project).
@@ -47,7 +59,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccessPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccessPolicies, tokenKey: \ListAccessPoliciesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAccessPolicies,
+            tokenKey: \ListAccessPoliciesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a paginated list of summaries of all asset models.
@@ -57,7 +75,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssetModelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssetModels, tokenKey: \ListAssetModelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAssetModels,
+            tokenKey: \ListAssetModelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a paginated list of asset summaries. You can use this operation to do the following:   List assets based on a specific asset model.   List top-level assets.   You can't use this operation to list all assets. To retrieve summaries for all of your assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model.
@@ -67,7 +91,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssets, tokenKey: \ListAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAssets,
+            tokenKey: \ListAssetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a paginated list of the assets associated to a parent asset (assetId) by a given hierarchy (hierarchyId).
@@ -77,7 +107,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAssociatedAssetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssociatedAssets, tokenKey: \ListAssociatedAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAssociatedAssets,
+            tokenKey: \ListAssociatedAssetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a paginated list of dashboards for an AWS IoT SiteWise Monitor project.
@@ -87,7 +123,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDashboards, tokenKey: \ListDashboardsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDashboards,
+            tokenKey: \ListDashboardsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a paginated list of gateways.
@@ -97,7 +139,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGatewaysResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGateways, tokenKey: \ListGatewaysResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGateways,
+            tokenKey: \ListGatewaysResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a paginated list of AWS IoT SiteWise Monitor portals.
@@ -107,7 +155,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPortalsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPortals, tokenKey: \ListPortalsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPortals,
+            tokenKey: \ListPortalsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a paginated list of assets associated with an AWS IoT SiteWise Monitor project.
@@ -117,7 +171,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectAssetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProjectAssets, tokenKey: \ListProjectAssetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProjectAssets,
+            tokenKey: \ListProjectAssetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a paginated list of projects for an AWS IoT SiteWise Monitor portal.
@@ -127,7 +187,13 @@ extension IoTSiteWise {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProjects,
+            tokenKey: \ListProjectsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

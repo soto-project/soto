@@ -27,7 +27,13 @@ extension ElasticTranscoder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsByPipelineResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobsByPipeline, tokenKey: \ListJobsByPipelineResponse.nextPageToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJobsByPipeline,
+            tokenKey: \ListJobsByPipelineResponse.nextPageToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  The ListJobsByStatus operation gets a list of jobs that have a specified status. The response body contains one element for each job that satisfies the search criteria.
@@ -37,7 +43,13 @@ extension ElasticTranscoder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListJobsByStatusResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobsByStatus, tokenKey: \ListJobsByStatusResponse.nextPageToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listJobsByStatus,
+            tokenKey: \ListJobsByStatusResponse.nextPageToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  The ListPipelines operation gets a list of the pipelines associated with the current AWS account.
@@ -47,7 +59,13 @@ extension ElasticTranscoder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesResponse.nextPageToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPipelines,
+            tokenKey: \ListPipelinesResponse.nextPageToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  The ListPresets operation gets a list of the default presets included with Elastic Transcoder and the presets that you've added in an AWS region.
@@ -57,7 +75,13 @@ extension ElasticTranscoder {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPresetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPresets, tokenKey: \ListPresetsResponse.nextPageToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPresets,
+            tokenKey: \ListPresetsResponse.nextPageToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

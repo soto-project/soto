@@ -27,7 +27,13 @@ extension CodeGuruProfiler {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetFindingsReportAccountSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getFindingsReportAccountSummary, tokenKey: \GetFindingsReportAccountSummaryResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getFindingsReportAccountSummary,
+            tokenKey: \GetFindingsReportAccountSummaryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  List the available reports for a given profiling group and time range.
@@ -37,7 +43,13 @@ extension CodeGuruProfiler {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFindingsReportsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFindingsReports, tokenKey: \ListFindingsReportsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFindingsReports,
+            tokenKey: \ListFindingsReportsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
@@ -47,7 +59,13 @@ extension CodeGuruProfiler {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProfileTimesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProfileTimes, tokenKey: \ListProfileTimesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProfileTimes,
+            tokenKey: \ListProfileTimesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///   Returns a list of profiling groups. The profiling groups are returned as  ProfilingGroupDescription  objects. 
@@ -57,7 +75,13 @@ extension CodeGuruProfiler {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProfilingGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProfilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProfilingGroups,
+            tokenKey: \ListProfilingGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

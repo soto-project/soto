@@ -27,7 +27,13 @@ extension ConnectParticipant {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetTranscriptResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTranscript, tokenKey: \GetTranscriptResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getTranscript,
+            tokenKey: \GetTranscriptResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

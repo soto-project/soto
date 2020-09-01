@@ -27,7 +27,13 @@ extension Pricing {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeServicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeServices, tokenKey: \DescribeServicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeServices,
+            tokenKey: \DescribeServicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of attribute values. Attibutes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the AWS Billing and Cost Management User Guide.
@@ -37,7 +43,13 @@ extension Pricing {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetAttributeValuesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getAttributeValues, tokenKey: \GetAttributeValuesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getAttributeValues,
+            tokenKey: \GetAttributeValuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of all products that match the filter criteria.
@@ -47,7 +59,13 @@ extension Pricing {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetProductsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getProducts, tokenKey: \GetProductsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getProducts,
+            tokenKey: \GetProductsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

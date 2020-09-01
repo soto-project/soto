@@ -27,7 +27,13 @@ extension ManagedBlockchain {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInvitations,
+            tokenKey: \ListInvitationsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a listing of the members in a network and properties of their configurations.
@@ -37,7 +43,13 @@ extension ManagedBlockchain {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMembers,
+            tokenKey: \ListMembersOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the networks in which the current AWS account has members.
@@ -47,7 +59,13 @@ extension ManagedBlockchain {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNetworksOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNetworks, tokenKey: \ListNetworksOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNetworks,
+            tokenKey: \ListNetworksOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the nodes within a network.
@@ -57,7 +75,13 @@ extension ManagedBlockchain {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListNodesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listNodes,
+            tokenKey: \ListNodesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the listing of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.
@@ -67,7 +91,13 @@ extension ManagedBlockchain {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProposalVotesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProposalVotes, tokenKey: \ListProposalVotesOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProposalVotes,
+            tokenKey: \ListProposalVotesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a listing of proposals for the network.
@@ -77,7 +107,13 @@ extension ManagedBlockchain {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProposalsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProposals, tokenKey: \ListProposalsOutput.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProposals,
+            tokenKey: \ListProposalsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

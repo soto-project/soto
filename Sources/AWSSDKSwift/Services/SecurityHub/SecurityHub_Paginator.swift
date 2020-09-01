@@ -27,7 +27,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeActionTargetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeActionTargets, tokenKey: \DescribeActionTargetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeActionTargets,
+            tokenKey: \DescribeActionTargetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
@@ -37,7 +43,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeProductsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeProducts, tokenKey: \DescribeProductsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeProducts,
+            tokenKey: \DescribeProductsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description. 
@@ -47,7 +59,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStandardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeStandards, tokenKey: \DescribeStandardsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeStandards,
+            tokenKey: \DescribeStandardsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
@@ -57,7 +75,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeStandardsControlsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeStandardsControls, tokenKey: \DescribeStandardsControlsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeStandardsControls,
+            tokenKey: \DescribeStandardsControlsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the standards that are currently enabled.
@@ -67,7 +91,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetEnabledStandardsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getEnabledStandards, tokenKey: \GetEnabledStandardsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getEnabledStandards,
+            tokenKey: \GetEnabledStandardsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of findings that match the specified criteria.
@@ -77,7 +107,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getFindings, tokenKey: \GetFindingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getFindings,
+            tokenKey: \GetFindingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists and describes insights for the specified insight ARNs.
@@ -87,7 +123,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (GetInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getInsights, tokenKey: \GetInsightsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: getInsights,
+            tokenKey: \GetInsightsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
@@ -97,7 +139,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListEnabledProductsForImportResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEnabledProductsForImport, tokenKey: \ListEnabledProductsForImportResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listEnabledProductsForImport,
+            tokenKey: \ListEnabledProductsForImportResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all Security Hub membership invitations that were sent to the current AWS account. 
@@ -107,7 +155,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listInvitations,
+            tokenKey: \ListInvitationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists details about all member accounts for the current Security Hub master account.
@@ -117,7 +171,13 @@ extension SecurityHub {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMembers,
+            tokenKey: \ListMembersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

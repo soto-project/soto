@@ -27,7 +27,13 @@ extension IoT1ClickProjects {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPlacementsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPlacements, tokenKey: \ListPlacementsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPlacements,
+            tokenKey: \ListPlacementsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
@@ -37,7 +43,13 @@ extension IoT1ClickProjects {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProjectsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProjects, tokenKey: \ListProjectsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProjects,
+            tokenKey: \ListProjectsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

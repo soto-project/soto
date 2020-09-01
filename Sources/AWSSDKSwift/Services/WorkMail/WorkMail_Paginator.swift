@@ -27,7 +27,13 @@ extension WorkMail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAliases, tokenKey: \ListAliasesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAliases,
+            tokenKey: \ListAliasesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns an overview of the members of a group. Users and groups can be members of a group.
@@ -37,7 +43,13 @@ extension WorkMail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroupMembers, tokenKey: \ListGroupMembersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGroupMembers,
+            tokenKey: \ListGroupMembersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns summaries of the organization's groups.
@@ -47,7 +59,13 @@ extension WorkMail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listGroups,
+            tokenKey: \ListGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the mailbox permissions associated with a user, group, or resource mailbox.
@@ -57,7 +75,13 @@ extension WorkMail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMailboxPermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMailboxPermissions, tokenKey: \ListMailboxPermissionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMailboxPermissions,
+            tokenKey: \ListMailboxPermissionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns summaries of the customer's organizations.
@@ -67,7 +91,13 @@ extension WorkMail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListOrganizationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOrganizations, tokenKey: \ListOrganizationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listOrganizations,
+            tokenKey: \ListOrganizationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
@@ -77,7 +107,13 @@ extension WorkMail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourceDelegatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResourceDelegates, tokenKey: \ListResourceDelegatesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResourceDelegates,
+            tokenKey: \ListResourceDelegatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns summaries of the organization's resources.
@@ -87,7 +123,13 @@ extension WorkMail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listResources, tokenKey: \ListResourcesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listResources,
+            tokenKey: \ListResourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns summaries of the organization's users.
@@ -97,7 +139,13 @@ extension WorkMail {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUsers,
+            tokenKey: \ListUsersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

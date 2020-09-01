@@ -27,7 +27,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheClusterMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCacheClusters, tokenKey: \CacheClusterMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCacheClusters,
+            tokenKey: \CacheClusterMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the available cache engines and their versions.
@@ -37,7 +43,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheEngineVersionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCacheEngineVersions, tokenKey: \CacheEngineVersionMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCacheEngineVersions,
+            tokenKey: \CacheEngineVersionMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
@@ -47,7 +59,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCacheParameterGroups, tokenKey: \CacheParameterGroupsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCacheParameterGroups,
+            tokenKey: \CacheParameterGroupsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the detailed parameter list for a particular cache parameter group.
@@ -57,7 +75,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCacheParameters, tokenKey: \CacheParameterGroupDetails.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCacheParameters,
+            tokenKey: \CacheParameterGroupDetails.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup 
@@ -67,7 +91,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheSecurityGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCacheSecurityGroups, tokenKey: \CacheSecurityGroupMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCacheSecurityGroups,
+            tokenKey: \CacheSecurityGroupMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default. 
@@ -77,7 +107,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (CacheSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCacheSubnetGroups, tokenKey: \CacheSubnetGroupMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeCacheSubnetGroups,
+            tokenKey: \CacheSubnetGroupMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns the default engine and system parameter information for the specified cache engine.
@@ -87,7 +123,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEngineDefaultParameters, tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEngineDefaultParameters,
+            tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
@@ -97,7 +139,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeEvents,
+            tokenKey: \EventsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about a particular global replication group. If no identifier is specified, returns information about all Global Datastores. 
@@ -107,7 +155,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeGlobalReplicationGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeGlobalReplicationGroups, tokenKey: \DescribeGlobalReplicationGroupsResult.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeGlobalReplicationGroups,
+            tokenKey: \DescribeGlobalReplicationGroupsResult.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis only. 
@@ -117,7 +171,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReplicationGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReplicationGroups, tokenKey: \ReplicationGroupMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReplicationGroups,
+            tokenKey: \ReplicationGroupMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
@@ -127,7 +187,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedCacheNodeMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedCacheNodes, tokenKey: \ReservedCacheNodeMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReservedCacheNodes,
+            tokenKey: \ReservedCacheNodeMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists available reserved cache node offerings.
@@ -137,7 +203,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ReservedCacheNodesOfferingMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedCacheNodesOfferings, tokenKey: \ReservedCacheNodesOfferingMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeReservedCacheNodesOfferings,
+            tokenKey: \ReservedCacheNodesOfferingMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns details of the service updates
@@ -147,7 +219,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ServiceUpdatesMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeServiceUpdates, tokenKey: \ServiceUpdatesMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeServiceUpdates,
+            tokenKey: \ServiceUpdatesMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only. 
@@ -157,7 +235,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeSnapshotsListMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeSnapshots, tokenKey: \DescribeSnapshotsListMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeSnapshots,
+            tokenKey: \DescribeSnapshotsListMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns details of the update actions 
@@ -167,7 +251,13 @@ extension ElastiCache {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (UpdateActionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeUpdateActions, tokenKey: \UpdateActionsMessage.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeUpdateActions,
+            tokenKey: \UpdateActionsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

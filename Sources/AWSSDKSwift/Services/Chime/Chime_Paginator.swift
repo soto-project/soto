@@ -27,7 +27,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAccounts, tokenKey: \ListAccountsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAccounts,
+            tokenKey: \ListAccountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
@@ -37,7 +43,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAttendeesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAttendees, tokenKey: \ListAttendeesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAttendees,
+            tokenKey: \ListAttendeesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
@@ -47,7 +59,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListBotsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBots, tokenKey: \ListBotsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listBots,
+            tokenKey: \ListBotsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
@@ -57,7 +75,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListMeetingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMeetings, tokenKey: \ListMeetingsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listMeetings,
+            tokenKey: \ListMeetingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the phone number orders for the administrator's Amazon Chime account.
@@ -67,7 +91,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPhoneNumberOrdersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPhoneNumberOrders, tokenKey: \ListPhoneNumberOrdersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPhoneNumberOrders,
+            tokenKey: \ListPhoneNumberOrdersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
@@ -77,7 +107,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPhoneNumbersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPhoneNumbers, tokenKey: \ListPhoneNumbersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPhoneNumbers,
+            tokenKey: \ListPhoneNumbersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the proxy sessions for the specified Amazon Chime Voice Connector.
@@ -87,7 +123,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListProxySessionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProxySessions, tokenKey: \ListProxySessionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listProxySessions,
+            tokenKey: \ListProxySessionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
@@ -97,7 +139,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRoomMembershipsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRoomMemberships, tokenKey: \ListRoomMembershipsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRoomMemberships,
+            tokenKey: \ListRoomMembershipsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
@@ -107,7 +155,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRoomsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRooms, tokenKey: \ListRoomsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRooms,
+            tokenKey: \ListRoomsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
@@ -117,7 +171,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListUsersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listUsers,
+            tokenKey: \ListUsersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
@@ -127,7 +187,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVoiceConnectorGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVoiceConnectorGroups, tokenKey: \ListVoiceConnectorGroupsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVoiceConnectorGroups,
+            tokenKey: \ListVoiceConnectorGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
@@ -137,7 +203,13 @@ extension Chime {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListVoiceConnectorsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVoiceConnectors, tokenKey: \ListVoiceConnectorsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listVoiceConnectors,
+            tokenKey: \ListVoiceConnectorsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

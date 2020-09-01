@@ -27,7 +27,13 @@ extension ServiceQuotas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAWSDefaultServiceQuotasResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAWSDefaultServiceQuotas, tokenKey: \ListAWSDefaultServiceQuotasResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAWSDefaultServiceQuotas,
+            tokenKey: \ListAWSDefaultServiceQuotasResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Requests a list of the changes to quotas for a service.
@@ -37,7 +43,13 @@ extension ServiceQuotas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRequestedServiceQuotaChangeHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRequestedServiceQuotaChangeHistory, tokenKey: \ListRequestedServiceQuotaChangeHistoryResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRequestedServiceQuotaChangeHistory,
+            tokenKey: \ListRequestedServiceQuotaChangeHistoryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Requests a list of the changes to specific service quotas. This command provides additional granularity over the ListRequestedServiceQuotaChangeHistory command. Once a quota change request has reached CASE_CLOSED, APPROVED, or DENIED, the history has been kept for 90 days.
@@ -47,7 +59,13 @@ extension ServiceQuotas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListRequestedServiceQuotaChangeHistoryByQuotaResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRequestedServiceQuotaChangeHistoryByQuota, tokenKey: \ListRequestedServiceQuotaChangeHistoryByQuotaResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listRequestedServiceQuotaChangeHistoryByQuota,
+            tokenKey: \ListRequestedServiceQuotaChangeHistoryByQuotaResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of the quota increase requests in the template. 
@@ -57,7 +75,13 @@ extension ServiceQuotas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServiceQuotaIncreaseRequestsInTemplateResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listServiceQuotaIncreaseRequestsInTemplate, tokenKey: \ListServiceQuotaIncreaseRequestsInTemplateResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listServiceQuotaIncreaseRequestsInTemplate,
+            tokenKey: \ListServiceQuotaIncreaseRequestsInTemplateResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists all service quotas for the specified AWS service. This request returns a list of the service quotas for the specified service. you'll see the default values are the values that AWS provides for the quotas.   Always check the NextToken response parameter when calling any of the List* operations. These operations can return an unexpected list of results, even when there are more results available. When this happens, the NextToken response parameter contains a value to pass the next call to the same API to request the next part of the list. 
@@ -67,7 +91,13 @@ extension ServiceQuotas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServiceQuotasResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listServiceQuotas, tokenKey: \ListServiceQuotasResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listServiceQuotas,
+            tokenKey: \ListServiceQuotasResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the AWS services available in Service Quotas. Not all AWS services are available in Service Quotas. To list the see the list of the service quotas for a specific service, use ListServiceQuotas.
@@ -77,7 +107,13 @@ extension ServiceQuotas {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListServicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listServices, tokenKey: \ListServicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listServices,
+            tokenKey: \ListServicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

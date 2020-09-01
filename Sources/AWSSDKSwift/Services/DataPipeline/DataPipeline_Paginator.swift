@@ -27,7 +27,14 @@ extension DataPipeline {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (DescribeObjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeObjects, tokenKey: \DescribeObjectsOutput.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: describeObjects,
+            tokenKey: \DescribeObjectsOutput.marker,
+            moreResultsKey: \DescribeObjectsOutput.hasMoreResults,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists the pipeline identifiers for all active pipelines that you have permission to access.
@@ -37,7 +44,14 @@ extension DataPipeline {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListPipelinesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesOutput.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listPipelines,
+            tokenKey: \ListPipelinesOutput.marker,
+            moreResultsKey: \ListPipelinesOutput.hasMoreResults,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Queries the specified pipeline for the names of objects that match the specified set of conditions.
@@ -47,7 +61,14 @@ extension DataPipeline {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (QueryObjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: queryObjects, tokenKey: \QueryObjectsOutput.marker, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: queryObjects,
+            tokenKey: \QueryObjectsOutput.marker,
+            moreResultsKey: \QueryObjectsOutput.hasMoreResults,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

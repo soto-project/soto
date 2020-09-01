@@ -27,7 +27,13 @@ extension DataSync {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListAgentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAgents, tokenKey: \ListAgentsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listAgents,
+            tokenKey: \ListAgentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
@@ -37,7 +43,13 @@ extension DataSync {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListLocationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLocations, tokenKey: \ListLocationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listLocations,
+            tokenKey: \ListLocationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns all the tags associated with a specified resource. 
@@ -47,7 +59,13 @@ extension DataSync {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTagsForResource,
+            tokenKey: \ListTagsForResourceResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of executed tasks.
@@ -57,7 +75,13 @@ extension DataSync {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTaskExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTaskExecutions, tokenKey: \ListTaskExecutionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTaskExecutions,
+            tokenKey: \ListTaskExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Returns a list of all the tasks.
@@ -67,7 +91,13 @@ extension DataSync {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTasksResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTasks, tokenKey: \ListTasksResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTasks,
+            tokenKey: \ListTasksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

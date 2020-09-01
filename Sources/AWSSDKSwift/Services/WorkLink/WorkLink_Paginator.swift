@@ -27,7 +27,13 @@ extension WorkLink {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDevices, tokenKey: \ListDevicesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDevices,
+            tokenKey: \ListDevicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of domains associated to a specified fleet.
@@ -37,7 +43,13 @@ extension WorkLink {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListDomainsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listDomains,
+            tokenKey: \ListDomainsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of fleets for the current account and Region.
@@ -47,7 +59,13 @@ extension WorkLink {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListFleetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFleets, tokenKey: \ListFleetsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listFleets,
+            tokenKey: \ListFleetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of website authorization providers associated with a specified fleet.
@@ -57,7 +75,13 @@ extension WorkLink {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWebsiteAuthorizationProvidersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWebsiteAuthorizationProviders, tokenKey: \ListWebsiteAuthorizationProvidersResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWebsiteAuthorizationProviders,
+            tokenKey: \ListWebsiteAuthorizationProvidersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Retrieves a list of certificate authorities added for the current account and Region.
@@ -67,7 +91,13 @@ extension WorkLink {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListWebsiteCertificateAuthoritiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWebsiteCertificateAuthorities, tokenKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listWebsiteCertificateAuthorities,
+            tokenKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

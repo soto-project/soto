@@ -27,7 +27,13 @@ extension IoTSecureTunneling {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListTunnelsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTunnels, tokenKey: \ListTunnelsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listTunnels,
+            tokenKey: \ListTunnelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

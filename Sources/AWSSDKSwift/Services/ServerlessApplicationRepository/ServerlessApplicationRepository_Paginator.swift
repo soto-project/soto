@@ -27,7 +27,13 @@ extension ServerlessApplicationRepository {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationDependenciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplicationDependencies, tokenKey: \ListApplicationDependenciesResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listApplicationDependencies,
+            tokenKey: \ListApplicationDependenciesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists versions for the specified application.
@@ -37,7 +43,13 @@ extension ServerlessApplicationRepository {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplicationVersions, tokenKey: \ListApplicationVersionsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listApplicationVersions,
+            tokenKey: \ListApplicationVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
     ///  Lists applications owned by the requester.
@@ -47,7 +59,13 @@ extension ServerlessApplicationRepository {
         logger: Logger = AWSClient.loggingDisabled,
         onPage: @escaping (ListApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplications, tokenKey: \ListApplicationsResponse.nextToken, on: eventLoop, onPage: onPage)
+        return client.paginate(
+            input: input,
+            command: listApplications,
+            tokenKey: \ListApplicationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
     }
 
 }

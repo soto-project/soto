@@ -139,6 +139,7 @@ extension AWSService {
     struct PaginatorContext {
         let operation: OperationContext
         let output: String
+        let moreResults: String?
         let initParams: [String]
         let paginatorProtocol: String
         let tokenType: String
@@ -416,6 +417,7 @@ extension AWSService {
                 }
                 return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
             }
+            let moreResultsKey = paginator.value.moreResults?.toSwiftVariableCase()
 
             var initParams: [String: String] = [:]
             for member in inputStructure.members {
@@ -427,6 +429,7 @@ extension AWSService {
                 PaginatorContext(
                     operation: self.generateOperationContext(operation, name: paginator.key),
                     output: processedOutputTokens[0],
+                    moreResults: moreResultsKey,
                     initParams: initParamsArray,
                     paginatorProtocol: paginatorProtocol,
                     tokenType: tokenType
