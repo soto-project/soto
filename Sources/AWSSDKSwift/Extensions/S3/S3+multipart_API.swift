@@ -242,7 +242,6 @@ extension S3 {
         progress: @escaping (Double) throws -> Void = { _ in }
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
-        let byteBufferAllocator = ByteBufferAllocator()
 
         return openFileForMultipartUpload(
             filename: filename,
@@ -263,7 +262,7 @@ extension S3 {
                     fileHandle,
                     size: size,
                     fileIO: fileIO,
-                    byteBufferAllocator: byteBufferAllocator
+                    byteBufferAllocator: self.config.byteBufferAllocator
                 ) { downloaded in
                     try progress(Double(downloaded + prevProgressAmount) / Double(fileSize))
                 }
@@ -290,19 +289,22 @@ extension S3 {
         inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>,
         skipStream: @escaping (EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
-        var completedParts: [S3.CompletedPart] = []
+        //var completedParts: [S3.CompletedPart] = []
         let listPartsRequest = ListPartsRequest(
             bucket: input.bucket,
             key: input.key,
             requestPayer: input.requestPayer,
             uploadId: uploadId
         )
+        /* commented out until paginators with more_results flag are working
         return listPartsPaginator(listPartsRequest) { output, eventLoop in
             if let parts = output.parts {
                 completedParts += parts.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber)}
             }
             return eventLoop.makeSucceededFuture(true)
-        }.flatMap { _ in
+        }*/
+        return listParts(listPartsRequest).flatMap { response in
+            let completedParts = response.parts?.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber) } ?? []
             // upload all the parts
             return self.multipartUploadParts(
                 input,
@@ -310,7 +312,7 @@ extension S3 {
                 parts: completedParts,
                 on: eventLoop,
                 inputStream: inputStream,
-                skipStream: { $0.makeSucceededFuture(true) }
+                skipStream: skipStream
             ).flatMap { parts -> EventLoopFuture<CompleteMultipartUploadOutput> in
                 let request = S3.CompleteMultipartUploadRequest(
                     bucket: input.bucket,
@@ -359,7 +361,6 @@ extension S3 {
         progress: @escaping (Double) throws -> Void = { _ in }
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
-        let byteBufferAllocator = ByteBufferAllocator()
 
         return openFileForMultipartUpload(
             filename: filename,
@@ -380,24 +381,21 @@ extension S3 {
                     let size = min(partSize, fileSize - progressAmount)
                     guard size > 0 else { return eventLoop.makeSucceededFuture(.empty) }
                     prevProgressAmount = progressAmount
-                    progressAmount += size
                     let payload = AWSPayload.fileHandle(
                         fileHandle,
+                        offset: progressAmount,
                         size: size,
                         fileIO: fileIO,
-                        byteBufferAllocator: byteBufferAllocator
+                        byteBufferAllocator: self.config.byteBufferAllocator
                     ) { downloaded in
                         try progress(Double(downloaded + prevProgressAmount) / Double(fileSize))
                     }
+                    progressAmount += size
                     return eventLoop.makeSucceededFuture(payload)
                 },
                 skipStream: { eventLoop in
                     let size = min(partSize, fileSize - progressAmount)
                     progressAmount += size
-                    //
-                    // TODO: Work out how to skip a section of file. Will use NIOFileHandle.read(fileHandle:fromOffset:byteCount:allocator:eventLoop:)
-                    // but need to provide a version of fileHandle that supports this
-                    //
                     return eventLoop.makeSucceededFuture(size == 0)
             })
         }
