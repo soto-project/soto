@@ -171,6 +171,51 @@ class S3ExtensionTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testResumeMultiPartUpload() {
+        struct CancelError: Error {}
+        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "S3MultipartUploadTest"
+
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        }
+
+        let response = S3Tests.createBucket(name: name, s3: Self.s3)
+            .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+                let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
+                return Self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false) {
+                    guard $0 < 0.95 else { throw CancelError() }
+                    print("Progress \($0 * 100)")
+                }
+            }.flatMapThrowing { _ -> String in
+                XCTFail("First multipartUpload was successful")
+                throw CancelError()
+            }.flatMapErrorThrowing { error -> String in
+                switch error {
+                case S3ErrorType.multipart.abortedUpload(let uploadId, _):
+                    return uploadId
+                default:
+                    XCTFail("First multipartUpload threw the wrong error")
+                    throw CancelError()
+                }
+            }.flatMap { uploadId -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+                let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
+                return Self.s3.resumeMultipartUpload(request, uploadId: uploadId, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0 * 100)") }
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return Self.s3.getObject(.init(bucket: name, key: name))
+            }
+            .map { response -> Void in
+                XCTAssertEqual(response.body?.asData(), data)
+            }
+            .flatAlways { _ in
+                return S3Tests.deleteBucket(name: name, s3: Self.s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
     func testMultiPartUploadFailure() {
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
