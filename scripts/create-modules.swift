@@ -1,13 +1,13 @@
 #!/usr/bin/env swift sh
 //===----------------------------------------------------------------------===//
 //
-// This source file is part of the AWSSDKSwift open source project
+// This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Copyright (c) 2017-2020 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
-// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+// See CONTRIBUTORS.txt for the list of Soto project authors
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -83,8 +83,8 @@ class GenerateProcess {
     }
 
     func run() throws {
-        self.servicesFolder = try Folder(path: "./Sources/AWSSDKSwift/Services")
-        self.extensionsFolder = try Folder(path: "./Sources/AWSSDKSwift/Extensions")
+        self.servicesFolder = try Folder(path: "./Sources/Soto/Services")
+        self.extensionsFolder = try Folder(path: "./Sources/Soto/Extensions")
         self.zlibSourceFolder = try Folder(path: "./Sources/CAWSZlib")
         self.targetFolder = try Folder(path: ".").createSubfolder(at: self.parameters.targetPath)
 
@@ -99,7 +99,7 @@ struct GenerateProjects: ParsableCommand {
     @Argument(help: "The folder to create projects inside.")
     var targetPath: String
 
-    @Option(name: .shortAndLong, help: "AWSSDKSwiftCore version to use.")
+    @Option(name: .shortAndLong, help: "SotoCore version to use.")
     var version: String
 
     let services = [

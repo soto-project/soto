@@ -1,26 +1,28 @@
-# AWS SDK Swift
+Soto is the new name for AWS SDK Swift. Amazon have asked that we don't use the name AWS SDK Swift. They are protecting their trademark and want to avoid confusing their customers who might think we are affiliated or are being sponsored by them, which we aren't.
+
+# Soto for AWS
 
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
-[<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/CI/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions?query=workflow%3ACI)
+[<img src="https://github.com/swift-aws/soto/workflows/CI/badge.svg" />](https://github.com/swift-aws/soto/actions?query=workflow%3ACI)
 
-AWS SDK for the Swift programming language working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services.
+Soto is a Swift language SDK for AWS services working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services.
 
 The library consists of three parts
-1. [aws-sdk-swift-core](https://github.com/swift-aws/aws-sdk-swift-core) which does all the core request encoding and signing, response decoding and error handling.
-2. The service [api files](https://github.com/swift-aws/aws-sdk-swift/tree/main/Sources/AWSSDKSwift/Services) which define the individual AWS services and their commands with their input and output structures.
-3. The [CodeGenerator](https://github.com/swift-aws/aws-sdk-swift/tree/main/CodeGenerator) which builds the service api files from the [JSON model](https://github.com/swift-aws/aws-sdk-swift/tree/main/models/apis) files supplied by Amazon.
+1. [soto-core](https://github.com/swift-aws/soto-core) which does all the core request encoding and signing, response decoding and error handling.
+2. The service [api files](https://github.com/swift-aws/soto/tree/main/Sources/Soto/Services) which define the individual AWS services and their commands with their input and output structures.
+3. The [CodeGenerator](https://github.com/swift-aws/soto/tree/main/CodeGenerator) which builds the service api files from the [JSON model](https://github.com/swift-aws/soto/tree/main/models/apis) files supplied by Amazon.
 
 ## Installation
 
 ### Swift Package Manager
 
-AWSSDKSwift uses the Swift Package Manager to manage its code dependencies. To use AWSSDKSwift in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
+Soto uses the Swift Package Manager to manage its code dependencies. To use Soto in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
     dependencies: [
-        .package(name: "AWSSDKSwift", url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0")
+        .package(name: "AWSSDKSwift", url: "https://github.com/swift-aws/soto.git", from: "4.0.0")
     ],
 ```
-Then add target dependencies for each of the AWSSDKSwift targets you want to use.
+Then add target dependencies for each of the Soto targets you want to use.
 ```swift
     targets: [
         .target(name: "MyAWSApp", dependencies: [
@@ -31,13 +33,13 @@ Then add target dependencies for each of the AWSSDKSwift targets you want to use
     ]
 )
 ```
-If you are using one of the v5.0.0 pre-releases then the `name` parameter in the package dependencies is unnecessary, the `package` parameter of the target dependencies is `aws-sdk-swift` instead of `AWSSDKSwift` and also all the target names are prefixed with `AWS`.
+If you are using one of the v5.0.0 pre-releases then the `name` parameter in the package dependencies is unnecessary, the `package` parameter of the target dependencies is `soto` instead of `AWSSDKSwift` and also all the target names are prefixed with `Soto`.
 
-Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to AWSSDKSwift through that.
+Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to Soto through that.
 
 ## Compatibility
 
-AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on version 2 of [swift-nio](https://github.com/apple/swift-nio). Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
+Soto works on Linux, macOS and iOS. Version 4 is dependent on version 2 of [swift-nio](https://github.com/apple/swift-nio). Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of Soto. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of Soto with Vapor 3. Below is a compatibility table for versions 3 and 4 of Soto.
 
 | Version | Swift | MacOS | iOS    | Linux              | Vapor  |
 |---------|-------|-------|--------|--------------------|--------|
@@ -93,11 +95,11 @@ let ec2 = EC2(
 
 Some services like CognitoIdentityProvider don't require credentials to access some of their functionality. In this case explicitly set `accessKeyId` and `secretAccessKey` to "". This will disable all other credential access functions and send requests unsigned.
 
-## Using AWSSDKSwift
+## Using Soto
 
-AWS Swift Modules can be imported into any swift project. Each module provides a service struct that can be initialized with AWS credentials, if required, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services.
+Soto modules can be imported into any swift project. Each module provides a service struct that can be initialized with AWS credentials, if required, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services.
 
-Each aws-sdk-swift command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of aws-sdk-swift.
+Each Soto command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of Soto.
 
 The recommended manner to interact with `EventLoopFutures` is chaining. The following function returns an `EventLoopFuture` that creates an S3 bucket, puts a file in the bucket, reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next.
 
@@ -133,7 +135,7 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 
 ## HTTP client (v5.x.x)
 
-The AWS SDK sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses one of two different HTTP clients depending on what platform you are running on. We have [extended](https://github.com/swift-aws/aws-sdk-swift-core/blob/main/Sources/AWSSDKSwiftCore/HTTP/AsyncHTTPClient.swift) the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) so it conforms with `AWSHTTPClient`. This is the default client if you are running on Linux or macOS 10.14 and earlier. `AsyncHTTPClient` is not available on iOS. We have also supplied are own client `NIOTSHTTPClient` which uses [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework. This is the default client if you are running on iOS or macOS 10.15 and later. `NIOTSHTTPClient` is not available on Linux or versions of macOS earlier than 10.15.
+Soto sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses one of two different HTTP clients depending on what platform you are running on. We have [extended](https://github.com/swift-aws/soto-core/blob/main/Sources/SotoCore/HTTP/AsyncHTTPClient.swift) the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) so it conforms with `AWSHTTPClient`. This is the default client if you are running on Linux or macOS 10.14 and earlier. `AsyncHTTPClient` is not available on iOS. We have also supplied are own client `NIOTSHTTPClient` which uses [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework. This is the default client if you are running on iOS or macOS 10.15 and later. `NIOTSHTTPClient` is not available on Linux or versions of macOS earlier than 10.15.
 
 You can provide your own HTTP client as follows
 ```
@@ -146,9 +148,9 @@ Reasons you might want to provide your own client.
 - You want to change the configuration for the HTTP client used.
 - You want to provide your own custom built HTTP client.
 
-## Using AWSSDKSwift with Vapor
+## Using Soto with Vapor
 
-Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If your AWS SDK is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
+Integration with Vapor is pretty straight forward. Although be sure you use the correct version of Soto. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If Soto is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
 
 ```swift
 import Vapor
@@ -179,36 +181,14 @@ final class MyController {
     }
 }
 ```
-<!--
-## Using the `aws-sdk-swift` with the swift REPL (macOS)
 
-
-```swift
-
-$ swift -I .build/debug
-1> import Foundation
-2> import S3
-
-let bucket = "my-bucket"
-
-let s3 = S3(accessKeyId: "Your-Access-Key", secretAccessKey: "Your-Secret-Key", region: .uswest1)
-
-// Create Bucket, Put an Object, Get the Object
-let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
-
-s3.createBucket(createBucketRequest).whenSuccess { response in
-    print(response)
-}
-
-```
--->
 ## Documentation
 
-Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the aws-sdk-swift api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands.
+Visit the Soto [documentation](https://swift-aws.github.io/soto/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
 
 ## upgrading from <3.0.x
 
 The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to call `.wait()` on existing synchronous calls. However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
 
 ## License
-AWSSDKSwift is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). See LICENSE for details.
+Soto is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). See LICENSE for details.

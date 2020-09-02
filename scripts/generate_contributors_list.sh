@@ -17,13 +17,13 @@ set -eu
 here="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 contributors=$( cd "$here"/.. && git shortlog -es | cut -f2 | sed 's/^/- /' )
 
-git clone https://github.com/swift-aws/aws-sdk-swift-core "$here"/temp_folder
+git clone https://github.com/swift-aws/soto-core "$here"/temp_folder
 core_contributors=$( cd "$here"/temp_folder && git shortlog -es | cut -f2 | sed 's/^/- /' )
 rm -rf "$here"/temp_folder
 
 cat > "$here/../CONTRIBUTORS.txt" <<- EOF
 	For the purpose of tracking copyright, this is the list of individuals and
-	organizations who have contributed source code to aws-sdk-swift.
+	organizations who have contributed source code to Soto.
 
 	For employees of an organization/company where the copyright of work done
 	by employees of that company is held by the company itself, only the company
@@ -31,11 +31,11 @@ cat > "$here/../CONTRIBUTORS.txt" <<- EOF
 
 	## COPYRIGHT HOLDERS
 
-	### Contributors - AWSSDKSwift
+	### Contributors - Soto
 
 	$contributors
 
-	### Contributors - AWSSDKSwiftCore
+	### Contributors - SotoCore
 
 	$core_contributors
 

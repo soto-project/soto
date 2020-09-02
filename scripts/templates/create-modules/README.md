@@ -1,10 +1,10 @@
-# {{name}}
+# Soto for {{name}}
 
-An AWS {{name}} type safe client for Swift (This is part of [aws-sdk-swift](https://github.com/swift-aws/aws-sdk-swift)). This repository is only updated infrequently. If you want a more up to date version please checkout the equivalent module in [aws-sdk-swift](https://github.com/swift-aws/aws-sdk-swift)
+An AWS {{name}} type safe client for Swift (This is part of [Soto](https://github.com/swift-aws/soto)). This repository is only updated infrequently. If you want a more up to date version please checkout the equivalent module in [Soto](https://github.com/swift-aws/soto)
 
 ## Documentation
 
-Visit the aws-sdk-swift [documentation](http://htmlpreview.github.io/?https://github.com/swift-aws/aws-sdk-swift/gh-pages/index.html) for instructions and browsing api references.
+Visit the Soto [documentation](https://swift-aws.github.io/soto/index.html) for instructions and browsing api references.
 
 ## Installation
 

@@ -17,7 +17,7 @@ set -eu
 here="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 function check_all_services_in_package() {
-    for folder in $here/../Sources/AWSSDKSwift/Services/*; do
+    for folder in $here/../Sources/Soto/Services/*; do
         service=$(basename $folder)
         if [ -z "$(grep ".target(name: \"AWS$service\"" $here/../Package.swift)" ]; then
             printf "\033[0;31m$service is not in Package.swift\033[0m\n"
@@ -37,7 +37,7 @@ printf "\033[0;32mokay.\033[0m\n"
 
 printf "=> Checking format... "
 FIRST_OUT="$(git status --porcelain)"
-swiftformat --exclude Sources/AWSSDKSwift/Services . > /dev/null 2>&1
+swiftformat --exclude Sources/Soto/Services . > /dev/null 2>&1
 SECOND_OUT="$(git status --porcelain)"
 if [[ "$FIRST_OUT" != "$SECOND_OUT" ]]; then
   printf "\033[0;31mformatting issues!\033[0m\n"
@@ -49,7 +49,7 @@ fi
 
 
 printf "=> Checking license headers... "
-tmp=$(mktemp /tmp/.aws-sdk-swift-core-sanity_XXXXXX)
+tmp=$(mktemp /tmp/.soto-core-sanity_XXXXXX)
 
 for language in swift-or-c; do
   declare -a matching_files
@@ -63,13 +63,13 @@ for language in swift-or-c; do
         cat > "$tmp" <<"EOF"
 //===----------------------------------------------------------------------===//
 //
-// This source file is part of the AWSSDKSwift open source project
+// This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) YEARS the AWSSDKSwift project authors
+// Copyright (c) YEARS the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
-// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+// See CONTRIBUTORS.txt for the list of Soto project authors
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -81,13 +81,13 @@ EOF
         cat > "$tmp" <<"EOF"
 ##===----------------------------------------------------------------------===##
 ##
-## This source file is part of the AWSSDKSwift open source project
+## This source file is part of the Soto for AWS open source project
 ##
-## Copyright (c) YEARS the AWSSDKSwift project authors
+## Copyright (c) YEARS the Soto project authors
 ## Licensed under Apache License v2.0
 ##
 ## See LICENSE.txt for license information
-## See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+## See CONTRIBUTORS.txt for the list of Soto project authors
 ##
 ## SPDX-License-Identifier: Apache-2.0
 ##

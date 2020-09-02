@@ -1,13 +1,13 @@
 #!/bin/sh
 ##===----------------------------------------------------------------------===##
 ##
-## This source file is part of the AWSSDKSwift open source project
+## This source file is part of the Soto for AWS open source project
 ##
-## Copyright (c) 2020 the AWSSDKSwift project authors
+## Copyright (c) 2020 the Soto project authors
 ## Licensed under Apache License v2.0
 ##
 ## See LICENSE.txt for license information
-## See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+## See CONTRIBUTORS.txt for the list of Soto project authors
 ##
 ## SPDX-License-Identifier: Apache-2.0
 ##
@@ -65,7 +65,7 @@ build_files()
     swift run
     cd "$CURRENT_FOLDER"
 
-    swiftformat Sources/AWSSDKSwift/Services
+    swiftformat Sources/Soto/Services
     echo "Compile service files"
     # build services after having generated the files
     swift build
@@ -90,7 +90,7 @@ commit_changes()
     BRANCH_NAME="aws-sdk-go-$MODELS_VERSION"
     git checkout -b $BRANCH_NAME
     git add models
-    git add Sources/AWSSDKSwift
+    git add Sources/Soto
     git commit -m "$COMMIT_MSG"
 }
 
@@ -123,7 +123,7 @@ echo "Get aws-sdk-go models"
 AWS_SDK_GO=$TEMP_DIR/aws-sdk-go/
 AWS_MODELS_VERSION=$(get_aws_sdk_go "$AWS_SDK_GO" "$AWS_MODELS_VERSION")
 
-echo "Copy models to aws-sdk-swift"
+echo "Copy models to soto"
 AWS_SDK_GO_MODELS=$AWS_SDK_GO/models
 TARGET_MODELS=models
 copy_model_files "$AWS_SDK_GO_MODELS" "$TARGET_MODELS"

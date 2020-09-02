@@ -1,13 +1,13 @@
 #!/bin/bash
 ##===----------------------------------------------------------------------===##
 ##
-## This source file is part of the AWSSDKSwift open source project
+## This source file is part of the Soto for AWS open source project
 ##
-## Copyright (c) 2020 the AWSSDKSwift project authors
+## Copyright (c) 2020 the Soto project authors
 ## Licensed under Apache License v2.0
 ##
 ## See LICENSE.txt for license information
-## See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+## See CONTRIBUTORS.txt for the list of Soto project authors
 ##
 ## SPDX-License-Identifier: Apache-2.0
 ##
@@ -15,7 +15,7 @@
 
 #######################################################
 #
-# usage bash publish-module.sh /path/to/swift-aws "sync with aws-sdk-swift@1.0.2" 1.0.2
+# usage bash publish-module.sh /path/to/swift-aws "sync with soto@1.0.2" 1.0.2
 #  $1: path for aws partial modules are stored
 #  $2: commit comment
 #  $3: tag for release (if not included will not make a release)

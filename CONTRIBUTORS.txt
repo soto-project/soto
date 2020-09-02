@@ -1,5 +1,5 @@
 For the purpose of tracking copyright, this is the list of individuals and
-organizations who have contributed source code to aws-sdk-swift.
+organizations who have contributed source code to Soto.
 
 For employees of an organization/company where the copyright of work done
 by employees of that company is held by the company itself, only the company
@@ -7,7 +7,7 @@ needs to be listed here.
 
 ## COPYRIGHT HOLDERS
 
-### Contributors - AWSSDKSwift
+### Contributors - Soto
 
 - Adam Fowler <adamfowler71@gmail.com>
 - Fabian Fett <fabianfett@mac.com>
@@ -18,7 +18,7 @@ needs to be listed here.
 - Yifei Teng <tengyifei@users.noreply.github.com>
 - Yuki Takei <yuki@miketokyo.com>
 
-### Contributors - AWSSDKSwiftCore
+### Contributors - SotoCore
 
 - Adam Fowler <adamfowler71@gmail.com>
 - Fabian Fett <fabianfett@mac.com>

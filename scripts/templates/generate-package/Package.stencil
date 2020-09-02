@@ -1,13 +1,13 @@
 // swift-tools-version:5.1
 //===----------------------------------------------------------------------===//
 //
-// This source file is part of the AWSSDKSwift open source project
+// This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Copyright (c) 2017-2020 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
-// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+// See CONTRIBUTORS.txt for the list of Soto project authors
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -16,29 +16,29 @@
 import PackageDescription
 
 let package = Package(
-    name: "aws-sdk-swift",
+    name: "soto",
     platforms: [.iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
     products: [
 {%for target in targets %}
-        .library(name: "AWS{{target.name}}", targets: ["AWS{{target.name}}"]){%if not forloop.last %},{%endif +%}
+        .library(name: "Soto{{target.name}}", targets: ["Soto{{target.name}}"]){%if not forloop.last %},{%endif +%}
 {%endfor %}
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("main"))
+        .package(url: "https://github.com/swift-aws/soto-core.git", .branch("main"))
     ],
     targets: [
 {%for target in targets %}
 {%if target.hasExtension %}
-        .target(name: "AWS{{target.name}}", dependencies: {{target.dependencies}}, path: "./Sources/AWSSDKSwift/", sources: ["Services/{{target.name}}", "Extensions/{{target.name}}"]){%if not forloop.last %},{%endif +%}
+        .target(name: "Soto{{target.name}}", dependencies: {{target.dependencies}}, path: "./Sources/Soto/", sources: ["Services/{{target.name}}", "Extensions/{{target.name}}"]){%if not forloop.last %},{%endif +%}
 {%else %}
-        .target(name: "AWS{{target.name}}", dependencies: {{target.dependencies}}, path: "./Sources/AWSSDKSwift/Services/{{target.name}}"),
+        .target(name: "Soto{{target.name}}", dependencies: {{target.dependencies}}, path: "./Sources/Soto/Services/{{target.name}}"),
 {%endif %}
 {%endfor %}
-        .target(name: "CAWSZlib", linkerSettings: [.linkedLibrary("z")]),
+        .target(name: "CSotoZlib", linkerSettings: [.linkedLibrary("z")]),
 
-        .testTarget(name: "AWSSDKSwiftTests", dependencies: [
+        .testTarget(name: "SotoTests", dependencies: [
 {%for target in testTargets %}
-            "AWS{{target}}"{%if not forloop.last %},{%endif +%}
+            "Soto{{target}}"{%if not forloop.last %},{%endif +%}
 {%endfor %}
         ])
     ]
