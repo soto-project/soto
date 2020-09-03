@@ -17,16 +17,16 @@ The library consists of three parts
 AWSSDKSwift uses the Swift Package Manager to manage its code dependencies. To use AWSSDKSwift in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
     dependencies: [
-        .package(name: "AWSSDKSwift", url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0")
+        .package(name: "aws-sdk-swift", url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "5.0.0")
     ],
 ```
 Then add target dependencies for each of the AWSSDKSwift targets you want to use.
 ```swift
     targets: [
         .target(name: "MyAWSApp", dependencies: [
-            .product(name: "S3", package: "AWSSDKSwift"),
-            .product(name: "SES", package: "AWSSDKSwift"),
-            .product(name: "IAM", package: "AWSSDKSwift")
+            .product(name: "AWSS3", package: "aws-sdk-swift"),
+            .product(name: "AWSSES", package: "aws-sdk-swift"),
+            .product(name: "AWSIAM", package: "aws-sdk-swift")
         ]),
     ]
 )
@@ -43,6 +43,7 @@ AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on version 2 o
 |---------|-------|-------|--------|--------------------|--------|
 | 3.x     | 4.2 - | ✓     |        | Ubuntu 14.04-18.04 | 3.0    |
 | 4.x     | 5.0 - | ✓     | 12.0 - | Ubuntu 14.04-18.04 | 4.0    |
+| 5.x     |       |       |        |                    |        |
 
 ## Configuring Credentials
 
@@ -102,7 +103,7 @@ Each aws-sdk-swift command returns a [swift-nio](https://github.com/apple/swift-
 The recommended manner to interact with `EventLoopFutures` is chaining. The following function returns an `EventLoopFuture` that creates an S3 bucket, puts a file in the bucket, reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next. 
 
 ```swift
-import S3 //ensure this module is specified as a dependency in your package.swift
+import AWSS3 //ensure this module is specified as a dependency in your package.swift
 
 let bucket = "my-bucket"
 
@@ -153,7 +154,7 @@ Integration with Vapor is pretty straight forward. Although be sure you use the 
 ```swift
 import Vapor
 import HTTP
-import SES
+import AWSSES
 
 let client = SES(region: .uswest1)
 
@@ -187,7 +188,7 @@ final class MyController {
 
 $ swift -I .build/debug
 1> import Foundation
-2> import S3
+2> import AWSS3
 
 let bucket = "my-bucket"
 
