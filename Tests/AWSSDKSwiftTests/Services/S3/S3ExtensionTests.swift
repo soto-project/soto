@@ -189,20 +189,19 @@ class S3ExtensionTests: XCTestCase {
                     guard $0 < 0.95 else { throw CancelError() }
                     print("Progress \($0 * 100)")
                 }
-            }.flatMapThrowing { _ -> String in
+            }.flatMapThrowing { _ -> S3.ResumeMultipartUploadRequest in
                 XCTFail("First multipartUpload was successful")
                 throw CancelError()
-            }.flatMapErrorThrowing { error -> String in
+            }.flatMapErrorThrowing { error -> S3.ResumeMultipartUploadRequest in
                 switch error {
-                case S3ErrorType.multipart.abortedUpload(let uploadId, _):
-                    return uploadId
+                case S3ErrorType.multipart.abortedUpload(let resumeRequest, _):
+                    return resumeRequest
                 default:
                     XCTFail("First multipartUpload threw the wrong error")
                     throw CancelError()
                 }
-            }.flatMap { uploadId -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
-                let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
-                return Self.s3.resumeMultipartUpload(request, uploadId: uploadId, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0 * 100)") }
+            }.flatMap { resumeRequest -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+                return Self.s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0 * 100)") }
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
                 return Self.s3.getObject(.init(bucket: name, key: name))
