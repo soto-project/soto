@@ -42,7 +42,9 @@ public struct RAM: AWSService {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -53,7 +55,9 @@ public struct RAM: AWSService {
             apiVersion: "2018-01-04",
             endpoint: endpoint,
             possibleErrorTypes: [RAMErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

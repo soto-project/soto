@@ -23,7 +23,7 @@ public struct S3ControlMiddleware: AWSServiceMiddleware {
     public init() {}
 
     /// edit request before sending to S3
-    public func chain(request: AWSRequest) throws -> AWSRequest {
+    public func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
         var request = request
 
         virtualAddressFixup(request: &request)

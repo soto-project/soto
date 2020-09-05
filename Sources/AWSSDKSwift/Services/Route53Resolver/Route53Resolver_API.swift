@@ -42,7 +42,9 @@ public struct Route53Resolver: AWSService {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -54,7 +56,9 @@ public struct Route53Resolver: AWSService {
             apiVersion: "2018-04-01",
             endpoint: endpoint,
             possibleErrorTypes: [Route53ResolverErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

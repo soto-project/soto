@@ -42,7 +42,9 @@ public struct ElasticBeanstalk: AWSService {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -54,7 +56,9 @@ public struct ElasticBeanstalk: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "elasticbeanstalk.us-gov-east-1.amazonaws.com", "us-gov-west-1": "elasticbeanstalk.us-gov-west-1.amazonaws.com"],
             possibleErrorTypes: [ElasticBeanstalkErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

@@ -42,7 +42,9 @@ public struct DataPipeline: AWSService {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -54,7 +56,9 @@ public struct DataPipeline: AWSService {
             apiVersion: "2012-10-29",
             endpoint: endpoint,
             possibleErrorTypes: [DataPipelineErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

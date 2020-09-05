@@ -42,7 +42,9 @@ public struct WorkSpaces: AWSService {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -54,7 +56,9 @@ public struct WorkSpaces: AWSService {
             apiVersion: "2015-04-08",
             endpoint: endpoint,
             possibleErrorTypes: [WorkSpacesErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

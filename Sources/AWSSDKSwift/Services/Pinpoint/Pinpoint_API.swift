@@ -42,7 +42,9 @@ public struct Pinpoint: AWSService {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -55,7 +57,9 @@ public struct Pinpoint: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1": "pinpoint.us-east-1.amazonaws.com", "us-west-2": "pinpoint.us-west-2.amazonaws.com"],
             possibleErrorTypes: [PinpointErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

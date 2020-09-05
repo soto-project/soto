@@ -42,7 +42,9 @@ public struct ForecastQueryService: AWSService {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -55,7 +57,9 @@ public struct ForecastQueryService: AWSService {
             apiVersion: "2018-06-26",
             endpoint: endpoint,
             possibleErrorTypes: [ForecastQueryServiceErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

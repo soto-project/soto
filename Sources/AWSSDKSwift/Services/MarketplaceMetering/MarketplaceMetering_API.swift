@@ -42,7 +42,9 @@ public struct MarketplaceMetering: AWSService {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -55,7 +57,9 @@ public struct MarketplaceMetering: AWSService {
             apiVersion: "2016-01-14",
             endpoint: endpoint,
             possibleErrorTypes: [MarketplaceMeteringErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

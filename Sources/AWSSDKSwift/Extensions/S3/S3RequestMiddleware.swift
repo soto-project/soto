@@ -22,10 +22,10 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     public init() {}
 
     /// edit request before sending to S3
-    public func chain(request: AWSRequest) throws -> AWSRequest {
+    public func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
         var request = request
 
-        self.virtualAddressFixup(request: &request)
+        self.virtualAddressFixup(request: &request, context: context)
         self.createBucketFixup(request: &request)
         self.calculateMD5(request: &request)
 
@@ -33,7 +33,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     }
 
     /// Edit responses coming back from S3
-    public func chain(response: AWSResponse) throws -> AWSResponse {
+    public func chain(response: AWSResponse, context: AWSMiddlewareContext) throws -> AWSResponse {
         var response = response
 
         self.metadataFixup(response: &response)
@@ -42,7 +42,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         return response
     }
 
-    func virtualAddressFixup(request: inout AWSRequest) {
+    func virtualAddressFixup(request: inout AWSRequest, context: AWSMiddlewareContext) {
         /// process URL into form ${bucket}.s3.amazon.com
         let paths = request.url.path.split(separator: "/", omittingEmptySubsequences: true)
         if paths.count > 0 {
@@ -54,7 +54,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             var urlPath: String
             var urlHost: String
             // if host name contains amazonaws.com and bucket name doesn't contain a period do virtual address look up
-            if host.contains("amazonaws.com"), !bucket.contains(".") {
+            if (host.contains("amazonaws.com") || context.options.contains(.s3ForceVirtualHost)), !bucket.contains(".") {
                 let pathsWithoutBucket = paths.dropFirst() // bucket
                 urlPath = pathsWithoutBucket.joined(separator: "/")
                 if let firstHostComponent = host.split(separator: ".").first, bucket == firstHostComponent {

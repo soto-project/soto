@@ -326,7 +326,7 @@ class S3ExtensionTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testS3VirtualAddressing(_ urlString: String) throws -> String {
+    func testS3VirtualAddressing(_ urlString: String, config: AWSServiceConfig = S3ExtensionTests.s3.config) throws -> String {
         let url = URL(string: urlString)!
         let request = try AWSRequest(
             region: .useast1,
@@ -336,7 +336,7 @@ class S3ExtensionTests: XCTestCase {
             httpMethod: .GET,
             httpHeaders: [:],
             body: .empty
-        ).applyMiddlewares(Self.s3.config.middlewares)
+        ).applyMiddlewares(Self.s3.config.middlewares, config: config)
         return request.url.relativeString
     }
 
@@ -350,5 +350,10 @@ class S3ExtensionTests: XCTestCase {
         XCTAssertEqual(try self.testS3VirtualAddressing("http://localhost:8000//bucket/filename"), "http://localhost:8000/bucket/filename")
         XCTAssertEqual(try self.testS3VirtualAddressing("http://localhost:8000/bucket//filename"), "http://localhost:8000/bucket/filename")
         XCTAssertEqual(try self.testS3VirtualAddressing("https://localhost:8000/bucket/file%20name"), "https://localhost:8000/bucket/file%20name")
+        
+        let s3 = S3(client: S3ExtensionTests.client, region: .useast1, endpoint: "https://localhost:8000", options: [.s3ForceVirtualHost])
+        
+        XCTAssertEqual(try self.testS3VirtualAddressing("https://localhost:8000/bucket/filename", config: s3.config), "https://bucket.localhost:8000/filename")
+
     }
 }

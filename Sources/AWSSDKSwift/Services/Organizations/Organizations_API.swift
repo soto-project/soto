@@ -40,7 +40,9 @@ public struct Organizations: AWSService {
         client: AWSClient,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -54,7 +56,9 @@ public struct Organizations: AWSService {
             serviceEndpoints: ["aws-cn-global": "organizations.cn-northwest-1.amazonaws.com.cn", "aws-global": "organizations.us-east-1.amazonaws.com", "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
             possibleErrorTypes: [OrganizationsErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

@@ -40,7 +40,9 @@ public struct Chime: AWSService {
         client: AWSClient,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -53,7 +55,9 @@ public struct Chime: AWSService {
             serviceEndpoints: ["aws-global": "service.chime.aws.amazon.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
             possibleErrorTypes: [ChimeErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

@@ -42,7 +42,9 @@ public struct SQS: AWSService {
         region: AWSSDKSwiftCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
     ) {
         self.client = client
         self.config = AWSServiceConfig(
@@ -54,7 +56,9 @@ public struct SQS: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "sqs.us-gov-east-1.amazonaws.com", "us-gov-west-1": "sqs.us-gov-west-1.amazonaws.com"],
             possibleErrorTypes: [SQSErrorType.self],
-            timeout: timeout
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
         )
     }
     

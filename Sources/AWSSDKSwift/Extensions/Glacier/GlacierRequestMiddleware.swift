@@ -30,7 +30,7 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
         self.apiVersion = apiVersion
     }
 
-    public func chain(request: AWSRequest) throws -> AWSRequest {
+    public func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
         var request = request
         request.httpHeaders.replaceOrAdd(name: "x-amz-glacier-version", value: self.apiVersion)
 
