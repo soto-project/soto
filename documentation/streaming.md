@@ -1,14 +1,14 @@
 # Streaming data
 
-If uploading or downloading large files it is preferable if you can stream this data instead of holding it all in memory. AWSSDKSwift supplies methods for streaming raw data payloads of both requests to AWS and responses from AWS. The most common use of this would be when uploading or downloading large objects to S3.
+When uploading or downloading large files it is preferable if you can stream this data instead of holding it all in memory. AWSSDKSwift supplies methods for streaming raw data payloads of both requests to AWS and responses from AWS. The most common use of this would be when uploading or downloading large objects to S3.
 
 ## Payload object
 
-All raw data payloads in AWSSDKSwift are represented by an `AWSPayload` object. This can be initialized with `Data`, `String`, `ByteBuffer` or a stream function that provides chunks of a raw payload.
+All raw data payloads in AWSSDKSwift are represented by an `AWSPayload` object. This can be initialized with `Data`, `String`, `ByteBuffer` or a stream closure that provides chunks of a raw payload.
 
 ## Request streaming
 
-The `AWSPayload.stream` holds a stream function which returns a `EventLoopFuture<StreamReaderResult>`. `StreamReaderResult` has two cases `.byteBuffer()` which holds a `ByteBuffer` to be uploaded or `.end` which indicates we are done. Each time a `ByteBuffer` is uploaded the stream function is called again to provide the next `ByteBuffer`. Some AWS streaming operations require that you provide the total size at the start eg S3 operations, and some will allow for uploads without a defined size eg `Lex.PostContent`. If you have provided a size at the start your stream function will be called until you have provided exactly that amount of data.
+The `AWSPayload.stream` holds a stream closure which returns a `EventLoopFuture<StreamReaderResult>`. `StreamReaderResult` has two cases `.byteBuffer()` which holds a `ByteBuffer` to be uploaded or `.end` which indicates we are done. Each time a `ByteBuffer` is uploaded the stream closure is called again to provide the next `ByteBuffer`. Some AWS streaming operations require that you provide the total size at the start eg S3 operations, and some will allow for uploads without a defined size eg `Lex.PostContent`. If you have provided a size at the start your stream closure will be called until you have provided exactly that amount of data.
 
 ```swift
 let payload = AWSPayload.stream(size: 2*1024*1024) { eventLoop in
@@ -19,7 +19,7 @@ let request = S3.PutObjectRequest(body: payload, bucket: "my-bucket", key: "my-f
 let response = try S3.PutObject(request).wait()
 ```
 
-If you provide too much data an error will be thrown. If no size is specified in advance then you finish the request by returning `eventLoop.makeSucceededFuture(.end)` from your stream function.
+If you provide too much data an error will be thrown. If no size is specified in advance then you finish the request by returning `eventLoop.makeSucceededFuture(.end)` from your stream closure.
 
 ### File uploading
 
