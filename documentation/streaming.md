@@ -1,6 +1,6 @@
 # Streaming data
 
-When uploading or downloading large files it is preferable if you can stream this data instead of holding it all in memory. AWSSDKSwift supplies methods for streaming raw data payloads of both requests to AWS and responses from AWS. The most common use of this would be when uploading or downloading large objects to S3.
+When uploading or downloading large blocks of data it is preferable if you can stream this data instead of holding it all in memory. AWSSDKSwift supplies methods for streaming raw data payloads of both requests to AWS and responses from AWS. The most common use of this would be when uploading or downloading large objects to S3.
 
 ## Payload object
 
