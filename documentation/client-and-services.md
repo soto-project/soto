@@ -15,13 +15,14 @@ public init(
 
 ### Credential Provider
 
-The `credentialProvider` defines how the client acquires its AWS credentials. Its default is to try four different methods: environment variables, ECS container credentials, EC2 instance metadata and the shared credential file `~/.aws/credential`. Another method is to provide credentials in code. You can do this as follows
+The `credentialProvider` defines how the client acquires its AWS credentials. Its default is to try four different methods: environment variables, ECS container credentials, EC2 instance metadata and the shared credential file `~/.aws/credential`. An alternative is to provide credentials in code. You can do this as follows
 ```
 let client = AWSClient(
     credentialProvider: .static(
         accessKeyId: "MY_AWS_ACCESS_KEY_ID",
         secretAccessKey: "MY_AWS_SECRET_ACCESS_KEY"
-    )
+    ),
+    ...
 )
 ```
 You can find out more about `CredentialProviders` [here](credentials.md).

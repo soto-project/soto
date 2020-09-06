@@ -36,7 +36,7 @@ If you would prefer to pass the credentials to the `AWSClient` directly you can 
 ```swift
 let client = AWSClient(
     credentialProvider: .static(
-        accessKeyId: "MY_AWS_ACCESS_KEY_ID", 
+        accessKeyId: "MY_AWS_ACCESS_KEY_ID",
         secretAccessKey: "MY_AWS_SECRET_ACCESS_KEY"
     )
 )
@@ -52,24 +52,24 @@ let client = AWSClient(credentialProvider: .empty)
 
 You can supply a list of credential providers you would like your `AWSClient` to use with the `.selector` credential provider. Each provider in the list is tested, until it finds a provider that successfully provides credentials. The following would test if credentials are available via environment variables, and then in the shared config file `~/.aws/credentials`.
 ```swift
-let client = AWSClient(credentialProvider: .selector(.environment, .configfile))
+let client = AWSClient(credentialProvider: .selector(.environment, .configfile()))
 ```
 
 The default credential provider is implemented as a selector as follows.
 ```swift
-.selector(.environment, .ecs, .ec2, .configfile)
+.selector(.environment, .ecs, .ec2, .configfile())
 ```
 
 ## STS and Cognito Identity
 
-The `CredentialProviders` protocol allows us to define credential providers external to the core library. This mean we can implement STS(Security Token Service) and Cognito Identity credential providers. 
+The `CredentialProviders` protocol allows us to define credential providers external to the core library. This mean we can implement STS(Security Token Service) and Cognito Identity credential providers.
 
 STS extends `CredentialProviderFactory` with five new `CredentialProviders`.
 - `stsAssumeRole` for returning temporary credentials for a different role.
 - `stsSAML` for users authenticated via a SAML authentication response.
 - `stsWebIdentity` for users who have been authenticated in a mobile or web application with a web identity provider.
 - `federationToken` for providing temporary credential to federated users.
-- `sessionToken` for providing temporary credentials for the provided user with possible MFA authentication. 
+- `sessionToken` for providing temporary credentials for the provided user with possible MFA authentication.
 
 See the AWS documentation on [requesting temporary security credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html).
 
@@ -87,10 +87,9 @@ Similarly you can setup a Cognito Identity credential provider as follows.
 import CognitoIdentity
 
 let credentialProvider: CredentialProviderFactory = .cognitoIdentity(
-    identityPoolId: poolId, 
+    identityPoolId: poolId,
     logins: ["appleid.apple.com": "APPLETOKEN"],
     region: .useast1
 )
 let client = AWSClient(credentialProvider: credentialProvider)
 ```
-
