@@ -100,11 +100,11 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 
 ## HTTP client
 
-Soto sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses one of two different HTTP clients depending on what platform you are running on. We have [extended](https://github.com/soto-project/soto-core/blob/main/Sources/SotoCore/HTTP/AsyncHTTPClient.swift) the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) so it conforms with `AWSHTTPClient`. This is the default client if you are running on Linux or macOS 10.14 and earlier. `AsyncHTTPClient` is not available on iOS. We have also supplied are own client `NIOTSHTTPClient` which uses [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework. This is the default client if you are running on iOS or macOS 10.15 and later. `NIOTSHTTPClient` is not available on Linux or versions of macOS earlier than 10.15.
+Soto sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses the swift-server [AsyncHTTPClient](https://github.com/swift-server/async-http-client).  
 
 You can provide your own HTTP client as follows
 ```
-let s3 = S3(client: client, region:.uswest2, httpClientProvider: .shared(myHTTPClient))
+let awsClient = AWSClient(httpClientProvider: .shared(myHTTPClient))
 ```
 Reasons you might want to provide your own client.
 - You have one HTTP client you want to use across all your systems.
