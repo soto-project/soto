@@ -22,7 +22,7 @@ create_jazzy_yaml() {
 
 run_jazzy() {
 # use theme apple-thin-nav else docs are 50+ GB!
-    jazzy --clean --theme scripts/jazzy/themes/apple-thin-nav/
+    jazzy --clean
 }
 
 tidy_up() {
