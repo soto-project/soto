@@ -3,7 +3,6 @@
 When using AWS SDK Swift with Vapor 4 it is best to have a global `AWSClient` that all routes use. You shouldn't be creating `AWSClient` on the fly. Initialisation of the client can take time and you have to shutdown the client before it is deleted. You best option is to store a single `AWSClient` in the Vapor `Application`. The code below shows how you can extend `Application` to provide a global `AWSClient`.
 
 ```swift
-import AWSS3
 import Vapor
 
 public extension Application {
@@ -34,7 +33,7 @@ public extension Application {
     }
 }
 ```
-And extend `Request` to provide access to your `AWSClient`.
+And extend `Request` to provide access to this `AWSClient`.
 ```swift
 public extension Request {
     var aws: AWS {
@@ -52,7 +51,7 @@ public extension Request {
 
 ```
 
-Once you have this you can then initalise your client in the `configure(_ app: Application)` function found in `configure.swift`.
+Once you have this you can then initalise your client in the `configure(_ app: Application)` function found in `configure.swift`. The code below initialises an `AWSClient` to use the shared `HTTPClient` that Vapor uses.
 
 ```swift
 app.aws.client = AWSClient(httpClientProvider: .shared(app.http.client.shared))
@@ -67,6 +66,8 @@ func myRoute(req: Request) -> EventLoopFuture<> {
 ```
 Alternatively you can also include your service structs in the `Application` as well.
 ```swift
+import AWSS3
+
 extension Application.AWS {
     struct S3Key: StorageKey {
         typealias Value = S3
@@ -95,7 +96,7 @@ public extension Request.AWS {
 ```
 ## Example
 
-Given you have extended your `Application` as above and also included an `SES` (Simple Email Service) service object in the `Application` in a similar way to the example above with `S3` you could write a route to send an email as follows
+If you have extended your Vapor `Application` as above and also included an `SES` (Simple Email Service) service object in the `Application` in a similar way to the example above with `S3` you could write a route to send an email as follows
 ```swift
 final class MyController {
     struct EmailData: Content {
@@ -111,7 +112,7 @@ final class MyController {
         return request.ses.sendEmail(sendEmailRequest, on: req.eventLoop)
             .map { response -> HTTPStatus in
                 return .ok
-        }
+            }
     }
 }
 ```
