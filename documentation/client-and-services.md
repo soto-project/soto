@@ -3,7 +3,7 @@
 The `AWSClient` is the core of AWSSDKSwift. This is the object that manages your communication with AWS. It manages credential acqusition, takes your request, encodes it, signs it, sends it to AWS and then decodes the response for you. In most situations your application should only require one `AWSClient` . Create this at startup and use it throughout.
 
 The `init` for `AWSClient` is as follows. Below I provide some details on what each of parameter is.
-```
+```swift
 public init(
     credentialProvider credentialProviderFactory: CredentialProviderFactory = .default,
     retryPolicy retryPolicyFactory: RetryPolicyFactory = .default,
@@ -16,7 +16,7 @@ public init(
 ### Credential Provider
 
 The `credentialProvider` defines how the client acquires its AWS credentials. Its default is to try four different methods: environment variables, ECS container credentials, EC2 instance metadata and the shared credential file `~/.aws/credential`. An alternative is to provide credentials in code. You can do this as follows
-```
+```swift
 let client = AWSClient(
     credentialProvider: .static(
         accessKeyId: "MY_AWS_ACCESS_KEY_ID",
@@ -54,7 +54,7 @@ The final function parameter is the `Logger`. This `Logger` is used for logging 
 In AWSSDKSwift each AWS Service has a service object. This object brings together an `AWSClient` and a service configuration `AWSServiceConfig` and provides methods for accessing all the operations available from that service.
 
 The `init` for each service is as follows. Again details about each parameter are available below.
-```
+```swift
 public init(
     client: AWSClient,
     region: AWSSDKSwiftCore.Region? = nil,

@@ -37,7 +37,7 @@ let response = try S3.PutObject(request).wait()
 ## Response streaming
 
 Response streaming is handled slightly differently. All operations that have the capability to stream the response payload have an additional function with the suffix "Streaming". These functions have an additional parameter which is a closure of the form `(ByteBuffer, EventLoop) -> EventLoopFuture<Void>`. This closure is called every time a chunk of the payload is downloaded. You are expected to return an `EventLoopFuture<Void>` that is fulfilled when you are done with the `ByteBuffer`. The following will processing S3 data as it is being downloaded.
-```
+```swift
 let getRequest = S3.GetObjectRequest(bucket: "my-bucket", key: "my-file")
 let response = try s3.getObjectStreaming(getRequest) { byteBuffer, eventLoop in
     processByteBuffer(byteBuffer)
