@@ -68,11 +68,11 @@ Before using the SDK, you will need AWS credentials to sign all your requests. C
 - Shared credentials file in your home directory
 - Static credentials provided at runtime
 
-You can find out more about credential providers [here](documentation/credentials.md)
+You can find out more about credential providers [here](documentation/Credential%20Providers.md)
 
 ## Using Soto
 
-Soto modules can be imported into any swift project. Each module provides a service struct that can be initialized with a `AWSClient`, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services. More can be found out about `AWSClient` and the service objects [here](documentation/client-and-services.md).
+Soto modules can be imported into any swift project. Each module provides a service struct that can be initialized with a `AWSClient`, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services. More can be found out about `AWSClient` and the service objects [here](documentation/AWSClient%20and%20Services.md).
 
 Each Soto command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of Soto.
 
