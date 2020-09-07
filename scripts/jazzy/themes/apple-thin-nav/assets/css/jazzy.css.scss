@@ -18,7 +18,7 @@ $content_wrapper_width: 980px;
 $content_top_offset: 70px;
 $content_body_margin: 16px;
 $content_body_left_offset: $sidebar_width + $content_body_margin;
-$header_height: 26px;
+$header_height: 32px;
 $breadcrumb_padding_top: 17px;
 
 $code_font: 0.95em Menlo, monospace;
@@ -104,12 +104,18 @@ p code, li code {
   padding: 2px 4px;
   border-radius: 4px;
 }
+pre > code {
+  padding: 0;
+}
 
 // Links
 
 a {
   color: $link_color;
   text-decoration: none;
+  code {
+    color: inherit;
+  }
 }
 
 // Lists
@@ -152,7 +158,7 @@ header {
   background-color: $bg_color;
   position: fixed;
   width: 100%;
-  z-index: 1;
+  z-index: 3;
   img {
     padding-right: 6px;
     vertical-align: -4px;
@@ -177,7 +183,7 @@ header {
   padding-top: $breadcrumb_padding_top;
   position: fixed;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   margin-top: $header_height;
   #carat {
     height: 10px;
@@ -211,7 +217,7 @@ header {
   border-bottom: $gray_border;
   font-size: 1.1em;
   font-weight: 100;
-  padding: 15px 0 15px 20px;
+  padding: 12px 0 10px 20px;
   > a {
     color: #333;
   }
@@ -240,7 +246,7 @@ header {
   margin-left: $content_body_left_offset;
   position: absolute;
   overflow: hidden;
-  padding-bottom: 60px;
+  padding-bottom: 20px;
   top: $content_top_offset;
   width: $content_wrapper_width - $content_body_left_offset;
   p, a, code, em, ul, table, blockquote {
@@ -268,6 +274,17 @@ header {
       display: block;
       padding-top: $content_top_offset;
       margin: -$content_top_offset 0 0;
+    }
+  }
+  .section-name {
+    p {
+       margin-bottom: inherit;
+       line-height: inherit;
+    }
+    code {
+      background-color: inherit;
+      padding: inherit;
+      color: inherit;
     }
   }
 }
@@ -298,6 +315,7 @@ header {
 }
 
 .task-group-section {
+  margin-top: 10px;
   padding-left: 6px;
   border-top: $gray_border;
 }
@@ -313,6 +331,29 @@ header {
       display: block;
       padding-top: $content_top_offset;
       margin: -$content_top_offset 0 0;
+    }
+  }
+}
+
+.section-name-container {
+  position: relative;
+  display: inline-block;
+
+  .section-name-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 0;
+  }
+
+  .section-name {
+    position: relative;
+    pointer-events: none;
+    z-index: 1;
+    a {
+      pointer-events: auto;
     }
   }
 }
@@ -333,10 +374,19 @@ header {
     background-color: transparent;
     padding: 0;
   }
-  .token {
+  .token, .direct-link {
+    display: inline-block;
+    text-indent: -20px;
     padding-left: 3px;
-    margin-left: 15px;
+    margin-left: 35px;
     font-size: 11.9px;
+    transition: all 300ms;
+  }
+  .token-open {
+    margin-left: 20px;
+  }
+  .discouraged {
+    text-decoration: line-through;
   }
   .declaration-note {
     font-size: .85em;
@@ -412,7 +462,7 @@ header {
   }
 }
 
-.aside-warning {
+.aside-warning, .aside-deprecated, .aside-unavailable {
   border-left: $aside_warning_border;
   .aside-title {
     color: $aside_warning_color;
@@ -446,8 +496,9 @@ header {
 }
 
 #footer {
-  position: absolute;
-  bottom: 10px;
+  position: relative;
+  top: 10px;
+  bottom: 0px;
   margin-left: 25px;
   p {
     margin: 0;
@@ -483,5 +534,71 @@ html.dash {
   }
   #footer {
     position: static;
+  }
+}
+
+// ===========================================================================
+//
+//  Search
+//
+// ===========================================================================
+form[role=search] {
+  float: right;
+
+  input {
+    font: Helvetica, freesans, Arial, sans-serif;
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 20px;
+    padding: 0px 10px;
+    border: none;
+    border-radius: 1em;
+    .loading & {
+      background: white url(../img/spinner.gif) center right 4px no-repeat;
+    }
+  }
+
+  // Typeahead elements
+
+  .tt-menu {
+    margin: 0;
+    min-width: 300px;
+    background: $white_color;
+    color: #333;
+    border: $gray_border;
+    z-index: 4;
+  }
+
+  .tt-highlight {
+    font-weight: bold;
+  }
+
+  .tt-suggestion {
+    font: Helvetica, freesans, Arial, sans-serif;
+    font-size: 14px;
+    padding: 0 8px;
+    span {
+      display: table-cell;
+      white-space: nowrap;
+    }
+    .doc-parent-name {
+      width: 100%;
+      text-align: right;
+      font-weight: normal;
+      font-size: 0.9em;
+      padding-left: 16px;
+    }
+  }
+
+  .tt-suggestion:hover,
+  .tt-suggestion.tt-cursor {
+    cursor: pointer;
+    background-color: #4183c4;
+    color: #fff;
+  }
+
+  .tt-suggestion:hover .doc-parent-name,
+  .tt-suggestion.tt-cursor .doc-parent-name {
+    color: #fff;
   }
 }
