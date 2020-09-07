@@ -49,7 +49,7 @@ Reasons you might want to provide your own client include
 
 The final function parameter is the `Logger`. This `Logger` is used for logging background processes the client might perform like AWS credential acquisition.
 
-# AWS service objects
+# AWS Service Objects
 
 In AWSSDKSwift each AWS Service has a service object. This object brings together an `AWSClient` and a service configuration `AWSServiceConfig` and provides methods for accessing all the operations available from that service.
 
