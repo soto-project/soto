@@ -1,1 +1,0 @@
-# DynamoDB and Codable
