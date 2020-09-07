@@ -15,7 +15,6 @@ Table of Contents
 - [Compatibility](#compatibility)
 - [Configuring Credentials](#configuring-credentials)
 - [Using AWSSDKSwift](#using-awssdkswift)
-    - [Using AWSSDKSwift with Vapor](#using-awssdkswift-with-vapor)
 - [Documentation](#documentation)
     - [API Reference](#api-reference)
     - [User guides](#user-guides)
@@ -118,37 +117,6 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 }
 ```
 
-### Using AWSSDKSwift with Vapor
-
-Integration with Vapor is pretty straight forward. Although be sure you use the correct version of Soto depending on which version of Vapor you are using. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 4 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `on: req.eventLoop` parameter in the `sendEmail` call. If your `AWSClient` is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
-
-```swift
-import Vapor
-import HTTP
-import SES
-
-let client = AWSClient()
-let ses = SES(client: client, region: .uswest1)
-
-final class MyController {
-    struct EmailData: Content {
-        let address: String
-        let subject: String
-        let message: String
-    }
-    func sendUserEmailFromJSON(_ req: Request) throws -> EventLoopFuture<HTTPStatus> {
-        let emailData = try req.content.decode(EmailData.self)
-        let destination = SES.Destination(toAddresses: [emailData.address])
-        let message = SES.Message(body: .init(text:SES.Content(data:emailData.message)), subject: .init(data:emailData.subject))
-        let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"awssdkswift@me.com")
-        return ses.sendEmail(sendEmailRequest, on: req.eventLoop)
-            .map { response -> HTTPStatus in
-                return .ok
-        }
-    }
-}
-```
-
 ## Documentation
 
 Visit the Soto [documentation](https://soto-project.github.io/soto/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
@@ -162,6 +130,7 @@ Additional user guides for specific elements of AWS SDK Swift are available
 - [Streaming](documentation/streaming.md)
 - [S3 multipart](documentation/s3-multipart.md)
 - [DynamoDB Codable](documentation/dynamodb-codable.md)
+- [Using AWSSDKSwift with Vapor](documentation/using-aws-sdk-swift-with-vapor.md)
 
 ## Contributing
 
