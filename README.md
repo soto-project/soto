@@ -6,18 +6,29 @@
 
 Soto is a Swift language SDK for Amazon Web Services (AWS), working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services. Soto is a community supported project and is in no way affiliated with AWS.
 
+Table of Contents
+-----------------
+
+- [Structure](#structure)
+- [Swift Package Manager](#swift-package-manager)
+- [Compatibility](#compatibility)
+- [Configuring Credentials](#configuring-credentials)
+- [Using AWSSDKSwift](#using-awssdkswift)
+    - [Using AWSSDKSwift with Vapor](#using-awssdkswift-with-vapor)
+- [Documentation](#documentation)
+    - [API Reference](#api-reference)
+    - [User guides](#user-guides)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Structure
+
 The library consists of three parts
 1. [soto-core](https://github.com/soto-project/soto-core) which does all the core request encoding and signing, response decoding and error handling.
 2. The service [api files](https://github.com/soto-project/soto/tree/main/Sources/Soto/Services) which define the individual AWS services and their commands with their input and output structures.
 3. The [CodeGenerator](https://github.com/soto-project/soto/tree/main/CodeGenerator) which builds the service api files from the [JSON model](https://github.com/soto-project/soto/tree/main/models/apis) files supplied by Amazon.
 
-## Version 5 documentation
-
-If you are looking for documentation for the version 5 beta of Soto. You will find it [here](https://github.com/soto-project/soto/blob/5.x.x-docs/README.md).
-
-## Installation
-
-### Swift Package Manager
+## Swift Package Manager
 
 Soto uses the Swift Package Manager to manage its code dependencies. To use Soto in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
@@ -61,7 +72,7 @@ You can find out more about credential providers [here](documentation/credential
 
 ## Using Soto
 
-Soto modules can be imported into any swift project. Each module provides a service struct that can be initialized with a `AWSClient`, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services.
+Soto modules can be imported into any swift project. Each module provides a service struct that can be initialized with a `AWSClient`, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services. More can be found out about `AWSClient` and the service objects [here](documentation/client-and-services.md).
 
 Each Soto command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of Soto.
 
@@ -72,7 +83,10 @@ import AWSS3 //ensure this module is specified as a dependency in your package.s
 
 let bucket = "my-bucket"
 
-let client = AWSClient(credentialProvider: .static(accessKeyId: "Your-Access-Key", secretAccessKey: "Your-Secret-Key"))
+let client = AWSClient(
+    credentialProvider: .static(accessKeyId: "Your-Access-Key", secretAccessKey: "Your-Secret-Key"),
+    httpClientProvider: .createNew
+)
 let s3 = S3(client: client, region: .uswest2)
 
 func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
@@ -83,7 +97,12 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
         .flatMap { response -> EventLoopFuture<S3.PutObjectOutput> in
             // Upload text file to the s3
             let bodyData = "hello world".data(using: .utf8)!
-            let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, body: bodyData, bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt")
+            let putObjectRequest = S3.PutObjectRequest(
+                acl: .publicRead,
+                body: bodyData,
+                bucket: bucket,
+                key: "hello.txt"
+            )
             return s3.putObject(putObjectRequest)
         }
         .flatMap { response -> EventLoopFuture<S3.GetObjectOutput> in
@@ -98,22 +117,7 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 }
 ```
 
-## HTTP client
-
-Soto sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses the swift-server [AsyncHTTPClient](https://github.com/swift-server/async-http-client).  
-
-You can provide your own HTTP client as follows
-```
-let awsClient = AWSClient(httpClientProvider: .shared(myHTTPClient))
-```
-Reasons you might want to provide your own client.
-- You have one HTTP client you want to use across all your systems.
-- You want to provide a client that is using a global `EventLoopGroup`.
-- On macOS you want to force the usage of the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) regardless of OS version.
-- You want to change the configuration for the HTTP client used.
-- You want to provide your own custom built HTTP client.
-
-## Using Soto with Vapor
+### Using AWSSDKSwift with Vapor
 
 Integration with Vapor is pretty straight forward. Although be sure you use the correct version of Soto depending on which version of Vapor you are using. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 4 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `on: req.eventLoop` parameter in the `sendEmail` call. If your `AWSClient` is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
 
@@ -147,6 +151,16 @@ final class MyController {
 ## Documentation
 
 Visit the Soto [documentation](https://soto-project.github.io/soto/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
+
+### User guides
+
+Additional user guides for specific elements of AWS SDK Swift are available
+
+- [AWSClient and service objects](documentation/client-and-services.md)
+- [Credential providers](documentation/credentials.md)
+- [Streaming](documentation/streaming.md)
+- [S3 multipart](documentation/s3-multipart.md)
+- [DynamoDB Codable](documentation/dynamodb-codable.md)
 
 ## Contributing
 
