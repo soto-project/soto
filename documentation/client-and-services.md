@@ -29,7 +29,7 @@ You can find out more about `CredentialProviders` [here](credentials.md).
 
 ### Retry policy
 
-The `retryPolicy` defines how the client reacts to a failed request. There are three retry policies supplied. `.noRetry` doesn't retry the request if it fails. The other two will retry if the response is a 5xx (server error) or a connection error. They differ is how long they wait before performing the retry. `.exponential` doubles the wait time after each retry and `.jitter` is the same as exponential except it adds a random element to the wait time. `.jitter` is the recommended method from AWS so it is the default.
+The `retryPolicy` defines how the client reacts to a failed request. There are three retry policies supplied. `.noRetry` doesn't retry the request if it fails. The other two will retry if the response is a 5xx (server error) or a connection error. They differ in how long they wait before performing the retry. `.exponential` doubles the wait time after each retry and `.jitter` is the same as exponential except it adds a random element to the wait time. `.jitter` is the recommended method from AWS so it is the default.
 
 ### Middleware
 
@@ -37,13 +37,13 @@ Middleware allows you to insert your own code just as a request has been constru
 
 ### HTTP client provider
 
-The `HTTPClientProvider` defines where you get your HTTP client from. Either you supply `.createNew` which indicates the `AWSClient` should create its own HTTP client. In which case it will create an instance of `HTTPClient` from the swift server project [`AsyncHTTPClient`](https://github.com/swift-server/async-http.client). Or you can supply your own HTTP client with `.shared` as long as it conforms to the protocol `AWSHTTPClient`.
+The `HTTPClientProvider` defines where you get your HTTP client from. Either you supply `.createNew` which indicates the `AWSClient` should create its own HTTP client. In which case it will create an instance of `HTTPClient` from the swift server project [`AsyncHTTPClient`](https://github.com/swift-server/async-http.client). Or you can supply your own HTTP client with `.shared(AWSHTTPClient)` as long as it conforms to the protocol `AWSHTTPClient`. `AsyncHTTPClient.HTTPClient` already conforms to this protocol.
 
 Reasons you might want to provide your own client include
 - You have one HTTP client you want to use across all your systems.
 - You want to provide a client that is using a global `EventLoopGroup`.
 - You want to change the configuration for the HTTP client used, perhaps you are running behind a proxy or want to enable decompression.
-- You want to provide your own custom built HTTP client.
+- You want to provide your own custom HTTP client.
 
 ### Logger
 
@@ -71,11 +71,13 @@ The client is the `AWSClient` this service object will use when communicating wi
 
 ### Region and Partition
 
-The `region` defines which AWS region servers you want to communicate with. The `partition` defines which set of AWS server regions you want to work with. Partitions include the standard `.aws`, US government `.awsusgov` and China `.awscn`. If you provide a `region` the `partition` parameter is ignored. If you don't supply a `region` then the `region` will be set as the default region for the specified `partition`, if that is not defined it will check the `AWS_DEFAULT_REGION` environment variable or default to `us-east-1`.
+The `region` defines which AWS region servers you want to communicate with. The `partition` defines which set of AWS server regions you want to work with. Partitions include the standard `.aws`, US government `.awsusgov` and China `.awscn`. If you provide a `region` the `partition` parameter is ignored. If you don't supply a `region` then the `region` will be set as the default region for the specified `partition`, if that is not defined it will check the `AWS_DEFAULT_REGION` environment variable or default to `us-east-1`. 
+
+Some services do not have a `region` parameter in their initializer eg IAM. These services require you to communicate with one global region which is defined by the service. You can still control which partition you connect to though.
 
 ### Endpoint
 
-If you want to communicate with non AWS servers you can provide your endpoint. Reasons you may want to do this is you are using a AWS mocking service for debugging purposes, or you are communicating with a non AWS service that replicates AWS functionality.
+If you want to communicate with non AWS servers you can provide an endpoint which replaces the `amazonaws.com` web address. Reasons you may want to do this include you are using a AWS mocking service for debugging purposes, or you are communicating with a non AWS service that replicates AWS functionality.
 
 ### Time out
 
@@ -83,7 +85,7 @@ Time out defines how long the HTTP client will wait until it cancels a request. 
 
 ### ByteBufferAllocator
 
-During request processing the `AWSClient` will most likely require to allocate space for `ByteBuffers`. You can define how these are allocated with the `byteBufferAllocator` parameter.
+During request processing the `AWSClient` will most likely be required to allocate space for `ByteBuffers`. You can define how these are allocated with the `byteBufferAllocator` parameter.
 
 ### Options
 
