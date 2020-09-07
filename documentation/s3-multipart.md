@@ -4,7 +4,7 @@ S3 has a series of multipart upload operations. These can be used to upload an o
 
 Multipart upload has three stages. First you initiate the upload with a `S3.CreateMultipartUpload`, you upload each part using `S3.UploadPart` and then you complete the upload by calling `S3.CompleteMultipartUpload`. If there is an error and you don't want to finish the upload you need to call `S3.AbortMultipartUpload`. The code to implement this can get quite complex so AWSSDKSwift provides you with a function that implements all of this for you.
 
-```
+```swift
 let request = S3.CreateMultipartUploadRequest(bucket: "MyBucket", key: "MyFile.txt")
 let responseFuture = s3.multipartUpload(
     request,
@@ -30,7 +30,7 @@ The function parameters for multipartUpload are as follows
 ### Resuming an upload
 
 As mentioned above if you call `s3.multipartUpload` with `abortOnFail` set to false, you can resume the upload if it fails. You can use the function `resumeMultipartUpload` in the following manner. While not implemented here you can also set the `abortOnFail` to false again, and resume the upload again if the first `resumeMultipartUpload` fails.   
-```
+```swift
 let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
 let responseFuture = s3.multipartUpload(request, filename: filename, abortOnFail: false)
     .flatMapError { error -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in

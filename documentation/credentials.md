@@ -76,14 +76,14 @@ See the AWS documentation on [requesting temporary security credentials](https:/
 CognitoIdentity adds `cognitoIdentity` for users in a Cognito Identity Pool, these can be users in a Cognito User Pool or users who authenticate with external providers such as Facebook, Google and Apple. See the AWS documentation on [Cognito Identity Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-identity.html).
 
 For example to use `STS.AssumeRole` to acquire new credentials. You provide a request structure, credential provider to access original credentials and a region to run the STS commands in.
-```
+```swift
 import STS
 
 let request = STS.AssumeRoleRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "session-name")
 let client = AWSClient(credentialProvider: .stsAssumeRole(request: request, credentialProvider: .ec2, region: .euwest1))
 ```
 Similarly you can setup a Cognito Identity credential provider as follows.
-```
+```swift
 import CognitoIdentity
 
 let credentialProvider: CredentialProviderFactory = .cognitoIdentity(
