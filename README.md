@@ -125,12 +125,12 @@ Visit the Soto [documentation](https://soto-project.github.io/soto/index.html) t
 
 Additional user guides for specific elements of AWS SDK Swift are available
 
-- [AWSClient and Service Objects](documentation/client-and-services.md)
-- [Credential Providers](documentation/credentials.md)
-- [Streaming Payloads](documentation/streaming.md)
-- [S3 Multipart Upload](documentation/s3-multipart.md)
-- [DynamoDB and Codable](documentation/dynamodb-codable.md)
-- [Using AWSSDKSwift with Vapor](documentation/using-aws-sdk-swift-with-vapor.md)
+- [AWSClient and Service Objects](documentation/AWSClient and Services.md)
+- [Credential Providers](documentation/Credential Providers.md)
+- [Streaming Payloads](documentation/Streaming Payloads.md)
+- [DynamoDB and Codable](documentation/DynamoDB and Codable.md)
+- [S3 Multipart Upload](documentation/S3 Multipart Upload.md)
+- [Using AWSSDKSwift with Vapor](documentation/Using AWSSDKSwift with Vapor 4.md)
 
 ## Contributing
 
