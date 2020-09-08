@@ -52,9 +52,10 @@ extension S3 {
     public func multipartDownload(
         _ input: GetObjectRequest,
         partSize: Int = 5 * 1024 * 1024,
-        on eventLoop: EventLoop,
+        on eventLoop: EventLoop? = nil,
         outputStream: @escaping (ByteBuffer, Int64, EventLoop) -> EventLoopFuture<Void>
     ) -> EventLoopFuture<Int64> {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         let promise = eventLoop.makePromise(of: Int64.self)
 
         // function downloading part of a file
@@ -187,9 +188,10 @@ extension S3 {
     public func multipartUpload(
         _ input: CreateMultipartUploadRequest,
         abortOnFail: Bool = true,
-        on eventLoop: EventLoop,
+        on eventLoop: EventLoop? = nil,
         inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         // initialize multipart upload
         let result = createMultipartUpload(input, on: eventLoop).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
             guard let uploadId = upload.uploadId else {
@@ -294,10 +296,11 @@ extension S3 {
     public func resumeMultipartUpload(
         _ input: ResumeMultipartUploadRequest,
         abortOnFail: Bool = true,
-        on eventLoop: EventLoop,
+        on eventLoop: EventLoop? = nil,
         inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>,
         skipStream: @escaping (EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         let uploadRequest = input.uploadRequest
         var completedParts: [S3.CompletedPart] = []
         let listPartsRequest = ListPartsRequest(
