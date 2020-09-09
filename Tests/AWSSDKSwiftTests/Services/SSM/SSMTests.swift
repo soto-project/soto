@@ -79,8 +79,7 @@ class SSMTests: XCTestCase {
                 return Self.ssm.getParametersByPath(request)
             }
             .flatMapThrowing { response in
-                let parameter = try XCTUnwrap(response.parameters?.first)
-                XCTAssertEqual(parameter.name, name)
+                let parameter = try XCTUnwrap(response.parameters?.first {$0.name == name})
                 XCTAssertEqual(parameter.value, "testdata2")
             }
             .flatAlways { _ in
