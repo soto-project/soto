@@ -24,7 +24,7 @@ let package = Package(
 {%endfor %}
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/soto-core.git", .branch("main"))
+        .package(url: "https://github.com/soto-project/soto-core.git", .branch("main"))
     ],
     targets: [
 {%for target in targets %}

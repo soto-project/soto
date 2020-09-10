@@ -17,7 +17,7 @@ set -eu
 here="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 contributors=$( cd "$here"/.. && git shortlog -es | cut -f2 | sed 's/^/- /' )
 
-git clone https://github.com/swift-aws/soto-core "$here"/temp_folder
+git clone https://github.com/soto-project/soto-core "$here"/temp_folder
 core_contributors=$( cd "$here"/temp_folder && git shortlog -es | cut -f2 | sed 's/^/- /' )
 rm -rf "$here"/temp_folder
 

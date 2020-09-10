@@ -20,12 +20,12 @@ BRANCH=gh-pages
 
 move_docs_to_aws_sdk_swift_docs() {
     REVISION_HASH=$(git rev-parse HEAD)
-    COMMIT_MSG="Documentation for https://github.com/swift-aws/soto/tree/$REVISION_HASH"
+    COMMIT_MSG="Documentation for https://github.com/soto-project/soto/tree/$REVISION_HASH"
     if [ -n "$1" ]; then
         COMMIT_MSG=$1
     fi
 
-    git clone https://github.com/swift-aws/soto-docs -b "$BRANCH"
+    git clone https://github.com/soto-project/soto-docs -b "$BRANCH"
 
     cd soto-docs
     # copy contents of docs to docs/current replacing the ones that are already there

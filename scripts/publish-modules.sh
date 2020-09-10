@@ -15,7 +15,7 @@
 
 #######################################################
 #
-# usage bash publish-module.sh /path/to/swift-aws "sync with soto@1.0.2" 1.0.2
+# usage bash publish-module.sh /path/to/soto-project "sync with soto@1.0.2" 1.0.2
 #  $1: path for aws partial modules are stored
 #  $2: commit comment
 #  $3: tag for release (if not included will not make a release)
@@ -50,9 +50,9 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
     fi
 
     if [ -z "$(git remote -v | grep origin)" ]; then
-        git remote add origin "https://github.com/swift-aws/$BASENAME.git"
+        git remote add origin "https://github.com/soto-project/$BASENAME.git"
     else
-        git remote set-url origin "https://github.com/swift-aws/$BASENAME.git"
+        git remote set-url origin "https://github.com/soto-project/$BASENAME.git"
     fi
 
     GIT_STATUS_R=$(git status --porcelain)

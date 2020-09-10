@@ -14,7 +14,7 @@
 //===----------------------------------------------------------------------===//
 
 import Files // JohnSundell/Files
-import Stencil // swift-aws/Stencil
+import Stencil // soto-project/Stencil
 
 struct GeneratePackage {
     let environment: Environment

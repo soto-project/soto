@@ -21,7 +21,7 @@ let package = Package(
         .library(name: "AWS{{name}}", targets: ["AWS{{name}}"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/soto-core.git", .upToNextMinor(from: "{{version}}")),
+        .package(url: "https://github.com/soto-project/soto-core.git", .upToNextMinor(from: "{{version}}")),
     ],
     targets: [
         .target(name: "AWS{{name}}", dependencies: ["SotoCore", "CAWSZlib"], path: "./Sources/{{name}}"),

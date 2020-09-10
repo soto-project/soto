@@ -3,14 +3,14 @@ Soto is the new name for AWS SDK Swift. Amazon have asked that we don't use the 
 # Soto for AWS
 
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
-[<img src="https://github.com/swift-aws/soto/workflows/CI/badge.svg" />](https://github.com/swift-aws/soto/actions?query=workflow%3ACI)
+[<img src="https://github.com/soto-project/soto/workflows/CI/badge.svg" />](https://github.com/soto-project/soto/actions?query=workflow%3ACI)
 
 Soto is a Swift language SDK for AWS services working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services.
 
 The library consists of three parts
-1. [soto-core](https://github.com/swift-aws/soto-core) which does all the core request encoding and signing, response decoding and error handling.
-2. The service [api files](https://github.com/swift-aws/soto/tree/main/Sources/Soto/Services) which define the individual AWS services and their commands with their input and output structures.
-3. The [CodeGenerator](https://github.com/swift-aws/soto/tree/main/CodeGenerator) which builds the service api files from the [JSON model](https://github.com/swift-aws/soto/tree/main/models/apis) files supplied by Amazon.
+1. [soto-core](https://github.com/soto-project/soto-core) which does all the core request encoding and signing, response decoding and error handling.
+2. The service [api files](https://github.com/soto-project/soto/tree/main/Sources/Soto/Services) which define the individual AWS services and their commands with their input and output structures.
+3. The [CodeGenerator](https://github.com/soto-project/soto/tree/main/CodeGenerator) which builds the service api files from the [JSON model](https://github.com/soto-project/soto/tree/main/models/apis) files supplied by Amazon.
 
 ## Installation
 
@@ -19,7 +19,7 @@ The library consists of three parts
 Soto uses the Swift Package Manager to manage its code dependencies. To use Soto in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
     dependencies: [
-        .package(name: "AWSSDKSwift", url: "https://github.com/swift-aws/soto.git", from: "4.0.0")
+        .package(name: "AWSSDKSwift", url: "https://github.com/soto-project/soto.git", from: "4.0.0")
     ],
 ```
 Then add target dependencies for each of the Soto targets you want to use.
@@ -135,7 +135,7 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 
 ## HTTP client (v5.x.x)
 
-Soto sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses one of two different HTTP clients depending on what platform you are running on. We have [extended](https://github.com/swift-aws/soto-core/blob/main/Sources/SotoCore/HTTP/AsyncHTTPClient.swift) the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) so it conforms with `AWSHTTPClient`. This is the default client if you are running on Linux or macOS 10.14 and earlier. `AsyncHTTPClient` is not available on iOS. We have also supplied are own client `NIOTSHTTPClient` which uses [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework. This is the default client if you are running on iOS or macOS 10.15 and later. `NIOTSHTTPClient` is not available on Linux or versions of macOS earlier than 10.15.
+Soto sets up its own HTTP client for communication with AWS but you are also able to provide your own as long as it conforms to the protocol `AWSHTTPClient`. If you don't provide a client the SDK uses one of two different HTTP clients depending on what platform you are running on. We have [extended](https://github.com/soto-project/soto-core/blob/main/Sources/SotoCore/HTTP/AsyncHTTPClient.swift) the swift server [AsyncHTTPClient](https://github.com/swift-server/async-http-client) so it conforms with `AWSHTTPClient`. This is the default client if you are running on Linux or macOS 10.14 and earlier. `AsyncHTTPClient` is not available on iOS. We have also supplied are own client `NIOTSHTTPClient` which uses [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework. This is the default client if you are running on iOS or macOS 10.15 and later. `NIOTSHTTPClient` is not available on Linux or versions of macOS earlier than 10.15.
 
 You can provide your own HTTP client as follows
 ```
@@ -184,7 +184,7 @@ final class MyController {
 
 ## Documentation
 
-Visit the Soto [documentation](https://swift-aws.github.io/soto/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
+Visit the Soto [documentation](https://soto-project.github.io/soto/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
 
 ## upgrading from <3.0.x
 

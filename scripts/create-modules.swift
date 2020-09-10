@@ -15,7 +15,7 @@
 
 import ArgumentParser // apple/swift-argument-parser ~> 0.0.1
 import Files // JohnSundell/Files
-import Stencil // swift-aws/Stencil
+import Stencil // soto-project/Stencil
 
 class GenerateProcess {
     let parameters: GenerateProjects

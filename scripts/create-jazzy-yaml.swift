@@ -14,7 +14,7 @@
 //===----------------------------------------------------------------------===//
 
 import Files // JohnSundell/Files
-import Stencil // swift-aws/Stencil
+import Stencil // soto-project/Stencil
 
 class GenerateProcess {
     let environment: Environment
