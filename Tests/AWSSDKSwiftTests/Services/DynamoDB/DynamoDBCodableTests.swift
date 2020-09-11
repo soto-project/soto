@@ -51,14 +51,26 @@ final class DynamoDBCodableTests: XCTestCase {
                 }
             }
             .flatMap { (_) -> EventLoopFuture<Void> in
-                let eventLoop = Self.dynamoDB.client.eventLoopGroup.next()
-                if TestEnvironment.isUsingLocalstack {
-                    return eventLoop.makeSucceededFuture(())
-                }
-                // wait ten seconds for table to be created. If you don't subsequent commands will fail
-                let scheduled: Scheduled<Void> = eventLoop.flatScheduleTask(deadline: .now() + .seconds(10)) { return eventLoop.makeSucceededFuture(()) }
-                return scheduled.futureResult
+                return self.waitForActiveTable(name: name, on: Self.dynamoDB.client.eventLoopGroup.next())
             }
+    }
+
+    func waitForActiveTable(name: String, on eventLoop: EventLoop) -> EventLoopFuture<Void> {
+        let promise = eventLoop.makePromise(of: Void.self)
+        func waitForActiveTableInternal(waitTime: TimeAmount) {
+            let scheduled = eventLoop.flatScheduleTask(in: waitTime) {
+                return Self.dynamoDB.describeTable(.init(tableName: name))
+            }
+            _ = scheduled.futureResult.map { response in
+                if response.table?.tableStatus == .active {
+                    promise.succeed(())
+                } else {
+                    waitForActiveTableInternal(waitTime: waitTime + .seconds(1))
+                }
+            }.cascadeFailure(to: promise)
+        }
+        waitForActiveTableInternal(waitTime: .seconds(1))
+        return promise.futureResult
     }
 
     func deleteTable(name: String) -> EventLoopFuture<Void> {

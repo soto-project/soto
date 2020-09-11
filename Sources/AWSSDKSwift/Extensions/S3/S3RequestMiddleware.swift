@@ -54,7 +54,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             var urlPath: String
             var urlHost: String
             // if host name contains amazonaws.com and bucket name doesn't contain a period do virtual address look up
-            if (host.contains("amazonaws.com") || context.options.contains(.s3ForceVirtualHost)), !bucket.contains(".") {
+            if host.contains("amazonaws.com") || context.options.contains(.s3ForceVirtualHost), !bucket.contains(".") {
                 let pathsWithoutBucket = paths.dropFirst() // bucket
                 urlPath = pathsWithoutBucket.joined(separator: "/")
                 if let firstHostComponent = host.split(separator: ".").first, bucket == firstHostComponent {
