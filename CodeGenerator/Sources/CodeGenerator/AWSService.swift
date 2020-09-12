@@ -282,7 +282,7 @@ extension AWSService {
 
         // Service initialization
         context["name"] = self.api.serviceName
-        context["description"] = self.docs.service.tagStriped()
+        context["description"] = self.docs.service?.tagStriped()
         context["amzTarget"] = self.api.metadata.targetPrefix
         context["endpointPrefix"] = self.api.metadata.endpointPrefix
         if self.api.metadata.signingName != self.api.metadata.endpointPrefix {

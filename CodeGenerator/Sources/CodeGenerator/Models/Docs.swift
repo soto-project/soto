@@ -31,14 +31,14 @@ struct Docs: Decodable {
     }
 
     var version: String
-    var service: String
+    var service: String?
     var operations: [String: String]
     var shapes: [String: [String: String]]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.version = try container.decode(String.self, forKey: .version)
-        self.service = try container.decode(String.self, forKey: .service)
+        self.service = try container.decode(String?.self, forKey: .service)
         let operations = try container.decode([String: String?].self, forKey: .operations)
         self.operations = operations.compactMapValues { $0 }
         // sorted shapes by key so we get consistent results when there are key clashes
