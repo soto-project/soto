@@ -31,6 +31,7 @@ let package = Package(
         .library(name: "AWSAppMesh", targets: ["AWSAppMesh"]),
         .library(name: "AWSAppStream", targets: ["AWSAppStream"]),
         .library(name: "AWSAppSync", targets: ["AWSAppSync"]),
+        .library(name: "AWSAppflow", targets: ["AWSAppflow"]),
         .library(name: "AWSApplicationAutoScaling", targets: ["AWSApplicationAutoScaling"]),
         .library(name: "AWSApplicationDiscoveryService", targets: ["AWSApplicationDiscoveryService"]),
         .library(name: "AWSApplicationInsights", targets: ["AWSApplicationInsights"]),
@@ -122,6 +123,7 @@ let package = Package(
         .library(name: "AWSHoneycode", targets: ["AWSHoneycode"]),
         .library(name: "AWSIAM", targets: ["AWSIAM"]),
         .library(name: "AWSIVS", targets: ["AWSIVS"]),
+        .library(name: "AWSIdentityStore", targets: ["AWSIdentityStore"]),
         .library(name: "AWSImagebuilder", targets: ["AWSImagebuilder"]),
         .library(name: "AWSImportExport", targets: ["AWSImportExport"]),
         .library(name: "AWSInspector", targets: ["AWSInspector"]),
@@ -196,6 +198,7 @@ let package = Package(
         .library(name: "AWSRDS", targets: ["AWSRDS"]),
         .library(name: "AWSRDSDataService", targets: ["AWSRDSDataService"]),
         .library(name: "AWSRedshift", targets: ["AWSRedshift"]),
+        .library(name: "AWSRedshiftDataAPIService", targets: ["AWSRedshiftDataAPIService"]),
         .library(name: "AWSRekognition", targets: ["AWSRekognition"]),
         .library(name: "AWSResourceGroups", targets: ["AWSResourceGroups"]),
         .library(name: "AWSResourceGroupsTaggingAPI", targets: ["AWSResourceGroupsTaggingAPI"]),
@@ -213,6 +216,7 @@ let package = Package(
         .library(name: "AWSSQS", targets: ["AWSSQS"]),
         .library(name: "AWSSSM", targets: ["AWSSSM"]),
         .library(name: "AWSSSO", targets: ["AWSSSO"]),
+        .library(name: "AWSSSOAdmin", targets: ["AWSSSOAdmin"]),
         .library(name: "AWSSSOOIDC", targets: ["AWSSSOOIDC"]),
         .library(name: "AWSSTS", targets: ["AWSSTS"]),
         .library(name: "AWSSWF", targets: ["AWSSWF"]),
@@ -246,10 +250,10 @@ let package = Package(
         .library(name: "AWSWorkMail", targets: ["AWSWorkMail"]),
         .library(name: "AWSWorkMailMessageFlow", targets: ["AWSWorkMailMessageFlow"]),
         .library(name: "AWSWorkSpaces", targets: ["AWSWorkSpaces"]),
-        .library(name: "AWSXRay", targets: ["AWSXRay"]),
+        .library(name: "AWSXRay", targets: ["AWSXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("main")),
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("main"))
     ],
     targets: [
         .target(name: "AWSACM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACM"),
@@ -264,6 +268,7 @@ let package = Package(
         .target(name: "AWSAppMesh", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AppMesh"),
         .target(name: "AWSAppStream", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AppStream"),
         .target(name: "AWSAppSync", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AppSync"),
+        .target(name: "AWSAppflow", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Appflow"),
         .target(name: "AWSApplicationAutoScaling", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ApplicationAutoScaling"),
         .target(name: "AWSApplicationDiscoveryService", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ApplicationDiscoveryService"),
         .target(name: "AWSApplicationInsights", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ApplicationInsights"),
@@ -355,6 +360,7 @@ let package = Package(
         .target(name: "AWSHoneycode", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Honeycode"),
         .target(name: "AWSIAM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/IAM"),
         .target(name: "AWSIVS", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/IVS"),
+        .target(name: "AWSIdentityStore", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/IdentityStore"),
         .target(name: "AWSImagebuilder", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Imagebuilder"),
         .target(name: "AWSImportExport", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ImportExport"),
         .target(name: "AWSInspector", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Inspector"),
@@ -429,6 +435,7 @@ let package = Package(
         .target(name: "AWSRDS", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/RDS"),
         .target(name: "AWSRDSDataService", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/RDSDataService"),
         .target(name: "AWSRedshift", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Redshift"),
+        .target(name: "AWSRedshiftDataAPIService", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/RedshiftDataAPIService"),
         .target(name: "AWSRekognition", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Rekognition"),
         .target(name: "AWSResourceGroups", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ResourceGroups"),
         .target(name: "AWSResourceGroupsTaggingAPI", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ResourceGroupsTaggingAPI"),
@@ -446,6 +453,7 @@ let package = Package(
         .target(name: "AWSSQS", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SQS"),
         .target(name: "AWSSSM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SSM"),
         .target(name: "AWSSSO", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SSO"),
+        .target(name: "AWSSSOAdmin", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SSOAdmin"),
         .target(name: "AWSSSOOIDC", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SSOOIDC"),
         .target(name: "AWSSTS", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/STS", "Extensions/STS"]),
         .target(name: "AWSSWF", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SWF"),
@@ -496,7 +504,7 @@ let package = Package(
             "AWSSNS",
             "AWSSQS",
             "AWSSSM",
-            "AWSSTS",
-        ]),
+            "AWSSTS"
+        ])
     ]
 )
