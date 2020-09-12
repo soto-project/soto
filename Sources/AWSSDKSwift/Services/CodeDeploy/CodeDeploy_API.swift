@@ -56,7 +56,7 @@ public struct CodeDeploy {
         return client.send(operation: "BatchGetApplicationRevisions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about one or more applications. The maximum number of applications that can be returned is 25.
+    ///  Gets information about one or more applications. The maximum number of applications that can be returned is 100.
     public func batchGetApplications(_ input: BatchGetApplicationsInput) -> EventLoopFuture<BatchGetApplicationsOutput> {
         return client.send(operation: "BatchGetApplications", path: "/", httpMethod: "POST", input: input)
     }
@@ -72,7 +72,7 @@ public struct CodeDeploy {
         return client.send(operation: "BatchGetDeploymentInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances. The maximum number of targets that can be returned is 25.  The type of targets returned depends on the deployment's compute platform:     EC2/On-premises: Information about EC2 instance targets.     AWS Lambda: Information about Lambda functions targets.     Amazon ECS: Information about Amazon ECS service targets.   
+    ///   Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances. The maximum number of targets that can be returned is 25.  The type of targets returned depends on the deployment's compute platform or deployment method:     EC2/On-premises: Information about EC2 instance targets.     AWS Lambda: Information about Lambda functions targets.     Amazon ECS: Information about Amazon ECS service targets.     CloudFormation: Information about targets of blue/green deployments initiated by a CloudFormation stack update.  
     public func batchGetDeploymentTargets(_ input: BatchGetDeploymentTargetsInput) -> EventLoopFuture<BatchGetDeploymentTargetsOutput> {
         return client.send(operation: "BatchGetDeploymentTargets", path: "/", httpMethod: "POST", input: input)
     }
@@ -130,6 +130,11 @@ public struct CodeDeploy {
     ///  Deletes a GitHub account connection.
     public func deleteGitHubAccountToken(_ input: DeleteGitHubAccountTokenInput) -> EventLoopFuture<DeleteGitHubAccountTokenOutput> {
         return client.send(operation: "DeleteGitHubAccountToken", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes resources linked to an external ID.
+    public func deleteResourcesByExternalId(_ input: DeleteResourcesByExternalIdInput) -> EventLoopFuture<DeleteResourcesByExternalIdOutput> {
+        return client.send(operation: "DeleteResourcesByExternalId", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deregisters an on-premises instance.
@@ -224,12 +229,12 @@ public struct CodeDeploy {
         return client.send(operation: "ListOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Returns a list of tags for the resource identified by a specified ARN. Tags are used to organize and categorize your CodeDeploy resources. 
+    ///   Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources. 
     public func listTagsForResource(_ input: ListTagsForResourceInput) -> EventLoopFuture<ListTagsForResourceOutput> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Sets the result of a Lambda validation function. The function validates one or both lifecycle events (BeforeAllowTraffic and AfterAllowTraffic) and returns Succeeded or Failed. 
+    ///   Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the AWS Lambda or Amazon ECS compute platform. For AWS Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic. For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall, AfterInstall, AfterAllowTestTraffic, BeforeAllowTraffic, and AfterAllowTraffic. Lambda validation functions return Succeeded or Failed. For more information, see AppSpec 'hooks' Section for an AWS Lambda Deployment  and AppSpec 'hooks' Section for an Amazon ECS Deployment.
     public func putLifecycleEventHookExecutionStatus(_ input: PutLifecycleEventHookExecutionStatusInput) -> EventLoopFuture<PutLifecycleEventHookExecutionStatusOutput> {
         return client.send(operation: "PutLifecycleEventHookExecutionStatus", path: "/", httpMethod: "POST", input: input)
     }
@@ -265,7 +270,7 @@ public struct CodeDeploy {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Disassociates a resource from a list of tags. The resource is identified by the ResourceArn input parameter. The tags are identfied by the list of keys in the TagKeys input parameter. 
+    ///   Disassociates a resource from a list of tags. The resource is identified by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter. 
     public func untagResource(_ input: UntagResourceInput) -> EventLoopFuture<UntagResourceOutput> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }

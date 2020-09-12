@@ -6,9 +6,23 @@ import AWSSDKSwiftCore
 extension FSx {
     //MARK: Enums
 
+    public enum AdministrativeActionType: String, CustomStringConvertible, Codable {
+        case fileSystemUpdate = "FILE_SYSTEM_UPDATE"
+        case storageOptimization = "STORAGE_OPTIMIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoImportPolicyType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case new = "NEW"
+        case newChanged = "NEW_CHANGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BackupLifecycle: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case creating = "CREATING"
+        case transferring = "TRANSFERRING"
         case deleted = "DELETED"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
@@ -17,6 +31,15 @@ extension FSx {
     public enum BackupType: String, CustomStringConvertible, Codable {
         case automatic = "AUTOMATIC"
         case userInitiated = "USER_INITIATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataRepositoryLifecycle: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case available = "AVAILABLE"
+        case misconfigured = "MISCONFIGURED"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -38,6 +61,12 @@ extension FSx {
 
     public enum DataRepositoryTaskType: String, CustomStringConvertible, Codable {
         case exportToRepository = "EXPORT_TO_REPOSITORY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DriveCacheType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case read = "READ"
         public var description: String { return self.rawValue }
     }
 
@@ -66,6 +95,7 @@ extension FSx {
     public enum FilterName: String, CustomStringConvertible, Codable {
         case fileSystemId = "file-system-id"
         case backupType = "backup-type"
+        case fileSystemType = "file-system-type"
         public var description: String { return self.rawValue }
     }
 
@@ -83,6 +113,15 @@ extension FSx {
 
     public enum ReportScope: String, CustomStringConvertible, Codable {
         case failedFilesOnly = "FAILED_FILES_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        case completed = "COMPLETED"
+        case updatedOptimizing = "UPDATED_OPTIMIZING"
         public var description: String { return self.rawValue }
     }
 
@@ -123,6 +162,63 @@ extension FSx {
         }
     }
 
+    public class AdministrativeAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdministrativeActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "ProgressPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "RequestTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetFileSystemValues", required: false, type: .structure)
+        ]
+
+        public let administrativeActionType: AdministrativeActionType?
+        public let failureDetails: AdministrativeActionFailureDetails?
+        /// Provides the percent complete of a STORAGE_OPTIMIZATION administrative action.
+        public let progressPercent: Int?
+        /// Time that the administrative action request was received.
+        public let requestTime: TimeStamp?
+        /// Describes the status of the administrative action, as follows:    FAILED - Amazon FSx failed to process the administrative action successfully.    IN_PROGRESS - Amazon FSx is processing the administrative action.    PENDING - Amazon FSx is waiting to process the administrative action.    COMPLETED - Amazon FSx has finished processing the administrative task.    UPDATED_OPTIMIZING - For a storage capacity increase update, Amazon FSx has updated the file system with the new storage capacity, and is now performing the storage optimization process. For more information, see Managing Storage Capacity.  
+        public let status: Status?
+        /// Describes the target StorageCapacity or ThroughputCapacity value provided in the UpdateFileSystem operation. Returned for FILE_SYSTEM_UPDATE administrative actions. 
+        public let targetFileSystemValues: FileSystem?
+
+        public init(administrativeActionType: AdministrativeActionType? = nil, failureDetails: AdministrativeActionFailureDetails? = nil, progressPercent: Int? = nil, requestTime: TimeStamp? = nil, status: Status? = nil, targetFileSystemValues: FileSystem? = nil) {
+            self.administrativeActionType = administrativeActionType
+            self.failureDetails = failureDetails
+            self.progressPercent = progressPercent
+            self.requestTime = requestTime
+            self.status = status
+            self.targetFileSystemValues = targetFileSystemValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case administrativeActionType = "AdministrativeActionType"
+            case failureDetails = "FailureDetails"
+            case progressPercent = "ProgressPercent"
+            case requestTime = "RequestTime"
+            case status = "Status"
+            case targetFileSystemValues = "TargetFileSystemValues"
+        }
+    }
+
+    public struct AdministrativeActionFailureDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+
+        /// Error message providing details about the failure.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct Backup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
@@ -148,16 +244,16 @@ extension FSx {
         public let failureDetails: BackupFailureDetails?
         /// Metadata of the file system associated with the backup. This metadata is persisted even if the file system is deleted.
         public let fileSystem: FileSystem
-        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt this backup of the Amazon FSx for Windows file system's data at rest. Amazon FSx for Lustre does not support KMS encryption.
+        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the backup of the Amazon FSx file system's data at rest. 
         public let kmsKeyId: String?
-        /// The lifecycle status of the backup.
+        /// The lifecycle status of the backup.    AVAILABLE - The backup is fully available.    CREATING - FSx is creating the backup.    TRANSFERRING - For Lustre file systems only; FSx is transferring the backup to S3.    DELETED - The backup was deleted is no longer available.    FAILED - Amazon FSx could not complete the backup.  
         public let lifecycle: BackupLifecycle
         public let progressPercent: Int?
         /// The Amazon Resource Name (ARN) for the backup resource.
         public let resourceARN: String?
         /// Tags associated with a particular file system.
         public let tags: [Tag]?
-        /// The type of the backup.
+        /// The type of the file system backup.
         public let `type`: BackupType
 
         public init(backupId: String, creationTime: TimeStamp, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
@@ -278,7 +374,7 @@ extension FSx {
         public func validate(name: String) throws {
             try validate(self.path, name:"path", parent: name, max: 900)
             try validate(self.path, name:"path", parent: name, min: 3)
-            try validate(self.path, name:"path", parent: name, pattern: "^.{3,900}$")
+            try validate(self.path, name:"path", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -300,7 +396,7 @@ extension FSx {
         public let clientRequestToken: String?
         /// The ID of the file system to back up.
         public let fileSystemId: String
-        /// The tags to apply to the backup at backup creation. The key value of the Name tag appears in the console as the backup name.
+        /// (Optional) The tags to apply to the backup at backup creation. The key value of the Name tag appears in the console as the backup name. If you have set CopyTagsToBackups to true, and you specify one or more tags using the CreateBackup action, no existing file system tags are copied from the file system to the backup.
         public let tags: [Tag]?
 
         public init(clientRequestToken: String? = CreateBackupRequest.idempotencyToken(), fileSystemId: String, tags: [Tag]? = nil) {
@@ -386,7 +482,7 @@ extension FSx {
             try self.paths?.forEach {
                 try validate($0, name: "paths[]", parent: name, max: 4096)
                 try validate($0, name: "paths[]", parent: name, min: 0)
-                try validate($0, name: "paths[]", parent: name, pattern: "^.{0,4096}$")
+                try validate($0, name: "paths[]", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{0,4096}$")
             }
             try validate(self.paths, name:"paths", parent: name, max: 100)
             try self.report.validate(name: "\(name).report")
@@ -428,6 +524,7 @@ extension FSx {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "StorageType", required: false, type: .enum), 
             AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
@@ -436,8 +533,9 @@ extension FSx {
         ]
 
         public let backupId: String
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+        /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
+        public let lustreConfiguration: CreateFileSystemLustreConfiguration?
         /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
         public let securityGroupIds: [String]?
         /// Sets the storage type for the Windows file system you're creating from a backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage. Supported on all Windows deployment types.   Set to HDD to use hard disk drive storage. Supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types.     Default value is SSD.   HDD and SSD storage types have different minimum storage capacity requirements. A restored file system's storage capacity is tied to the file system that was backed up. You can create a file system that uses HDD storage from a backup of a file system that used SSD storage only if the original SSD file system had a storage capacity of at least 2000 GiB.  
@@ -449,9 +547,10 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
-        public init(backupId: String, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), securityGroupIds: [String]? = nil, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+        public init(backupId: String, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
+            self.lustreConfiguration = lustreConfiguration
             self.securityGroupIds = securityGroupIds
             self.storageType = storageType
             self.subnetIds = subnetIds
@@ -466,6 +565,7 @@ extension FSx {
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 63)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
+            try self.lustreConfiguration?.validate(name: "\(name).lustreConfiguration")
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 20)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
@@ -489,6 +589,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
             case clientRequestToken = "ClientRequestToken"
+            case lustreConfiguration = "LustreConfiguration"
             case securityGroupIds = "SecurityGroupIds"
             case storageType = "StorageType"
             case subnetIds = "SubnetIds"
@@ -516,7 +617,12 @@ extension FSx {
 
     public struct CreateFileSystemLustreConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoImportPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
+            AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
+            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "DriveCacheType", required: false, type: .enum), 
             AWSShapeMember(label: "ExportPath", required: false, type: .string), 
             AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer), 
             AWSShapeMember(label: "ImportPath", required: false, type: .string), 
@@ -524,21 +630,34 @@ extension FSx {
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
 
-        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 deployment type for longer-term storage and workloads and encryption of data in transit. To learn more about deployment types, see  FSx for Lustre Deployment Options. Encryption of data in-transit is automatically enabled when you access a SCRATCH_2 or PERSISTENT_1 file system from Amazon EC2 instances that support this feature. (Default = SCRATCH_1)  Encryption of data in-transit for SCRATCH_2 and PERSISTENT_1 deployment types is supported when accessed from supported instance types in supported AWS Regions. To learn more, Encrypting Data in Transit.
+        ///  (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. Use this property to choose how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update file and directory listings for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket and any existing objects that are changed in the S3 bucket after you choose this option.    For more information, see Automatically import updates from your S3 bucket.
+        public let autoImportPolicy: AutoImportPolicyType?
+        public let automaticBackupRetentionDays: Int?
+        /// (Optional) Not available to use with file systems that are linked to a data repository. A boolean flag indicating whether tags for the file system should be copied to backups. The default value is false. If it's set to true, all file system tags are copied to all automatic and user-initiated backups when the user doesn't specify any backup-specific tags. If this value is true, and you specify one or more backup tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. For more information, see Working with backups.
+        public let copyTagsToBackups: Bool?
+        public let dailyAutomaticBackupStartTime: String?
+        ///  Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 deployment type for longer-term storage and workloads and encryption of data in transit. To learn more about deployment types, see  FSx for Lustre Deployment Options. Encryption of data in-transit is automatically enabled when you access a SCRATCH_2 or PERSISTENT_1 file system from Amazon EC2 instances that support this feature. (Default = SCRATCH_1)  Encryption of data in-transit for SCRATCH_2 and PERSISTENT_1 deployment types is supported when accessed from supported instance types in supported AWS Regions. To learn more, Encrypting Data in Transit.
         public let deploymentType: LustreDeploymentType?
+        /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set to READ, improve the performance for frequently accessed files and allows 20% of the total storage capacity of the file system to be cached.  This parameter is required when StorageType is set to HDD.
+        public let driveCacheType: DriveCacheType?
         /// (Optional) The path in Amazon S3 where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you only specify a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket.
         public let exportPath: String?
         /// (Optional) For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
         public let importedFileChunkSize: Int?
         /// (Optional) The path to the Amazon S3 bucket (including the optional prefix) that you're using as the data repository for your Amazon FSx for Lustre file system. The root of your FSx for Lustre file system will be mapped to the root of the Amazon S3 bucket you select. An example is s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
         public let importPath: String?
-        ///  Required for the PERSISTENT_1 deployment type, describes the amount of read and write throughput for each 1 tebibyte of storage, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4 TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 117 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision.  Valid values are 50, 100, 200.
+        ///  Required for the PERSISTENT_1 deployment type, describes the amount of read and write throughput for each 1 tebibyte of storage, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4 TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision.  Valid values for SSD storage: 50, 100, 200. Valid values for HDD storage: 12, 40.
         public let perUnitStorageThroughput: Int?
-        /// The preferred time to perform weekly maintenance, in the UTC time zone.
+        /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(deploymentType: LustreDeploymentType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.autoImportPolicy = autoImportPolicy
+            self.automaticBackupRetentionDays = automaticBackupRetentionDays
+            self.copyTagsToBackups = copyTagsToBackups
+            self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
+            self.driveCacheType = driveCacheType
             self.exportPath = exportPath
             self.importedFileChunkSize = importedFileChunkSize
             self.importPath = importPath
@@ -547,23 +666,33 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
+            try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, max: 90)
+            try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, min: 0)
+            try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, max: 5)
+            try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, min: 5)
+            try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try validate(self.exportPath, name:"exportPath", parent: name, max: 900)
             try validate(self.exportPath, name:"exportPath", parent: name, min: 3)
-            try validate(self.exportPath, name:"exportPath", parent: name, pattern: "^.{3,900}$")
+            try validate(self.exportPath, name:"exportPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
             try validate(self.importedFileChunkSize, name:"importedFileChunkSize", parent: name, max: 512000)
             try validate(self.importedFileChunkSize, name:"importedFileChunkSize", parent: name, min: 1)
             try validate(self.importPath, name:"importPath", parent: name, max: 900)
             try validate(self.importPath, name:"importPath", parent: name, min: 3)
-            try validate(self.importPath, name:"importPath", parent: name, pattern: "^.{3,900}$")
+            try validate(self.importPath, name:"importPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
             try validate(self.perUnitStorageThroughput, name:"perUnitStorageThroughput", parent: name, max: 200)
-            try validate(self.perUnitStorageThroughput, name:"perUnitStorageThroughput", parent: name, min: 50)
+            try validate(self.perUnitStorageThroughput, name:"perUnitStorageThroughput", parent: name, min: 12)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, max: 7)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, min: 7)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoImportPolicy = "AutoImportPolicy"
+            case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
+            case copyTagsToBackups = "CopyTagsToBackups"
+            case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case deploymentType = "DeploymentType"
+            case driveCacheType = "DriveCacheType"
             case exportPath = "ExportPath"
             case importedFileChunkSize = "ImportedFileChunkSize"
             case importPath = "ImportPath"
@@ -586,7 +715,7 @@ extension FSx {
             AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
         ]
 
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+        /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
         /// The type of Amazon FSx file system to create, either WINDOWS or LUSTRE.
         public let fileSystemType: FileSystemType
@@ -594,9 +723,9 @@ extension FSx {
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
         /// A list of IDs specifying the security groups to apply to all network interfaces created for file system access. This list isn't returned in later requests to describe the file system.
         public let securityGroupIds: [String]?
-        /// Sets the storage capacity of the file system that you're creating. For Lustre file systems:   For SCRATCH_2 and PERSISTENT_1 deployment types, valid values are 1.2, 2.4, and increments of 2.4 TiB.   For SCRATCH_1 deployment type, valid values are 1.2, 2.4, and increments of 3.6 TiB.   For Windows file systems:   If StorageType=SSD, valid values are 32 GiB - 65,536 GiB (64 TiB).   If StorageType=HDD, valid values are 2000 GiB - 65,536 GiB (64 TiB).  
+        /// Sets the storage capacity of the file system that you're creating. For Lustre file systems:   For SCRATCH_2 and PERSISTENT_1 SSD deployment types, valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.   For PERSISTENT HDD file systems, valid values are increments of 6000 GiB for 12 MB/s/TiB file systems and increments of 1800 GiB for 40 MB/s/TiB file systems.   For SCRATCH_1 deployment type, valid values are 1200 GiB, 2400 GiB, and increments of 3600 GiB.   For Windows file systems:   If StorageType=SSD, valid values are 32 GiB - 65,536 GiB (64 TiB).   If StorageType=HDD, valid values are 2000 GiB - 65,536 GiB (64 TiB).  
         public let storageCapacity: Int
-        /// Sets the storage type for the Amazon FSx for Windows file system you're creating. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all Windows deployment types.   Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types.     Default value is SSD. For more information, see  Storage Type Options in the Amazon FSx for Windows User Guide. 
+        /// Sets the storage type for the file system you're creating. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all Windows and Lustre deployment types.   Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT Lustre file system deployment types.     Default value is SSD. For more information, see  Storage Type Options in the Amazon FSx for Windows User Guide and Multiple Storage Options in the Amazon FSx for Lustre User Guide. 
         public let storageType: StorageType?
         /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows MULTI_AZ_1 file system deployment types, provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID property. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 file system deployment types and Lustre file systems, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
         public let subnetIds: [String]
@@ -632,6 +761,7 @@ extension FSx {
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^(sg-[0-9a-f]{8,})$")
             }
             try validate(self.securityGroupIds, name:"securityGroupIds", parent: name, max: 50)
+            try validate(self.storageCapacity, name:"storageCapacity", parent: name, max: 2147483647)
             try validate(self.storageCapacity, name:"storageCapacity", parent: name, min: 0)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
@@ -693,7 +823,7 @@ extension FSx {
 
         /// The ID for an existing AWS Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public let activeDirectoryId: String?
-        /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 35 days.
+        /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 90 days.
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public let copyTagsToBackups: Bool?
@@ -706,7 +836,7 @@ extension FSx {
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration?
         /// The throughput of an Amazon FSx file system, measured in megabytes per second, in 2 to the nth increments, between 2^3 (8) and 2^11 (2048).
         public let throughputCapacity: Int
-        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
         public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
@@ -725,7 +855,7 @@ extension FSx {
             try validate(self.activeDirectoryId, name:"activeDirectoryId", parent: name, max: 12)
             try validate(self.activeDirectoryId, name:"activeDirectoryId", parent: name, min: 12)
             try validate(self.activeDirectoryId, name:"activeDirectoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
-            try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, max: 35)
+            try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, max: 90)
             try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, min: 0)
             try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, max: 5)
             try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, min: 5)
@@ -756,28 +886,58 @@ extension FSx {
 
     public struct DataRepositoryConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoImportPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "ExportPath", required: false, type: .string), 
+            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
             AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ImportPath", required: false, type: .string)
+            AWSShapeMember(label: "ImportPath", required: false, type: .string), 
+            AWSShapeMember(label: "Lifecycle", required: false, type: .enum)
         ]
 
+        /// Describes the file system's linked S3 data repository's AutoImportPolicy. The AutoImportPolicy configures how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update file and directory listings for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket and any existing objects that are changed in the S3 bucket after you choose this option.    For more information, see Automatically import updates from your S3 bucket.
+        public let autoImportPolicy: AutoImportPolicyType?
         /// The export path to the Amazon S3 bucket (and prefix) that you are using to store new and changed Lustre file system files in S3.
         public let exportPath: String?
+        public let failureDetails: DataRepositoryFailureDetails?
         /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
         public let importedFileChunkSize: Int?
         /// The import path to the Amazon S3 bucket (and optional prefix) that you're using as the data repository for your FSx for Lustre file system, for example s3://import-bucket/optional-prefix. If a prefix is specified after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
         public let importPath: String?
+        /// Describes the state of the file system's S3 durable data repository, if it is configured with an S3 repository. The lifecycle can have the following values:    CREATING - The data repository configuration between the FSx file system and the linked S3 data repository is being created. The data repository is unavailable.    AVAILABLE - The data repository is available for use.    MISCONFIGURED - Amazon FSx cannot automatically import updates from the S3 bucket until the data repository configuration is corrected. For more information, see Troubleshooting a Misconfigured linked S3 bucket.     UPDATING - The data repository is undergoing a customer initiated update and availability may be impacted.  
+        public let lifecycle: DataRepositoryLifecycle?
 
-        public init(exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, exportPath: String? = nil, failureDetails: DataRepositoryFailureDetails? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, lifecycle: DataRepositoryLifecycle? = nil) {
+            self.autoImportPolicy = autoImportPolicy
             self.exportPath = exportPath
+            self.failureDetails = failureDetails
             self.importedFileChunkSize = importedFileChunkSize
             self.importPath = importPath
+            self.lifecycle = lifecycle
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoImportPolicy = "AutoImportPolicy"
             case exportPath = "ExportPath"
+            case failureDetails = "FailureDetails"
             case importedFileChunkSize = "ImportedFileChunkSize"
             case importPath = "ImportPath"
+            case lifecycle = "Lifecycle"
+        }
+    }
+
+    public struct DataRepositoryFailureDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
         }
     }
 
@@ -940,7 +1100,7 @@ extension FSx {
 
         /// The ID of the backup you want to delete.
         public let backupId: String
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
+        /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
         public let clientRequestToken: String?
 
         public init(backupId: String, clientRequestToken: String? = DeleteBackupRequest.idempotencyToken()) {
@@ -985,22 +1145,77 @@ extension FSx {
         }
     }
 
+    public struct DeleteFileSystemLustreConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FinalBackupTags", required: false, type: .list), 
+            AWSShapeMember(label: "SkipFinalBackup", required: false, type: .boolean)
+        ]
+
+        /// Use if SkipFinalBackup is set to false, and you want to apply an array of tags to the final backup. If you have set the file system property CopyTagsToBackups to true, and you specify one or more FinalBackupTags when deleting a file system, Amazon FSx will not copy any existing file system tags to the backup.
+        public let finalBackupTags: [Tag]?
+        /// Set SkipFinalBackup to false if you want to take a final backup of the file system you are deleting. By default, Amazon FSx will not take a final backup on your behalf when the DeleteFileSystem operation is invoked. (Default = true)
+        public let skipFinalBackup: Bool?
+
+        public init(finalBackupTags: [Tag]? = nil, skipFinalBackup: Bool? = nil) {
+            self.finalBackupTags = finalBackupTags
+            self.skipFinalBackup = skipFinalBackup
+        }
+
+        public func validate(name: String) throws {
+            try self.finalBackupTags?.forEach {
+                try $0.validate(name: "\(name).finalBackupTags[]")
+            }
+            try validate(self.finalBackupTags, name:"finalBackupTags", parent: name, max: 50)
+            try validate(self.finalBackupTags, name:"finalBackupTags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finalBackupTags = "FinalBackupTags"
+            case skipFinalBackup = "SkipFinalBackup"
+        }
+    }
+
+    public struct DeleteFileSystemLustreResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FinalBackupId", required: false, type: .string), 
+            AWSShapeMember(label: "FinalBackupTags", required: false, type: .list)
+        ]
+
+        /// The ID of the final backup for this file system.
+        public let finalBackupId: String?
+        /// The set of tags applied to the final backup.
+        public let finalBackupTags: [Tag]?
+
+        public init(finalBackupId: String? = nil, finalBackupTags: [Tag]? = nil) {
+            self.finalBackupId = finalBackupId
+            self.finalBackupTags = finalBackupTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finalBackupId = "FinalBackupId"
+            case finalBackupTags = "FinalBackupTags"
+        }
+    }
+
     public struct DeleteFileSystemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
         ]
 
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
+        /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
         public let clientRequestToken: String?
         /// The ID of the file system you want to delete.
         public let fileSystemId: String
+        public let lustreConfiguration: DeleteFileSystemLustreConfiguration?
         public let windowsConfiguration: DeleteFileSystemWindowsConfiguration?
 
-        public init(clientRequestToken: String? = DeleteFileSystemRequest.idempotencyToken(), fileSystemId: String, windowsConfiguration: DeleteFileSystemWindowsConfiguration? = nil) {
+        public init(clientRequestToken: String? = DeleteFileSystemRequest.idempotencyToken(), fileSystemId: String, lustreConfiguration: DeleteFileSystemLustreConfiguration? = nil, windowsConfiguration: DeleteFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
+            self.lustreConfiguration = lustreConfiguration
             self.windowsConfiguration = windowsConfiguration
         }
 
@@ -1011,12 +1226,14 @@ extension FSx {
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, max: 21)
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, min: 11)
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
+            try self.lustreConfiguration?.validate(name: "\(name).lustreConfiguration")
             try self.windowsConfiguration?.validate(name: "\(name).windowsConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case fileSystemId = "FileSystemId"
+            case lustreConfiguration = "LustreConfiguration"
             case windowsConfiguration = "WindowsConfiguration"
         }
     }
@@ -1025,6 +1242,7 @@ extension FSx {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", required: false, type: .string), 
             AWSShapeMember(label: "Lifecycle", required: false, type: .enum), 
+            AWSShapeMember(label: "LustreResponse", required: false, type: .structure), 
             AWSShapeMember(label: "WindowsResponse", required: false, type: .structure)
         ]
 
@@ -1032,17 +1250,20 @@ extension FSx {
         public let fileSystemId: String?
         /// The file system lifecycle for the deletion request. Should be DELETING.
         public let lifecycle: FileSystemLifecycle?
+        public let lustreResponse: DeleteFileSystemLustreResponse?
         public let windowsResponse: DeleteFileSystemWindowsResponse?
 
-        public init(fileSystemId: String? = nil, lifecycle: FileSystemLifecycle? = nil, windowsResponse: DeleteFileSystemWindowsResponse? = nil) {
+        public init(fileSystemId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreResponse: DeleteFileSystemLustreResponse? = nil, windowsResponse: DeleteFileSystemWindowsResponse? = nil) {
             self.fileSystemId = fileSystemId
             self.lifecycle = lifecycle
+            self.lustreResponse = lustreResponse
             self.windowsResponse = windowsResponse
         }
 
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
             case lifecycle = "Lifecycle"
+            case lustreResponse = "LustreResponse"
             case windowsResponse = "WindowsResponse"
         }
     }
@@ -1107,13 +1328,13 @@ extension FSx {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// (Optional) IDs of the backups you want to retrieve (String). This overrides any filters. If any IDs are not found, BackupNotFound will be thrown.
+        /// IDs of the backups you want to retrieve (String). This overrides any filters. If any IDs are not found, BackupNotFound will be thrown.
         public let backupIds: [String]?
-        /// (Optional) Filters structure. Supported names are file-system-id and backup-type.
+        /// Filters structure. Supported names are file-system-id and backup-type.
         public let filters: [Filter]?
-        /// (Optional) Maximum number of backups to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
+        /// Maximum number of backups to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
         public let maxResults: Int?
-        /// (Optional) Opaque pagination token returned from a previous DescribeBackups operation (String). If a token present, the action continues the list from where the returning call left off.
+        /// Opaque pagination token returned from a previous DescribeBackups operation (String). If a token present, the action continues the list from where the returning call left off.
         public let nextToken: String?
 
         public init(backupIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1134,6 +1355,7 @@ extension FSx {
                 try $0.validate(name: "\(name).filters[]")
             }
             try validate(self.filters, name:"filters", parent: name, max: 10)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 2147483647)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 255)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
@@ -1197,6 +1419,7 @@ extension FSx {
                 try $0.validate(name: "\(name).filters[]")
             }
             try validate(self.filters, name:"filters", parent: name, max: 3)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 2147483647)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 255)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
@@ -1245,11 +1468,11 @@ extension FSx {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// (Optional) IDs of the file systems whose descriptions you want to retrieve (String).
+        /// IDs of the file systems whose descriptions you want to retrieve (String).
         public let fileSystemIds: [String]?
-        /// (Optional) Maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
+        /// Maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
         public let maxResults: Int?
-        /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If a token present, the action continues the list from where the returning call left off.
+        /// Opaque pagination token returned from a previous DescribeFileSystems operation (String). If a token present, the action continues the list from where the returning call left off.
         public let nextToken: String?
 
         public init(fileSystemIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1265,6 +1488,7 @@ extension FSx {
                 try validate($0, name: "fileSystemIds[]", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
             }
             try validate(self.fileSystemIds, name:"fileSystemIds", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 2147483647)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 255)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
@@ -1302,6 +1526,7 @@ extension FSx {
 
     public struct FileSystem: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdministrativeActions", required: false, type: .list), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DNSName", required: false, type: .string), 
             AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
@@ -1321,6 +1546,8 @@ extension FSx {
             AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
         ]
 
+        /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Windows file system that you have initiated using the UpdateFileSystem action. 
+        public let administrativeActions: [AdministrativeAction]?
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
         public let creationTime: TimeStamp?
         /// The DNS name for the file system.
@@ -1354,7 +1581,8 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: WindowsFileSystemConfiguration?
 
-        public init(creationTime: TimeStamp? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
+        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: TimeStamp? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
+            self.administrativeActions = administrativeActions
             self.creationTime = creationTime
             self.dNSName = dNSName
             self.failureDetails = failureDetails
@@ -1375,6 +1603,7 @@ extension FSx {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case administrativeActions = "AdministrativeActions"
             case creationTime = "CreationTime"
             case dNSName = "DNSName"
             case failureDetails = "FailureDetails"
@@ -1450,9 +1679,9 @@ extension FSx {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
 
-        /// (Optional) Maximum number of tags to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
+        /// Maximum number of tags to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
         public let maxResults: Int?
-        /// (Optional) Opaque pagination token returned from a previous ListTagsForResource operation (String). If a token present, the action continues the list from where the returning call left off.
+        /// Opaque pagination token returned from a previous ListTagsForResource operation (String). If a token present, the action continues the list from where the returning call left off.
         public let nextToken: String?
         /// The ARN of the Amazon FSx resource that will have its tags listed.
         public let resourceARN: String
@@ -1464,6 +1693,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 2147483647)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 255)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
@@ -1504,34 +1734,52 @@ extension FSx {
 
     public struct LustreFileSystemConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
+            AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
+            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
             AWSShapeMember(label: "DataRepositoryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "DriveCacheType", required: false, type: .enum), 
             AWSShapeMember(label: "MountName", required: false, type: .string), 
             AWSShapeMember(label: "PerUnitStorageThroughput", required: false, type: .integer), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
 
+        public let automaticBackupRetentionDays: Int?
+        /// A boolean flag indicating whether tags on the file system should be copied to backups. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. (Default = false)
+        public let copyTagsToBackups: Bool?
+        public let dailyAutomaticBackupStartTime: String?
         public let dataRepositoryConfiguration: DataRepositoryConfiguration?
-        /// The deployment type of the FSX for Lustre file system.
+        /// The deployment type of the FSX for Lustre file system. Scratch deployment type is designed for temporary storage and shorter-term processing of data.  SCRATCH_1 and SCRATCH_2 deployment types are best suited for when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. The PERSISTENT_1 deployment type is used for longer-term storage and workloads and encryption of data in transit. To learn more about deployment types, see  FSx for Lustre Deployment Options. (Default = SCRATCH_1)
         public let deploymentType: LustreDeploymentType?
+        /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set to READ, improve the performance for frequently accessed files and allows 20% of the total storage capacity of the file system to be cached.  This parameter is required when StorageType is set to HDD.
+        public let driveCacheType: DriveCacheType?
         /// You use the MountName value when mounting the file system. For the SCRATCH_1 deployment type, this value is always "fsx". For SCRATCH_2 and PERSISTENT_1 deployment types, this value is a string that is unique within an AWS Region. 
         public let mountName: String?
-        ///  Per unit storage throughput represents the megabytes per second of read or write throughput per 1 tebibyte of storage provisioned. File system throughput capacity is equal to Storage capacity (TiB) * PerUnitStorageThroughput (MB/s/TiB). This option is only valid for PERSISTENT_1 deployment types. Valid values are 50, 100, 200. 
+        ///  Per unit storage throughput represents the megabytes per second of read or write throughput per 1 tebibyte of storage provisioned. File system throughput capacity is equal to Storage capacity (TiB) * PerUnitStorageThroughput (MB/s/TiB). This option is only valid for PERSISTENT_1 deployment types.  Valid values for SSD storage: 50, 100, 200. Valid values for HDD storage: 12, 40. 
         public let perUnitStorageThroughput: Int?
-        /// The UTC time that you want to begin your weekly maintenance window.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.automaticBackupRetentionDays = automaticBackupRetentionDays
+            self.copyTagsToBackups = copyTagsToBackups
+            self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
+            self.driveCacheType = driveCacheType
             self.mountName = mountName
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
+            case copyTagsToBackups = "CopyTagsToBackups"
+            case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case dataRepositoryConfiguration = "DataRepositoryConfiguration"
             case deploymentType = "DeploymentType"
+            case driveCacheType = "DriveCacheType"
             case mountName = "MountName"
             case perUnitStorageThroughput = "PerUnitStorageThroughput"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
@@ -1617,19 +1865,19 @@ extension FSx {
             try validate(self.dnsIps, name:"dnsIps", parent: name, min: 1)
             try validate(self.domainName, name:"domainName", parent: name, max: 255)
             try validate(self.domainName, name:"domainName", parent: name, min: 1)
-            try validate(self.domainName, name:"domainName", parent: name, pattern: "^.{1,255}$")
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
             try validate(self.fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", parent: name, max: 256)
             try validate(self.fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", parent: name, min: 1)
-            try validate(self.fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", parent: name, pattern: "^.{1,256}$")
+            try validate(self.fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,256}$")
             try validate(self.organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", parent: name, max: 2000)
             try validate(self.organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", parent: name, min: 1)
-            try validate(self.organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", parent: name, pattern: "^.{1,2000}$")
+            try validate(self.organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,2000}$")
             try validate(self.password, name:"password", parent: name, max: 256)
             try validate(self.password, name:"password", parent: name, min: 1)
             try validate(self.password, name:"password", parent: name, pattern: "^.{1,256}$")
             try validate(self.userName, name:"userName", parent: name, max: 256)
             try validate(self.userName, name:"userName", parent: name, min: 1)
-            try validate(self.userName, name:"userName", parent: name, pattern: "^.{1,256}$")
+            try validate(self.userName, name:"userName", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1675,7 +1923,7 @@ extension FSx {
             try validate(self.password, name:"password", parent: name, pattern: "^.{1,256}$")
             try validate(self.userName, name:"userName", parent: name, max: 256)
             try validate(self.userName, name:"userName", parent: name, min: 1)
-            try validate(self.userName, name:"userName", parent: name, pattern: "^.{1,256}$")
+            try validate(self.userName, name:"userName", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1687,16 +1935,16 @@ extension FSx {
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
         /// A value that specifies the TagKey, the name of the tag. Tag keys must be unique for the resource to which they are attached.
-        public let key: String?
+        public let key: String
         /// A value that specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April.
-        public let value: String?
+        public let value: String
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String) {
             self.key = key
             self.value = value
         }
@@ -1802,23 +2050,41 @@ extension FSx {
 
     public struct UpdateFileSystemLustreConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoImportPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
+            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
 
-        /// The preferred time to perform weekly maintenance, in the UTC time zone.
+        ///  (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. Use this property to choose how Amazon FSx keeps your file and directory listing up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update the file and directory listing for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket and any existing objects that are changed in the S3 bucket after you choose this option.    For more information, see Automatically import updates from your S3 bucket.
+        public let autoImportPolicy: AutoImportPolicyType?
+        public let automaticBackupRetentionDays: Int?
+        public let dailyAutomaticBackupStartTime: String?
+        /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.autoImportPolicy = autoImportPolicy
+            self.automaticBackupRetentionDays = automaticBackupRetentionDays
+            self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
         public func validate(name: String) throws {
+            try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, max: 90)
+            try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, min: 0)
+            try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, max: 5)
+            try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, min: 5)
+            try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, max: 7)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, min: 7)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoImportPolicy = "AutoImportPolicy"
+            case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
+            case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
@@ -1828,20 +2094,25 @@ extension FSx {
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
             AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
         ]
 
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+        /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
+        /// Identifies the file system that you are updating.
         public let fileSystemId: String
         public let lustreConfiguration: UpdateFileSystemLustreConfiguration?
-        /// The configuration update for this Microsoft Windows file system. The only supported options are for backup and maintenance and for self-managed Active Directory configuration.
+        /// Use this parameter to increase the storage capacity of an Amazon FSx for Windows File Server file system. Specifies the storage capacity target value, GiB, for the file system you're updating. The storage capacity target value must be at least 10 percent (%) greater than the current storage capacity value. In order to increase storage capacity, the file system needs to have at least 16 MB/s of throughput capacity. You cannot make a storage capacity increase request if there is an existing storage capacity increase request in progress. For more information, see Managing Storage Capacity.
+        public let storageCapacity: Int?
+        /// The configuration updates for an Amazon FSx for Windows File Server file system.
         public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
 
-        public init(clientRequestToken: String? = UpdateFileSystemRequest.idempotencyToken(), fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
+        public init(clientRequestToken: String? = UpdateFileSystemRequest.idempotencyToken(), fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, storageCapacity: Int? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
             self.lustreConfiguration = lustreConfiguration
+            self.storageCapacity = storageCapacity
             self.windowsConfiguration = windowsConfiguration
         }
 
@@ -1853,6 +2124,8 @@ extension FSx {
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, min: 11)
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
             try self.lustreConfiguration?.validate(name: "\(name).lustreConfiguration")
+            try validate(self.storageCapacity, name:"storageCapacity", parent: name, max: 2147483647)
+            try validate(self.storageCapacity, name:"storageCapacity", parent: name, min: 0)
             try self.windowsConfiguration?.validate(name: "\(name).windowsConfiguration")
         }
 
@@ -1860,6 +2133,7 @@ extension FSx {
             case clientRequestToken = "ClientRequestToken"
             case fileSystemId = "FileSystemId"
             case lustreConfiguration = "LustreConfiguration"
+            case storageCapacity = "StorageCapacity"
             case windowsConfiguration = "WindowsConfiguration"
         }
     }
@@ -1886,32 +2160,38 @@ extension FSx {
             AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
             AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
             AWSShapeMember(label: "SelfManagedActiveDirectoryConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ThroughputCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
 
-        /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
+        /// The number of days to retain automatic daily backups. Setting this to zero (0) disables automatic daily backups. You can retain automatic daily backups for a maximum of 90 days. For more information, see Working with Automatic Daily Backups.
         public let automaticBackupRetentionDays: Int?
-        /// The preferred time to take daily automatic backups, in the UTC time zone.
+        /// The preferred time to start the daily automatic backup, in the UTC time zone, for example, 02:00 
         public let dailyAutomaticBackupStartTime: String?
-        /// The configuration Amazon FSx uses to join the Windows File Server instance to the self-managed Microsoft AD directory.
+        /// The configuration Amazon FSx uses to join the Windows File Server instance to the self-managed Microsoft AD directory. You cannot make a self-managed Microsoft AD update request if there is an existing self-managed Microsoft AD update request in progress.
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates?
-        /// The preferred time to perform weekly maintenance, in the UTC time zone.
+        /// Sets the target value for a file system's throughput capacity, in MB/s, that you are updating the file system to. Valid values are 8, 16, 32, 64, 128, 256, 512, 1024, 2048. You cannot make a throughput capacity update request if there is an existing throughput capacity update request in progress. For more information, see Managing Throughput Capacity.
+        public let throughputCapacity: Int?
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. Where d is the weekday number, from 1 through 7, with 1 = Monday and 7 = Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
         public func validate(name: String) throws {
-            try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, max: 35)
+            try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, max: 90)
             try validate(self.automaticBackupRetentionDays, name:"automaticBackupRetentionDays", parent: name, min: 0)
             try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, max: 5)
             try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, min: 5)
             try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.selfManagedActiveDirectoryConfiguration?.validate(name: "\(name).selfManagedActiveDirectoryConfiguration")
+            try validate(self.throughputCapacity, name:"throughputCapacity", parent: name, max: 2048)
+            try validate(self.throughputCapacity, name:"throughputCapacity", parent: name, min: 8)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, max: 7)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, min: 7)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
@@ -1921,6 +2201,7 @@ extension FSx {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
+            case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
@@ -1943,7 +2224,7 @@ extension FSx {
 
         /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
         public let activeDirectoryId: String?
-        /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
+        /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days.
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags on the file system should be copied to backups. This value defaults to false. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public let copyTagsToBackups: Bool?
@@ -1962,7 +2243,7 @@ extension FSx {
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes?
         /// The throughput of an Amazon FSx file system, measured in megabytes per second.
         public let throughputCapacity: Int?
-        /// The preferred time to perform weekly maintenance, in the UTC time zone.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
         public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {

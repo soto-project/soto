@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum CodeStarconnectionsErrorType: AWSErrorType {
     case limitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
+    case resourceUnavailableException(message: String?)
 }
 
 extension CodeStarconnectionsErrorType {
@@ -19,6 +20,8 @@ extension CodeStarconnectionsErrorType {
             self = .limitExceededException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "ResourceUnavailableException":
+            self = .resourceUnavailableException(message: message)
         default:
             return nil
         }
@@ -32,6 +35,8 @@ extension CodeStarconnectionsErrorType : CustomStringConvertible {
             return "LimitExceededException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceUnavailableException(let message):
+            return "ResourceUnavailableException: \(message ?? "")"
         }
     }
 }

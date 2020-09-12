@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS IoTDataPlane service.
 
-AWS IoT AWS IoT-Data enables secure, bi-directional communication between Internet-connected things (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. It implements a broker for applications and things to publish messages over HTTP (Publish) and retrieve, update, and delete thing shadows. A thing shadow is a persistent representation of your things and their state in the AWS cloud.
+AWS IoT AWS IoT-Data enables secure, bi-directional communication between Internet-connected things (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. It implements a broker for applications and things to publish messages over HTTP (Publish) and retrieve, update, and delete shadows. A shadow is a persistent representation of your things and their state in the AWS cloud. Find the endpoint address for actions in the AWS IoT data plane by running this CLI command:  aws iot describe-endpoint --endpoint-type iot:Data-ATS  The service name used by AWS Signature Version 4 to sign requests is: iotdevicegateway.
 */
 public struct IoTDataPlane {
 
@@ -45,14 +45,19 @@ public struct IoTDataPlane {
     
     //MARK: API Calls
 
-    ///  Deletes the thing shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
+    ///  Deletes the shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
     public func deleteThingShadow(_ input: DeleteThingShadowRequest) -> EventLoopFuture<DeleteThingShadowResponse> {
         return client.send(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: "DELETE", input: input)
     }
 
-    ///  Gets the thing shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
+    ///  Gets the shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
     public func getThingShadow(_ input: GetThingShadowRequest) -> EventLoopFuture<GetThingShadowResponse> {
         return client.send(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the shadows for the specified thing.
+    public func listNamedShadowsForThing(_ input: ListNamedShadowsForThingRequest) -> EventLoopFuture<ListNamedShadowsForThingResponse> {
+        return client.send(operation: "ListNamedShadowsForThing", path: "/api/things/shadow/ListNamedShadowsForThing/{thingName}", httpMethod: "GET", input: input)
     }
 
     ///  Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
@@ -60,7 +65,7 @@ public struct IoTDataPlane {
         return client.send(operation: "Publish", path: "/topics/{topic}", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the thing shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
+    ///  Updates the shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
     public func updateThingShadow(_ input: UpdateThingShadowRequest) -> EventLoopFuture<UpdateThingShadowResponse> {
         return client.send(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: "POST", input: input)
     }

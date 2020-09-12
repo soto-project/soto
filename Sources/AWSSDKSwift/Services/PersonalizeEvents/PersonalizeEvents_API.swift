@@ -7,6 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS PersonalizeEvents service.
 
+Amazon Personalize can consume real-time user event data, such as stream or click data, and use it for model training either alone or combined with historical data. For more information see recording-events.
 */
 public struct PersonalizeEvents {
 
@@ -44,7 +45,7 @@ public struct PersonalizeEvents {
     
     //MARK: API Calls
 
-    ///  Records user interaction event data.
+    ///  Records user interaction event data. For more information see event-record-api.
     @discardableResult public func putEvents(_ input: PutEventsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "PutEvents", path: "/events", httpMethod: "POST", input: input)
     }

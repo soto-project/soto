@@ -155,12 +155,25 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public enum SegmentType: String, CustomStringConvertible, Codable {
+        case technicalCue = "TECHNICAL_CUE"
+        case shot = "SHOT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StreamProcessorStatus: String, CustomStringConvertible, Codable {
         case stopped = "STOPPED"
         case starting = "STARTING"
         case running = "RUNNING"
         case failed = "FAILED"
         case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TechnicalCueType: String, CustomStringConvertible, Codable {
+        case colorbars = "ColorBars"
+        case endcredits = "EndCredits"
+        case blackframes = "BlackFrames"
         public var description: String { return self.rawValue }
     }
 
@@ -218,6 +231,38 @@ extension Rekognition {
 
         private enum CodingKeys: String, CodingKey {
             case groundTruthManifest = "GroundTruthManifest"
+        }
+    }
+
+    public struct AudioMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Codec", required: false, type: .string), 
+            AWSShapeMember(label: "DurationMillis", required: false, type: .long), 
+            AWSShapeMember(label: "NumberOfChannels", required: false, type: .long), 
+            AWSShapeMember(label: "SampleRate", required: false, type: .long)
+        ]
+
+        /// The audio codec used to encode or decode the audio stream. 
+        public let codec: String?
+        /// The duration of the audio stream in milliseconds.
+        public let durationMillis: Int64?
+        /// The number of audio channels in the segement.
+        public let numberOfChannels: Int64?
+        /// The sample rate for the audio stream.
+        public let sampleRate: Int64?
+
+        public init(codec: String? = nil, durationMillis: Int64? = nil, numberOfChannels: Int64? = nil, sampleRate: Int64? = nil) {
+            self.codec = codec
+            self.durationMillis = durationMillis
+            self.numberOfChannels = numberOfChannels
+            self.sampleRate = sampleRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codec = "Codec"
+            case durationMillis = "DurationMillis"
+            case numberOfChannels = "NumberOfChannels"
+            case sampleRate = "SampleRate"
         }
     }
 
@@ -1072,7 +1117,7 @@ extension Rekognition {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the project that contains the models you want to describe.
         public let projectArn: String
-        /// A list of model version names that you want to describe. You can add up to 10 model version names to the list. If you don't specify a value, all model descriptions are returned.
+        /// A list of model version names that you want to describe. You can add up to 10 model version names to the list. If you don't specify a value, all model descriptions are returned. A version name is part of a model (ProjectVersion) ARN. For example, my-model.2020-01-21T09.10.15 is the version name in the following ARN. arn:aws:rekognition:us-east-1:123456789012:project/getting-started/version/my-model.2020-01-21T09.10.15/1234567890123.
         public let versionNames: [String]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectArn: String, versionNames: [String]? = nil) {
@@ -2465,6 +2510,88 @@ extension Rekognition {
         }
     }
 
+    public struct GetSegmentDetectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartSegmentDetection.
+        public let jobId: String
+        /// Maximum number of results to return per paginated call. The largest value you can specify is 1000.
+        public let maxResults: Int?
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of text.
+        public let nextToken: String?
+
+        public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.jobId = jobId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 64)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetSegmentDetectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AudioMetadata", required: false, type: .list), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Segments", required: false, type: .list), 
+            AWSShapeMember(label: "SelectedSegmentTypes", required: false, type: .list), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "VideoMetadata", required: false, type: .list)
+        ]
+
+        /// An array of objects. There can be multiple audio streams. Each AudioMetadata object contains metadata for a single audio stream. Audio information in an AudioMetadata objects includes the audio codec, the number of audio channels, the duration of the audio stream, and the sample rate. Audio metadata is returned in each page of information returned by GetSegmentDetection.
+        public let audioMetadata: [AudioMetadata]?
+        /// Current status of the segment detection job.
+        public let jobStatus: VideoJobStatus?
+        /// If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of text.
+        public let nextToken: String?
+        /// An array of segments detected in a video.
+        public let segments: [SegmentDetection]?
+        /// An array containing the segment types requested in the call to StartSegmentDetection. 
+        public let selectedSegmentTypes: [SegmentTypeInfo]?
+        /// If the job fails, StatusMessage provides a descriptive error message.
+        public let statusMessage: String?
+        /// Currently, Amazon Rekognition Video returns a single object in the VideoMetadata array. The object contains information about the video stream in the input file that Amazon Rekognition Video chose to analyze. The VideoMetadata object includes the video codec, video format and other information. Video metadata is returned in each page of information returned by GetSegmentDetection.
+        public let videoMetadata: [VideoMetadata]?
+
+        public init(audioMetadata: [AudioMetadata]? = nil, jobStatus: VideoJobStatus? = nil, nextToken: String? = nil, segments: [SegmentDetection]? = nil, selectedSegmentTypes: [SegmentTypeInfo]? = nil, statusMessage: String? = nil, videoMetadata: [VideoMetadata]? = nil) {
+            self.audioMetadata = audioMetadata
+            self.jobStatus = jobStatus
+            self.nextToken = nextToken
+            self.segments = segments
+            self.selectedSegmentTypes = selectedSegmentTypes
+            self.statusMessage = statusMessage
+            self.videoMetadata = videoMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioMetadata = "AudioMetadata"
+            case jobStatus = "JobStatus"
+            case nextToken = "NextToken"
+            case segments = "Segments"
+            case selectedSegmentTypes = "SelectedSegmentTypes"
+            case statusMessage = "StatusMessage"
+            case videoMetadata = "VideoMetadata"
+        }
+    }
+
     public struct GetTextDetectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string), 
@@ -2472,7 +2599,7 @@ extension Rekognition {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartTextDetection.
+        /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartTextDetection.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000.
         public let maxResults: Int?
@@ -2597,7 +2724,7 @@ extension Rekognition {
 
         /// Sets attributes of the input data.
         public let dataAttributes: HumanLoopDataAttributes?
-        /// The Amazon Resource Name (ARN) of the flow definition.
+        /// The Amazon Resource Name (ARN) of the flow definition. You can create a flow definition by using the Amazon Sagemaker CreateFlowDefinition Operation. 
         public let flowDefinitionArn: String
         /// The name of the human review used for this image. This should be kept unique within a region.
         public let humanLoopName: String
@@ -3706,6 +3833,107 @@ extension Rekognition {
         }
     }
 
+    public struct SegmentDetection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DurationMillis", required: false, type: .long), 
+            AWSShapeMember(label: "DurationSMPTE", required: false, type: .string), 
+            AWSShapeMember(label: "EndTimecodeSMPTE", required: false, type: .string), 
+            AWSShapeMember(label: "EndTimestampMillis", required: false, type: .long), 
+            AWSShapeMember(label: "ShotSegment", required: false, type: .structure), 
+            AWSShapeMember(label: "StartTimecodeSMPTE", required: false, type: .string), 
+            AWSShapeMember(label: "StartTimestampMillis", required: false, type: .long), 
+            AWSShapeMember(label: "TechnicalCueSegment", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The duration of the detected segment in milliseconds. 
+        public let durationMillis: Int64?
+        /// The duration of the timecode for the detected segment in SMPTE format.
+        public let durationSMPTE: String?
+        /// The frame-accurate SMPTE timecode, from the start of a video, for the end of a detected segment. EndTimecode is in HH:MM:SS:fr format (and ;fr for drop frame-rates).
+        public let endTimecodeSMPTE: String?
+        /// The end time of the detected segment, in milliseconds, from the start of the video.
+        public let endTimestampMillis: Int64?
+        /// If the segment is a shot detection, contains information about the shot detection.
+        public let shotSegment: ShotSegment?
+        /// The frame-accurate SMPTE timecode, from the start of a video, for the start of a detected segment. StartTimecode is in HH:MM:SS:fr format (and ;fr for drop frame-rates). 
+        public let startTimecodeSMPTE: String?
+        /// The start time of the detected segment in milliseconds from the start of the video.
+        public let startTimestampMillis: Int64?
+        /// If the segment is a technical cue, contains information about the technical cue.
+        public let technicalCueSegment: TechnicalCueSegment?
+        /// The type of the segment. Valid values are TECHNICAL_CUE and SHOT.
+        public let `type`: SegmentType?
+
+        public init(durationMillis: Int64? = nil, durationSMPTE: String? = nil, endTimecodeSMPTE: String? = nil, endTimestampMillis: Int64? = nil, shotSegment: ShotSegment? = nil, startTimecodeSMPTE: String? = nil, startTimestampMillis: Int64? = nil, technicalCueSegment: TechnicalCueSegment? = nil, type: SegmentType? = nil) {
+            self.durationMillis = durationMillis
+            self.durationSMPTE = durationSMPTE
+            self.endTimecodeSMPTE = endTimecodeSMPTE
+            self.endTimestampMillis = endTimestampMillis
+            self.shotSegment = shotSegment
+            self.startTimecodeSMPTE = startTimecodeSMPTE
+            self.startTimestampMillis = startTimestampMillis
+            self.technicalCueSegment = technicalCueSegment
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationMillis = "DurationMillis"
+            case durationSMPTE = "DurationSMPTE"
+            case endTimecodeSMPTE = "EndTimecodeSMPTE"
+            case endTimestampMillis = "EndTimestampMillis"
+            case shotSegment = "ShotSegment"
+            case startTimecodeSMPTE = "StartTimecodeSMPTE"
+            case startTimestampMillis = "StartTimestampMillis"
+            case technicalCueSegment = "TechnicalCueSegment"
+            case `type` = "Type"
+        }
+    }
+
+    public struct SegmentTypeInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ModelVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The version of the model used to detect segments.
+        public let modelVersion: String?
+        /// The type of a segment (technical cue or shot detection).
+        public let `type`: SegmentType?
+
+        public init(modelVersion: String? = nil, type: SegmentType? = nil) {
+            self.modelVersion = modelVersion
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelVersion = "ModelVersion"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ShotSegment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Index", required: false, type: .long)
+        ]
+
+        /// The confidence that Amazon Rekognition Video has in the accuracy of the detected segment.
+        public let confidence: Float?
+        /// An Identifier for a shot detection segment detected in a video 
+        public let index: Int64?
+
+        public init(confidence: Float? = nil, index: Int64? = nil) {
+            self.confidence = confidence
+            self.index = index
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case index = "Index"
+        }
+    }
+
     public struct Smile: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
@@ -4168,6 +4396,126 @@ extension Rekognition {
         }
     }
 
+    public struct StartSegmentDetectionFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShotFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "TechnicalCueFilter", required: false, type: .structure)
+        ]
+
+        /// Filters that are specific to shot detections.
+        public let shotFilter: StartShotDetectionFilter?
+        /// Filters that are specific to technical cues.
+        public let technicalCueFilter: StartTechnicalCueDetectionFilter?
+
+        public init(shotFilter: StartShotDetectionFilter? = nil, technicalCueFilter: StartTechnicalCueDetectionFilter? = nil) {
+            self.shotFilter = shotFilter
+            self.technicalCueFilter = technicalCueFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.shotFilter?.validate(name: "\(name).shotFilter")
+            try self.technicalCueFilter?.validate(name: "\(name).technicalCueFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shotFilter = "ShotFilter"
+            case technicalCueFilter = "TechnicalCueFilter"
+        }
+    }
+
+    public struct StartSegmentDetectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "JobTag", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
+            AWSShapeMember(label: "SegmentTypes", required: true, type: .list), 
+            AWSShapeMember(label: "Video", required: true, type: .structure)
+        ]
+
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartSegmentDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        public let clientRequestToken: String?
+        /// Filters for technical cue or shot detection.
+        public let filters: StartSegmentDetectionFilters?
+        /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
+        public let jobTag: String?
+        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the segment detection operation.
+        public let notificationChannel: NotificationChannel?
+        /// An array of segment types to detect in the video. Valid values are TECHNICAL_CUE and SHOT.
+        public let segmentTypes: [SegmentType]
+        public let video: Video
+
+        public init(clientRequestToken: String? = nil, filters: StartSegmentDetectionFilters? = nil, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, segmentTypes: [SegmentType], video: Video) {
+            self.clientRequestToken = clientRequestToken
+            self.filters = filters
+            self.jobTag = jobTag
+            self.notificationChannel = notificationChannel
+            self.segmentTypes = segmentTypes
+            self.video = video
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.filters?.validate(name: "\(name).filters")
+            try validate(self.jobTag, name:"jobTag", parent: name, max: 256)
+            try validate(self.jobTag, name:"jobTag", parent: name, min: 1)
+            try validate(self.jobTag, name:"jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try validate(self.segmentTypes, name:"segmentTypes", parent: name, min: 1)
+            try self.video.validate(name: "\(name).video")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case filters = "Filters"
+            case jobTag = "JobTag"
+            case notificationChannel = "NotificationChannel"
+            case segmentTypes = "SegmentTypes"
+            case video = "Video"
+        }
+    }
+
+    public struct StartSegmentDetectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+
+        /// Unique identifier for the segment detection job. The JobId is returned from StartSegmentDetection. 
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StartShotDetectionFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinSegmentConfidence", required: false, type: .float)
+        ]
+
+        /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected segment. Confidence represents how certain Amazon Rekognition is that a segment is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any segments with a confidence level lower than this specified value. If you don't specify MinSegmentConfidence, the GetSegmentDetection returns segments with confidence values greater than or equal to 50 percent.
+        public let minSegmentConfidence: Float?
+
+        public init(minSegmentConfidence: Float? = nil) {
+            self.minSegmentConfidence = minSegmentConfidence
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.minSegmentConfidence, name:"minSegmentConfidence", parent: name, max: 100)
+            try validate(self.minSegmentConfidence, name:"minSegmentConfidence", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minSegmentConfidence = "MinSegmentConfidence"
+        }
+    }
+
     public struct StartStreamProcessorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
@@ -4197,6 +4545,28 @@ extension Rekognition {
         public init() {
         }
 
+    }
+
+    public struct StartTechnicalCueDetectionFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinSegmentConfidence", required: false, type: .float)
+        ]
+
+        /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected segment. Confidence represents how certain Amazon Rekognition is that a segment is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any segments with a confidence level lower than this specified value. If you don't specify MinSegmentConfidence, GetSegmentDetection returns segments with confidence values greater than or equal to 50 percent.
+        public let minSegmentConfidence: Float?
+
+        public init(minSegmentConfidence: Float? = nil) {
+            self.minSegmentConfidence = minSegmentConfidence
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.minSegmentConfidence, name:"minSegmentConfidence", parent: name, max: 100)
+            try validate(self.minSegmentConfidence, name:"minSegmentConfidence", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minSegmentConfidence = "MinSegmentConfidence"
+        }
     }
 
     public struct StartTextDetectionFilters: AWSShape {
@@ -4482,6 +4852,28 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case value = "Value"
+        }
+    }
+
+    public struct TechnicalCueSegment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The confidence that Amazon Rekognition Video has in the accuracy of the detected segment.
+        public let confidence: Float?
+        /// The type of the technical cue.
+        public let `type`: TechnicalCueType?
+
+        public init(confidence: Float? = nil, type: TechnicalCueType? = nil) {
+            self.confidence = confidence
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case `type` = "Type"
         }
     }
 

@@ -31,6 +31,11 @@ extension EMR {
         return client.paginate(input: input, command: listInstances, tokenKey: \ListInstancesOutput.marker, onPage: onPage)
     }
 
+    ///  Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNotebookExecution calls.
+    public func listNotebookExecutionsPaginator(_ input: ListNotebookExecutionsInput, onPage: @escaping (ListNotebookExecutionsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNotebookExecutions, tokenKey: \ListNotebookExecutionsOutput.marker, onPage: onPage)
+    }
+
     ///  Lists all the security configurations visible to this account, providing their creation dates and times, and their names. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListSecurityConfigurations calls.
     public func listSecurityConfigurationsPaginator(_ input: ListSecurityConfigurationsInput, onPage: @escaping (ListSecurityConfigurationsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSecurityConfigurations, tokenKey: \ListSecurityConfigurationsOutput.marker, onPage: onPage)
@@ -95,6 +100,19 @@ extension EMR.ListInstancesInput: AWSPaginateStringToken {
             instanceGroupTypes: self.instanceGroupTypes, 
             instanceStates: self.instanceStates, 
             marker: token
+        )
+
+    }
+}
+
+extension EMR.ListNotebookExecutionsInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EMR.ListNotebookExecutionsInput {
+        return .init(
+            editorId: self.editorId, 
+            from: self.from, 
+            marker: token, 
+            status: self.status, 
+            to: self.to
         )
 
     }

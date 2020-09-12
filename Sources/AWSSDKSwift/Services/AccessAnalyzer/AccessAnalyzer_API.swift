@@ -36,6 +36,7 @@ public struct AccessAnalyzer {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2019-11-01",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-ca-central-1": "access-analyzer-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "access-analyzer-fips.us-east-1.amazonaws.com", "fips-us-east-2": "access-analyzer-fips.us-east-2.amazonaws.com", "fips-us-west-1": "access-analyzer-fips.us-west-1.amazonaws.com", "fips-us-west-2": "access-analyzer-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [AccessAnalyzerErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

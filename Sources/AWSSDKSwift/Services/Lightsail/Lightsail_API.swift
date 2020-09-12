@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS Lightsail service.
 
-Amazon Lightsail is the easiest way to get started with AWS for developers who just need virtual private servers. Lightsail includes everything you need to launch your project quickly - a virtual machine, a managed database, SSD-based storage, data transfer, DNS management, and a static IP - for a low, predictable price. You manage those Lightsail servers through the Lightsail console or by using the API or command-line interface (CLI). For more information about Lightsail concepts and tasks, see the Lightsail Dev Guide. To use the Lightsail API or the CLI, you will need to use AWS Identity and Access Management (IAM) to generate access keys. For details about how to set this up, see the Lightsail Dev Guide.
+Amazon Lightsail is the easiest way to get started with Amazon Web Services (AWS) for developers who need to build websites or web applications. It includes everything you need to launch your project quickly – instances (virtual private servers), managed databases, SSD-based block storage, static IP addresses, load balancers, content delivery network (CDN) distributions, DNS management of registered domains, and snapshots (backups) – for a low, predictable monthly price. You can manage your Lightsail resources using the Lightsail console, Lightsail API, AWS Command Line Interface (AWS CLI), or SDKs. For more information about Lightsail concepts and tasks, see the Lightsail Dev Guide. This API Reference provides detailed information about the actions, data types, parameters, and errors of the Lightsail service. For more information about the supported AWS Regions, endpoints, and service quotas for the Lightsail service, see Amazon Lightsail Endpoints and Quotas in the AWS General Reference.
 */
 public struct Lightsail {
 
@@ -50,6 +50,11 @@ public struct Lightsail {
         return client.send(operation: "AllocateStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is attached, your distribution accepts HTTPS traffic for all of the domains that are associated with the certificate. Use the CreateCertificate action to create a certificate that you can attach to your distribution.  Only certificates created in the us-east-1 AWS Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any AWS Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region. 
+    public func attachCertificateToDistribution(_ input: AttachCertificateToDistributionRequest) -> EventLoopFuture<AttachCertificateToDistributionResult> {
+        return client.send(operation: "AttachCertificateToDistribution", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the Lightsail Dev Guide.
     public func attachDisk(_ input: AttachDiskRequest) -> EventLoopFuture<AttachDiskResult> {
         return client.send(operation: "AttachDisk", path: "/", httpMethod: "POST", input: input)
@@ -70,7 +75,7 @@ public struct Lightsail {
         return client.send(operation: "AttachStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Closes the public ports on a specific Amazon Lightsail instance. The close instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
+    ///  Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
     public func closeInstancePublicPorts(_ input: CloseInstancePublicPortsRequest) -> EventLoopFuture<CloseInstancePublicPortsResult> {
         return client.send(operation: "CloseInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
@@ -78,6 +83,11 @@ public struct Lightsail {
     ///  Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an automatic snapshot of an instance or disk as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one AWS Region to another in Amazon Lightsail. When copying a manual snapshot, be sure to define the source region, source snapshot name, and target snapshot name parameters. When copying an automatic snapshot, be sure to define the source region, source resource name, target snapshot name, and either the restore date or the use latest restorable auto snapshot parameters.
     public func copySnapshot(_ input: CopySnapshotRequest) -> EventLoopFuture<CopySnapshotResult> {
         return client.send(operation: "CopySnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an SSL/TLS certificate for a Amazon Lightsail content delivery network (CDN) distribution. After the certificate is created, use the AttachCertificateToDistribution action to attach the certificate to your distribution.  Only certificates created in the us-east-1 AWS Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any AWS Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region. 
+    public func createCertificate(_ input: CreateCertificateRequest) -> EventLoopFuture<CreateCertificateResult> {
+        return client.send(operation: "CreateCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an exported Amazon Lightsail snapshot. This operation results in a CloudFormation stack record that can be used to track the AWS CloudFormation stack created. Use the get cloud formation stack records operation to get a list of the CloudFormation stacks created.  Wait until after your new Amazon EC2 instance is created before running the create cloud formation stack operation again with the same export snapshot record. 
@@ -103,6 +113,11 @@ public struct Lightsail {
     ///  Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending. You can also use this operation to create a snapshot of an instance's system volume. You might want to do this, for example, to recover data from the system volume of a botched instance or to create a backup of the system volume like you would for a block storage disk. To create a snapshot of a system volume, just define the instance name parameter when issuing the snapshot command, and a snapshot of the defined instance's system volume will be created. After the snapshot is available, you can create a block storage disk from the snapshot and attach it to a running instance to access the data on the disk. The create disk snapshot operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
     public func createDiskSnapshot(_ input: CreateDiskSnapshotRequest) -> EventLoopFuture<CreateDiskSnapshotResult> {
         return client.send(operation: "CreateDiskSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an Amazon Lightsail content delivery network (CDN) distribution. A distribution is a globally distributed network of caching servers that improve the performance of your website or web application hosted on a Lightsail instance. For more information, see Content delivery networks in Amazon Lightsail.
+    public func createDistribution(_ input: CreateDistributionRequest) -> EventLoopFuture<CreateDistributionResult> {
+        return client.send(operation: "CreateDistribution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a domain resource for the specified domain (e.g., example.com). The create domain operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
@@ -170,6 +185,11 @@ public struct Lightsail {
         return client.send(operation: "DeleteAutoSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes an SSL/TLS certificate for your Amazon Lightsail content delivery network (CDN) distribution. Certificates that are currently attached to a distribution cannot be deleted. Use the DetachCertificateFromDistribution action to detach a certificate from a distribution.
+    public func deleteCertificate(_ input: DeleteCertificateRequest) -> EventLoopFuture<DeleteCertificateResult> {
+        return client.send(operation: "DeleteCertificate", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
     public func deleteContactMethod(_ input: DeleteContactMethodRequest) -> EventLoopFuture<DeleteContactMethodResult> {
         return client.send(operation: "DeleteContactMethod", path: "/", httpMethod: "POST", input: input)
@@ -183,6 +203,11 @@ public struct Lightsail {
     ///  Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports tag-based access control via resource tags applied to the resource identified by disk snapshot name. For more information, see the Lightsail Dev Guide.
     public func deleteDiskSnapshot(_ input: DeleteDiskSnapshotRequest) -> EventLoopFuture<DeleteDiskSnapshotResult> {
         return client.send(operation: "DeleteDiskSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes your Amazon Lightsail content delivery network (CDN) distribution.
+    public func deleteDistribution(_ input: DeleteDistributionRequest) -> EventLoopFuture<DeleteDistributionResult> {
+        return client.send(operation: "DeleteDistribution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified domain recordset and all of its domain records. The delete domain operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the Lightsail Dev Guide.
@@ -233,6 +258,11 @@ public struct Lightsail {
     ///  Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
     public func deleteRelationalDatabaseSnapshot(_ input: DeleteRelationalDatabaseSnapshotRequest) -> EventLoopFuture<DeleteRelationalDatabaseSnapshotResult> {
         return client.send(operation: "DeleteRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Detaches an SSL/TLS certificate from your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is detached, your distribution stops accepting traffic for all of the domains that are associated with the certificate.
+    public func detachCertificateFromDistribution(_ input: DetachCertificateFromDistributionRequest) -> EventLoopFuture<DetachCertificateFromDistributionResult> {
+        return client.send(operation: "DetachCertificateFromDistribution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount any file systems on the device within your operating system before stopping the instance and detaching the disk. The detach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the Lightsail Dev Guide.
@@ -295,6 +325,11 @@ public struct Lightsail {
         return client.send(operation: "GetBundles", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns information about one or more Amazon Lightsail SSL/TLS certificates.  To get a summary of a certificate, ommit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags. 
+    public func getCertificates(_ input: GetCertificatesRequest) -> EventLoopFuture<GetCertificatesResult> {
+        return client.send(operation: "GetCertificates", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the CloudFormation stack record created as a result of the create cloud formation stack operation. An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported Lightsail snapshot.
     public func getCloudFormationStackRecords(_ input: GetCloudFormationStackRecordsRequest) -> EventLoopFuture<GetCloudFormationStackRecordsResult> {
         return client.send(operation: "GetCloudFormationStackRecords", path: "/", httpMethod: "POST", input: input)
@@ -325,6 +360,26 @@ public struct Lightsail {
         return client.send(operation: "GetDisks", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the list bundles that can be applied to you Amazon Lightsail content delivery network (CDN) distributions. A distribution bundle specifies the monthly network transfer quota and monthly cost of your dsitribution.
+    public func getDistributionBundles(_ input: GetDistributionBundlesRequest) -> EventLoopFuture<GetDistributionBundlesResult> {
+        return client.send(operation: "GetDistributionBundles", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail content delivery network (CDN) distribution.
+    public func getDistributionLatestCacheReset(_ input: GetDistributionLatestCacheResetRequest) -> EventLoopFuture<GetDistributionLatestCacheResetResult> {
+        return client.send(operation: "GetDistributionLatestCacheReset", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the data points of a specific metric for an Amazon Lightsail content delivery network (CDN) distribution. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
+    public func getDistributionMetricData(_ input: GetDistributionMetricDataRequest) -> EventLoopFuture<GetDistributionMetricDataResult> {
+        return client.send(operation: "GetDistributionMetricData", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about one or more of your Amazon Lightsail content delivery network (CDN) distributions.
+    public func getDistributions(_ input: GetDistributionsRequest) -> EventLoopFuture<GetDistributionsResult> {
+        return client.send(operation: "GetDistributions", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about a specific domain recordset.
     public func getDomain(_ input: GetDomainRequest) -> EventLoopFuture<GetDomainResult> {
         return client.send(operation: "GetDomain", path: "/", httpMethod: "POST", input: input)
@@ -350,12 +405,12 @@ public struct Lightsail {
         return client.send(operation: "GetInstanceAccessDetails", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the data points for the specified Amazon Lightsail instance metric, given an instance name.
+    ///  Returns the data points for the specified Amazon Lightsail instance metric, given an instance name. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     public func getInstanceMetricData(_ input: GetInstanceMetricDataRequest) -> EventLoopFuture<GetInstanceMetricDataResult> {
         return client.send(operation: "GetInstanceMetricData", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the port states for a specific virtual private server, or instance.
+    ///  Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses allowed to connect to the instance through the ports, and the protocol.
     public func getInstancePortStates(_ input: GetInstancePortStatesRequest) -> EventLoopFuture<GetInstancePortStatesResult> {
         return client.send(operation: "GetInstancePortStates", path: "/", httpMethod: "POST", input: input)
     }
@@ -395,7 +450,7 @@ public struct Lightsail {
         return client.send(operation: "GetLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about health metrics for your Lightsail load balancer.
+    ///  Returns information about health metrics for your Lightsail load balancer. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     public func getLoadBalancerMetricData(_ input: GetLoadBalancerMetricDataRequest) -> EventLoopFuture<GetLoadBalancerMetricDataResult> {
         return client.send(operation: "GetLoadBalancerMetricData", path: "/", httpMethod: "POST", input: input)
     }
@@ -465,7 +520,7 @@ public struct Lightsail {
         return client.send(operation: "GetRelationalDatabaseMasterUserPassword", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the data points of the specified metric for a database in Amazon Lightsail.
+    ///  Returns the data points of the specified metric for a database in Amazon Lightsail. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     public func getRelationalDatabaseMetricData(_ input: GetRelationalDatabaseMetricDataRequest) -> EventLoopFuture<GetRelationalDatabaseMetricDataResult> {
         return client.send(operation: "GetRelationalDatabaseMetricData", path: "/", httpMethod: "POST", input: input)
     }
@@ -510,7 +565,7 @@ public struct Lightsail {
         return client.send(operation: "IsVpcPeered", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds public ports to an Amazon Lightsail instance. The open instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
+    ///  Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. The OpenInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
     public func openInstancePublicPorts(_ input: OpenInstancePublicPortsRequest) -> EventLoopFuture<OpenInstancePublicPortsResult> {
         return client.send(operation: "OpenInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
@@ -525,7 +580,7 @@ public struct Lightsail {
         return client.send(operation: "PutAlarm", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the specified open ports for an Amazon Lightsail instance, and closes all ports for every protocol not included in the current request. The put instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
+    ///  Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. This action also closes all currently open ports that are not included in the request. Include all of the ports and the protocols you want to open in your PutInstancePublicPortsrequest. Or use the OpenInstancePublicPorts action to open ports without closing currently open ports. The PutInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
     public func putInstancePublicPorts(_ input: PutInstancePublicPortsRequest) -> EventLoopFuture<PutInstancePublicPortsResult> {
         return client.send(operation: "PutInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
@@ -545,7 +600,12 @@ public struct Lightsail {
         return client.send(operation: "ReleaseStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sends a verification request to an email contact method to ensure it’s owned by the requester. SMS contact methods don’t need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail. A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired.  Notifications are not sent to an email contact method until after it is verified, and confirmed as valid. 
+    ///  Deletes currently cached content from your Amazon Lightsail content delivery network (CDN) distribution. After resetting the cache, the next time a content request is made, your distribution pulls, serves, and caches it from the origin.
+    public func resetDistributionCache(_ input: ResetDistributionCacheRequest) -> EventLoopFuture<ResetDistributionCacheResult> {
+        return client.send(operation: "ResetDistributionCache", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Sends a verification request to an email contact method to ensure it's owned by the requester. SMS contact methods don't need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail. A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired.  Notifications are not sent to an email contact method until after it is verified, and confirmed as valid. 
     public func sendContactMethodVerification(_ input: SendContactMethodVerificationRequest) -> EventLoopFuture<SendContactMethodVerificationResult> {
         return client.send(operation: "SendContactMethodVerification", path: "/", httpMethod: "POST", input: input)
     }
@@ -588,6 +648,16 @@ public struct Lightsail {
     ///  Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the Lightsail Dev Guide.
     public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResult> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing Amazon Lightsail content delivery network (CDN) distribution. Use this action to update the configuration of your existing distribution
+    public func updateDistribution(_ input: UpdateDistributionRequest) -> EventLoopFuture<UpdateDistributionResult> {
+        return client.send(operation: "UpdateDistribution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the bundle of your Amazon Lightsail content delivery network (CDN) distribution. A distribution bundle specifies the monthly network transfer quota and monthly cost of your dsitribution. Update your distribution's bundle if your distribution is going over its monthly network transfer quota and is incurring an overage fee. You can update your distribution's bundle only one time within your monthly AWS billing cycle. To determine if you can update your distribution's bundle, use the GetDistributions action. The ableToUpdateBundle parameter in the result will indicate whether you can currently update your distribution's bundle.
+    public func updateDistributionBundle(_ input: UpdateDistributionBundleRequest) -> EventLoopFuture<UpdateDistributionBundleResult> {
+        return client.send(operation: "UpdateDistributionBundle", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the Lightsail Dev Guide.

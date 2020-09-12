@@ -329,6 +329,11 @@ public struct ApiGatewayV2 {
         return client.send(operation: "ReimportApi", path: "/v2/apis/{apiId}", httpMethod: "PUT", input: input)
     }
 
+    ///  Resets all authorizer cache entries for the specified stage. Supported only for HTTP API Lambda authorizers.
+    @discardableResult public func resetAuthorizersCache(_ input: ResetAuthorizersCacheRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "ResetAuthorizersCache", path: "/v2/apis/{apiId}/stages/{stageName}/cache/authorizers", httpMethod: "DELETE", input: input)
+    }
+
     ///  Creates a new Tag resource to represent a tag.
     public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/v2/tags/{resource-arn}", httpMethod: "POST", input: input)

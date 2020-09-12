@@ -6,6 +6,12 @@ import AWSSDKSwiftCore
 extension Cloud9 {
     //MARK: Enums
 
+    public enum ConnectionType: String, CustomStringConvertible, Codable {
+        case connectSsh = "CONNECT_SSH"
+        case connectSsm = "CONNECT_SSM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case created = "CREATED"
@@ -51,6 +57,7 @@ extension Cloud9 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "automaticStopTimeMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "connectionType", required: false, type: .enum), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "instanceType", required: true, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
@@ -63,6 +70,8 @@ extension Cloud9 {
         public let automaticStopTimeMinutes: Int?
         /// A unique, case-sensitive string that helps AWS Cloud9 to ensure this operation completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Reference.
         public let clientRequestToken: String?
+        /// The connection type used for connecting to an Amazon EC2 environment.
+        public let connectionType: ConnectionType?
         /// The description of the environment to create.
         public let description: String?
         /// The type of instance to connect to the environment (for example, t2.micro).
@@ -76,9 +85,10 @@ extension Cloud9 {
         /// An array of key-value pairs that will be associated with the new AWS Cloud9 development environment.
         public let tags: [Tag]?
 
-        public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, description: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
+        public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
             self.automaticStopTimeMinutes = automaticStopTimeMinutes
             self.clientRequestToken = clientRequestToken
+            self.connectionType = connectionType
             self.description = description
             self.instanceType = instanceType
             self.name = name
@@ -109,6 +119,7 @@ extension Cloud9 {
         private enum CodingKeys: String, CodingKey {
             case automaticStopTimeMinutes = "automaticStopTimeMinutes"
             case clientRequestToken = "clientRequestToken"
+            case connectionType = "connectionType"
             case description = "description"
             case instanceType = "instanceType"
             case name = "name"
@@ -402,6 +413,7 @@ extension Cloud9 {
     public struct Environment: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "connectionType", required: false, type: .enum), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "lifecycle", required: false, type: .structure), 
@@ -412,6 +424,8 @@ extension Cloud9 {
 
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String?
+        /// The connection type used for connecting to an Amazon EC2 environment.
+        public let connectionType: ConnectionType?
         /// The description for the environment.
         public let description: String?
         /// The ID of the environment.
@@ -425,8 +439,9 @@ extension Cloud9 {
         /// The type of environment. Valid values include the following:    ec2: An Amazon Elastic Compute Cloud (Amazon EC2) instance connects to the environment.    ssh: Your own server connects to the environment.  
         public let `type`: EnvironmentType?
 
-        public init(arn: String? = nil, description: String? = nil, id: String? = nil, lifecycle: EnvironmentLifecycle? = nil, name: String? = nil, ownerArn: String? = nil, type: EnvironmentType? = nil) {
+        public init(arn: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, id: String? = nil, lifecycle: EnvironmentLifecycle? = nil, name: String? = nil, ownerArn: String? = nil, type: EnvironmentType? = nil) {
             self.arn = arn
+            self.connectionType = connectionType
             self.description = description
             self.id = id
             self.lifecycle = lifecycle
@@ -437,6 +452,7 @@ extension Cloud9 {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case connectionType = "connectionType"
             case description = "description"
             case id = "id"
             case lifecycle = "lifecycle"

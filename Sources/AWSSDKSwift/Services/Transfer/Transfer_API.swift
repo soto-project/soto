@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS Transfer service.
 
-AWS Transfer Family is a fully managed service that enables the transfer of files over the the File Transfer Protocol (FTP), File Transfer Protocol over SSL (FTPS), or Secure Shell (SSH) File Transfer Protocol (SFTP) directly into and out of Amazon Simple Storage Service (Amazon S3). AWS helps you seamlessly migrate your file transfer workflows to AWS Transfer Family by integrating with existing authentication systems, and providing DNS routing with Amazon Route 53 so nothing changes for your customers and partners, or their applications. With your data in Amazon S3, you can use it with AWS services for processing, analytics, machine learning, and archiving. Getting started with AWS Transfer Family is easy since there is no infrastructure to buy and set up.
+AWS Transfer Family is a fully managed service that enables the transfer of files over the File Transfer Protocol (FTP), File Transfer Protocol over SSL (FTPS), or Secure Shell (SSH) File Transfer Protocol (SFTP) directly into and out of Amazon Simple Storage Service (Amazon S3). AWS helps you seamlessly migrate your file transfer workflows to AWS Transfer Family by integrating with existing authentication systems, and providing DNS routing with Amazon Route 53 so nothing changes for your customers and partners, or their applications. With your data in Amazon S3, you can use it with AWS services for processing, analytics, machine learning, and archiving. Getting started with AWS Transfer Family is easy since there is no infrastructure to buy and set up.
 */
 public struct Transfer {
 
@@ -37,6 +37,7 @@ public struct Transfer {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2018-11-05",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-ca-central-1": "transfer-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "transfer-fips.us-east-1.amazonaws.com", "fips-us-east-2": "transfer-fips.us-east-2.amazonaws.com", "fips-us-west-1": "transfer-fips.us-west-1.amazonaws.com", "fips-us-west-2": "transfer-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [TransferErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -70,6 +71,11 @@ public struct Transfer {
         return client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the security policy that is attached to your file transfer protocol-enabled server. The response contains a description of the security policy's properties. For more information about security policies, see Working with security policies.
+    public func describeSecurityPolicy(_ input: DescribeSecurityPolicyRequest) -> EventLoopFuture<DescribeSecurityPolicyResponse> {
+        return client.send(operation: "DescribeSecurityPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes a file transfer protocol-enabled server that you specify by passing the ServerId parameter. The response contains a description of a server's properties. When you set EndpointType to VPC, the response will contain the EndpointDetails.
     public func describeServer(_ input: DescribeServerRequest) -> EventLoopFuture<DescribeServerResponse> {
         return client.send(operation: "DescribeServer", path: "/", httpMethod: "POST", input: input)
@@ -83,6 +89,11 @@ public struct Transfer {
     ///  Adds a Secure Shell (SSH) public key to a user account identified by a UserName value assigned to the specific file transfer protocol-enabled server, identified by ServerId. The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId.
     public func importSshPublicKey(_ input: ImportSshPublicKeyRequest) -> EventLoopFuture<ImportSshPublicKeyResponse> {
         return client.send(operation: "ImportSshPublicKey", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the security policies that are attached to your file transfer protocol-enabled servers.
+    public func listSecurityPolicies(_ input: ListSecurityPoliciesRequest) -> EventLoopFuture<ListSecurityPoliciesResponse> {
+        return client.send(operation: "ListSecurityPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the file transfer protocol-enabled servers that are associated with your AWS account.

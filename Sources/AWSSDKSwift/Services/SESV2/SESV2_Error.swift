@@ -8,6 +8,7 @@ public enum SESV2ErrorType: AWSErrorType {
     case alreadyExistsException(message: String?)
     case badRequestException(message: String?)
     case concurrentModificationException(message: String?)
+    case conflictException(message: String?)
     case invalidNextTokenException(message: String?)
     case limitExceededException(message: String?)
     case mailFromDomainNotVerifiedException(message: String?)
@@ -32,6 +33,8 @@ extension SESV2ErrorType {
             self = .badRequestException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
         case "LimitExceededException":
@@ -63,6 +66,8 @@ extension SESV2ErrorType : CustomStringConvertible {
             return "BadRequestException: \(message ?? "")"
         case .concurrentModificationException(let message):
             return "ConcurrentModificationException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .invalidNextTokenException(let message):
             return "InvalidNextTokenException: \(message ?? "")"
         case .limitExceededException(let message):

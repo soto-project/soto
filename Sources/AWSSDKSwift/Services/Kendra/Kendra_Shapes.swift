@@ -36,6 +36,7 @@ extension Kendra {
         case incomplete = "INCOMPLETE"
         case stopping = "STOPPING"
         case aborted = "ABORTED"
+        case syncingIndexing = "SYNCING_INDEXING"
         public var description: String { return self.rawValue }
     }
 
@@ -43,6 +44,9 @@ extension Kendra {
         case s3 = "S3"
         case sharepoint = "SHAREPOINT"
         case database = "DATABASE"
+        case salesforce = "SALESFORCE"
+        case onedrive = "ONEDRIVE"
+        case servicenow = "SERVICENOW"
         public var description: String { return self.rawValue }
     }
 
@@ -77,11 +81,18 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum IndexEdition: String, CustomStringConvertible, Codable {
+        case developerEdition = "DEVELOPER_EDITION"
+        case enterpriseEdition = "ENTERPRISE_EDITION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IndexStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case active = "ACTIVE"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case updating = "UPDATING"
         case systemUpdating = "SYSTEM_UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -95,6 +106,12 @@ extension Kendra {
     public enum PrincipalType: String, CustomStringConvertible, Codable {
         case user = "USER"
         case group = "GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryIdentifiersEnclosingOption: String, CustomStringConvertible, Codable {
+        case doubleQuotes = "DOUBLE_QUOTES"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -117,8 +134,61 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum SalesforceChatterFeedIncludeFilterType: String, CustomStringConvertible, Codable {
+        case activeUser = "ACTIVE_USER"
+        case standardUser = "STANDARD_USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SalesforceKnowledgeArticleState: String, CustomStringConvertible, Codable {
+        case draft = "DRAFT"
+        case published = "PUBLISHED"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SalesforceStandardObjectName: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case campaign = "CAMPAIGN"
+        case `case` = "CASE"
+        case contact = "CONTACT"
+        case contract = "CONTRACT"
+        case document = "DOCUMENT"
+        case group = "GROUP"
+        case idea = "IDEA"
+        case lead = "LEAD"
+        case opportunity = "OPPORTUNITY"
+        case partner = "PARTNER"
+        case pricebook = "PRICEBOOK"
+        case product = "PRODUCT"
+        case profile = "PROFILE"
+        case solution = "SOLUTION"
+        case task = "TASK"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScoreConfidence: String, CustomStringConvertible, Codable {
+        case veryHigh = "VERY_HIGH"
+        case high = "HIGH"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceNowBuildVersionType: String, CustomStringConvertible, Codable {
+        case london = "LONDON"
+        case others = "OTHERS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SharePointVersion: String, CustomStringConvertible, Codable {
         case sharepointOnline = "SHAREPOINT_ONLINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case desc = "DESC"
+        case asc = "ASC"
         public var description: String { return self.rawValue }
     }
 
@@ -176,8 +246,11 @@ extension Kendra {
             AWSShapeMember(label: "ValueType", required: true, type: .enum)
         ]
 
+        /// The key that identifies the attribute.
         public let key: String
+        /// An object that contains the attribute value.
         public let value: AdditionalResultAttributeValue
+        /// The data type of the Value property.
         public let valueType: AdditionalResultAttributeValueType
 
         public init(key: String, value: AdditionalResultAttributeValue, valueType: AdditionalResultAttributeValueType) {
@@ -226,9 +299,9 @@ extension Kendra {
 
         /// Performs a logical AND operation on all supplied filters.
         public let andAllFilters: [AttributeFilter]?
-        /// Returns true when a document contains all of the specified document attributes.
+        /// Returns true when a document contains all of the specified document attributes. This filter is only applicable to StringListValue metadata.
         public let containsAll: DocumentAttribute?
-        /// Returns true when a document contains any of the specified document attributes.
+        /// Returns true when a document contains any of the specified document attributes. This filter is only applicable to StringListValue metadata.
         public let containsAny: DocumentAttribute?
         /// Performs an equals operation on two document attributes.
         public let equalsTo: DocumentAttribute?
@@ -262,8 +335,6 @@ extension Kendra {
             try self.andAllFilters?.forEach {
                 try $0.validate(name: "\(name).andAllFilters[]")
             }
-            try validate(self.andAllFilters, name:"andAllFilters", parent: name, max: 5)
-            try validate(self.andAllFilters, name:"andAllFilters", parent: name, min: 1)
             try self.containsAll?.validate(name: "\(name).containsAll")
             try self.containsAny?.validate(name: "\(name).containsAny")
             try self.equalsTo?.validate(name: "\(name).equalsTo")
@@ -275,8 +346,6 @@ extension Kendra {
             try self.orAllFilters?.forEach {
                 try $0.validate(name: "\(name).orAllFilters[]")
             }
-            try validate(self.orAllFilters, name:"orAllFilters", parent: name, max: 5)
-            try validate(self.orAllFilters, name:"orAllFilters", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -295,21 +364,25 @@ extension Kendra {
 
     public struct BatchDeleteDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceSyncJobMetricTarget", required: false, type: .structure), 
             AWSShapeMember(label: "DocumentIdList", required: true, type: .list), 
             AWSShapeMember(label: "IndexId", required: true, type: .string)
         ]
 
+        public let dataSourceSyncJobMetricTarget: DataSourceSyncJobMetricTarget?
         /// One or more identifiers for documents to delete from the index.
         public let documentIdList: [String]
         /// The identifier of the index that contains the documents to delete.
         public let indexId: String
 
-        public init(documentIdList: [String], indexId: String) {
+        public init(dataSourceSyncJobMetricTarget: DataSourceSyncJobMetricTarget? = nil, documentIdList: [String], indexId: String) {
+            self.dataSourceSyncJobMetricTarget = dataSourceSyncJobMetricTarget
             self.documentIdList = documentIdList
             self.indexId = indexId
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceSyncJobMetricTarget?.validate(name: "\(name).dataSourceSyncJobMetricTarget")
             try self.documentIdList.forEach {
                 try validate($0, name: "documentIdList[]", parent: name, max: 2048)
                 try validate($0, name: "documentIdList[]", parent: name, min: 1)
@@ -322,6 +395,7 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataSourceSyncJobMetricTarget = "DataSourceSyncJobMetricTarget"
             case documentIdList = "DocumentIdList"
             case indexId = "IndexId"
         }
@@ -378,7 +452,7 @@ extension Kendra {
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
 
-        /// One or more documents to add to the index.  Each document is limited to 5 Mb, the total size of the list is limited to 50 Mb.
+        /// One or more documents to add to the index.  Documents have the following file size limits.   5 MB total size for inline documents   50 MB total size for files from an S3 bucket   5 MB extracted text for any file   For more information about file size and transaction per second quotas, see Quotas.
         public let documents: [Document]
         /// The identifier of the index to add the documents to. You need to create the index first using the CreateIndex operation.
         public let indexId: String
@@ -417,7 +491,7 @@ extension Kendra {
             AWSShapeMember(label: "FailedDocuments", required: false, type: .list)
         ]
 
-        /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your AWS CloudWatch log.
+        /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your AWS CloudWatch log. For more information, see Monitoring Amazon Kendra with Amazon CloudWatch Logs 
         public let failedDocuments: [BatchPutDocumentResponseFailedDocument]?
 
         public init(failedDocuments: [BatchPutDocumentResponseFailedDocument]? = nil) {
@@ -456,13 +530,40 @@ extension Kendra {
         }
     }
 
+    public struct CapacityUnitsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryCapacityUnits", required: true, type: .integer), 
+            AWSShapeMember(label: "StorageCapacityUnits", required: true, type: .integer)
+        ]
+
+        /// The amount of extra query capacity for an index. Each capacity unit provides 0.5 queries per second and 40,000 queries per day.
+        public let queryCapacityUnits: Int
+        /// The amount of extra storage capacity for an index. Each capacity unit provides 150 Gb of storage space or 500,000 documents, whichever is reached first.
+        public let storageCapacityUnits: Int
+
+        public init(queryCapacityUnits: Int, storageCapacityUnits: Int) {
+            self.queryCapacityUnits = queryCapacityUnits
+            self.storageCapacityUnits = storageCapacityUnits
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.queryCapacityUnits, name:"queryCapacityUnits", parent: name, min: 0)
+            try validate(self.storageCapacityUnits, name:"storageCapacityUnits", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryCapacityUnits = "QueryCapacityUnits"
+            case storageCapacityUnits = "StorageCapacityUnits"
+        }
+    }
+
     public struct ClickFeedback: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClickTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "ResultId", required: true, type: .string)
         ]
 
-        /// The Unix timestamp of the data and time that the result was clicked.
+        /// The Unix timestamp of the date and time that the result was clicked.
         public let clickTime: TimeStamp
         /// The unique identifier of the search result that was clicked.
         public let resultId: String
@@ -605,6 +706,7 @@ extension Kendra {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
@@ -620,16 +722,19 @@ extension Kendra {
         public let roleArn: String
         /// Sets the frequency that Amazon Kendra will check the documents in your repository and update the index. If you don't set a schedule Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob operation to update the index.
         public let schedule: String?
+        /// A list of key-value pairs that identify the data source. You can use the tags to identify and organize your resources and to control access to resources.
+        public let tags: [Tag]?
         /// The type of repository that contains the data source.
         public let `type`: DataSourceType
 
-        public init(configuration: DataSourceConfiguration, description: String? = nil, indexId: String, name: String, roleArn: String, schedule: String? = nil, type: DataSourceType) {
+        public init(configuration: DataSourceConfiguration, description: String? = nil, indexId: String, name: String, roleArn: String, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType) {
             self.configuration = configuration
             self.description = description
             self.indexId = indexId
             self.name = name
             self.roleArn = roleArn
             self.schedule = schedule
+            self.tags = tags
             self.`type` = `type`
         }
 
@@ -647,6 +752,11 @@ extension Kendra {
             try validate(self.roleArn, name:"roleArn", parent: name, max: 1284)
             try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
             try validate(self.roleArn, name:"roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -656,6 +766,7 @@ extension Kendra {
             case name = "Name"
             case roleArn = "RoleArn"
             case schedule = "Schedule"
+            case tags = "Tags"
             case `type` = "Type"
         }
     }
@@ -683,7 +794,8 @@ extension Kendra {
             AWSShapeMember(label: "IndexId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "S3Path", required: true, type: .structure)
+            AWSShapeMember(label: "S3Path", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// A description of the FAQ.
@@ -696,13 +808,16 @@ extension Kendra {
         public let roleArn: String
         /// The S3 location of the FAQ input data.
         public let s3Path: S3Path
+        /// A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, indexId: String, name: String, roleArn: String, s3Path: S3Path) {
+        public init(description: String? = nil, indexId: String, name: String, roleArn: String, s3Path: S3Path, tags: [Tag]? = nil) {
             self.description = description
             self.indexId = indexId
             self.name = name
             self.roleArn = roleArn
             self.s3Path = s3Path
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -719,6 +834,11 @@ extension Kendra {
             try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
             try validate(self.roleArn, name:"roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.s3Path.validate(name: "\(name).s3Path")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -727,6 +847,7 @@ extension Kendra {
             case name = "Name"
             case roleArn = "RoleArn"
             case s3Path = "S3Path"
+            case tags = "Tags"
         }
     }
 
@@ -751,28 +872,36 @@ extension Kendra {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientToken", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Edition", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryptionConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "ServerSideEncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex operation with the same client token will create only one index.”
         public let clientToken: String?
         /// A description for the index.
         public let description: String?
+        /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed. 
+        public let edition: IndexEdition?
         /// The name for the new index.
         public let name: String
         /// An IAM role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role used when you use the BatchPutDocument operation to index documents from an Amazon S3 bucket.
         public let roleArn: String
         /// The identifier of the AWS KMS customer managed key (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
+        /// A list of key-value pairs that identify the index. You can use the tags to identify and organize your resources and to control access to resources.
+        public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
+        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
+            self.edition = edition
             self.name = name
             self.roleArn = roleArn
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -788,14 +917,21 @@ extension Kendra {
             try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
             try validate(self.roleArn, name:"roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.serverSideEncryptionConfiguration?.validate(name: "\(name).serverSideEncryptionConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case description = "Description"
+            case edition = "Edition"
             case name = "Name"
             case roleArn = "RoleArn"
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+            case tags = "Tags"
         }
     }
 
@@ -819,32 +955,50 @@ extension Kendra {
     public struct DataSourceConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatabaseConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "OneDriveConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "S3Configuration", required: false, type: .structure), 
+            AWSShapeMember(label: "SalesforceConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceNowConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SharePointConfiguration", required: false, type: .structure)
         ]
 
         /// Provides information necessary to create a connector for a database.
         public let databaseConfiguration: DatabaseConfiguration?
+        /// Provided configuration for data sources that connect to Microsoft OneDrive.
+        public let oneDriveConfiguration: OneDriveConfiguration?
         /// Provides information to create a connector for a document repository in an Amazon S3 bucket.
         public let s3Configuration: S3DataSourceConfiguration?
+        /// Provides configuration information for data sources that connect to a Salesforce site.
+        public let salesforceConfiguration: SalesforceConfiguration?
+        /// Provides configuration for data sources that connect to ServiceNow instances.
+        public let serviceNowConfiguration: ServiceNowConfiguration?
         /// Provides information necessary to create a connector for a Microsoft SharePoint site.
         public let sharePointConfiguration: SharePointConfiguration?
 
-        public init(databaseConfiguration: DatabaseConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
+        public init(databaseConfiguration: DatabaseConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
             self.databaseConfiguration = databaseConfiguration
+            self.oneDriveConfiguration = oneDriveConfiguration
             self.s3Configuration = s3Configuration
+            self.salesforceConfiguration = salesforceConfiguration
+            self.serviceNowConfiguration = serviceNowConfiguration
             self.sharePointConfiguration = sharePointConfiguration
         }
 
         public func validate(name: String) throws {
             try self.databaseConfiguration?.validate(name: "\(name).databaseConfiguration")
+            try self.oneDriveConfiguration?.validate(name: "\(name).oneDriveConfiguration")
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+            try self.salesforceConfiguration?.validate(name: "\(name).salesforceConfiguration")
+            try self.serviceNowConfiguration?.validate(name: "\(name).serviceNowConfiguration")
             try self.sharePointConfiguration?.validate(name: "\(name).sharePointConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case databaseConfiguration = "DatabaseConfiguration"
+            case oneDriveConfiguration = "OneDriveConfiguration"
             case s3Configuration = "S3Configuration"
+            case salesforceConfiguration = "SalesforceConfiguration"
+            case serviceNowConfiguration = "ServiceNowConfiguration"
             case sharePointConfiguration = "SharePointConfiguration"
         }
     }
@@ -898,6 +1052,7 @@ extension Kendra {
             AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "Metrics", required: false, type: .structure), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
@@ -912,17 +1067,20 @@ extension Kendra {
         public let errorMessage: String?
         /// A unique identifier for the synchronization job.
         public let executionId: String?
+        /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a connector.
+        public let metrics: DataSourceSyncJobMetrics?
         /// The UNIX datetime that the synchronization job was started.
         public let startTime: TimeStamp?
         /// The execution status of the synchronization job. When the Status field is set to SUCCEEDED, the synchronization job is done. If the status code is set to FAILED, the ErrorCode and ErrorMessage fields give you the reason for the failure.
         public let status: DataSourceSyncJobStatus?
 
-        public init(dataSourceErrorCode: String? = nil, endTime: TimeStamp? = nil, errorCode: ErrorCode? = nil, errorMessage: String? = nil, executionId: String? = nil, startTime: TimeStamp? = nil, status: DataSourceSyncJobStatus? = nil) {
+        public init(dataSourceErrorCode: String? = nil, endTime: TimeStamp? = nil, errorCode: ErrorCode? = nil, errorMessage: String? = nil, executionId: String? = nil, metrics: DataSourceSyncJobMetrics? = nil, startTime: TimeStamp? = nil, status: DataSourceSyncJobStatus? = nil) {
             self.dataSourceErrorCode = dataSourceErrorCode
             self.endTime = endTime
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.executionId = executionId
+            self.metrics = metrics
             self.startTime = startTime
             self.status = status
         }
@@ -933,8 +1091,77 @@ extension Kendra {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case executionId = "ExecutionId"
+            case metrics = "Metrics"
             case startTime = "StartTime"
             case status = "Status"
+        }
+    }
+
+    public struct DataSourceSyncJobMetricTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceSyncJobId", required: true, type: .string)
+        ]
+
+        /// The ID of the data source that is running the sync job.
+        public let dataSourceId: String
+        /// The ID of the sync job that is running on the data source.
+        public let dataSourceSyncJobId: String
+
+        public init(dataSourceId: String, dataSourceSyncJobId: String) {
+            self.dataSourceId = dataSourceId
+            self.dataSourceSyncJobId = dataSourceSyncJobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dataSourceId, name:"dataSourceId", parent: name, max: 100)
+            try validate(self.dataSourceId, name:"dataSourceId", parent: name, min: 1)
+            try validate(self.dataSourceId, name:"dataSourceId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(self.dataSourceSyncJobId, name:"dataSourceSyncJobId", parent: name, max: 100)
+            try validate(self.dataSourceSyncJobId, name:"dataSourceSyncJobId", parent: name, min: 1)
+            try validate(self.dataSourceSyncJobId, name:"dataSourceSyncJobId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case dataSourceSyncJobId = "DataSourceSyncJobId"
+        }
+    }
+
+    public struct DataSourceSyncJobMetrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentsAdded", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentsDeleted", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentsFailed", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentsModified", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentsScanned", required: false, type: .string)
+        ]
+
+        /// The number of documents added from the data source up to now in the data source sync.
+        public let documentsAdded: String?
+        /// The number of documents deleted from the data source up to now in the data source sync run.
+        public let documentsDeleted: String?
+        /// The number of documents that failed to sync from the data source up to now in the data source sync run.
+        public let documentsFailed: String?
+        /// The number of documents modified in the data source up to now in the data source sync run.
+        public let documentsModified: String?
+        /// The current number of documents crawled by the current sync job in the data source.
+        public let documentsScanned: String?
+
+        public init(documentsAdded: String? = nil, documentsDeleted: String? = nil, documentsFailed: String? = nil, documentsModified: String? = nil, documentsScanned: String? = nil) {
+            self.documentsAdded = documentsAdded
+            self.documentsDeleted = documentsDeleted
+            self.documentsFailed = documentsFailed
+            self.documentsModified = documentsModified
+            self.documentsScanned = documentsScanned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentsAdded = "DocumentsAdded"
+            case documentsDeleted = "DocumentsDeleted"
+            case documentsFailed = "DocumentsFailed"
+            case documentsModified = "DocumentsModified"
+            case documentsScanned = "DocumentsScanned"
         }
     }
 
@@ -964,6 +1191,7 @@ extension Kendra {
             try validate(self.dataSourceFieldName, name:"dataSourceFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, max: 40)
             try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, min: 4)
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
             try validate(self.indexFieldName, name:"indexFieldName", parent: name, max: 30)
             try validate(self.indexFieldName, name:"indexFieldName", parent: name, min: 1)
             try validate(self.indexFieldName, name:"indexFieldName", parent: name, pattern: "^\\P{C}*$")
@@ -1021,6 +1249,7 @@ extension Kendra {
             AWSShapeMember(label: "ColumnConfiguration", required: true, type: .structure), 
             AWSShapeMember(label: "ConnectionConfiguration", required: true, type: .structure), 
             AWSShapeMember(label: "DatabaseEngineType", required: true, type: .enum), 
+            AWSShapeMember(label: "SqlConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "VpcConfiguration", required: false, type: .structure)
         ]
 
@@ -1032,13 +1261,16 @@ extension Kendra {
         public let connectionConfiguration: ConnectionConfiguration
         /// The type of database engine that runs the database.
         public let databaseEngineType: DatabaseEngineType
+        /// Provides information about how Amazon Kendra uses quote marks around SQL identifiers when querying a database data source.
+        public let sqlConfiguration: SqlConfiguration?
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
-        public init(aclConfiguration: AclConfiguration? = nil, columnConfiguration: ColumnConfiguration, connectionConfiguration: ConnectionConfiguration, databaseEngineType: DatabaseEngineType, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(aclConfiguration: AclConfiguration? = nil, columnConfiguration: ColumnConfiguration, connectionConfiguration: ConnectionConfiguration, databaseEngineType: DatabaseEngineType, sqlConfiguration: SqlConfiguration? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.aclConfiguration = aclConfiguration
             self.columnConfiguration = columnConfiguration
             self.connectionConfiguration = connectionConfiguration
             self.databaseEngineType = databaseEngineType
+            self.sqlConfiguration = sqlConfiguration
             self.vpcConfiguration = vpcConfiguration
         }
 
@@ -1054,7 +1286,39 @@ extension Kendra {
             case columnConfiguration = "ColumnConfiguration"
             case connectionConfiguration = "ConnectionConfiguration"
             case databaseEngineType = "DatabaseEngineType"
+            case sqlConfiguration = "SqlConfiguration"
             case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct DeleteDataSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "IndexId", required: true, type: .string)
+        ]
+
+        /// The unique identifier of the data source to delete.
+        public let id: String
+        /// The unique identifier of the index associated with the data source.
+        public let indexId: String
+
+        public init(id: String, indexId: String) {
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.id, name:"id", parent: name, max: 100)
+            try validate(self.id, name:"id", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(self.indexId, name:"indexId", parent: name, max: 36)
+            try validate(self.indexId, name:"indexId", parent: name, min: 36)
+            try validate(self.indexId, name:"indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
         }
     }
 
@@ -1332,9 +1596,11 @@ extension Kendra {
 
     public struct DescribeIndexResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CapacityUnits", required: false, type: .structure), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "DocumentMetadataConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "Edition", required: false, type: .enum), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "IndexStatistics", required: false, type: .structure), 
@@ -1345,12 +1611,16 @@ extension Kendra {
             AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
         ]
 
+        /// For enterprise edtion indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A 0 for the query capacity or the storage capacity indicates that the index is using the default capacity for the index.
+        public let capacityUnits: CapacityUnitsConfiguration?
         /// The Unix datetime that the index was created.
         public let createdAt: TimeStamp?
         /// The description of the index.
         public let description: String?
         /// Configuration settings for any metadata applied to the documents in the index.
         public let documentMetadataConfigurations: [DocumentMetadataConfiguration]?
+        /// The Amazon Kendra edition used for the index. You decide the edition when you create the index.
+        public let edition: IndexEdition?
         /// When th eStatus field value is FAILED, the ErrorMessage field contains a message that explains why.
         public let errorMessage: String?
         /// the name of the index.
@@ -1368,10 +1638,12 @@ extension Kendra {
         /// The Unix datetime that the index was last updated.
         public let updatedAt: TimeStamp?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, documentMetadataConfigurations: [DocumentMetadataConfiguration]? = nil, errorMessage: String? = nil, id: String? = nil, indexStatistics: IndexStatistics? = nil, name: String? = nil, roleArn: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: IndexStatus? = nil, updatedAt: TimeStamp? = nil) {
+        public init(capacityUnits: CapacityUnitsConfiguration? = nil, createdAt: TimeStamp? = nil, description: String? = nil, documentMetadataConfigurations: [DocumentMetadataConfiguration]? = nil, edition: IndexEdition? = nil, errorMessage: String? = nil, id: String? = nil, indexStatistics: IndexStatistics? = nil, name: String? = nil, roleArn: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: IndexStatus? = nil, updatedAt: TimeStamp? = nil) {
+            self.capacityUnits = capacityUnits
             self.createdAt = createdAt
             self.description = description
             self.documentMetadataConfigurations = documentMetadataConfigurations
+            self.edition = edition
             self.errorMessage = errorMessage
             self.id = id
             self.indexStatistics = indexStatistics
@@ -1383,9 +1655,11 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityUnits = "CapacityUnits"
             case createdAt = "CreatedAt"
             case description = "Description"
             case documentMetadataConfigurations = "DocumentMetadataConfigurations"
+            case edition = "Edition"
             case errorMessage = "ErrorMessage"
             case id = "Id"
             case indexStatistics = "IndexStatistics"
@@ -1436,20 +1710,12 @@ extension Kendra {
             try self.accessControlList?.forEach {
                 try $0.validate(name: "\(name).accessControlList[]")
             }
-            try validate(self.accessControlList, name:"accessControlList", parent: name, max: 200)
-            try validate(self.accessControlList, name:"accessControlList", parent: name, min: 1)
             try self.attributes?.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
-            try validate(self.attributes, name:"attributes", parent: name, max: 100)
-            try validate(self.attributes, name:"attributes", parent: name, min: 1)
-            try validate(self.blob, name:"blob", parent: name, max: 153600)
-            try validate(self.blob, name:"blob", parent: name, min: 1)
             try validate(self.id, name:"id", parent: name, max: 2048)
             try validate(self.id, name:"id", parent: name, min: 1)
             try self.s3Path?.validate(name: "\(name).s3Path")
-            try validate(self.title, name:"title", parent: name, max: 1024)
-            try validate(self.title, name:"title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1500,7 +1766,7 @@ extension Kendra {
             AWSShapeMember(label: "StringValue", required: false, type: .string)
         ]
 
-        /// A date value expressed as seconds from the Unix epoch.
+        /// A date expressed as an ISO 8601 string.
         public let dateValue: TimeStamp?
         /// A long integer value.
         public let longValue: Int64?
@@ -1521,8 +1787,6 @@ extension Kendra {
                 try validate($0, name: "stringListValue[]", parent: name, max: 2048)
                 try validate($0, name: "stringListValue[]", parent: name, min: 1)
             }
-            try validate(self.stringListValue, name:"stringListValue", parent: name, max: 5)
-            try validate(self.stringListValue, name:"stringListValue", parent: name, min: 1)
             try validate(self.stringValue, name:"stringValue", parent: name, max: 2048)
             try validate(self.stringValue, name:"stringValue", parent: name, min: 1)
         }
@@ -1746,6 +2010,7 @@ extension Kendra {
     public struct IndexConfigurationSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Edition", required: false, type: .enum), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
@@ -1754,6 +2019,8 @@ extension Kendra {
 
         /// The Unix timestamp when the index was created.
         public let createdAt: TimeStamp
+        /// Indicates whether the index is a enterprise edition index or a developer edition index. 
+        public let edition: IndexEdition?
         /// A unique identifier for the index. Use this to identify the index when you are using operations such as Query, DescribeIndex, UpdateIndex, and DeleteIndex.
         public let id: String?
         /// The name of the index.
@@ -1763,8 +2030,9 @@ extension Kendra {
         /// The Unix timestamp when the index was last updated by the UpdateIndex operation.
         public let updatedAt: TimeStamp
 
-        public init(createdAt: TimeStamp, id: String? = nil, name: String? = nil, status: IndexStatus, updatedAt: TimeStamp) {
+        public init(createdAt: TimeStamp, edition: IndexEdition? = nil, id: String? = nil, name: String? = nil, status: IndexStatus, updatedAt: TimeStamp) {
             self.createdAt = createdAt
+            self.edition = edition
             self.id = id
             self.name = name
             self.status = status
@@ -1773,6 +2041,7 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case edition = "Edition"
             case id = "Id"
             case name = "Name"
             case status = "Status"
@@ -2048,6 +2317,147 @@ extension Kendra {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a list of tags for.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// A list of tags associated with the index, FAQ, or data source.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct OneDriveConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExclusionPatterns", required: false, type: .list), 
+            AWSShapeMember(label: "FieldMappings", required: false, type: .list), 
+            AWSShapeMember(label: "InclusionPatterns", required: false, type: .list), 
+            AWSShapeMember(label: "OneDriveUsers", required: true, type: .structure), 
+            AWSShapeMember(label: "SecretArn", required: true, type: .string), 
+            AWSShapeMember(label: "TenantDomain", required: true, type: .string)
+        ]
+
+        /// List of regular expressions applied to documents. Items that match the exclusion pattern are not indexed. If you provide both an inclusion pattern and an exclusion pattern, any item that matches the exclusion pattern isn't indexed.  The exclusion pattern is applied to the file name.
+        public let exclusionPatterns: [String]?
+        /// A list of DataSourceToIndexFieldMapping objects that map Microsoft OneDrive fields to custom fields in the Amazon Kendra index. You must first create the index fields before you map OneDrive fields.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of regular expression patterns. Documents that match the pattern are included in the index. Documents that don't match the pattern are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index.  The exclusion pattern is applied to the file name.
+        public let inclusionPatterns: [String]?
+        /// A list of user accounts whose documents should be indexed.
+        public let oneDriveUsers: OneDriveUsers
+        /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the user name and password to connect to OneDrive. The user namd should be the application ID for the OneDrive application, and the password is the application key for the OneDrive application.
+        public let secretArn: String
+        /// Tha Azure Active Directory domain of the organization. 
+        public let tenantDomain: String
+
+        public init(exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, oneDriveUsers: OneDriveUsers, secretArn: String, tenantDomain: String) {
+            self.exclusionPatterns = exclusionPatterns
+            self.fieldMappings = fieldMappings
+            self.inclusionPatterns = inclusionPatterns
+            self.oneDriveUsers = oneDriveUsers
+            self.secretArn = secretArn
+            self.tenantDomain = tenantDomain
+        }
+
+        public func validate(name: String) throws {
+            try self.exclusionPatterns?.forEach {
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
+            }
+            try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, max: 100)
+            try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, min: 0)
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, max: 100)
+            try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, min: 0)
+            try self.oneDriveUsers.validate(name: "\(name).oneDriveUsers")
+            try validate(self.secretArn, name:"secretArn", parent: name, max: 1284)
+            try validate(self.secretArn, name:"secretArn", parent: name, min: 1)
+            try validate(self.secretArn, name:"secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(self.tenantDomain, name:"tenantDomain", parent: name, max: 256)
+            try validate(self.tenantDomain, name:"tenantDomain", parent: name, min: 1)
+            try validate(self.tenantDomain, name:"tenantDomain", parent: name, pattern: "^([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\\.)+[a-z]{2,}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionPatterns = "ExclusionPatterns"
+            case fieldMappings = "FieldMappings"
+            case inclusionPatterns = "InclusionPatterns"
+            case oneDriveUsers = "OneDriveUsers"
+            case secretArn = "SecretArn"
+            case tenantDomain = "TenantDomain"
+        }
+    }
+
+    public struct OneDriveUsers: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OneDriveUserList", required: false, type: .list), 
+            AWSShapeMember(label: "OneDriveUserS3Path", required: false, type: .structure)
+        ]
+
+        /// A list of users whose documents should be indexed. Specify the user names in email format, for example, username@tenantdomain. If you need to index the documents of more than 100 users, use the OneDriveUserS3Path field to specify the location of a file containing a list of users.
+        public let oneDriveUserList: [String]?
+        /// The S3 bucket location of a file containing a list of users whose documents should be indexed.
+        public let oneDriveUserS3Path: S3Path?
+
+        public init(oneDriveUserList: [String]? = nil, oneDriveUserS3Path: S3Path? = nil) {
+            self.oneDriveUserList = oneDriveUserList
+            self.oneDriveUserS3Path = oneDriveUserS3Path
+        }
+
+        public func validate(name: String) throws {
+            try self.oneDriveUserList?.forEach {
+                try validate($0, name: "oneDriveUserList[]", parent: name, max: 256)
+                try validate($0, name: "oneDriveUserList[]", parent: name, min: 1)
+                try validate($0, name: "oneDriveUserList[]", parent: name, pattern: "^(?!\\s).+@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
+            }
+            try validate(self.oneDriveUserList, name:"oneDriveUserList", parent: name, max: 100)
+            try validate(self.oneDriveUserList, name:"oneDriveUserList", parent: name, min: 1)
+            try self.oneDriveUserS3Path?.validate(name: "\(name).oneDriveUserS3Path")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oneDriveUserList = "OneDriveUserList"
+            case oneDriveUserS3Path = "OneDriveUserS3Path"
+        }
+    }
+
     public struct Principal: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Access", required: true, type: .enum), 
@@ -2090,7 +2500,8 @@ extension Kendra {
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "QueryResultTypeFilter", required: false, type: .enum), 
             AWSShapeMember(label: "QueryText", required: true, type: .string), 
-            AWSShapeMember(label: "RequestedDocumentAttributes", required: false, type: .list)
+            AWSShapeMember(label: "RequestedDocumentAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "SortingConfiguration", required: false, type: .structure)
         ]
 
         /// Enables filtered searches based on document attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter enables you to create a set of filtering rules that a document must satisfy to be included in the query results.
@@ -2101,7 +2512,7 @@ extension Kendra {
         public let indexId: String
         /// Query results are returned in pages the size of the PageSize parameter. By default, Amazon Kendra returns the first page of results. Use this parameter to get result pages after the first one.
         public let pageNumber: Int?
-        /// Sets the number of results that are returned in each page of results. The default page size is 100.
+        /// Sets the number of results that are returned in each page of results. The default page size is 10. The maximum number of results returned is 100. If you ask for more than 100 results, only 100 are returned.
         public let pageSize: Int?
         /// Sets the type of query. Only results for the specified query type are returned.
         public let queryResultTypeFilter: QueryResultType?
@@ -2109,8 +2520,10 @@ extension Kendra {
         public let queryText: String
         /// An array of document attributes to include in the response. No other document attributes are included in the response. By default all document attributes are included in the response. 
         public let requestedDocumentAttributes: [String]?
+        /// Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
+        public let sortingConfiguration: SortingConfiguration?
 
-        public init(attributeFilter: AttributeFilter? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil) {
+        public init(attributeFilter: AttributeFilter? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, sortingConfiguration: SortingConfiguration? = nil) {
             self.attributeFilter = attributeFilter
             self.facets = facets
             self.indexId = indexId
@@ -2119,6 +2532,7 @@ extension Kendra {
             self.queryResultTypeFilter = queryResultTypeFilter
             self.queryText = queryText
             self.requestedDocumentAttributes = requestedDocumentAttributes
+            self.sortingConfiguration = sortingConfiguration
         }
 
         public func validate(name: String) throws {
@@ -2139,6 +2553,7 @@ extension Kendra {
             }
             try validate(self.requestedDocumentAttributes, name:"requestedDocumentAttributes", parent: name, max: 100)
             try validate(self.requestedDocumentAttributes, name:"requestedDocumentAttributes", parent: name, min: 1)
+            try self.sortingConfiguration?.validate(name: "\(name).sortingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2150,6 +2565,7 @@ extension Kendra {
             case queryResultTypeFilter = "QueryResultTypeFilter"
             case queryText = "QueryText"
             case requestedDocumentAttributes = "RequestedDocumentAttributes"
+            case sortingConfiguration = "SortingConfiguration"
         }
     }
 
@@ -2194,9 +2610,11 @@ extension Kendra {
             AWSShapeMember(label: "DocumentTitle", required: false, type: .structure), 
             AWSShapeMember(label: "DocumentURI", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "ScoreAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
 
+        /// One or more additional attributes associated with the query result.
         public let additionalAttributes: [AdditionalResultAttribute]?
         /// An array of document attributes for the document that the query result maps to. For example, the document author (Author) or the source URI (SourceUri) of the document.
         public let documentAttributes: [DocumentAttribute]?
@@ -2210,10 +2628,12 @@ extension Kendra {
         public let documentURI: String?
         /// The unique identifier for the query result.
         public let id: String?
+        /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, and MEDIUM. You can use the score to determine if a response meets the confidence needed for your application. Confidence scores are only returned for results with the Type field set to QUESTION_ANSWER or ANSWER. This field is not returned if the Type field is set to DOCUMENT.
+        public let scoreAttributes: ScoreAttributes?
         /// The type of document. 
         public let `type`: QueryResultType?
 
-        public init(additionalAttributes: [AdditionalResultAttribute]? = nil, documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, id: String? = nil, type: QueryResultType? = nil) {
+        public init(additionalAttributes: [AdditionalResultAttribute]? = nil, documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, id: String? = nil, scoreAttributes: ScoreAttributes? = nil, type: QueryResultType? = nil) {
             self.additionalAttributes = additionalAttributes
             self.documentAttributes = documentAttributes
             self.documentExcerpt = documentExcerpt
@@ -2221,6 +2641,7 @@ extension Kendra {
             self.documentTitle = documentTitle
             self.documentURI = documentURI
             self.id = id
+            self.scoreAttributes = scoreAttributes
             self.`type` = `type`
         }
 
@@ -2232,6 +2653,7 @@ extension Kendra {
             case documentTitle = "DocumentTitle"
             case documentURI = "DocumentURI"
             case id = "Id"
+            case scoreAttributes = "ScoreAttributes"
             case `type` = "Type"
         }
     }
@@ -2400,11 +2822,370 @@ extension Kendra {
         }
     }
 
+    public struct SalesforceChatterFeedConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentDataFieldName", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentTitleFieldName", required: false, type: .string), 
+            AWSShapeMember(label: "FieldMappings", required: false, type: .list), 
+            AWSShapeMember(label: "IncludeFilterTypes", required: false, type: .list)
+        ]
+
+        /// The name of the column in the Salesforce FeedItem table that contains the content to index. Typically this is the Body column.
+        public let documentDataFieldName: String
+        /// The name of the column in the Salesforce FeedItem table that contains the title of the document. This is typically the Title collumn.
+        public let documentTitleFieldName: String?
+        /// Maps fields from a Salesforce chatter feed into Amazon Kendra index fields.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// Filters the documents in the feed based on status of the user. When you specify ACTIVE_USERS only documents from users who have an active account are indexed. When you specify STANDARD_USER only documents for Salesforce standard users are documented. You can specify both.
+        public let includeFilterTypes: [SalesforceChatterFeedIncludeFilterType]?
+
+        public init(documentDataFieldName: String, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeFilterTypes: [SalesforceChatterFeedIncludeFilterType]? = nil) {
+            self.documentDataFieldName = documentDataFieldName
+            self.documentTitleFieldName = documentTitleFieldName
+            self.fieldMappings = fieldMappings
+            self.includeFilterTypes = includeFilterTypes
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, max: 100)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, min: 1)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, max: 100)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
+            try validate(self.includeFilterTypes, name:"includeFilterTypes", parent: name, max: 2)
+            try validate(self.includeFilterTypes, name:"includeFilterTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentDataFieldName = "DocumentDataFieldName"
+            case documentTitleFieldName = "DocumentTitleFieldName"
+            case fieldMappings = "FieldMappings"
+            case includeFilterTypes = "IncludeFilterTypes"
+        }
+    }
+
+    public struct SalesforceConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChatterFeedConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CrawlAttachments", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExcludeAttachmentFilePatterns", required: false, type: .list), 
+            AWSShapeMember(label: "IncludeAttachmentFilePatterns", required: false, type: .list), 
+            AWSShapeMember(label: "KnowledgeArticleConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SecretArn", required: true, type: .string), 
+            AWSShapeMember(label: "ServerUrl", required: true, type: .string), 
+            AWSShapeMember(label: "StandardObjectAttachmentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "StandardObjectConfigurations", required: false, type: .list)
+        ]
+
+        /// Specifies configuration information for Salesforce chatter feeds.
+        public let chatterFeedConfiguration: SalesforceChatterFeedConfiguration?
+        /// Indicates whether Amazon Kendra should index attachments to Salesforce objects.
+        public let crawlAttachments: Bool?
+        /// A list of regular expression patterns. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the name of the attached file.
+        public let excludeAttachmentFilePatterns: [String]?
+        /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index. The regex is applied to the name of the attached file.
+        public let includeAttachmentFilePatterns: [String]?
+        /// Specifies configuration information for the knowlege article types that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and the standard fields of knowledge articles, or the custom fields of custom knowledge articles, but not both.
+        public let knowledgeArticleConfiguration: SalesforceKnowledgeArticleConfiguration?
+        /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the key/value pairs required to connect to your Salesforce instance. The secret must contain a JSON structure with the following keys:   authenticationUrl - The OAUTH endpoint that Amazon Kendra connects to get an OAUTH token.    consumerKey - The application public key generated when you created your Salesforce application.   consumerSecret - The application private key generated when you created your Salesforce application.   password - The password associated with the user logging in to the Salesforce instance.   securityToken - The token associated with the user account logging in to the Salesforce instance.   username - The user name of the user logging in to the Salesforce instance.  
+        public let secretArn: String
+        /// The instance URL for the Salesforce site that you want to index.
+        public let serverUrl: String
+        /// Provides configuration information for processing attachments to Salesforce standard objects. 
+        public let standardObjectAttachmentConfiguration: SalesforceStandardObjectAttachmentConfiguration?
+        /// Specifies the Salesforce standard objects that Amazon Kendra indexes.
+        public let standardObjectConfigurations: [SalesforceStandardObjectConfiguration]?
+
+        public init(chatterFeedConfiguration: SalesforceChatterFeedConfiguration? = nil, crawlAttachments: Bool? = nil, excludeAttachmentFilePatterns: [String]? = nil, includeAttachmentFilePatterns: [String]? = nil, knowledgeArticleConfiguration: SalesforceKnowledgeArticleConfiguration? = nil, secretArn: String, serverUrl: String, standardObjectAttachmentConfiguration: SalesforceStandardObjectAttachmentConfiguration? = nil, standardObjectConfigurations: [SalesforceStandardObjectConfiguration]? = nil) {
+            self.chatterFeedConfiguration = chatterFeedConfiguration
+            self.crawlAttachments = crawlAttachments
+            self.excludeAttachmentFilePatterns = excludeAttachmentFilePatterns
+            self.includeAttachmentFilePatterns = includeAttachmentFilePatterns
+            self.knowledgeArticleConfiguration = knowledgeArticleConfiguration
+            self.secretArn = secretArn
+            self.serverUrl = serverUrl
+            self.standardObjectAttachmentConfiguration = standardObjectAttachmentConfiguration
+            self.standardObjectConfigurations = standardObjectConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.chatterFeedConfiguration?.validate(name: "\(name).chatterFeedConfiguration")
+            try self.excludeAttachmentFilePatterns?.forEach {
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
+            }
+            try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, max: 100)
+            try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, min: 0)
+            try self.includeAttachmentFilePatterns?.forEach {
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
+            }
+            try validate(self.includeAttachmentFilePatterns, name:"includeAttachmentFilePatterns", parent: name, max: 100)
+            try validate(self.includeAttachmentFilePatterns, name:"includeAttachmentFilePatterns", parent: name, min: 0)
+            try self.knowledgeArticleConfiguration?.validate(name: "\(name).knowledgeArticleConfiguration")
+            try validate(self.secretArn, name:"secretArn", parent: name, max: 1284)
+            try validate(self.secretArn, name:"secretArn", parent: name, min: 1)
+            try validate(self.secretArn, name:"secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(self.serverUrl, name:"serverUrl", parent: name, max: 2048)
+            try validate(self.serverUrl, name:"serverUrl", parent: name, min: 1)
+            try validate(self.serverUrl, name:"serverUrl", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)")
+            try self.standardObjectAttachmentConfiguration?.validate(name: "\(name).standardObjectAttachmentConfiguration")
+            try self.standardObjectConfigurations?.forEach {
+                try $0.validate(name: "\(name).standardObjectConfigurations[]")
+            }
+            try validate(self.standardObjectConfigurations, name:"standardObjectConfigurations", parent: name, max: 17)
+            try validate(self.standardObjectConfigurations, name:"standardObjectConfigurations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chatterFeedConfiguration = "ChatterFeedConfiguration"
+            case crawlAttachments = "CrawlAttachments"
+            case excludeAttachmentFilePatterns = "ExcludeAttachmentFilePatterns"
+            case includeAttachmentFilePatterns = "IncludeAttachmentFilePatterns"
+            case knowledgeArticleConfiguration = "KnowledgeArticleConfiguration"
+            case secretArn = "SecretArn"
+            case serverUrl = "ServerUrl"
+            case standardObjectAttachmentConfiguration = "StandardObjectAttachmentConfiguration"
+            case standardObjectConfigurations = "StandardObjectConfigurations"
+        }
+    }
+
+    public struct SalesforceCustomKnowledgeArticleTypeConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentDataFieldName", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentTitleFieldName", required: false, type: .string), 
+            AWSShapeMember(label: "FieldMappings", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The name of the field in the custom knowledge article that contains the document data to index.
+        public let documentDataFieldName: String
+        /// The name of the field in the custom knowledge article that contains the document title.
+        public let documentTitleFieldName: String?
+        /// One or more objects that map fields in the custom knowledge article to fields in the Amazon Kendra index.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// The name of the configuration.
+        public let name: String
+
+        public init(documentDataFieldName: String, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, name: String) {
+            self.documentDataFieldName = documentDataFieldName
+            self.documentTitleFieldName = documentTitleFieldName
+            self.fieldMappings = fieldMappings
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, max: 100)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, min: 1)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, max: 100)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentDataFieldName = "DocumentDataFieldName"
+            case documentTitleFieldName = "DocumentTitleFieldName"
+            case fieldMappings = "FieldMappings"
+            case name = "Name"
+        }
+    }
+
+    public struct SalesforceKnowledgeArticleConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomKnowledgeArticleTypeConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "IncludedStates", required: true, type: .list), 
+            AWSShapeMember(label: "StandardKnowledgeArticleTypeConfiguration", required: false, type: .structure)
+        ]
+
+        /// Provides configuration information for custom Salesforce knowledge articles.
+        public let customKnowledgeArticleTypeConfigurations: [SalesforceCustomKnowledgeArticleTypeConfiguration]?
+        /// Specifies the document states that should be included when Amazon Kendra indexes knowledge articles. You must specify at least one state.
+        public let includedStates: [SalesforceKnowledgeArticleState]
+        /// Provides configuration information for standard Salesforce knowledge articles.
+        public let standardKnowledgeArticleTypeConfiguration: SalesforceStandardKnowledgeArticleTypeConfiguration?
+
+        public init(customKnowledgeArticleTypeConfigurations: [SalesforceCustomKnowledgeArticleTypeConfiguration]? = nil, includedStates: [SalesforceKnowledgeArticleState], standardKnowledgeArticleTypeConfiguration: SalesforceStandardKnowledgeArticleTypeConfiguration? = nil) {
+            self.customKnowledgeArticleTypeConfigurations = customKnowledgeArticleTypeConfigurations
+            self.includedStates = includedStates
+            self.standardKnowledgeArticleTypeConfiguration = standardKnowledgeArticleTypeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.customKnowledgeArticleTypeConfigurations?.forEach {
+                try $0.validate(name: "\(name).customKnowledgeArticleTypeConfigurations[]")
+            }
+            try validate(self.customKnowledgeArticleTypeConfigurations, name:"customKnowledgeArticleTypeConfigurations", parent: name, max: 10)
+            try validate(self.customKnowledgeArticleTypeConfigurations, name:"customKnowledgeArticleTypeConfigurations", parent: name, min: 1)
+            try validate(self.includedStates, name:"includedStates", parent: name, max: 3)
+            try validate(self.includedStates, name:"includedStates", parent: name, min: 1)
+            try self.standardKnowledgeArticleTypeConfiguration?.validate(name: "\(name).standardKnowledgeArticleTypeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customKnowledgeArticleTypeConfigurations = "CustomKnowledgeArticleTypeConfigurations"
+            case includedStates = "IncludedStates"
+            case standardKnowledgeArticleTypeConfiguration = "StandardKnowledgeArticleTypeConfiguration"
+        }
+    }
+
+    public struct SalesforceStandardKnowledgeArticleTypeConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentDataFieldName", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentTitleFieldName", required: false, type: .string), 
+            AWSShapeMember(label: "FieldMappings", required: false, type: .list)
+        ]
+
+        /// The name of the field that contains the document data to index.
+        public let documentDataFieldName: String
+        /// The name of the field that contains the document title.
+        public let documentTitleFieldName: String?
+        /// One or more objects that map fields in the knowledge article to Amazon Kendra index fields. The index field must exist before you can map a Salesforce field to it.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+
+        public init(documentDataFieldName: String, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
+            self.documentDataFieldName = documentDataFieldName
+            self.documentTitleFieldName = documentTitleFieldName
+            self.fieldMappings = fieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, max: 100)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, min: 1)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, max: 100)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentDataFieldName = "DocumentDataFieldName"
+            case documentTitleFieldName = "DocumentTitleFieldName"
+            case fieldMappings = "FieldMappings"
+        }
+    }
+
+    public struct SalesforceStandardObjectAttachmentConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentTitleFieldName", required: false, type: .string), 
+            AWSShapeMember(label: "FieldMappings", required: false, type: .list)
+        ]
+
+        /// The name of the field used for the document title.
+        public let documentTitleFieldName: String?
+        /// One or more objects that map fields in attachments to Amazon Kendra index fields.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+
+        public init(documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
+            self.documentTitleFieldName = documentTitleFieldName
+            self.fieldMappings = fieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, max: 100)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentTitleFieldName = "DocumentTitleFieldName"
+            case fieldMappings = "FieldMappings"
+        }
+    }
+
+    public struct SalesforceStandardObjectConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentDataFieldName", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentTitleFieldName", required: false, type: .string), 
+            AWSShapeMember(label: "FieldMappings", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .enum)
+        ]
+
+        /// The name of the field in the standard object table that contains the document contents.
+        public let documentDataFieldName: String
+        /// The name of the field in the standard object table that contains the document titleB.
+        public let documentTitleFieldName: String?
+        /// One or more objects that map fields in the standard object to Amazon Kendra index fields. The index field must exist before you can map a Salesforce field to it.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// The name of the standard object.
+        public let name: SalesforceStandardObjectName
+
+        public init(documentDataFieldName: String, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, name: SalesforceStandardObjectName) {
+            self.documentDataFieldName = documentDataFieldName
+            self.documentTitleFieldName = documentTitleFieldName
+            self.fieldMappings = fieldMappings
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, max: 100)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, min: 1)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, max: 100)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentDataFieldName = "DocumentDataFieldName"
+            case documentTitleFieldName = "DocumentTitleFieldName"
+            case fieldMappings = "FieldMappings"
+            case name = "Name"
+        }
+    }
+
+    public struct ScoreAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScoreConfidence", required: false, type: .enum)
+        ]
+
+        /// A relative ranking for how well the response matches the query.
+        public let scoreConfidence: ScoreConfidence?
+
+        public init(scoreConfidence: ScoreConfidence? = nil) {
+            self.scoreConfidence = scoreConfidence
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scoreConfidence = "ScoreConfidence"
+        }
+    }
+
     public struct Search: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Displayable", required: false, type: .boolean), 
             AWSShapeMember(label: "Facetable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Searchable", required: false, type: .boolean)
+            AWSShapeMember(label: "Searchable", required: false, type: .boolean), 
+            AWSShapeMember(label: "Sortable", required: false, type: .boolean)
         ]
 
         /// Determines whether the field is returned in the query response. The default is true.
@@ -2413,17 +3194,21 @@ extension Kendra {
         public let facetable: Bool?
         /// Determines whether the field is used in the search. If the Searchable field is true, you can use relevance tuning to manually tune how Amazon Kendra weights the field in the search. The default is true for string fields and false for number and date fields.
         public let searchable: Bool?
+        /// Determines whether the field can be used to sort the results of a query. If you specify sorting on a field that does not have Sortable set to true, Amazon Kendra returns an exception. The default is false.
+        public let sortable: Bool?
 
-        public init(displayable: Bool? = nil, facetable: Bool? = nil, searchable: Bool? = nil) {
+        public init(displayable: Bool? = nil, facetable: Bool? = nil, searchable: Bool? = nil, sortable: Bool? = nil) {
             self.displayable = displayable
             self.facetable = facetable
             self.searchable = searchable
+            self.sortable = sortable
         }
 
         private enum CodingKeys: String, CodingKey {
             case displayable = "Displayable"
             case facetable = "Facetable"
             case searchable = "Searchable"
+            case sortable = "Sortable"
         }
     }
 
@@ -2446,6 +3231,190 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct ServiceNowConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostUrl", required: true, type: .string), 
+            AWSShapeMember(label: "KnowledgeArticleConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SecretArn", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceCatalogConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceNowBuildVersion", required: true, type: .enum)
+        ]
+
+        /// The ServiceNow instance that the data source connects to. The host endpoint should look like the following: {instance}.service-now.com. 
+        public let hostUrl: String
+        /// Provides configuration information for crawling knowledge articles in the ServiceNow site.
+        public let knowledgeArticleConfiguration: ServiceNowKnowledgeArticleConfiguration?
+        /// The Amazon Resource Name (ARN) of the AWS Secret Manager secret that contains the user name and password required to connect to the ServiceNow instance.
+        public let secretArn: String
+        /// Provides configuration information for crawling service catalogs in the ServiceNow site.
+        public let serviceCatalogConfiguration: ServiceNowServiceCatalogConfiguration?
+        /// The identifier of the release that the ServiceNow host is running. If the host is not running the LONDON release, use OTHERS.
+        public let serviceNowBuildVersion: ServiceNowBuildVersionType
+
+        public init(hostUrl: String, knowledgeArticleConfiguration: ServiceNowKnowledgeArticleConfiguration? = nil, secretArn: String, serviceCatalogConfiguration: ServiceNowServiceCatalogConfiguration? = nil, serviceNowBuildVersion: ServiceNowBuildVersionType) {
+            self.hostUrl = hostUrl
+            self.knowledgeArticleConfiguration = knowledgeArticleConfiguration
+            self.secretArn = secretArn
+            self.serviceCatalogConfiguration = serviceCatalogConfiguration
+            self.serviceNowBuildVersion = serviceNowBuildVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.hostUrl, name:"hostUrl", parent: name, max: 2048)
+            try validate(self.hostUrl, name:"hostUrl", parent: name, min: 1)
+            try validate(self.hostUrl, name:"hostUrl", parent: name, pattern: "^(?!(^(https?|ftp|file):\\/\\/))[a-z0-9-]+(\\.service-now\\.com)$")
+            try self.knowledgeArticleConfiguration?.validate(name: "\(name).knowledgeArticleConfiguration")
+            try validate(self.secretArn, name:"secretArn", parent: name, max: 1284)
+            try validate(self.secretArn, name:"secretArn", parent: name, min: 1)
+            try validate(self.secretArn, name:"secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.serviceCatalogConfiguration?.validate(name: "\(name).serviceCatalogConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostUrl = "HostUrl"
+            case knowledgeArticleConfiguration = "KnowledgeArticleConfiguration"
+            case secretArn = "SecretArn"
+            case serviceCatalogConfiguration = "ServiceCatalogConfiguration"
+            case serviceNowBuildVersion = "ServiceNowBuildVersion"
+        }
+    }
+
+    public struct ServiceNowKnowledgeArticleConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlAttachments", required: false, type: .boolean), 
+            AWSShapeMember(label: "DocumentDataFieldName", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentTitleFieldName", required: false, type: .string), 
+            AWSShapeMember(label: "ExcludeAttachmentFilePatterns", required: false, type: .list), 
+            AWSShapeMember(label: "FieldMappings", required: false, type: .list), 
+            AWSShapeMember(label: "IncludeAttachmentFilePatterns", required: false, type: .list)
+        ]
+
+        /// Indicates whether Amazon Kendra should index attachments to knowledge articles.
+        public let crawlAttachments: Bool?
+        /// The name of the ServiceNow field that is mapped to the index document contents field in the Amazon Kendra index.
+        public let documentDataFieldName: String
+        /// The name of the ServiceNow field that is mapped to the index document title field.
+        public let documentTitleFieldName: String?
+        /// List of regular expressions applied to knowledge articles. Items that don't match the inclusion pattern are not indexed. The regex is applied to the field specified in the PatternTargetField 
+        public let excludeAttachmentFilePatterns: [String]?
+        /// Mapping between ServiceNow fields and Amazon Kendra index fields. You must create the index field before you map the field.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// List of regular expressions applied to knowledge articles. Items that don't match the inclusion pattern are not indexed. The regex is applied to the field specified in the PatternTargetField.
+        public let includeAttachmentFilePatterns: [String]?
+
+        public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeAttachmentFilePatterns: [String]? = nil) {
+            self.crawlAttachments = crawlAttachments
+            self.documentDataFieldName = documentDataFieldName
+            self.documentTitleFieldName = documentTitleFieldName
+            self.excludeAttachmentFilePatterns = excludeAttachmentFilePatterns
+            self.fieldMappings = fieldMappings
+            self.includeAttachmentFilePatterns = includeAttachmentFilePatterns
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, max: 100)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, min: 1)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, max: 100)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.excludeAttachmentFilePatterns?.forEach {
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
+            }
+            try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, max: 100)
+            try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, min: 0)
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
+            try self.includeAttachmentFilePatterns?.forEach {
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
+            }
+            try validate(self.includeAttachmentFilePatterns, name:"includeAttachmentFilePatterns", parent: name, max: 100)
+            try validate(self.includeAttachmentFilePatterns, name:"includeAttachmentFilePatterns", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlAttachments = "CrawlAttachments"
+            case documentDataFieldName = "DocumentDataFieldName"
+            case documentTitleFieldName = "DocumentTitleFieldName"
+            case excludeAttachmentFilePatterns = "ExcludeAttachmentFilePatterns"
+            case fieldMappings = "FieldMappings"
+            case includeAttachmentFilePatterns = "IncludeAttachmentFilePatterns"
+        }
+    }
+
+    public struct ServiceNowServiceCatalogConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlAttachments", required: false, type: .boolean), 
+            AWSShapeMember(label: "DocumentDataFieldName", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentTitleFieldName", required: false, type: .string), 
+            AWSShapeMember(label: "ExcludeAttachmentFilePatterns", required: false, type: .list), 
+            AWSShapeMember(label: "FieldMappings", required: false, type: .list), 
+            AWSShapeMember(label: "IncludeAttachmentFilePatterns", required: false, type: .list)
+        ]
+
+        /// Indicates whether Amazon Kendra should crawl attachments to the service catalog items. 
+        public let crawlAttachments: Bool?
+        /// The name of the ServiceNow field that is mapped to the index document contents field in the Amazon Kendra index.
+        public let documentDataFieldName: String
+        /// The name of the ServiceNow field that is mapped to the index document title field.
+        public let documentTitleFieldName: String?
+        /// Determines the types of file attachments that are excluded from the index.
+        public let excludeAttachmentFilePatterns: [String]?
+        /// Mapping between ServiceNow fields and Amazon Kendra index fields. You must create the index field before you map the field.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// Determines the types of file attachments that are included in the index. 
+        public let includeAttachmentFilePatterns: [String]?
+
+        public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeAttachmentFilePatterns: [String]? = nil) {
+            self.crawlAttachments = crawlAttachments
+            self.documentDataFieldName = documentDataFieldName
+            self.documentTitleFieldName = documentTitleFieldName
+            self.excludeAttachmentFilePatterns = excludeAttachmentFilePatterns
+            self.fieldMappings = fieldMappings
+            self.includeAttachmentFilePatterns = includeAttachmentFilePatterns
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, max: 100)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, min: 1)
+            try validate(self.documentDataFieldName, name:"documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, max: 100)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.excludeAttachmentFilePatterns?.forEach {
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
+            }
+            try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, max: 100)
+            try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, min: 0)
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
+            try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
+            try self.includeAttachmentFilePatterns?.forEach {
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
+            }
+            try validate(self.includeAttachmentFilePatterns, name:"includeAttachmentFilePatterns", parent: name, max: 100)
+            try validate(self.includeAttachmentFilePatterns, name:"includeAttachmentFilePatterns", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlAttachments = "CrawlAttachments"
+            case documentDataFieldName = "DocumentDataFieldName"
+            case documentTitleFieldName = "DocumentTitleFieldName"
+            case excludeAttachmentFilePatterns = "ExcludeAttachmentFilePatterns"
+            case fieldMappings = "FieldMappings"
+            case includeAttachmentFilePatterns = "IncludeAttachmentFilePatterns"
         }
     }
 
@@ -2523,7 +3492,7 @@ extension Kendra {
             try self.urls.forEach {
                 try validate($0, name: "urls[]", parent: name, max: 2048)
                 try validate($0, name: "urls[]", parent: name, min: 1)
-                try validate($0, name: "urls[]", parent: name, pattern: "^(https?|ftp|file):\\/\\/(.*)")
+                try validate($0, name: "urls[]", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)")
             }
             try validate(self.urls, name:"urls", parent: name, max: 100)
             try validate(self.urls, name:"urls", parent: name, min: 1)
@@ -2541,6 +3510,51 @@ extension Kendra {
             case urls = "Urls"
             case useChangeLog = "UseChangeLog"
             case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct SortingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentAttributeKey", required: true, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: true, type: .enum)
+        ]
+
+        /// The name of the document attribute used to sort the response. You can use any field that has the Sortable flag set to true. You can also sort by any of the following built-in attributes:   _category   _created_at   _last_updated_at   _version   _view_count  
+        public let documentAttributeKey: String
+        /// The order that the results should be returned in. In case of ties, the relevance assigned to the result by Amazon Kendra is used as the tie-breaker.
+        public let sortOrder: SortOrder
+
+        public init(documentAttributeKey: String, sortOrder: SortOrder) {
+            self.documentAttributeKey = documentAttributeKey
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.documentAttributeKey, name:"documentAttributeKey", parent: name, max: 200)
+            try validate(self.documentAttributeKey, name:"documentAttributeKey", parent: name, min: 1)
+            try validate(self.documentAttributeKey, name:"documentAttributeKey", parent: name, pattern: "[a-zA-Z0-9_][a-zA-Z0-9_-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentAttributeKey = "DocumentAttributeKey"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct SqlConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryIdentifiersEnclosingOption", required: false, type: .enum)
+        ]
+
+        /// Determines whether Amazon Kendra encloses SQL identifiers for tables and column names in double quotes (") when making a database query. By default, Amazon Kendra passes SQL identifiers the way that they are entered into the data source configuration. It does not change the case of identifiers or enclose them in quotes. PostgreSQL internally converts uppercase characters to lower case characters in identifiers unless they are quoted. Choosing this option encloses identifiers in quotes so that PostgreSQL does not convert the character's case. For MySQL databases, you must enable the ansi_quotes option when you set this field to DOUBLE_QUOTES.
+        public let queryIdentifiersEnclosingOption: QueryIdentifiersEnclosingOption?
+
+        public init(queryIdentifiersEnclosingOption: QueryIdentifiersEnclosingOption? = nil) {
+            self.queryIdentifiersEnclosingOption = queryIdentifiersEnclosingOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryIdentifiersEnclosingOption = "QueryIdentifiersEnclosingOption"
         }
     }
 
@@ -2669,19 +3683,93 @@ extension Kendra {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, or data source.
+        public let key: String
+        /// The value associated with the tag. The value may be an empty string but it can't be null.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to tag.
+        public let resourceARN: String
+        /// A list of tag keys to add to the index, FAQ, or data source. If a tag already exists, the existing value is replaced with the new value.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct TextDocumentStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexedTextBytes", required: true, type: .long), 
             AWSShapeMember(label: "IndexedTextDocumentsCount", required: true, type: .integer)
         ]
 
+        /// The total size, in bytes, of the indexed documents.
+        public let indexedTextBytes: Int64
         /// The number of text documents indexed.
         public let indexedTextDocumentsCount: Int
 
-        public init(indexedTextDocumentsCount: Int) {
+        public init(indexedTextBytes: Int64, indexedTextDocumentsCount: Int) {
+            self.indexedTextBytes = indexedTextBytes
             self.indexedTextDocumentsCount = indexedTextDocumentsCount
         }
 
         private enum CodingKeys: String, CodingKey {
+            case indexedTextBytes = "IndexedTextBytes"
             case indexedTextDocumentsCount = "IndexedTextDocumentsCount"
         }
     }
@@ -2728,6 +3816,47 @@ extension Kendra {
             case endTime = "EndTime"
             case startTime = "StartTime"
         }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to remove the tag from.
+        public let resourceARN: String
+        /// A list of tag keys to remove from the index, FAQ, or data source. If a tag key does not exist on the resource, it is ignored.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateDataSourceRequest: AWSShape {
@@ -2797,6 +3926,7 @@ extension Kendra {
 
     public struct UpdateIndexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CapacityUnits", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "DocumentMetadataConfigurationUpdates", required: false, type: .list), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
@@ -2804,6 +3934,8 @@ extension Kendra {
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
 
+        /// Sets the number of addtional storage and query capacity units that should be used by the index. You can change the capacity of the index up to 5 times per day. If you are using extra storage units, you can't reduce the storage capacity below that required to meet the storage needs for your index.
+        public let capacityUnits: CapacityUnitsConfiguration?
         /// A new description for the index.
         public let description: String?
         /// The document metadata to update. 
@@ -2815,7 +3947,8 @@ extension Kendra {
         /// A new IAM role that gives Amazon Kendra permission to access your Amazon CloudWatch logs.
         public let roleArn: String?
 
-        public init(description: String? = nil, documentMetadataConfigurationUpdates: [DocumentMetadataConfiguration]? = nil, id: String, name: String? = nil, roleArn: String? = nil) {
+        public init(capacityUnits: CapacityUnitsConfiguration? = nil, description: String? = nil, documentMetadataConfigurationUpdates: [DocumentMetadataConfiguration]? = nil, id: String, name: String? = nil, roleArn: String? = nil) {
+            self.capacityUnits = capacityUnits
             self.description = description
             self.documentMetadataConfigurationUpdates = documentMetadataConfigurationUpdates
             self.id = id
@@ -2824,6 +3957,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.capacityUnits?.validate(name: "\(name).capacityUnits")
             try validate(self.description, name:"description", parent: name, max: 1000)
             try validate(self.description, name:"description", parent: name, min: 1)
             try validate(self.description, name:"description", parent: name, pattern: "^\\P{C}*$")
@@ -2844,6 +3978,7 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityUnits = "CapacityUnits"
             case description = "Description"
             case documentMetadataConfigurationUpdates = "DocumentMetadataConfigurationUpdates"
             case id = "Id"

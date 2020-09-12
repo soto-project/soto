@@ -18,6 +18,13 @@ extension Health {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventScopeCode: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case accountSpecific = "ACCOUNT_SPECIFIC"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventStatusCode: String, CustomStringConvertible, Codable {
         case open = "open"
         case closed = "closed"
@@ -61,7 +68,7 @@ extension Health {
         public let lastUpdatedTime: TimeStamp?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
         public let statusCode: EntityStatusCode?
-        /// A map of entity tags attached to the affected entity.
+        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported. 
         public let tags: [String: String]?
 
         public init(awsAccountId: String? = nil, entityArn: String? = nil, entityUrl: String? = nil, entityValue: String? = nil, eventArn: String? = nil, lastUpdatedTime: TimeStamp? = nil, statusCode: EntityStatusCode? = nil, tags: [String: String]? = nil) {
@@ -149,21 +156,26 @@ extension Health {
     public struct DescribeAffectedAccountsForOrganizationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "affectedAccounts", required: false, type: .list), 
+            AWSShapeMember(label: "eventScopeCode", required: false, type: .enum), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
         /// A JSON set of elements of the affected accounts.
         public let affectedAccounts: [String]?
+        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.  
+        public let eventScopeCode: EventScopeCode?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
-        public init(affectedAccounts: [String]? = nil, nextToken: String? = nil) {
+        public init(affectedAccounts: [String]? = nil, eventScopeCode: EventScopeCode? = nil, nextToken: String? = nil) {
             self.affectedAccounts = affectedAccounts
+            self.eventScopeCode = eventScopeCode
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case affectedAccounts = "affectedAccounts"
+            case eventScopeCode = "eventScopeCode"
             case nextToken = "nextToken"
         }
     }
@@ -223,7 +235,7 @@ extension Health {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        /// A JSON set of elements including the awsAccountId and its entityArn, entityValue and its entityArn, lastUpdatedTime, statusCode, and tags.
+        /// A JSON set of elements including the awsAccountId and its entityArn, entityValue and its entityArn, lastUpdatedTime, and statusCode.
         public let entities: [AffectedEntity]?
         /// A JSON set of elements of the failed response, including the awsAccountId, errorMessage, errorName, and eventArn.
         public let failedSet: [OrganizationAffectedEntitiesErrorItem]?
@@ -747,7 +759,7 @@ extension Health {
             AWSShapeMember(label: "eventArn", required: false, type: .string)
         ]
 
-        /// The number entities that match the criteria for the specified events.
+        /// The number of entities that match the criteria for the specified events.
         public let count: Int?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String?
@@ -783,7 +795,7 @@ extension Health {
         public let lastUpdatedTimes: [DateTimeRange]?
         /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
         public let statusCodes: [EntityStatusCode]?
-        /// A map of entity tags attached to the affected entity.
+        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported. 
         public let tags: [[String: String]]?
 
         public init(entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String], lastUpdatedTimes: [DateTimeRange]? = nil, statusCodes: [EntityStatusCode]? = nil, tags: [[String: String]]? = nil) {
@@ -803,8 +815,8 @@ extension Health {
             try validate(self.entityArns, name:"entityArns", parent: name, max: 100)
             try validate(self.entityArns, name:"entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
-                try validate($0, name: "entityValues[]", parent: name, max: 256)
-                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,256}")
+                try validate($0, name: "entityValues[]", parent: name, max: 1224)
+                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
             try validate(self.entityValues, name:"entityValues", parent: name, max: 100)
             try validate(self.entityValues, name:"entityValues", parent: name, min: 1)
@@ -836,6 +848,7 @@ extension Health {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "eventScopeCode", required: false, type: .enum), 
             AWSShapeMember(label: "eventTypeCategory", required: false, type: .enum), 
             AWSShapeMember(label: "eventTypeCode", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
@@ -851,6 +864,8 @@ extension Health {
         public let availabilityZone: String?
         /// The date and time that the event ended.
         public let endTime: TimeStamp?
+        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.  
+        public let eventScopeCode: EventScopeCode?
         /// The category of the event. Possible values are issue, scheduledChange, and accountNotification.
         public let eventTypeCategory: EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
@@ -866,10 +881,11 @@ extension Health {
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
 
-        public init(arn: String? = nil, availabilityZone: String? = nil, endTime: TimeStamp? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
+        public init(arn: String? = nil, availabilityZone: String? = nil, endTime: TimeStamp? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.endTime = endTime
+            self.eventScopeCode = eventScopeCode
             self.eventTypeCategory = eventTypeCategory
             self.eventTypeCode = eventTypeCode
             self.lastUpdatedTime = lastUpdatedTime
@@ -883,6 +899,7 @@ extension Health {
             case arn = "arn"
             case availabilityZone = "availabilityZone"
             case endTime = "endTime"
+            case eventScopeCode = "eventScopeCode"
             case eventTypeCategory = "eventTypeCategory"
             case eventTypeCode = "eventTypeCode"
             case lastUpdatedTime = "lastUpdatedTime"
@@ -895,16 +912,16 @@ extension Health {
 
     public struct EventAccountFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "awsAccountId", required: false, type: .string), 
             AWSShapeMember(label: "eventArn", required: true, type: .string)
         ]
 
         /// The 12-digit AWS account numbers that contains the affected entities.
-        public let awsAccountId: String
+        public let awsAccountId: String?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String
 
-        public init(awsAccountId: String, eventArn: String) {
+        public init(awsAccountId: String? = nil, eventArn: String) {
             self.awsAccountId = awsAccountId
             self.eventArn = eventArn
         }
@@ -1056,7 +1073,7 @@ extension Health {
         public let services: [String]?
         /// A list of dates and times that the event began.
         public let startTimes: [DateTimeRange]?
-        /// A map of entity tags attached to the affected entity.
+        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported. 
         public let tags: [[String: String]]?
 
         public init(availabilityZones: [String]? = nil, endTimes: [DateTimeRange]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, regions: [String]? = nil, services: [String]? = nil, startTimes: [DateTimeRange]? = nil, tags: [[String: String]]? = nil) {
@@ -1090,8 +1107,8 @@ extension Health {
             try validate(self.entityArns, name:"entityArns", parent: name, max: 100)
             try validate(self.entityArns, name:"entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
-                try validate($0, name: "entityValues[]", parent: name, max: 256)
-                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,256}")
+                try validate($0, name: "entityValues[]", parent: name, max: 1224)
+                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
             try validate(self.entityValues, name:"entityValues", parent: name, max: 100)
             try validate(self.entityValues, name:"entityValues", parent: name, min: 1)
@@ -1259,6 +1276,7 @@ extension Health {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "eventScopeCode", required: false, type: .enum), 
             AWSShapeMember(label: "eventTypeCategory", required: false, type: .enum), 
             AWSShapeMember(label: "eventTypeCode", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
@@ -1272,6 +1290,8 @@ extension Health {
         public let arn: String?
         /// The date and time that the event ended.
         public let endTime: TimeStamp?
+        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.  
+        public let eventScopeCode: EventScopeCode?
         /// The category of the event type.
         public let eventTypeCategory: EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION. For example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
@@ -1287,9 +1307,10 @@ extension Health {
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
 
-        public init(arn: String? = nil, endTime: TimeStamp? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
+        public init(arn: String? = nil, endTime: TimeStamp? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
             self.arn = arn
             self.endTime = endTime
+            self.eventScopeCode = eventScopeCode
             self.eventTypeCategory = eventTypeCategory
             self.eventTypeCode = eventTypeCode
             self.lastUpdatedTime = lastUpdatedTime
@@ -1302,6 +1323,7 @@ extension Health {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case endTime = "endTime"
+            case eventScopeCode = "eventScopeCode"
             case eventTypeCategory = "eventTypeCategory"
             case eventTypeCode = "eventTypeCode"
             case lastUpdatedTime = "lastUpdatedTime"
@@ -1392,13 +1414,13 @@ extension Health {
         /// A list of 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountIds: [String]?
         public let endTime: DateTimeRange?
-        /// REPLACEME
+        /// A list of entity ARNs (unique identifiers).
         public let entityArns: [String]?
         /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS volumes (vol-426ab23e).
         public let entityValues: [String]?
         /// A list of event status codes.
         public let eventStatusCodes: [EventStatusCode]?
-        /// REPLACEME
+        /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
         /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED". 
         public let eventTypeCodes: [String]?
@@ -1437,8 +1459,8 @@ extension Health {
             try validate(self.entityArns, name:"entityArns", parent: name, max: 100)
             try validate(self.entityArns, name:"entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
-                try validate($0, name: "entityValues[]", parent: name, max: 256)
-                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,256}")
+                try validate($0, name: "entityValues[]", parent: name, max: 1224)
+                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
             try validate(self.entityValues, name:"entityValues", parent: name, max: 100)
             try validate(self.entityValues, name:"entityValues", parent: name, min: 1)

@@ -30,6 +30,7 @@ extension Pinpoint {
     }
 
     public enum ChannelType: String, CustomStringConvertible, Codable {
+        case push = "PUSH"
         case gcm = "GCM"
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
@@ -173,6 +174,7 @@ extension Pinpoint {
     }
 
     public enum Endpointtypeselement: String, CustomStringConvertible, Codable {
+        case push = "PUSH"
         case gcm = "GCM"
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
@@ -1040,16 +1042,21 @@ extension Pinpoint {
     public struct Activity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConditionalSplit", required: false, type: .structure), 
+            AWSShapeMember(label: "CUSTOM", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "EMAIL", required: false, type: .structure), 
             AWSShapeMember(label: "Holdout", required: false, type: .structure), 
             AWSShapeMember(label: "MultiCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "PUSH", required: false, type: .structure), 
             AWSShapeMember(label: "RandomSplit", required: false, type: .structure), 
+            AWSShapeMember(label: "SMS", required: false, type: .structure), 
             AWSShapeMember(label: "Wait", required: false, type: .structure)
         ]
 
         /// The settings for a yes/no split activity. This type of activity sends participants down one of two paths in a journey, based on conditions that you specify.
         public let conditionalSplit: ConditionalSplitActivity?
+        /// The settings for a custom message activity. This type of activity calls an AWS Lambda function or web hook that sends messages to participants.
+        public let custom: CustomMessageActivity?
         /// The custom description of the activity.
         public let description: String?
         /// The settings for an email activity. This type of activity sends an email message to participants.
@@ -1058,28 +1065,38 @@ extension Pinpoint {
         public let holdout: HoldoutActivity?
         /// The settings for a multivariate split activity. This type of activity sends participants down one of as many as five paths (including a default Else path) in a journey, based on conditions that you specify.
         public let multiCondition: MultiConditionalSplitActivity?
+        /// The settings for a push notification activity. This type of activity sends a push notification to participants.
+        public let push: PushMessageActivity?
         /// The settings for a random split activity. This type of activity randomly sends specified percentages of participants down one of as many as five paths in a journey, based on conditions that you specify.
         public let randomSplit: RandomSplitActivity?
+        /// The settings for an SMS activity. This type of activity sends a text message to participants.
+        public let sms: SMSMessageActivity?
         /// The settings for a wait activity. This type of activity waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
         public let wait: WaitActivity?
 
-        public init(conditionalSplit: ConditionalSplitActivity? = nil, description: String? = nil, email: EmailMessageActivity? = nil, holdout: HoldoutActivity? = nil, multiCondition: MultiConditionalSplitActivity? = nil, randomSplit: RandomSplitActivity? = nil, wait: WaitActivity? = nil) {
+        public init(conditionalSplit: ConditionalSplitActivity? = nil, custom: CustomMessageActivity? = nil, description: String? = nil, email: EmailMessageActivity? = nil, holdout: HoldoutActivity? = nil, multiCondition: MultiConditionalSplitActivity? = nil, push: PushMessageActivity? = nil, randomSplit: RandomSplitActivity? = nil, sms: SMSMessageActivity? = nil, wait: WaitActivity? = nil) {
             self.conditionalSplit = conditionalSplit
+            self.custom = custom
             self.description = description
             self.email = email
             self.holdout = holdout
             self.multiCondition = multiCondition
+            self.push = push
             self.randomSplit = randomSplit
+            self.sms = sms
             self.wait = wait
         }
 
         private enum CodingKeys: String, CodingKey {
             case conditionalSplit = "ConditionalSplit"
+            case custom = "CUSTOM"
             case description = "Description"
             case email = "EMAIL"
             case holdout = "Holdout"
             case multiCondition = "MultiCondition"
+            case push = "PUSH"
             case randomSplit = "RandomSplit"
+            case sms = "SMS"
             case wait = "Wait"
         }
     }
@@ -1953,7 +1970,7 @@ extension Pinpoint {
 
         /// The body of the SMS message.
         public let body: String?
-        /// The type of SMS message. Valid values are: TRANSACTIONAL, the message is critical or time-sensitive, such as a one-time password that supports a customer transaction; and, PROMOTIONAL, the message isn't critical or time-sensitive, such as a marketing message.
+        /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL (for messsages that aren't critical or time-sensitive, such as marketing messages).
         public let messageType: MessageType?
         /// The sender ID to display on recipients' devices when they receive the SMS message.
         public let senderId: String?
@@ -2695,6 +2712,48 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case deliveryUri = "DeliveryUri"
             case endpointTypes = "EndpointTypes"
+        }
+    }
+
+    public struct CustomMessageActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryUri", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointTypes", required: false, type: .list), 
+            AWSShapeMember(label: "MessageConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "NextActivity", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateVersion", required: false, type: .string)
+        ]
+
+        /// The destination to send the custom message to. This value can be one of the following: The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke to handle delivery of the custom message. The URL for a web application or service that supports HTTPS and can receive the message. The URL has to be a full URL, including the HTTPS protocol.
+        public let deliveryUri: String?
+        /// The types of endpoints to send the custom message to. Each valid value maps to a type of channel that you can associate with an endpoint by using the ChannelType property of an endpoint.
+        public let endpointTypes: [Endpointtypeselement]?
+        /// Specifies the message data included in a custom channel message that's sent to participants in a journey.
+        public let messageConfig: JourneyCustomMessage?
+        /// The unique identifier for the next activity to perform, after Amazon Pinpoint calls the AWS Lambda function or web hook.
+        public let nextActivity: String?
+        /// The name of the custom message template to use for the message. If specified, this value must match the name of an existing message template.
+        public let templateName: String?
+        /// The unique identifier for the version of the message template to use for the message. If specified, this value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource. If you don't specify a value for this property, Amazon Pinpoint uses the active version of the template. The active version is typically the version of a template that's been most recently reviewed and approved for use, depending on your workflow. It isn't necessarily the latest version of a template.
+        public let templateVersion: String?
+
+        public init(deliveryUri: String? = nil, endpointTypes: [Endpointtypeselement]? = nil, messageConfig: JourneyCustomMessage? = nil, nextActivity: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
+            self.deliveryUri = deliveryUri
+            self.endpointTypes = endpointTypes
+            self.messageConfig = messageConfig
+            self.nextActivity = nextActivity
+            self.templateName = templateName
+            self.templateVersion = templateVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryUri = "DeliveryUri"
+            case endpointTypes = "EndpointTypes"
+            case messageConfig = "MessageConfig"
+            case nextActivity = "NextActivity"
+            case templateName = "TemplateName"
+            case templateVersion = "TemplateVersion"
         }
     }
 
@@ -3824,11 +3883,11 @@ extension Pinpoint {
             AWSShapeMember(label: "TemplateVersion", required: false, type: .string)
         ]
 
-        /// The "From" address to use for the message.
+        /// Specifies the sender address for an email message that's sent to participants in the journey.
         public let messageConfig: JourneyEmailMessage?
         /// The unique identifier for the next activity to perform, after the message is sent.
         public let nextActivity: String?
-        /// The name of the email template to use for the message.
+        /// The name of the email message template to use for the message. If specified, this value must match the name of an existing message template.
         public let templateName: String?
         /// The unique identifier for the version of the email template to use for the message. If specified, this value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource. If you don't specify a value for this property, Amazon Pinpoint uses the active version of the template. The active version is typically the version of a template that's been most recently reviewed and approved for use, depending on your workflow. It isn't necessarily the latest version of a template.
         public let templateVersion: String?
@@ -7074,6 +7133,23 @@ extension Pinpoint {
         }
     }
 
+    public struct JourneyCustomMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: false, type: .string)
+        ]
+
+        /// The message content that's passed to an AWS Lambda function or to a web hook.
+        public let data: String?
+
+        public init(data: String? = nil) {
+            self.data = data
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+        }
+    }
+
     public struct JourneyDateRangeKpiResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
@@ -7239,6 +7315,23 @@ extension Pinpoint {
         }
     }
 
+    public struct JourneyPushMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeToLive", required: false, type: .string)
+        ]
+
+        /// The number of seconds that the push notification service should keep the message, if the service is unable to deliver the notification the first time. This value is converted to an expiration value when it's sent to a push-notification service. If this value is 0, the service treats the notification as if it expires immediately and the service doesn't store or try to deliver the notification again. This value doesn't apply to messages that are sent through the Amazon Device Messaging (ADM) service.
+        public let timeToLive: String?
+
+        public init(timeToLive: String? = nil) {
+            self.timeToLive = timeToLive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeToLive = "TimeToLive"
+        }
+    }
+
     public struct JourneyResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Activities", required: false, type: .map), 
@@ -7323,6 +7416,28 @@ extension Pinpoint {
             case startCondition = "StartCondition"
             case state = "State"
             case tags = "tags"
+        }
+    }
+
+    public struct JourneySMSMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageType", required: false, type: .enum), 
+            AWSShapeMember(label: "SenderId", required: false, type: .string)
+        ]
+
+        /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL (for messsages that aren't critical or time-sensitive, such as marketing messages).
+        public let messageType: MessageType?
+        /// The sender ID to display as the sender of the message on a recipient's device. Support for sender IDs varies by country or region. For more information, see Supported Countries and Regions in the Amazon Pinpoint User Guide.
+        public let senderId: String?
+
+        public init(messageType: MessageType? = nil, senderId: String? = nil) {
+            self.messageType = messageType
+            self.senderId = senderId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageType = "MessageType"
+            case senderId = "SenderId"
         }
     }
 
@@ -8123,6 +8238,38 @@ extension Pinpoint {
         }
     }
 
+    public struct PushMessageActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "NextActivity", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateVersion", required: false, type: .string)
+        ]
+
+        /// Specifies the time to live (TTL) value for push notifications that are sent to participants in a journey.
+        public let messageConfig: JourneyPushMessage?
+        /// The unique identifier for the next activity to perform, after the message is sent.
+        public let nextActivity: String?
+        /// The name of the push notification template to use for the message. If specified, this value must match the name of an existing message template.
+        public let templateName: String?
+        /// The unique identifier for the version of the push notification template to use for the message. If specified, this value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource. If you don't specify a value for this property, Amazon Pinpoint uses the active version of the template. The active version is typically the version of a template that's been most recently reviewed and approved for use, depending on your workflow. It isn't necessarily the latest version of a template.
+        public let templateVersion: String?
+
+        public init(messageConfig: JourneyPushMessage? = nil, nextActivity: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
+            self.messageConfig = messageConfig
+            self.nextActivity = nextActivity
+            self.templateName = templateName
+            self.templateVersion = templateVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageConfig = "MessageConfig"
+            case nextActivity = "NextActivity"
+            case templateName = "TemplateName"
+            case templateVersion = "TemplateVersion"
+        }
+    }
+
     public struct PushNotificationTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ADM", required: false, type: .structure), 
@@ -8736,9 +8883,9 @@ extension Pinpoint {
         public let body: String?
         /// The SMS program name that you provided to AWS Support when you requested your dedicated number.
         public let keyword: String?
-        /// The URL of an image or video to display in the SMS message.
+        /// The URL of an image or video to display in the SMS message. This field is reserved for future use.
         public let mediaUrl: String?
-        /// The SMS message type. Valid values are: TRANSACTIONAL, the message is critical or time-sensitive, such as a one-time password that supports a customer transaction; and, PROMOTIONAL, the message is not critical or time-sensitive, such as a marketing message.
+        /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL (for messsages that aren't critical or time-sensitive, such as marketing messages).
         public let messageType: MessageType?
         /// The number to send the SMS message from. This value should be one of the dedicated long or short codes that's assigned to your AWS account. If you don't specify a long or short code, Amazon Pinpoint assigns a random long code to the SMS message and sends the message from that code.
         public let originationNumber: String?
@@ -8765,6 +8912,38 @@ extension Pinpoint {
             case originationNumber = "OriginationNumber"
             case senderId = "SenderId"
             case substitutions = "Substitutions"
+        }
+    }
+
+    public struct SMSMessageActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "NextActivity", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateVersion", required: false, type: .string)
+        ]
+
+        /// Specifies the sender ID and message type for an SMS message that's sent to participants in a journey.
+        public let messageConfig: JourneySMSMessage?
+        /// The unique identifier for the next activity to perform, after the message is sent.
+        public let nextActivity: String?
+        /// The name of the SMS message template to use for the message. If specified, this value must match the name of an existing message template.
+        public let templateName: String?
+        /// The unique identifier for the version of the SMS template to use for the message. If specified, this value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource. If you don't specify a value for this property, Amazon Pinpoint uses the active version of the template. The active version is typically the version of a template that's been most recently reviewed and approved for use, depending on your workflow. It isn't necessarily the latest version of a template.
+        public let templateVersion: String?
+
+        public init(messageConfig: JourneySMSMessage? = nil, nextActivity: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
+            self.messageConfig = messageConfig
+            self.nextActivity = nextActivity
+            self.templateName = templateName
+            self.templateVersion = templateVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageConfig = "MessageConfig"
+            case nextActivity = "NextActivity"
+            case templateName = "TemplateName"
+            case templateVersion = "TemplateVersion"
         }
     }
 

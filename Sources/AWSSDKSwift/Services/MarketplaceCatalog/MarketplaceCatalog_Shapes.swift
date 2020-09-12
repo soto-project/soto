@@ -163,25 +163,30 @@ extension MarketplaceCatalog {
     public struct ChangeSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeType", required: false, type: .string), 
+            AWSShapeMember(label: "Details", required: false, type: .string), 
             AWSShapeMember(label: "Entity", required: false, type: .structure), 
             AWSShapeMember(label: "ErrorDetailList", required: false, type: .list)
         ]
 
         /// The type of the change.
         public let changeType: String?
+        /// This object contains details specific to the change type of the requested change.
+        public let details: String?
         /// The entity to be changed.
         public let entity: Entity?
         /// An array of ErrorDetail objects associated with the change.
         public let errorDetailList: [ErrorDetail]?
 
-        public init(changeType: String? = nil, entity: Entity? = nil, errorDetailList: [ErrorDetail]? = nil) {
+        public init(changeType: String? = nil, details: String? = nil, entity: Entity? = nil, errorDetailList: [ErrorDetail]? = nil) {
             self.changeType = changeType
+            self.details = details
             self.entity = entity
             self.errorDetailList = errorDetailList
         }
 
         private enum CodingKeys: String, CodingKey {
             case changeType = "ChangeType"
+            case details = "Details"
             case entity = "Entity"
             case errorDetailList = "ErrorDetailList"
         }
@@ -387,9 +392,9 @@ extension MarketplaceCatalog {
         public let entityType: String?
         /// The last time the entity was published, using ISO 8601 format (2018-02-27T13:45:22Z).
         public let lastModifiedDate: String?
-        /// The name for the entity. This value is not unique. It is defined by the provider.
+        /// The name for the entity. This value is not unique. It is defined by the seller.
         public let name: String?
-        /// The visibility status of the entity to subscribers. This value can be Public (everyone can view the entity), Limited (the entity is visible to limited accounts only), or Restricted (the entity was published and then unpublished and only existing subscribers can view it). 
+        /// The visibility status of the entity to buyers. This value can be Public (everyone can view the entity), Limited (the entity is visible to limited accounts only), or Restricted (the entity was published and then unpublished and only existing buyers can view it). 
         public let visibility: String?
 
         public init(entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, name: String? = nil, visibility: String? = nil) {
@@ -480,7 +485,7 @@ extension MarketplaceCatalog {
         public let maxResults: Int?
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
-        /// An object that contains two attributes, sortBy and sortOrder.
+        /// An object that contains two attributes, SortBy and SortOrder.
         public let sort: Sort?
 
         public init(catalog: String, filterList: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: Sort? = nil) {
@@ -559,7 +564,7 @@ extension MarketplaceCatalog {
         public let maxResults: Int?
         /// The value of the next token, if it exists. Null if there are no more results.
         public let nextToken: String?
-        /// An object that contains two attributes, sortBy and sortOrder.
+        /// An object that contains two attributes, SortBy and SortOrder.
         public let sort: Sort?
 
         public init(catalog: String, entityType: String, filterList: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: Sort? = nil) {

@@ -108,6 +108,7 @@ extension Imagebuilder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "amiTags", required: false, type: .map), 
             AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "launchPermission", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
@@ -116,14 +117,17 @@ extension Imagebuilder {
         public let amiTags: [String: String]?
         /// The description of the distribution configuration. 
         public let description: String?
+        ///  The KMS key identifier used to encrypt the distributed image. 
+        public let kmsKeyId: String?
         ///  Launch permissions can be used to configure which AWS accounts can use the AMI to launch instances. 
         public let launchPermission: LaunchPermissionConfiguration?
         /// The name of the distribution configuration. 
         public let name: String?
 
-        public init(amiTags: [String: String]? = nil, description: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil) {
+        public init(amiTags: [String: String]? = nil, description: String? = nil, kmsKeyId: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil) {
             self.amiTags = amiTags
             self.description = description
+            self.kmsKeyId = kmsKeyId
             self.launchPermission = launchPermission
             self.name = name
         }
@@ -137,15 +141,18 @@ extension Imagebuilder {
             }
             try validate(self.description, name:"description", parent: name, max: 1024)
             try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 1024)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, min: 1)
             try self.launchPermission?.validate(name: "\(name).launchPermission")
             try validate(self.name, name:"name", parent: name, max: 127)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[-_A-Za-z0-9{][-_A-Za-z0-9\\s:{}]+[-_A-Za-z0-9}]$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[-_A-Za-z0-9{][-_A-Za-z0-9\\s:{}\\.]+[-_A-Za-z0-9}]$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case amiTags = "amiTags"
             case description = "description"
+            case kmsKeyId = "kmsKeyId"
             case launchPermission = "launchPermission"
             case name = "name"
         }
@@ -218,6 +225,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "owner", required: false, type: .string), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
+            AWSShapeMember(label: "supportedOsVersions", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
@@ -243,6 +251,8 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
+        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        public let supportedOsVersions: [String]?
         /// The tags associated with the component.
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
@@ -250,7 +260,7 @@ extension Imagebuilder {
         /// The version of the component.
         public let version: String?
 
-        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.data = data
@@ -261,6 +271,7 @@ extension Imagebuilder {
             self.name = name
             self.owner = owner
             self.platform = platform
+            self.supportedOsVersions = supportedOsVersions
             self.tags = tags
             self.`type` = `type`
             self.version = version
@@ -277,6 +288,7 @@ extension Imagebuilder {
             case name = "name"
             case owner = "owner"
             case platform = "platform"
+            case supportedOsVersions = "supportedOsVersions"
             case tags = "tags"
             case `type` = "type"
             case version = "version"
@@ -313,6 +325,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "owner", required: false, type: .string), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
+            AWSShapeMember(label: "supportedOsVersions", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
@@ -332,6 +345,8 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
+        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        public let supportedOsVersions: [String]?
         /// The tags associated with the component.
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
@@ -339,7 +354,7 @@ extension Imagebuilder {
         /// The version of the component.
         public let version: String?
 
-        public init(arn: String? = nil, changeDescription: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, changeDescription: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.dateCreated = dateCreated
@@ -347,6 +362,7 @@ extension Imagebuilder {
             self.name = name
             self.owner = owner
             self.platform = platform
+            self.supportedOsVersions = supportedOsVersions
             self.tags = tags
             self.`type` = `type`
             self.version = version
@@ -360,6 +376,7 @@ extension Imagebuilder {
             case name = "name"
             case owner = "owner"
             case platform = "platform"
+            case supportedOsVersions = "supportedOsVersions"
             case tags = "tags"
             case `type` = "type"
             case version = "version"
@@ -374,6 +391,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "owner", required: false, type: .string), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
+            AWSShapeMember(label: "supportedOsVersions", required: false, type: .list), 
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
@@ -390,18 +408,21 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
+        ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        public let supportedOsVersions: [String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
         public let `type`: ComponentType?
         /// The semantic version of the component.
         public let version: String?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.description = description
             self.name = name
             self.owner = owner
             self.platform = platform
+            self.supportedOsVersions = supportedOsVersions
             self.`type` = `type`
             self.version = version
         }
@@ -413,6 +434,7 @@ extension Imagebuilder {
             case name = "name"
             case owner = "owner"
             case platform = "platform"
+            case supportedOsVersions = "supportedOsVersions"
             case `type` = "type"
             case version = "version"
         }
@@ -428,6 +450,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "platform", required: true, type: .enum), 
             AWSShapeMember(label: "semanticVersion", required: true, type: .string), 
+            AWSShapeMember(label: "supportedOsVersions", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "uri", required: false, type: .string)
         ]
@@ -448,12 +471,14 @@ extension Imagebuilder {
         public let platform: Platform
         /// The semantic version of the component. This version follows the semantic version syntax. For example, major.minor.patch. This could be versioned like software (2.0.1) or like a date (2019.12.01).
         public let semanticVersion: String
+        ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        public let supportedOsVersions: [String]?
         /// The tags of the component.
         public let tags: [String: String]?
         /// The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
         public let uri: String?
 
-        public init(changeDescription: String? = nil, clientToken: String = CreateComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, tags: [String: String]? = nil, uri: String? = nil) {
+        public init(changeDescription: String? = nil, clientToken: String = CreateComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
             self.changeDescription = changeDescription
             self.clientToken = clientToken
             self.data = data
@@ -462,6 +487,7 @@ extension Imagebuilder {
             self.name = name
             self.platform = platform
             self.semanticVersion = semanticVersion
+            self.supportedOsVersions = supportedOsVersions
             self.tags = tags
             self.uri = uri
         }
@@ -479,6 +505,11 @@ extension Imagebuilder {
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
             try validate(self.semanticVersion, name:"semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.supportedOsVersions?.forEach {
+                try validate($0, name: "supportedOsVersions[]", parent: name, min: 1)
+            }
+            try validate(self.supportedOsVersions, name:"supportedOsVersions", parent: name, max: 25)
+            try validate(self.supportedOsVersions, name:"supportedOsVersions", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
@@ -496,6 +527,7 @@ extension Imagebuilder {
             case name = "name"
             case platform = "platform"
             case semanticVersion = "semanticVersion"
+            case supportedOsVersions = "supportedOsVersions"
             case tags = "tags"
             case uri = "uri"
         }
@@ -731,7 +763,8 @@ extension Imagebuilder {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "parentImage", required: true, type: .string), 
             AWSShapeMember(label: "semanticVersion", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "workingDirectory", required: false, type: .string)
         ]
 
         /// The block device mappings of the image recipe. 
@@ -750,8 +783,10 @@ extension Imagebuilder {
         public let semanticVersion: String
         ///  The tags of the image recipe. 
         public let tags: [String: String]?
+        /// The working directory to be used during build and test workflows.
+        public let workingDirectory: String?
 
-        public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil) {
+        public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.clientToken = clientToken
             self.components = components
@@ -760,6 +795,7 @@ extension Imagebuilder {
             self.parentImage = parentImage
             self.semanticVersion = semanticVersion
             self.tags = tags
+            self.workingDirectory = workingDirectory
         }
 
         public func validate(name: String) throws {
@@ -784,6 +820,8 @@ extension Imagebuilder {
                 try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try validate(self.workingDirectory, name:"workingDirectory", parent: name, max: 1024)
+            try validate(self.workingDirectory, name:"workingDirectory", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -795,6 +833,7 @@ extension Imagebuilder {
             case parentImage = "parentImage"
             case semanticVersion = "semanticVersion"
             case tags = "tags"
+            case workingDirectory = "workingDirectory"
         }
     }
 
@@ -923,6 +962,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "keyPair", required: false, type: .string), 
             AWSShapeMember(label: "logging", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "resourceTags", required: false, type: .map), 
             AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "snsTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "subnetId", required: false, type: .string), 
@@ -944,6 +984,8 @@ extension Imagebuilder {
         public let logging: Logging?
         /// The name of the infrastructure configuration. 
         public let name: String
+        /// The tags attached to the resource created by Image Builder.
+        public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your EC2 AMI. 
         public let securityGroupIds: [String]?
         /// The SNS topic on which to send image build events. 
@@ -955,7 +997,7 @@ extension Imagebuilder {
         /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
         public let terminateInstanceOnFailure: Bool?
 
-        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.instanceProfileName = instanceProfileName
@@ -963,6 +1005,7 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
@@ -981,6 +1024,12 @@ extension Imagebuilder {
             try validate(self.keyPair, name:"keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
             try validate(self.name, name:"name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.resourceTags?.forEach {
+                try validate($0.key, name:"resourceTags.key", parent: name, max: 128)
+                try validate($0.key, name:"resourceTags.key", parent: name, min: 1)
+                try validate($0.key, name:"resourceTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"resourceTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
@@ -1004,6 +1053,7 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
@@ -1569,7 +1619,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try validate(self.componentBuildVersionArn, name:"componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try validate(self.componentBuildVersionArn, name:"componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/(?:(?:(\\d+|x)\\.(\\d+|x)\\.(\\d+|x))|(?:\\d+\\.\\d+\\.\\d+/\\d+))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1827,7 +1877,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try validate(self.imageBuildVersionArn, name:"imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try validate(self.imageBuildVersionArn, name:"imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/(?:(?:(\\d+|x)\\.(\\d+|x)\\.(\\d+|x))|(?:\\d+\\.\\d+\\.\\d+/\\d+))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2096,7 +2146,8 @@ extension Imagebuilder {
             AWSShapeMember(label: "parentImage", required: false, type: .string), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "workingDirectory", required: false, type: .string)
         ]
 
         /// The Amazon Resource Name (ARN) of the image recipe.
@@ -2121,8 +2172,10 @@ extension Imagebuilder {
         public let tags: [String: String]?
         /// The version of the image recipe.
         public let version: String?
+        /// The working directory to be used during build and test workflows.
+        public let workingDirectory: String?
 
-        public init(arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, version: String? = nil, workingDirectory: String? = nil) {
             self.arn = arn
             self.blockDeviceMappings = blockDeviceMappings
             self.components = components
@@ -2134,6 +2187,7 @@ extension Imagebuilder {
             self.platform = platform
             self.tags = tags
             self.version = version
+            self.workingDirectory = workingDirectory
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2148,6 +2202,7 @@ extension Imagebuilder {
             case platform = "platform"
             case tags = "tags"
             case version = "version"
+            case workingDirectory = "workingDirectory"
         }
     }
 
@@ -2487,6 +2542,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "keyPair", required: false, type: .string), 
             AWSShapeMember(label: "logging", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "resourceTags", required: false, type: .map), 
             AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "snsTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "subnetId", required: false, type: .string), 
@@ -2512,6 +2568,8 @@ extension Imagebuilder {
         public let logging: Logging?
         /// The name of the infrastructure configuration.
         public let name: String?
+        /// The tags attached to the resource created by Image Builder.
+        public let resourceTags: [String: String]?
         /// The security group IDs of the infrastructure configuration.
         public let securityGroupIds: [String]?
         /// The SNS topic Amazon Resource Name (ARN) of the infrastructure configuration.
@@ -2523,7 +2581,7 @@ extension Imagebuilder {
         /// The terminate instance on failure configuration of the infrastructure configuration.
         public let terminateInstanceOnFailure: Bool?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -2533,6 +2591,7 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
@@ -2550,6 +2609,7 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
@@ -2565,6 +2625,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "dateUpdated", required: false, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "resourceTags", required: false, type: .map), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
@@ -2578,15 +2639,18 @@ extension Imagebuilder {
         public let description: String?
         /// The name of the infrastructure configuration.
         public let name: String?
+        /// The tags attached to the image created by Image Builder.
+        public let resourceTags: [String: String]?
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, name: String? = nil, resourceTags: [String: String]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
             self.description = description
             self.name = name
+            self.resourceTags = resourceTags
             self.tags = tags
         }
 
@@ -2596,6 +2660,7 @@ extension Imagebuilder {
             case dateUpdated = "dateUpdated"
             case description = "description"
             case name = "name"
+            case resourceTags = "resourceTags"
             case tags = "tags"
         }
     }
@@ -2815,7 +2880,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        /// The filters. 
+        /// The filters.     name - The name of this distribution configuration.  
         public let filters: [Filter]?
         /// The maximum items to return in a request. 
         public let maxResults: Int?
@@ -3891,6 +3956,7 @@ extension Imagebuilder {
             AWSShapeMember(label: "instanceTypes", required: false, type: .list), 
             AWSShapeMember(label: "keyPair", required: false, type: .string), 
             AWSShapeMember(label: "logging", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceTags", required: false, type: .map), 
             AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "snsTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "subnetId", required: false, type: .string), 
@@ -3911,6 +3977,8 @@ extension Imagebuilder {
         public let keyPair: String?
         /// The logging configuration of the infrastructure configuration. 
         public let logging: Logging?
+        /// The tags attached to the resource created by Image Builder.
+        public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your EC2 AMI. 
         public let securityGroupIds: [String]?
         /// The SNS topic on which to send image build events. 
@@ -3920,7 +3988,7 @@ extension Imagebuilder {
         /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
         public let terminateInstanceOnFailure: Bool?
 
-        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -3928,6 +3996,7 @@ extension Imagebuilder {
             self.instanceTypes = instanceTypes
             self.keyPair = keyPair
             self.logging = logging
+            self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
@@ -3945,6 +4014,12 @@ extension Imagebuilder {
             try validate(self.keyPair, name:"keyPair", parent: name, max: 1024)
             try validate(self.keyPair, name:"keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
+            try self.resourceTags?.forEach {
+                try validate($0.key, name:"resourceTags.key", parent: name, max: 128)
+                try validate($0.key, name:"resourceTags.key", parent: name, min: 1)
+                try validate($0.key, name:"resourceTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"resourceTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
@@ -3962,6 +4037,7 @@ extension Imagebuilder {
             case instanceTypes = "instanceTypes"
             case keyPair = "keyPair"
             case logging = "logging"
+            case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"

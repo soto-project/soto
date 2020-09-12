@@ -65,7 +65,7 @@ public struct Personalize {
         return client.send(operation: "CreateDatasetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a job that imports training data from your data source (an Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you must specify an AWS Identity and Access Management (IAM) role that has permission to read from the data source.  The dataset import job replaces any previous data in the dataset.   Status  A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   To get the status of the import job, call DescribeDatasetImportJob, providing the Amazon Resource Name (ARN) of the dataset import job. The dataset import is complete when the status shows as ACTIVE. If the status shows as CREATE FAILED, the response includes a failureReason key, which describes why the job failed.  Importing takes time. You must wait until the status shows as ACTIVE before training a model using the dataset.   Related APIs     ListDatasetImportJobs     DescribeDatasetImportJob   
+    ///  Creates a job that imports training data from your data source (an Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you must specify an AWS Identity and Access Management (IAM) role that has permission to read from the data source, as Amazon Personalize makes a copy of your data and processes it in an internal AWS system.  The dataset import job replaces any previous data in the dataset.   Status  A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   To get the status of the import job, call DescribeDatasetImportJob, providing the Amazon Resource Name (ARN) of the dataset import job. The dataset import is complete when the status shows as ACTIVE. If the status shows as CREATE FAILED, the response includes a failureReason key, which describes why the job failed.  Importing takes time. You must wait until the status shows as ACTIVE before training a model using the dataset.   Related APIs     ListDatasetImportJobs     DescribeDatasetImportJob   
     public func createDatasetImportJob(_ input: CreateDatasetImportJobRequest) -> EventLoopFuture<CreateDatasetImportJobResponse> {
         return client.send(operation: "CreateDatasetImportJob", path: "/", httpMethod: "POST", input: input)
     }
@@ -73,6 +73,11 @@ public struct Personalize {
     ///  Creates an event tracker that you use when sending event data to the specified dataset group using the PutEvents API. When Amazon Personalize creates an event tracker, it also creates an event-interactions dataset in the dataset group associated with the event tracker. The event-interactions dataset stores the event data from the PutEvents call. The contents of this dataset are not available to the user.  Only one event tracker can be associated with a dataset group. You will get an error if you call CreateEventTracker using the same dataset group as an existing event tracker.  When you send event data you include your tracking ID. The tracking ID identifies the customer and authorizes the customer to send the data. The event tracker can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS   To get the status of the event tracker, call DescribeEventTracker.  The event tracker must be in the ACTIVE state before using the tracking ID.   Related APIs     ListEventTrackers     DescribeEventTracker     DeleteEventTracker   
     public func createEventTracker(_ input: CreateEventTrackerRequest) -> EventLoopFuture<CreateEventTrackerResponse> {
         return client.send(operation: "CreateEventTracker", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a recommendation filter. For more information, see Using Filters with Amazon Personalize.
+    public func createFilter(_ input: CreateFilterRequest) -> EventLoopFuture<CreateFilterResponse> {
+        return client.send(operation: "CreateFilter", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Amazon Personalize schema from the specified schema string. The schema you create must be in Avro JSON format. Amazon Personalize recognizes three schema variants. Each schema is associated with a dataset type and has a set of required field and keywords. You specify a schema when you call CreateDataset.  Related APIs     ListSchemas     DescribeSchema     DeleteSchema   
@@ -108,6 +113,11 @@ public struct Personalize {
     ///  Deletes the event tracker. Does not delete the event-interactions dataset from the associated dataset group. For more information on event trackers, see CreateEventTracker.
     @discardableResult public func deleteEventTracker(_ input: DeleteEventTrackerRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteEventTracker", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a filter.
+    @discardableResult public func deleteFilter(_ input: DeleteFilterRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteFilter", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a schema. Before deleting a schema, you must delete all datasets referencing the schema. For more information on schemas, see CreateSchema.
@@ -158,6 +168,11 @@ public struct Personalize {
     ///  Describes the given feature transformation.
     public func describeFeatureTransformation(_ input: DescribeFeatureTransformationRequest) -> EventLoopFuture<DescribeFeatureTransformationResponse> {
         return client.send(operation: "DescribeFeatureTransformation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a filter's properties.
+    public func describeFilter(_ input: DescribeFilterRequest) -> EventLoopFuture<DescribeFilterResponse> {
+        return client.send(operation: "DescribeFilter", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a recipe. A recipe contains three items:   An algorithm that trains a model.   Hyperparameters that govern the training.   Feature transformation information for modifying the input data before training.   Amazon Personalize provides a set of predefined recipes. You specify a recipe when you create a solution with the CreateSolution API. CreateSolution trains a model by using the algorithm in the specified recipe and a training dataset. The solution, when deployed as a campaign, can provide recommendations using the GetRecommendations API.
@@ -213,6 +228,11 @@ public struct Personalize {
     ///  Returns the list of event trackers associated with the account. The response provides the properties for each event tracker, including the Amazon Resource Name (ARN) and tracking ID. For more information on event trackers, see CreateEventTracker.
     public func listEventTrackers(_ input: ListEventTrackersRequest) -> EventLoopFuture<ListEventTrackersResponse> {
         return client.send(operation: "ListEventTrackers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all filters that belong to a given dataset group.
+    public func listFilters(_ input: ListFiltersRequest) -> EventLoopFuture<ListFiltersResponse> {
+        return client.send(operation: "ListFilters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).

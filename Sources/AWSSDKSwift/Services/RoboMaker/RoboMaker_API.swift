@@ -44,6 +44,11 @@ public struct RoboMaker {
     
     //MARK: API Calls
 
+    ///  Deletes one or more worlds in a batch operation.
+    public func batchDeleteWorlds(_ input: BatchDeleteWorldsRequest) -> EventLoopFuture<BatchDeleteWorldsResponse> {
+        return client.send(operation: "BatchDeleteWorlds", path: "/batchDeleteWorlds", httpMethod: "POST", input: input)
+    }
+
     ///  Describes one or more simulation jobs.
     public func batchDescribeSimulationJob(_ input: BatchDescribeSimulationJobRequest) -> EventLoopFuture<BatchDescribeSimulationJobResponse> {
         return client.send(operation: "BatchDescribeSimulationJob", path: "/batchDescribeSimulationJob", httpMethod: "POST", input: input)
@@ -62,6 +67,16 @@ public struct RoboMaker {
     ///  Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch. 
     public func cancelSimulationJobBatch(_ input: CancelSimulationJobBatchRequest) -> EventLoopFuture<CancelSimulationJobBatchResponse> {
         return client.send(operation: "CancelSimulationJobBatch", path: "/cancelSimulationJobBatch", httpMethod: "POST", input: input)
+    }
+
+    ///  Cancels the specified export job.
+    public func cancelWorldExportJob(_ input: CancelWorldExportJobRequest) -> EventLoopFuture<CancelWorldExportJobResponse> {
+        return client.send(operation: "CancelWorldExportJob", path: "/cancelWorldExportJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Cancels the specified world generator job.
+    public func cancelWorldGenerationJob(_ input: CancelWorldGenerationJobRequest) -> EventLoopFuture<CancelWorldGenerationJobResponse> {
+        return client.send(operation: "CancelWorldGenerationJob", path: "/cancelWorldGenerationJob", httpMethod: "POST", input: input)
     }
 
     ///  Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.  
@@ -104,6 +119,21 @@ public struct RoboMaker {
         return client.send(operation: "CreateSimulationJob", path: "/createSimulationJob", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a world export job.
+    public func createWorldExportJob(_ input: CreateWorldExportJobRequest) -> EventLoopFuture<CreateWorldExportJobResponse> {
+        return client.send(operation: "CreateWorldExportJob", path: "/createWorldExportJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates worlds using the specified template.
+    public func createWorldGenerationJob(_ input: CreateWorldGenerationJobRequest) -> EventLoopFuture<CreateWorldGenerationJobResponse> {
+        return client.send(operation: "CreateWorldGenerationJob", path: "/createWorldGenerationJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a world template.
+    public func createWorldTemplate(_ input: CreateWorldTemplateRequest) -> EventLoopFuture<CreateWorldTemplateResponse> {
+        return client.send(operation: "CreateWorldTemplate", path: "/createWorldTemplate", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a fleet.
     public func deleteFleet(_ input: DeleteFleetRequest) -> EventLoopFuture<DeleteFleetResponse> {
         return client.send(operation: "DeleteFleet", path: "/deleteFleet", httpMethod: "POST", input: input)
@@ -122,6 +152,11 @@ public struct RoboMaker {
     ///  Deletes a simulation application.
     public func deleteSimulationApplication(_ input: DeleteSimulationApplicationRequest) -> EventLoopFuture<DeleteSimulationApplicationResponse> {
         return client.send(operation: "DeleteSimulationApplication", path: "/deleteSimulationApplication", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a world template.
+    public func deleteWorldTemplate(_ input: DeleteWorldTemplateRequest) -> EventLoopFuture<DeleteWorldTemplateResponse> {
+        return client.send(operation: "DeleteWorldTemplate", path: "/deleteWorldTemplate", httpMethod: "POST", input: input)
     }
 
     ///  Deregisters a robot.
@@ -164,6 +199,31 @@ public struct RoboMaker {
         return client.send(operation: "DescribeSimulationJobBatch", path: "/describeSimulationJobBatch", httpMethod: "POST", input: input)
     }
 
+    ///  Describes a world.
+    public func describeWorld(_ input: DescribeWorldRequest) -> EventLoopFuture<DescribeWorldResponse> {
+        return client.send(operation: "DescribeWorld", path: "/describeWorld", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a world export job.
+    public func describeWorldExportJob(_ input: DescribeWorldExportJobRequest) -> EventLoopFuture<DescribeWorldExportJobResponse> {
+        return client.send(operation: "DescribeWorldExportJob", path: "/describeWorldExportJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a world generation job.
+    public func describeWorldGenerationJob(_ input: DescribeWorldGenerationJobRequest) -> EventLoopFuture<DescribeWorldGenerationJobResponse> {
+        return client.send(operation: "DescribeWorldGenerationJob", path: "/describeWorldGenerationJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a world template.
+    public func describeWorldTemplate(_ input: DescribeWorldTemplateRequest) -> EventLoopFuture<DescribeWorldTemplateResponse> {
+        return client.send(operation: "DescribeWorldTemplate", path: "/describeWorldTemplate", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the world template body.
+    public func getWorldTemplateBody(_ input: GetWorldTemplateBodyRequest) -> EventLoopFuture<GetWorldTemplateBodyResponse> {
+        return client.send(operation: "GetWorldTemplateBody", path: "/getWorldTemplateBody", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs. 
     public func listDeploymentJobs(_ input: ListDeploymentJobsRequest) -> EventLoopFuture<ListDeploymentJobsResponse> {
         return client.send(operation: "ListDeploymentJobs", path: "/listDeploymentJobs", httpMethod: "POST", input: input)
@@ -204,6 +264,26 @@ public struct RoboMaker {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
 
+    ///  Lists world export jobs.
+    public func listWorldExportJobs(_ input: ListWorldExportJobsRequest) -> EventLoopFuture<ListWorldExportJobsResponse> {
+        return client.send(operation: "ListWorldExportJobs", path: "/listWorldExportJobs", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists world generator jobs.
+    public func listWorldGenerationJobs(_ input: ListWorldGenerationJobsRequest) -> EventLoopFuture<ListWorldGenerationJobsResponse> {
+        return client.send(operation: "ListWorldGenerationJobs", path: "/listWorldGenerationJobs", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists world templates.
+    public func listWorldTemplates(_ input: ListWorldTemplatesRequest) -> EventLoopFuture<ListWorldTemplatesResponse> {
+        return client.send(operation: "ListWorldTemplates", path: "/listWorldTemplates", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists worlds.
+    public func listWorlds(_ input: ListWorldsRequest) -> EventLoopFuture<ListWorldsResponse> {
+        return client.send(operation: "ListWorlds", path: "/listWorlds", httpMethod: "POST", input: input)
+    }
+
     ///  Registers a robot with a fleet.
     public func registerRobot(_ input: RegisterRobotRequest) -> EventLoopFuture<RegisterRobotResponse> {
         return client.send(operation: "RegisterRobot", path: "/registerRobot", httpMethod: "POST", input: input)
@@ -242,5 +322,10 @@ public struct RoboMaker {
     ///  Updates a simulation application.
     public func updateSimulationApplication(_ input: UpdateSimulationApplicationRequest) -> EventLoopFuture<UpdateSimulationApplicationResponse> {
         return client.send(operation: "UpdateSimulationApplication", path: "/updateSimulationApplication", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a world template.
+    public func updateWorldTemplate(_ input: UpdateWorldTemplateRequest) -> EventLoopFuture<UpdateWorldTemplateResponse> {
+        return client.send(operation: "UpdateWorldTemplate", path: "/updateWorldTemplate", httpMethod: "POST", input: input)
     }
 }

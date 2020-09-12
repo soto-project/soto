@@ -56,6 +56,11 @@ extension Glue {
         return client.paginate(input: input, command: getMLTransforms, tokenKey: \GetMLTransformsResponse.nextToken, onPage: onPage)
     }
 
+    ///  Retrieves the partition indexes associated with a table.
+    public func getPartitionIndexesPaginator(_ input: GetPartitionIndexesRequest, onPage: @escaping (GetPartitionIndexesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getPartitionIndexes, tokenKey: \GetPartitionIndexesResponse.nextToken, onPage: onPage)
+    }
+
     ///  Retrieves information about the partitions in a table.
     public func getPartitionsPaginator(_ input: GetPartitionsRequest, onPage: @escaping (GetPartitionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getPartitions, tokenKey: \GetPartitionsResponse.nextToken, onPage: onPage)
@@ -177,7 +182,8 @@ extension Glue.GetDatabasesRequest: AWSPaginateStringToken {
         return .init(
             catalogId: self.catalogId, 
             maxResults: self.maxResults, 
-            nextToken: token
+            nextToken: token, 
+            resourceShareType: self.resourceShareType
         )
 
     }
@@ -234,6 +240,18 @@ extension Glue.GetMLTransformsRequest: AWSPaginateStringToken {
             maxResults: self.maxResults, 
             nextToken: token, 
             sort: self.sort
+        )
+
+    }
+}
+
+extension Glue.GetPartitionIndexesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Glue.GetPartitionIndexesRequest {
+        return .init(
+            catalogId: self.catalogId, 
+            databaseName: self.databaseName, 
+            nextToken: token, 
+            tableName: self.tableName
         )
 
     }
@@ -401,6 +419,7 @@ extension Glue.SearchTablesRequest: AWSPaginateStringToken {
             filters: self.filters, 
             maxResults: self.maxResults, 
             nextToken: token, 
+            resourceShareType: self.resourceShareType, 
             searchText: self.searchText, 
             sortCriteria: self.sortCriteria
         )

@@ -6,9 +6,39 @@ import NIO
 
 extension RDS {
 
+    ///  Lists the set of CA certificates provided by Amazon RDS for this AWS account.
+    public func describeCertificatesPaginator(_ input: DescribeCertificatesMessage, onPage: @escaping (CertificateMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCertificates, tokenKey: \CertificateMessage.marker, onPage: onPage)
+    }
+
     ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.  
     public func describeCustomAvailabilityZonesPaginator(_ input: DescribeCustomAvailabilityZonesMessage, onPage: @escaping (CustomAvailabilityZoneMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCustomAvailabilityZones, tokenKey: \CustomAvailabilityZoneMessage.marker, onPage: onPage)
+    }
+
+    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters. 
+    public func describeDBClusterBacktracksPaginator(_ input: DescribeDBClusterBacktracksMessage, onPage: @escaping (DBClusterBacktrackMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusterBacktracks, tokenKey: \DBClusterBacktrackMessage.marker, onPage: onPage)
+    }
+
+    ///  Returns information about endpoints for an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters. 
+    public func describeDBClusterEndpointsPaginator(_ input: DescribeDBClusterEndpointsMessage, onPage: @escaping (DBClusterEndpointMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusterEndpoints, tokenKey: \DBClusterEndpointMessage.marker, onPage: onPage)
+    }
+
+    ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    public func describeDBClusterParameterGroupsPaginator(_ input: DescribeDBClusterParameterGroupsMessage, onPage: @escaping (DBClusterParameterGroupsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusterParameterGroups, tokenKey: \DBClusterParameterGroupsMessage.marker, onPage: onPage)
+    }
+
+    ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    public func describeDBClusterParametersPaginator(_ input: DescribeDBClusterParametersMessage, onPage: @escaping (DBClusterParameterGroupDetails, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusterParameters, tokenKey: \DBClusterParameterGroupDetails.marker, onPage: onPage)
+    }
+
+    ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    public func describeDBClusterSnapshotsPaginator(_ input: DescribeDBClusterSnapshotsMessage, onPage: @escaping (DBClusterSnapshotMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusterSnapshots, tokenKey: \DBClusterSnapshotMessage.marker, onPage: onPage)
     }
 
     ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
@@ -46,17 +76,17 @@ extension RDS {
         return client.paginate(input: input, command: describeDBParameters, tokenKey: \DBParameterGroupDetails.marker, onPage: onPage)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxies.
+    ///  Returns information about DB proxies.
     public func describeDBProxiesPaginator(_ input: DescribeDBProxiesRequest, onPage: @escaping (DescribeDBProxiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBProxies, tokenKey: \DescribeDBProxiesResponse.marker, onPage: onPage)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
+    ///  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
     public func describeDBProxyTargetGroupsPaginator(_ input: DescribeDBProxyTargetGroupsRequest, onPage: @escaping (DescribeDBProxyTargetGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBProxyTargetGroups, tokenKey: \DescribeDBProxyTargetGroupsResponse.marker, onPage: onPage)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DBProxyTarget objects. This API supports pagination.
+    ///  Returns information about DBProxyTarget objects. This API supports pagination.
     public func describeDBProxyTargetsPaginator(_ input: DescribeDBProxyTargetsRequest, onPage: @escaping (DescribeDBProxyTargetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBProxyTargets, tokenKey: \DescribeDBProxyTargetsResponse.marker, onPage: onPage)
     }
@@ -86,7 +116,7 @@ extension RDS {
         return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, onPage: onPage)
     }
 
-    ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
+    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots for the past 14 days. Events specific to a particular DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping (EventsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, onPage: onPage)
     }
@@ -121,6 +151,11 @@ extension RDS {
         return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, onPage: onPage)
     }
 
+    ///  Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    public func describePendingMaintenanceActionsPaginator(_ input: DescribePendingMaintenanceActionsMessage, onPage: @escaping (PendingMaintenanceActionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describePendingMaintenanceActions, tokenKey: \PendingMaintenanceActionsMessage.marker, onPage: onPage)
+    }
+
     ///  Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
     public func describeReservedDBInstancesPaginator(_ input: DescribeReservedDBInstancesMessage, onPage: @escaping (ReservedDBInstanceMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReservedDBInstances, tokenKey: \ReservedDBInstanceMessage.marker, onPage: onPage)
@@ -131,11 +166,28 @@ extension RDS {
         return client.paginate(input: input, command: describeReservedDBInstancesOfferings, tokenKey: \ReservedDBInstancesOfferingMessage.marker, onPage: onPage)
     }
 
+    ///  Returns a list of the source AWS Regions where the current AWS Region can create a read replica or copy a DB snapshot from. This API action supports pagination.
+    public func describeSourceRegionsPaginator(_ input: DescribeSourceRegionsMessage, onPage: @escaping (SourceRegionMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeSourceRegions, tokenKey: \SourceRegionMessage.marker, onPage: onPage)
+    }
+
     ///  Downloads all or a portion of the specified log file, up to 1 MB in size.
     public func downloadDBLogFilePortionPaginator(_ input: DownloadDBLogFilePortionMessage, onPage: @escaping (DownloadDBLogFilePortionDetails, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: downloadDBLogFilePortion, tokenKey: \DownloadDBLogFilePortionDetails.marker, onPage: onPage)
     }
 
+}
+
+extension RDS.DescribeCertificatesMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeCertificatesMessage {
+        return .init(
+            certificateIdentifier: self.certificateIdentifier, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
+    }
 }
 
 extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateStringToken {
@@ -145,6 +197,73 @@ extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateStringToken {
             filters: self.filters, 
             marker: token, 
             maxRecords: self.maxRecords
+        )
+
+    }
+}
+
+extension RDS.DescribeDBClusterBacktracksMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterBacktracksMessage {
+        return .init(
+            backtrackIdentifier: self.backtrackIdentifier, 
+            dBClusterIdentifier: self.dBClusterIdentifier, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
+    }
+}
+
+extension RDS.DescribeDBClusterEndpointsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterEndpointsMessage {
+        return .init(
+            dBClusterEndpointIdentifier: self.dBClusterEndpointIdentifier, 
+            dBClusterIdentifier: self.dBClusterIdentifier, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
+    }
+}
+
+extension RDS.DescribeDBClusterParameterGroupsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterParameterGroupsMessage {
+        return .init(
+            dBClusterParameterGroupName: self.dBClusterParameterGroupName, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
+    }
+}
+
+extension RDS.DescribeDBClusterParametersMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterParametersMessage {
+        return .init(
+            dBClusterParameterGroupName: self.dBClusterParameterGroupName, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            source: self.source
+        )
+
+    }
+}
+
+extension RDS.DescribeDBClusterSnapshotsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterSnapshotsMessage {
+        return .init(
+            dBClusterIdentifier: self.dBClusterIdentifier, 
+            dBClusterSnapshotIdentifier: self.dBClusterSnapshotIdentifier, 
+            filters: self.filters, 
+            includePublic: self.includePublic, 
+            includeShared: self.includeShared, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            snapshotType: self.snapshotType
         )
 
     }
@@ -447,6 +566,18 @@ extension RDS.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToken 
     }
 }
 
+extension RDS.DescribePendingMaintenanceActionsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribePendingMaintenanceActionsMessage {
+        return .init(
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            resourceIdentifier: self.resourceIdentifier
+        )
+
+    }
+}
+
 extension RDS.DescribeReservedDBInstancesMessage: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeReservedDBInstancesMessage {
         return .init(
@@ -478,6 +609,18 @@ extension RDS.DescribeReservedDBInstancesOfferingsMessage: AWSPaginateStringToke
             offeringType: self.offeringType, 
             productDescription: self.productDescription, 
             reservedDBInstancesOfferingId: self.reservedDBInstancesOfferingId
+        )
+
+    }
+}
+
+extension RDS.DescribeSourceRegionsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeSourceRegionsMessage {
+        return .init(
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            regionName: self.regionName
         )
 
     }

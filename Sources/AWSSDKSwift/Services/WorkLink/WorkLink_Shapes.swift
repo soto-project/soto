@@ -205,7 +205,8 @@ extension WorkLink {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "OptimizeForEndUserLocation", required: false, type: .boolean)
+            AWSShapeMember(label: "OptimizeForEndUserLocation", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
 
         /// The fleet name to display.
@@ -214,11 +215,14 @@ extension WorkLink {
         public let fleetName: String
         /// The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region.
         public let optimizeForEndUserLocation: Bool?
+        ///  The tags to add to the resource. A tag is a key-value pair.
+        public let tags: [String: String]?
 
-        public init(displayName: String? = nil, fleetName: String, optimizeForEndUserLocation: Bool? = nil) {
+        public init(displayName: String? = nil, fleetName: String, optimizeForEndUserLocation: Bool? = nil, tags: [String: String]? = nil) {
             self.displayName = displayName
             self.fleetName = fleetName
             self.optimizeForEndUserLocation = optimizeForEndUserLocation
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -226,12 +230,19 @@ extension WorkLink {
             try validate(self.fleetName, name:"fleetName", parent: name, max: 48)
             try validate(self.fleetName, name:"fleetName", parent: name, min: 1)
             try validate(self.fleetName, name:"fleetName", parent: name, pattern: "^[a-z0-9](?:[a-z0-9\\-]{0,46}[a-z0-9])?$")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case displayName = "DisplayName"
             case fleetName = "FleetName"
             case optimizeForEndUserLocation = "OptimizeForEndUserLocation"
+            case tags = "Tags"
         }
     }
 
@@ -240,7 +251,7 @@ extension WorkLink {
             AWSShapeMember(label: "FleetArn", required: false, type: .string)
         ]
 
-        /// The ARN of the fleet.
+        /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String?
 
         public init(fleetArn: String? = nil) {
@@ -567,7 +578,7 @@ extension WorkLink {
             AWSShapeMember(label: "FleetArn", required: true, type: .string)
         ]
 
-        /// The ARN of the fleet.
+        /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String
 
         public init(fleetArn: String) {
@@ -592,7 +603,8 @@ extension WorkLink {
             AWSShapeMember(label: "FleetName", required: false, type: .string), 
             AWSShapeMember(label: "FleetStatus", required: false, type: .enum), 
             AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OptimizeForEndUserLocation", required: false, type: .boolean)
+            AWSShapeMember(label: "OptimizeForEndUserLocation", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
 
         /// The identifier used by users to sign in to the Amazon WorkLink app.
@@ -609,8 +621,10 @@ extension WorkLink {
         public let lastUpdatedTime: TimeStamp?
         /// The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region.
         public let optimizeForEndUserLocation: Bool?
+        /// The tags attached to the resource. A tag is a key-value pair.
+        public let tags: [String: String]?
 
-        public init(companyCode: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: TimeStamp? = nil, optimizeForEndUserLocation: Bool? = nil) {
+        public init(companyCode: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: TimeStamp? = nil, optimizeForEndUserLocation: Bool? = nil, tags: [String: String]? = nil) {
             self.companyCode = companyCode
             self.createdTime = createdTime
             self.displayName = displayName
@@ -618,6 +632,7 @@ extension WorkLink {
             self.fleetStatus = fleetStatus
             self.lastUpdatedTime = lastUpdatedTime
             self.optimizeForEndUserLocation = optimizeForEndUserLocation
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -628,6 +643,7 @@ extension WorkLink {
             case fleetStatus = "FleetStatus"
             case lastUpdatedTime = "LastUpdatedTime"
             case optimizeForEndUserLocation = "OptimizeForEndUserLocation"
+            case tags = "Tags"
         }
     }
 
@@ -910,16 +926,17 @@ extension WorkLink {
             AWSShapeMember(label: "FleetArn", required: false, type: .string), 
             AWSShapeMember(label: "FleetName", required: false, type: .string), 
             AWSShapeMember(label: "FleetStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
 
         /// The identifier used by users to sign into the Amazon WorkLink app.
         public let companyCode: String?
         /// The time when the fleet was created.
         public let createdTime: TimeStamp?
-        /// The name to display.
+        /// The name of the fleet to display.
         public let displayName: String?
-        /// The ARN of the fleet.
+        /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String?
         /// The name of the fleet.
         public let fleetName: String?
@@ -927,8 +944,10 @@ extension WorkLink {
         public let fleetStatus: FleetStatus?
         /// The time when the fleet was last updated.
         public let lastUpdatedTime: TimeStamp?
+        /// The tags attached to the resource. A tag is a key-value pair.
+        public let tags: [String: String]?
 
-        public init(companyCode: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, fleetArn: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: TimeStamp? = nil) {
+        public init(companyCode: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, fleetArn: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: TimeStamp? = nil, tags: [String: String]? = nil) {
             self.companyCode = companyCode
             self.createdTime = createdTime
             self.displayName = displayName
@@ -936,6 +955,7 @@ extension WorkLink {
             self.fleetName = fleetName
             self.fleetStatus = fleetStatus
             self.lastUpdatedTime = lastUpdatedTime
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -946,6 +966,7 @@ extension WorkLink {
             case fleetName = "FleetName"
             case fleetStatus = "FleetStatus"
             case lastUpdatedTime = "LastUpdatedTime"
+            case tags = "Tags"
         }
     }
 
@@ -1113,6 +1134,45 @@ extension WorkLink {
         private enum CodingKeys: String, CodingKey {
             case fleetSummaryList = "FleetSummaryList"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+
+        /// The tags attached to the resource. A tag is a key-value pair.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -1345,6 +1405,89 @@ extension WorkLink {
 
     }
 
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .map)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let resourceArn: String
+        /// The tags to add to the resource. A tag is a key-value pair.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
+            try self.tags.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let resourceArn: String
+        /// The list of tag keys to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct UpdateAuditStreamConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuditStreamArn", required: false, type: .string), 
@@ -1362,6 +1505,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try validate(self.auditStreamArn, name:"auditStreamArn", parent: name, pattern: "^arn:aws:kinesis:.+:[0-9]{12}:stream/AmazonWorkLink-.*$")
             try validate(self.fleetArn, name:"fleetArn", parent: name, max: 2048)
             try validate(self.fleetArn, name:"fleetArn", parent: name, min: 20)
         }

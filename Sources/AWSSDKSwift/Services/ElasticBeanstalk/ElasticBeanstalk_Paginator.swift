@@ -6,6 +6,11 @@ import NIO
 
 extension ElasticBeanstalk {
 
+    ///  Lists an environment's completed and failed managed actions.
+    public func describeEnvironmentManagedActionHistoryPaginator(_ input: DescribeEnvironmentManagedActionHistoryRequest, onPage: @escaping (DescribeEnvironmentManagedActionHistoryResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEnvironmentManagedActionHistory, tokenKey: \DescribeEnvironmentManagedActionHistoryResult.nextToken, onPage: onPage)
+    }
+
     ///  Returns list of event descriptions matching criteria up to the last 6 weeks.  This action returns the most recent 1,000 events from the specified NextToken. 
     public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping (EventDescriptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventDescriptionsMessage.nextToken, onPage: onPage)
@@ -16,6 +21,23 @@ extension ElasticBeanstalk {
         return client.paginate(input: input, command: listPlatformBranches, tokenKey: \ListPlatformBranchesResult.nextToken, onPage: onPage)
     }
 
+    ///  Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
+    public func listPlatformVersionsPaginator(_ input: ListPlatformVersionsRequest, onPage: @escaping (ListPlatformVersionsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPlatformVersions, tokenKey: \ListPlatformVersionsResult.nextToken, onPage: onPage)
+    }
+
+}
+
+extension ElasticBeanstalk.DescribeEnvironmentManagedActionHistoryRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ElasticBeanstalk.DescribeEnvironmentManagedActionHistoryRequest {
+        return .init(
+            environmentId: self.environmentId, 
+            environmentName: self.environmentName, 
+            maxItems: self.maxItems, 
+            nextToken: token
+        )
+
+    }
 }
 
 extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateStringToken {
@@ -40,6 +62,17 @@ extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateStringToken {
 
 extension ElasticBeanstalk.ListPlatformBranchesRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> ElasticBeanstalk.ListPlatformBranchesRequest {
+        return .init(
+            filters: self.filters, 
+            maxRecords: self.maxRecords, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension ElasticBeanstalk.ListPlatformVersionsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ElasticBeanstalk.ListPlatformVersionsRequest {
         return .init(
             filters: self.filters, 
             maxRecords: self.maxRecords, 

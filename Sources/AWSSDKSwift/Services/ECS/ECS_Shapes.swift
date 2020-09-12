@@ -29,6 +29,14 @@ extension ECS {
 
     public enum CapacityProviderStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityProviderUpdateStatus: String, CustomStringConvertible, Codable {
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleteComplete = "DELETE_COMPLETE"
+        case deleteFailed = "DELETE_FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -109,6 +117,11 @@ extension ECS {
     public enum EFSTransitEncryption: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentFileType: String, CustomStringConvertible, Codable {
+        case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
@@ -477,7 +490,9 @@ extension ECS {
             AWSShapeMember(label: "capacityProviderArn", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "updateStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "updateStatusReason", required: false, type: .string)
         ]
 
         /// The Auto Scaling group settings for the capacity provider.
@@ -486,17 +501,23 @@ extension ECS {
         public let capacityProviderArn: String?
         /// The name of the capacity provider.
         public let name: String?
-        /// The current status of the capacity provider. Only capacity providers in an ACTIVE state can be used in a cluster.
+        /// The current status of the capacity provider. Only capacity providers in an ACTIVE state can be used in a cluster. When a capacity provider is successfully deleted, it will have an INACTIVE status.
         public let status: CapacityProviderStatus?
         /// The metadata that you apply to the capacity provider to help you categorize and organize it. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
+        /// The update status of the capacity provider. The following are the possible states that will be returned.  DELETE_IN_PROGRESS  The capacity provider is in the process of being deleted.  DELETE_COMPLETE  The capacity provider has been successfully deleted and will have an INACTIVE status.  DELETE_FAILED  The capacity provider was unable to be deleted. The update status reason will provide further details about why the delete failed.  
+        public let updateStatus: CapacityProviderUpdateStatus?
+        /// The update status reason. This provides further details about the update status for the capacity provider.
+        public let updateStatusReason: String?
 
-        public init(autoScalingGroupProvider: AutoScalingGroupProvider? = nil, capacityProviderArn: String? = nil, name: String? = nil, status: CapacityProviderStatus? = nil, tags: [Tag]? = nil) {
+        public init(autoScalingGroupProvider: AutoScalingGroupProvider? = nil, capacityProviderArn: String? = nil, name: String? = nil, status: CapacityProviderStatus? = nil, tags: [Tag]? = nil, updateStatus: CapacityProviderUpdateStatus? = nil, updateStatusReason: String? = nil) {
             self.autoScalingGroupProvider = autoScalingGroupProvider
             self.capacityProviderArn = capacityProviderArn
             self.name = name
             self.status = status
             self.tags = tags
+            self.updateStatus = updateStatus
+            self.updateStatusReason = updateStatusReason
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -505,6 +526,8 @@ extension ECS {
             case name = "name"
             case status = "status"
             case tags = "tags"
+            case updateStatus = "updateStatus"
+            case updateStatusReason = "updateStatusReason"
         }
     }
 
@@ -750,6 +773,7 @@ extension ECS {
             AWSShapeMember(label: "dockerSecurityOptions", required: false, type: .list), 
             AWSShapeMember(label: "entryPoint", required: false, type: .list), 
             AWSShapeMember(label: "environment", required: false, type: .list), 
+            AWSShapeMember(label: "environmentFiles", required: false, type: .list), 
             AWSShapeMember(label: "essential", required: false, type: .boolean), 
             AWSShapeMember(label: "extraHosts", required: false, type: .list), 
             AWSShapeMember(label: "firelensConfiguration", required: false, type: .structure), 
@@ -800,6 +824,8 @@ extension ECS {
         public let entryPoint: [String]?
         /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run.  We do not recommend using plaintext environment variables for sensitive information, such as credential data. 
         public let environment: [KeyValuePair]?
+        /// A list of files containing the environment variables to pass to a container. This parameter maps to the --env-file option to docker run. You can specify up to ten environment files. The file must have a .env file extension. Each line in an environment file should contain an environment variable in VARIABLE=VALUE format. Lines beginning with # are treated as comments and are ignored. For more information on the environment variable file syntax, see Declare default environment variables in file. If there are environment variables specified using the environment parameter in a container definition, they take precedence over the variables contained within an environment file. If multiple environment files are specified that contain the same variable, they are processed from the top down. It is recommended to use unique variable names. For more information, see Specifying Environment Variables in the Amazon Elastic Container Service Developer Guide. This field is not valid for containers in tasks using the Fargate launch type.
+        public let environmentFiles: [EnvironmentFile]?
         /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, then its failure does not affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All tasks must have at least one essential container. If you have an application that is composed of multiple containers, you should group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see Application Architecture in the Amazon Elastic Container Service Developer Guide.
         public let essential: Bool?
         /// A list of hostnames and IP address mappings to append to the /etc/hosts file on the container. This parameter maps to ExtraHosts in the Create a container section of the Docker Remote API and the --add-host option to docker run.  This parameter is not supported for Windows containers or tasks that use the awsvpc network mode. 
@@ -848,7 +874,7 @@ extension ECS {
         public let stopTimeout: Int?
         /// A list of namespaced kernel parameters to set in the container. This parameter maps to Sysctls in the Create a container section of the Docker Remote API and the --sysctl option to docker run.  It is not recommended that you specify network-related systemControls parameters for multiple containers in a single task that also uses either the awsvpc or host network modes. For tasks that use the awsvpc network mode, the container that is started last determines which systemControls parameters take effect. For tasks that use the host network mode, it changes the container instance's namespaced kernel parameters as well as the containers. 
         public let systemControls: [SystemControl]?
-        /// A list of ulimits to set in the container. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run. Valid naming values are displayed in the Ulimit data type. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   This parameter is not supported for Windows containers. 
+        /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it will override the default values set by Docker. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run. Valid naming values are displayed in the Ulimit data type. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   This parameter is not supported for Windows containers. 
         public let ulimits: [Ulimit]?
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. You can use the following formats. If specifying a UID or GID, you must specify it as a positive integer.    user     user:group     uid     uid:gid     user:gid     uid:group     This parameter is not supported for Windows containers. 
         public let user: String?
@@ -857,7 +883,7 @@ extension ECS {
         /// The working directory in which to run commands inside the container. This parameter maps to WorkingDir in the Create a container section of the Docker Remote API and the --workdir option to docker run.
         public let workingDirectory: String?
 
-        public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, extraHosts: [HostEntry]? = nil, firelensConfiguration: FirelensConfiguration? = nil, healthCheck: HealthCheck? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, portMappings: [PortMapping]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumesFrom: [VolumeFrom]? = nil, workingDirectory: String? = nil) {
+        public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, environmentFiles: [EnvironmentFile]? = nil, essential: Bool? = nil, extraHosts: [HostEntry]? = nil, firelensConfiguration: FirelensConfiguration? = nil, healthCheck: HealthCheck? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, portMappings: [PortMapping]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumesFrom: [VolumeFrom]? = nil, workingDirectory: String? = nil) {
             self.command = command
             self.cpu = cpu
             self.dependsOn = dependsOn
@@ -868,6 +894,7 @@ extension ECS {
             self.dockerSecurityOptions = dockerSecurityOptions
             self.entryPoint = entryPoint
             self.environment = environment
+            self.environmentFiles = environmentFiles
             self.essential = essential
             self.extraHosts = extraHosts
             self.firelensConfiguration = firelensConfiguration
@@ -909,6 +936,7 @@ extension ECS {
             case dockerSecurityOptions = "dockerSecurityOptions"
             case entryPoint = "entryPoint"
             case environment = "environment"
+            case environmentFiles = "environmentFiles"
             case essential = "essential"
             case extraHosts = "extraHosts"
             case firelensConfiguration = "firelensConfiguration"
@@ -1064,6 +1092,7 @@ extension ECS {
             AWSShapeMember(label: "command", required: false, type: .list), 
             AWSShapeMember(label: "cpu", required: false, type: .integer), 
             AWSShapeMember(label: "environment", required: false, type: .list), 
+            AWSShapeMember(label: "environmentFiles", required: false, type: .list), 
             AWSShapeMember(label: "memory", required: false, type: .integer), 
             AWSShapeMember(label: "memoryReservation", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -1076,6 +1105,8 @@ extension ECS {
         public let cpu: Int?
         /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition. You must also specify a container name.
         public let environment: [KeyValuePair]?
+        /// A list of files containing the environment variables to pass to a container, instead of the value from the container definition.
+        public let environmentFiles: [EnvironmentFile]?
         /// The hard limit (in MiB) of memory to present to the container, instead of the default value from the task definition. If your container attempts to exceed the memory specified here, the container is killed. You must also specify a container name.
         public let memory: Int?
         /// The soft limit (in MiB) of memory to reserve for the container, instead of the default value from the task definition. You must also specify a container name.
@@ -1085,10 +1116,11 @@ extension ECS {
         /// The type and amount of a resource to assign to a container, instead of the default value from the task definition. The only supported resource is a GPU.
         public let resourceRequirements: [ResourceRequirement]?
 
-        public init(command: [String]? = nil, cpu: Int? = nil, environment: [KeyValuePair]? = nil, memory: Int? = nil, memoryReservation: Int? = nil, name: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
+        public init(command: [String]? = nil, cpu: Int? = nil, environment: [KeyValuePair]? = nil, environmentFiles: [EnvironmentFile]? = nil, memory: Int? = nil, memoryReservation: Int? = nil, name: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
             self.command = command
             self.cpu = cpu
             self.environment = environment
+            self.environmentFiles = environmentFiles
             self.memory = memory
             self.memoryReservation = memoryReservation
             self.name = name
@@ -1099,6 +1131,7 @@ extension ECS {
             case command = "command"
             case cpu = "cpu"
             case environment = "environment"
+            case environmentFiles = "environmentFiles"
             case memory = "memory"
             case memoryReservation = "memoryReservation"
             case name = "name"
@@ -1593,6 +1626,39 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+        }
+    }
+
+    public struct DeleteCapacityProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "capacityProvider", required: true, type: .string)
+        ]
+
+        /// The short name or full Amazon Resource Name (ARN) of the capacity provider to delete.
+        public let capacityProvider: String
+
+        public init(capacityProvider: String) {
+            self.capacityProvider = capacityProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityProvider = "capacityProvider"
+        }
+    }
+
+    public struct DeleteCapacityProviderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "capacityProvider", required: false, type: .structure)
+        ]
+
+        public let capacityProvider: CapacityProvider?
+
+        public init(capacityProvider: CapacityProvider? = nil) {
+            self.capacityProvider = capacityProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityProvider = "capacityProvider"
         }
     }
 
@@ -2426,6 +2492,28 @@ extension ECS {
         }
     }
 
+    public struct EnvironmentFile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+
+        /// The file type to use. The only supported value is s3.
+        public let `type`: EnvironmentFileType
+        /// The Amazon Resource Name (ARN) of the Amazon S3 object containing the environment variable file.
+        public let value: String
+
+        public init(type: EnvironmentFileType, value: String) {
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case value = "value"
+        }
+    }
+
     public struct Failure: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
@@ -2601,7 +2689,7 @@ extension ECS {
             AWSShapeMember(label: "drop", required: false, type: .list)
         ]
 
-        /// The Linux capabilities for the container that have been added to the default configuration provided by Docker. This parameter maps to CapAdd in the Create a container section of the Docker Remote API and the --cap-add option to docker run.  If you are using tasks that use the Fargate launch type, the add parameter is not supported.  Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
+        /// The Linux capabilities for the container that have been added to the default configuration provided by Docker. This parameter maps to CapAdd in the Create a container section of the Docker Remote API and the --cap-add option to docker run.  The SYS_PTRACE capability is supported for tasks that use the Fargate launch type if they are also using platform version 1.4.0. The other capabilities are not supported for any platform versions.  Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
         public let add: [String]?
         /// The Linux capabilities for the container that have been removed from the default configuration provided by Docker. This parameter maps to CapDrop in the Create a container section of the Docker Remote API and the --cap-drop option to docker run. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
         public let drop: [String]?
@@ -2650,7 +2738,7 @@ extension ECS {
             AWSShapeMember(label: "tmpfs", required: false, type: .list)
         ]
 
-        /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.  If you are using tasks that use the Fargate launch type, capabilities is supported but the add parameter is not supported. 
+        /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.  For tasks that use the Fargate launch type, capabilities is supported for all platform versions but the add parameter is only supported if using platform version 1.4.0 or later. 
         public let capabilities: KernelCapabilities?
         /// Any host devices to expose to the container. This parameter maps to Devices in the Create a container section of the Docker Remote API and the --device option to docker run.  If you are using tasks that use the Fargate launch type, the devices parameter is not supported. 
         public let devices: [Device]?
@@ -2700,7 +2788,7 @@ extension ECS {
         public let effectiveSettings: Bool?
         /// The maximum number of account setting results returned by ListAccountSettings in paginated output. When this parameter is used, ListAccountSettings only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAccountSettings request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then ListAccountSettings returns up to 10 results and a nextToken value if applicable.
         public let maxResults: Int?
-        /// The resource name you want to list the account settings for.
+        /// The name of the account setting you want to list the settings for.
         public let name: SettingName?
         /// The nextToken value returned from a ListAccountSettings request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -3800,7 +3888,7 @@ extension ECS {
         public let containerDefinitions: [ContainerDefinition]
         /// The number of CPU units used by the task. It can be expressed as an integer using CPU units, for example 1024, or as a string using vCPUs, for example 1 vCPU or 1 vcpu, in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered.  Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers.  If you are using the EC2 launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 10240 CPU units (10 vCPUs). If you are using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of supported values for the memory parameter:   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)  
         public let cpu: String?
-        /// The Amazon Resource Name (ARN) of the task execution role that the Amazon ECS container agent and the Docker daemon can assume.
+        /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make AWS API calls on your behalf. The task execution IAM role is required depending on the requirements of your task. For more information, see Amazon ECS task execution IAM role in the Amazon Elastic Container Service Developer Guide.
         public let executionRoleArn: String?
         /// You must specify a family for a task definition, which allows you to track multiple versions of the same task definition. The family is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed.
         public let family: String
@@ -5006,7 +5094,7 @@ extension ECS {
         public let containerDefinitions: [ContainerDefinition]?
         /// The number of cpu units used by the task. If you are using the EC2 launch type, this field is optional and any value can be used. If you are using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of valid values for the memory parameter:   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)  
         public let cpu: String?
-        /// The Amazon Resource Name (ARN) of the task execution role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role.
+        /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make AWS API calls on your behalf. The task execution IAM role is required depending on the requirements of your task. For more information, see Amazon ECS task execution IAM role in the Amazon Elastic Container Service Developer Guide.
         public let executionRoleArn: String?
         /// The name of a family that this task definition is registered to. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. A family groups multiple versions of a task definition. Amazon ECS gives the first task definition that you registered to a family a revision number of 1. Amazon ECS gives sequential revision numbers to each task definition that you add.
         public let family: String?
@@ -5120,7 +5208,7 @@ extension ECS {
         public let containerOverrides: [ContainerOverride]?
         /// The cpu override for the task.
         public let cpu: String?
-        /// The Amazon Resource Name (ARN) of the task execution role that the Amazon ECS container agent and the Docker daemon can assume.
+        /// The Amazon Resource Name (ARN) of the task execution IAM role override for the task.
         public let executionRoleArn: String?
         /// The Elastic Inference accelerator override for the task.
         public let inferenceAcceleratorOverrides: [InferenceAcceleratorOverride]?
@@ -5714,9 +5802,9 @@ extension ECS {
 
         /// This parameter is specified when you are using Docker volumes. Docker volumes are only supported when you are using the EC2 launch type. Windows containers only support the use of the local driver. To use bind mounts, specify the host parameter instead.
         public let dockerVolumeConfiguration: DockerVolumeConfiguration?
-        /// This parameter is specified when you are using an Amazon Elastic File System (Amazon EFS) file storage. Amazon EFS file systems are only supported when you are using the EC2 launch type.   EFSVolumeConfiguration remains in preview and is a Beta Service as defined by and subject to the Beta Service Participation Service Terms located at https://aws.amazon.com/service-terms ("Beta Terms"). These Beta Terms apply to your participation in this preview of EFSVolumeConfiguration. 
+        /// This parameter is specified when you are using an Amazon Elastic File System file system for task storage.
         public let efsVolumeConfiguration: EFSVolumeConfiguration?
-        /// This parameter is specified when you are using bind mount host volumes. Bind mount host volumes are supported when you are using either the EC2 or Fargate launch types. The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data is not guaranteed to persist after the containers associated with it stop running. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers cannot mount directories on a different drive, and mount point cannot be across drives. For example, you can mount C:\my\path:C:\my\path and D:\:D:\, but not D:\my\path:C:\my\path or D:\:C:\my\path.
+        /// This parameter is specified when you are using bind mount host volumes. The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data is not guaranteed to persist after the containers associated with it stop running. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers cannot mount directories on a different drive, and mount point cannot be across drives. For example, you can mount C:\my\path:C:\my\path and D:\:D:\, but not D:\my\path:C:\my\path or D:\:C:\my\path.
         public let host: HostVolumeProperties?
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?

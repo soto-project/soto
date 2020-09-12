@@ -6,12 +6,12 @@ import NIO
 
 extension EBS {
 
-    ///  Returns the block indexes and block tokens for blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
+    ///  Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
     public func listChangedBlocksPaginator(_ input: ListChangedBlocksRequest, onPage: @escaping (ListChangedBlocksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listChangedBlocks, tokenKey: \ListChangedBlocksResponse.nextToken, onPage: onPage)
     }
 
-    ///  Returns the block indexes and block tokens for blocks in an Amazon Elastic Block Store snapshot.
+    ///  Returns information about the blocks in an Amazon Elastic Block Store snapshot.
     public func listSnapshotBlocksPaginator(_ input: ListSnapshotBlocksRequest, onPage: @escaping (ListSnapshotBlocksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSnapshotBlocks, tokenKey: \ListSnapshotBlocksResponse.nextToken, onPage: onPage)
     }

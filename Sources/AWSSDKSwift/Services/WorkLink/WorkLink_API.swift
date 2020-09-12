@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS WorkLink service.
 
-Amazon WorkLink is a cloud-based service that provides secure access to internal websites and web apps from iOS phones. In a single step, your users, such as employees, can access internal websites as efficiently as they access any other public website. They enter a URL in their web browser, or choose a link to an internal website in an email. Amazon WorkLink authenticates the user's access and securely renders authorized internal web content in a secure rendering service in the AWS cloud. Amazon WorkLink doesn't download or store any internal web content on mobile devices.
+Amazon WorkLink is a cloud-based service that provides secure access to internal websites and web apps from iOS and Android phones. In a single step, your users, such as employees, can access internal websites as efficiently as they access any other public website. They enter a URL in their web browser, or choose a link to an internal website in an email. Amazon WorkLink authenticates the user's access and securely renders authorized internal web content in a secure rendering service in the AWS cloud. Amazon WorkLink doesn't download or store any internal web content on mobile devices.
 */
 public struct WorkLink {
 
@@ -139,6 +139,11 @@ public struct WorkLink {
         return client.send(operation: "ListFleets", path: "/listFleets", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves a list of tags for the specified resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves a list of website authorization providers associated with a specified fleet.
     public func listWebsiteAuthorizationProviders(_ input: ListWebsiteAuthorizationProvidersRequest) -> EventLoopFuture<ListWebsiteAuthorizationProvidersResponse> {
         return client.send(operation: "ListWebsiteAuthorizationProviders", path: "/listWebsiteAuthorizationProviders", httpMethod: "POST", input: input)
@@ -162,6 +167,16 @@ public struct WorkLink {
     ///  Signs the user out from all of their devices. The user can sign in again if they have valid credentials.
     public func signOutUser(_ input: SignOutUserRequest) -> EventLoopFuture<SignOutUserResponse> {
         return client.send(operation: "SignOutUser", path: "/signOutUser", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds or overwrites one or more tags for the specified resource, such as a fleet. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value.
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes one or more tags from the specified resource.
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates the audit stream configuration for the fleet.

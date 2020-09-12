@@ -7,7 +7,9 @@ public enum AppConfigErrorType: AWSErrorType {
     case badRequestException(message: String?)
     case conflictException(message: String?)
     case internalServerException(message: String?)
+    case payloadTooLargeException(message: String?)
     case resourceNotFoundException(message: String?)
+    case serviceQuotaExceededException(message: String?)
 }
 
 extension AppConfigErrorType {
@@ -23,8 +25,12 @@ extension AppConfigErrorType {
             self = .conflictException(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
+        case "PayloadTooLargeException":
+            self = .payloadTooLargeException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "ServiceQuotaExceededException":
+            self = .serviceQuotaExceededException(message: message)
         default:
             return nil
         }
@@ -40,8 +46,12 @@ extension AppConfigErrorType : CustomStringConvertible {
             return "ConflictException: \(message ?? "")"
         case .internalServerException(let message):
             return "InternalServerException: \(message ?? "")"
+        case .payloadTooLargeException(let message):
+            return "PayloadTooLargeException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceQuotaExceededException(let message):
+            return "ServiceQuotaExceededException: \(message ?? "")"
         }
     }
 }

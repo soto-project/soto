@@ -82,6 +82,11 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExecutionEngineType: String, CustomStringConvertible, Codable {
+        case emr = "EMR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceCollectionType: String, CustomStringConvertible, Codable {
         case instanceFleet = "INSTANCE_FLEET"
         case instanceGroup = "INSTANCE_GROUP"
@@ -187,6 +192,25 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum NotebookExecutionStatus: String, CustomStringConvertible, Codable {
+        case startPending = "START_PENDING"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case finishing = "FINISHING"
+        case finished = "FINISHED"
+        case failing = "FAILING"
+        case failed = "FAILED"
+        case stopPending = "STOP_PENDING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OnDemandProvisioningAllocationStrategy: String, CustomStringConvertible, Codable {
+        case lowestPrice = "lowest-price"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable {
         case security = "SECURITY"
         case none = "NONE"
@@ -196,6 +220,11 @@ extension EMR {
     public enum ScaleDownBehavior: String, CustomStringConvertible, Codable {
         case terminateAtInstanceHour = "TERMINATE_AT_INSTANCE_HOUR"
         case terminateAtTaskCompletion = "TERMINATE_AT_TASK_COMPLETION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpotProvisioningAllocationStrategy: String, CustomStringConvertible, Codable {
+        case capacityOptimized = "capacity-optimized"
         public var description: String { return self.rawValue }
     }
 
@@ -855,6 +884,7 @@ extension EMR {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "InstanceCollectionType", required: false, type: .enum), 
             AWSShapeMember(label: "KerberosAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "LogEncryptionKmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
             AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -896,6 +926,8 @@ extension EMR {
         public let instanceCollectionType: InstanceCollectionType?
         /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
         public let kerberosAttributes: KerberosAttributes?
+        ///  The AWS KMS customer master key (CMK) used for encrypting log files. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0. 
+        public let logEncryptionKmsKeyId: String?
         /// The path to the Amazon S3 location where logs for this cluster are stored.
         public let logUri: String?
         /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
@@ -931,7 +963,7 @@ extension EMR {
         /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If this value is false, only the IAM user that created the cluster can perform actions. This value can be changed on a running cluster by using the SetVisibleToAllUsers action. You can override the default value of true when you create a cluster by using the VisibleToAllUsers parameter of the RunJobFlow action.
         public let visibleToAllUsers: Bool?
 
-        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, outpostArn: String? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, outpostArn: String? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
             self.applications = applications
             self.autoScalingRole = autoScalingRole
             self.autoTerminate = autoTerminate
@@ -943,6 +975,7 @@ extension EMR {
             self.id = id
             self.instanceCollectionType = instanceCollectionType
             self.kerberosAttributes = kerberosAttributes
+            self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
             self.logUri = logUri
             self.masterPublicDnsName = masterPublicDnsName
             self.name = name
@@ -974,6 +1007,7 @@ extension EMR {
             case id = "Id"
             case instanceCollectionType = "InstanceCollectionType"
             case kerberosAttributes = "KerberosAttributes"
+            case logEncryptionKmsKeyId = "LogEncryptionKmsKeyId"
             case logUri = "LogUri"
             case masterPublicDnsName = "MasterPublicDnsName"
             case name = "Name"
@@ -1142,6 +1176,7 @@ extension EMR {
     public struct ComputeLimits: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaximumCapacityUnits", required: true, type: .integer), 
+            AWSShapeMember(label: "MaximumCoreCapacityUnits", required: false, type: .integer), 
             AWSShapeMember(label: "MaximumOnDemandCapacityUnits", required: false, type: .integer), 
             AWSShapeMember(label: "MinimumCapacityUnits", required: true, type: .integer), 
             AWSShapeMember(label: "UnitType", required: true, type: .enum)
@@ -1149,15 +1184,18 @@ extension EMR {
 
         ///  The upper boundary of EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. Managed scaling activities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
         public let maximumCapacityUnits: Int
-        ///  The upper boundary of on-demand EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. The on-demand units are not allowed to scale beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+        ///  The upper boundary of EC2 units for core node type in a cluster. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. The core units are not allowed to scale beyond this boundary. The parameter is used to split capacity allocation between core and task nodes. 
+        public let maximumCoreCapacityUnits: Int?
+        ///  The upper boundary of On-Demand EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. The On-Demand units are not allowed to scale beyond this boundary. The parameter is used to split capacity allocation between On-Demand and Spot instances. 
         public let maximumOnDemandCapacityUnits: Int?
         ///  The lower boundary of EC2 units. It is measured through VCPU cores or instances for instance groups and measured through units for instance fleets. Managed scaling activities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
         public let minimumCapacityUnits: Int
         ///  The unit type used for specifying a managed scaling policy. 
         public let unitType: ComputeLimitsUnitType
 
-        public init(maximumCapacityUnits: Int, maximumOnDemandCapacityUnits: Int? = nil, minimumCapacityUnits: Int, unitType: ComputeLimitsUnitType) {
+        public init(maximumCapacityUnits: Int, maximumCoreCapacityUnits: Int? = nil, maximumOnDemandCapacityUnits: Int? = nil, minimumCapacityUnits: Int, unitType: ComputeLimitsUnitType) {
             self.maximumCapacityUnits = maximumCapacityUnits
+            self.maximumCoreCapacityUnits = maximumCoreCapacityUnits
             self.maximumOnDemandCapacityUnits = maximumOnDemandCapacityUnits
             self.minimumCapacityUnits = minimumCapacityUnits
             self.unitType = unitType
@@ -1165,6 +1203,7 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case maximumCapacityUnits = "MaximumCapacityUnits"
+            case maximumCoreCapacityUnits = "MaximumCoreCapacityUnits"
             case maximumOnDemandCapacityUnits = "MaximumOnDemandCapacityUnits"
             case minimumCapacityUnits = "MinimumCapacityUnits"
             case unitType = "UnitType"
@@ -1367,6 +1406,46 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case jobFlows = "JobFlows"
+        }
+    }
+
+    public struct DescribeNotebookExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookExecutionId", required: true, type: .string)
+        ]
+
+        /// The unique identifier of the notebook execution.
+        public let notebookExecutionId: String
+
+        public init(notebookExecutionId: String) {
+            self.notebookExecutionId = notebookExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.notebookExecutionId, name:"notebookExecutionId", parent: name, max: 256)
+            try validate(self.notebookExecutionId, name:"notebookExecutionId", parent: name, min: 0)
+            try validate(self.notebookExecutionId, name:"notebookExecutionId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookExecutionId = "NotebookExecutionId"
+        }
+    }
+
+    public struct DescribeNotebookExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookExecution", required: false, type: .structure)
+        ]
+
+        /// Properties of the notebook execution.
+        public let notebookExecution: NotebookExecution?
+
+        public init(notebookExecution: NotebookExecution? = nil) {
+            self.notebookExecution = notebookExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookExecution = "NotebookExecution"
         }
     }
 
@@ -1611,6 +1690,42 @@ extension EMR {
             case requestedEc2AvailabilityZones = "RequestedEc2AvailabilityZones"
             case requestedEc2SubnetIds = "RequestedEc2SubnetIds"
             case serviceAccessSecurityGroup = "ServiceAccessSecurityGroup"
+        }
+    }
+
+    public struct ExecutionEngineConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "MasterInstanceSecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The unique identifier of the execution engine. For an EMR cluster, this is the cluster ID.
+        public let id: String
+        /// An optional unique ID of an EC2 security group to associate with the master instance of the EMR cluster for this notebook execution. For more information see Specifying EC2 Security Groups for EMR Notebooks in the EMR Management Guide.
+        public let masterInstanceSecurityGroupId: String?
+        /// The type of execution engine. A value of EMR specifies an EMR cluster.
+        public let `type`: ExecutionEngineType?
+
+        public init(id: String, masterInstanceSecurityGroupId: String? = nil, type: ExecutionEngineType? = nil) {
+            self.id = id
+            self.masterInstanceSecurityGroupId = masterInstanceSecurityGroupId
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.id, name:"id", parent: name, max: 256)
+            try validate(self.id, name:"id", parent: name, min: 0)
+            try validate(self.id, name:"id", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.masterInstanceSecurityGroupId, name:"masterInstanceSecurityGroupId", parent: name, max: 256)
+            try validate(self.masterInstanceSecurityGroupId, name:"masterInstanceSecurityGroupId", parent: name, min: 0)
+            try validate(self.masterInstanceSecurityGroupId, name:"masterInstanceSecurityGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case masterInstanceSecurityGroupId = "MasterInstanceSecurityGroupId"
+            case `type` = "Type"
         }
     }
 
@@ -2008,21 +2123,26 @@ extension EMR {
 
     public struct InstanceFleetProvisioningSpecifications: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpotSpecification", required: true, type: .structure)
+            AWSShapeMember(label: "OnDemandSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "SpotSpecification", required: false, type: .structure)
         ]
 
-        /// The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
-        public let spotSpecification: SpotProvisioningSpecification
+        ///  The launch specification for On-Demand instances in the instance fleet, which determines the allocation strategy.   The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. On-Demand instances allocation strategy is available in Amazon EMR version 5.12.1 and later. 
+        public let onDemandSpecification: OnDemandProvisioningSpecification?
+        /// The launch specification for Spot instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
+        public let spotSpecification: SpotProvisioningSpecification?
 
-        public init(spotSpecification: SpotProvisioningSpecification) {
+        public init(onDemandSpecification: OnDemandProvisioningSpecification? = nil, spotSpecification: SpotProvisioningSpecification? = nil) {
+            self.onDemandSpecification = onDemandSpecification
             self.spotSpecification = spotSpecification
         }
 
         public func validate(name: String) throws {
-            try self.spotSpecification.validate(name: "\(name).spotSpecification")
+            try self.spotSpecification?.validate(name: "\(name).spotSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case onDemandSpecification = "OnDemandSpecification"
             case spotSpecification = "SpotSpecification"
         }
     }
@@ -2683,6 +2803,7 @@ extension EMR {
             AWSShapeMember(label: "Instances", required: true, type: .structure), 
             AWSShapeMember(label: "JobFlowId", required: true, type: .string), 
             AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
+            AWSShapeMember(label: "LogEncryptionKmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
@@ -2706,6 +2827,8 @@ extension EMR {
         public let jobFlowId: String
         /// The IAM role that was specified when the job flow was launched. The EC2 instances of the job flow assume this role.
         public let jobFlowRole: String?
+        /// The AWS KMS customer master key (CMK) used for encrypting log files. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0.
+        public let logEncryptionKmsKeyId: String?
         /// The location in Amazon S3 where log files for the job are stored.
         public let logUri: String?
         /// The name of the job flow.
@@ -2721,7 +2844,7 @@ extension EMR {
         /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If this value is false, only the IAM user that created the cluster can perform actions. This value can be changed on a running cluster by using the SetVisibleToAllUsers action. You can override the default value of true when you create a cluster by using the VisibleToAllUsers parameter of the RunJobFlow action.
         public let visibleToAllUsers: Bool?
 
-        public init(amiVersion: String? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionDetail]? = nil, executionStatusDetail: JobFlowExecutionStatusDetail, instances: JobFlowInstancesDetail, jobFlowId: String, jobFlowRole: String? = nil, logUri: String? = nil, name: String, scaleDownBehavior: ScaleDownBehavior? = nil, serviceRole: String? = nil, steps: [StepDetail]? = nil, supportedProducts: [String]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(amiVersion: String? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionDetail]? = nil, executionStatusDetail: JobFlowExecutionStatusDetail, instances: JobFlowInstancesDetail, jobFlowId: String, jobFlowRole: String? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, name: String, scaleDownBehavior: ScaleDownBehavior? = nil, serviceRole: String? = nil, steps: [StepDetail]? = nil, supportedProducts: [String]? = nil, visibleToAllUsers: Bool? = nil) {
             self.amiVersion = amiVersion
             self.autoScalingRole = autoScalingRole
             self.bootstrapActions = bootstrapActions
@@ -2729,6 +2852,7 @@ extension EMR {
             self.instances = instances
             self.jobFlowId = jobFlowId
             self.jobFlowRole = jobFlowRole
+            self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
             self.logUri = logUri
             self.name = name
             self.scaleDownBehavior = scaleDownBehavior
@@ -2746,6 +2870,7 @@ extension EMR {
             case instances = "Instances"
             case jobFlowId = "JobFlowId"
             case jobFlowRole = "JobFlowRole"
+            case logEncryptionKmsKeyId = "LogEncryptionKmsKeyId"
             case logUri = "LogUri"
             case name = "Name"
             case scaleDownBehavior = "ScaleDownBehavior"
@@ -3362,6 +3487,71 @@ extension EMR {
         }
     }
 
+    public struct ListNotebookExecutionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EditorId", required: false, type: .string), 
+            AWSShapeMember(label: "From", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "To", required: false, type: .timestamp)
+        ]
+
+        /// The unique ID of the editor associated with the notebook execution.
+        public let editorId: String?
+        /// The beginning of time range filter for listing notebook executions. The default is the timestamp of 30 days ago.
+        public let from: TimeStamp?
+        /// The pagination token, returned by a previous ListNotebookExecutions call, that indicates the start of the list for this ListNotebookExecutions call.
+        public let marker: String?
+        /// The status filter for listing notebook executions.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.  
+        public let status: NotebookExecutionStatus?
+        /// The end of time range filter for listing notebook executions. The default is the current timestamp.
+        public let to: TimeStamp?
+
+        public init(editorId: String? = nil, from: TimeStamp? = nil, marker: String? = nil, status: NotebookExecutionStatus? = nil, to: TimeStamp? = nil) {
+            self.editorId = editorId
+            self.from = from
+            self.marker = marker
+            self.status = status
+            self.to = to
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.editorId, name:"editorId", parent: name, max: 256)
+            try validate(self.editorId, name:"editorId", parent: name, min: 0)
+            try validate(self.editorId, name:"editorId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case editorId = "EditorId"
+            case from = "From"
+            case marker = "Marker"
+            case status = "Status"
+            case to = "To"
+        }
+    }
+
+    public struct ListNotebookExecutionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookExecutions", required: false, type: .list)
+        ]
+
+        /// A pagination token that a subsequent ListNotebookExecutions can use to determine the next set of results to retrieve.
+        public let marker: String?
+        /// A list of notebook executions.
+        public let notebookExecutions: [NotebookExecutionSummary]?
+
+        public init(marker: String? = nil, notebookExecutions: [NotebookExecutionSummary]? = nil) {
+            self.marker = marker
+            self.notebookExecutions = notebookExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case notebookExecutions = "NotebookExecutions"
+        }
+    }
+
     public struct ListSecurityConfigurationsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string)
@@ -3468,7 +3658,7 @@ extension EMR {
             AWSShapeMember(label: "ComputeLimits", required: false, type: .structure)
         ]
 
-        ///  The EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+        /// The EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
         public let computeLimits: ComputeLimits?
 
         public init(computeLimits: ComputeLimits? = nil) {
@@ -3595,6 +3785,142 @@ extension EMR {
         }
     }
 
+    public struct NotebookExecution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "EditorId", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExecutionEngine", required: false, type: .structure), 
+            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookExecutionName", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookInstanceSecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookParams", required: false, type: .string), 
+            AWSShapeMember(label: "OutputNotebookURI", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the notebook execution.
+        public let arn: String?
+        /// The unique identifier of the EMR Notebook that is used for the notebook execution.
+        public let editorId: String?
+        /// The timestamp when notebook execution ended.
+        public let endTime: TimeStamp?
+        /// The execution engine, such as an EMR cluster, used to run the EMR notebook and perform the notebook execution.
+        public let executionEngine: ExecutionEngineConfig?
+        /// The reason for the latest status change of the notebook execution.
+        public let lastStateChangeReason: String?
+        /// The unique identifier of a notebook execution.
+        public let notebookExecutionId: String?
+        /// A name for the notebook execution.
+        public let notebookExecutionName: String?
+        /// The unique identifier of the EC2 security group associated with the EMR Notebook instance. For more information see Specifying EC2 Security Groups for EMR Notebooks in the EMR Management Guide.
+        public let notebookInstanceSecurityGroupId: String?
+        /// Input parameters in JSON format passed to the EMR Notebook at runtime for execution.
+        public let notebookParams: String?
+        /// The location of the notebook execution's output file in Amazon S3.
+        public let outputNotebookURI: String?
+        /// The timestamp when notebook execution started.
+        public let startTime: TimeStamp?
+        /// The status of the notebook execution.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.  
+        public let status: NotebookExecutionStatus?
+        /// A list of tags associated with a notebook execution. Tags are user-defined key value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters.
+        public let tags: [Tag]?
+
+        public init(arn: String? = nil, editorId: String? = nil, endTime: TimeStamp? = nil, executionEngine: ExecutionEngineConfig? = nil, lastStateChangeReason: String? = nil, notebookExecutionId: String? = nil, notebookExecutionName: String? = nil, notebookInstanceSecurityGroupId: String? = nil, notebookParams: String? = nil, outputNotebookURI: String? = nil, startTime: TimeStamp? = nil, status: NotebookExecutionStatus? = nil, tags: [Tag]? = nil) {
+            self.arn = arn
+            self.editorId = editorId
+            self.endTime = endTime
+            self.executionEngine = executionEngine
+            self.lastStateChangeReason = lastStateChangeReason
+            self.notebookExecutionId = notebookExecutionId
+            self.notebookExecutionName = notebookExecutionName
+            self.notebookInstanceSecurityGroupId = notebookInstanceSecurityGroupId
+            self.notebookParams = notebookParams
+            self.outputNotebookURI = outputNotebookURI
+            self.startTime = startTime
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case editorId = "EditorId"
+            case endTime = "EndTime"
+            case executionEngine = "ExecutionEngine"
+            case lastStateChangeReason = "LastStateChangeReason"
+            case notebookExecutionId = "NotebookExecutionId"
+            case notebookExecutionName = "NotebookExecutionName"
+            case notebookInstanceSecurityGroupId = "NotebookInstanceSecurityGroupId"
+            case notebookParams = "NotebookParams"
+            case outputNotebookURI = "OutputNotebookURI"
+            case startTime = "StartTime"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct NotebookExecutionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EditorId", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NotebookExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookExecutionName", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The unique identifier of the editor associated with the notebook execution.
+        public let editorId: String?
+        /// The timestamp when notebook execution started.
+        public let endTime: TimeStamp?
+        /// The unique identifier of the notebook execution.
+        public let notebookExecutionId: String?
+        /// The name of the notebook execution.
+        public let notebookExecutionName: String?
+        /// The timestamp when notebook execution started.
+        public let startTime: TimeStamp?
+        /// The status of the notebook execution.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.  
+        public let status: NotebookExecutionStatus?
+
+        public init(editorId: String? = nil, endTime: TimeStamp? = nil, notebookExecutionId: String? = nil, notebookExecutionName: String? = nil, startTime: TimeStamp? = nil, status: NotebookExecutionStatus? = nil) {
+            self.editorId = editorId
+            self.endTime = endTime
+            self.notebookExecutionId = notebookExecutionId
+            self.notebookExecutionName = notebookExecutionName
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case editorId = "EditorId"
+            case endTime = "EndTime"
+            case notebookExecutionId = "NotebookExecutionId"
+            case notebookExecutionName = "NotebookExecutionName"
+            case startTime = "StartTime"
+            case status = "Status"
+        }
+    }
+
+    public struct OnDemandProvisioningSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocationStrategy", required: true, type: .enum)
+        ]
+
+        ///  Specifies the strategy to use in launching On-Demand instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first. 
+        public let allocationStrategy: OnDemandProvisioningAllocationStrategy
+
+        public init(allocationStrategy: OnDemandProvisioningAllocationStrategy) {
+            self.allocationStrategy = allocationStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "AllocationStrategy"
+        }
+    }
+
     public struct PlacementType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
@@ -3646,9 +3972,9 @@ extension EMR {
 
         public func validate(name: String) throws {
             try validate(self.maxRange, name:"maxRange", parent: name, max: 65535)
-            try validate(self.maxRange, name:"maxRange", parent: name, min: 0)
+            try validate(self.maxRange, name:"maxRange", parent: name, min: -1)
             try validate(self.minRange, name:"minRange", parent: name, max: 65535)
-            try validate(self.minRange, name:"minRange", parent: name, min: 0)
+            try validate(self.minRange, name:"minRange", parent: name, min: -1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3877,6 +4203,7 @@ extension EMR {
             AWSShapeMember(label: "Instances", required: true, type: .structure), 
             AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
             AWSShapeMember(label: "KerberosAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "LogEncryptionKmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
             AWSShapeMember(label: "ManagedScalingPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -3915,6 +4242,8 @@ extension EMR {
         public let jobFlowRole: String?
         /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
         public let kerberosAttributes: KerberosAttributes?
+        /// The AWS KMS customer master key (CMK) used for encrypting log files. If a value is not provided, the logs will remain encrypted by AES-256. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0.
+        public let logEncryptionKmsKeyId: String?
         /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
         public let logUri: String?
         ///  The specified managed scaling policy for an Amazon EMR cluster. 
@@ -3944,7 +4273,7 @@ extension EMR {
         /// A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
         public let visibleToAllUsers: Bool?
 
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
@@ -3956,6 +4285,7 @@ extension EMR {
             self.instances = instances
             self.jobFlowRole = jobFlowRole
             self.kerberosAttributes = kerberosAttributes
+            self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
             self.logUri = logUri
             self.managedScalingPolicy = managedScalingPolicy
             self.name = name
@@ -3993,6 +4323,9 @@ extension EMR {
             try validate(self.jobFlowRole, name:"jobFlowRole", parent: name, min: 0)
             try validate(self.jobFlowRole, name:"jobFlowRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.kerberosAttributes?.validate(name: "\(name).kerberosAttributes")
+            try validate(self.logEncryptionKmsKeyId, name:"logEncryptionKmsKeyId", parent: name, max: 10280)
+            try validate(self.logEncryptionKmsKeyId, name:"logEncryptionKmsKeyId", parent: name, min: 0)
+            try validate(self.logEncryptionKmsKeyId, name:"logEncryptionKmsKeyId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try validate(self.logUri, name:"logUri", parent: name, max: 10280)
             try validate(self.logUri, name:"logUri", parent: name, min: 0)
             try validate(self.logUri, name:"logUri", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -4033,6 +4366,7 @@ extension EMR {
             case instances = "Instances"
             case jobFlowRole = "JobFlowRole"
             case kerberosAttributes = "KerberosAttributes"
+            case logEncryptionKmsKeyId = "LogEncryptionKmsKeyId"
             case logUri = "LogUri"
             case managedScalingPolicy = "ManagedScalingPolicy"
             case name = "Name"
@@ -4339,11 +4673,14 @@ extension EMR {
 
     public struct SpotProvisioningSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocationStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "BlockDurationMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "TimeoutAction", required: true, type: .enum), 
             AWSShapeMember(label: "TimeoutDurationMinutes", required: true, type: .integer)
         ]
 
+        ///  Specifies the strategy to use in launching Spot instance fleets. Currently, the only option is capacity-optimized (the default), which launches instances from Spot instance pools with optimal capacity for the number of instances that are launching. 
+        public let allocationStrategy: SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. 
         public let blockDurationMinutes: Int?
         /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired; that is, when all Spot instances could not be provisioned within the Spot provisioning timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
@@ -4351,7 +4688,8 @@ extension EMR {
         /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
         public let timeoutDurationMinutes: Int
 
-        public init(blockDurationMinutes: Int? = nil, timeoutAction: SpotProvisioningTimeoutAction, timeoutDurationMinutes: Int) {
+        public init(allocationStrategy: SpotProvisioningAllocationStrategy? = nil, blockDurationMinutes: Int? = nil, timeoutAction: SpotProvisioningTimeoutAction, timeoutDurationMinutes: Int) {
+            self.allocationStrategy = allocationStrategy
             self.blockDurationMinutes = blockDurationMinutes
             self.timeoutAction = timeoutAction
             self.timeoutDurationMinutes = timeoutDurationMinutes
@@ -4363,9 +4701,101 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "AllocationStrategy"
             case blockDurationMinutes = "BlockDurationMinutes"
             case timeoutAction = "TimeoutAction"
             case timeoutDurationMinutes = "TimeoutDurationMinutes"
+        }
+    }
+
+    public struct StartNotebookExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EditorId", required: true, type: .string), 
+            AWSShapeMember(label: "ExecutionEngine", required: true, type: .structure), 
+            AWSShapeMember(label: "NotebookExecutionName", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookInstanceSecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookParams", required: false, type: .string), 
+            AWSShapeMember(label: "RelativePath", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The unique identifier of the EMR Notebook to use for notebook execution.
+        public let editorId: String
+        /// Specifies the execution engine (cluster) that runs the notebook execution.
+        public let executionEngine: ExecutionEngineConfig
+        /// An optional name for the notebook execution.
+        public let notebookExecutionName: String?
+        /// The unique identifier of the Amazon EC2 security group to associate with the EMR Notebook for this notebook execution.
+        public let notebookInstanceSecurityGroupId: String?
+        /// Input parameters in JSON format passed to the EMR Notebook at runtime for execution.
+        public let notebookParams: String?
+        /// The path and file name of the notebook file for this execution, relative to the path specified for the EMR Notebook. For example, if you specify a path of s3://MyBucket/MyNotebooks when you create an EMR Notebook for a notebook with an ID of e-ABCDEFGHIJK1234567890ABCD (the EditorID of this request), and you specify a RelativePath of my_notebook_executions/notebook_execution.ipynb, the location of the file for the notebook execution is s3://MyBucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_executions/notebook_execution.ipynb.
+        public let relativePath: String
+        /// The name or ARN of the IAM role that is used as the service role for Amazon EMR (the EMR role) for the notebook execution.
+        public let serviceRole: String
+        /// A list of tags associated with a notebook execution. Tags are user-defined key value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters.
+        public let tags: [Tag]?
+
+        public init(editorId: String, executionEngine: ExecutionEngineConfig, notebookExecutionName: String? = nil, notebookInstanceSecurityGroupId: String? = nil, notebookParams: String? = nil, relativePath: String, serviceRole: String, tags: [Tag]? = nil) {
+            self.editorId = editorId
+            self.executionEngine = executionEngine
+            self.notebookExecutionName = notebookExecutionName
+            self.notebookInstanceSecurityGroupId = notebookInstanceSecurityGroupId
+            self.notebookParams = notebookParams
+            self.relativePath = relativePath
+            self.serviceRole = serviceRole
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.editorId, name:"editorId", parent: name, max: 256)
+            try validate(self.editorId, name:"editorId", parent: name, min: 0)
+            try validate(self.editorId, name:"editorId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.executionEngine.validate(name: "\(name).executionEngine")
+            try validate(self.notebookExecutionName, name:"notebookExecutionName", parent: name, max: 256)
+            try validate(self.notebookExecutionName, name:"notebookExecutionName", parent: name, min: 0)
+            try validate(self.notebookExecutionName, name:"notebookExecutionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.notebookInstanceSecurityGroupId, name:"notebookInstanceSecurityGroupId", parent: name, max: 256)
+            try validate(self.notebookInstanceSecurityGroupId, name:"notebookInstanceSecurityGroupId", parent: name, min: 0)
+            try validate(self.notebookInstanceSecurityGroupId, name:"notebookInstanceSecurityGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.notebookParams, name:"notebookParams", parent: name, max: 10280)
+            try validate(self.notebookParams, name:"notebookParams", parent: name, min: 0)
+            try validate(self.notebookParams, name:"notebookParams", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.relativePath, name:"relativePath", parent: name, max: 10280)
+            try validate(self.relativePath, name:"relativePath", parent: name, min: 0)
+            try validate(self.relativePath, name:"relativePath", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.serviceRole, name:"serviceRole", parent: name, max: 10280)
+            try validate(self.serviceRole, name:"serviceRole", parent: name, min: 0)
+            try validate(self.serviceRole, name:"serviceRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case editorId = "EditorId"
+            case executionEngine = "ExecutionEngine"
+            case notebookExecutionName = "NotebookExecutionName"
+            case notebookInstanceSecurityGroupId = "NotebookInstanceSecurityGroupId"
+            case notebookParams = "NotebookParams"
+            case relativePath = "RelativePath"
+            case serviceRole = "ServiceRole"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartNotebookExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookExecutionId", required: false, type: .string)
+        ]
+
+        /// The unique identifier of the notebook execution.
+        public let notebookExecutionId: String?
+
+        public init(notebookExecutionId: String? = nil) {
+            self.notebookExecutionId = notebookExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookExecutionId = "NotebookExecutionId"
         }
     }
 
@@ -4614,6 +5044,29 @@ extension EMR {
             case creationDateTime = "CreationDateTime"
             case endDateTime = "EndDateTime"
             case startDateTime = "StartDateTime"
+        }
+    }
+
+    public struct StopNotebookExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookExecutionId", required: true, type: .string)
+        ]
+
+        /// The unique identifier of the notebook execution.
+        public let notebookExecutionId: String
+
+        public init(notebookExecutionId: String) {
+            self.notebookExecutionId = notebookExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.notebookExecutionId, name:"notebookExecutionId", parent: name, max: 256)
+            try validate(self.notebookExecutionId, name:"notebookExecutionId", parent: name, min: 0)
+            try validate(self.notebookExecutionId, name:"notebookExecutionId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookExecutionId = "NotebookExecutionId"
         }
     }
 

@@ -16,6 +16,11 @@ extension SESV2 {
         return client.paginate(input: input, command: listConfigurationSets, tokenKey: \ListConfigurationSetsResponse.nextToken, onPage: onPage)
     }
 
+    ///  Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func listCustomVerificationEmailTemplatesPaginator(_ input: ListCustomVerificationEmailTemplatesRequest, onPage: @escaping (ListCustomVerificationEmailTemplatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listCustomVerificationEmailTemplates, tokenKey: \ListCustomVerificationEmailTemplatesResponse.nextToken, onPage: onPage)
+    }
+
     ///  List all of the dedicated IP pools that exist in your AWS account in the current Region.
     public func listDedicatedIpPoolsPaginator(_ input: ListDedicatedIpPoolsRequest, onPage: @escaping (ListDedicatedIpPoolsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDedicatedIpPools, tokenKey: \ListDedicatedIpPoolsResponse.nextToken, onPage: onPage)
@@ -34,6 +39,16 @@ extension SESV2 {
     ///  Returns a list of all of the email identities that are associated with your AWS account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
     public func listEmailIdentitiesPaginator(_ input: ListEmailIdentitiesRequest, onPage: @escaping (ListEmailIdentitiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEmailIdentities, tokenKey: \ListEmailIdentitiesResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Lists the email templates present in your Amazon SES account in the current AWS Region. You can execute this operation no more than once per second.
+    public func listEmailTemplatesPaginator(_ input: ListEmailTemplatesRequest, onPage: @escaping (ListEmailTemplatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEmailTemplates, tokenKey: \ListEmailTemplatesResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Lists all of the import jobs.
+    public func listImportJobsPaginator(_ input: ListImportJobsRequest, onPage: @escaping (ListImportJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listImportJobs, tokenKey: \ListImportJobsResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves a list of email addresses that are on the suppression list for your account.
@@ -56,6 +71,16 @@ extension SESV2.GetDedicatedIpsRequest: AWSPaginateStringToken {
 
 extension SESV2.ListConfigurationSetsRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListConfigurationSetsRequest {
+        return .init(
+            nextToken: token, 
+            pageSize: self.pageSize
+        )
+
+    }
+}
+
+extension SESV2.ListCustomVerificationEmailTemplatesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SESV2.ListCustomVerificationEmailTemplatesRequest {
         return .init(
             nextToken: token, 
             pageSize: self.pageSize
@@ -100,6 +125,27 @@ extension SESV2.ListDomainDeliverabilityCampaignsRequest: AWSPaginateStringToken
 extension SESV2.ListEmailIdentitiesRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListEmailIdentitiesRequest {
         return .init(
+            nextToken: token, 
+            pageSize: self.pageSize
+        )
+
+    }
+}
+
+extension SESV2.ListEmailTemplatesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SESV2.ListEmailTemplatesRequest {
+        return .init(
+            nextToken: token, 
+            pageSize: self.pageSize
+        )
+
+    }
+}
+
+extension SESV2.ListImportJobsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SESV2.ListImportJobsRequest {
+        return .init(
+            importDestinationType: self.importDestinationType, 
             nextToken: token, 
             pageSize: self.pageSize
         )

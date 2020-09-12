@@ -11,7 +11,17 @@ extension Athena {
         return client.paginate(input: input, command: getQueryResults, tokenKey: \GetQueryResultsOutput.nextToken, onPage: onPage)
     }
 
-    ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    ///  Lists the data catalogs in the current AWS account.
+    public func listDataCatalogsPaginator(_ input: ListDataCatalogsInput, onPage: @escaping (ListDataCatalogsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataCatalogs, tokenKey: \ListDataCatalogsOutput.nextToken, onPage: onPage)
+    }
+
+    ///  Lists the databases in the specified data catalog.
+    public func listDatabasesPaginator(_ input: ListDatabasesInput, onPage: @escaping (ListDatabasesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDatabases, tokenKey: \ListDatabasesOutput.nextToken, onPage: onPage)
+    }
+
+    ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listNamedQueriesPaginator(_ input: ListNamedQueriesInput, onPage: @escaping (ListNamedQueriesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNamedQueries, tokenKey: \ListNamedQueriesOutput.nextToken, onPage: onPage)
     }
@@ -19,6 +29,16 @@ extension Athena {
     ///  Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listQueryExecutionsPaginator(_ input: ListQueryExecutionsInput, onPage: @escaping (ListQueryExecutionsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listQueryExecutions, tokenKey: \ListQueryExecutionsOutput.nextToken, onPage: onPage)
+    }
+
+    ///  Lists the metadata for the tables in the specified data catalog database.
+    public func listTableMetadataPaginator(_ input: ListTableMetadataInput, onPage: @escaping (ListTableMetadataOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTableMetadata, tokenKey: \ListTableMetadataOutput.nextToken, onPage: onPage)
+    }
+
+    ///  Lists the tags associated with an Athena workgroup or data catalog resource.
+    public func listTagsForResourcePaginator(_ input: ListTagsForResourceInput, onPage: @escaping (ListTagsForResourceOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceOutput.nextToken, onPage: onPage)
     }
 
     ///  Lists available workgroups for the account.
@@ -34,6 +54,27 @@ extension Athena.GetQueryResultsInput: AWSPaginateStringToken {
             maxResults: self.maxResults, 
             nextToken: token, 
             queryExecutionId: self.queryExecutionId
+        )
+
+    }
+}
+
+extension Athena.ListDataCatalogsInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListDataCatalogsInput {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension Athena.ListDatabasesInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListDatabasesInput {
+        return .init(
+            catalogName: self.catalogName, 
+            maxResults: self.maxResults, 
+            nextToken: token
         )
 
     }
@@ -56,6 +97,30 @@ extension Athena.ListQueryExecutionsInput: AWSPaginateStringToken {
             maxResults: self.maxResults, 
             nextToken: token, 
             workGroup: self.workGroup
+        )
+
+    }
+}
+
+extension Athena.ListTableMetadataInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListTableMetadataInput {
+        return .init(
+            catalogName: self.catalogName, 
+            databaseName: self.databaseName, 
+            expression: self.expression, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension Athena.ListTagsForResourceInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListTagsForResourceInput {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            resourceARN: self.resourceARN
         )
 
     }

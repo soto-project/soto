@@ -156,7 +156,12 @@ extension SageMaker {
         return client.paginate(input: input, command: listUserProfiles, tokenKey: \ListUserProfilesResponse.nextToken, onPage: onPage)
     }
 
-    ///  Gets a list of work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
+    ///  Use this operation to list all private and vendor workforces in an AWS Region. Note that you can only have one private workforce per AWS Region.
+    public func listWorkforcesPaginator(_ input: ListWorkforcesRequest, onPage: @escaping (ListWorkforcesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWorkforces, tokenKey: \ListWorkforcesResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     public func listWorkteamsPaginator(_ input: ListWorkteamsRequest, onPage: @escaping (ListWorkteamsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listWorkteams, tokenKey: \ListWorkteamsResponse.nextToken, onPage: onPage)
     }
@@ -640,6 +645,19 @@ extension SageMaker.ListUserProfilesRequest: AWSPaginateStringToken {
             sortBy: self.sortBy, 
             sortOrder: self.sortOrder, 
             userProfileNameContains: self.userProfileNameContains
+        )
+
+    }
+}
+
+extension SageMaker.ListWorkforcesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListWorkforcesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
+            nextToken: token, 
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
 
     }

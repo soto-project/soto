@@ -27,6 +27,13 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnhancedMonitoring: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
         case perBroker = "PER_BROKER"
@@ -350,6 +357,7 @@ extension Kafka {
             AWSShapeMember(label: "ErrorInfo", location: .body(locationName: "errorInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "OperationArn", location: .body(locationName: "operationArn"), required: false, type: .string), 
             AWSShapeMember(label: "OperationState", location: .body(locationName: "operationState"), required: false, type: .string), 
+            AWSShapeMember(label: "OperationSteps", location: .body(locationName: "operationSteps"), required: false, type: .list), 
             AWSShapeMember(label: "OperationType", location: .body(locationName: "operationType"), required: false, type: .string), 
             AWSShapeMember(label: "SourceClusterInfo", location: .body(locationName: "sourceClusterInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "TargetClusterInfo", location: .body(locationName: "targetClusterInfo"), required: false, type: .structure)
@@ -369,6 +377,8 @@ extension Kafka {
         public let operationArn: String?
         /// State of the cluster operation.
         public let operationState: String?
+        /// Steps completed during the operation.
+        public let operationSteps: [ClusterOperationStep]?
         /// Type of the cluster operation.
         public let operationType: String?
         /// Information about cluster attributes before a cluster is updated.
@@ -376,7 +386,7 @@ extension Kafka {
         /// Information about cluster attributes after a cluster is updated.
         public let targetClusterInfo: MutableClusterInfo?
 
-        public init(clientRequestId: String? = nil, clusterArn: String? = nil, creationTime: TimeStamp? = nil, endTime: TimeStamp? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationType: String? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil) {
+        public init(clientRequestId: String? = nil, clusterArn: String? = nil, creationTime: TimeStamp? = nil, endTime: TimeStamp? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationSteps: [ClusterOperationStep]? = nil, operationType: String? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil) {
             self.clientRequestId = clientRequestId
             self.clusterArn = clusterArn
             self.creationTime = creationTime
@@ -384,6 +394,7 @@ extension Kafka {
             self.errorInfo = errorInfo
             self.operationArn = operationArn
             self.operationState = operationState
+            self.operationSteps = operationSteps
             self.operationType = operationType
             self.sourceClusterInfo = sourceClusterInfo
             self.targetClusterInfo = targetClusterInfo
@@ -397,9 +408,69 @@ extension Kafka {
             case errorInfo = "errorInfo"
             case operationArn = "operationArn"
             case operationState = "operationState"
+            case operationSteps = "operationSteps"
             case operationType = "operationType"
             case sourceClusterInfo = "sourceClusterInfo"
             case targetClusterInfo = "targetClusterInfo"
+        }
+    }
+
+    public struct ClusterOperationStep: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StepInfo", location: .body(locationName: "stepInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "StepName", location: .body(locationName: "stepName"), required: false, type: .string)
+        ]
+
+        /// Information about the step and its status.
+        public let stepInfo: ClusterOperationStepInfo?
+        /// The name of the step.
+        public let stepName: String?
+
+        public init(stepInfo: ClusterOperationStepInfo? = nil, stepName: String? = nil) {
+            self.stepInfo = stepInfo
+            self.stepName = stepName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepInfo = "stepInfo"
+            case stepName = "stepName"
+        }
+    }
+
+    public struct ClusterOperationStepInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StepStatus", location: .body(locationName: "stepStatus"), required: false, type: .string)
+        ]
+
+        /// The steps current status.
+        public let stepStatus: String?
+
+        public init(stepStatus: String? = nil) {
+            self.stepStatus = stepStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepStatus = "stepStatus"
+        }
+    }
+
+    public struct CompatibleKafkaVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceVersion", location: .body(locationName: "sourceVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "TargetVersions", location: .body(locationName: "targetVersions"), required: false, type: .list)
+        ]
+
+        public let sourceVersion: String?
+        public let targetVersions: [String]?
+
+        public init(sourceVersion: String? = nil, targetVersions: [String]? = nil) {
+            self.sourceVersion = sourceVersion
+            self.targetVersions = targetVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceVersion = "sourceVersion"
+            case targetVersions = "targetVersions"
         }
     }
 
@@ -410,7 +481,8 @@ extension Kafka {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
             AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: true, type: .list), 
             AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: true, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: true, type: .enum)
         ]
 
         /// The Amazon Resource Name (ARN) of the configuration.
@@ -424,14 +496,16 @@ extension Kafka {
         public let latestRevision: ConfigurationRevision
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
         public let name: String
+        public let state: ConfigurationState
 
-        public init(arn: String, creationTime: TimeStamp, description: String, kafkaVersions: [String], latestRevision: ConfigurationRevision, name: String) {
+        public init(arn: String, creationTime: TimeStamp, description: String, kafkaVersions: [String], latestRevision: ConfigurationRevision, name: String, state: ConfigurationState) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.kafkaVersions = kafkaVersions
             self.latestRevision = latestRevision
             self.name = name
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -441,6 +515,7 @@ extension Kafka {
             case kafkaVersions = "kafkaVersions"
             case latestRevision = "latestRevision"
             case name = "name"
+            case state = "state"
         }
     }
 
@@ -600,7 +675,7 @@ extension Kafka {
     public struct CreateConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: true, type: .list), 
+            AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "ServerProperties", location: .body(locationName: "serverProperties"), required: true, type: .blob)
         ]
@@ -608,12 +683,12 @@ extension Kafka {
         /// The description of the configuration.
         public let description: String?
         /// The versions of Apache Kafka with which you can use this MSK configuration.
-        public let kafkaVersions: [String]
+        public let kafkaVersions: [String]?
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
         public let name: String
         public let serverProperties: Data
 
-        public init(description: String? = nil, kafkaVersions: [String], name: String, serverProperties: Data) {
+        public init(description: String? = nil, kafkaVersions: [String]? = nil, name: String, serverProperties: Data) {
             self.description = description
             self.kafkaVersions = kafkaVersions
             self.name = name
@@ -633,7 +708,8 @@ extension Kafka {
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
             AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
 
         /// The Amazon Resource Name (ARN) of the configuration.
@@ -644,12 +720,15 @@ extension Kafka {
         public let latestRevision: ConfigurationRevision?
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
         public let name: String?
+        /// The state of the configuration. The possible states are ACTIVE, DELETING and DELETE_FAILED.
+        public let state: ConfigurationState?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.latestRevision = latestRevision
             self.name = name
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -657,6 +736,7 @@ extension Kafka {
             case creationTime = "creationTime"
             case latestRevision = "latestRevision"
             case name = "name"
+            case state = "state"
         }
     }
 
@@ -698,6 +778,45 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "clusterArn"
+            case state = "state"
+        }
+    }
+
+    public struct DeleteConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeleteConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String?
+        /// The state of the configuration. The possible states are ACTIVE, DELETING and DELETE_FAILED.
+        public let state: ConfigurationState?
+
+        public init(arn: String? = nil, state: ConfigurationState? = nil) {
+            self.arn = arn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case state = "state"
         }
     }
@@ -791,7 +910,8 @@ extension Kafka {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: false, type: .list), 
             AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
 
         /// The Amazon Resource Name (ARN) of the configuration.
@@ -806,14 +926,17 @@ extension Kafka {
         public let latestRevision: ConfigurationRevision?
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
         public let name: String?
+        /// The state of the configuration. The possible states are ACTIVE, DELETING and DELETE_FAILED.
+        public let state: ConfigurationState?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.kafkaVersions = kafkaVersions
             self.latestRevision = latestRevision
             self.name = name
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -823,6 +946,7 @@ extension Kafka {
             case kafkaVersions = "kafkaVersions"
             case latestRevision = "latestRevision"
             case name = "name"
+            case state = "state"
         }
     }
 
@@ -1046,6 +1170,39 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case bootstrapBrokerString = "bootstrapBrokerString"
             case bootstrapBrokerStringTls = "bootstrapBrokerStringTls"
+        }
+    }
+
+    public struct GetCompatibleKafkaVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", location: .querystring(locationName: "clusterArn"), required: false, type: .string)
+        ]
+
+        public let clusterArn: String?
+
+        public init(clusterArn: String? = nil) {
+            self.clusterArn = clusterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+        }
+    }
+
+    public struct GetCompatibleKafkaVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompatibleKafkaVersions", location: .body(locationName: "compatibleKafkaVersions"), required: false, type: .list)
+        ]
+
+        /// A list of CompatibleKafkaVersion objects.
+        public let compatibleKafkaVersions: [CompatibleKafkaVersion]?
+
+        public init(compatibleKafkaVersions: [CompatibleKafkaVersion]? = nil) {
+            self.compatibleKafkaVersions = compatibleKafkaVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compatibleKafkaVersions = "compatibleKafkaVersions"
         }
     }
 
@@ -1458,6 +1615,7 @@ extension Kafka {
             AWSShapeMember(label: "BrokerEBSVolumeInfo", location: .body(locationName: "brokerEBSVolumeInfo"), required: false, type: .list), 
             AWSShapeMember(label: "ConfigurationInfo", location: .body(locationName: "configurationInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
+            AWSShapeMember(label: "KafkaVersion", location: .body(locationName: "kafkaVersion"), required: false, type: .string), 
             AWSShapeMember(label: "LoggingInfo", location: .body(locationName: "loggingInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: false, type: .integer), 
             AWSShapeMember(label: "OpenMonitoring", location: .body(locationName: "openMonitoring"), required: false, type: .structure)
@@ -1469,6 +1627,7 @@ extension Kafka {
         public let configurationInfo: ConfigurationInfo?
         /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch for this cluster.
         public let enhancedMonitoring: EnhancedMonitoring?
+        public let kafkaVersion: String?
         /// LoggingInfo details.
         public let loggingInfo: LoggingInfo?
         ///             The number of broker nodes in the cluster.
@@ -1477,10 +1636,11 @@ extension Kafka {
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?
 
-        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
+        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.configurationInfo = configurationInfo
             self.enhancedMonitoring = enhancedMonitoring
+            self.kafkaVersion = kafkaVersion
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
@@ -1490,6 +1650,7 @@ extension Kafka {
             case brokerEBSVolumeInfo = "brokerEBSVolumeInfo"
             case configurationInfo = "configurationInfo"
             case enhancedMonitoring = "enhancedMonitoring"
+            case kafkaVersion = "kafkaVersion"
             case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
@@ -1647,6 +1808,49 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case jmxExporter = "jmxExporter"
             case nodeExporter = "nodeExporter"
+        }
+    }
+
+    public struct RebootBrokerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerIds", location: .body(locationName: "brokerIds"), required: true, type: .list), 
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string)
+        ]
+
+        /// The list of broker ids to be rebooted.
+        public let brokerIds: [String]
+        public let clusterArn: String
+
+        public init(brokerIds: [String], clusterArn: String) {
+            self.brokerIds = brokerIds
+            self.clusterArn = clusterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerIds = "brokerIds"
+            case clusterArn = "clusterArn"
+        }
+    }
+
+    public struct RebootBrokerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ClusterOperationArn", location: .body(locationName: "clusterOperationArn"), required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -1902,6 +2106,106 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "clusterArn"
             case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
+    public struct UpdateClusterKafkaVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationInfo", location: .body(locationName: "configurationInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: true, type: .string), 
+            AWSShapeMember(label: "TargetKafkaVersion", location: .body(locationName: "targetKafkaVersion"), required: true, type: .string)
+        ]
+
+        public let clusterArn: String
+        public let configurationInfo: ConfigurationInfo?
+        /// Current cluster version.
+        public let currentVersion: String
+        /// Target Kafka version.
+        public let targetKafkaVersion: String
+
+        public init(clusterArn: String, configurationInfo: ConfigurationInfo? = nil, currentVersion: String, targetKafkaVersion: String) {
+            self.clusterArn = clusterArn
+            self.configurationInfo = configurationInfo
+            self.currentVersion = currentVersion
+            self.targetKafkaVersion = targetKafkaVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case configurationInfo = "configurationInfo"
+            case currentVersion = "currentVersion"
+            case targetKafkaVersion = "targetKafkaVersion"
+        }
+    }
+
+    public struct UpdateClusterKafkaVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ClusterOperationArn", location: .body(locationName: "clusterOperationArn"), required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
+    public struct UpdateConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerProperties", location: .body(locationName: "serverProperties"), required: true, type: .blob)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String
+        /// The description of the configuration.
+        public let description: String?
+        public let serverProperties: Data
+
+        public init(arn: String, description: String? = nil, serverProperties: Data) {
+            self.arn = arn
+            self.description = description
+            self.serverProperties = serverProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case description = "description"
+            case serverProperties = "serverProperties"
+        }
+    }
+
+    public struct UpdateConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String?
+        /// Latest revision of the configuration.
+        public let latestRevision: ConfigurationRevision?
+
+        public init(arn: String? = nil, latestRevision: ConfigurationRevision? = nil) {
+            self.arn = arn
+            self.latestRevision = latestRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case latestRevision = "latestRevision"
         }
     }
 

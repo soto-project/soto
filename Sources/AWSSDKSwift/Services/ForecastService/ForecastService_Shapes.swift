@@ -135,7 +135,8 @@ extension ForecastService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatasetArns", required: false, type: .list), 
             AWSShapeMember(label: "DatasetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Domain", required: true, type: .enum)
+            AWSShapeMember(label: "Domain", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group.
@@ -144,11 +145,14 @@ extension ForecastService {
         public let datasetGroupName: String
         /// The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires that item_id, timestamp, and demand fields are present in your data. For more information, see howitworks-datasets-groups.
         public let domain: Domain
+        /// The optional metadata that you apply to the dataset group to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        public let tags: [Tag]?
 
-        public init(datasetArns: [String]? = nil, datasetGroupName: String, domain: Domain) {
+        public init(datasetArns: [String]? = nil, datasetGroupName: String, domain: Domain, tags: [Tag]? = nil) {
             self.datasetArns = datasetArns
             self.datasetGroupName = datasetGroupName
             self.domain = domain
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -159,12 +163,18 @@ extension ForecastService {
             try validate(self.datasetGroupName, name:"datasetGroupName", parent: name, max: 63)
             try validate(self.datasetGroupName, name:"datasetGroupName", parent: name, min: 1)
             try validate(self.datasetGroupName, name:"datasetGroupName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetArns = "DatasetArns"
             case datasetGroupName = "DatasetGroupName"
             case domain = "Domain"
+            case tags = "Tags"
         }
     }
 
@@ -190,6 +200,7 @@ extension ForecastService {
             AWSShapeMember(label: "DatasetArn", required: true, type: .string), 
             AWSShapeMember(label: "DatasetImportJobName", required: true, type: .string), 
             AWSShapeMember(label: "DataSource", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TimestampFormat", required: false, type: .string)
         ]
 
@@ -199,13 +210,16 @@ extension ForecastService {
         public let datasetImportJobName: String
         /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an AWS Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the CreateDataset operation.
         public let dataSource: DataSource
+        /// The optional metadata that you apply to the dataset import job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        public let tags: [Tag]?
         /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D   If the format isn't specified, Amazon Forecast expects the format to be "yyyy-MM-dd HH:mm:ss".
         public let timestampFormat: String?
 
-        public init(datasetArn: String, datasetImportJobName: String, dataSource: DataSource, timestampFormat: String? = nil) {
+        public init(datasetArn: String, datasetImportJobName: String, dataSource: DataSource, tags: [Tag]? = nil, timestampFormat: String? = nil) {
             self.datasetArn = datasetArn
             self.datasetImportJobName = datasetImportJobName
             self.dataSource = dataSource
+            self.tags = tags
             self.timestampFormat = timestampFormat
         }
 
@@ -216,6 +230,11 @@ extension ForecastService {
             try validate(self.datasetImportJobName, name:"datasetImportJobName", parent: name, min: 1)
             try validate(self.datasetImportJobName, name:"datasetImportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.dataSource.validate(name: "\(name).dataSource")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
             try validate(self.timestampFormat, name:"timestampFormat", parent: name, max: 256)
             try validate(self.timestampFormat, name:"timestampFormat", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\.\\,\\'\\s]+$")
         }
@@ -224,6 +243,7 @@ extension ForecastService {
             case datasetArn = "DatasetArn"
             case datasetImportJobName = "DatasetImportJobName"
             case dataSource = "DataSource"
+            case tags = "Tags"
             case timestampFormat = "TimestampFormat"
         }
     }
@@ -252,7 +272,8 @@ extension ForecastService {
             AWSShapeMember(label: "DatasetType", required: true, type: .enum), 
             AWSShapeMember(label: "Domain", required: true, type: .enum), 
             AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Schema", required: true, type: .structure)
+            AWSShapeMember(label: "Schema", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// The frequency of data collection. This parameter is required for RELATED_TIME_SERIES datasets. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "D" indicates every day and "15min" indicates every 15 minutes.
@@ -267,14 +288,17 @@ extension ForecastService {
         public let encryptionConfig: EncryptionConfig?
         /// The schema for the dataset. The schema attributes and their order must match the fields in your data. The dataset Domain and DatasetType that you choose determine the minimum required fields in your training data. For information about the required fields for a specific dataset domain and type, see howitworks-domains-ds-types.
         public let schema: Schema
+        /// The optional metadata that you apply to the dataset to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        public let tags: [Tag]?
 
-        public init(dataFrequency: String? = nil, datasetName: String, datasetType: DatasetType, domain: Domain, encryptionConfig: EncryptionConfig? = nil, schema: Schema) {
+        public init(dataFrequency: String? = nil, datasetName: String, datasetType: DatasetType, domain: Domain, encryptionConfig: EncryptionConfig? = nil, schema: Schema, tags: [Tag]? = nil) {
             self.dataFrequency = dataFrequency
             self.datasetName = datasetName
             self.datasetType = datasetType
             self.domain = domain
             self.encryptionConfig = encryptionConfig
             self.schema = schema
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -284,6 +308,11 @@ extension ForecastService {
             try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
             try self.schema.validate(name: "\(name).schema")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -293,6 +322,7 @@ extension ForecastService {
             case domain = "Domain"
             case encryptionConfig = "EncryptionConfig"
             case schema = "Schema"
+            case tags = "Tags"
         }
     }
 
@@ -317,7 +347,8 @@ extension ForecastService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destination", required: true, type: .structure), 
             AWSShapeMember(label: "ForecastArn", required: true, type: .string), 
-            AWSShapeMember(label: "ForecastExportJobName", required: true, type: .string)
+            AWSShapeMember(label: "ForecastExportJobName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// The location where you want to save the forecast and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
@@ -326,11 +357,14 @@ extension ForecastService {
         public let forecastArn: String
         /// The name for the forecast export job.
         public let forecastExportJobName: String
+        /// The optional metadata that you apply to the forecast export job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        public let tags: [Tag]?
 
-        public init(destination: DataDestination, forecastArn: String, forecastExportJobName: String) {
+        public init(destination: DataDestination, forecastArn: String, forecastExportJobName: String, tags: [Tag]? = nil) {
             self.destination = destination
             self.forecastArn = forecastArn
             self.forecastExportJobName = forecastExportJobName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -340,12 +374,18 @@ extension ForecastService {
             try validate(self.forecastExportJobName, name:"forecastExportJobName", parent: name, max: 63)
             try validate(self.forecastExportJobName, name:"forecastExportJobName", parent: name, min: 1)
             try validate(self.forecastExportJobName, name:"forecastExportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case destination = "Destination"
             case forecastArn = "ForecastArn"
             case forecastExportJobName = "ForecastExportJobName"
+            case tags = "Tags"
         }
     }
 
@@ -370,20 +410,24 @@ extension ForecastService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ForecastName", required: true, type: .string), 
             AWSShapeMember(label: "ForecastTypes", required: false, type: .list), 
-            AWSShapeMember(label: "PredictorArn", required: true, type: .string)
+            AWSShapeMember(label: "PredictorArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// A name for the forecast.
         public let forecastName: String
-        /// The quantiles at which probabilistic forecasts are generated. You can specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99 (increments of .01 only) and mean. The mean forecast is different from the median (0.50) when the distribution is not symmetric (e.g. Beta, Negative Binomial). The default value is ["0.1", "0.5", "0.9"].
+        /// The quantiles at which probabilistic forecasts are generated. You can currently specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99 (increments of .01 only) and mean. The mean forecast is different from the median (0.50) when the distribution is not symmetric (for example, Beta and Negative Binomial). The default value is ["0.1", "0.5", "0.9"].
         public let forecastTypes: [String]?
         /// The Amazon Resource Name (ARN) of the predictor to use to generate the forecast.
         public let predictorArn: String
+        /// The optional metadata that you apply to the forecast to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        public let tags: [Tag]?
 
-        public init(forecastName: String, forecastTypes: [String]? = nil, predictorArn: String) {
+        public init(forecastName: String, forecastTypes: [String]? = nil, predictorArn: String, tags: [Tag]? = nil) {
             self.forecastName = forecastName
             self.forecastTypes = forecastTypes
             self.predictorArn = predictorArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -397,12 +441,18 @@ extension ForecastService {
             try validate(self.forecastTypes, name:"forecastTypes", parent: name, min: 1)
             try validate(self.predictorArn, name:"predictorArn", parent: name, max: 256)
             try validate(self.predictorArn, name:"predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case forecastName = "ForecastName"
             case forecastTypes = "ForecastTypes"
             case predictorArn = "PredictorArn"
+            case tags = "Tags"
         }
     }
 
@@ -435,6 +485,7 @@ extension ForecastService {
             AWSShapeMember(label: "PerformAutoML", required: false, type: .boolean), 
             AWSShapeMember(label: "PerformHPO", required: false, type: .boolean), 
             AWSShapeMember(label: "PredictorName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
         ]
 
@@ -458,10 +509,12 @@ extension ForecastService {
         public let performHPO: Bool?
         /// A name for the predictor.
         public let predictorName: String
+        /// The optional metadata that you apply to the predictor to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        public let tags: [Tag]?
         /// The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.encryptionConfig = encryptionConfig
             self.evaluationParameters = evaluationParameters
@@ -472,6 +525,7 @@ extension ForecastService {
             self.performAutoML = performAutoML
             self.performHPO = performHPO
             self.predictorName = predictorName
+            self.tags = tags
             self.trainingParameters = trainingParameters
         }
 
@@ -485,6 +539,11 @@ extension ForecastService {
             try validate(self.predictorName, name:"predictorName", parent: name, max: 63)
             try validate(self.predictorName, name:"predictorName", parent: name, min: 1)
             try validate(self.predictorName, name:"predictorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
             try self.trainingParameters?.forEach {
                 try validate($0.key, name:"trainingParameters.key", parent: name, max: 256)
                 try validate($0.key, name:"trainingParameters.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\[\\]\\,\\\\]+$")
@@ -504,6 +563,7 @@ extension ForecastService {
             case performAutoML = "PerformAutoML"
             case performHPO = "PerformHPO"
             case predictorName = "PredictorName"
+            case tags = "Tags"
             case trainingParameters = "TrainingParameters"
         }
     }
@@ -1179,7 +1239,7 @@ extension ForecastService {
         public let forecastArn: String?
         /// The name of the forecast.
         public let forecastName: String?
-        /// The quantiles at which proababilistic forecasts were generated.
+        /// The quantiles at which probabilistic forecasts were generated.
         public let forecastTypes: [String]?
         /// Initially, the same as CreationTime (status is CREATE_PENDING). Updated when inference (creating the forecast) starts (status changed to CREATE_IN_PROGRESS), and when inference is complete (status changed to ACTIVE) or fails (status changed to CREATE_FAILED).
         public let lastModificationTime: TimeStamp?
@@ -1423,7 +1483,7 @@ extension ForecastService {
             AWSShapeMember(label: "FeaturizationPipeline", required: false, type: .list)
         ]
 
-        /// The name of the schema attribute that specifies the data field to be featurized. Only the target field of the TARGET_TIME_SERIES dataset type is supported. For example, for the RETAIL domain, the target is demand, and for the CUSTOM domain, the target is target_value.
+        /// The name of the schema attribute that specifies the data field to be featurized. Amazon Forecast supports the target field of the TARGET_TIME_SERIES and the RELATED_TIME_SERIES datasets. For example, for the RETAIL domain, the target is demand, and for the CUSTOM domain, the target is target_value. For more information, see howitworks-missing-values.
         public let attributeName: String
         /// An array of one FeaturizationMethod object that specifies the feature transformation method.
         public let featurizationPipeline: [FeaturizationMethod]?
@@ -1457,7 +1517,7 @@ extension ForecastService {
             AWSShapeMember(label: "ForecastFrequency", required: true, type: .string)
         ]
 
-        /// An array of featurization (transformation) information for the fields of a dataset. Only a single featurization is supported.
+        /// An array of featurization (transformation) information for the fields of a dataset.
         public let featurizations: [Featurization]?
         /// An array of dimension (field) names that specify how to group the generated forecast. For example, suppose that you are generating a forecast for item sales across all of your stores, and your dataset contains a store_id field. If you want the sales forecast for each item by store, you would specify store_id as the dimension. All forecast dimensions specified in the TARGET_TIME_SERIES dataset don't need to be specified in the CreatePredictor request. All forecast dimensions specified in the RELATED_TIME_SERIES dataset must be specified in the CreatePredictor request.
         public let forecastDimensions: [String]?
@@ -1474,7 +1534,7 @@ extension ForecastService {
             try self.featurizations?.forEach {
                 try $0.validate(name: "\(name).featurizations[]")
             }
-            try validate(self.featurizations, name:"featurizations", parent: name, max: 1)
+            try validate(self.featurizations, name:"featurizations", parent: name, max: 50)
             try validate(self.featurizations, name:"featurizations", parent: name, min: 1)
             try self.forecastDimensions?.forEach {
                 try validate($0, name: "forecastDimensions[]", parent: name, max: 63)
@@ -1501,7 +1561,7 @@ extension ForecastService {
 
         /// The name of the method. The "filling" method is the only supported method.
         public let featurizationMethodName: FeaturizationMethodName
-        /// The method parameters (key-value pairs). Specify these parameters to override the default values. The following list shows the parameters and their valid values. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number)    backfill: zero, nan   
+        /// The method parameters (key-value pairs), which are a map of override parameters. Specify these parameters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number), value, median, mean, min, max     backfill: zero, nan, value, median, mean, min, max    The following list shows the parameters and their valid values for a Related Time Series featurization method (there are no defaults):    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max   
         public let featurizationMethodParameters: [String: String]?
 
         public init(featurizationMethodName: FeaturizationMethodName, featurizationMethodParameters: [String: String]? = nil) {
@@ -2125,6 +2185,45 @@ extension ForecastService {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast export jobs.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The tags for the resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct Metrics: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RMSE", required: false, type: .double), 
@@ -2329,6 +2428,8 @@ extension ForecastService {
             try self.attributes?.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
+            try validate(self.attributes, name:"attributes", parent: name, max: 100)
+            try validate(self.attributes, name:"attributes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2424,7 +2525,7 @@ extension ForecastService {
 
         /// The name of the feature. This must be "holiday".
         public let name: String
-        /// One of the following 2 letter country codes:   "AU" - AUSTRALIA   "DE" - GERMANY   "JP" - JAPAN   "US" - UNITED_STATES   "UK" - UNITED_KINGDOM  
+        /// One of the following 2 letter country codes:   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BE" - BELGIUM   "BR" - BRAZIL   "CA" - CANADA   "CN" - CHINA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "HU" - HUNGARY   "IE" - IRELAND   "IN" - INDIA   "IT" - ITALY   "JP" - JAPAN   "KR" - KOREA   "LU" - LUXEMBOURG   "MX" - MEXICO   "NL" - NETHERLANDS   "NO" - NORWAY   "PL" - POLAND   "PT" - PORTUGAL   "RU" - RUSSIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "US" - UNITED STATES   "UK" - UNITED KINGDOM  
         public let value: String
 
         public init(name: String, value: String) {
@@ -2444,6 +2545,77 @@ extension ForecastService {
             case name = "Name"
             case value = "Value"
         }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
+        public let key: String
+        /// The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key).
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast export jobs.
+        public let resourceArn: String
+        /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct TestWindowSummary: AWSShape {
@@ -2476,6 +2648,48 @@ extension ForecastService {
             case testWindowEnd = "TestWindowEnd"
             case testWindowStart = "TestWindowStart"
         }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast exports.
+        public let resourceArn: String
+        /// The keys of the tags to be removed.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateDatasetGroupRequest: AWSShape {

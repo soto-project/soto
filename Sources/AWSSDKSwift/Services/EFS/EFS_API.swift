@@ -36,7 +36,7 @@ public struct EFS {
             serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2015-02-01",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-ap-east-1": "elasticfilesystem-fips.ap-east-1.amazonaws.com", "fips-ap-northeast-1": "elasticfilesystem-fips.ap-northeast-1.amazonaws.com", "fips-ap-northeast-2": "elasticfilesystem-fips.ap-northeast-2.amazonaws.com", "fips-ap-south-1": "elasticfilesystem-fips.ap-south-1.amazonaws.com", "fips-ap-southeast-1": "elasticfilesystem-fips.ap-southeast-1.amazonaws.com", "fips-ap-southeast-2": "elasticfilesystem-fips.ap-southeast-2.amazonaws.com", "fips-ca-central-1": "elasticfilesystem-fips.ca-central-1.amazonaws.com", "fips-eu-central-1": "elasticfilesystem-fips.eu-central-1.amazonaws.com", "fips-eu-north-1": "elasticfilesystem-fips.eu-north-1.amazonaws.com", "fips-eu-west-1": "elasticfilesystem-fips.eu-west-1.amazonaws.com", "fips-eu-west-2": "elasticfilesystem-fips.eu-west-2.amazonaws.com", "fips-eu-west-3": "elasticfilesystem-fips.eu-west-3.amazonaws.com", "fips-me-south-1": "elasticfilesystem-fips.me-south-1.amazonaws.com", "fips-sa-east-1": "elasticfilesystem-fips.sa-east-1.amazonaws.com", "fips-us-east-1": "elasticfilesystem-fips.us-east-1.amazonaws.com", "fips-us-east-2": "elasticfilesystem-fips.us-east-2.amazonaws.com", "fips-us-west-1": "elasticfilesystem-fips.us-west-1.amazonaws.com", "fips-us-west-2": "elasticfilesystem-fips.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["fips-af-south-1": "elasticfilesystem-fips.af-south-1.amazonaws.com", "fips-ap-east-1": "elasticfilesystem-fips.ap-east-1.amazonaws.com", "fips-ap-northeast-1": "elasticfilesystem-fips.ap-northeast-1.amazonaws.com", "fips-ap-northeast-2": "elasticfilesystem-fips.ap-northeast-2.amazonaws.com", "fips-ap-south-1": "elasticfilesystem-fips.ap-south-1.amazonaws.com", "fips-ap-southeast-1": "elasticfilesystem-fips.ap-southeast-1.amazonaws.com", "fips-ap-southeast-2": "elasticfilesystem-fips.ap-southeast-2.amazonaws.com", "fips-ca-central-1": "elasticfilesystem-fips.ca-central-1.amazonaws.com", "fips-eu-central-1": "elasticfilesystem-fips.eu-central-1.amazonaws.com", "fips-eu-north-1": "elasticfilesystem-fips.eu-north-1.amazonaws.com", "fips-eu-south-1": "elasticfilesystem-fips.eu-south-1.amazonaws.com", "fips-eu-west-1": "elasticfilesystem-fips.eu-west-1.amazonaws.com", "fips-eu-west-2": "elasticfilesystem-fips.eu-west-2.amazonaws.com", "fips-eu-west-3": "elasticfilesystem-fips.eu-west-3.amazonaws.com", "fips-me-south-1": "elasticfilesystem-fips.me-south-1.amazonaws.com", "fips-sa-east-1": "elasticfilesystem-fips.sa-east-1.amazonaws.com", "fips-us-east-1": "elasticfilesystem-fips.us-east-1.amazonaws.com", "fips-us-east-2": "elasticfilesystem-fips.us-east-2.amazonaws.com", "fips-us-west-1": "elasticfilesystem-fips.us-west-1.amazonaws.com", "fips-us-west-2": "elasticfilesystem-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [EFSErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -97,6 +97,11 @@ public struct EFS {
         return client.send(operation: "DescribeAccessPoints", path: "/2015-02-01/access-points", httpMethod: "GET", input: input)
     }
 
+    ///  Returns the backup policy for the specified EFS file system.
+    public func describeBackupPolicy(_ input: DescribeBackupPolicyRequest) -> EventLoopFuture<BackupPolicyDescription> {
+        return client.send(operation: "DescribeBackupPolicy", path: "/2015-02-01/file-systems/{FileSystemId}/backup-policy", httpMethod: "GET", input: input)
+    }
+
     ///  Returns the FileSystemPolicy for the specified EFS file system. This operation requires permissions for the elasticfilesystem:DescribeFileSystemPolicy action.
     public func describeFileSystemPolicy(_ input: DescribeFileSystemPolicyRequest) -> EventLoopFuture<FileSystemPolicyDescription> {
         return client.send(operation: "DescribeFileSystemPolicy", path: "/2015-02-01/file-systems/{FileSystemId}/policy", httpMethod: "GET", input: input)
@@ -136,6 +141,11 @@ public struct EFS {
     ///  Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see CreateMountTarget. This operation replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted.  The operation requires permissions for the following actions:    elasticfilesystem:ModifyMountTargetSecurityGroups action on the mount target's file system.     ec2:ModifyNetworkInterfaceAttribute action on the mount target's network interface.   
     @discardableResult public func modifyMountTargetSecurityGroups(_ input: ModifyMountTargetSecurityGroupsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "ModifyMountTargetSecurityGroups", path: "/2015-02-01/mount-targets/{MountTargetId}/security-groups", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system. 
+    public func putBackupPolicy(_ input: PutBackupPolicyRequest) -> EventLoopFuture<BackupPolicyDescription> {
+        return client.send(operation: "PutBackupPolicy", path: "/2015-02-01/file-systems/{FileSystemId}/backup-policy", httpMethod: "PUT", input: input)
     }
 
     ///  Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file system policy is an IAM resource-based policy and can contain multiple policy statements. A file system always has exactly one file system policy, which can be the default policy or an explicit policy set or updated using this API operation. When an explicit policy is set, it overrides the default policy. For more information about the default file system policy, see Default EFS File System Policy.  This operation requires permissions for the elasticfilesystem:PutFileSystemPolicy action.

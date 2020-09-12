@@ -91,6 +91,8 @@ extension AlexaForBusiness {
         case networkProfileNotFound = "NETWORK_PROFILE_NOT_FOUND"
         case invalidPasswordState = "INVALID_PASSWORD_STATE"
         case passwordNotFound = "PASSWORD_NOT_FOUND"
+        case passwordManagerAccessDenied = "PASSWORD_MANAGER_ACCESS_DENIED"
+        case certificateAuthorityAccessDenied = "CERTIFICATE_AUTHORITY_ACCESS_DENIED"
         public var description: String { return self.rawValue }
     }
 
@@ -573,13 +575,13 @@ extension AlexaForBusiness {
 
     public struct BusinessReportContentRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Interval", required: false, type: .enum)
+            AWSShapeMember(label: "Interval", required: true, type: .enum)
         ]
 
         /// The interval of the content range.
-        public let interval: BusinessReportInterval?
+        public let interval: BusinessReportInterval
 
-        public init(interval: BusinessReportInterval? = nil) {
+        public init(interval: BusinessReportInterval) {
             self.interval = interval
         }
 
@@ -968,7 +970,8 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "Recurrence", required: false, type: .structure), 
             AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
             AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleName", required: false, type: .string)
+            AWSShapeMember(label: "ScheduleName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// The client request token.
@@ -985,8 +988,10 @@ extension AlexaForBusiness {
         public let s3KeyPrefix: String?
         /// The name identifier of the schedule.
         public let scheduleName: String?
+        /// The tags for the business report schedule.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateBusinessReportScheduleRequest.idempotencyToken(), contentRange: BusinessReportContentRange, format: BusinessReportFormat, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleName: String? = nil) {
+        public init(clientRequestToken: String? = CreateBusinessReportScheduleRequest.idempotencyToken(), contentRange: BusinessReportContentRange, format: BusinessReportFormat, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleName: String? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.contentRange = contentRange
             self.format = format
@@ -994,6 +999,7 @@ extension AlexaForBusiness {
             self.s3BucketName = s3BucketName
             self.s3KeyPrefix = s3KeyPrefix
             self.scheduleName = scheduleName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1008,6 +1014,9 @@ extension AlexaForBusiness {
             try validate(self.scheduleName, name:"scheduleName", parent: name, max: 64)
             try validate(self.scheduleName, name:"scheduleName", parent: name, min: 0)
             try validate(self.scheduleName, name:"scheduleName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1018,6 +1027,7 @@ extension AlexaForBusiness {
             case s3BucketName = "S3BucketName"
             case s3KeyPrefix = "S3KeyPrefix"
             case scheduleName = "ScheduleName"
+            case tags = "Tags"
         }
     }
 
@@ -1460,6 +1470,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "ProfileName", required: true, type: .string), 
             AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TemperatureUnit", required: true, type: .enum), 
             AWSShapeMember(label: "Timezone", required: true, type: .string), 
             AWSShapeMember(label: "WakeWord", required: true, type: .enum)
@@ -1483,6 +1494,8 @@ extension AlexaForBusiness {
         public let pSTNEnabled: Bool?
         /// Whether room profile setup is enabled.
         public let setupModeDisabled: Bool?
+        /// The tags for the profile.
+        public let tags: [Tag]?
         /// The temperature unit to be used by devices in the profile.
         public let temperatureUnit: TemperatureUnit
         /// The time zone used by a room profile.
@@ -1490,7 +1503,7 @@ extension AlexaForBusiness {
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         public let wakeWord: WakeWord
 
-        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: CreateMeetingRoomConfiguration? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
+        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: CreateMeetingRoomConfiguration? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, tags: [Tag]? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
             self.address = address
             self.clientRequestToken = clientRequestToken
             self.distanceUnit = distanceUnit
@@ -1500,6 +1513,7 @@ extension AlexaForBusiness {
             self.profileName = profileName
             self.pSTNEnabled = pSTNEnabled
             self.setupModeDisabled = setupModeDisabled
+            self.tags = tags
             self.temperatureUnit = temperatureUnit
             self.timezone = timezone
             self.wakeWord = wakeWord
@@ -1517,6 +1531,9 @@ extension AlexaForBusiness {
             try validate(self.profileName, name:"profileName", parent: name, max: 100)
             try validate(self.profileName, name:"profileName", parent: name, min: 1)
             try validate(self.profileName, name:"profileName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.timezone, name:"timezone", parent: name, max: 100)
             try validate(self.timezone, name:"timezone", parent: name, min: 1)
         }
@@ -1531,6 +1548,7 @@ extension AlexaForBusiness {
             case profileName = "ProfileName"
             case pSTNEnabled = "PSTNEnabled"
             case setupModeDisabled = "SetupModeDisabled"
+            case tags = "Tags"
             case temperatureUnit = "TemperatureUnit"
             case timezone = "Timezone"
             case wakeWord = "WakeWord"
@@ -1590,7 +1608,7 @@ extension AlexaForBusiness {
         public let clientRequestToken: String?
         /// The description for the room.
         public let description: String?
-        /// The profile ARN for the room.
+        /// The profile ARN for the room. This is required.
         public let profileArn: String?
         /// The calendar ARN for the room.
         public let providerCalendarId: String?
@@ -1657,7 +1675,8 @@ extension AlexaForBusiness {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupName", required: true, type: .string)
+            AWSShapeMember(label: "SkillGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// A unique, user-specified identifier for this request that ensures idempotency. 
@@ -1666,11 +1685,14 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name for the skill group.
         public let skillGroupName: String
+        /// The tags for the skill group.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateSkillGroupRequest.idempotencyToken(), description: String? = nil, skillGroupName: String) {
+        public init(clientRequestToken: String? = CreateSkillGroupRequest.idempotencyToken(), description: String? = nil, skillGroupName: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.skillGroupName = skillGroupName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1683,12 +1705,16 @@ extension AlexaForBusiness {
             try validate(self.skillGroupName, name:"skillGroupName", parent: name, max: 100)
             try validate(self.skillGroupName, name:"skillGroupName", parent: name, min: 1)
             try validate(self.skillGroupName, name:"skillGroupName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
             case skillGroupName = "SkillGroupName"
+            case tags = "Tags"
         }
     }
 
@@ -4512,8 +4538,9 @@ extension AlexaForBusiness {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmazonId", required: true, type: .string), 
             AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceSerialNumber", required: true, type: .string), 
+            AWSShapeMember(label: "DeviceSerialNumber", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
             AWSShapeMember(label: "UserCode", required: true, type: .string)
         ]
 
@@ -4522,17 +4549,20 @@ extension AlexaForBusiness {
         /// The client ID of the OEM used for code-based linking authorization on an AVS device.
         public let clientId: String
         /// The key generated by the OEM that uniquely identifies a specified instance of your AVS device.
-        public let deviceSerialNumber: String
+        public let deviceSerialNumber: String?
         /// The product ID used to identify your AVS device during authorization.
         public let productId: String
+        /// The ARN of the room with which to associate your AVS device.
+        public let roomArn: String?
         /// The code that is obtained after your AVS device has made a POST request to LWA as a part of the Device Authorization Request component of the OAuth code-based linking specification.
         public let userCode: String
 
-        public init(amazonId: String, clientId: String, deviceSerialNumber: String, productId: String, userCode: String) {
+        public init(amazonId: String, clientId: String, deviceSerialNumber: String? = nil, productId: String, roomArn: String? = nil, userCode: String) {
             self.amazonId = amazonId
             self.clientId = clientId
             self.deviceSerialNumber = deviceSerialNumber
             self.productId = productId
+            self.roomArn = roomArn
             self.userCode = userCode
         }
 
@@ -4541,6 +4571,7 @@ extension AlexaForBusiness {
             try validate(self.clientId, name:"clientId", parent: name, pattern: "^\\S+{1,256}$")
             try validate(self.deviceSerialNumber, name:"deviceSerialNumber", parent: name, pattern: "^[a-zA-Z0-9]{1,50}$")
             try validate(self.productId, name:"productId", parent: name, pattern: "^[a-zA-Z0-9_]{1,256}$")
+            try validate(self.roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try validate(self.userCode, name:"userCode", parent: name, max: 128)
             try validate(self.userCode, name:"userCode", parent: name, min: 1)
         }
@@ -4550,6 +4581,7 @@ extension AlexaForBusiness {
             case clientId = "ClientId"
             case deviceSerialNumber = "DeviceSerialNumber"
             case productId = "ProductId"
+            case roomArn = "RoomArn"
             case userCode = "UserCode"
         }
     }
@@ -5561,7 +5593,7 @@ extension AlexaForBusiness {
         public let productDescription: String?
         /// The date when the skill was released.
         public let releaseDate: String?
-        /// The list of reviews for the skill, including Key and Value pair.
+        ///  This member has been deprecated.  The list of reviews for the skill, including Key and Value pair.
         public let reviews: [String: String]?
         /// The types of skills.
         public let skillTypes: [String]?

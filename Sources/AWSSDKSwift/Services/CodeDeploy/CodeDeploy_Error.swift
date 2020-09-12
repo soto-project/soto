@@ -64,6 +64,7 @@ public enum CodeDeployErrorType: AWSErrorType {
     case invalidEC2TagCombinationException(message: String?)
     case invalidEC2TagException(message: String?)
     case invalidECSServiceException(message: String?)
+    case invalidExternalIdException(message: String?)
     case invalidFileExistsBehaviorException(message: String?)
     case invalidGitHubAccountTokenException(message: String?)
     case invalidGitHubAccountTokenNameException(message: String?)
@@ -241,6 +242,8 @@ extension CodeDeployErrorType {
             self = .invalidEC2TagException(message: message)
         case "InvalidECSServiceException":
             self = .invalidECSServiceException(message: message)
+        case "InvalidExternalIdException":
+            self = .invalidExternalIdException(message: message)
         case "InvalidFileExistsBehaviorException":
             self = .invalidFileExistsBehaviorException(message: message)
         case "InvalidGitHubAccountTokenException":
@@ -466,6 +469,8 @@ extension CodeDeployErrorType : CustomStringConvertible {
             return "InvalidEC2TagException: \(message ?? "")"
         case .invalidECSServiceException(let message):
             return "InvalidECSServiceException: \(message ?? "")"
+        case .invalidExternalIdException(let message):
+            return "InvalidExternalIdException: \(message ?? "")"
         case .invalidFileExistsBehaviorException(let message):
             return "InvalidFileExistsBehaviorException: \(message ?? "")"
         case .invalidGitHubAccountTokenException(let message):

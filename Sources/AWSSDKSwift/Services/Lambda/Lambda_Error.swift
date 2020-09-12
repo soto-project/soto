@@ -8,6 +8,10 @@ public enum LambdaErrorType: AWSErrorType {
     case eC2AccessDeniedException(message: String?)
     case eC2ThrottledException(message: String?)
     case eC2UnexpectedException(message: String?)
+    case eFSIOException(message: String?)
+    case eFSMountConnectivityException(message: String?)
+    case eFSMountFailureException(message: String?)
+    case eFSMountTimeoutException(message: String?)
     case eNILimitReachedException(message: String?)
     case invalidParameterValueException(message: String?)
     case invalidRequestContentException(message: String?)
@@ -48,6 +52,14 @@ extension LambdaErrorType {
             self = .eC2ThrottledException(message: message)
         case "EC2UnexpectedException":
             self = .eC2UnexpectedException(message: message)
+        case "EFSIOException":
+            self = .eFSIOException(message: message)
+        case "EFSMountConnectivityException":
+            self = .eFSMountConnectivityException(message: message)
+        case "EFSMountFailureException":
+            self = .eFSMountFailureException(message: message)
+        case "EFSMountTimeoutException":
+            self = .eFSMountTimeoutException(message: message)
         case "ENILimitReachedException":
             self = .eNILimitReachedException(message: message)
         case "InvalidParameterValueException":
@@ -111,6 +123,14 @@ extension LambdaErrorType : CustomStringConvertible {
             return "EC2ThrottledException: \(message ?? "")"
         case .eC2UnexpectedException(let message):
             return "EC2UnexpectedException: \(message ?? "")"
+        case .eFSIOException(let message):
+            return "EFSIOException: \(message ?? "")"
+        case .eFSMountConnectivityException(let message):
+            return "EFSMountConnectivityException: \(message ?? "")"
+        case .eFSMountFailureException(let message):
+            return "EFSMountFailureException: \(message ?? "")"
+        case .eFSMountTimeoutException(let message):
+            return "EFSMountTimeoutException: \(message ?? "")"
         case .eNILimitReachedException(let message):
             return "ENILimitReachedException: \(message ?? "")"
         case .invalidParameterValueException(let message):

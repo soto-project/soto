@@ -121,6 +121,11 @@ public struct IoT {
         return client.send(operation: "ConfirmTopicRuleDestination", path: "/confirmdestination/{confirmationToken+}", httpMethod: "GET", input: input)
     }
 
+    ///   Creates a Device Defender audit suppression. 
+    public func createAuditSuppression(_ input: CreateAuditSuppressionRequest) -> EventLoopFuture<CreateAuditSuppressionResponse> {
+        return client.send(operation: "CreateAuditSuppression", path: "/audit/suppressions/create", httpMethod: "POST", input: input)
+    }
+
     ///  Creates an authorizer.
     public func createAuthorizer(_ input: CreateAuthorizerRequest) -> EventLoopFuture<CreateAuthorizerResponse> {
         return client.send(operation: "CreateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "POST", input: input)
@@ -161,7 +166,7 @@ public struct IoT {
         return client.send(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: "POST", input: input)
     }
 
-    ///  Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Each mitigation action can apply only one type of change.
+    ///  Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see Mitigation actions. Each mitigation action can apply only one type of change.
     public func createMitigationAction(_ input: CreateMitigationActionRequest) -> EventLoopFuture<CreateMitigationActionResponse> {
         return client.send(operation: "CreateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "POST", input: input)
     }
@@ -244,6 +249,11 @@ public struct IoT {
     ///  Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. 
     public func deleteAccountAuditConfiguration(_ input: DeleteAccountAuditConfigurationRequest) -> EventLoopFuture<DeleteAccountAuditConfigurationResponse> {
         return client.send(operation: "DeleteAccountAuditConfiguration", path: "/audit/configuration", httpMethod: "DELETE", input: input)
+    }
+
+    ///   Deletes a Device Defender audit suppression. 
+    public func deleteAuditSuppression(_ input: DeleteAuditSuppressionRequest) -> EventLoopFuture<DeleteAuditSuppressionResponse> {
+        return client.send(operation: "DeleteAuditSuppression", path: "/audit/suppressions/delete", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an authorizer.
@@ -394,6 +404,11 @@ public struct IoT {
     ///  Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
     public func describeAuditMitigationActionsTask(_ input: DescribeAuditMitigationActionsTaskRequest) -> EventLoopFuture<DescribeAuditMitigationActionsTaskResponse> {
         return client.send(operation: "DescribeAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: "GET", input: input)
+    }
+
+    ///   Gets information about a Device Defender audit suppression. 
+    public func describeAuditSuppression(_ input: DescribeAuditSuppressionRequest) -> EventLoopFuture<DescribeAuditSuppressionResponse> {
+        return client.send(operation: "DescribeAuditSuppression", path: "/audit/suppressions/describe", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a Device Defender audit.
@@ -642,6 +657,11 @@ public struct IoT {
         return client.send(operation: "ListAuditMitigationActionsTasks", path: "/audit/mitigationactions/tasks", httpMethod: "GET", input: input)
     }
 
+    ///   Lists your Device Defender audit listings. 
+    public func listAuditSuppressions(_ input: ListAuditSuppressionsRequest) -> EventLoopFuture<ListAuditSuppressionsResponse> {
+        return client.send(operation: "ListAuditSuppressions", path: "/audit/suppressions/list", httpMethod: "POST", input: input)
+    }
+
     ///  Lists the Device Defender audits that have been performed during a given time period.
     public func listAuditTasks(_ input: ListAuditTasksRequest) -> EventLoopFuture<ListAuditTasksResponse> {
         return client.send(operation: "ListAuditTasks", path: "/audit/tasks", httpMethod: "GET", input: input)
@@ -824,7 +844,7 @@ public struct IoT {
         return client.send(operation: "ListThingTypes", path: "/thing-types", httpMethod: "GET", input: input)
     }
 
-    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. 
+    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red.   You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned. 
     public func listThings(_ input: ListThingsRequest) -> EventLoopFuture<ListThingsResponse> {
         return client.send(operation: "ListThings", path: "/things", httpMethod: "GET", input: input)
     }
@@ -889,7 +909,7 @@ public struct IoT {
         return client.send(operation: "RemoveThingFromBillingGroup", path: "/billing-groups/removeThingFromBillingGroup", httpMethod: "PUT", input: input)
     }
 
-    ///  Remove the specified thing from the specified group.
+    ///  Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. 
     public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest) -> EventLoopFuture<RemoveThingFromThingGroupResponse> {
         return client.send(operation: "RemoveThingFromThingGroup", path: "/thing-groups/removeThingFromThingGroup", httpMethod: "PUT", input: input)
     }
@@ -979,6 +999,11 @@ public struct IoT {
         return client.send(operation: "UpdateAccountAuditConfiguration", path: "/audit/configuration", httpMethod: "PATCH", input: input)
     }
 
+    ///   Updates a Device Defender audit suppression. 
+    public func updateAuditSuppression(_ input: UpdateAuditSuppressionRequest) -> EventLoopFuture<UpdateAuditSuppressionResponse> {
+        return client.send(operation: "UpdateAuditSuppression", path: "/audit/suppressions/update", httpMethod: "PATCH", input: input)
+    }
+
     ///  Updates an authorizer.
     public func updateAuthorizer(_ input: UpdateAuthorizerRequest) -> EventLoopFuture<UpdateAuthorizerResponse> {
         return client.send(operation: "UpdateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "PUT", input: input)
@@ -994,7 +1019,7 @@ public struct IoT {
         return client.send(operation: "UpdateCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the status of the specified certificate. This operation is idempotent. Moving a certificate from the ACTIVE state (including REVOKED) will not disconnect currently connected devices, but these devices will be unable to reconnect. The ACTIVE state is required to authenticate devices connecting to AWS IoT using a certificate.
+    ///  Updates the status of the specified certificate. This operation is idempotent. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to AWS IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, AWS IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
     @discardableResult public func updateCertificate(_ input: UpdateCertificateRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: "PUT", input: input)
     }

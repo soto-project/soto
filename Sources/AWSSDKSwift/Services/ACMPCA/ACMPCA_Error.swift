@@ -14,6 +14,7 @@ public enum ACMPCAErrorType: AWSErrorType {
     case invalidStateException(message: String?)
     case invalidTagException(message: String?)
     case limitExceededException(message: String?)
+    case lockoutPreventedException(message: String?)
     case malformedCSRException(message: String?)
     case malformedCertificateException(message: String?)
     case permissionAlreadyExistsException(message: String?)
@@ -51,6 +52,8 @@ extension ACMPCAErrorType {
             self = .invalidTagException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "LockoutPreventedException":
+            self = .lockoutPreventedException(message: message)
         case "MalformedCSRException":
             self = .malformedCSRException(message: message)
         case "MalformedCertificateException":
@@ -96,6 +99,8 @@ extension ACMPCAErrorType : CustomStringConvertible {
             return "InvalidTagException: \(message ?? "")"
         case .limitExceededException(let message):
             return "LimitExceededException: \(message ?? "")"
+        case .lockoutPreventedException(let message):
+            return "LockoutPreventedException: \(message ?? "")"
         case .malformedCSRException(let message):
             return "MalformedCSRException: \(message ?? "")"
         case .malformedCertificateException(let message):

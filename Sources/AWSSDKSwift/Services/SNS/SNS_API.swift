@@ -60,12 +60,12 @@ public struct SNS {
         return client.send(operation: "ConfirmSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a platform application object for one of the supported push notification services, such as APNS and FCM, to which devices and mobile apps may register. You must specify PlatformPrincipal and PlatformCredential attributes when using the CreatePlatformApplication action. The PlatformPrincipal is received from the notification service. For APNS/APNS_SANDBOX, PlatformPrincipal is "SSL certificate". For FCM, PlatformPrincipal is not applicable. For ADM, PlatformPrincipal is "client id". The PlatformCredential is also received from the notification service. For WNS, PlatformPrincipal is "Package Security Identifier". For MPNS, PlatformPrincipal is "TLS certificate". For Baidu, PlatformPrincipal is "API key". For APNS/APNS_SANDBOX, PlatformCredential is "private key". For FCM, PlatformCredential is "API key". For ADM, PlatformCredential is "client secret". For WNS, PlatformCredential is "secret key". For MPNS, PlatformCredential is "private key". For Baidu, PlatformCredential is "secret key". The PlatformApplicationArn that is returned when using CreatePlatformApplication is then used as an attribute for the CreatePlatformEndpoint action.
+    ///  Creates a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile apps may register. You must specify PlatformPrincipal and PlatformCredential attributes when using the CreatePlatformApplication action.  PlatformPrincipal and PlatformCredential are received from the notification service.   For ADM, PlatformPrincipal is client id and PlatformCredential is client secret.   For Baidu, PlatformPrincipal is API key and PlatformCredential is secret key.   For APNS and APNS_SANDBOX, PlatformPrincipal is SSL certificate and PlatformCredential is private key.   For GCM (Firebase Cloud Messaging), there is no PlatformPrincipal and the PlatformCredential is API key.   For MPNS, PlatformPrincipal is TLS certificate and PlatformCredential is private key.   For WNS, PlatformPrincipal is Package Security Identifier and PlatformCredential is secret key.   You can use the returned PlatformApplicationArn as an attribute for the CreatePlatformEndpoint action.
     public func createPlatformApplication(_ input: CreatePlatformApplicationInput) -> EventLoopFuture<CreatePlatformApplicationResponse> {
         return client.send(operation: "CreatePlatformApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an endpoint for a device and mobile app on one of the supported push notification services, such as FCM and APNS. CreatePlatformEndpoint requires the PlatformApplicationArn that is returned from CreatePlatformApplication. The EndpointArn that is returned when using CreatePlatformEndpoint can then be used by the Publish action to send a message to a mobile app or by the Subscribe action for subscription to a topic. The CreatePlatformEndpoint action is idempotent, so if the requester already owns an endpoint with the same device token and attributes, that endpoint's ARN is returned without creating a new endpoint. For more information, see Using Amazon SNS Mobile Push Notifications.  When using CreatePlatformEndpoint with Baidu, two attributes must be provided: ChannelId and UserId. The token field must also contain the ChannelId. For more information, see Creating an Amazon SNS Endpoint for Baidu. 
+    ///  Creates an endpoint for a device and mobile app on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. CreatePlatformEndpoint requires the PlatformApplicationArn that is returned from CreatePlatformApplication. You can use the returned EndpointArn to send a message to a mobile app or by the Subscribe action for subscription to a topic. The CreatePlatformEndpoint action is idempotent, so if the requester already owns an endpoint with the same device token and attributes, that endpoint's ARN is returned without creating a new endpoint. For more information, see Using Amazon SNS Mobile Push Notifications.  When using CreatePlatformEndpoint with Baidu, two attributes must be provided: ChannelId and UserId. The token field must also contain the ChannelId. For more information, see Creating an Amazon SNS Endpoint for Baidu. 
     public func createPlatformEndpoint(_ input: CreatePlatformEndpointInput) -> EventLoopFuture<CreateEndpointResponse> {
         return client.send(operation: "CreatePlatformEndpoint", path: "/", httpMethod: "POST", input: input)
     }
@@ -80,7 +80,7 @@ public struct SNS {
         return client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a platform application object for one of the supported push notification services, such as APNS and FCM. For more information, see Using Amazon SNS Mobile Push Notifications. 
+    ///  Deletes a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS Mobile Push Notifications. 
     @discardableResult public func deletePlatformApplication(_ input: DeletePlatformApplicationInput) -> EventLoopFuture<Void> {
         return client.send(operation: "DeletePlatformApplication", path: "/", httpMethod: "POST", input: input)
     }
@@ -90,12 +90,12 @@ public struct SNS {
         return client.send(operation: "DeleteTopic", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the endpoint attributes for a device on one of the supported push notification services, such as FCM and APNS. For more information, see Using Amazon SNS Mobile Push Notifications. 
+    ///  Retrieves the endpoint attributes for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications. 
     public func getEndpointAttributes(_ input: GetEndpointAttributesInput) -> EventLoopFuture<GetEndpointAttributesResponse> {
         return client.send(operation: "GetEndpointAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the attributes of the platform application object for the supported push notification services, such as APNS and FCM. For more information, see Using Amazon SNS Mobile Push Notifications. 
+    ///  Retrieves the attributes of the platform application object for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS Mobile Push Notifications. 
     public func getPlatformApplicationAttributes(_ input: GetPlatformApplicationAttributesInput) -> EventLoopFuture<GetPlatformApplicationAttributesResponse> {
         return client.send(operation: "GetPlatformApplicationAttributes", path: "/", httpMethod: "POST", input: input)
     }
@@ -115,7 +115,7 @@ public struct SNS {
         return client.send(operation: "GetTopicAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as FCM and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEndpointsByPlatformApplication again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 30 transactions per second (TPS).
+    ///  Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEndpointsByPlatformApplication again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 30 transactions per second (TPS).
     public func listEndpointsByPlatformApplication(_ input: ListEndpointsByPlatformApplicationInput) -> EventLoopFuture<ListEndpointsByPlatformApplicationResponse> {
         return client.send(operation: "ListEndpointsByPlatformApplication", path: "/", httpMethod: "POST", input: input)
     }
@@ -125,7 +125,7 @@ public struct SNS {
         return client.send(operation: "ListPhoneNumbersOptedOut", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the platform application objects for the supported push notification services, such as APNS and FCM. The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 15 transactions per second (TPS).
+    ///  Lists the platform application objects for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 15 transactions per second (TPS).
     public func listPlatformApplications(_ input: ListPlatformApplicationsInput) -> EventLoopFuture<ListPlatformApplicationsResponse> {
         return client.send(operation: "ListPlatformApplications", path: "/", httpMethod: "POST", input: input)
     }
@@ -155,7 +155,7 @@ public struct SNS {
         return client.send(operation: "OptInPhoneNumber", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sends a message to an Amazon SNS topic or sends a text message (SMS message) directly to a phone number.  If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is subscribed to the topic. The format of the message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the message has been saved and Amazon SNS will attempt to deliver it shortly. To use the Publish action for sending a message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call with the CreatePlatformEndpoint action.  For more information about formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile Devices. 
+    ///  Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint (when you specify the TargetArn). If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is subscribed to the topic. The format of the message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the message has been saved and Amazon SNS will attempt to deliver it shortly. To use the Publish action for sending a message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call with the CreatePlatformEndpoint action.  For more information about formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile Devices.   You can publish messages only to topics and endpoints in the same AWS Region. 
     public func publish(_ input: PublishInput) -> EventLoopFuture<PublishResponse> {
         return client.send(operation: "Publish", path: "/", httpMethod: "POST", input: input)
     }
@@ -165,12 +165,12 @@ public struct SNS {
         return client.send(operation: "RemovePermission", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the attributes for an endpoint for a device on one of the supported push notification services, such as FCM and APNS. For more information, see Using Amazon SNS Mobile Push Notifications. 
+    ///  Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications. 
     @discardableResult public func setEndpointAttributes(_ input: SetEndpointAttributesInput) -> EventLoopFuture<Void> {
         return client.send(operation: "SetEndpointAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the attributes of the platform application object for the supported push notification services, such as APNS and FCM. For more information, see Using Amazon SNS Mobile Push Notifications. For information on configuring attributes for message delivery status, see Using Amazon SNS Application Attributes for Message Delivery Status. 
+    ///  Sets the attributes of the platform application object for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS Mobile Push Notifications. For information on configuring attributes for message delivery status, see Using Amazon SNS Application Attributes for Message Delivery Status. 
     @discardableResult public func setPlatformApplicationAttributes(_ input: SetPlatformApplicationAttributesInput) -> EventLoopFuture<Void> {
         return client.send(operation: "SetPlatformApplicationAttributes", path: "/", httpMethod: "POST", input: input)
     }
@@ -190,7 +190,7 @@ public struct SNS {
         return client.send(operation: "SetTopicAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Prepares to subscribe an endpoint by sending the endpoint a confirmation message. To actually create a subscription, the endpoint owner must call the ConfirmSubscription action with the token from the confirmation message. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
+    ///  Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same AWS account, the endpoint owner must the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
     public func subscribe(_ input: SubscribeInput) -> EventLoopFuture<SubscribeResponse> {
         return client.send(operation: "Subscribe", path: "/", httpMethod: "POST", input: input)
     }

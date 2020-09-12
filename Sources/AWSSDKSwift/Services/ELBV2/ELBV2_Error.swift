@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for ELBV2
 public enum ELBV2ErrorType: AWSErrorType {
+    case aLPNPolicyNotSupportedException(message: String?)
     case allocationIdNotFoundException(message: String?)
     case availabilityZoneNotSupportedException(message: String?)
     case certificateNotFoundException(message: String?)
@@ -49,6 +50,8 @@ extension ELBV2ErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ALPNPolicyNotFound":
+            self = .aLPNPolicyNotSupportedException(message: message)
         case "AllocationIdNotFound":
             self = .allocationIdNotFoundException(message: message)
         case "AvailabilityZoneNotSupported":
@@ -130,6 +133,8 @@ extension ELBV2ErrorType {
 extension ELBV2ErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .aLPNPolicyNotSupportedException(let message):
+            return "ALPNPolicyNotFound: \(message ?? "")"
         case .allocationIdNotFoundException(let message):
             return "AllocationIdNotFound: \(message ?? "")"
         case .availabilityZoneNotSupportedException(let message):

@@ -45,6 +45,11 @@ public struct WorkSpaces {
     
     //MARK: API Calls
 
+    ///  Associates the specified connection alias with the specified directory to enable cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED. 
+    public func associateConnectionAlias(_ input: AssociateConnectionAliasRequest) -> EventLoopFuture<AssociateConnectionAliasResult> {
+        return client.send(operation: "AssociateConnectionAlias", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Associates the specified IP access control group with the specified directory.
     public func associateIpGroups(_ input: AssociateIpGroupsRequest) -> EventLoopFuture<AssociateIpGroupsResult> {
         return client.send(operation: "AssociateIpGroups", path: "/", httpMethod: "POST", input: input)
@@ -58,6 +63,11 @@ public struct WorkSpaces {
     ///  Copies the specified image from the specified Region to the current Region.
     public func copyWorkspaceImage(_ input: CopyWorkspaceImageRequest) -> EventLoopFuture<CopyWorkspaceImageResult> {
         return client.send(operation: "CopyWorkspaceImage", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates the specified connection alias for use with cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+    public func createConnectionAlias(_ input: CreateConnectionAliasRequest) -> EventLoopFuture<CreateConnectionAliasResult> {
+        return client.send(operation: "CreateConnectionAlias", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
@@ -75,6 +85,11 @@ public struct WorkSpaces {
         return client.send(operation: "CreateWorkspaces", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified connection alias. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.   If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see  Security Considerations if You Stop Using Cross-Region Redirection.   To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories. 
+    public func deleteConnectionAlias(_ input: DeleteConnectionAliasRequest) -> EventLoopFuture<DeleteConnectionAliasResult> {
+        return client.send(operation: "DeleteConnectionAlias", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the specified IP access control group. You cannot delete an IP access control group that is associated with a directory.
     public func deleteIpGroup(_ input: DeleteIpGroupRequest) -> EventLoopFuture<DeleteIpGroupResult> {
         return client.send(operation: "DeleteIpGroup", path: "/", httpMethod: "POST", input: input)
@@ -85,7 +100,7 @@ public struct WorkSpaces {
         return client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image and un-share the image if it is shared with other accounts. 
+    ///  Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image and unshare the image if it is shared with other accounts. 
     public func deleteWorkspaceImage(_ input: DeleteWorkspaceImageRequest) -> EventLoopFuture<DeleteWorkspaceImageResult> {
         return client.send(operation: "DeleteWorkspaceImage", path: "/", httpMethod: "POST", input: input)
     }
@@ -110,6 +125,16 @@ public struct WorkSpaces {
         return client.send(operation: "DescribeClientProperties", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the permissions that the owner of a connection alias has granted to another AWS account for the specified connection alias. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+    public func describeConnectionAliasPermissions(_ input: DescribeConnectionAliasPermissionsRequest) -> EventLoopFuture<DescribeConnectionAliasPermissionsResult> {
+        return client.send(operation: "DescribeConnectionAliasPermissions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+    public func describeConnectionAliases(_ input: DescribeConnectionAliasesRequest) -> EventLoopFuture<DescribeConnectionAliasesResult> {
+        return client.send(operation: "DescribeConnectionAliases", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes one or more of your IP access control groups.
     public func describeIpGroups(_ input: DescribeIpGroupsRequest) -> EventLoopFuture<DescribeIpGroupsResult> {
         return client.send(operation: "DescribeIpGroups", path: "/", httpMethod: "POST", input: input)
@@ -128,6 +153,11 @@ public struct WorkSpaces {
     ///  Describes the available directories that are registered with Amazon WorkSpaces.
     public func describeWorkspaceDirectories(_ input: DescribeWorkspaceDirectoriesRequest) -> EventLoopFuture<DescribeWorkspaceDirectoriesResult> {
         return client.send(operation: "DescribeWorkspaceDirectories", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the permissions that the owner of an image has granted to other AWS accounts for an image.
+    public func describeWorkspaceImagePermissions(_ input: DescribeWorkspaceImagePermissionsRequest) -> EventLoopFuture<DescribeWorkspaceImagePermissionsResult> {
+        return client.send(operation: "DescribeWorkspaceImagePermissions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list that describes one or more specified images, if the image identifiers are provided. Otherwise, all images in the account are described. 
@@ -150,12 +180,17 @@ public struct WorkSpaces {
         return client.send(operation: "DescribeWorkspacesConnectionStatus", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different AWS Regions. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED. 
+    public func disassociateConnectionAlias(_ input: DisassociateConnectionAliasRequest) -> EventLoopFuture<DisassociateConnectionAliasResult> {
+        return client.send(operation: "DisassociateConnectionAlias", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Disassociates the specified IP access control group from the specified directory.
     public func disassociateIpGroups(_ input: DisassociateIpGroupsRequest) -> EventLoopFuture<DisassociateIpGroupsResult> {
         return client.send(operation: "DisassociateIpGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Imports the specified Windows 7 or Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed EC2 image that is in your AWS account, and you must own the image. 
+    ///  Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your AWS account, and you must own the image. For more information about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
     public func importWorkspaceImage(_ input: ImportWorkspaceImageRequest) -> EventLoopFuture<ImportWorkspaceImageResult> {
         return client.send(operation: "ImportWorkspaceImage", path: "/", httpMethod: "POST", input: input)
     }
@@ -195,7 +230,7 @@ public struct WorkSpaces {
         return client.send(operation: "ModifyWorkspaceCreationProperties", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified WorkSpace properties.
+    ///  Modifies the specified WorkSpace properties. For important information about how to modify the size of the root and user volumes, see  Modify a WorkSpace. 
     public func modifyWorkspaceProperties(_ input: ModifyWorkspacePropertiesRequest) -> EventLoopFuture<ModifyWorkspacePropertiesResult> {
         return client.send(operation: "ModifyWorkspaceProperties", path: "/", httpMethod: "POST", input: input)
     }
@@ -210,7 +245,7 @@ public struct WorkSpaces {
         return client.send(operation: "RebootWorkspaces", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE, ERROR, UNHEALTHY, or STOPPED. Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace. This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
+    ///  Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE, ERROR, UNHEALTHY, STOPPED, or REBOOTING. Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace. This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
     public func rebuildWorkspaces(_ input: RebuildWorkspacesRequest) -> EventLoopFuture<RebuildWorkspacesResult> {
         return client.send(operation: "RebuildWorkspaces", path: "/", httpMethod: "POST", input: input)
     }
@@ -245,8 +280,18 @@ public struct WorkSpaces {
         return client.send(operation: "TerminateWorkspaces", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connection alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.    Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.   To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories.   
+    public func updateConnectionAliasPermission(_ input: UpdateConnectionAliasPermissionRequest) -> EventLoopFuture<UpdateConnectionAliasPermissionResult> {
+        return client.send(operation: "UpdateConnectionAliasPermission", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Replaces the current rules of the specified IP access control group with the specified rules.
     public func updateRulesOfIpGroup(_ input: UpdateRulesOfIpGroupRequest) -> EventLoopFuture<UpdateRulesOfIpGroupResult> {
         return client.send(operation: "UpdateRulesOfIpGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Shares or unshares an image with one account by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across AWS accounts isn't supported at this time in the AWS GovCloud (US-West) Region. To share BYOL images across accounts in the AWS GovCloud (US-West) Region, contact AWS Support.   
+    public func updateWorkspaceImagePermission(_ input: UpdateWorkspaceImagePermissionRequest) -> EventLoopFuture<UpdateWorkspaceImagePermissionResult> {
+        return client.send(operation: "UpdateWorkspaceImagePermission", path: "/", httpMethod: "POST", input: input)
     }
 }

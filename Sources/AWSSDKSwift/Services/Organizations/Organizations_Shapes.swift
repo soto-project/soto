@@ -40,6 +40,8 @@ extension Organizations {
         case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
         case internalFailure = "INTERNAL_FAILURE"
         case govcloudAccountAlreadyExists = "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
+        case missingBusinessValidation = "MISSING_BUSINESS_VALIDATION"
+        case missingPaymentInstrument = "MISSING_PAYMENT_INSTRUMENT"
         public var description: String { return self.rawValue }
     }
 
@@ -52,6 +54,8 @@ extension Organizations {
 
     public enum EffectivePolicyType: String, CustomStringConvertible, Codable {
         case tagPolicy = "TAG_POLICY"
+        case backupPolicy = "BACKUP_POLICY"
+        case aiservicesOptOutPolicy = "AISERVICES_OPT_OUT_POLICY"
         public var description: String { return self.rawValue }
     }
 
@@ -105,6 +109,8 @@ extension Organizations {
     public enum PolicyType: String, CustomStringConvertible, Codable {
         case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
         case tagPolicy = "TAG_POLICY"
+        case backupPolicy = "BACKUP_POLICY"
+        case aiservicesOptOutPolicy = "AISERVICES_OPT_OUT_POLICY"
         public var description: String { return self.rawValue }
     }
 
@@ -137,6 +143,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.handshakeId, name:"handshakeId", parent: name, max: 34)
             try validate(self.handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
@@ -226,7 +233,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.policyId, name:"policyId", parent: name, max: 130)
             try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(self.targetId, name:"targetId", parent: name, max: 100)
             try validate(self.targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -249,6 +258,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.handshakeId, name:"handshakeId", parent: name, max: 34)
             try validate(self.handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
@@ -327,6 +337,7 @@ extension Organizations {
             try validate(self.email, name:"email", parent: name, max: 64)
             try validate(self.email, name:"email", parent: name, min: 6)
             try validate(self.email, name:"email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
+            try validate(self.roleName, name:"roleName", parent: name, max: 64)
             try validate(self.roleName, name:"roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
         }
 
@@ -373,7 +384,7 @@ extension Organizations {
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
         public let completedTimestamp: TimeStamp?
-        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.  
+        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the same information.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.   MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has not received Business Validation.    MISSING_PAYMENT_INSTRUMENT: You must configure the master account with a valid payment method, such as a credit card.  
         public let failureReason: CreateAccountFailureReason?
         /// If the account was created successfully, the unique identifier (ID) of the new account in the AWS GovCloud (US) Region.
         public let govCloudAccountId: String?
@@ -438,6 +449,7 @@ extension Organizations {
             try validate(self.email, name:"email", parent: name, max: 64)
             try validate(self.email, name:"email", parent: name, min: 6)
             try validate(self.email, name:"email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
+            try validate(self.roleName, name:"roleName", parent: name, max: 64)
             try validate(self.roleName, name:"roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
         }
 
@@ -518,6 +530,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.parentId, name:"parentId", parent: name, max: 100)
             try validate(self.parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -552,13 +566,13 @@ extension Organizations {
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
-        /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide. 
+        /// The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter.
         public let content: String
         /// An optional description to assign to the policy.
         public let description: String
         /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String
-        /// The type of policy to create.  In the current release, the only type of policy that you can create is a service control policy (SCP). 
+        /// The type of policy to create. You can specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY   
         public let `type`: PolicyType
 
         public init(content: String, description: String, name: String, type: PolicyType) {
@@ -571,9 +585,12 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.content, name:"content", parent: name, max: 1000000)
             try validate(self.content, name:"content", parent: name, min: 1)
+            try validate(self.content, name:"content", parent: name, pattern: "[\\s\\S]*")
             try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.description, name:"description", parent: name, pattern: "[\\s\\S]*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -614,6 +631,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.handshakeId, name:"handshakeId", parent: name, max: 34)
             try validate(self.handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
@@ -726,6 +744,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, max: 68)
             try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
         }
 
@@ -747,6 +766,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.policyId, name:"policyId", parent: name, max: 130)
             try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 
@@ -772,6 +792,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
             try validate(self.accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, max: 128)
             try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, min: 1)
@@ -797,6 +818,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
             try validate(self.accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
         }
 
@@ -835,6 +857,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.createAccountRequestId, name:"createAccountRequestId", parent: name, max: 36)
             try validate(self.createAccountRequestId, name:"createAccountRequestId", parent: name, pattern: "^car-[a-z0-9]{8,32}$")
         }
 
@@ -866,9 +889,9 @@ extension Organizations {
             AWSShapeMember(label: "TargetId", required: false, type: .string)
         ]
 
-        /// The type of policy that you want information about.
+        /// The type of policy that you want information about. You can specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     TAG_POLICY   
         public let policyType: EffectivePolicyType
-        /// When you're signed in as the master account, specify the ID of the account that you want details about. Specifying an organization root or OU as the target is not supported. 
+        /// When you're signed in as the master account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported. 
         public let targetId: String?
 
         public init(policyType: EffectivePolicyType, targetId: String? = nil) {
@@ -877,6 +900,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.targetId, name:"targetId", parent: name, max: 100)
             try validate(self.targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -916,6 +940,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.handshakeId, name:"handshakeId", parent: name, max: 34)
             try validate(self.handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
@@ -946,7 +971,7 @@ extension Organizations {
             AWSShapeMember(label: "Organization", required: false, type: .structure)
         ]
 
-        /// A structure that contains information about the organization.
+        /// A structure that contains information about the organization.  The AvailablePolicyTypes part of the response is deprecated, and you shouldn't use it in your apps. It doesn't include any policy type supported by Organizations other than SCPs. To determine which policy types are enabled in your organization, use the  ListRoots  operation. 
         public let organization: Organization?
 
         public init(organization: Organization? = nil) {
@@ -971,6 +996,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, max: 68)
             try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
         }
 
@@ -1009,6 +1035,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.policyId, name:"policyId", parent: name, max: 130)
             try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 
@@ -1051,7 +1078,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.policyId, name:"policyId", parent: name, max: 130)
             try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(self.targetId, name:"targetId", parent: name, max: 100)
             try validate(self.targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -1090,7 +1119,7 @@ extension Organizations {
             AWSShapeMember(label: "RootId", required: true, type: .string)
         ]
 
-        /// The policy type that you want to disable in this root.
+        /// The policy type that you want to disable in this root. You can specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY   
         public let policyType: PolicyType
         /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
         public let rootId: String
@@ -1101,6 +1130,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.rootId, name:"rootId", parent: name, max: 34)
             try validate(self.rootId, name:"rootId", parent: name, pattern: "^r-[0-9a-z]{4,32}$")
         }
 
@@ -1213,7 +1243,7 @@ extension Organizations {
             AWSShapeMember(label: "RootId", required: true, type: .string)
         ]
 
-        /// The policy type that you want to enable.
+        /// The policy type that you want to enable. You can specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY   
         public let policyType: PolicyType
         /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
         public let rootId: String
@@ -1224,6 +1254,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.rootId, name:"rootId", parent: name, max: 34)
             try validate(self.rootId, name:"rootId", parent: name, pattern: "^r-[0-9a-z]{4,32}$")
         }
 
@@ -1341,6 +1372,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.parentHandshakeId, name:"parentHandshakeId", parent: name, max: 34)
             try validate(self.parentHandshakeId, name:"parentHandshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
@@ -1369,6 +1401,7 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.id, name:"id", parent: name, max: 64)
             try validate(self.id, name:"id", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1422,6 +1455,7 @@ extension Organizations {
 
         public func validate(name: String) throws {
             try validate(self.notes, name:"notes", parent: name, max: 1024)
+            try validate(self.notes, name:"notes", parent: name, pattern: "[\\s\\S]*")
             try self.target.validate(name: "\(name).target")
         }
 
@@ -1467,6 +1501,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1520,6 +1556,9 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.parentId, name:"parentId", parent: name, max: 100)
             try validate(self.parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -1571,6 +1610,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1628,6 +1669,9 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.parentId, name:"parentId", parent: name, max: 100)
             try validate(self.parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -1684,6 +1728,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1738,6 +1784,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
             try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, max: 128)
             try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, min: 1)
             try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, pattern: "[\\w+=,.@-]*")
@@ -1793,9 +1841,12 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
             try validate(self.accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1851,6 +1902,8 @@ extension Organizations {
             try self.filter?.validate(name: "\(name).filter")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1906,6 +1959,8 @@ extension Organizations {
             try self.filter?.validate(name: "\(name).filter")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1960,6 +2015,9 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.parentId, name:"parentId", parent: name, max: 100)
             try validate(self.parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -2013,9 +2071,12 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.childId, name:"childId", parent: name, max: 100)
             try validate(self.childId, name:"childId", parent: name, pattern: "^(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2055,7 +2116,7 @@ extension Organizations {
             AWSShapeMember(label: "TargetId", required: true, type: .string)
         ]
 
-        /// The type of policy that you want to include in the returned list.
+        /// The type of policy that you want to include in the returned list. You must specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY   
         public let filter: PolicyType
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -2074,6 +2135,9 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.targetId, name:"targetId", parent: name, max: 100)
             try validate(self.targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -2114,7 +2178,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Specifies the type of policy that you want to include in the response.
+        /// Specifies the type of policy that you want to include in the response. You must specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY   
         public let filter: PolicyType
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -2130,6 +2194,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2180,6 +2246,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2227,6 +2295,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 12)
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
         }
 
@@ -2281,6 +2352,9 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.policyId, name:"policyId", parent: name, max: 130)
             try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 
@@ -2334,8 +2408,11 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
             try validate(self.accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
+            try validate(self.destinationParentId, name:"destinationParentId", parent: name, max: 100)
             try validate(self.destinationParentId, name:"destinationParentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.sourceParentId, name:"sourceParentId", parent: name, max: 100)
             try validate(self.sourceParentId, name:"sourceParentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -2359,7 +2436,7 @@ extension Organizations {
 
         /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
-        /// A list of policy types that are enabled for this organization. For example, if your organization has all features enabled, then service control policies (SCPs) are included in the list.  Even if a policy type is shown as available in the organization, you can separately enable and disable them at the root level by using EnablePolicyType and DisablePolicyType. Use ListRoots to see the status of a policy type in that root. 
+        ///  Do not use. This field is deprecated and doesn't provide complete information about the policies in your organization.  To determine the policies that are enabled and available for use in your organization, use the ListRoots operation instead.
         public let availablePolicyTypes: [PolicyTypeSummary]?
         /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see Enabling All Features in Your Organization in the AWS Organizations User Guide.
         public let featureSet: OrganizationFeatureSet?
@@ -2577,6 +2654,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
             try validate(self.accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
             try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, max: 128)
             try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, min: 1)
@@ -2602,6 +2680,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
             try validate(self.accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
         }
 
@@ -2681,7 +2760,7 @@ extension Organizations {
 
         /// The ID of the resource to add a tag to.
         public let resourceId: String
-        /// The tag to add to the specified resource. Specifying the tag key is required. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
+        /// The tag to add to the specified resource. You must specify both a tag key and value. You can set the value of a tag to an empty string, but you can't set it to null.
         public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
@@ -2690,6 +2769,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 12)
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -2719,6 +2799,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 12)
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
@@ -2752,6 +2833,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, max: 68)
             try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
         }
 
@@ -2805,9 +2888,13 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.content, name:"content", parent: name, max: 1000000)
             try validate(self.content, name:"content", parent: name, min: 1)
+            try validate(self.content, name:"content", parent: name, pattern: "[\\s\\S]*")
             try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.description, name:"description", parent: name, pattern: "[\\s\\S]*")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.policyId, name:"policyId", parent: name, max: 130)
             try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 

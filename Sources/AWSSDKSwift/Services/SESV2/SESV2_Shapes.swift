@@ -12,6 +12,36 @@ extension SESV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum BulkEmailStatus: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case messageRejected = "MESSAGE_REJECTED"
+        case mailFromDomainNotVerified = "MAIL_FROM_DOMAIN_NOT_VERIFIED"
+        case configurationSetNotFound = "CONFIGURATION_SET_NOT_FOUND"
+        case templateNotFound = "TEMPLATE_NOT_FOUND"
+        case accountSuspended = "ACCOUNT_SUSPENDED"
+        case accountThrottled = "ACCOUNT_THROTTLED"
+        case accountDailyQuotaExceeded = "ACCOUNT_DAILY_QUOTA_EXCEEDED"
+        case invalidSendingPoolName = "INVALID_SENDING_POOL_NAME"
+        case accountSendingPaused = "ACCOUNT_SENDING_PAUSED"
+        case configurationSetSendingPaused = "CONFIGURATION_SET_SENDING_PAUSED"
+        case invalidParameter = "INVALID_PARAMETER"
+        case transientFailure = "TRANSIENT_FAILURE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactLanguage: String, CustomStringConvertible, Codable {
+        case en = "EN"
+        case ja = "JA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case pendingExpiration = "PENDING_EXPIRATION"
@@ -56,6 +86,7 @@ extension SESV2 {
         case open = "OPEN"
         case click = "CLICK"
         case renderingFailure = "RENDERING_FAILURE"
+        case deliveryDelay = "DELIVERY_DELAY"
         public var description: String { return self.rawValue }
     }
 
@@ -66,11 +97,44 @@ extension SESV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImportDestinationType: String, CustomStringConvertible, Codable {
+        case suppressionList = "SUPPRESSION_LIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case processing = "PROCESSING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MailFromDomainStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case success = "SUCCESS"
         case failed = "FAILED"
         case temporaryFailure = "TEMPORARY_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MailType: String, CustomStringConvertible, Codable {
+        case marketing = "MARKETING"
+        case transactional = "TRANSACTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReviewStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case failed = "FAILED"
+        case granted = "GRANTED"
+        case denied = "DENIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SuppressionListImportAction: String, CustomStringConvertible, Codable {
+        case delete = "DELETE"
+        case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
@@ -93,6 +157,48 @@ extension SESV2 {
     }
 
     //MARK: Shapes
+
+    public struct AccountDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalContactEmailAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "ContactLanguage", required: false, type: .enum), 
+            AWSShapeMember(label: "MailType", required: false, type: .enum), 
+            AWSShapeMember(label: "ReviewDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "UseCaseDescription", required: false, type: .string), 
+            AWSShapeMember(label: "WebsiteURL", required: false, type: .string)
+        ]
+
+        /// Additional email addresses where updates are sent about your account review process.
+        public let additionalContactEmailAddresses: [String]?
+        /// The language you would prefer for the case. The contact language can be one of ENGLISH or JAPANESE.
+        public let contactLanguage: ContactLanguage?
+        /// The type of email your account is sending. The mail type can be one of the following:    MARKETING – Most of your sending traffic is to keep your customers informed of your latest offering.    TRANSACTIONAL – Most of your sending traffic is to communicate during a transaction with a customer.  
+        public let mailType: MailType?
+        /// Information about the review of the latest details you submitted.
+        public let reviewDetails: ReviewDetails?
+        /// A description of the types of email that you plan to send.
+        public let useCaseDescription: String?
+        /// The URL of your website. This information helps us better understand the type of content that you plan to send.
+        public let websiteURL: String?
+
+        public init(additionalContactEmailAddresses: [String]? = nil, contactLanguage: ContactLanguage? = nil, mailType: MailType? = nil, reviewDetails: ReviewDetails? = nil, useCaseDescription: String? = nil, websiteURL: String? = nil) {
+            self.additionalContactEmailAddresses = additionalContactEmailAddresses
+            self.contactLanguage = contactLanguage
+            self.mailType = mailType
+            self.reviewDetails = reviewDetails
+            self.useCaseDescription = useCaseDescription
+            self.websiteURL = websiteURL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalContactEmailAddresses = "AdditionalContactEmailAddresses"
+            case contactLanguage = "ContactLanguage"
+            case mailType = "MailType"
+            case reviewDetails = "ReviewDetails"
+            case useCaseDescription = "UseCaseDescription"
+            case websiteURL = "WebsiteURL"
+        }
+    }
 
     public struct BlacklistEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -140,6 +246,85 @@ extension SESV2 {
         private enum CodingKeys: String, CodingKey {
             case html = "Html"
             case text = "Text"
+        }
+    }
+
+    public struct BulkEmailContent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Template", required: false, type: .structure)
+        ]
+
+        /// The template to use for the bulk email message.
+        public let template: Template?
+
+        public init(template: Template? = nil) {
+            self.template = template
+        }
+
+        public func validate(name: String) throws {
+            try self.template?.validate(name: "\(name).template")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case template = "Template"
+        }
+    }
+
+    public struct BulkEmailEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destination", required: true, type: .structure), 
+            AWSShapeMember(label: "ReplacementEmailContent", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplacementTags", required: false, type: .list)
+        ]
+
+        /// Represents the destination of the message, consisting of To:, CC:, and BCC: fields.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the local part of a destination email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492. 
+        public let destination: Destination
+        /// The ReplacementEmailContent associated with a BulkEmailEntry.
+        public let replacementEmailContent: ReplacementEmailContent?
+        /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkTemplatedEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+        public let replacementTags: [MessageTag]?
+
+        public init(destination: Destination, replacementEmailContent: ReplacementEmailContent? = nil, replacementTags: [MessageTag]? = nil) {
+            self.destination = destination
+            self.replacementEmailContent = replacementEmailContent
+            self.replacementTags = replacementTags
+        }
+
+        public func validate(name: String) throws {
+            try self.replacementEmailContent?.validate(name: "\(name).replacementEmailContent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case replacementEmailContent = "ReplacementEmailContent"
+            case replacementTags = "ReplacementTags"
+        }
+    }
+
+    public struct BulkEmailEntryResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Error", required: false, type: .string), 
+            AWSShapeMember(label: "MessageId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// A description of an error that prevented a message being sent using the SendBulkTemplatedEmail operation.
+        public let error: String?
+        /// The unique message identifier returned from the SendBulkTemplatedEmail operation.
+        public let messageId: String?
+        /// The status of a message sent using the SendBulkTemplatedEmail operation. Possible values for this parameter include:   SUCCESS: Amazon SES accepted the message, and will attempt to deliver it to the recipients.   MESSAGE_REJECTED: The message was rejected because it contained a virus.   MAIL_FROM_DOMAIN_NOT_VERIFIED: The sender's email address or domain was not verified.   CONFIGURATION_SET_DOES_NOT_EXIST: The configuration set you specified does not exist.   TEMPLATE_DOES_NOT_EXIST: The template you specified does not exist.   ACCOUNT_SUSPENDED: Your account has been shut down because of issues related to your email sending practices.   ACCOUNT_THROTTLED: The number of emails you can send has been reduced because your account has exceeded its allocated sending limit.   ACCOUNT_DAILY_QUOTA_EXCEEDED: You have reached or exceeded the maximum number of emails you can send from your account in a 24-hour period.   INVALID_SENDING_POOL_NAME: The configuration set you specified refers to an IP pool that does not exist.   ACCOUNT_SENDING_PAUSED: Email sending for the Amazon SES account was disabled using the UpdateAccountSendingEnabled operation.   CONFIGURATION_SET_SENDING_PAUSED: Email sending for this configuration set was disabled using the UpdateConfigurationSetSendingEnabled operation.   INVALID_PARAMETER_VALUE: One or more of the parameters you specified when calling this operation was invalid. See the error message for additional information.   TRANSIENT_FAILURE: Amazon SES was unable to process your request because of a temporary issue.   FAILED: Amazon SES was unable to process your request. See the error message for additional information.  
+        public let status: BulkEmailStatus?
+
+        public init(error: String? = nil, messageId: String? = nil, status: BulkEmailStatus? = nil) {
+            self.error = error
+            self.messageId = messageId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case messageId = "MessageId"
+            case status = "Status"
         }
     }
 
@@ -298,6 +483,60 @@ extension SESV2 {
 
     }
 
+    public struct CreateCustomVerificationEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureRedirectionURL", required: true, type: .string), 
+            AWSShapeMember(label: "FromEmailAddress", required: true, type: .string), 
+            AWSShapeMember(label: "SuccessRedirectionURL", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateContent", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateSubject", required: true, type: .string)
+        ]
+
+        /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+        public let failureRedirectionURL: String
+        /// The email address that the custom verification email is sent from.
+        public let fromEmailAddress: String
+        /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+        public let successRedirectionURL: String
+        /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide.
+        public let templateContent: String
+        /// The name of the custom verification email template.
+        public let templateName: String
+        /// The subject line of the custom verification email.
+        public let templateSubject: String
+
+        public init(failureRedirectionURL: String, fromEmailAddress: String, successRedirectionURL: String, templateContent: String, templateName: String, templateSubject: String) {
+            self.failureRedirectionURL = failureRedirectionURL
+            self.fromEmailAddress = fromEmailAddress
+            self.successRedirectionURL = successRedirectionURL
+            self.templateContent = templateContent
+            self.templateName = templateName
+            self.templateSubject = templateSubject
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureRedirectionURL = "FailureRedirectionURL"
+            case fromEmailAddress = "FromEmailAddress"
+            case successRedirectionURL = "SuccessRedirectionURL"
+            case templateContent = "TemplateContent"
+            case templateName = "TemplateName"
+            case templateSubject = "TemplateSubject"
+        }
+    }
+
+    public struct CreateCustomVerificationEmailTemplateResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct CreateDedicatedIpPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PoolName", required: true, type: .string), 
@@ -386,6 +625,48 @@ extension SESV2 {
         }
     }
 
+    public struct CreateEmailIdentityPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string), 
+            AWSShapeMember(label: "Policy", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", location: .uri(locationName: "PolicyName"), required: true, type: .string)
+        ]
+
+        /// The email identity for which you want to create a policy.
+        public let emailIdentity: String
+        /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
+        public let policy: String
+        /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
+        public let policyName: String
+
+        public init(emailIdentity: String, policy: String, policyName: String) {
+            self.emailIdentity = emailIdentity
+            self.policy = policy
+            self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
+            try validate(self.policy, name:"policy", parent: name, min: 1)
+            try validate(self.policyName, name:"policyName", parent: name, max: 64)
+            try validate(self.policyName, name:"policyName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailIdentity = "EmailIdentity"
+            case policy = "Policy"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct CreateEmailIdentityPolicyResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct CreateEmailIdentityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DkimSigningAttributes", required: false, type: .structure), 
@@ -408,6 +689,7 @@ extension SESV2 {
 
         public func validate(name: String) throws {
             try self.dkimSigningAttributes?.validate(name: "\(name).dkimSigningAttributes")
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -441,6 +723,120 @@ extension SESV2 {
             case dkimAttributes = "DkimAttributes"
             case identityType = "IdentityType"
             case verifiedForSendingStatus = "VerifiedForSendingStatus"
+        }
+    }
+
+    public struct CreateEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateContent", required: true, type: .structure), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string)
+        ]
+
+        /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
+        public let templateContent: EmailTemplateContent
+        /// The name of the template you want to create.
+        public let templateName: String
+
+        public init(templateContent: EmailTemplateContent, templateName: String) {
+            self.templateContent = templateContent
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateContent = "TemplateContent"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct CreateEmailTemplateResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateImportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportDataSource", required: true, type: .structure), 
+            AWSShapeMember(label: "ImportDestination", required: true, type: .structure)
+        ]
+
+        /// The data source for the import job.
+        public let importDataSource: ImportDataSource
+        /// The destination for the import job.
+        public let importDestination: ImportDestination
+
+        public init(importDataSource: ImportDataSource, importDestination: ImportDestination) {
+            self.importDataSource = importDataSource
+            self.importDestination = importDestination
+        }
+
+        public func validate(name: String) throws {
+            try self.importDataSource.validate(name: "\(name).importDataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importDataSource = "ImportDataSource"
+            case importDestination = "ImportDestination"
+        }
+    }
+
+    public struct CreateImportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+
+        /// A string that represents the import job ID.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct CustomVerificationEmailTemplateMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "SuccessRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateSubject", required: false, type: .string)
+        ]
+
+        /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+        public let failureRedirectionURL: String?
+        /// The email address that the custom verification email is sent from.
+        public let fromEmailAddress: String?
+        /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+        public let successRedirectionURL: String?
+        /// The name of the custom verification email template.
+        public let templateName: String?
+        /// The subject line of the custom verification email.
+        public let templateSubject: String?
+
+        public init(failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil, successRedirectionURL: String? = nil, templateName: String? = nil, templateSubject: String? = nil) {
+            self.failureRedirectionURL = failureRedirectionURL
+            self.fromEmailAddress = fromEmailAddress
+            self.successRedirectionURL = successRedirectionURL
+            self.templateName = templateName
+            self.templateSubject = templateSubject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureRedirectionURL = "FailureRedirectionURL"
+            case fromEmailAddress = "FromEmailAddress"
+            case successRedirectionURL = "SuccessRedirectionURL"
+            case templateName = "TemplateName"
+            case templateSubject = "TemplateSubject"
         }
     }
 
@@ -558,6 +954,35 @@ extension SESV2 {
 
     }
 
+    public struct DeleteCustomVerificationEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "TemplateName"), required: true, type: .string)
+        ]
+
+        /// The name of the custom verification email template that you want to delete.
+        public let templateName: String
+
+        public init(templateName: String) {
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct DeleteCustomVerificationEmailTemplateResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteDedicatedIpPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PoolName", location: .uri(locationName: "PoolName"), required: true, type: .string)
@@ -583,6 +1008,42 @@ extension SESV2 {
 
     }
 
+    public struct DeleteEmailIdentityPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", location: .uri(locationName: "PolicyName"), required: true, type: .string)
+        ]
+
+        /// The email identity for which you want to delete a policy.
+        public let emailIdentity: String
+        /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
+        public let policyName: String
+
+        public init(emailIdentity: String, policyName: String) {
+            self.emailIdentity = emailIdentity
+            self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
+            try validate(self.policyName, name:"policyName", parent: name, max: 64)
+            try validate(self.policyName, name:"policyName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailIdentity = "EmailIdentity"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct DeleteEmailIdentityPolicyResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteEmailIdentityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
@@ -595,12 +1056,45 @@ extension SESV2 {
             self.emailIdentity = emailIdentity
         }
 
+        public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case emailIdentity = "EmailIdentity"
         }
     }
 
     public struct DeleteEmailIdentityResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "TemplateName"), required: true, type: .string)
+        ]
+
+        /// The name of the template to be deleted.
+        public let templateName: String
+
+        public init(templateName: String) {
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct DeleteEmailTemplateResponse: AWSShape {
 
 
         public init() {
@@ -964,6 +1458,55 @@ extension SESV2 {
         }
     }
 
+    public struct EmailTemplateContent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Html", required: false, type: .string), 
+            AWSShapeMember(label: "Subject", required: false, type: .string), 
+            AWSShapeMember(label: "Text", required: false, type: .string)
+        ]
+
+        /// The HTML body of the email.
+        public let html: String?
+        /// The subject line of the email.
+        public let subject: String?
+        /// The email body that will be visible to recipients whose email clients do not display HTML.
+        public let text: String?
+
+        public init(html: String? = nil, subject: String? = nil, text: String? = nil) {
+            self.html = html
+            self.subject = subject
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case html = "Html"
+            case subject = "Subject"
+            case text = "Text"
+        }
+    }
+
+    public struct EmailTemplateMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string)
+        ]
+
+        /// The time and date the template was created.
+        public let createdTimestamp: TimeStamp?
+        /// The name of the template.
+        public let templateName: String?
+
+        public init(createdTimestamp: TimeStamp? = nil, templateName: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case templateName = "TemplateName"
+        }
+    }
+
     public struct EventDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
@@ -1053,6 +1596,28 @@ extension SESV2 {
         }
     }
 
+    public struct FailureInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "FailedRecordsS3Url", required: false, type: .string)
+        ]
+
+        /// A message about why the import job failed.
+        public let errorMessage: String?
+        /// An Amazon S3 presigned URL that contains all the failed records and related information.
+        public let failedRecordsS3Url: String?
+
+        public init(errorMessage: String? = nil, failedRecordsS3Url: String? = nil) {
+            self.errorMessage = errorMessage
+            self.failedRecordsS3Url = failedRecordsS3Url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case failedRecordsS3Url = "FailedRecordsS3Url"
+        }
+    }
+
     public struct GetAccountRequest: AWSShape {
 
 
@@ -1064,6 +1629,7 @@ extension SESV2 {
     public struct GetAccountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DedicatedIpAutoWarmupEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Details", required: false, type: .structure), 
             AWSShapeMember(label: "EnforcementStatus", required: false, type: .string), 
             AWSShapeMember(label: "ProductionAccessEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean), 
@@ -1073,6 +1639,8 @@ extension SESV2 {
 
         /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
         public let dedicatedIpAutoWarmupEnabled: Bool?
+        /// An object that defines your account details.
+        public let details: AccountDetails?
         /// The reputation status of your Amazon SES account. The status can be one of the following:    HEALTHY – There are no reputation-related issues that currently impact your account.    PROBATION – We've identified potential issues with your Amazon SES account. We're placing your account under review while you work on correcting these issues.    SHUTDOWN – Your account's ability to send email is currently paused because of an issue with the email sent from your account. When you correct the issue, you can contact us and request that your account's ability to send email is resumed.  
         public let enforcementStatus: String?
         /// Indicates whether or not your account has production access in the current AWS Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
@@ -1084,8 +1652,9 @@ extension SESV2 {
         /// An object that contains information about the email address suppression preferences for your account in the current AWS Region.
         public let suppressionAttributes: SuppressionAttributes?
 
-        public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, enforcementStatus: String? = nil, productionAccessEnabled: Bool? = nil, sendingEnabled: Bool? = nil, sendQuota: SendQuota? = nil, suppressionAttributes: SuppressionAttributes? = nil) {
+        public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, details: AccountDetails? = nil, enforcementStatus: String? = nil, productionAccessEnabled: Bool? = nil, sendingEnabled: Bool? = nil, sendQuota: SendQuota? = nil, suppressionAttributes: SuppressionAttributes? = nil) {
             self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
+            self.details = details
             self.enforcementStatus = enforcementStatus
             self.productionAccessEnabled = productionAccessEnabled
             self.sendingEnabled = sendingEnabled
@@ -1095,6 +1664,7 @@ extension SESV2 {
 
         private enum CodingKeys: String, CodingKey {
             case dedicatedIpAutoWarmupEnabled = "DedicatedIpAutoWarmupEnabled"
+            case details = "Details"
             case enforcementStatus = "EnforcementStatus"
             case productionAccessEnabled = "ProductionAccessEnabled"
             case sendingEnabled = "SendingEnabled"
@@ -1232,6 +1802,69 @@ extension SESV2 {
             case suppressionOptions = "SuppressionOptions"
             case tags = "Tags"
             case trackingOptions = "TrackingOptions"
+        }
+    }
+
+    public struct GetCustomVerificationEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "TemplateName"), required: true, type: .string)
+        ]
+
+        /// The name of the custom verification email template that you want to retrieve.
+        public let templateName: String
+
+        public init(templateName: String) {
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct GetCustomVerificationEmailTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "SuccessRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateContent", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateSubject", required: false, type: .string)
+        ]
+
+        /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+        public let failureRedirectionURL: String?
+        /// The email address that the custom verification email is sent from.
+        public let fromEmailAddress: String?
+        /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+        public let successRedirectionURL: String?
+        /// The content of the custom verification email.
+        public let templateContent: String?
+        /// The name of the custom verification email template.
+        public let templateName: String?
+        /// The subject line of the custom verification email.
+        public let templateSubject: String?
+
+        public init(failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil, successRedirectionURL: String? = nil, templateContent: String? = nil, templateName: String? = nil, templateSubject: String? = nil) {
+            self.failureRedirectionURL = failureRedirectionURL
+            self.fromEmailAddress = fromEmailAddress
+            self.successRedirectionURL = successRedirectionURL
+            self.templateContent = templateContent
+            self.templateName = templateName
+            self.templateSubject = templateSubject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureRedirectionURL = "FailureRedirectionURL"
+            case fromEmailAddress = "FromEmailAddress"
+            case successRedirectionURL = "SuccessRedirectionURL"
+            case templateContent = "TemplateContent"
+            case templateName = "TemplateName"
+            case templateSubject = "TemplateSubject"
         }
     }
 
@@ -1471,6 +2104,10 @@ extension SESV2 {
             self.startDate = startDate
         }
 
+        public func validate(name: String) throws {
+            try validate(self.domain, name:"domain", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
             case endDate = "EndDate"
@@ -1500,6 +2137,44 @@ extension SESV2 {
         }
     }
 
+    public struct GetEmailIdentityPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
+        ]
+
+        /// The email identity that you want to retrieve policies for.
+        public let emailIdentity: String
+
+        public init(emailIdentity: String) {
+            self.emailIdentity = emailIdentity
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailIdentity = "EmailIdentity"
+        }
+    }
+
+    public struct GetEmailIdentityPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policies", required: false, type: .map)
+        ]
+
+        /// A map of policy names to policies.
+        public let policies: [String: String]?
+
+        public init(policies: [String: String]? = nil) {
+            self.policies = policies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policies = "Policies"
+        }
+    }
+
     public struct GetEmailIdentityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
@@ -1510,6 +2185,10 @@ extension SESV2 {
 
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1523,6 +2202,7 @@ extension SESV2 {
             AWSShapeMember(label: "FeedbackForwardingStatus", required: false, type: .boolean), 
             AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
             AWSShapeMember(label: "MailFromAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "Policies", required: false, type: .map), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VerifiedForSendingStatus", required: false, type: .boolean)
         ]
@@ -1535,16 +2215,19 @@ extension SESV2 {
         public let identityType: IdentityType?
         /// An object that contains information about the Mail-From attributes for the email identity.
         public let mailFromAttributes: MailFromAttributes?
+        /// A map of policy names to policies.
+        public let policies: [String: String]?
         /// An array of objects that define the tags (keys and values) that are associated with the email identity.
         public let tags: [Tag]?
         /// Specifies whether or not the identity is verified. You can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
 
-        public init(dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, tags: [Tag]? = nil, verifiedForSendingStatus: Bool? = nil) {
+        public init(dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, policies: [String: String]? = nil, tags: [Tag]? = nil, verifiedForSendingStatus: Bool? = nil) {
             self.dkimAttributes = dkimAttributes
             self.feedbackForwardingStatus = feedbackForwardingStatus
             self.identityType = identityType
             self.mailFromAttributes = mailFromAttributes
+            self.policies = policies
             self.tags = tags
             self.verifiedForSendingStatus = verifiedForSendingStatus
         }
@@ -1554,8 +2237,130 @@ extension SESV2 {
             case feedbackForwardingStatus = "FeedbackForwardingStatus"
             case identityType = "IdentityType"
             case mailFromAttributes = "MailFromAttributes"
+            case policies = "Policies"
             case tags = "Tags"
             case verifiedForSendingStatus = "VerifiedForSendingStatus"
+        }
+    }
+
+    public struct GetEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "TemplateName"), required: true, type: .string)
+        ]
+
+        /// The name of the template you want to retrieve.
+        public let templateName: String
+
+        public init(templateName: String) {
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct GetEmailTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateContent", required: true, type: .structure), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string)
+        ]
+
+        /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
+        public let templateContent: EmailTemplateContent
+        /// The name of the template you want to retrieve.
+        public let templateName: String
+
+        public init(templateContent: EmailTemplateContent, templateName: String) {
+            self.templateContent = templateContent
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateContent = "TemplateContent"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct GetImportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", location: .uri(locationName: "JobId"), required: true, type: .string)
+        ]
+
+        /// The ID of the import job.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct GetImportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailedRecordsCount", required: false, type: .integer), 
+            AWSShapeMember(label: "FailureInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "ImportDataSource", required: false, type: .structure), 
+            AWSShapeMember(label: "ImportDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ProcessedRecordsCount", required: false, type: .integer)
+        ]
+
+        /// The time stamp of when the import job was completed.
+        public let completedTimestamp: TimeStamp?
+        /// The time stamp of when the import job was created.
+        public let createdTimestamp: TimeStamp?
+        /// The number of records that failed processing because of invalid input or other reasons.
+        public let failedRecordsCount: Int?
+        /// The failure details about an import job.
+        public let failureInfo: FailureInfo?
+        /// The data source of the import job.
+        public let importDataSource: ImportDataSource?
+        /// The destination of the import job.
+        public let importDestination: ImportDestination?
+        /// A string that represents the import job ID.
+        public let jobId: String?
+        /// The status of the import job.
+        public let jobStatus: JobStatus?
+        /// The current number of records processed.
+        public let processedRecordsCount: Int?
+
+        public init(completedTimestamp: TimeStamp? = nil, createdTimestamp: TimeStamp? = nil, failedRecordsCount: Int? = nil, failureInfo: FailureInfo? = nil, importDataSource: ImportDataSource? = nil, importDestination: ImportDestination? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, processedRecordsCount: Int? = nil) {
+            self.completedTimestamp = completedTimestamp
+            self.createdTimestamp = createdTimestamp
+            self.failedRecordsCount = failedRecordsCount
+            self.failureInfo = failureInfo
+            self.importDataSource = importDataSource
+            self.importDestination = importDestination
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+            self.processedRecordsCount = processedRecordsCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedTimestamp = "CompletedTimestamp"
+            case createdTimestamp = "CreatedTimestamp"
+            case failedRecordsCount = "FailedRecordsCount"
+            case failureInfo = "FailureInfo"
+            case importDataSource = "ImportDataSource"
+            case importDestination = "ImportDestination"
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+            case processedRecordsCount = "ProcessedRecordsCount"
         }
     }
 
@@ -1617,6 +2422,77 @@ extension SESV2 {
             case identityName = "IdentityName"
             case identityType = "IdentityType"
             case sendingEnabled = "SendingEnabled"
+        }
+    }
+
+    public struct ImportDataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "S3Url", required: true, type: .string)
+        ]
+
+        /// The data format of the import job's data source.
+        public let dataFormat: DataFormat
+        /// An Amazon S3 URL in the format s3://&lt;bucket_name&gt;/&lt;object&gt;.
+        public let s3Url: String
+
+        public init(dataFormat: DataFormat, s3Url: String) {
+            self.dataFormat = dataFormat
+            self.s3Url = s3Url
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Url, name:"s3Url", parent: name, pattern: "^s3:\\/\\/([^\\/]+)\\/(.*?([^\\/]+)\\/?)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFormat = "DataFormat"
+            case s3Url = "S3Url"
+        }
+    }
+
+    public struct ImportDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SuppressionListDestination", required: true, type: .structure)
+        ]
+
+        /// An object that contains the action of the import job towards suppression list.
+        public let suppressionListDestination: SuppressionListDestination
+
+        public init(suppressionListDestination: SuppressionListDestination) {
+            self.suppressionListDestination = suppressionListDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suppressionListDestination = "SuppressionListDestination"
+        }
+    }
+
+    public struct ImportJobSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ImportDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+        ]
+
+        public let createdTimestamp: TimeStamp?
+        public let importDestination: ImportDestination?
+        public let jobId: String?
+        public let jobStatus: JobStatus?
+
+        public init(createdTimestamp: TimeStamp? = nil, importDestination: ImportDestination? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.importDestination = importDestination
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case importDestination = "ImportDestination"
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
         }
     }
 
@@ -1726,6 +2602,50 @@ extension SESV2 {
 
         private enum CodingKeys: String, CodingKey {
             case configurationSets = "ConfigurationSets"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomVerificationEmailTemplatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
+        ]
+
+        /// A token returned from a previous call to ListCustomVerificationEmailTemplates to indicate the position in the list of custom verification email templates.
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListCustomVerificationEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 50.
+        public let pageSize: Int?
+
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListCustomVerificationEmailTemplatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomVerificationEmailTemplates", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of the custom verification email templates that exist in your account.
+        public let customVerificationEmailTemplates: [CustomVerificationEmailTemplateMetadata]?
+        /// A token indicating that there are additional custom verification email templates available to be listed. Pass this token to a subsequent call to ListCustomVerificationEmailTemplates to retrieve the next 50 custom verification email templates.
+        public let nextToken: String?
+
+        public init(customVerificationEmailTemplates: [CustomVerificationEmailTemplateMetadata]? = nil, nextToken: String? = nil) {
+            self.customVerificationEmailTemplates = customVerificationEmailTemplates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customVerificationEmailTemplates = "CustomVerificationEmailTemplates"
             case nextToken = "NextToken"
         }
     }
@@ -1917,6 +2837,99 @@ extension SESV2 {
 
         private enum CodingKeys: String, CodingKey {
             case emailIdentities = "EmailIdentities"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEmailTemplatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
+        ]
+
+        /// A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 10.
+        public let pageSize: Int?
+
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListEmailTemplatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TemplatesMetadata", required: false, type: .list)
+        ]
+
+        /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent ListEmailTemplates call to retrieve the next 10 email templates.
+        public let nextToken: String?
+        /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
+        public let templatesMetadata: [EmailTemplateMetadata]?
+
+        public init(nextToken: String? = nil, templatesMetadata: [EmailTemplateMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.templatesMetadata = templatesMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case templatesMetadata = "TemplatesMetadata"
+        }
+    }
+
+    public struct ListImportJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportDestinationType", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
+        ]
+
+        /// The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType.
+        public let importDestinationType: ImportDestinationType?
+        /// A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
+        public let nextToken: String?
+        /// Maximum number of import jobs to return at once. Use this parameter to paginate results. If additional import jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional addresses.
+        public let pageSize: Int?
+
+        public init(importDestinationType: ImportDestinationType? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.importDestinationType = importDestinationType
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importDestinationType = "ImportDestinationType"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListImportJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportJobs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of the import job summaries.
+        public let importJobs: [ImportJobSummary]?
+        /// A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
+        public let nextToken: String?
+
+        public init(importJobs: [ImportJobSummary]? = nil, nextToken: String? = nil) {
+            self.importJobs = importJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importJobs = "ImportJobs"
             case nextToken = "NextToken"
         }
     }
@@ -2184,6 +3197,71 @@ extension SESV2 {
     }
 
     public struct PutAccountDedicatedIpWarmupAttributesResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct PutAccountDetailsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalContactEmailAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "ContactLanguage", required: false, type: .enum), 
+            AWSShapeMember(label: "MailType", required: true, type: .enum), 
+            AWSShapeMember(label: "ProductionAccessEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "UseCaseDescription", required: true, type: .string), 
+            AWSShapeMember(label: "WebsiteURL", required: true, type: .string)
+        ]
+
+        /// Additional email addresses that you would like to be notified regarding Amazon SES matters.
+        public let additionalContactEmailAddresses: [String]?
+        /// The language you would prefer to be contacted with.
+        public let contactLanguage: ContactLanguage?
+        /// The type of email your account will send.
+        public let mailType: MailType
+        /// Indicates whether or not your account should have production access in the current AWS Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
+        public let productionAccessEnabled: Bool?
+        /// A description of the types of email that you plan to send.
+        public let useCaseDescription: String
+        /// The URL of your website. This information helps us better understand the type of content that you plan to send.
+        public let websiteURL: String
+
+        public init(additionalContactEmailAddresses: [String]? = nil, contactLanguage: ContactLanguage? = nil, mailType: MailType, productionAccessEnabled: Bool? = nil, useCaseDescription: String, websiteURL: String) {
+            self.additionalContactEmailAddresses = additionalContactEmailAddresses
+            self.contactLanguage = contactLanguage
+            self.mailType = mailType
+            self.productionAccessEnabled = productionAccessEnabled
+            self.useCaseDescription = useCaseDescription
+            self.websiteURL = websiteURL
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalContactEmailAddresses?.forEach {
+                try validate($0, name: "additionalContactEmailAddresses[]", parent: name, max: 254)
+                try validate($0, name: "additionalContactEmailAddresses[]", parent: name, min: 6)
+                try validate($0, name: "additionalContactEmailAddresses[]", parent: name, pattern: "^(.+)@(.+)$")
+            }
+            try validate(self.additionalContactEmailAddresses, name:"additionalContactEmailAddresses", parent: name, max: 4)
+            try validate(self.additionalContactEmailAddresses, name:"additionalContactEmailAddresses", parent: name, min: 1)
+            try validate(self.useCaseDescription, name:"useCaseDescription", parent: name, max: 5000)
+            try validate(self.useCaseDescription, name:"useCaseDescription", parent: name, min: 1)
+            try validate(self.websiteURL, name:"websiteURL", parent: name, max: 1000)
+            try validate(self.websiteURL, name:"websiteURL", parent: name, min: 1)
+            try validate(self.websiteURL, name:"websiteURL", parent: name, pattern: "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalContactEmailAddresses = "AdditionalContactEmailAddresses"
+            case contactLanguage = "ContactLanguage"
+            case mailType = "MailType"
+            case productionAccessEnabled = "ProductionAccessEnabled"
+            case useCaseDescription = "UseCaseDescription"
+            case websiteURL = "WebsiteURL"
+        }
+    }
+
+    public struct PutAccountDetailsResponse: AWSShape {
 
 
         public init() {
@@ -2502,6 +3580,10 @@ extension SESV2 {
             self.signingEnabled = signingEnabled
         }
 
+        public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case emailIdentity = "EmailIdentity"
             case signingEnabled = "SigningEnabled"
@@ -2537,6 +3619,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
             try self.signingAttributes?.validate(name: "\(name).signingAttributes")
         }
 
@@ -2585,6 +3668,10 @@ extension SESV2 {
             self.emailIdentity = emailIdentity
         }
 
+        public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case emailForwardingEnabled = "EmailForwardingEnabled"
             case emailIdentity = "EmailIdentity"
@@ -2617,6 +3704,10 @@ extension SESV2 {
             self.behaviorOnMxFailure = behaviorOnMxFailure
             self.emailIdentity = emailIdentity
             self.mailFromDomain = mailFromDomain
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2681,6 +3772,48 @@ extension SESV2 {
         }
     }
 
+    public struct ReplacementEmailContent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplacementTemplate", required: false, type: .structure)
+        ]
+
+        /// The ReplacementTemplate associated with ReplacementEmailContent.
+        public let replacementTemplate: ReplacementTemplate?
+
+        public init(replacementTemplate: ReplacementTemplate? = nil) {
+            self.replacementTemplate = replacementTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.replacementTemplate?.validate(name: "\(name).replacementTemplate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replacementTemplate = "ReplacementTemplate"
+        }
+    }
+
+    public struct ReplacementTemplate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplacementTemplateData", required: false, type: .string)
+        ]
+
+        /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+        public let replacementTemplateData: String?
+
+        public init(replacementTemplateData: String? = nil) {
+            self.replacementTemplateData = replacementTemplateData
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.replacementTemplateData, name:"replacementTemplateData", parent: name, max: 262144)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replacementTemplateData = "ReplacementTemplateData"
+        }
+    }
+
     public struct ReputationOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastFreshStart", required: false, type: .timestamp), 
@@ -2703,39 +3836,197 @@ extension SESV2 {
         }
     }
 
+    public struct ReviewDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaseId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The associated support center case ID (if any).
+        public let caseId: String?
+        /// The status of the latest review of your account. The status can be one of the following:    PENDING – We have received your appeal and are in the process of reviewing it.    GRANTED – Your appeal has been reviewed and your production access has been granted.    DENIED – Your appeal has been reviewed and your production access has been denied.    FAILED – An internal error occurred and we didn't receive your appeal. You can submit your appeal again.  
+        public let status: ReviewStatus?
+
+        public init(caseId: String? = nil, status: ReviewStatus? = nil) {
+            self.caseId = caseId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "CaseId"
+            case status = "Status"
+        }
+    }
+
+    public struct SendBulkEmailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BulkEmailEntries", required: true, type: .list), 
+            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultContent", required: true, type: .structure), 
+            AWSShapeMember(label: "DefaultEmailTags", required: false, type: .list), 
+            AWSShapeMember(label: "FeedbackForwardingEmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "FeedbackForwardingEmailAddressIdentityArn", required: false, type: .string), 
+            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "FromEmailAddressIdentityArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplyToAddresses", required: false, type: .list)
+        ]
+
+        /// The list of bulk email entry objects.
+        public let bulkEmailEntries: [BulkEmailEntry]
+        /// The name of the configuration set that you want to use when sending the email.
+        public let configurationSetName: String?
+        /// An object that contains the body of the message. You can specify a template message.
+        public let defaultContent: BulkEmailContent
+        /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+        public let defaultEmailTags: [MessageTag]?
+        /// The address that you want bounce and complaint notifications to be sent to.
+        public let feedbackForwardingEmailAddress: String?
+        /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
+        public let feedbackForwardingEmailAddressIdentityArn: String?
+        /// The email address that you want to use as the "From" address for the email. The address that you specify has to be verified.
+        public let fromEmailAddress: String?
+        /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
+        public let fromEmailAddressIdentityArn: String?
+        /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
+        public let replyToAddresses: [String]?
+
+        public init(bulkEmailEntries: [BulkEmailEntry], configurationSetName: String? = nil, defaultContent: BulkEmailContent, defaultEmailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil) {
+            self.bulkEmailEntries = bulkEmailEntries
+            self.configurationSetName = configurationSetName
+            self.defaultContent = defaultContent
+            self.defaultEmailTags = defaultEmailTags
+            self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
+            self.feedbackForwardingEmailAddressIdentityArn = feedbackForwardingEmailAddressIdentityArn
+            self.fromEmailAddress = fromEmailAddress
+            self.fromEmailAddressIdentityArn = fromEmailAddressIdentityArn
+            self.replyToAddresses = replyToAddresses
+        }
+
+        public func validate(name: String) throws {
+            try self.bulkEmailEntries.forEach {
+                try $0.validate(name: "\(name).bulkEmailEntries[]")
+            }
+            try self.defaultContent.validate(name: "\(name).defaultContent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkEmailEntries = "BulkEmailEntries"
+            case configurationSetName = "ConfigurationSetName"
+            case defaultContent = "DefaultContent"
+            case defaultEmailTags = "DefaultEmailTags"
+            case feedbackForwardingEmailAddress = "FeedbackForwardingEmailAddress"
+            case feedbackForwardingEmailAddressIdentityArn = "FeedbackForwardingEmailAddressIdentityArn"
+            case fromEmailAddress = "FromEmailAddress"
+            case fromEmailAddressIdentityArn = "FromEmailAddressIdentityArn"
+            case replyToAddresses = "ReplyToAddresses"
+        }
+    }
+
+    public struct SendBulkEmailResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BulkEmailEntryResults", required: true, type: .list)
+        ]
+
+        public let bulkEmailEntryResults: [BulkEmailEntryResult]
+
+        public init(bulkEmailEntryResults: [BulkEmailEntryResult]) {
+            self.bulkEmailEntryResults = bulkEmailEntryResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkEmailEntryResults = "BulkEmailEntryResults"
+        }
+    }
+
+    public struct SendCustomVerificationEmailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
+            AWSShapeMember(label: "EmailAddress", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string)
+        ]
+
+        /// Name of a configuration set to use when sending the verification email.
+        public let configurationSetName: String?
+        /// The email address to verify.
+        public let emailAddress: String
+        /// The name of the custom verification email template to use when sending the verification email.
+        public let templateName: String
+
+        public init(configurationSetName: String? = nil, emailAddress: String, templateName: String) {
+            self.configurationSetName = configurationSetName
+            self.emailAddress = emailAddress
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case emailAddress = "EmailAddress"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct SendCustomVerificationEmailResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
+        ]
+
+        /// The unique message identifier returned from the SendCustomVerificationEmail operation.
+        public let messageId: String?
+
+        public init(messageId: String? = nil) {
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+        }
+    }
+
     public struct SendEmailRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
             AWSShapeMember(label: "Content", required: true, type: .structure), 
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
+            AWSShapeMember(label: "Destination", required: false, type: .structure), 
             AWSShapeMember(label: "EmailTags", required: false, type: .list), 
             AWSShapeMember(label: "FeedbackForwardingEmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "FeedbackForwardingEmailAddressIdentityArn", required: false, type: .string), 
             AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "FromEmailAddressIdentityArn", required: false, type: .string), 
             AWSShapeMember(label: "ReplyToAddresses", required: false, type: .list)
         ]
 
         /// The name of the configuration set that you want to use when sending the email.
         public let configurationSetName: String?
-        /// An object that contains the body of the message. You can send either a Simple message or a Raw message.
+        /// An object that contains the body of the message. You can send either a Simple message Raw message or a template Message.
         public let content: EmailContent
         /// An object that contains the recipients of the email message.
-        public let destination: Destination
+        public let destination: Destination?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events. 
         public let emailTags: [MessageTag]?
         /// The address that you want bounce and complaint notifications to be sent to.
         public let feedbackForwardingEmailAddress: String?
+        /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
+        public let feedbackForwardingEmailAddressIdentityArn: String?
         /// The email address that you want to use as the "From" address for the email. The address that you specify has to be verified. 
         public let fromEmailAddress: String?
+        /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide. For Raw emails, the FromEmailAddressIdentityArn value overrides the X-SES-SOURCE-ARN and X-SES-FROM-ARN headers specified in raw email message content.
+        public let fromEmailAddressIdentityArn: String?
         /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
         public let replyToAddresses: [String]?
 
-        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination, emailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, fromEmailAddress: String? = nil, replyToAddresses: [String]? = nil) {
+        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil) {
             self.configurationSetName = configurationSetName
             self.content = content
             self.destination = destination
             self.emailTags = emailTags
             self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
+            self.feedbackForwardingEmailAddressIdentityArn = feedbackForwardingEmailAddressIdentityArn
             self.fromEmailAddress = fromEmailAddress
+            self.fromEmailAddressIdentityArn = fromEmailAddressIdentityArn
             self.replyToAddresses = replyToAddresses
         }
 
@@ -2749,7 +4040,9 @@ extension SESV2 {
             case destination = "Destination"
             case emailTags = "EmailTags"
             case feedbackForwardingEmailAddress = "FeedbackForwardingEmailAddress"
+            case feedbackForwardingEmailAddressIdentityArn = "FeedbackForwardingEmailAddressIdentityArn"
             case fromEmailAddress = "FromEmailAddress"
+            case fromEmailAddressIdentityArn = "FromEmailAddressIdentityArn"
             case replyToAddresses = "ReplyToAddresses"
         }
     }
@@ -2930,6 +4223,23 @@ extension SESV2 {
         }
     }
 
+    public struct SuppressionListDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SuppressionListImportAction", required: true, type: .enum)
+        ]
+
+        /// The type of action that you want to perform on the address. Acceptable values:   PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value.   DELETE: remove the addresses from the suppression list.  
+        public let suppressionListImportAction: SuppressionListImportAction
+
+        public init(suppressionListImportAction: SuppressionListImportAction) {
+            self.suppressionListImportAction = suppressionListImportAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suppressionListImportAction = "SuppressionListImportAction"
+        }
+    }
+
     public struct SuppressionOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SuppressedReasons", required: false, type: .list)
@@ -3002,26 +4312,76 @@ extension SESV2 {
     public struct Template: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TemplateArn", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateData", required: false, type: .string)
+            AWSShapeMember(label: "TemplateData", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string)
         ]
 
         /// The Amazon Resource Name (ARN) of the template.
         public let templateArn: String?
         /// An object that defines the values to use for message variables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable.
         public let templateData: String?
+        /// The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations. 
+        public let templateName: String?
 
-        public init(templateArn: String? = nil, templateData: String? = nil) {
+        public init(templateArn: String? = nil, templateData: String? = nil, templateName: String? = nil) {
             self.templateArn = templateArn
             self.templateData = templateData
+            self.templateName = templateName
         }
 
         public func validate(name: String) throws {
             try validate(self.templateData, name:"templateData", parent: name, max: 262144)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case templateArn = "TemplateArn"
             case templateData = "TemplateData"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct TestRenderEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateData", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "TemplateName"), required: true, type: .string)
+        ]
+
+        /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+        public let templateData: String
+        /// The name of the template that you want to render.
+        public let templateName: String
+
+        public init(templateData: String, templateName: String) {
+            self.templateData = templateData
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateData, name:"templateData", parent: name, max: 262144)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateData = "TemplateData"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct TestRenderEmailTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RenderedTemplate", required: true, type: .string)
+        ]
+
+        /// The complete MIME message rendered by applying the data in the TemplateData parameter to the template specified in the TemplateName parameter.
+        public let renderedTemplate: String
+
+        public init(renderedTemplate: String) {
+            self.renderedTemplate = renderedTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case renderedTemplate = "RenderedTemplate"
         }
     }
 
@@ -3100,6 +4460,136 @@ extension SESV2 {
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateCustomVerificationEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureRedirectionURL", required: true, type: .string), 
+            AWSShapeMember(label: "FromEmailAddress", required: true, type: .string), 
+            AWSShapeMember(label: "SuccessRedirectionURL", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateContent", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "TemplateName"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateSubject", required: true, type: .string)
+        ]
+
+        /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+        public let failureRedirectionURL: String
+        /// The email address that the custom verification email is sent from.
+        public let fromEmailAddress: String
+        /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+        public let successRedirectionURL: String
+        /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide.
+        public let templateContent: String
+        /// The name of the custom verification email template that you want to update.
+        public let templateName: String
+        /// The subject line of the custom verification email.
+        public let templateSubject: String
+
+        public init(failureRedirectionURL: String, fromEmailAddress: String, successRedirectionURL: String, templateContent: String, templateName: String, templateSubject: String) {
+            self.failureRedirectionURL = failureRedirectionURL
+            self.fromEmailAddress = fromEmailAddress
+            self.successRedirectionURL = successRedirectionURL
+            self.templateContent = templateContent
+            self.templateName = templateName
+            self.templateSubject = templateSubject
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureRedirectionURL = "FailureRedirectionURL"
+            case fromEmailAddress = "FromEmailAddress"
+            case successRedirectionURL = "SuccessRedirectionURL"
+            case templateContent = "TemplateContent"
+            case templateName = "TemplateName"
+            case templateSubject = "TemplateSubject"
+        }
+    }
+
+    public struct UpdateCustomVerificationEmailTemplateResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateEmailIdentityPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string), 
+            AWSShapeMember(label: "Policy", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", location: .uri(locationName: "PolicyName"), required: true, type: .string)
+        ]
+
+        /// The email identity for which you want to update policy.
+        public let emailIdentity: String
+        /// The text of the policy in JSON format. The policy cannot exceed 4 KB.  For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
+        public let policy: String
+        /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
+        public let policyName: String
+
+        public init(emailIdentity: String, policy: String, policyName: String) {
+            self.emailIdentity = emailIdentity
+            self.policy = policy
+            self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.emailIdentity, name:"emailIdentity", parent: name, min: 1)
+            try validate(self.policy, name:"policy", parent: name, min: 1)
+            try validate(self.policyName, name:"policyName", parent: name, max: 64)
+            try validate(self.policyName, name:"policyName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailIdentity = "EmailIdentity"
+            case policy = "Policy"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct UpdateEmailIdentityPolicyResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateContent", required: true, type: .structure), 
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "TemplateName"), required: true, type: .string)
+        ]
+
+        /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
+        public let templateContent: EmailTemplateContent
+        /// The name of the template you want to update.
+        public let templateName: String
+
+        public init(templateContent: EmailTemplateContent, templateName: String) {
+            self.templateContent = templateContent
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateContent = "TemplateContent"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct UpdateEmailTemplateResponse: AWSShape {
 
 
         public init() {

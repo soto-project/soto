@@ -6,6 +6,12 @@ import NIO
 
 extension AppMesh {
 
+    ///  Returns a list of existing gateway routes that are associated to a virtual
+    ///           gateway.
+    public func listGatewayRoutesPaginator(_ input: ListGatewayRoutesInput, onPage: @escaping (ListGatewayRoutesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listGatewayRoutes, tokenKey: \ListGatewayRoutesOutput.nextToken, onPage: onPage)
+    }
+
     ///  Returns a list of existing service meshes.
     public func listMeshesPaginator(_ input: ListMeshesInput, onPage: @escaping (ListMeshesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMeshes, tokenKey: \ListMeshesOutput.nextToken, onPage: onPage)
@@ -19,6 +25,11 @@ extension AppMesh {
     ///  List the tags for an App Mesh resource.
     public func listTagsForResourcePaginator(_ input: ListTagsForResourceInput, onPage: @escaping (ListTagsForResourceOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTagsForResource, tokenKey: \ListTagsForResourceOutput.nextToken, onPage: onPage)
+    }
+
+    ///  Returns a list of existing virtual gateways in a service mesh.
+    public func listVirtualGatewaysPaginator(_ input: ListVirtualGatewaysInput, onPage: @escaping (ListVirtualGatewaysOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listVirtualGateways, tokenKey: \ListVirtualGatewaysOutput.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of existing virtual nodes.
@@ -36,6 +47,19 @@ extension AppMesh {
         return client.paginate(input: input, command: listVirtualServices, tokenKey: \ListVirtualServicesOutput.nextToken, onPage: onPage)
     }
 
+}
+
+extension AppMesh.ListGatewayRoutesInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListGatewayRoutesInput {
+        return .init(
+            limit: self.limit, 
+            meshName: self.meshName, 
+            meshOwner: self.meshOwner, 
+            nextToken: token, 
+            virtualGatewayName: self.virtualGatewayName
+        )
+
+    }
 }
 
 extension AppMesh.ListMeshesInput: AWSPaginateStringToken {
@@ -67,6 +91,18 @@ extension AppMesh.ListTagsForResourceInput: AWSPaginateStringToken {
             limit: self.limit, 
             nextToken: token, 
             resourceArn: self.resourceArn
+        )
+
+    }
+}
+
+extension AppMesh.ListVirtualGatewaysInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListVirtualGatewaysInput {
+        return .init(
+            limit: self.limit, 
+            meshName: self.meshName, 
+            meshOwner: self.meshOwner, 
+            nextToken: token
         )
 
     }

@@ -61,7 +61,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminConfirmSignUp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new user in the specified user pool. If MessageAction is not set, the default is to send a welcome message via email or phone (SMS).  This message is based on a template that you configured in your call to or . This template includes your custom sign-up instructions and placeholders for user name and temporary password.  Alternatively, you can call AdminCreateUser with “SUPPRESS” for the MessageAction parameter, and Amazon Cognito will not send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state until they sign in and change their password. AdminCreateUser requires developer credentials.
+    ///  Creates a new user in the specified user pool. If MessageAction is not set, the default is to send a welcome message via email or phone (SMS). This message is based on a template that you configured in your call to create or update a user pool. This template includes your custom sign-up instructions and placeholders for user name and temporary password. Alternatively, you can call AdminCreateUser with “SUPPRESS” for the MessageAction parameter, and Amazon Cognito will not send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state until they sign in and change their password.  AdminCreateUser requires developer credentials.
     public func adminCreateUser(_ input: AdminCreateUserRequest) -> EventLoopFuture<AdminCreateUserResponse> {
         return client.send(operation: "AdminCreateUser", path: "/", httpMethod: "POST", input: input)
     }
@@ -76,7 +76,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminDeleteUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disables the user from signing in with the specified external (SAML or social) identity provider. If the user to disable is a Cognito User Pools native username + password user, they are not permitted to use their password to sign-in. If the user to disable is a linked external IdP user, any link between that user and an existing user is removed. The next time the external user (no longer attached to the previously linked DestinationUser) signs in, they must create a new user account. See . This action is enabled only for admin access and requires developer credentials. The ProviderName must match the value specified when creating an IdP for the pool.  To disable a native username + password user, the ProviderName value must be Cognito and the ProviderAttributeName must be Cognito_Subject, with the ProviderAttributeValue being the name that is used in the user pool for the user. The ProviderAttributeName must always be Cognito_Subject for social identity providers. The ProviderAttributeValue must always be the exact subject that was used when the user was originally linked as a source user. For de-linking a SAML identity, there are two scenarios. If the linked identity has not yet been used to sign-in, the ProviderAttributeName and ProviderAttributeValue must be the same values that were used for the SourceUser when the identities were originally linked in the call. (If the linking was done with ProviderAttributeName set to Cognito_Subject, the same applies here). However, if the user has already signed in, the ProviderAttributeName must be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.
+    ///  Disables the user from signing in with the specified external (SAML or social) identity provider. If the user to disable is a Cognito User Pools native username + password user, they are not permitted to use their password to sign-in. If the user to disable is a linked external IdP user, any link between that user and an existing user is removed. The next time the external user (no longer attached to the previously linked DestinationUser) signs in, they must create a new user account. See AdminLinkProviderForUser. This action is enabled only for admin access and requires developer credentials. The ProviderName must match the value specified when creating an IdP for the pool.  To disable a native username + password user, the ProviderName value must be Cognito and the ProviderAttributeName must be Cognito_Subject, with the ProviderAttributeValue being the name that is used in the user pool for the user. The ProviderAttributeName must always be Cognito_Subject for social identity providers. The ProviderAttributeValue must always be the exact subject that was used when the user was originally linked as a source user. For de-linking a SAML identity, there are two scenarios. If the linked identity has not yet been used to sign-in, the ProviderAttributeName and ProviderAttributeValue must be the same values that were used for the SourceUser when the identities were originally linked using  AdminLinkProviderForUser call. (If the linking was done with ProviderAttributeName set to Cognito_Subject, the same applies here). However, if the user has already signed in, the ProviderAttributeName must be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.
     public func adminDisableProviderForUser(_ input: AdminDisableProviderForUserRequest) -> EventLoopFuture<AdminDisableProviderForUserResponse> {
         return client.send(operation: "AdminDisableProviderForUser", path: "/", httpMethod: "POST", input: input)
     }
@@ -111,7 +111,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminInitiateAuth", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Links an existing user account in a user pool (DestinationUser) to an identity from an external identity provider (SourceUser) based on a specified attribute name and value from the external identity provider. This allows you to create a link from the existing user account to an external federated user identity that has not yet been used to sign in, so that the federated user identity can be used to sign in as the existing user account.   For example, if there is an existing user with a username and password, this API links that user to a federated user identity, so that when the federated user identity is used, the user signs in as the existing user account.   Because this API allows a user with an external federated identity to sign in as an existing user in the user pool, it is critical that it only be used with external identity providers and provider attributes that have been trusted by the application owner.  See also . This action is enabled only for admin access and requires developer credentials.
+    ///  Links an existing user account in a user pool (DestinationUser) to an identity from an external identity provider (SourceUser) based on a specified attribute name and value from the external identity provider. This allows you to create a link from the existing user account to an external federated user identity that has not yet been used to sign in, so that the federated user identity can be used to sign in as the existing user account.   For example, if there is an existing user with a username and password, this API links that user to a federated user identity, so that when the federated user identity is used, the user signs in as the existing user account.   The maximum number of federated identities linked to a user is 5.   Because this API allows a user with an external federated identity to sign in as an existing user in the user pool, it is critical that it only be used with external identity providers and provider attributes that have been trusted by the application owner.  This action is enabled only for admin access and requires developer credentials.
     public func adminLinkProviderForUser(_ input: AdminLinkProviderForUserRequest) -> EventLoopFuture<AdminLinkProviderForUserResponse> {
         return client.send(operation: "AdminLinkProviderForUser", path: "/", httpMethod: "POST", input: input)
     }
@@ -156,7 +156,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminSetUserPassword", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use the AdminSetUserMFAPreference action instead.
+    ///   This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use AdminSetUserMFAPreference instead.
     public func adminSetUserSettings(_ input: AdminSetUserSettingsRequest) -> EventLoopFuture<AdminSetUserSettingsResponse> {
         return client.send(operation: "AdminSetUserSettings", path: "/", httpMethod: "POST", input: input)
     }
@@ -321,7 +321,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. The method used to send the confirmation code is sent according to the specified AccountRecoverySetting. For more information, see Recovering User Accounts in the Amazon Cognito Developer Guide. If neither a verified phone number nor a verified email exists, an InvalidParameterException is thrown. To use the confirmation code for resetting the password, call .
+    ///  Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. The method used to send the confirmation code is sent according to the specified AccountRecoverySetting. For more information, see Recovering User Accounts in the Amazon Cognito Developer Guide. If neither a verified phone number nor a verified email exists, an InvalidParameterException is thrown. To use the confirmation code for resetting the password, call ConfirmForgotPassword.
     public func forgotPassword(_ input: ForgotPasswordRequest) -> EventLoopFuture<ForgotPasswordResponse> {
         return client.send(operation: "ForgotPassword", path: "/", httpMethod: "POST", input: input)
     }
@@ -441,7 +441,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "RespondToAuthChallenge", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Configures actions on detected risks. To delete the risk configuration for UserPoolId or ClientId, pass null values for all four configuration types. To enable Amazon Cognito advanced security features, update the user pool to include the UserPoolAddOns keyAdvancedSecurityMode. See .
+    ///  Configures actions on detected risks. To delete the risk configuration for UserPoolId or ClientId, pass null values for all four configuration types. To enable Amazon Cognito advanced security features, update the user pool to include the UserPoolAddOns keyAdvancedSecurityMode.
     public func setRiskConfiguration(_ input: SetRiskConfigurationRequest) -> EventLoopFuture<SetRiskConfigurationResponse> {
         return client.send(operation: "SetRiskConfiguration", path: "/", httpMethod: "POST", input: input)
     }
@@ -461,7 +461,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "SetUserPoolMfaConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use the SetUserMFAPreference action instead.
+    ///   This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use SetUserMFAPreference instead.
     public func setUserSettings(_ input: SetUserSettingsRequest) -> EventLoopFuture<SetUserSettingsResponse> {
         return client.send(operation: "SetUserSettings", path: "/", httpMethod: "POST", input: input)
     }
@@ -521,12 +521,12 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "UpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified user pool with the specified attributes. You can get a list of the current user pool settings with .  If you don't provide a value for an attribute, it will be set to the default value. 
+    ///  Updates the specified user pool with the specified attributes. You can get a list of the current user pool settings using DescribeUserPool.  If you don't provide a value for an attribute, it will be set to the default value. 
     public func updateUserPool(_ input: UpdateUserPoolRequest) -> EventLoopFuture<UpdateUserPoolResponse> {
         return client.send(operation: "UpdateUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified user pool app client with the specified attributes. You can get a list of the current user pool app client settings with .  If you don't provide a value for an attribute, it will be set to the default value. 
+    ///  Updates the specified user pool app client with the specified attributes. You can get a list of the current user pool app client settings using DescribeUserPoolClient.  If you don't provide a value for an attribute, it will be set to the default value. 
     public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest) -> EventLoopFuture<UpdateUserPoolClientResponse> {
         return client.send(operation: "UpdateUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }

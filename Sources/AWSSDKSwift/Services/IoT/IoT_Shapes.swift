@@ -106,6 +106,19 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum AwsJobAbortCriteriaAbortAction: String, CustomStringConvertible, Codable {
+        case cancel = "CANCEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AwsJobAbortCriteriaFailureType: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case rejected = "REJECTED"
+        case timedOut = "TIMED_OUT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CACertificateStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
@@ -404,7 +417,7 @@ extension IoT {
             AWSShapeMember(label: "criteriaList", required: true, type: .list)
         ]
 
-        /// The list of abort criteria to define rules to abort the job.
+        /// The list of criteria that determine when and how to abort the job.
         public let criteriaList: [AbortCriteria]
 
         public init(criteriaList: [AbortCriteria]) {
@@ -431,13 +444,13 @@ extension IoT {
             AWSShapeMember(label: "thresholdPercentage", required: true, type: .double)
         ]
 
-        /// The type of abort action to initiate a job abort.
+        /// The type of job action to take to initiate the job abort.
         public let action: AbortAction
-        /// The type of job execution failure to define a rule to initiate a job abort.
+        /// The type of job execution failures that can initiate a job abort.
         public let failureType: JobExecutionFailureType
-        /// Minimum number of executed things before evaluating an abort rule.
+        /// The minimum number of things which must receive job execution notifications before the job can be aborted.
         public let minNumberOfExecutedThings: Int
-        /// The threshold as a percentage of the total number of executed things that will initiate a job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
+        /// The minimum percentage of job execution failures that must occur to initiate the job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
         public let thresholdPercentage: Double
 
         public init(action: AbortAction, failureType: JobExecutionFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
@@ -1170,6 +1183,7 @@ extension IoT {
             AWSShapeMember(label: "errorCode", required: false, type: .string), 
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "nonCompliantResourcesCount", required: false, type: .long), 
+            AWSShapeMember(label: "suppressedNonCompliantResourcesCount", required: false, type: .long), 
             AWSShapeMember(label: "totalResourcesCount", required: false, type: .long)
         ]
 
@@ -1183,15 +1197,18 @@ extension IoT {
         public let message: String?
         /// The number of resources that were found noncompliant during the check.
         public let nonCompliantResourcesCount: Int64?
+        ///  Describes how many of the non-compliant resources created during the evaluation of an audit check were marked as suppressed. 
+        public let suppressedNonCompliantResourcesCount: Int64?
         /// The number of resources on which the check was performed.
         public let totalResourcesCount: Int64?
 
-        public init(checkCompliant: Bool? = nil, checkRunStatus: AuditCheckRunStatus? = nil, errorCode: String? = nil, message: String? = nil, nonCompliantResourcesCount: Int64? = nil, totalResourcesCount: Int64? = nil) {
+        public init(checkCompliant: Bool? = nil, checkRunStatus: AuditCheckRunStatus? = nil, errorCode: String? = nil, message: String? = nil, nonCompliantResourcesCount: Int64? = nil, suppressedNonCompliantResourcesCount: Int64? = nil, totalResourcesCount: Int64? = nil) {
             self.checkCompliant = checkCompliant
             self.checkRunStatus = checkRunStatus
             self.errorCode = errorCode
             self.message = message
             self.nonCompliantResourcesCount = nonCompliantResourcesCount
+            self.suppressedNonCompliantResourcesCount = suppressedNonCompliantResourcesCount
             self.totalResourcesCount = totalResourcesCount
         }
 
@@ -1201,6 +1218,7 @@ extension IoT {
             case errorCode = "errorCode"
             case message = "message"
             case nonCompliantResourcesCount = "nonCompliantResourcesCount"
+            case suppressedNonCompliantResourcesCount = "suppressedNonCompliantResourcesCount"
             case totalResourcesCount = "totalResourcesCount"
         }
     }
@@ -1210,6 +1228,7 @@ extension IoT {
             AWSShapeMember(label: "checkName", required: false, type: .string), 
             AWSShapeMember(label: "findingId", required: false, type: .string), 
             AWSShapeMember(label: "findingTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "isSuppressed", required: false, type: .boolean), 
             AWSShapeMember(label: "nonCompliantResource", required: false, type: .structure), 
             AWSShapeMember(label: "reasonForNonCompliance", required: false, type: .string), 
             AWSShapeMember(label: "reasonForNonComplianceCode", required: false, type: .string), 
@@ -1225,6 +1244,8 @@ extension IoT {
         public let findingId: String?
         /// The time the result (finding) was discovered.
         public let findingTime: TimeStamp?
+        ///  Indicates whether the audit finding was suppressed or not during reporting. 
+        public let isSuppressed: Bool?
         /// The resource that was found to be noncompliant with the audit check.
         public let nonCompliantResource: NonCompliantResource?
         /// The reason the resource was noncompliant.
@@ -1240,10 +1261,11 @@ extension IoT {
         /// The time the audit started.
         public let taskStartTime: TimeStamp?
 
-        public init(checkName: String? = nil, findingId: String? = nil, findingTime: TimeStamp? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonCompliance: String? = nil, reasonForNonComplianceCode: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskId: String? = nil, taskStartTime: TimeStamp? = nil) {
+        public init(checkName: String? = nil, findingId: String? = nil, findingTime: TimeStamp? = nil, isSuppressed: Bool? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonCompliance: String? = nil, reasonForNonComplianceCode: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskId: String? = nil, taskStartTime: TimeStamp? = nil) {
             self.checkName = checkName
             self.findingId = findingId
             self.findingTime = findingTime
+            self.isSuppressed = isSuppressed
             self.nonCompliantResource = nonCompliantResource
             self.reasonForNonCompliance = reasonForNonCompliance
             self.reasonForNonComplianceCode = reasonForNonComplianceCode
@@ -1257,6 +1279,7 @@ extension IoT {
             case checkName = "checkName"
             case findingId = "findingId"
             case findingTime = "findingTime"
+            case isSuppressed = "isSuppressed"
             case nonCompliantResource = "nonCompliantResource"
             case reasonForNonCompliance = "reasonForNonCompliance"
             case reasonForNonComplianceCode = "reasonForNonComplianceCode"
@@ -1425,6 +1448,41 @@ extension IoT {
             case enabled = "enabled"
             case roleArn = "roleArn"
             case targetArn = "targetArn"
+        }
+    }
+
+    public struct AuditSuppression: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkName", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "expirationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceIdentifier", required: true, type: .structure), 
+            AWSShapeMember(label: "suppressIndefinitely", required: false, type: .boolean)
+        ]
+
+        public let checkName: String
+        ///  The description of the audit suppression. 
+        public let description: String?
+        ///  The expiration date (epoch timestamp in seconds) that you want the suppression to adhere to. 
+        public let expirationDate: TimeStamp?
+        public let resourceIdentifier: ResourceIdentifier
+        ///  Indicates whether a suppression should exist indefinitely or not. 
+        public let suppressIndefinitely: Bool?
+
+        public init(checkName: String, description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
+            self.checkName = checkName
+            self.description = description
+            self.expirationDate = expirationDate
+            self.resourceIdentifier = resourceIdentifier
+            self.suppressIndefinitely = suppressIndefinitely
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case description = "description"
+            case expirationDate = "expirationDate"
+            case resourceIdentifier = "resourceIdentifier"
+            case suppressIndefinitely = "suppressIndefinitely"
         }
     }
 
@@ -1621,25 +1679,125 @@ extension IoT {
         }
     }
 
+    public struct AwsJobAbortConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "abortCriteriaList", required: true, type: .list)
+        ]
+
+        /// The list of criteria that determine when and how to abort the job.
+        public let abortCriteriaList: [AwsJobAbortCriteria]
+
+        public init(abortCriteriaList: [AwsJobAbortCriteria]) {
+            self.abortCriteriaList = abortCriteriaList
+        }
+
+        public func validate(name: String) throws {
+            try self.abortCriteriaList.forEach {
+                try $0.validate(name: "\(name).abortCriteriaList[]")
+            }
+            try validate(self.abortCriteriaList, name:"abortCriteriaList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abortCriteriaList = "abortCriteriaList"
+        }
+    }
+
+    public struct AwsJobAbortCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: true, type: .enum), 
+            AWSShapeMember(label: "failureType", required: true, type: .enum), 
+            AWSShapeMember(label: "minNumberOfExecutedThings", required: true, type: .integer), 
+            AWSShapeMember(label: "thresholdPercentage", required: true, type: .double)
+        ]
+
+        /// The type of job action to take to initiate the job abort.
+        public let action: AwsJobAbortCriteriaAbortAction
+        /// The type of job execution failures that can initiate a job abort.
+        public let failureType: AwsJobAbortCriteriaFailureType
+        /// The minimum number of things which must receive job execution notifications before the job can be aborted.
+        public let minNumberOfExecutedThings: Int
+        /// The minimum percentage of job execution failures that must occur to initiate the job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
+        public let thresholdPercentage: Double
+
+        public init(action: AwsJobAbortCriteriaAbortAction, failureType: AwsJobAbortCriteriaFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
+            self.action = action
+            self.failureType = failureType
+            self.minNumberOfExecutedThings = minNumberOfExecutedThings
+            self.thresholdPercentage = thresholdPercentage
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.minNumberOfExecutedThings, name:"minNumberOfExecutedThings", parent: name, min: 1)
+            try validate(self.thresholdPercentage, name:"thresholdPercentage", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case failureType = "failureType"
+            case minNumberOfExecutedThings = "minNumberOfExecutedThings"
+            case thresholdPercentage = "thresholdPercentage"
+        }
+    }
+
     public struct AwsJobExecutionsRolloutConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exponentialRate", required: false, type: .structure), 
             AWSShapeMember(label: "maximumPerMinute", required: false, type: .integer)
         ]
 
+        /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate increase for a job rollout.
+        public let exponentialRate: AwsJobExponentialRolloutRate?
         /// The maximum number of OTA update job executions started per minute.
         public let maximumPerMinute: Int?
 
-        public init(maximumPerMinute: Int? = nil) {
+        public init(exponentialRate: AwsJobExponentialRolloutRate? = nil, maximumPerMinute: Int? = nil) {
+            self.exponentialRate = exponentialRate
             self.maximumPerMinute = maximumPerMinute
         }
 
         public func validate(name: String) throws {
+            try self.exponentialRate?.validate(name: "\(name).exponentialRate")
             try validate(self.maximumPerMinute, name:"maximumPerMinute", parent: name, max: 1000)
             try validate(self.maximumPerMinute, name:"maximumPerMinute", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case exponentialRate = "exponentialRate"
             case maximumPerMinute = "maximumPerMinute"
+        }
+    }
+
+    public struct AwsJobExponentialRolloutRate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "baseRatePerMinute", required: true, type: .integer), 
+            AWSShapeMember(label: "incrementFactor", required: true, type: .double), 
+            AWSShapeMember(label: "rateIncreaseCriteria", required: true, type: .structure)
+        ]
+
+        /// The minimum number of things that will be notified of a pending job, per minute, at the start of the job rollout. This is the initial rate of the rollout.
+        public let baseRatePerMinute: Int
+        /// The rate of increase for a job rollout. The number of things notified is multiplied by this factor.
+        public let incrementFactor: Double
+        /// The criteria to initiate the increase in rate of rollout for a job. AWS IoT supports up to one digit after the decimal (for example, 1.5, but not 1.55).
+        public let rateIncreaseCriteria: AwsJobRateIncreaseCriteria
+
+        public init(baseRatePerMinute: Int, incrementFactor: Double, rateIncreaseCriteria: AwsJobRateIncreaseCriteria) {
+            self.baseRatePerMinute = baseRatePerMinute
+            self.incrementFactor = incrementFactor
+            self.rateIncreaseCriteria = rateIncreaseCriteria
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.baseRatePerMinute, name:"baseRatePerMinute", parent: name, max: 1000)
+            try validate(self.baseRatePerMinute, name:"baseRatePerMinute", parent: name, min: 1)
+            try self.rateIncreaseCriteria.validate(name: "\(name).rateIncreaseCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseRatePerMinute = "baseRatePerMinute"
+            case incrementFactor = "incrementFactor"
+            case rateIncreaseCriteria = "rateIncreaseCriteria"
         }
     }
 
@@ -1657,6 +1815,50 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case expiresInSec = "expiresInSec"
+        }
+    }
+
+    public struct AwsJobRateIncreaseCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "numberOfNotifiedThings", required: false, type: .integer), 
+            AWSShapeMember(label: "numberOfSucceededThings", required: false, type: .integer)
+        ]
+
+        /// When this number of things have been notified, it will initiate an increase in the rollout rate.
+        public let numberOfNotifiedThings: Int?
+        /// When this number of things have succeeded in their job execution, it will initiate an increase in the rollout rate.
+        public let numberOfSucceededThings: Int?
+
+        public init(numberOfNotifiedThings: Int? = nil, numberOfSucceededThings: Int? = nil) {
+            self.numberOfNotifiedThings = numberOfNotifiedThings
+            self.numberOfSucceededThings = numberOfSucceededThings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.numberOfNotifiedThings, name:"numberOfNotifiedThings", parent: name, min: 1)
+            try validate(self.numberOfSucceededThings, name:"numberOfSucceededThings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfNotifiedThings = "numberOfNotifiedThings"
+            case numberOfSucceededThings = "numberOfSucceededThings"
+        }
+    }
+
+    public struct AwsJobTimeoutConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "inProgressTimeoutInMinutes", required: false, type: .long)
+        ]
+
+        /// Specifies the amount of time, in minutes, this device has to finish execution of this job. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The in progress timer can't be updated and will apply to all job executions for the job. Whenever a job execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail and switch to the terminal TIMED_OUT status.
+        public let inProgressTimeoutInMinutes: Int64?
+
+        public init(inProgressTimeoutInMinutes: Int64? = nil) {
+            self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inProgressTimeoutInMinutes = "inProgressTimeoutInMinutes"
         }
     }
 
@@ -2467,6 +2669,63 @@ extension IoT {
 
     }
 
+    public struct CreateAuditSuppressionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkName", required: true, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "expirationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceIdentifier", required: true, type: .structure), 
+            AWSShapeMember(label: "suppressIndefinitely", required: false, type: .boolean)
+        ]
+
+        public let checkName: String
+        ///  The epoch timestamp in seconds at which this suppression expires. 
+        public let clientRequestToken: String
+        ///  The description of the audit suppression. 
+        public let description: String?
+        ///  The epoch timestamp in seconds at which this suppression expires. 
+        public let expirationDate: TimeStamp?
+        public let resourceIdentifier: ResourceIdentifier
+        ///  Indicates whether a suppression should exist indefinitely or not. 
+        public let suppressIndefinitely: Bool?
+
+        public init(checkName: String, clientRequestToken: String = CreateAuditSuppressionRequest.idempotencyToken(), description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
+            self.checkName = checkName
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.expirationDate = expirationDate
+            self.resourceIdentifier = resourceIdentifier
+            self.suppressIndefinitely = suppressIndefinitely
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try validate(self.description, name:"description", parent: name, max: 1000)
+            try validate(self.description, name:"description", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+            case expirationDate = "expirationDate"
+            case resourceIdentifier = "resourceIdentifier"
+            case suppressIndefinitely = "suppressIndefinitely"
+        }
+    }
+
+    public struct CreateAuditSuppressionResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct CreateAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizerFunctionArn", required: true, type: .string), 
@@ -3169,8 +3428,10 @@ extension IoT {
     public struct CreateOTAUpdateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "additionalParameters", required: false, type: .map), 
+            AWSShapeMember(label: "awsJobAbortConfig", required: false, type: .structure), 
             AWSShapeMember(label: "awsJobExecutionsRolloutConfig", required: false, type: .structure), 
             AWSShapeMember(label: "awsJobPresignedUrlConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "awsJobTimeoutConfig", required: false, type: .structure), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "files", required: true, type: .list), 
             AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string), 
@@ -3183,10 +3444,14 @@ extension IoT {
 
         /// A list of additional OTA update parameters which are name-value pairs.
         public let additionalParameters: [String: String]?
+        /// The criteria that determine when and how a job abort takes place.
+        public let awsJobAbortConfig: AwsJobAbortConfig?
         /// Configuration for the rollout of OTA updates.
         public let awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig?
         /// Configuration information for pre-signed URLs.
         public let awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig?
+        /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
+        public let awsJobTimeoutConfig: AwsJobTimeoutConfig?
         /// The description of the OTA update.
         public let description: String?
         /// The files to be streamed by the OTA update.
@@ -3195,19 +3460,21 @@ extension IoT {
         public let otaUpdateId: String
         /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.
         public let protocols: [Protocol]?
-        /// The IAM role that allows access to the AWS IoT Jobs service.
+        /// The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs and AWS Code Signing resources to create an OTA update job.
         public let roleArn: String
         /// Metadata which can be used to manage updates.
         public let tags: [Tag]?
-        /// The targeted devices to receive OTA updates.
+        /// The devices targeted to receive OTA updates.
         public let targets: [String]
         /// Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT.
         public let targetSelection: TargetSelection?
 
-        public init(additionalParameters: [String: String]? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, protocols: [Protocol]? = nil, roleArn: String, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil) {
+        public init(additionalParameters: [String: String]? = nil, awsJobAbortConfig: AwsJobAbortConfig? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, awsJobTimeoutConfig: AwsJobTimeoutConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, protocols: [Protocol]? = nil, roleArn: String, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil) {
             self.additionalParameters = additionalParameters
+            self.awsJobAbortConfig = awsJobAbortConfig
             self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
             self.awsJobPresignedUrlConfig = awsJobPresignedUrlConfig
+            self.awsJobTimeoutConfig = awsJobTimeoutConfig
             self.description = description
             self.files = files
             self.otaUpdateId = otaUpdateId
@@ -3219,6 +3486,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.awsJobAbortConfig?.validate(name: "\(name).awsJobAbortConfig")
             try self.awsJobExecutionsRolloutConfig?.validate(name: "\(name).awsJobExecutionsRolloutConfig")
             try validate(self.description, name:"description", parent: name, max: 2028)
             try validate(self.description, name:"description", parent: name, pattern: "[^\\p{C}]+")
@@ -3242,8 +3510,10 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case additionalParameters = "additionalParameters"
+            case awsJobAbortConfig = "awsJobAbortConfig"
             case awsJobExecutionsRolloutConfig = "awsJobExecutionsRolloutConfig"
             case awsJobPresignedUrlConfig = "awsJobPresignedUrlConfig"
+            case awsJobTimeoutConfig = "awsJobTimeoutConfig"
             case description = "description"
             case files = "files"
             case otaUpdateId = "otaUpdateId"
@@ -4281,6 +4551,38 @@ extension IoT {
 
     }
 
+    public struct DeleteAuditSuppressionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkName", required: true, type: .string), 
+            AWSShapeMember(label: "resourceIdentifier", required: true, type: .structure)
+        ]
+
+        public let checkName: String
+        public let resourceIdentifier: ResourceIdentifier
+
+        public init(checkName: String, resourceIdentifier: ResourceIdentifier) {
+            self.checkName = checkName
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case resourceIdentifier = "resourceIdentifier"
+        }
+    }
+
+    public struct DeleteAuditSuppressionResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string)
@@ -4613,9 +4915,9 @@ extension IoT {
 
         /// Specifies if the stream associated with an OTA update should be deleted when the OTA update is deleted.
         public let deleteStream: Bool?
-        /// Specifies if the AWS Job associated with the OTA update should be deleted with the OTA update is deleted.
+        /// Specifies if the AWS Job associated with the OTA update should be deleted when the OTA update is deleted.
         public let forceDeleteAWSJob: Bool?
-        /// The OTA update ID to delete.
+        /// The ID of the OTA update to delete.
         public let otaUpdateId: String
 
         public init(deleteStream: Bool? = nil, forceDeleteAWSJob: Bool? = nil, otaUpdateId: String) {
@@ -5281,6 +5583,65 @@ extension IoT {
             case target = "target"
             case taskStatistics = "taskStatistics"
             case taskStatus = "taskStatus"
+        }
+    }
+
+    public struct DescribeAuditSuppressionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkName", required: true, type: .string), 
+            AWSShapeMember(label: "resourceIdentifier", required: true, type: .structure)
+        ]
+
+        public let checkName: String
+        public let resourceIdentifier: ResourceIdentifier
+
+        public init(checkName: String, resourceIdentifier: ResourceIdentifier) {
+            self.checkName = checkName
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case resourceIdentifier = "resourceIdentifier"
+        }
+    }
+
+    public struct DescribeAuditSuppressionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkName", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "expirationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure), 
+            AWSShapeMember(label: "suppressIndefinitely", required: false, type: .boolean)
+        ]
+
+        public let checkName: String?
+        ///  The description of the audit suppression. 
+        public let description: String?
+        ///  The epoch timestamp in seconds at which this suppression expires. 
+        public let expirationDate: TimeStamp?
+        public let resourceIdentifier: ResourceIdentifier?
+        ///  Indicates whether a suppression should exist indefinitely or not. 
+        public let suppressIndefinitely: Bool?
+
+        public init(checkName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier? = nil, suppressIndefinitely: Bool? = nil) {
+            self.checkName = checkName
+            self.description = description
+            self.expirationDate = expirationDate
+            self.resourceIdentifier = resourceIdentifier
+            self.suppressIndefinitely = suppressIndefinitely
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case description = "description"
+            case expirationDate = "expirationDate"
+            case resourceIdentifier = "resourceIdentifier"
+            case suppressIndefinitely = "suppressIndefinitely"
         }
     }
 
@@ -6739,7 +7100,7 @@ extension IoT {
 
         /// The name of the policy to detach.
         public let policyName: String
-        /// The principal. If the principal is a certificate, specify the certificate ARN. If the principal is an Amazon Cognito identity, specify the identity ID.
+        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String
 
         public init(policyName: String, principal: String) {
@@ -7303,7 +7664,7 @@ extension IoT {
 
         /// The Cognito identity pool ID.
         public let cognitoIdentityPoolId: String?
-        /// The principal.
+        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String?
         /// The thing name.
         public let thingName: String?
@@ -8742,7 +9103,7 @@ extension IoT {
         public let pageSize: Int?
         /// When true, recursively list attached policies.
         public let recursive: Bool?
-        /// The group or principal for which the policies will be listed.
+        /// The group or principal for which the policies will be listed. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let target: String
 
         public init(marker: String? = nil, pageSize: Int? = nil, recursive: Bool? = nil, target: String) {
@@ -8792,6 +9153,7 @@ extension IoT {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checkName", required: false, type: .string), 
             AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "listSuppressedFindings", required: false, type: .boolean), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure), 
@@ -8803,6 +9165,8 @@ extension IoT {
         public let checkName: String?
         /// A filter to limit results to those found before the specified time. You must specify either the startTime and endTime or the taskId, but not both.
         public let endTime: TimeStamp?
+        ///  Boolean flag indicating whether only the suppressed findings or the unsuppressed findings should be listed. If this parameter isn't provided, the response will list both suppressed and unsuppressed findings. 
+        public let listSuppressedFindings: Bool?
         /// The maximum number of results to return at one time. The default is 25.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -8814,9 +9178,10 @@ extension IoT {
         /// A filter to limit results to the audit with the specified ID. You must specify either the taskId or the startTime and endTime, but not both.
         public let taskId: String?
 
-        public init(checkName: String? = nil, endTime: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil, startTime: TimeStamp? = nil, taskId: String? = nil) {
+        public init(checkName: String? = nil, endTime: TimeStamp? = nil, listSuppressedFindings: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil, startTime: TimeStamp? = nil, taskId: String? = nil) {
             self.checkName = checkName
             self.endTime = endTime
+            self.listSuppressedFindings = listSuppressedFindings
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceIdentifier = resourceIdentifier
@@ -8836,6 +9201,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case checkName = "checkName"
             case endTime = "endTime"
+            case listSuppressedFindings = "listSuppressedFindings"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case resourceIdentifier = "resourceIdentifier"
@@ -9013,6 +9379,69 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case tasks = "tasks"
+        }
+    }
+
+    public struct ListAuditSuppressionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ascendingOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "checkName", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure)
+        ]
+
+        ///  Determines whether suppressions are listed in ascending order by expiration date or not. If parameter isn't provided, ascendingOrder=true. 
+        public let ascendingOrder: Bool?
+        public let checkName: String?
+        ///  The maximum number of results to return at one time. The default is 25. 
+        public let maxResults: Int?
+        ///  The token for the next set of results. 
+        public let nextToken: String?
+        public let resourceIdentifier: ResourceIdentifier?
+
+        public init(ascendingOrder: Bool? = nil, checkName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil) {
+            self.ascendingOrder = ascendingOrder
+            self.checkName = checkName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.resourceIdentifier?.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ascendingOrder = "ascendingOrder"
+            case checkName = "checkName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceIdentifier = "resourceIdentifier"
+        }
+    }
+
+    public struct ListAuditSuppressionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "suppressions", required: false, type: .list)
+        ]
+
+        ///  A token that can be used to retrieve the next set of results, or null if there are no additional results. 
+        public let nextToken: String?
+        ///  List of audit suppressions. 
+        public let suppressions: [AuditSuppression]?
+
+        public init(nextToken: String? = nil, suppressions: [AuditSuppression]? = nil) {
+            self.nextToken = nextToken
+            self.suppressions = suppressions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case suppressions = "suppressions"
         }
     }
 
@@ -10062,7 +10491,7 @@ extension IoT {
         public let marker: String?
         /// The result page size.
         public let pageSize: Int?
-        /// The principal.
+        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String
 
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil, principal: String) {
@@ -10812,7 +11241,7 @@ extension IoT {
             AWSShapeMember(label: "thingGroups", required: false, type: .list)
         ]
 
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token used to get the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// The thing groups.
         public let thingGroups: [GroupNameAndArn]?
@@ -11028,7 +11457,7 @@ extension IoT {
             AWSShapeMember(label: "thingTypes", required: false, type: .list)
         ]
 
-        /// The token for the next set of results, or null if there are no additional results.
+        /// The token for the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// The thing types.
         public let thingTypes: [ThingTypeDefinition]?
@@ -11085,7 +11514,7 @@ extension IoT {
             AWSShapeMember(label: "things", required: false, type: .list)
         ]
 
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token used to get the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// A list of things in the billing group.
         public let things: [String]?
@@ -11218,7 +11647,7 @@ extension IoT {
             AWSShapeMember(label: "things", required: false, type: .list)
         ]
 
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token used to get the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// The things.
         public let things: [ThingAttribute]?
@@ -14137,7 +14566,7 @@ extension IoT {
         public let policyNamesToAdd: [String]?
         /// When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being authorized.
         public let policyNamesToSkip: [String]?
-        /// The principal.
+        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String?
 
         public init(authInfos: [AuthInfo], clientId: String? = nil, cognitoIdentityPoolId: String? = nil, policyNamesToAdd: [String]? = nil, policyNamesToSkip: [String]? = nil, principal: String? = nil) {
@@ -15060,6 +15489,55 @@ extension IoT {
     }
 
     public struct UpdateAccountAuditConfigurationResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateAuditSuppressionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkName", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "expirationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceIdentifier", required: true, type: .structure), 
+            AWSShapeMember(label: "suppressIndefinitely", required: false, type: .boolean)
+        ]
+
+        public let checkName: String
+        ///  The description of the audit suppression. 
+        public let description: String?
+        ///  The expiration date (epoch timestamp in seconds) that you want the suppression to adhere to. 
+        public let expirationDate: TimeStamp?
+        public let resourceIdentifier: ResourceIdentifier
+        ///  Indicates whether a suppression should exist indefinitely or not. 
+        public let suppressIndefinitely: Bool?
+
+        public init(checkName: String, description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
+            self.checkName = checkName
+            self.description = description
+            self.expirationDate = expirationDate
+            self.resourceIdentifier = resourceIdentifier
+            self.suppressIndefinitely = suppressIndefinitely
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 1000)
+            try validate(self.description, name:"description", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case description = "description"
+            case expirationDate = "expirationDate"
+            case resourceIdentifier = "resourceIdentifier"
+            case suppressIndefinitely = "suppressIndefinitely"
+        }
+    }
+
+    public struct UpdateAuditSuppressionResponse: AWSShape {
 
 
         public init() {

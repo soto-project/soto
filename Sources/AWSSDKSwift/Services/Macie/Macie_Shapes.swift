@@ -24,7 +24,7 @@ extension Macie {
             AWSShapeMember(label: "memberAccountId", required: true, type: .string)
         ]
 
-        /// The ID of the AWS account that you want to associate with Amazon Macie as a member account.
+        /// The ID of the AWS account that you want to associate with Amazon Macie Classic as a member account.
         public let memberAccountId: String
 
         public init(memberAccountId: String) {
@@ -46,9 +46,9 @@ extension Macie {
             AWSShapeMember(label: "s3Resources", required: true, type: .list)
         ]
 
-        /// The ID of the Amazon Macie member account whose resources you want to associate with Macie. 
+        /// The ID of the Amazon Macie Classic member account whose resources you want to associate with Macie Classic. 
         public let memberAccountId: String?
-        /// The S3 resources that you want to associate with Amazon Macie for monitoring and data classification. 
+        /// The S3 resources that you want to associate with Amazon Macie Classic for monitoring and data classification. 
         public let s3Resources: [S3ResourceClassification]
 
         public init(memberAccountId: String? = nil, s3Resources: [S3ResourceClassification]) {
@@ -74,7 +74,7 @@ extension Macie {
             AWSShapeMember(label: "failedS3Resources", required: false, type: .list)
         ]
 
-        /// S3 resources that couldn't be associated with Amazon Macie. An error code and an error message are provided for each failed item. 
+        /// S3 resources that couldn't be associated with Amazon Macie Classic. An error code and an error message are provided for each failed item. 
         public let failedS3Resources: [FailedS3Resource]?
 
         public init(failedS3Resources: [FailedS3Resource]? = nil) {
@@ -92,7 +92,7 @@ extension Macie {
             AWSShapeMember(label: "oneTime", required: true, type: .enum)
         ]
 
-        /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie begins performing continuous classification after a bucket is successfully associated with Amazon Macie. 
+        /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie Classic begins performing continuous classification after a bucket is successfully associated with Amazon Macie Classic. 
         public let continuous: S3ContinuousClassificationType
         /// A one-time classification of all of the existing objects in a specified S3 bucket. 
         public let oneTime: S3OneTimeClassificationType
@@ -114,7 +114,7 @@ extension Macie {
             AWSShapeMember(label: "oneTime", required: false, type: .enum)
         ]
 
-        /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie begins performing continuous classification after a bucket is successfully associated with Amazon Macie. 
+        /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie Classic begins performing continuous classification after a bucket is successfully associated with Amazon Macie Classic. 
         public let continuous: S3ContinuousClassificationType?
         /// A one-time classification of all of the existing objects in a specified S3 bucket. 
         public let oneTime: S3OneTimeClassificationType?
@@ -135,7 +135,7 @@ extension Macie {
             AWSShapeMember(label: "memberAccountId", required: true, type: .string)
         ]
 
-        /// The ID of the member account that you want to remove from Amazon Macie.
+        /// The ID of the member account that you want to remove from Amazon Macie Classic.
         public let memberAccountId: String
 
         public init(memberAccountId: String) {
@@ -157,9 +157,9 @@ extension Macie {
             AWSShapeMember(label: "memberAccountId", required: false, type: .string)
         ]
 
-        /// The S3 resources (buckets or prefixes) that you want to remove from being monitored and classified by Amazon Macie. 
+        /// The S3 resources (buckets or prefixes) that you want to remove from being monitored and classified by Amazon Macie Classic. 
         public let associatedS3Resources: [S3Resource]
-        /// The ID of the Amazon Macie member account whose resources you want to remove from being monitored by Amazon Macie. 
+        /// The ID of the Amazon Macie Classic member account whose resources you want to remove from being monitored by Amazon Macie Classic. 
         public let memberAccountId: String?
 
         public init(associatedS3Resources: [S3Resource], memberAccountId: String? = nil) {
@@ -185,7 +185,7 @@ extension Macie {
             AWSShapeMember(label: "failedS3Resources", required: false, type: .list)
         ]
 
-        /// S3 resources that couldn't be removed from being monitored and classified by Amazon Macie. An error code and an error message are provided for each failed item. 
+        /// S3 resources that couldn't be removed from being monitored and classified by Amazon Macie Classic. An error code and an error message are provided for each failed item. 
         public let failedS3Resources: [FailedS3Resource]?
 
         public init(failedS3Resources: [FailedS3Resource]? = nil) {
@@ -257,7 +257,7 @@ extension Macie {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        /// A list of the Amazon Macie member accounts returned by the action. The current master account is also included in this list. 
+        /// A list of the Amazon Macie Classic member accounts returned by the action. The current master account is also included in this list. 
         public let memberAccounts: [MemberAccount]?
         /// When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null. 
         public let nextToken: String?
@@ -282,7 +282,7 @@ extension Macie {
 
         /// Use this parameter to indicate the maximum number of items that you want in the response. The default value is 250. 
         public let maxResults: Int?
-        /// The Amazon Macie member account ID whose associated S3 resources you want to list. 
+        /// The Amazon Macie Classic member account ID whose associated S3 resources you want to list. 
         public let memberAccountId: String?
         /// Use this parameter when paginating results. Set its value to null on your first call to the ListS3Resources action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data. 
         public let nextToken: String?
@@ -333,7 +333,7 @@ extension Macie {
             AWSShapeMember(label: "accountId", required: false, type: .string)
         ]
 
-        /// The AWS account ID of the Amazon Macie member account.
+        /// The AWS account ID of the Amazon Macie Classic member account.
         public let accountId: String?
 
         public init(accountId: String? = nil) {
@@ -379,11 +379,11 @@ extension Macie {
             AWSShapeMember(label: "prefix", required: false, type: .string)
         ]
 
-        /// The name of the S3 bucket that you want to associate with Amazon Macie.
+        /// The name of the S3 bucket that you want to associate with Amazon Macie Classic.
         public let bucketName: String
-        /// The classification type that you want to specify for the resource associated with Amazon Macie. 
+        /// The classification type that you want to specify for the resource associated with Amazon Macie Classic. 
         public let classificationType: ClassificationType
-        /// The prefix of the S3 bucket that you want to associate with Amazon Macie.
+        /// The prefix of the S3 bucket that you want to associate with Amazon Macie Classic.
         public let prefix: String?
 
         public init(bucketName: String, classificationType: ClassificationType, prefix: String? = nil) {
@@ -413,7 +413,7 @@ extension Macie {
 
         /// The name of the S3 bucket whose classification types you want to update.
         public let bucketName: String
-        /// The classification type that you want to update for the resource associated with Amazon Macie. 
+        /// The classification type that you want to update for the resource associated with Amazon Macie Classic. 
         public let classificationTypeUpdate: ClassificationTypeUpdate
         /// The prefix of the S3 bucket whose classification types you want to update.
         public let prefix: String?
@@ -442,7 +442,7 @@ extension Macie {
             AWSShapeMember(label: "s3ResourcesUpdate", required: true, type: .list)
         ]
 
-        /// The AWS ID of the Amazon Macie member account whose S3 resources' classification types you want to update. 
+        /// The AWS ID of the Amazon Macie Classic member account whose S3 resources' classification types you want to update. 
         public let memberAccountId: String?
         /// The S3 resources whose classification types you want to update.
         public let s3ResourcesUpdate: [S3ResourceClassificationUpdate]

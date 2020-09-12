@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS CodeGuruReviewer service.
 
-This section provides documentation for the Amazon CodeGuru Reviewer API operations.
+This section provides documentation for the Amazon CodeGuru Reviewer API operations. CodeGuru Reviewer is a service that uses program analysis and machine learning to detect potential defects that are difficult for developers to find and recommends fixes in your Java code. By proactively detecting and providing recommendations for addressing code defects and implementing best practices, CodeGuru Reviewer improves the overall quality and maintainability of your code base during the code review stage. For more information about CodeGuru Reviewer, see the  Amazon CodeGuru Reviewer User Guide. 
 */
 public struct CodeGuruReviewer {
 
@@ -44,12 +44,17 @@ public struct CodeGuruReviewer {
     
     //MARK: API Calls
 
-    ///  Associates an AWS CodeCommit repository with Amazon CodeGuru Reviewer. When you associate an AWS CodeCommit repository with Amazon CodeGuru Reviewer, Amazon CodeGuru Reviewer will provide recommendations for each pull request raised within the repository. You can view recommendations in the AWS CodeCommit repository. You can associate a GitHub repository using the Amazon CodeGuru Reviewer console.
+    ///   Use to associate an AWS CodeCommit repository or a repostory managed by AWS CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer reviews source code changes in the repository's pull requests and provides automatic recommendations. You can view recommendations using the CodeGuru Reviewer console. For more information, see Recommendations in Amazon CodeGuru Reviewer in the Amazon CodeGuru Reviewer User Guide.  If you associate a CodeCommit repository, it must be in the same AWS Region and AWS account where its CodeGuru Reviewer code reviews are configured. Bitbucket and GitHub Enterprise Server repositories are managed by AWS CodeStar Connections to connect to CodeGuru Reviewer. For more information, see Connect to a repository source provider in the Amazon CodeGuru Reviewer User Guide.    You cannot use the CodeGuru Reviewer SDK or the AWS CLI to associate a GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub repository, use the console. For more information, see Getting started with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.  
     public func associateRepository(_ input: AssociateRepositoryRequest) -> EventLoopFuture<AssociateRepositoryResponse> {
         return client.send(operation: "AssociateRepository", path: "/associations", httpMethod: "POST", input: input)
     }
 
-    ///   Returns the metadaata associated with the code review along with its status.
+    ///   Use to create a code review for a repository analysis. 
+    public func createCodeReview(_ input: CreateCodeReviewRequest) -> EventLoopFuture<CreateCodeReviewResponse> {
+        return client.send(operation: "CreateCodeReview", path: "/codereviews", httpMethod: "POST", input: input)
+    }
+
+    ///   Returns the metadata associated with the code review along with its status.
     public func describeCodeReview(_ input: DescribeCodeReviewRequest) -> EventLoopFuture<DescribeCodeReviewResponse> {
         return client.send(operation: "DescribeCodeReview", path: "/codereviews/{CodeReviewArn}", httpMethod: "GET", input: input)
     }
@@ -59,7 +64,7 @@ public struct CodeGuruReviewer {
         return client.send(operation: "DescribeRecommendationFeedback", path: "/feedback/{CodeReviewArn}", httpMethod: "GET", input: input)
     }
 
-    ///  Describes a repository association.
+    ///   Returns a  RepositoryAssociation  object that contains information about the requested repository association. 
     public func describeRepositoryAssociation(_ input: DescribeRepositoryAssociationRequest) -> EventLoopFuture<DescribeRepositoryAssociationResponse> {
         return client.send(operation: "DescribeRepositoryAssociation", path: "/associations/{AssociationArn}", httpMethod: "GET", input: input)
     }
@@ -74,7 +79,7 @@ public struct CodeGuruReviewer {
         return client.send(operation: "ListCodeReviews", path: "/codereviews", httpMethod: "GET", input: input)
     }
 
-    ///   Lists the customer feedback for a CodeGuru Reviewer recommendation for all users. This API will be used from the console to extract the previously given feedback by the user to pre-populate the feedback emojis for all recommendations. 
+    ///   Returns a list of  RecommendationFeedbackSummary  objects that contain customer recommendation feedback for all CodeGuru Reviewer users. 
     public func listRecommendationFeedback(_ input: ListRecommendationFeedbackRequest) -> EventLoopFuture<ListRecommendationFeedbackResponse> {
         return client.send(operation: "ListRecommendationFeedback", path: "/feedback/{CodeReviewArn}/RecommendationFeedback", httpMethod: "GET", input: input)
     }
@@ -84,12 +89,12 @@ public struct CodeGuruReviewer {
         return client.send(operation: "ListRecommendations", path: "/codereviews/{CodeReviewArn}/Recommendations", httpMethod: "GET", input: input)
     }
 
-    ///  Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
+    ///   Returns a list of  RepositoryAssociationSummary  objects that contain summary information about a repository association. You can filter the returned list by  ProviderType ,  Name ,  State , and  Owner . 
     public func listRepositoryAssociations(_ input: ListRepositoryAssociationsRequest) -> EventLoopFuture<ListRepositoryAssociationsResponse> {
         return client.send(operation: "ListRepositoryAssociations", path: "/associations", httpMethod: "GET", input: input)
     }
 
-    ///   Stores customer feedback for a CodeGuru-Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten. 
+    ///   Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten. 
     public func putRecommendationFeedback(_ input: PutRecommendationFeedbackRequest) -> EventLoopFuture<PutRecommendationFeedbackResponse> {
         return client.send(operation: "PutRecommendationFeedback", path: "/feedback", httpMethod: "PUT", input: input)
     }

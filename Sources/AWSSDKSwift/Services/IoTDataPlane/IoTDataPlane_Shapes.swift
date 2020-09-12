@@ -10,23 +10,31 @@ extension IoTDataPlane {
 
     public struct DeleteThingShadowRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "shadowName", location: .querystring(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
 
+        /// The name of the shadow.
+        public let shadowName: String?
         /// The name of the thing.
         public let thingName: String
 
-        public init(thingName: String) {
+        public init(shadowName: String? = nil, thingName: String) {
+            self.shadowName = shadowName
             self.thingName = thingName
         }
 
         public func validate(name: String) throws {
+            try validate(self.shadowName, name:"shadowName", parent: name, max: 64)
+            try validate(self.shadowName, name:"shadowName", parent: name, min: 1)
+            try validate(self.shadowName, name:"shadowName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try validate(self.thingName, name:"thingName", parent: name, max: 128)
             try validate(self.thingName, name:"thingName", parent: name, min: 1)
-            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case shadowName = "name"
             case thingName = "thingName"
         }
     }
@@ -52,23 +60,31 @@ extension IoTDataPlane {
 
     public struct GetThingShadowRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "shadowName", location: .querystring(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
 
+        /// The name of the shadow.
+        public let shadowName: String?
         /// The name of the thing.
         public let thingName: String
 
-        public init(thingName: String) {
+        public init(shadowName: String? = nil, thingName: String) {
+            self.shadowName = shadowName
             self.thingName = thingName
         }
 
         public func validate(name: String) throws {
+            try validate(self.shadowName, name:"shadowName", parent: name, max: 64)
+            try validate(self.shadowName, name:"shadowName", parent: name, min: 1)
+            try validate(self.shadowName, name:"shadowName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try validate(self.thingName, name:"thingName", parent: name, max: 128)
             try validate(self.thingName, name:"thingName", parent: name, min: 1)
-            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case shadowName = "name"
             case thingName = "thingName"
         }
     }
@@ -89,6 +105,68 @@ extension IoTDataPlane {
 
         private enum CodingKeys: String, CodingKey {
             case payload = "payload"
+        }
+    }
+
+    public struct ListNamedShadowsForThingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        ]
+
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The result page size.
+        public let pageSize: Int?
+        /// The name of the thing.
+        public let thingName: String
+
+        public init(nextToken: String? = nil, pageSize: Int? = nil, thingName: String) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.thingName = thingName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.pageSize, name:"pageSize", parent: name, max: 100)
+            try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
+            try validate(self.thingName, name:"thingName", parent: name, max: 128)
+            try validate(self.thingName, name:"thingName", parent: name, min: 1)
+            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pageSize = "pageSize"
+            case thingName = "thingName"
+        }
+    }
+
+    public struct ListNamedShadowsForThingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "results", required: false, type: .list), 
+            AWSShapeMember(label: "timestamp", required: false, type: .long)
+        ]
+
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The list of shadows for the specified thing.
+        public let results: [String]?
+        /// The Epoch date and time the response was generated by AWS IoT.
+        public let timestamp: Int64?
+
+        public init(nextToken: String? = nil, results: [String]? = nil, timestamp: Int64? = nil) {
+            self.nextToken = nextToken
+            self.results = results
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case results = "results"
+            case timestamp = "timestamp"
         }
     }
 
@@ -131,27 +209,35 @@ extension IoTDataPlane {
         public static let payloadPath: String? = "payload"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: true, type: .blob), 
+            AWSShapeMember(label: "shadowName", location: .querystring(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
 
         /// The state information, in JSON format.
         public let payload: Data
+        /// The name of the shadow.
+        public let shadowName: String?
         /// The name of the thing.
         public let thingName: String
 
-        public init(payload: Data, thingName: String) {
+        public init(payload: Data, shadowName: String? = nil, thingName: String) {
             self.payload = payload
+            self.shadowName = shadowName
             self.thingName = thingName
         }
 
         public func validate(name: String) throws {
+            try validate(self.shadowName, name:"shadowName", parent: name, max: 64)
+            try validate(self.shadowName, name:"shadowName", parent: name, min: 1)
+            try validate(self.shadowName, name:"shadowName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try validate(self.thingName, name:"thingName", parent: name, max: 128)
             try validate(self.thingName, name:"thingName", parent: name, min: 1)
-            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case payload = "payload"
+            case shadowName = "name"
             case thingName = "thingName"
         }
     }

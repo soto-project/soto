@@ -49,7 +49,17 @@ public struct QuickSight {
         return client.send(operation: "CancelIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates a dashboard from a template. To first create a template, see the CreateTemplate API operation. A dashboard is an entity in QuickSight that identifies QuickSight reports, created from analyses. You can share QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. The CreateDashboard, DescribeDashboard, and ListDashboardsByUser API operations act on the dashboard entity. If you have the correct permissions, you can create a dashboard from a template that exists in a different AWS account.
+    ///  Creates Amazon QuickSight customizations the current AWS Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize QuickSight by removing QuickSight sample assets and videos for all new users, see Customizing QuickSight in the Amazon QuickSight User Guide. You can create customizations for your AWS account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an AWS account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme won't be visible to your users even if you use this API operation to make it the default theme. 
+    public func createAccountCustomization(_ input: CreateAccountCustomizationRequest) -> EventLoopFuture<CreateAccountCustomizationResponse> {
+        return client.send(operation: "CreateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an analysis in Amazon QuickSight.
+    public func createAnalysis(_ input: CreateAnalysisRequest) -> EventLoopFuture<CreateAnalysisResponse> {
+        return client.send(operation: "CreateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a dashboard from a template. To first create a template, see the  CreateTemplate  API operation. A dashboard is an entity in QuickSight that identifies QuickSight reports, created from analyses. You can share QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different AWS account.
     public func createDashboard(_ input: CreateDashboardRequest) -> EventLoopFuture<CreateDashboardResponse> {
         return client.send(operation: "CreateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: "POST", input: input)
     }
@@ -84,6 +94,11 @@ public struct QuickSight {
         return client.send(operation: "CreateIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: "PUT", input: input)
     }
 
+    ///  (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your AWS account is subscribed to QuickSight. The namespace must be unique within the AWS account. By default, there is a limit of 100 namespaces per AWS account. To increase your limit, create a ticket with AWS Support. 
+    public func createNamespace(_ input: CreateNamespaceRequest) -> EventLoopFuture<CreateNamespaceResponse> {
+        return client.send(operation: "CreateNamespace", path: "/accounts/{AwsAccountId}", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a template from an existing QuickSight analysis or template. You can use the resulting template to create a dashboard. A template is an entity in QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
     public func createTemplate(_ input: CreateTemplateRequest) -> EventLoopFuture<CreateTemplateResponse> {
         return client.send(operation: "CreateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: "POST", input: input)
@@ -92,6 +107,26 @@ public struct QuickSight {
     ///  Creates a template alias for a template.
     public func createTemplateAlias(_ input: CreateTemplateAliasRequest) -> EventLoopFuture<CreateTemplateAliasResponse> {
         return client.send(operation: "CreateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a theme. A theme is set of configuration options for color and layout. Themes apply to analyses and dashboards. For more information, see Using Themes in Amazon QuickSight in the Amazon QuickSight User Guide.
+    public func createTheme(_ input: CreateThemeRequest) -> EventLoopFuture<CreateThemeResponse> {
+        return client.send(operation: "CreateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a theme alias for a theme.
+    public func createThemeAlias(_ input: CreateThemeAliasRequest) -> EventLoopFuture<CreateThemeAliasResponse> {
+        return client.send(operation: "CreateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes all Amazon QuickSight customizations in this AWS Region for the specified AWS Account and QuickSight namespace.
+    public func deleteAccountCustomization(_ input: DeleteAccountCustomizationRequest) -> EventLoopFuture<DeleteAccountCustomizationResponse> {
+        return client.send(operation: "DeleteAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
+    public func deleteAnalysis(_ input: DeleteAnalysisRequest) -> EventLoopFuture<DeleteAnalysisResponse> {
+        return client.send(operation: "DeleteAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a dashboard.
@@ -104,7 +139,7 @@ public struct QuickSight {
         return client.send(operation: "DeleteDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes the data source permanently. This action breaks all the datasets that reference the deleted data source.
+    ///  Deletes the data source permanently. This operation breaks all the datasets that reference the deleted data source.
     public func deleteDataSource(_ input: DeleteDataSourceRequest) -> EventLoopFuture<DeleteDataSourceResponse> {
         return client.send(operation: "DeleteDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: "DELETE", input: input)
     }
@@ -124,6 +159,11 @@ public struct QuickSight {
         return client.send(operation: "DeleteIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset. 
+    public func deleteNamespace(_ input: DeleteNamespaceRequest) -> EventLoopFuture<DeleteNamespaceResponse> {
+        return client.send(operation: "DeleteNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes a template.
     public func deleteTemplate(_ input: DeleteTemplateRequest) -> EventLoopFuture<DeleteTemplateResponse> {
         return client.send(operation: "DeleteTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: "DELETE", input: input)
@@ -134,6 +174,16 @@ public struct QuickSight {
         return client.send(operation: "DeleteTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes a theme.
+    public func deleteTheme(_ input: DeleteThemeRequest) -> EventLoopFuture<DeleteThemeResponse> {
+        return client.send(operation: "DeleteTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes the version of the theme that the specified theme alias points to. If you provide a specific alias, you delete the version of the theme that the alias points to.
+    public func deleteThemeAlias(_ input: DeleteThemeAliasRequest) -> EventLoopFuture<DeleteThemeAliasResponse> {
+        return client.send(operation: "DeleteThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes the Amazon QuickSight user that is associated with the identity of the AWS Identity and Access Management (IAM) user or role that's making the call. The IAM user isn't deleted as a result of this call. 
     public func deleteUser(_ input: DeleteUserRequest) -> EventLoopFuture<DeleteUserResponse> {
         return client.send(operation: "DeleteUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: "DELETE", input: input)
@@ -142,6 +192,26 @@ public struct QuickSight {
     ///  Deletes a user identified by its principal ID. 
     public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest) -> EventLoopFuture<DeleteUserByPrincipalIdResponse> {
         return client.send(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Describes the customizations associated with the provided AWS account and Amazon QuickSight namespace in an AWS Region. The QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     AWS Account - The AWS account exists at the top of the hierarchy. It has the potential to use all of the AWS Regions and AWS Services. When you subscribe to QuickSight, you choose one AWS Region to use as your home region. That's where your free SPICE capacity is located. You can use QuickSight in any supported AWS Region.     AWS Region - In each AWS Region where you sign in to QuickSight at least once, QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to QuickSight in any AWS Region, unless they are constrained to a namespace.  To run the command in a different AWS Region, you change your region settings. If you're using the AWS CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default AWS Region. Use Enter to key the same settings for your keys. For more information, see Configuring the AWS CLI.      Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same AWS account and AWS Region.    Applied customizations - Within an AWS Region, a set of QuickSight customizations can apply to an AWS account or to a namespace. Settings that you apply to a namespace override settings that you apply to an AWS Account. All settings are isolated to a single AWS Region. To apply them in other AWS Regions, run the CreateAccountCustomization command in each AWS Region where you want to apply the same customizations.   
+    public func describeAccountCustomization(_ input: DescribeAccountCustomizationRequest) -> EventLoopFuture<DescribeAccountCustomizationResponse> {
+        return client.send(operation: "DescribeAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: "GET", input: input)
+    }
+
+    ///  Describes the settings that were used when your QuickSight subscription was first created in this AWS Account.
+    public func describeAccountSettings(_ input: DescribeAccountSettingsRequest) -> EventLoopFuture<DescribeAccountSettingsResponse> {
+        return client.send(operation: "DescribeAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: "GET", input: input)
+    }
+
+    ///  Provides a summary of the metadata for an analysis.
+    public func describeAnalysis(_ input: DescribeAnalysisRequest) -> EventLoopFuture<DescribeAnalysisResponse> {
+        return client.send(operation: "DescribeAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Provides the read and write permissions for an analysis.
+    public func describeAnalysisPermissions(_ input: DescribeAnalysisPermissionsRequest) -> EventLoopFuture<DescribeAnalysisPermissionsResponse> {
+        return client.send(operation: "DescribeAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: "GET", input: input)
     }
 
     ///  Provides a summary for a dashboard.
@@ -189,6 +259,11 @@ public struct QuickSight {
         return client.send(operation: "DescribeIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: "GET", input: input)
     }
 
+    ///  Describes the current namespace.
+    public func describeNamespace(_ input: DescribeNamespaceRequest) -> EventLoopFuture<DescribeNamespaceResponse> {
+        return client.send(operation: "DescribeNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: "GET", input: input)
+    }
+
     ///  Describes a template's metadata.
     public func describeTemplate(_ input: DescribeTemplateRequest) -> EventLoopFuture<DescribeTemplateResponse> {
         return client.send(operation: "DescribeTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: "GET", input: input)
@@ -204,14 +279,39 @@ public struct QuickSight {
         return client.send(operation: "DescribeTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: "GET", input: input)
     }
 
+    ///  Describes a theme.
+    public func describeTheme(_ input: DescribeThemeRequest) -> EventLoopFuture<DescribeThemeResponse> {
+        return client.send(operation: "DescribeTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Describes the alias for a theme.
+    public func describeThemeAlias(_ input: DescribeThemeAliasRequest) -> EventLoopFuture<DescribeThemeAliasResponse> {
+        return client.send(operation: "DescribeThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Describes the read and write permissions for a theme.
+    public func describeThemePermissions(_ input: DescribeThemePermissionsRequest) -> EventLoopFuture<DescribeThemePermissionsResponse> {
+        return client.send(operation: "DescribeThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: "GET", input: input)
+    }
+
     ///  Returns information about a user, given the user name. 
     public func describeUser(_ input: DescribeUserRequest) -> EventLoopFuture<DescribeUserResponse> {
         return client.send(operation: "DescribeUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: "GET", input: input)
     }
 
-    ///  Generates a server-side embeddable URL and authorization code. For this process to work properly, first configure the dashboards and user permissions. For more information, see Embedding Amazon QuickSight Dashboards in the Amazon QuickSight User Guide or Embedding Amazon QuickSight Dashboards in the Amazon QuickSight API Reference. Currently, you can use GetDashboardEmbedURL only from the server, not from the user’s browser.
+    ///  Generates a session URL and authorization code that you can use to embed an Amazon QuickSight read-only dashboard in your web server code. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the combination of URL and authorization code:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   The resulting user session is valid for 10 hours.   For more information, see Embedding Amazon QuickSight in the Amazon QuickSight User Guide .
     public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest) -> EventLoopFuture<GetDashboardEmbedUrlResponse> {
         return client.send(operation: "GetDashboardEmbedUrl", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", httpMethod: "GET", input: input)
+    }
+
+    ///  Generates a session URL and authorization code that you can use to embed the Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser  API operation. Use  RegisterUser  API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Amazon QuickSight Console     Customizing Access to the Amazon QuickSight Console   
+    public func getSessionEmbedUrl(_ input: GetSessionEmbedUrlRequest) -> EventLoopFuture<GetSessionEmbedUrlResponse> {
+        return client.send(operation: "GetSessionEmbedUrl", path: "/accounts/{AwsAccountId}/session-embed-url", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists Amazon QuickSight analyses that exist in the specified AWS account.
+    public func listAnalyses(_ input: ListAnalysesRequest) -> EventLoopFuture<ListAnalysesResponse> {
+        return client.send(operation: "ListAnalyses", path: "/accounts/{AwsAccountId}/analyses", httpMethod: "GET", input: input)
     }
 
     ///  Lists all the versions of the dashboards in the QuickSight subscription.
@@ -259,6 +359,11 @@ public struct QuickSight {
         return client.send(operation: "ListIngestions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions", httpMethod: "GET", input: input)
     }
 
+    ///  Lists the namespaces for the specified AWS account.
+    public func listNamespaces(_ input: ListNamespacesRequest) -> EventLoopFuture<ListNamespacesResponse> {
+        return client.send(operation: "ListNamespaces", path: "/accounts/{AwsAccountId}/namespaces", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the tags assigned to a resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/resources/{ResourceArn}/tags", httpMethod: "GET", input: input)
@@ -279,6 +384,21 @@ public struct QuickSight {
         return client.send(operation: "ListTemplates", path: "/accounts/{AwsAccountId}/templates", httpMethod: "GET", input: input)
     }
 
+    ///  Lists all the aliases of a theme.
+    public func listThemeAliases(_ input: ListThemeAliasesRequest) -> EventLoopFuture<ListThemeAliasesResponse> {
+        return client.send(operation: "ListThemeAliases", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists all the versions of the themes in the current AWS account.
+    public func listThemeVersions(_ input: ListThemeVersionsRequest) -> EventLoopFuture<ListThemeVersionsResponse> {
+        return client.send(operation: "ListThemeVersions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/versions", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists all the themes in the current AWS account.
+    public func listThemes(_ input: ListThemesRequest) -> EventLoopFuture<ListThemesResponse> {
+        return client.send(operation: "ListThemes", path: "/accounts/{AwsAccountId}/themes", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
     public func listUserGroups(_ input: ListUserGroupsRequest) -> EventLoopFuture<ListUserGroupsResponse> {
         return client.send(operation: "ListUserGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", httpMethod: "GET", input: input)
@@ -294,7 +414,17 @@ public struct QuickSight {
         return client.send(operation: "RegisterUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: "POST", input: input)
     }
 
-    ///  Searchs for dashboards that belong to a user. 
+    ///  Restores an analysis.
+    public func restoreAnalysis(_ input: RestoreAnalysisRequest) -> EventLoopFuture<RestoreAnalysisResponse> {
+        return client.send(operation: "RestoreAnalysis", path: "/accounts/{AwsAccountId}/restore/analyses/{AnalysisId}", httpMethod: "POST", input: input)
+    }
+
+    ///  Searches for analyses that belong to the user specified in the filter.
+    public func searchAnalyses(_ input: SearchAnalysesRequest) -> EventLoopFuture<SearchAnalysesResponse> {
+        return client.send(operation: "SearchAnalyses", path: "/accounts/{AwsAccountId}/search/analyses", httpMethod: "POST", input: input)
+    }
+
+    ///  Searches for dashboards that belong to a user. 
     public func searchDashboards(_ input: SearchDashboardsRequest) -> EventLoopFuture<SearchDashboardsResponse> {
         return client.send(operation: "SearchDashboards", path: "/accounts/{AwsAccountId}/search/dashboards", httpMethod: "POST", input: input)
     }
@@ -307,6 +437,26 @@ public struct QuickSight {
     ///  Removes a tag or tags from a resource.
     public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/resources/{ResourceArn}/tags", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Updates Amazon QuickSight customizations the current AWS Region. Currently, the only customization you can use is a theme. You can use customizations for your AWS account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an AWS account. To find out which customizations apply, use the DescribeAccountCustomization API operation. 
+    public func updateAccountCustomization(_ input: UpdateAccountCustomizationRequest) -> EventLoopFuture<UpdateAccountCustomizationResponse> {
+        return client.send(operation: "UpdateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the Amazon QuickSight settings in your AWS Account.
+    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest) -> EventLoopFuture<UpdateAccountSettingsResponse> {
+        return client.send(operation: "UpdateAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an analysis in Amazon QuickSight
+    public func updateAnalysis(_ input: UpdateAnalysisRequest) -> EventLoopFuture<UpdateAnalysisResponse> {
+        return client.send(operation: "UpdateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the read and write permissions for an analysis.
+    public func updateAnalysisPermissions(_ input: UpdateAnalysisPermissionsRequest) -> EventLoopFuture<UpdateAnalysisPermissionsResponse> {
+        return client.send(operation: "UpdateAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: "PUT", input: input)
     }
 
     ///  Updates a dashboard in an AWS account.
@@ -367,6 +517,21 @@ public struct QuickSight {
     ///  Updates the resource permissions for a template.
     public func updateTemplatePermissions(_ input: UpdateTemplatePermissionsRequest) -> EventLoopFuture<UpdateTemplatePermissionsResponse> {
         return client.send(operation: "UpdateTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates a theme.
+    public func updateTheme(_ input: UpdateThemeRequest) -> EventLoopFuture<UpdateThemeResponse> {
+        return client.send(operation: "UpdateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an alias of a theme.
+    public func updateThemeAlias(_ input: UpdateThemeAliasRequest) -> EventLoopFuture<UpdateThemeAliasResponse> {
+        return client.send(operation: "UpdateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the resource permissions for a theme. Permissions apply to the action to grant or revoke permissions on, for example "quicksight:DescribeTheme". Theme permissions apply in groupings. Valid groupings include the following for the three levels of permissions, which are user, owner, or no permissions:    User    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"      Owner    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"     "quicksight:DeleteTheme"     "quicksight:UpdateTheme"     "quicksight:CreateThemeAlias"     "quicksight:DeleteThemeAlias"     "quicksight:UpdateThemeAlias"     "quicksight:UpdateThemePermissions"     "quicksight:DescribeThemePermissions"      To specify no permissions, omit the permissions list.  
+    public func updateThemePermissions(_ input: UpdateThemePermissionsRequest) -> EventLoopFuture<UpdateThemePermissionsResponse> {
+        return client.send(operation: "UpdateThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an Amazon QuickSight user.

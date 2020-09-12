@@ -36,6 +36,7 @@ public struct EKS {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-11-01",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "fips.eks.us-east-1.amazonaws.com", "fips-us-east-2": "fips.eks.us-east-2.amazonaws.com", "fips-us-west-2": "fips.eks.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [EKSErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -54,7 +55,7 @@ public struct EKS {
         return client.send(operation: "CreateFargateProfile", path: "/clusters/{name}/fargate-profiles", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a managed worker node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by AWS for an Amazon EKS cluster. Each node group uses a version of the Amazon EKS-optimized Amazon Linux 2 AMI. For more information, see Managed Node Groups in the Amazon EKS User Guide. 
+    ///  Creates a managed worker node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see Launch template support. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by AWS for an Amazon EKS cluster. Each node group uses a version of the Amazon EKS-optimized Amazon Linux 2 AMI. For more information, see Managed Node Groups in the Amazon EKS User Guide. 
     public func createNodegroup(_ input: CreateNodegroupRequest) -> EventLoopFuture<CreateNodegroupResponse> {
         return client.send(operation: "CreateNodegroup", path: "/clusters/{name}/node-groups", httpMethod: "POST", input: input)
     }
@@ -144,7 +145,7 @@ public struct EKS {
         return client.send(operation: "UpdateNodegroupConfig", path: "/clusters/{name}/node-groups/{nodegroupName}/update-config", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a pod disruption budget issue.
+    ///  Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a pod disruption budget issue.
     public func updateNodegroupVersion(_ input: UpdateNodegroupVersionRequest) -> EventLoopFuture<UpdateNodegroupVersionResponse> {
         return client.send(operation: "UpdateNodegroupVersion", path: "/clusters/{name}/node-groups/{nodegroupName}/update-version", httpMethod: "POST", input: input)
     }

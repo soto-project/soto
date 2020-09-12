@@ -59,6 +59,11 @@ public struct Kafka {
         return client.send(operation: "DeleteCluster", path: "/v1/clusters/{clusterArn}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes the specified MSK configuration. The configuration must be in the ACTIVE or DELETE_FAILED state.
+    public func deleteConfiguration(_ input: DeleteConfigurationRequest) -> EventLoopFuture<DeleteConfigurationResponse> {
+        return client.send(operation: "DeleteConfiguration", path: "/v1/configurations/{arn}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     public func describeCluster(_ input: DescribeClusterRequest) -> EventLoopFuture<DescribeClusterResponse> {
         return client.send(operation: "DescribeCluster", path: "/v1/clusters/{clusterArn}", httpMethod: "GET", input: input)
@@ -82,6 +87,11 @@ public struct Kafka {
     ///  A list of brokers that a client application can use to bootstrap.
     public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest) -> EventLoopFuture<GetBootstrapBrokersResponse> {
         return client.send(operation: "GetBootstrapBrokers", path: "/v1/clusters/{clusterArn}/bootstrap-brokers", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets the Apache Kafka versions to which you can update the MSK cluster.
+    public func getCompatibleKafkaVersions(_ input: GetCompatibleKafkaVersionsRequest) -> EventLoopFuture<GetCompatibleKafkaVersionsResponse> {
+        return client.send(operation: "GetCompatibleKafkaVersions", path: "/v1/compatible-kafka-versions", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of all the operations that have been performed on the specified MSK cluster.
@@ -119,6 +129,11 @@ public struct Kafka {
         return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
 
+    ///  Executes a reboot on a broker.
+    public func rebootBroker(_ input: RebootBrokerRequest) -> EventLoopFuture<RebootBrokerResponse> {
+        return client.send(operation: "RebootBroker", path: "/v1/clusters/{clusterArn}/reboot-broker", httpMethod: "PUT", input: input)
+    }
+
     ///  Adds tags to the specified MSK resource.
     @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: "POST", input: input)
@@ -142,6 +157,16 @@ public struct Kafka {
     ///  Updates the cluster with the configuration that is specified in the request body.
     public func updateClusterConfiguration(_ input: UpdateClusterConfigurationRequest) -> EventLoopFuture<UpdateClusterConfigurationResponse> {
         return client.send(operation: "UpdateClusterConfiguration", path: "/v1/clusters/{clusterArn}/configuration", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the Apache Kafka version for the cluster.
+    public func updateClusterKafkaVersion(_ input: UpdateClusterKafkaVersionRequest) -> EventLoopFuture<UpdateClusterKafkaVersionResponse> {
+        return client.send(operation: "UpdateClusterKafkaVersion", path: "/v1/clusters/{clusterArn}/version", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an existing MSK configuration. The configuration must be in the Active state.
+    public func updateConfiguration(_ input: UpdateConfigurationRequest) -> EventLoopFuture<UpdateConfigurationResponse> {
+        return client.send(operation: "UpdateConfiguration", path: "/v1/configurations/{arn}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.

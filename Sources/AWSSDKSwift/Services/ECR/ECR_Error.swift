@@ -6,12 +6,14 @@ import AWSSDKSwiftCore
 public enum ECRErrorType: AWSErrorType {
     case emptyUploadException(message: String?)
     case imageAlreadyExistsException(message: String?)
+    case imageDigestDoesNotMatchException(message: String?)
     case imageNotFoundException(message: String?)
     case imageTagAlreadyExistsException(message: String?)
     case invalidLayerException(message: String?)
     case invalidLayerPartException(message: String?)
     case invalidParameterException(message: String?)
     case invalidTagParameterException(message: String?)
+    case kmsException(message: String?)
     case layerAlreadyExistsException(message: String?)
     case layerInaccessibleException(message: String?)
     case layerPartTooSmallException(message: String?)
@@ -43,6 +45,8 @@ extension ECRErrorType {
             self = .emptyUploadException(message: message)
         case "ImageAlreadyExistsException":
             self = .imageAlreadyExistsException(message: message)
+        case "ImageDigestDoesNotMatchException":
+            self = .imageDigestDoesNotMatchException(message: message)
         case "ImageNotFoundException":
             self = .imageNotFoundException(message: message)
         case "ImageTagAlreadyExistsException":
@@ -55,6 +59,8 @@ extension ECRErrorType {
             self = .invalidParameterException(message: message)
         case "InvalidTagParameterException":
             self = .invalidTagParameterException(message: message)
+        case "KmsException":
+            self = .kmsException(message: message)
         case "LayerAlreadyExistsException":
             self = .layerAlreadyExistsException(message: message)
         case "LayerInaccessibleException":
@@ -104,6 +110,8 @@ extension ECRErrorType : CustomStringConvertible {
             return "EmptyUploadException: \(message ?? "")"
         case .imageAlreadyExistsException(let message):
             return "ImageAlreadyExistsException: \(message ?? "")"
+        case .imageDigestDoesNotMatchException(let message):
+            return "ImageDigestDoesNotMatchException: \(message ?? "")"
         case .imageNotFoundException(let message):
             return "ImageNotFoundException: \(message ?? "")"
         case .imageTagAlreadyExistsException(let message):
@@ -116,6 +124,8 @@ extension ECRErrorType : CustomStringConvertible {
             return "InvalidParameterException: \(message ?? "")"
         case .invalidTagParameterException(let message):
             return "InvalidTagParameterException: \(message ?? "")"
+        case .kmsException(let message):
+            return "KmsException: \(message ?? "")"
         case .layerAlreadyExistsException(let message):
             return "LayerAlreadyExistsException: \(message ?? "")"
         case .layerInaccessibleException(let message):

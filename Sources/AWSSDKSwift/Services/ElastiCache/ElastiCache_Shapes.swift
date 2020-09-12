@@ -38,6 +38,12 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
+    public enum MultiAZStatus: String, CustomStringConvertible, Codable {
+        case enabled = "enabled"
+        case disabled = "disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NodeUpdateInitiatedBy: String, CustomStringConvertible, Codable {
         case system = "system"
         case customer = "customer"
@@ -103,6 +109,9 @@ extension ElastiCache {
         case stopping = "stopping"
         case stopped = "stopped"
         case complete = "complete"
+        case scheduling = "scheduling"
+        case scheduled = "scheduled"
+        case notApplicable = "not-applicable"
         public var description: String { return self.rawValue }
     }
 
@@ -278,6 +287,7 @@ extension ElastiCache {
 
     public struct CacheCluster: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
             AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "AuthTokenLastModifiedDate", required: false, type: .timestamp), 
@@ -306,6 +316,8 @@ extension ElastiCache {
             AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean)
         ]
 
+        /// The ARN (Amazon Resource Name) of the cache cluster.
+        public let arn: String?
         /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable at-rest encryption on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
         public let atRestEncryptionEnabled: Bool?
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
@@ -358,7 +370,8 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+            self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
             self.authTokenLastModifiedDate = authTokenLastModifiedDate
@@ -388,6 +401,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
             case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
             case authTokenEnabled = "AuthTokenEnabled"
             case authTokenLastModifiedDate = "AuthTokenLastModifiedDate"
@@ -678,12 +692,15 @@ extension ElastiCache {
 
     public struct CacheParameterGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
             AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
             AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "IsGlobal", required: false, type: .boolean)
         ]
 
+        /// The ARN (Amazon Resource Name) of the cache parameter group.
+        public let arn: String?
         /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | 
         public let cacheParameterGroupFamily: String?
         /// The name of the cache parameter group.
@@ -693,7 +710,8 @@ extension ElastiCache {
         /// Indicates whether the parameter group is associated with a Global Datastore
         public let isGlobal: Bool?
 
-        public init(cacheParameterGroupFamily: String? = nil, cacheParameterGroupName: String? = nil, description: String? = nil, isGlobal: Bool? = nil) {
+        public init(arn: String? = nil, cacheParameterGroupFamily: String? = nil, cacheParameterGroupName: String? = nil, description: String? = nil, isGlobal: Bool? = nil) {
+            self.arn = arn
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.cacheParameterGroupName = cacheParameterGroupName
             self.description = description
@@ -701,6 +719,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
             case cacheParameterGroupFamily = "CacheParameterGroupFamily"
             case cacheParameterGroupName = "CacheParameterGroupName"
             case description = "Description"
@@ -803,12 +822,15 @@ extension ElastiCache {
 
     public struct CacheSecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
             AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroups", required: false, type: .list, encoding: .list(member:"EC2SecurityGroup")), 
             AWSShapeMember(label: "OwnerId", required: false, type: .string)
         ]
 
+        /// The ARN (Amazon Resource Name) of the cache security group.
+        public let arn: String?
         /// The name of the cache security group.
         public let cacheSecurityGroupName: String?
         /// The description of the cache security group.
@@ -818,7 +840,8 @@ extension ElastiCache {
         /// The AWS account ID of the cache security group owner.
         public let ownerId: String?
 
-        public init(cacheSecurityGroupName: String? = nil, description: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, ownerId: String? = nil) {
+        public init(arn: String? = nil, cacheSecurityGroupName: String? = nil, description: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, ownerId: String? = nil) {
+            self.arn = arn
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.description = description
             self.eC2SecurityGroups = eC2SecurityGroups
@@ -826,6 +849,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
             case cacheSecurityGroupName = "CacheSecurityGroupName"
             case description = "Description"
             case eC2SecurityGroups = "EC2SecurityGroups"
@@ -879,12 +903,15 @@ extension ElastiCache {
 
     public struct CacheSubnetGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
             AWSShapeMember(label: "CacheSubnetGroupDescription", required: false, type: .string), 
             AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"Subnet")), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
 
+        /// The ARN (Amazon Resource Name) of the cache subnet group.
+        public let arn: String?
         /// The description of the cache subnet group.
         public let cacheSubnetGroupDescription: String?
         /// The name of the cache subnet group.
@@ -894,7 +921,8 @@ extension ElastiCache {
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
         public let vpcId: String?
 
-        public init(cacheSubnetGroupDescription: String? = nil, cacheSubnetGroupName: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, cacheSubnetGroupDescription: String? = nil, cacheSubnetGroupName: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
+            self.arn = arn
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.subnets = subnets
@@ -902,6 +930,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
             case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
             case cacheSubnetGroupName = "CacheSubnetGroupName"
             case subnets = "Subnets"
@@ -976,7 +1005,7 @@ extension ElastiCache {
             AWSShapeMember(label: "PreferredAvailabilityZones", required: false, type: .list, encoding: .list(member:"PreferredAvailabilityZone"))
         ]
 
-        /// The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Redis replication group you are working with. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enable: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
+        /// The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Redis replication group you are working with. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ: 1   If Multi-AZ: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
         public let newReplicaCount: Int
         /// The 4-digit id for the node group you are configuring. For Redis (cluster mode disabled) replication groups, the node group id is always 0001. To find a Redis (cluster mode enabled)'s node group's (shard's) id, see Finding a Shard's Id.
         public let nodeGroupId: String
@@ -1103,7 +1132,7 @@ extension ElastiCache {
         public let numCacheNodes: Int?
         /// The port number on which each of the cache nodes accepts connections.
         public let port: Int?
-        /// The EC2 Availability Zone in which the cluster is created. All nodes belonging to this Memcached cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones. Default: System chosen Availability Zone.
+        /// The EC2 Availability Zone in which the cluster is created. All nodes belonging to this cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones. Default: System chosen Availability Zone.
         public let preferredAvailabilityZone: String?
         /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached.  If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes.  If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones.
         public let preferredAvailabilityZones: [String]?
@@ -1326,7 +1355,7 @@ extension ElastiCache {
 
         /// Provides details of the Global Datastore
         public let globalReplicationGroupDescription: String?
-        /// The suffix for name of a Global Datastore. The suffix guarantees uniqueness of the Global Datastore name across multiple regions.
+        /// The suffix name of a Global Datastore. The suffix guarantees uniqueness of the Global Datastore name across multiple regions.
         public let globalReplicationGroupIdSuffix: String
         /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
         public let primaryReplicationGroupId: String
@@ -1374,6 +1403,7 @@ extension ElastiCache {
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "GlobalReplicationGroupId", required: false, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .list, encoding: .list(member:"NodeGroupConfiguration")), 
             AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "NumCacheClusters", required: false, type: .integer), 
@@ -1398,7 +1428,7 @@ extension ElastiCache {
         public let atRestEncryptionEnabled: Bool?
         ///  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &amp;, #, $, ^, &lt;, &gt;, and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
         public let authToken: String?
-        /// Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails. If true, Multi-AZ is enabled for this replication group. If false, Multi-AZ is disabled for this replication group.  AutomaticFailoverEnabled must be enabled for Redis (cluster mode enabled) replication groups. Default: false Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
+        /// Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled must be enabled for Redis (cluster mode enabled) replication groups. Default: false
         public let automaticFailoverEnabled: Bool?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
@@ -1418,7 +1448,9 @@ extension ElastiCache {
         public let globalReplicationGroupId: String?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
-        /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file, you must configure each node group (shard) using this parameter because you must specify the slots for each node group.
+        /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ.
+        public let multiAZEnabled: Bool?
+        /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
         public let nodeGroupConfiguration: [NodeGroupConfiguration]?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner. 
         public let notificationTopicArn: String?
@@ -1455,7 +1487,7 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup. 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, kmsKeyId: String? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, kmsKeyId: String? = nil, multiAZEnabled: Bool? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authToken = authToken
             self.automaticFailoverEnabled = automaticFailoverEnabled
@@ -1468,6 +1500,7 @@ extension ElastiCache {
             self.engineVersion = engineVersion
             self.globalReplicationGroupId = globalReplicationGroupId
             self.kmsKeyId = kmsKeyId
+            self.multiAZEnabled = multiAZEnabled
             self.nodeGroupConfiguration = nodeGroupConfiguration
             self.notificationTopicArn = notificationTopicArn
             self.numCacheClusters = numCacheClusters
@@ -1507,6 +1540,7 @@ extension ElastiCache {
             case engineVersion = "EngineVersion"
             case globalReplicationGroupId = "GlobalReplicationGroupId"
             case kmsKeyId = "KmsKeyId"
+            case multiAZEnabled = "MultiAZEnabled"
             case nodeGroupConfiguration = "NodeGroupConfiguration"
             case notificationTopicArn = "NotificationTopicArn"
             case numCacheClusters = "NumCacheClusters"
@@ -1678,7 +1712,7 @@ extension ElastiCache {
 
         /// If True, the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
         public let applyImmediately: Bool
-        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enabled: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
+        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ is enabled: 1   If Multi-AZ is not enabled: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
         public let newReplicaCount: Int?
         /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
         public let replicaConfiguration: [ConfigureShard]?
@@ -1823,7 +1857,7 @@ extension ElastiCache {
 
         /// The name of the Global Datastore
         public let globalReplicationGroupId: String
-        /// If set to true, the primary replication is retained as a standalone replication group. 
+        /// The primary replication group is retained as a standalone replication group. 
         public let retainPrimaryReplicationGroup: Bool
 
         public init(globalReplicationGroupId: String, retainPrimaryReplicationGroup: Bool) {
@@ -2548,7 +2582,7 @@ extension ElastiCache {
             try validate(self.cacheClusterIds, name:"cacheClusterIds", parent: name, max: 20)
             try validate(self.replicationGroupIds, name:"replicationGroupIds", parent: name, max: 20)
             try validate(self.serviceUpdateStatus, name:"serviceUpdateStatus", parent: name, max: 3)
-            try validate(self.updateActionStatus, name:"updateActionStatus", parent: name, max: 6)
+            try validate(self.updateActionStatus, name:"updateActionStatus", parent: name, max: 9)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2810,6 +2844,7 @@ extension ElastiCache {
 
     public struct GlobalReplicationGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
             AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
@@ -2824,6 +2859,8 @@ extension ElastiCache {
             AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean)
         ]
 
+        /// The ARN (Amazon Resource Name) of the global replication group.
+        public let arn: String?
         /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later.
         public let atRestEncryptionEnabled: Bool?
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
@@ -2832,7 +2869,7 @@ extension ElastiCache {
         public let cacheNodeType: String?
         /// A flag that indicates whether the Global Datastore is cluster enabled.
         public let clusterEnabled: Bool?
-        /// The Elasticache engine. For preview, it is Redis only.
+        /// The Elasticache engine. For Redis only.
         public let engine: String?
         /// The Elasticache Redis engine version. For preview, it is Redis version 5.0.5 only.
         public let engineVersion: String?
@@ -2849,7 +2886,8 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalNodeGroups: [GlobalNodeGroup]? = nil, globalReplicationGroupDescription: String? = nil, globalReplicationGroupId: String? = nil, members: [GlobalReplicationGroupMember]? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalNodeGroups: [GlobalNodeGroup]? = nil, globalReplicationGroupDescription: String? = nil, globalReplicationGroupId: String? = nil, members: [GlobalReplicationGroupMember]? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+            self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
             self.cacheNodeType = cacheNodeType
@@ -2865,6 +2903,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
             case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
             case authTokenEnabled = "AuthTokenEnabled"
             case cacheNodeType = "CacheNodeType"
@@ -3284,7 +3323,7 @@ extension ElastiCache {
             AWSShapeMember(label: "GlobalReplicationGroupId", required: true, type: .string)
         ]
 
-        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. 
+        /// This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be requested to be applied in PreferredMaintenceWindow. 
         public let applyImmediately: Bool
         /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. 
         public let automaticFailoverEnabled: Bool?
@@ -3343,6 +3382,7 @@ extension ElastiCache {
             AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .list, encoding: .list(member:"CacheSecurityGroupName")), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
@@ -3361,7 +3401,7 @@ extension ElastiCache {
         public let authToken: String?
         /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set    For more information, see Authenticating Users with Redis AUTH 
         public let authTokenUpdateStrategy: AuthTokenUpdateStrategyType?
-        /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false  Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
+        /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false 
         public let automaticFailoverEnabled: Bool?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
@@ -3373,6 +3413,8 @@ extension ElastiCache {
         public let cacheSecurityGroupNames: [String]?
         /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version. 
         public let engineVersion: String?
+        /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ.
+        public let multiAZEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the replication group owner.  
         public let notificationTopicArn: String?
         /// The status of the Amazon SNS notification topic for the replication group. Notifications are sent only if the status is active. Valid values: active | inactive 
@@ -3394,7 +3436,7 @@ extension ElastiCache {
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
 
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, multiAZEnabled: Bool? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -3404,6 +3446,7 @@ extension ElastiCache {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.engineVersion = engineVersion
+            self.multiAZEnabled = multiAZEnabled
             self.notificationTopicArn = notificationTopicArn
             self.notificationTopicStatus = notificationTopicStatus
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
@@ -3426,6 +3469,7 @@ extension ElastiCache {
             case cacheParameterGroupName = "CacheParameterGroupName"
             case cacheSecurityGroupNames = "CacheSecurityGroupNames"
             case engineVersion = "EngineVersion"
+            case multiAZEnabled = "MultiAZEnabled"
             case notificationTopicArn = "NotificationTopicArn"
             case notificationTopicStatus = "NotificationTopicStatus"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
@@ -3549,7 +3593,7 @@ extension ElastiCache {
         public let readerEndpoint: Endpoint?
         /// The keyspace for this node group (shard).
         public let slots: String?
-        /// The current state of this replication group - creating, available, etc.
+        /// The current state of this replication group - creating, available, modifying, deleting.
         public let status: String?
 
         public init(nodeGroupId: String? = nil, nodeGroupMembers: [NodeGroupMember]? = nil, primaryEndpoint: Endpoint? = nil, readerEndpoint: Endpoint? = nil, slots: String? = nil, status: String? = nil) {
@@ -4145,6 +4189,7 @@ extension ElastiCache {
 
     public struct ReplicationGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
             AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "AuthTokenLastModifiedDate", required: false, type: .timestamp), 
@@ -4156,6 +4201,7 @@ extension ElastiCache {
             AWSShapeMember(label: "GlobalReplicationGroupInfo", required: false, type: .structure), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "MemberClusters", required: false, type: .list, encoding: .list(member:"ClusterId")), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .enum), 
             AWSShapeMember(label: "NodeGroups", required: false, type: .list, encoding: .list(member:"NodeGroup")), 
             AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
             AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
@@ -4166,13 +4212,15 @@ extension ElastiCache {
             AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean)
         ]
 
+        /// The ARN (Amazon Resource Name) of the replication group.
+        public let arn: String?
         /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable encryption at-rest on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
         public let atRestEncryptionEnabled: Bool?
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
         public let authTokenEnabled: Bool?
         /// The date the auth token was last modified
         public let authTokenLastModifiedDate: TimeStamp?
-        /// Indicates the status of Multi-AZ with automatic failover for this Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
+        /// Indicates the status of automatic failover for this Redis replication group.
         public let automaticFailover: AutomaticFailoverStatus?
         /// The name of the compute and memory capacity node type for each node in the replication group.
         public let cacheNodeType: String?
@@ -4188,6 +4236,8 @@ extension ElastiCache {
         public let kmsKeyId: String?
         /// The names of all the cache clusters that are part of this replication group.
         public let memberClusters: [String]?
+        /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ 
+        public let multiAZ: MultiAZStatus?
         /// A list of node groups in this replication group. For Redis (cluster mode disabled) replication groups, this is a single-element list. For Redis (cluster mode enabled) replication groups, the list contains an entry for each node group (shard).
         public let nodeGroups: [NodeGroup]?
         /// A group of settings to be applied to the replication group, either immediately or during the next maintenance window.
@@ -4205,7 +4255,8 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, memberClusters: [String]? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, memberClusters: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+            self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
             self.authTokenLastModifiedDate = authTokenLastModifiedDate
@@ -4217,6 +4268,7 @@ extension ElastiCache {
             self.globalReplicationGroupInfo = globalReplicationGroupInfo
             self.kmsKeyId = kmsKeyId
             self.memberClusters = memberClusters
+            self.multiAZ = multiAZ
             self.nodeGroups = nodeGroups
             self.pendingModifiedValues = pendingModifiedValues
             self.replicationGroupId = replicationGroupId
@@ -4228,6 +4280,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
             case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
             case authTokenEnabled = "AuthTokenEnabled"
             case authTokenLastModifiedDate = "AuthTokenLastModifiedDate"
@@ -4239,6 +4292,7 @@ extension ElastiCache {
             case globalReplicationGroupInfo = "GlobalReplicationGroupInfo"
             case kmsKeyId = "KmsKeyId"
             case memberClusters = "MemberClusters"
+            case multiAZ = "MultiAZ"
             case nodeGroups = "NodeGroups"
             case pendingModifiedValues = "PendingModifiedValues"
             case replicationGroupId = "ReplicationGroupId"
@@ -4282,7 +4336,7 @@ extension ElastiCache {
 
         /// The auth token status
         public let authTokenStatus: AuthTokenUpdateStatus?
-        /// Indicates the status of Multi-AZ with automatic failover for this Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
+        /// Indicates the status of automatic failover for this Redis replication group.
         public let automaticFailoverStatus: PendingAutomaticFailoverStatus?
         /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
         public let primaryClusterId: String?
@@ -4727,6 +4781,7 @@ extension ElastiCache {
 
     public struct Snapshot: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
             AWSShapeMember(label: "AutomaticFailover", required: false, type: .enum), 
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
@@ -4754,7 +4809,9 @@ extension ElastiCache {
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
 
-        /// Indicates the status of Multi-AZ with automatic failover for the source Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
+        /// The ARN (Amazon Resource Name) of the snapshot.
+        public let arn: String?
+        /// Indicates the status of automatic failover for the source Redis replication group.
         public let automaticFailover: AutomaticFailoverStatus?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
@@ -4805,7 +4862,8 @@ extension ElastiCache {
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group for the source cluster.
         public let vpcId: String?
 
-        public init(automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
+            self.arn = arn
             self.automaticFailover = automaticFailover
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.cacheClusterCreateTime = cacheClusterCreateTime
@@ -4834,6 +4892,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
             case automaticFailover = "AutomaticFailover"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case cacheClusterCreateTime = "CacheClusterCreateTime"

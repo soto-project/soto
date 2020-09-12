@@ -2411,6 +2411,70 @@ extension DirectConnect {
         }
     }
 
+    public struct ListVirtualInterfaceTestHistoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bgpPeers", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "testId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
+        ]
+
+        /// The BGP peers that were placed in the DOWN state during the virtual interface failover test.
+        public let bgpPeers: [String]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The status of the virtual interface failover test.
+        public let status: String?
+        /// The ID of the virtual interface failover test.
+        public let testId: String?
+        /// The ID of the virtual interface that was tested.
+        public let virtualInterfaceId: String?
+
+        public init(bgpPeers: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: String? = nil, testId: String? = nil, virtualInterfaceId: String? = nil) {
+            self.bgpPeers = bgpPeers
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+            self.testId = testId
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bgpPeers = "bgpPeers"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
+            case testId = "testId"
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct ListVirtualInterfaceTestHistoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceTestHistory", required: false, type: .list)
+        ]
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The ID of the tested virtual interface.
+        public let virtualInterfaceTestHistory: [VirtualInterfaceTestHistory]?
+
+        public init(nextToken: String? = nil, virtualInterfaceTestHistory: [VirtualInterfaceTestHistory]? = nil) {
+            self.nextToken = nextToken
+            self.virtualInterfaceTestHistory = virtualInterfaceTestHistory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case virtualInterfaceTestHistory = "virtualInterfaceTestHistory"
+        }
+    }
+
     public struct Loa: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "loaContent", required: false, type: .blob), 
@@ -2557,7 +2621,7 @@ extension DirectConnect {
         public let tags: [Tag]?
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
-        /// The name of the virtual interface assigned by the customer network.
+        /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
         public let vlan: Int
@@ -2625,7 +2689,7 @@ extension DirectConnect {
         public let mtu: Int?
         /// The tags associated with the private virtual interface.
         public let tags: [Tag]?
-        /// The name of the virtual interface assigned by the customer network.
+        /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
         public let vlan: Int
@@ -2689,7 +2753,7 @@ extension DirectConnect {
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         /// The tags associated with the public virtual interface.
         public let tags: [Tag]?
-        /// The name of the virtual interface assigned by the customer network.
+        /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
         public let vlan: Int
@@ -2753,7 +2817,7 @@ extension DirectConnect {
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         /// The tags associated with the public virtual interface.
         public let tags: [Tag]?
-        /// The name of the virtual interface assigned by the customer network.
+        /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
         public let vlan: Int
@@ -2820,7 +2884,7 @@ extension DirectConnect {
         public let mtu: Int?
         /// The tags associated with the transitive virtual interface.
         public let tags: [Tag]?
-        /// The name of the virtual interface assigned by the customer network.
+        /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
         public let virtualInterfaceName: String?
         /// The ID of the VLAN.
         public let vlan: Int?
@@ -2886,7 +2950,7 @@ extension DirectConnect {
         public let mtu: Int?
         /// The tags associated with the transitive virtual interface.
         public let tags: [Tag]?
-        /// The name of the virtual interface assigned by the customer network.
+        /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
         public let virtualInterfaceName: String?
         /// The ID of the VLAN.
         public let vlan: Int?
@@ -2959,6 +3023,84 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case cidr = "cidr"
+        }
+    }
+
+    public struct StartBgpFailoverTestRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bgpPeers", required: false, type: .list), 
+            AWSShapeMember(label: "testDurationInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
+        ]
+
+        /// The BGP peers to place in the DOWN state.
+        public let bgpPeers: [String]?
+        /// The time in minutes that the virtual interface failover test will last. Maximum value: 180 minutes (3 hours). Default: 180 minutes (3 hours).
+        public let testDurationInMinutes: Int?
+        /// The ID of the virtual interface you want to test.
+        public let virtualInterfaceId: String
+
+        public init(bgpPeers: [String]? = nil, testDurationInMinutes: Int? = nil, virtualInterfaceId: String) {
+            self.bgpPeers = bgpPeers
+            self.testDurationInMinutes = testDurationInMinutes
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bgpPeers = "bgpPeers"
+            case testDurationInMinutes = "testDurationInMinutes"
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct StartBgpFailoverTestResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceTest", required: false, type: .structure)
+        ]
+
+        /// Information about the virtual interface failover test.
+        public let virtualInterfaceTest: VirtualInterfaceTestHistory?
+
+        public init(virtualInterfaceTest: VirtualInterfaceTestHistory? = nil) {
+            self.virtualInterfaceTest = virtualInterfaceTest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceTest = "virtualInterfaceTest"
+        }
+    }
+
+    public struct StopBgpFailoverTestRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
+        ]
+
+        /// The ID of the virtual interface you no longer want to test.
+        public let virtualInterfaceId: String
+
+        public init(virtualInterfaceId: String) {
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct StopBgpFailoverTestResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceTest", required: false, type: .structure)
+        ]
+
+        /// Information about the virtual interface failover test.
+        public let virtualInterfaceTest: VirtualInterfaceTestHistory?
+
+        public init(virtualInterfaceTest: VirtualInterfaceTestHistory? = nil) {
+            self.virtualInterfaceTest = virtualInterfaceTest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceTest = "virtualInterfaceTest"
         }
     }
 
@@ -3267,7 +3409,7 @@ extension DirectConnect {
         public let virtualGatewayId: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
-        /// The name of the virtual interface assigned by the customer network.
+        /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
         public let virtualInterfaceName: String?
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
@@ -3328,6 +3470,58 @@ extension DirectConnect {
             case virtualInterfaceState = "virtualInterfaceState"
             case virtualInterfaceType = "virtualInterfaceType"
             case vlan = "vlan"
+        }
+    }
+
+    public struct VirtualInterfaceTestHistory: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bgpPeers", required: false, type: .list), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "testDurationInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "testId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
+        ]
+
+        /// The BGP peers that were put in the DOWN state as part of the virtual interface failover test.
+        public let bgpPeers: [String]?
+        /// The time that the virtual interface moves out of the DOWN state.
+        public let endTime: TimeStamp?
+        /// The owner ID of the tested virtual interface.
+        public let ownerAccount: String?
+        /// The time that the virtual interface moves to the DOWN state.
+        public let startTime: TimeStamp?
+        /// The status of the virtual interface failover test.
+        public let status: String?
+        /// The time that the virtual interface failover test ran in minutes.
+        public let testDurationInMinutes: Int?
+        /// The ID of the virtual interface failover test.
+        public let testId: String?
+        /// The ID of the tested virtual interface.
+        public let virtualInterfaceId: String?
+
+        public init(bgpPeers: [String]? = nil, endTime: TimeStamp? = nil, ownerAccount: String? = nil, startTime: TimeStamp? = nil, status: String? = nil, testDurationInMinutes: Int? = nil, testId: String? = nil, virtualInterfaceId: String? = nil) {
+            self.bgpPeers = bgpPeers
+            self.endTime = endTime
+            self.ownerAccount = ownerAccount
+            self.startTime = startTime
+            self.status = status
+            self.testDurationInMinutes = testDurationInMinutes
+            self.testId = testId
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bgpPeers = "bgpPeers"
+            case endTime = "endTime"
+            case ownerAccount = "ownerAccount"
+            case startTime = "startTime"
+            case status = "status"
+            case testDurationInMinutes = "testDurationInMinutes"
+            case testId = "testId"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 

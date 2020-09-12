@@ -7,6 +7,7 @@ public enum ComputeOptimizerErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
     case internalServerException(message: String?)
     case invalidParameterValueException(message: String?)
+    case limitExceededException(message: String?)
     case missingAuthenticationToken(message: String?)
     case optInRequiredException(message: String?)
     case resourceNotFoundException(message: String?)
@@ -27,6 +28,8 @@ extension ComputeOptimizerErrorType {
             self = .internalServerException(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "MissingAuthenticationToken":
             self = .missingAuthenticationToken(message: message)
         case "OptInRequiredException":
@@ -52,6 +55,8 @@ extension ComputeOptimizerErrorType : CustomStringConvertible {
             return "InternalServerException: \(message ?? "")"
         case .invalidParameterValueException(let message):
             return "InvalidParameterValueException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
         case .missingAuthenticationToken(let message):
             return "MissingAuthenticationToken: \(message ?? "")"
         case .optInRequiredException(let message):

@@ -355,6 +355,13 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum VoiceRecordingTrack: String, CustomStringConvertible, Codable {
+        case fromAgent = "FROM_AGENT"
+        case toAgent = "TO_AGENT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
 
     public struct ChatMessage: AWSShape {
@@ -878,7 +885,7 @@ extension Connect {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available:  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_ON_CONTACT  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  CONTACTS_SCHEDULED  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  SLOTS_ACTIVE  Unit: COUNT  SLOTS_AVAILABLE  Unit: COUNT  
+        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of each metric, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_ON_CONTACT  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  CONTACTS_SCHEDULED  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  SLOTS_ACTIVE  Unit: COUNT  SLOTS_AVAILABLE  Unit: COUNT  
         public let currentMetrics: [CurrentMetric]
         /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. The only supported channel is VOICE.
         public let filters: Filters
@@ -1003,7 +1010,7 @@ extension Connect {
         public let filters: Filters
         /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. The only supported grouping is QUEUE. If no grouping is specified, a summary of metrics for all queues is returned.
         public let groupings: [Grouping]?
-        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available:  ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX  SERVICE_LEVEL  Unit: PERCENT Statistic: AVG Threshold: Only "Less than" comparisons are supported, with the following service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120, 180, 240, 300, 600  
+        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX  SERVICE_LEVEL  Unit: PERCENT Statistic: AVG Threshold: Only "Less than" comparisons are supported, with the following service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120, 180, 240, 300, 600  
         public let historicalMetrics: [HistoricalMetric]
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
@@ -1955,6 +1962,50 @@ extension Connect {
         }
     }
 
+    public struct ResumeContactRecordingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactId", required: true, type: .string), 
+            AWSShapeMember(label: "InitialContactId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let initialContactId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(contactId: String, initialContactId: String, instanceId: String) {
+            self.contactId = contactId
+            self.initialContactId = initialContactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactId, name:"contactId", parent: name, max: 256)
+            try validate(self.contactId, name:"contactId", parent: name, min: 1)
+            try validate(self.initialContactId, name:"initialContactId", parent: name, max: 256)
+            try validate(self.initialContactId, name:"initialContactId", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case initialContactId = "InitialContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct ResumeContactRecordingResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct RoutingProfileSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -2093,6 +2144,55 @@ extension Connect {
         }
     }
 
+    public struct StartContactRecordingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactId", required: true, type: .string), 
+            AWSShapeMember(label: "InitialContactId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "VoiceRecordingConfiguration", required: true, type: .structure)
+        ]
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let initialContactId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// Who is being recorded.
+        public let voiceRecordingConfiguration: VoiceRecordingConfiguration
+
+        public init(contactId: String, initialContactId: String, instanceId: String, voiceRecordingConfiguration: VoiceRecordingConfiguration) {
+            self.contactId = contactId
+            self.initialContactId = initialContactId
+            self.instanceId = instanceId
+            self.voiceRecordingConfiguration = voiceRecordingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactId, name:"contactId", parent: name, max: 256)
+            try validate(self.contactId, name:"contactId", parent: name, min: 1)
+            try validate(self.initialContactId, name:"initialContactId", parent: name, max: 256)
+            try validate(self.initialContactId, name:"initialContactId", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case initialContactId = "InitialContactId"
+            case instanceId = "InstanceId"
+            case voiceRecordingConfiguration = "VoiceRecordingConfiguration"
+        }
+    }
+
+    public struct StartContactRecordingResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct StartOutboundVoiceContactRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
@@ -2170,6 +2270,50 @@ extension Connect {
         }
     }
 
+    public struct StopContactRecordingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactId", required: true, type: .string), 
+            AWSShapeMember(label: "InitialContactId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let initialContactId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(contactId: String, initialContactId: String, instanceId: String) {
+            self.contactId = contactId
+            self.initialContactId = initialContactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactId, name:"contactId", parent: name, max: 256)
+            try validate(self.contactId, name:"contactId", parent: name, min: 1)
+            try validate(self.initialContactId, name:"initialContactId", parent: name, max: 256)
+            try validate(self.initialContactId, name:"initialContactId", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case initialContactId = "InitialContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct StopContactRecordingResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct StopContactRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContactId", required: true, type: .string), 
@@ -2200,6 +2344,50 @@ extension Connect {
     }
 
     public struct StopContactResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct SuspendContactRecordingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactId", required: true, type: .string), 
+            AWSShapeMember(label: "InitialContactId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let initialContactId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(contactId: String, initialContactId: String, instanceId: String) {
+            self.contactId = contactId
+            self.initialContactId = initialContactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactId, name:"contactId", parent: name, max: 256)
+            try validate(self.contactId, name:"contactId", parent: name, min: 1)
+            try validate(self.initialContactId, name:"initialContactId", parent: name, max: 256)
+            try validate(self.initialContactId, name:"initialContactId", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case initialContactId = "InitialContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct SuspendContactRecordingResponse: AWSShape {
 
 
         public init() {
@@ -2660,6 +2848,23 @@ extension Connect {
             case arn = "Arn"
             case id = "Id"
             case username = "Username"
+        }
+    }
+
+    public struct VoiceRecordingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VoiceRecordingTrack", required: false, type: .enum)
+        ]
+
+        /// Identifies which track is being recorded.
+        public let voiceRecordingTrack: VoiceRecordingTrack?
+
+        public init(voiceRecordingTrack: VoiceRecordingTrack? = nil) {
+            self.voiceRecordingTrack = voiceRecordingTrack
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceRecordingTrack = "VoiceRecordingTrack"
         }
     }
 }

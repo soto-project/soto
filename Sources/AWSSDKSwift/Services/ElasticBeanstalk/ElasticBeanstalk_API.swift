@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS ElasticBeanstalk service.
 
-AWS Elastic Beanstalk AWS Elastic Beanstalk makes it easy for you to create, deploy, and manage scalable, fault-tolerant applications running on the Amazon Web Services cloud. For more information about this product, go to the AWS Elastic Beanstalk details page. The location of the latest AWS Elastic Beanstalk WSDL is http://elasticbeanstalk.s3.amazonaws.com/doc/2010-12-01/AWSElasticBeanstalk.wsdl. To install the Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools that enable you to access the API, go to Tools for Amazon Web Services.  Endpoints  For a list of region-specific endpoints that AWS Elastic Beanstalk supports, go to Regions and Endpoints in the Amazon Web Services Glossary.
+AWS Elastic Beanstalk AWS Elastic Beanstalk makes it easy for you to create, deploy, and manage scalable, fault-tolerant applications running on the Amazon Web Services cloud. For more information about this product, go to the AWS Elastic Beanstalk details page. The location of the latest AWS Elastic Beanstalk WSDL is https://elasticbeanstalk.s3.amazonaws.com/doc/2010-12-01/AWSElasticBeanstalk.wsdl. To install the Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools that enable you to access the API, go to Tools for Amazon Web Services.  Endpoints  For a list of region-specific endpoints that AWS Elastic Beanstalk supports, go to Regions and Endpoints in the Amazon Web Services Glossary.
 */
 public struct ElasticBeanstalk {
 
@@ -53,6 +53,11 @@ public struct ElasticBeanstalk {
     ///  Applies a scheduled managed action immediately. A managed action can be applied only if its status is Scheduled. Get the status and action ID of a managed action with DescribeEnvironmentManagedActions.
     public func applyEnvironmentManagedAction(_ input: ApplyEnvironmentManagedActionRequest) -> EventLoopFuture<ApplyEnvironmentManagedActionResult> {
         return client.send(operation: "ApplyEnvironmentManagedAction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+    @discardableResult public func associateEnvironmentOperationsRole(_ input: AssociateEnvironmentOperationsRoleMessage) -> EventLoopFuture<Void> {
+        return client.send(operation: "AssociateEnvironmentOperationsRole", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Checks if the specified CNAME is available.
@@ -183,6 +188,11 @@ public struct ElasticBeanstalk {
     ///  Describes a platform version. Provides full details. Compare to ListPlatformVersions, which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
     public func describePlatformVersion(_ input: DescribePlatformVersionRequest) -> EventLoopFuture<DescribePlatformVersionResult> {
         return client.send(operation: "DescribePlatformVersion", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+    @discardableResult public func disassociateEnvironmentOperationsRole(_ input: DisassociateEnvironmentOperationsRoleMessage) -> EventLoopFuture<Void> {
+        return client.send(operation: "DisassociateEnvironmentOperationsRole", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.

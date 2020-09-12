@@ -46,7 +46,7 @@ public struct Route53 {
     
     //MARK: API Calls
 
-    ///  Associates an Amazon VPC with a private hosted zone.   To perform the association, the VPC and the private hosted zone must already exist. Also, you can't convert a public hosted zone into a private hosted zone.  If you want to associate a VPC that was created by one AWS account with a private hosted zone that was created by a different account, do one of the following:   Use the AWS account that created the private hosted zone to submit a CreateVPCAssociationAuthorization request. Then use the account that created the VPC to submit an AssociateVPCWithHostedZone request.   If a subnet in the VPC was shared with another account, you can use the account that the subnet was shared with to submit an AssociateVPCWithHostedZone request. For more information about sharing subnets, see Working with Shared VPCs.  
+    ///  Associates an Amazon VPC with a private hosted zone.   To perform the association, the VPC and the private hosted zone must already exist. You can't convert a public hosted zone into a private hosted zone.   If you want to associate a VPC that was created by using one AWS account with a private hosted zone that was created by using a different account, the AWS account that created the private hosted zone must first submit a CreateVPCAssociationAuthorization request. Then the account that created the VPC must submit an AssociateVPCWithHostedZone request. 
     public func associateVPCWithHostedZone(_ input: AssociateVPCWithHostedZoneRequest) -> EventLoopFuture<AssociateVPCWithHostedZoneResponse> {
         return client.send(operation: "AssociateVPCWithHostedZone", path: "/2013-04-01/hostedzone/{Id}/associatevpc", httpMethod: "POST", input: input)
     }
@@ -121,7 +121,7 @@ public struct Route53 {
         return client.send(operation: "DeleteReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes a traffic policy.
+    ///  Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following:   Deleted traffic policies aren't listed if you run ListTrafficPolicies.    There's no way to get a list of deleted policies.   If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running GetTrafficPolicy.  
     public func deleteTrafficPolicy(_ input: DeleteTrafficPolicyRequest) -> EventLoopFuture<DeleteTrafficPolicyResponse> {
         return client.send(operation: "DeleteTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: "DELETE", input: input)
     }
@@ -136,7 +136,7 @@ public struct Route53 {
         return client.send(operation: "DeleteVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{Id}/deauthorizevpcassociation", httpMethod: "POST", input: input)
     }
 
-    ///  Disassociates a VPC from a Amazon Route 53 private hosted zone. Note the following:   You can't disassociate the last VPC from a private hosted zone.   You can't convert a private hosted zone into a public hosted zone.   You can submit a DisassociateVPCFromHostedZone request using either the account that created the hosted zone or the account that created the VPC.  
+    ///  Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53 private hosted zone. Note the following:   You can't disassociate the last Amazon VPC from a private hosted zone.   You can't convert a private hosted zone into a public hosted zone.   You can submit a DisassociateVPCFromHostedZone request using either the account that created the hosted zone or the account that created the Amazon VPC.   Some services, such as AWS Cloud Map and Amazon Elastic File System (Amazon EFS) automatically create hosted zones and associate VPCs with the hosted zones. A service can create a hosted zone using your account or using its own account. You can disassociate a VPC from a hosted zone only if the service created the hosted zone using your account. When you run DisassociateVPCFromHostedZone, if the hosted zone has a value for OwningAccount, you can use DisassociateVPCFromHostedZone. If the hosted zone has a value for OwningService, you can't use DisassociateVPCFromHostedZone.  
     public func disassociateVPCFromHostedZone(_ input: DisassociateVPCFromHostedZoneRequest) -> EventLoopFuture<DisassociateVPCFromHostedZoneResponse> {
         return client.send(operation: "DisassociateVPCFromHostedZone", path: "/2013-04-01/hostedzone/{Id}/disassociatevpc", httpMethod: "POST", input: input)
     }
@@ -211,7 +211,7 @@ public struct Route53 {
         return client.send(operation: "GetReusableDelegationSetLimit", path: "/2013-04-01/reusabledelegationsetlimit/{Id}/{Type}", httpMethod: "GET", input: input)
     }
 
-    ///  Gets information about a specific traffic policy version.
+    ///  Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from GetTrafficPolicy, see DeleteTrafficPolicy. 
     public func getTrafficPolicy(_ input: GetTrafficPolicyRequest) -> EventLoopFuture<GetTrafficPolicyResponse> {
         return client.send(operation: "GetTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: "GET", input: input)
     }
@@ -246,6 +246,11 @@ public struct Route53 {
         return client.send(operation: "ListHostedZonesByName", path: "/2013-04-01/hostedzonesbyname", httpMethod: "GET", input: input)
     }
 
+    ///  Lists all the private hosted zones that a specified VPC is associated with, regardless of which AWS account or AWS service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values:   An OwningAccount element, which contains the account number of either the current AWS account or another AWS account. Some services, such as AWS Cloud Map, create hosted zones using the current account.    An OwningService element, which identifies the AWS service that created and owns the hosted zone. For example, if a hosted zone was created by Amazon Elastic File System (Amazon EFS), the value of Owner is efs.amazonaws.com.   
+    public func listHostedZonesByVPC(_ input: ListHostedZonesByVPCRequest) -> EventLoopFuture<ListHostedZonesByVPCResponse> {
+        return client.send(operation: "ListHostedZonesByVPC", path: "/2013-04-01/hostedzonesbyvpc", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the configurations for DNS query logging that are associated with the current AWS account or the configuration that is associated with a specified hosted zone. For more information about DNS query logs, see CreateQueryLoggingConfig. Additional information, including the format of DNS query logs, appears in Logging DNS Queries in the Amazon Route 53 Developer Guide.
     public func listQueryLoggingConfigs(_ input: ListQueryLoggingConfigsRequest) -> EventLoopFuture<ListQueryLoggingConfigsResponse> {
         return client.send(operation: "ListQueryLoggingConfigs", path: "/2013-04-01/queryloggingconfig", httpMethod: "GET", input: input)
@@ -271,7 +276,7 @@ public struct Route53 {
         return client.send(operation: "ListTagsForResources", path: "/2013-04-01/tags/{ResourceType}", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about the latest version for every traffic policy that is associated with the current AWS account. Policies are listed in the order that they were created in. 
+    ///  Gets information about the latest version for every traffic policy that is associated with the current AWS account. Policies are listed in the order that they were created in.  For information about how of deleting a traffic policy affects the response from ListTrafficPolicies, see DeleteTrafficPolicy. 
     public func listTrafficPolicies(_ input: ListTrafficPoliciesRequest) -> EventLoopFuture<ListTrafficPoliciesResponse> {
         return client.send(operation: "ListTrafficPolicies", path: "/2013-04-01/trafficpolicies", httpMethod: "GET", input: input)
     }

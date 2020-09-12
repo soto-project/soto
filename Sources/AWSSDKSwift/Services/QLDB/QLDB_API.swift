@@ -44,6 +44,11 @@ public struct QLDB {
     
     //MARK: API Calls
 
+    ///  Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its current status must be ACTIVE. You can't restart a stream after you cancel it. Canceled QLDB stream resources are subject to a 7-day retention period, so they are automatically deleted after this limit expires.
+    public func cancelJournalKinesisStream(_ input: CancelJournalKinesisStreamRequest) -> EventLoopFuture<CancelJournalKinesisStreamResponse> {
+        return client.send(operation: "CancelJournalKinesisStream", path: "/ledgers/{name}/journal-kinesis-streams/{streamId}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Creates a new ledger in your AWS account.
     public func createLedger(_ input: CreateLedgerRequest) -> EventLoopFuture<CreateLedgerResponse> {
         return client.send(operation: "CreateLedger", path: "/ledgers", httpMethod: "POST", input: input)
@@ -54,7 +59,12 @@ public struct QLDB {
         return client.send(operation: "DeleteLedger", path: "/ledgers/{name}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Returns information about a journal export job, including the ledger name, export ID, when it was created, current status, and its start and end time export parameters. If the export job with the given ExportId doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException.
+    ///  Returns detailed information about a given Amazon QLDB journal stream. The output includes the Amazon Resource Name (ARN), stream name, current status, creation time, and the parameters of your original stream creation request.
+    public func describeJournalKinesisStream(_ input: DescribeJournalKinesisStreamRequest) -> EventLoopFuture<DescribeJournalKinesisStreamResponse> {
+        return client.send(operation: "DescribeJournalKinesisStream", path: "/ledgers/{name}/journal-kinesis-streams/{streamId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns information about a journal export job, including the ledger name, export ID, when it was created, current status, and its start and end time export parameters. This action does not return any expired export jobs. For more information, see Export Job Expiration in the Amazon QLDB Developer Guide. If the export job with the given ExportId doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException.
     public func describeJournalS3Export(_ input: DescribeJournalS3ExportRequest) -> EventLoopFuture<DescribeJournalS3ExportResponse> {
         return client.send(operation: "DescribeJournalS3Export", path: "/ledgers/{name}/journal-s3-exports/{exportId}", httpMethod: "GET", input: input)
     }
@@ -69,7 +79,7 @@ public struct QLDB {
         return client.send(operation: "ExportJournalToS3", path: "/ledgers/{name}/journal-s3-exports", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a journal block object at a specified address in a ledger. Also returns a proof of the specified block for verification if DigestTipAddress is provided. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
+    ///  Returns a block object at a specified address in a journal. Also returns a proof of the specified block for verification if DigestTipAddress is provided. For information about the data contents in a block, see Journal contents in the Amazon QLDB Developer Guide. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
     public func getBlock(_ input: GetBlockRequest) -> EventLoopFuture<GetBlockResponse> {
         return client.send(operation: "GetBlock", path: "/ledgers/{name}/block", httpMethod: "POST", input: input)
     }
@@ -84,12 +94,17 @@ public struct QLDB {
         return client.send(operation: "GetRevision", path: "/ledgers/{name}/revision", httpMethod: "POST", input: input)
     }
 
-    ///  Returns an array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times.
+    ///  Returns an array of all Amazon QLDB journal stream descriptors for a given ledger. The output of each stream descriptor includes the same details that are returned by DescribeJournalKinesisStream. This action returns a maximum of MaxResults items. It is paginated so that you can retrieve all the items by calling ListJournalKinesisStreamsForLedger multiple times.
+    public func listJournalKinesisStreamsForLedger(_ input: ListJournalKinesisStreamsForLedgerRequest) -> EventLoopFuture<ListJournalKinesisStreamsForLedgerResponse> {
+        return client.send(operation: "ListJournalKinesisStreamsForLedger", path: "/ledgers/{name}/journal-kinesis-streams", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns an array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see Export Job Expiration in the Amazon QLDB Developer Guide.
     public func listJournalS3Exports(_ input: ListJournalS3ExportsRequest) -> EventLoopFuture<ListJournalS3ExportsResponse> {
         return client.send(operation: "ListJournalS3Exports", path: "/journal-s3-exports", httpMethod: "GET", input: input)
     }
 
-    ///  Returns an array of journal export job descriptions for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times.
+    ///  Returns an array of journal export job descriptions for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times. This action does not return any expired export jobs. For more information, see Export Job Expiration in the Amazon QLDB Developer Guide.
     public func listJournalS3ExportsForLedger(_ input: ListJournalS3ExportsForLedgerRequest) -> EventLoopFuture<ListJournalS3ExportsForLedgerResponse> {
         return client.send(operation: "ListJournalS3ExportsForLedger", path: "/ledgers/{name}/journal-s3-exports", httpMethod: "GET", input: input)
     }
@@ -102,6 +117,11 @@ public struct QLDB {
     ///  Returns all tags for a specified Amazon QLDB resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
+    ///  Creates a journal stream for a given Amazon QLDB ledger. The stream captures every document revision that is committed to the ledger's journal and delivers the data to a specified Amazon Kinesis Data Streams resource.
+    public func streamJournalToKinesis(_ input: StreamJournalToKinesisRequest) -> EventLoopFuture<StreamJournalToKinesisResponse> {
+        return client.send(operation: "StreamJournalToKinesis", path: "/ledgers/{name}/journal-kinesis-streams", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more tags to a specified Amazon QLDB resource. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error.

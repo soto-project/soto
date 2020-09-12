@@ -34,7 +34,7 @@ public struct CloudFront {
             region: region,
             service: "cloudfront",
             serviceProtocol: ServiceProtocol(type: .restxml),
-            apiVersion: "2019-03-26",
+            apiVersion: "2020-05-31",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "cloudfront.amazonaws.com"],
             partitionEndpoint: "aws-global",
@@ -46,228 +46,343 @@ public struct CloudFront {
     
     //MARK: API Calls
 
+    ///  Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it’s attached to a cache behavior, the cache policy determines the following:   The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.   The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can’t find an object in its cache that matches the request’s cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the Amazon CloudFront Developer Guide.
+    public func createCachePolicy(_ input: CreateCachePolicyRequest) -> EventLoopFuture<CreateCachePolicyResult> {
+        return client.send(operation: "CreateCachePolicy2020_05_31", path: "/2020-05-31/cache-policy", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
     public func createCloudFrontOriginAccessIdentity(_ input: CreateCloudFrontOriginAccessIdentityRequest) -> EventLoopFuture<CreateCloudFrontOriginAccessIdentityResult> {
-        return client.send(operation: "CreateCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront", httpMethod: "POST", input: input)
+        return client.send(operation: "CreateCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new web distribution. You create a CloudFront distribution to tell CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery. Send a POST request to the /CloudFront API version/distribution/distribution ID resource.  When you update a distribution, there are more required fields than when you create a distribution. When you update your distribution by using UpdateDistribution, follow the steps included in the documentation to get the current configuration and then make your updates. This helps to make sure that you include all of the required fields. To view a summary, see Required Fields for Create Distribution and Update Distribution in the Amazon CloudFront Developer Guide. 
     public func createDistribution(_ input: CreateDistributionRequest) -> EventLoopFuture<CreateDistributionResult> {
-        return client.send(operation: "CreateDistribution2019_03_26", path: "/2019-03-26/distribution", httpMethod: "POST", input: input)
+        return client.send(operation: "CreateDistribution2020_05_31", path: "/2020-05-31/distribution", httpMethod: "POST", input: input)
     }
 
     ///  Create a new distribution with tags.
     public func createDistributionWithTags(_ input: CreateDistributionWithTagsRequest) -> EventLoopFuture<CreateDistributionWithTagsResult> {
-        return client.send(operation: "CreateDistributionWithTags2019_03_26", path: "/2019-03-26/distribution?WithTags", httpMethod: "POST", input: input)
+        return client.send(operation: "CreateDistributionWithTags2020_05_31", path: "/2020-05-31/distribution?WithTags", httpMethod: "POST", input: input)
     }
 
     ///  Create a new field-level encryption configuration.
     public func createFieldLevelEncryptionConfig(_ input: CreateFieldLevelEncryptionConfigRequest) -> EventLoopFuture<CreateFieldLevelEncryptionConfigResult> {
-        return client.send(operation: "CreateFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption", httpMethod: "POST", input: input)
+        return client.send(operation: "CreateFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption", httpMethod: "POST", input: input)
     }
 
     ///  Create a field-level encryption profile.
     public func createFieldLevelEncryptionProfile(_ input: CreateFieldLevelEncryptionProfileRequest) -> EventLoopFuture<CreateFieldLevelEncryptionProfileResult> {
-        return client.send(operation: "CreateFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile", httpMethod: "POST", input: input)
+        return client.send(operation: "CreateFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: "POST", input: input)
     }
 
     ///  Create a new invalidation. 
     public func createInvalidation(_ input: CreateInvalidationRequest) -> EventLoopFuture<CreateInvalidationResult> {
-        return client.send(operation: "CreateInvalidation2019_03_26", path: "/2019-03-26/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input)
+        return client.send(operation: "CreateInvalidation2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input)
+    }
+
+    ///  Enables additional CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide.
+    public func createMonitoringSubscription(_ input: CreateMonitoringSubscriptionRequest) -> EventLoopFuture<CreateMonitoringSubscriptionResult> {
+        return client.send(operation: "CreateMonitoringSubscription2020_05_31", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it’s attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:   The request body and the URL path (without the domain name) from the viewer request.   The headers that CloudFront automatically includes in every origin request, including Host, User-Agent, and X-Amz-Cf-Id.   All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.   CloudFront sends a request when it can’t find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy. For more information about origin request policies, see Controlling origin requests in the Amazon CloudFront Developer Guide.
+    public func createOriginRequestPolicy(_ input: CreateOriginRequestPolicyRequest) -> EventLoopFuture<CreateOriginRequestPolicyResult> {
+        return client.send(operation: "CreateOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy", httpMethod: "POST", input: input)
     }
 
     ///  Add a new public key to CloudFront to use, for example, for field-level encryption. You can add a maximum of 10 public keys with one AWS account.
     public func createPublicKey(_ input: CreatePublicKeyRequest) -> EventLoopFuture<CreatePublicKeyResult> {
-        return client.send(operation: "CreatePublicKey2019_03_26", path: "/2019-03-26/public-key", httpMethod: "POST", input: input)
+        return client.send(operation: "CreatePublicKey2020_05_31", path: "/2020-05-31/public-key", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the Amazon CloudFront Developer Guide.
+    public func createRealtimeLogConfig(_ input: CreateRealtimeLogConfigRequest) -> EventLoopFuture<CreateRealtimeLogConfigResult> {
+        return client.send(operation: "CreateRealtimeLogConfig2020_05_31", path: "/2020-05-31/realtime-log-config", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new RTMP distribution. An RTMP distribution is similar to a web distribution, but an RTMP distribution streams media files using the Adobe Real-Time Messaging Protocol (RTMP) instead of serving files using HTTP.  To create a new distribution, submit a POST request to the CloudFront API version/distribution resource. The request body must include a document with a StreamingDistributionConfig element. The response echoes the StreamingDistributionConfig element and returns other information about the RTMP distribution. To get the status of your request, use the GET StreamingDistribution API action. When the value of Enabled is true and the value of Status is Deployed, your distribution is ready. A distribution usually deploys in less than 15 minutes. For more information about web distributions, see Working with RTMP Distributions in the Amazon CloudFront Developer Guide.  Beginning with the 2012-05-05 version of the CloudFront API, we made substantial changes to the format of the XML document that you include in the request body when you create or update a web distribution or an RTMP distribution, and when you invalidate objects. With previous versions of the API, we discovered that it was too easy to accidentally delete one or more values for an element that accepts multiple values, for example, CNAMEs and trusted signers. Our changes for the 2012-05-05 release are intended to prevent these accidental deletions and to notify you when there's a mismatch between the number of values you say you're specifying in the Quantity element and the number of values specified. 
     public func createStreamingDistribution(_ input: CreateStreamingDistributionRequest) -> EventLoopFuture<CreateStreamingDistributionResult> {
-        return client.send(operation: "CreateStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution", httpMethod: "POST", input: input)
+        return client.send(operation: "CreateStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution", httpMethod: "POST", input: input)
     }
 
     ///  Create a new streaming distribution with tags.
     public func createStreamingDistributionWithTags(_ input: CreateStreamingDistributionWithTagsRequest) -> EventLoopFuture<CreateStreamingDistributionWithTagsResult> {
-        return client.send(operation: "CreateStreamingDistributionWithTags2019_03_26", path: "/2019-03-26/streaming-distribution?WithTags", httpMethod: "POST", input: input)
+        return client.send(operation: "CreateStreamingDistributionWithTags2020_05_31", path: "/2020-05-31/streaming-distribution?WithTags", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a cache policy. You cannot delete a cache policy if it’s attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy’s identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy.
+    @discardableResult public func deleteCachePolicy(_ input: DeleteCachePolicyRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteCachePolicy2020_05_31", path: "/2020-05-31/cache-policy/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete an origin access identity. 
     @discardableResult public func deleteCloudFrontOriginAccessIdentity(_ input: DeleteCloudFrontOriginAccessIdentityRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
+        return client.send(operation: "DeleteCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete a distribution. 
     @discardableResult public func deleteDistribution(_ input: DeleteDistributionRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteDistribution2019_03_26", path: "/2019-03-26/distribution/{Id}", httpMethod: "DELETE", input: input)
+        return client.send(operation: "DeleteDistribution2020_05_31", path: "/2020-05-31/distribution/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Remove a field-level encryption configuration.
     @discardableResult public func deleteFieldLevelEncryptionConfig(_ input: DeleteFieldLevelEncryptionConfigRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}", httpMethod: "DELETE", input: input)
+        return client.send(operation: "DeleteFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Remove a field-level encryption profile.
     @discardableResult public func deleteFieldLevelEncryptionProfile(_ input: DeleteFieldLevelEncryptionProfileRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}", httpMethod: "DELETE", input: input)
+        return client.send(operation: "DeleteFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Disables additional CloudWatch metrics for the specified CloudFront distribution.
+    public func deleteMonitoringSubscription(_ input: DeleteMonitoringSubscriptionRequest) -> EventLoopFuture<DeleteMonitoringSubscriptionResult> {
+        return client.send(operation: "DeleteMonitoringSubscription2020_05_31", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes an origin request policy. You cannot delete an origin request policy if it’s attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy’s identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
+    @discardableResult public func deleteOriginRequestPolicy(_ input: DeleteOriginRequestPolicyRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Remove a public key you previously added to CloudFront.
     @discardableResult public func deletePublicKey(_ input: DeletePublicKeyRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeletePublicKey2019_03_26", path: "/2019-03-26/public-key/{Id}", httpMethod: "DELETE", input: input)
+        return client.send(operation: "DeletePublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a real-time log configuration. You cannot delete a real-time log configuration if it’s attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration’s name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
+    @discardableResult public func deleteRealtimeLogConfig(_ input: DeleteRealtimeLogConfigRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteRealtimeLogConfig2020_05_31", path: "/2020-05-31/delete-realtime-log-config/", httpMethod: "POST", input: input)
     }
 
     ///  Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.  To delete an RTMP distribution using the CloudFront API:   Disable the RTMP distribution.   Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution.    Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false.   Submit a PUT Streaming Distribution Config request to update the configuration for your distribution. In the request body, include the XML document that you updated in Step 3. Then set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to the PUT Streaming Distribution Config request to confirm that the distribution was successfully disabled.   Submit a GET Streaming Distribution Config request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.   Submit a DELETE Streaming Distribution request. Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the Amazon CloudFront Developer Guide.
     @discardableResult public func deleteStreamingDistribution(_ input: DeleteStreamingDistributionRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "DeleteStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
+        return client.send(operation: "DeleteStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Gets a cache policy, including the following metadata:   The policy’s identifier.   The date and time when the policy was last modified.   To get a cache policy, you must provide the policy’s identifier. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
+    public func getCachePolicy(_ input: GetCachePolicyRequest) -> EventLoopFuture<GetCachePolicyResult> {
+        return client.send(operation: "GetCachePolicy2020_05_31", path: "/2020-05-31/cache-policy/{Id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy’s identifier. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
+    public func getCachePolicyConfig(_ input: GetCachePolicyConfigRequest) -> EventLoopFuture<GetCachePolicyConfigResult> {
+        return client.send(operation: "GetCachePolicyConfig2020_05_31", path: "/2020-05-31/cache-policy/{Id}/config", httpMethod: "GET", input: input)
     }
 
     ///  Get the information about an origin access identity. 
     public func getCloudFrontOriginAccessIdentity(_ input: GetCloudFrontOriginAccessIdentityRequest) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityResult> {
-        return client.send(operation: "GetCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}", httpMethod: "GET", input: input)
+        return client.send(operation: "GetCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  Get the configuration information about an origin access identity. 
     public func getCloudFrontOriginAccessIdentityConfig(_ input: GetCloudFrontOriginAccessIdentityConfigRequest) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityConfigResult> {
-        return client.send(operation: "GetCloudFrontOriginAccessIdentityConfig2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}/config", httpMethod: "GET", input: input)
+        return client.send(operation: "GetCloudFrontOriginAccessIdentityConfig2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: "GET", input: input)
     }
 
     ///  Get the information about a distribution.
     public func getDistribution(_ input: GetDistributionRequest) -> EventLoopFuture<GetDistributionResult> {
-        return client.send(operation: "GetDistribution2019_03_26", path: "/2019-03-26/distribution/{Id}", httpMethod: "GET", input: input)
+        return client.send(operation: "GetDistribution2020_05_31", path: "/2020-05-31/distribution/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  Get the configuration information about a distribution. 
     public func getDistributionConfig(_ input: GetDistributionConfigRequest) -> EventLoopFuture<GetDistributionConfigResult> {
-        return client.send(operation: "GetDistributionConfig2019_03_26", path: "/2019-03-26/distribution/{Id}/config", httpMethod: "GET", input: input)
+        return client.send(operation: "GetDistributionConfig2020_05_31", path: "/2020-05-31/distribution/{Id}/config", httpMethod: "GET", input: input)
     }
 
     ///  Get the field-level encryption configuration information.
     public func getFieldLevelEncryption(_ input: GetFieldLevelEncryptionRequest) -> EventLoopFuture<GetFieldLevelEncryptionResult> {
-        return client.send(operation: "GetFieldLevelEncryption2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}", httpMethod: "GET", input: input)
+        return client.send(operation: "GetFieldLevelEncryption2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  Get the field-level encryption configuration information.
     public func getFieldLevelEncryptionConfig(_ input: GetFieldLevelEncryptionConfigRequest) -> EventLoopFuture<GetFieldLevelEncryptionConfigResult> {
-        return client.send(operation: "GetFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}/config", httpMethod: "GET", input: input)
+        return client.send(operation: "GetFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: "GET", input: input)
     }
 
     ///  Get the field-level encryption profile information.
     public func getFieldLevelEncryptionProfile(_ input: GetFieldLevelEncryptionProfileRequest) -> EventLoopFuture<GetFieldLevelEncryptionProfileResult> {
-        return client.send(operation: "GetFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}", httpMethod: "GET", input: input)
+        return client.send(operation: "GetFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  Get the field-level encryption profile configuration information.
     public func getFieldLevelEncryptionProfileConfig(_ input: GetFieldLevelEncryptionProfileConfigRequest) -> EventLoopFuture<GetFieldLevelEncryptionProfileConfigResult> {
-        return client.send(operation: "GetFieldLevelEncryptionProfileConfig2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}/config", httpMethod: "GET", input: input)
+        return client.send(operation: "GetFieldLevelEncryptionProfileConfig2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: "GET", input: input)
     }
 
     ///  Get the information about an invalidation. 
     public func getInvalidation(_ input: GetInvalidationRequest) -> EventLoopFuture<GetInvalidationResult> {
-        return client.send(operation: "GetInvalidation2019_03_26", path: "/2019-03-26/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input)
+        return client.send(operation: "GetInvalidation2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
+    public func getMonitoringSubscription(_ input: GetMonitoringSubscriptionRequest) -> EventLoopFuture<GetMonitoringSubscriptionResult> {
+        return client.send(operation: "GetMonitoringSubscription2020_05_31", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets an origin request policy, including the following metadata:   The policy’s identifier.   The date and time when the policy was last modified.   To get an origin request policy, you must provide the policy’s identifier. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+    public func getOriginRequestPolicy(_ input: GetOriginRequestPolicyRequest) -> EventLoopFuture<GetOriginRequestPolicyResult> {
+        return client.send(operation: "GetOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy’s identifier. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+    public func getOriginRequestPolicyConfig(_ input: GetOriginRequestPolicyConfigRequest) -> EventLoopFuture<GetOriginRequestPolicyConfigResult> {
+        return client.send(operation: "GetOriginRequestPolicyConfig2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}/config", httpMethod: "GET", input: input)
     }
 
     ///  Get the public key information.
     public func getPublicKey(_ input: GetPublicKeyRequest) -> EventLoopFuture<GetPublicKeyResult> {
-        return client.send(operation: "GetPublicKey2019_03_26", path: "/2019-03-26/public-key/{Id}", httpMethod: "GET", input: input)
+        return client.send(operation: "GetPublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  Return public key configuration informaation
     public func getPublicKeyConfig(_ input: GetPublicKeyConfigRequest) -> EventLoopFuture<GetPublicKeyConfigResult> {
-        return client.send(operation: "GetPublicKeyConfig2019_03_26", path: "/2019-03-26/public-key/{Id}/config", httpMethod: "GET", input: input)
+        return client.send(operation: "GetPublicKeyConfig2020_05_31", path: "/2020-05-31/public-key/{Id}/config", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration’s name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
+    public func getRealtimeLogConfig(_ input: GetRealtimeLogConfigRequest) -> EventLoopFuture<GetRealtimeLogConfigResult> {
+        return client.send(operation: "GetRealtimeLogConfig2020_05_31", path: "/2020-05-31/get-realtime-log-config/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a specified RTMP distribution, including the distribution configuration.
     public func getStreamingDistribution(_ input: GetStreamingDistributionRequest) -> EventLoopFuture<GetStreamingDistributionResult> {
-        return client.send(operation: "GetStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}", httpMethod: "GET", input: input)
+        return client.send(operation: "GetStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  Get the configuration information about a streaming distribution. 
     public func getStreamingDistributionConfig(_ input: GetStreamingDistributionConfigRequest) -> EventLoopFuture<GetStreamingDistributionConfigResult> {
-        return client.send(operation: "GetStreamingDistributionConfig2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}/config", httpMethod: "GET", input: input)
+        return client.send(operation: "GetStreamingDistributionConfig2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by AWS, or only the custom policies created in your AWS account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listCachePolicies(_ input: ListCachePoliciesRequest) -> EventLoopFuture<ListCachePoliciesResult> {
+        return client.send(operation: "ListCachePolicies2020_05_31", path: "/2020-05-31/cache-policy", httpMethod: "GET", input: input)
     }
 
     ///  Lists origin access identities.
     public func listCloudFrontOriginAccessIdentities(_ input: ListCloudFrontOriginAccessIdentitiesRequest) -> EventLoopFuture<ListCloudFrontOriginAccessIdentitiesResult> {
-        return client.send(operation: "ListCloudFrontOriginAccessIdentities2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront", httpMethod: "GET", input: input)
+        return client.send(operation: "ListCloudFrontOriginAccessIdentities2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: "GET", input: input)
     }
 
     ///  List CloudFront distributions.
     public func listDistributions(_ input: ListDistributionsRequest) -> EventLoopFuture<ListDistributionsResult> {
-        return client.send(operation: "ListDistributions2019_03_26", path: "/2019-03-26/distribution", httpMethod: "GET", input: input)
+        return client.send(operation: "ListDistributions2020_05_31", path: "/2020-05-31/distribution", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listDistributionsByCachePolicyId(_ input: ListDistributionsByCachePolicyIdRequest) -> EventLoopFuture<ListDistributionsByCachePolicyIdResult> {
+        return client.send(operation: "ListDistributionsByCachePolicyId2020_05_31", path: "/2020-05-31/distributionsByCachePolicyId/{CachePolicyId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listDistributionsByOriginRequestPolicyId(_ input: ListDistributionsByOriginRequestPolicyIdRequest) -> EventLoopFuture<ListDistributionsByOriginRequestPolicyIdResult> {
+        return client.send(operation: "ListDistributionsByOriginRequestPolicyId2020_05_31", path: "/2020-05-31/distributionsByOriginRequestPolicyId/{OriginRequestPolicyId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a list of distributions that have a cache behavior that’s associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. 
+    public func listDistributionsByRealtimeLogConfig(_ input: ListDistributionsByRealtimeLogConfigRequest) -> EventLoopFuture<ListDistributionsByRealtimeLogConfigResult> {
+        return client.send(operation: "ListDistributionsByRealtimeLogConfig2020_05_31", path: "/2020-05-31/distributionsByRealtimeLogConfig/", httpMethod: "POST", input: input)
     }
 
     ///  List the distributions that are associated with a specified AWS WAF web ACL. 
     public func listDistributionsByWebACLId(_ input: ListDistributionsByWebACLIdRequest) -> EventLoopFuture<ListDistributionsByWebACLIdResult> {
-        return client.send(operation: "ListDistributionsByWebACLId2019_03_26", path: "/2019-03-26/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
+        return client.send(operation: "ListDistributionsByWebACLId2020_05_31", path: "/2020-05-31/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
     }
 
     ///  List all field-level encryption configurations that have been created in CloudFront for this account.
     public func listFieldLevelEncryptionConfigs(_ input: ListFieldLevelEncryptionConfigsRequest) -> EventLoopFuture<ListFieldLevelEncryptionConfigsResult> {
-        return client.send(operation: "ListFieldLevelEncryptionConfigs2019_03_26", path: "/2019-03-26/field-level-encryption", httpMethod: "GET", input: input)
+        return client.send(operation: "ListFieldLevelEncryptionConfigs2020_05_31", path: "/2020-05-31/field-level-encryption", httpMethod: "GET", input: input)
     }
 
     ///  Request a list of field-level encryption profiles that have been created in CloudFront for this account.
     public func listFieldLevelEncryptionProfiles(_ input: ListFieldLevelEncryptionProfilesRequest) -> EventLoopFuture<ListFieldLevelEncryptionProfilesResult> {
-        return client.send(operation: "ListFieldLevelEncryptionProfiles2019_03_26", path: "/2019-03-26/field-level-encryption-profile", httpMethod: "GET", input: input)
+        return client.send(operation: "ListFieldLevelEncryptionProfiles2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: "GET", input: input)
     }
 
     ///  Lists invalidation batches. 
     public func listInvalidations(_ input: ListInvalidationsRequest) -> EventLoopFuture<ListInvalidationsResult> {
-        return client.send(operation: "ListInvalidations2019_03_26", path: "/2019-03-26/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input)
+        return client.send(operation: "ListInvalidations2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by AWS, or only the custom policies created in your AWS account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listOriginRequestPolicies(_ input: ListOriginRequestPoliciesRequest) -> EventLoopFuture<ListOriginRequestPoliciesResult> {
+        return client.send(operation: "ListOriginRequestPolicies2020_05_31", path: "/2020-05-31/origin-request-policy", httpMethod: "GET", input: input)
     }
 
     ///  List all public keys that have been added to CloudFront for this account.
     public func listPublicKeys(_ input: ListPublicKeysRequest) -> EventLoopFuture<ListPublicKeysResult> {
-        return client.send(operation: "ListPublicKeys2019_03_26", path: "/2019-03-26/public-key", httpMethod: "GET", input: input)
+        return client.send(operation: "ListPublicKeys2020_05_31", path: "/2020-05-31/public-key", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. 
+    public func listRealtimeLogConfigs(_ input: ListRealtimeLogConfigsRequest) -> EventLoopFuture<ListRealtimeLogConfigsResult> {
+        return client.send(operation: "ListRealtimeLogConfigs2020_05_31", path: "/2020-05-31/realtime-log-config", httpMethod: "GET", input: input)
     }
 
     ///  List streaming distributions. 
     public func listStreamingDistributions(_ input: ListStreamingDistributionsRequest) -> EventLoopFuture<ListStreamingDistributionsResult> {
-        return client.send(operation: "ListStreamingDistributions2019_03_26", path: "/2019-03-26/streaming-distribution", httpMethod: "GET", input: input)
+        return client.send(operation: "ListStreamingDistributions2020_05_31", path: "/2020-05-31/streaming-distribution", httpMethod: "GET", input: input)
     }
 
     ///  List tags for a CloudFront resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
-        return client.send(operation: "ListTagsForResource2019_03_26", path: "/2019-03-26/tagging", httpMethod: "GET", input: input)
+        return client.send(operation: "ListTagsForResource2020_05_31", path: "/2020-05-31/tagging", httpMethod: "GET", input: input)
     }
 
     ///  Add tags to a CloudFront resource.
     @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "TagResource2019_03_26", path: "/2019-03-26/tagging?Operation=Tag", httpMethod: "POST", input: input)
+        return client.send(operation: "TagResource2020_05_31", path: "/2020-05-31/tagging?Operation=Tag", httpMethod: "POST", input: input)
     }
 
     ///  Remove tags from a CloudFront resource.
     @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
-        return client.send(operation: "UntagResource2019_03_26", path: "/2019-03-26/tagging?Operation=Untag", httpMethod: "POST", input: input)
+        return client.send(operation: "UntagResource2020_05_31", path: "/2020-05-31/tagging?Operation=Untag", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to update.   Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn’t.  
+    public func updateCachePolicy(_ input: UpdateCachePolicyRequest) -> EventLoopFuture<UpdateCachePolicyResult> {
+        return client.send(operation: "UpdateCachePolicy2020_05_31", path: "/2020-05-31/cache-policy/{Id}", httpMethod: "PUT", input: input)
     }
 
     ///  Update an origin access identity. 
     public func updateCloudFrontOriginAccessIdentity(_ input: UpdateCloudFrontOriginAccessIdentityRequest) -> EventLoopFuture<UpdateCloudFrontOriginAccessIdentityResult> {
-        return client.send(operation: "UpdateCloudFrontOriginAccessIdentity2019_03_26", path: "/2019-03-26/origin-access-identity/cloudfront/{Id}/config", httpMethod: "PUT", input: input)
+        return client.send(operation: "UpdateCloudFrontOriginAccessIdentity2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the configuration for a web distribution.   When you update a distribution, there are more required fields than when you create a distribution. When you update your distribution by using this API action, follow the steps here to get the current configuration and then make your updates, to make sure that you include all of the required fields. To view a summary, see Required Fields for Create Distribution and Update Distribution in the Amazon CloudFront Developer Guide.  The update process includes getting the current distribution configuration, updating the XML document that is returned to make your changes, and then submitting an UpdateDistribution request to make the updates. For information about updating a distribution using the CloudFront console instead, see Creating a Distribution in the Amazon CloudFront Developer Guide.  To update a web distribution using the CloudFront API    Submit a GetDistributionConfig request to get the current configuration and an Etag header for the distribution.  If you update the distribution again, you must get a new Etag header.    Update the XML document that was returned in the response to your GetDistributionConfig request to include your changes.   When you edit the XML file, be aware of the following:   You must strip out the ETag parameter that is returned.   Additional fields are required when you update a distribution. There may be fields included in the XML file for features that you haven't configured for your distribution. This is expected and required to successfully update the distribution.   You can't change the value of CallerReference. If you try to change this value, CloudFront returns an IllegalUpdate error.    The new configuration replaces the existing configuration; the values that you specify in an UpdateDistribution request are not merged into your existing configuration. When you add, delete, or replace values in an element that allows multiple values (for example, CNAME), you must specify all of the values that you want to appear in the updated distribution. In addition, you must update the corresponding Quantity element.      Submit an UpdateDistribution request to update the configuration for your distribution:   In the request body, include the XML document that you updated in Step 2. The request body must include an XML document with a DistributionConfig element.   Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GetDistributionConfig request in Step 1.     Review the response to the UpdateDistribution request to confirm that the configuration was successfully updated.   Optional: Submit a GetDistribution request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.  
     public func updateDistribution(_ input: UpdateDistributionRequest) -> EventLoopFuture<UpdateDistributionResult> {
-        return client.send(operation: "UpdateDistribution2019_03_26", path: "/2019-03-26/distribution/{Id}/config", httpMethod: "PUT", input: input)
+        return client.send(operation: "UpdateDistribution2020_05_31", path: "/2020-05-31/distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
 
     ///  Update a field-level encryption configuration. 
     public func updateFieldLevelEncryptionConfig(_ input: UpdateFieldLevelEncryptionConfigRequest) -> EventLoopFuture<UpdateFieldLevelEncryptionConfigResult> {
-        return client.send(operation: "UpdateFieldLevelEncryptionConfig2019_03_26", path: "/2019-03-26/field-level-encryption/{Id}/config", httpMethod: "PUT", input: input)
+        return client.send(operation: "UpdateFieldLevelEncryptionConfig2020_05_31", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: "PUT", input: input)
     }
 
     ///  Update a field-level encryption profile. 
     public func updateFieldLevelEncryptionProfile(_ input: UpdateFieldLevelEncryptionProfileRequest) -> EventLoopFuture<UpdateFieldLevelEncryptionProfileResult> {
-        return client.send(operation: "UpdateFieldLevelEncryptionProfile2019_03_26", path: "/2019-03-26/field-level-encryption-profile/{Id}/config", httpMethod: "PUT", input: input)
+        return client.send(operation: "UpdateFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration:   Use GetOriginRequestPolicyConfig to get the current configuration.   Locally modify the fields in the origin request policy configuration that you want to update.   Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn’t.  
+    public func updateOriginRequestPolicy(_ input: UpdateOriginRequestPolicyRequest) -> EventLoopFuture<UpdateOriginRequestPolicyResult> {
+        return client.send(operation: "UpdateOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: "PUT", input: input)
     }
 
     ///  Update public key information. Note that the only value you can change is the comment.
     public func updatePublicKey(_ input: UpdatePublicKeyRequest) -> EventLoopFuture<UpdatePublicKeyResult> {
-        return client.send(operation: "UpdatePublicKey2019_03_26", path: "/2019-03-26/public-key/{Id}/config", httpMethod: "PUT", input: input)
+        return client.send(operation: "UpdatePublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}/config", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration:   Call GetRealtimeLogConfig to get the current real-time log configuration.   Locally modify the parameters in the real-time log configuration that you want to update.   Call this API (UpdateRealtimeLogConfig) by providing the entire real-time log configuration, including the parameters that you modified and those that you didn’t.   You cannot update a real-time log configuration’s Name or ARN.
+    public func updateRealtimeLogConfig(_ input: UpdateRealtimeLogConfigRequest) -> EventLoopFuture<UpdateRealtimeLogConfigResult> {
+        return client.send(operation: "UpdateRealtimeLogConfig2020_05_31", path: "/2020-05-31/realtime-log-config/", httpMethod: "PUT", input: input)
     }
 
     ///  Update a streaming distribution. 
     public func updateStreamingDistribution(_ input: UpdateStreamingDistributionRequest) -> EventLoopFuture<UpdateStreamingDistributionResult> {
-        return client.send(operation: "UpdateStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input)
+        return client.send(operation: "UpdateStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
 }

@@ -51,6 +51,11 @@ public struct FMS {
         return client.send(operation: "AssociateAdminAccount", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Permanently deletes an AWS Firewall Manager applications list.
+    @discardableResult public func deleteAppsList(_ input: DeleteAppsListRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteAppsList", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes an AWS Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record AWS Firewall Manager SNS logs.
     @discardableResult public func deleteNotificationChannel(_ input: DeleteNotificationChannelRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteNotificationChannel", path: "/", httpMethod: "POST", input: input)
@@ -61,6 +66,11 @@ public struct FMS {
         return client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Permanently deletes an AWS Firewall Manager protocols list.
+    @discardableResult public func deleteProtocolsList(_ input: DeleteProtocolsListRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteProtocolsList", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Disassociates the account that has been set as the AWS Firewall Manager administrator account. To set a different account as the administrator account, you must submit an AssociateAdminAccount request.
     @discardableResult public func disassociateAdminAccount(_ input: DisassociateAdminAccountRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DisassociateAdminAccount", path: "/", httpMethod: "POST", input: input)
@@ -69,6 +79,11 @@ public struct FMS {
     ///  Returns the AWS Organizations master account that is associated with AWS Firewall Manager as the AWS Firewall Manager administrator.
     public func getAdminAccount(_ input: GetAdminAccountRequest) -> EventLoopFuture<GetAdminAccountResponse> {
         return client.send(operation: "GetAdminAccount", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the specified AWS Firewall Manager applications list.
+    public func getAppsList(_ input: GetAppsListRequest) -> EventLoopFuture<GetAppsListResponse> {
+        return client.send(operation: "GetAppsList", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. Resources are considered noncompliant for AWS WAF and Shield Advanced policies if the specified policy has not been applied to them. Resources are considered noncompliant for security group policies if they are in scope of the policy, they violate one or more of the policy rules, and remediation is disabled or not possible. 
@@ -91,7 +106,22 @@ public struct FMS {
         return client.send(operation: "GetProtectionStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns an array of PolicyComplianceStatus objects in the response. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
+    ///  Returns information about the specified AWS Firewall Manager protocols list.
+    public func getProtocolsList(_ input: GetProtocolsListRequest) -> EventLoopFuture<GetProtocolsListResponse> {
+        return client.send(operation: "GetProtocolsList", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves violations for a resource based on the specified AWS Firewall Manager policy and AWS account.
+    public func getViolationDetails(_ input: GetViolationDetailsRequest) -> EventLoopFuture<GetViolationDetailsResponse> {
+        return client.send(operation: "GetViolationDetails", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns an array of AppsListDataSummary objects.
+    public func listAppsLists(_ input: ListAppsListsRequest) -> EventLoopFuture<ListAppsListsResponse> {
+        return client.send(operation: "ListAppsLists", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
     public func listComplianceStatus(_ input: ListComplianceStatusRequest) -> EventLoopFuture<ListComplianceStatusResponse> {
         return client.send(operation: "ListComplianceStatus", path: "/", httpMethod: "POST", input: input)
     }
@@ -101,14 +131,24 @@ public struct FMS {
         return client.send(operation: "ListMemberAccounts", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns an array of PolicySummary objects in the response.
+    ///  Returns an array of PolicySummary objects.
     public func listPolicies(_ input: ListPoliciesRequest) -> EventLoopFuture<ListPoliciesResponse> {
         return client.send(operation: "ListPolicies", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns an array of ProtocolsListDataSummary objects.
+    public func listProtocolsLists(_ input: ListProtocolsListsRequest) -> EventLoopFuture<ListProtocolsListsResponse> {
+        return client.send(operation: "ListProtocolsLists", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the list of tags for the specified AWS resource. 
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an AWS Firewall Manager applications list.
+    public func putAppsList(_ input: PutAppsListRequest) -> EventLoopFuture<PutAppsListResponse> {
+        return client.send(operation: "PutAppsList", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Designates the IAM role and Amazon Simple Notification Service (SNS) topic that AWS Firewall Manager uses to record SNS logs.
@@ -119,6 +159,11 @@ public struct FMS {
     ///  Creates an AWS Firewall Manager policy. Firewall Manager provides the following types of policies:    A Shield Advanced policy, which applies Shield Advanced protection to specified accounts and resources   An AWS WAF policy (type WAFV2), which defines rule groups to run first in the corresponding AWS WAF web ACL and rule groups to run last in the web ACL.   An AWS WAF Classic policy (type WAF), which defines a rule group.    A security group policy, which manages VPC security groups across your AWS organization.    Each policy is specific to one of the types. If you want to enforce more than one policy type across accounts, create multiple policies. You can create multiple policies for each type. You must be subscribed to Shield Advanced to create a Shield Advanced policy. For more information about subscribing to Shield Advanced, see CreateSubscription.
     public func putPolicy(_ input: PutPolicyRequest) -> EventLoopFuture<PutPolicyResponse> {
         return client.send(operation: "PutPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an AWS Firewall Manager protocols list.
+    public func putProtocolsList(_ input: PutProtocolsListRequest) -> EventLoopFuture<PutProtocolsListResponse> {
+        return client.send(operation: "PutProtocolsList", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more tags to an AWS resource.

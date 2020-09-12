@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS SMS service.
 
-AAWS Sever Migration Service This is the AWS Sever Migration Service API Reference. It provides descriptions, syntax, and usage examples for each of the actions and data types for the AWS Sever Migration Service (AWS SMS). The topic for each action shows the Query API request parameters and the XML response. You can also view the XML request elements in the WSDL. Alternatively, you can use one of the AWS SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see AWS SDKs. To learn more about the Server Migration Service, see the following resources:    AWS Sever Migration Service product page     AWS Sever Migration Service User Guide   
+AWS Server Migration Service AWS Server Migration Service (AWS SMS) makes it easier and faster for you to migrate your on-premises workloads to AWS. To learn more about AWS SMS, see the following resources:    AWS Server Migration Service product page     AWS Server Migration Service User Guide   
 */
 public struct SMS {
 
@@ -56,19 +56,24 @@ public struct SMS {
         return client.send(operation: "CreateReplicationJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an existing application. Optionally deletes the launched stack associated with the application and all AWS SMS replication jobs for servers in the application.
+    ///  Deletes the specified application. Optionally deletes the launched stack associated with the application and all AWS SMS replication jobs for servers in the application.
     public func deleteApp(_ input: DeleteAppRequest) -> EventLoopFuture<DeleteAppResponse> {
         return client.send(operation: "DeleteApp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes existing launch configuration for an application.
+    ///  Deletes the launch configuration for the specified application.
     public func deleteAppLaunchConfiguration(_ input: DeleteAppLaunchConfigurationRequest) -> EventLoopFuture<DeleteAppLaunchConfigurationResponse> {
         return client.send(operation: "DeleteAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes existing replication configuration for an application.
+    ///  Deletes the replication configuration for the specified application.
     public func deleteAppReplicationConfiguration(_ input: DeleteAppReplicationConfigurationRequest) -> EventLoopFuture<DeleteAppReplicationConfigurationResponse> {
         return client.send(operation: "DeleteAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the validation configuration for the specified application.
+    public func deleteAppValidationConfiguration(_ input: DeleteAppValidationConfigurationRequest) -> EventLoopFuture<DeleteAppValidationConfigurationResponse> {
+        return client.send(operation: "DeleteAppValidationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified replication job. After you delete a replication job, there are no further replication runs. AWS deletes the contents of the Amazon S3 bucket used to store AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
@@ -91,24 +96,34 @@ public struct SMS {
         return client.send(operation: "GenerateChangeSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Generates an Amazon CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+    ///  Generates an AWS CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
     public func generateTemplate(_ input: GenerateTemplateRequest) -> EventLoopFuture<GenerateTemplateResponse> {
         return client.send(operation: "GenerateTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieve information about an application.
+    ///  Retrieve information about the specified application.
     public func getApp(_ input: GetAppRequest) -> EventLoopFuture<GetAppResponse> {
         return client.send(operation: "GetApp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the application launch configuration associated with an application.
+    ///  Retrieves the application launch configuration associated with the specified application.
     public func getAppLaunchConfiguration(_ input: GetAppLaunchConfigurationRequest) -> EventLoopFuture<GetAppLaunchConfigurationResponse> {
         return client.send(operation: "GetAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves an application replication configuration associatd with an application.
+    ///  Retrieves the application replication configuration associated with the specified application.
     public func getAppReplicationConfiguration(_ input: GetAppReplicationConfigurationRequest) -> EventLoopFuture<GetAppReplicationConfigurationResponse> {
         return client.send(operation: "GetAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves information about a configuration for validating an application.
+    public func getAppValidationConfiguration(_ input: GetAppValidationConfigurationRequest) -> EventLoopFuture<GetAppValidationConfigurationResponse> {
+        return client.send(operation: "GetAppValidationConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves output from validating an application.
+    public func getAppValidationOutput(_ input: GetAppValidationOutputRequest) -> EventLoopFuture<GetAppValidationOutputResponse> {
+        return client.send(operation: "GetAppValidationOutput", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the connectors registered with the AWS SMS.
@@ -131,52 +146,72 @@ public struct SMS {
         return client.send(operation: "GetServers", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers that you want to import. This call returns immediately, but might take additional time to retrieve all the servers.
+    ///  Allows application import from AWS Migration Hub.
+    public func importAppCatalog(_ input: ImportAppCatalogRequest) -> EventLoopFuture<ImportAppCatalogResponse> {
+        return client.send(operation: "ImportAppCatalog", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers to import. This call returns immediately, but might take additional time to retrieve all the servers.
     public func importServerCatalog(_ input: ImportServerCatalogRequest) -> EventLoopFuture<ImportServerCatalogResponse> {
         return client.send(operation: "ImportServerCatalog", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Launches an application stack.
+    ///  Launches the specified application as a stack in AWS CloudFormation.
     public func launchApp(_ input: LaunchAppRequest) -> EventLoopFuture<LaunchAppResponse> {
         return client.send(operation: "LaunchApp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of summaries for all applications.
+    ///  Retrieves summaries for all applications.
     public func listApps(_ input: ListAppsRequest) -> EventLoopFuture<ListAppsResponse> {
         return client.send(operation: "ListApps", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a launch configuration for an application.
+    ///  Provides information to AWS SMS about whether application validation is successful.
+    public func notifyAppValidationOutput(_ input: NotifyAppValidationOutputRequest) -> EventLoopFuture<NotifyAppValidationOutputResponse> {
+        return client.send(operation: "NotifyAppValidationOutput", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates or updates the launch configuration for the specified application.
     public func putAppLaunchConfiguration(_ input: PutAppLaunchConfigurationRequest) -> EventLoopFuture<PutAppLaunchConfigurationResponse> {
         return client.send(operation: "PutAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates or updates a replication configuration for an application.
+    ///  Creates or updates the replication configuration for the specified application.
     public func putAppReplicationConfiguration(_ input: PutAppReplicationConfigurationRequest) -> EventLoopFuture<PutAppReplicationConfigurationResponse> {
         return client.send(operation: "PutAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts replicating an application.
+    ///  Creates or updates a validation configuration for the specified application.
+    public func putAppValidationConfiguration(_ input: PutAppValidationConfigurationRequest) -> EventLoopFuture<PutAppValidationConfigurationResponse> {
+        return client.send(operation: "PutAppValidationConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts replicating the specified application by creating replication jobs for each server in the application.
     public func startAppReplication(_ input: StartAppReplicationRequest) -> EventLoopFuture<StartAppReplicationResponse> {
         return client.send(operation: "StartAppReplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs you can request in a 24-hour period.
+    ///  Starts an on-demand replication run for the specified application.
+    public func startOnDemandAppReplication(_ input: StartOnDemandAppReplicationRequest) -> EventLoopFuture<StartOnDemandAppReplicationResponse> {
+        return client.send(operation: "StartOnDemandAppReplication", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs that you can request in a 24-hour period.
     public func startOnDemandReplicationRun(_ input: StartOnDemandReplicationRunRequest) -> EventLoopFuture<StartOnDemandReplicationRunResponse> {
         return client.send(operation: "StartOnDemandReplicationRun", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops replicating an application.
+    ///  Stops replicating the specified application by deleting the replication job for each server in the application.
     public func stopAppReplication(_ input: StopAppReplicationRequest) -> EventLoopFuture<StopAppReplicationResponse> {
         return client.send(operation: "StopAppReplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Terminates the stack for an application.
+    ///  Terminates the stack for the specified application.
     public func terminateApp(_ input: TerminateAppRequest) -> EventLoopFuture<TerminateAppResponse> {
         return client.send(operation: "TerminateApp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an application.
+    ///  Updates the specified application.
     public func updateApp(_ input: UpdateAppRequest) -> EventLoopFuture<UpdateAppResponse> {
         return client.send(operation: "UpdateApp", path: "/", httpMethod: "POST", input: input)
     }

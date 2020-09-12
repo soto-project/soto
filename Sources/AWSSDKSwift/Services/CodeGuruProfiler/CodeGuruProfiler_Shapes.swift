@@ -11,10 +11,54 @@ extension CodeGuruProfiler {
         public var description: String { return self.rawValue }
     }
 
+    public enum AgentParameterField: String, CustomStringConvertible, Codable {
+        case maxstackdepth = "MaxStackDepth"
+        case memoryusagelimitpercent = "MemoryUsageLimitPercent"
+        case minimumtimeforreportinginmilliseconds = "MinimumTimeForReportingInMilliseconds"
+        case reportingintervalinmilliseconds = "ReportingIntervalInMilliseconds"
+        case samplingintervalinmilliseconds = "SamplingIntervalInMilliseconds"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AggregationPeriod: String, CustomStringConvertible, Codable {
         case p1d = "P1D"
         case pt1h = "PT1H"
         case pt5m = "PT5M"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputePlatform: String, CustomStringConvertible, Codable {
+        case awslambda = "AWSLambda"
+        case `default` = "Default"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventPublisher: String, CustomStringConvertible, Codable {
+        case anomalydetection = "AnomalyDetection"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeedbackType: String, CustomStringConvertible, Codable {
+        case negative = "Negative"
+        case positive = "Positive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetadataField: String, CustomStringConvertible, Codable {
+        case agentid = "AgentId"
+        case awsrequestid = "AwsRequestId"
+        case computeplatform = "ComputePlatform"
+        case executionenvironment = "ExecutionEnvironment"
+        case lambdafunctionarn = "LambdaFunctionArn"
+        case lambdamemorylimitinmb = "LambdaMemoryLimitInMB"
+        case lambdapreviousexecutiontimeinmilliseconds = "LambdaPreviousExecutionTimeInMilliseconds"
+        case lambdaremainingtimeinmilliseconds = "LambdaRemainingTimeInMilliseconds"
+        case lambdatimegapbetweeninvokesinmilliseconds = "LambdaTimeGapBetweenInvokesInMilliseconds"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricType: String, CustomStringConvertible, Codable {
+        case aggregatedrelativetotaltime = "AggregatedRelativeTotalTime"
         public var description: String { return self.rawValue }
     }
 
@@ -26,21 +70,78 @@ extension CodeGuruProfiler {
 
     //MARK: Shapes
 
+    public struct AddNotificationChannelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "channels", required: true, type: .list), 
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
+        ]
+
+        /// One or 2 channels to report to when anomalies are detected.
+        public let channels: [Channel]
+        /// The name of the profiling group that we are setting up notifications for.
+        public let profilingGroupName: String
+
+        public init(channels: [Channel], profilingGroupName: String) {
+            self.channels = channels
+            self.profilingGroupName = profilingGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.channels.forEach {
+                try $0.validate(name: "\(name).channels[]")
+            }
+            try validate(self.channels, name:"channels", parent: name, max: 2)
+            try validate(self.channels, name:"channels", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case profilingGroupName = "profilingGroupName"
+        }
+    }
+
+    public struct AddNotificationChannelsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "notificationConfiguration", required: false, type: .structure)
+        ]
+
+        /// The new notification configuration for this profiling group.
+        public let notificationConfiguration: NotificationConfiguration?
+
+        public init(notificationConfiguration: NotificationConfiguration? = nil) {
+            self.notificationConfiguration = notificationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationConfiguration = "notificationConfiguration"
+        }
+    }
+
     public struct AgentConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentParameters", required: false, type: .map), 
             AWSShapeMember(label: "periodInSeconds", required: true, type: .integer), 
             AWSShapeMember(label: "shouldProfile", required: true, type: .boolean)
         ]
 
+        ///  Parameters used by the profiler. The valid parameters are:     MaxStackDepth - The maximum depth of the stacks in the code that is represented in the profile. For example, if CodeGuru Profiler finds a method A, which calls method B, which calls method C, which calls method D, then the depth is 4. If the maxDepth is set to 2, then the profiler evaluates A and B.     MemoryUsageLimitPercent - The percentage of memory that is used by the profiler.    MinimumTimeForReportingInMilliseconds - The minimum time in milliseconds between sending reports.     ReportingIntervalInMilliseconds - The reporting interval in milliseconds used to report profiles.     SamplingIntervalInMilliseconds - The sampling interval in milliseconds that is used to profile samples.   
+        public let agentParameters: [AgentParameterField: String]?
+        ///  How long a profiling agent should send profiling data using  ConfigureAgent . For example, if this is set to 300, the profiling agent calls  ConfigureAgent  every 5 minutes to submit the profiled data collected during that period. 
         public let periodInSeconds: Int
+        ///  A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling. 
         public let shouldProfile: Bool
 
-        public init(periodInSeconds: Int, shouldProfile: Bool) {
+        public init(agentParameters: [AgentParameterField: String]? = nil, periodInSeconds: Int, shouldProfile: Bool) {
+            self.agentParameters = agentParameters
             self.periodInSeconds = periodInSeconds
             self.shouldProfile = shouldProfile
         }
 
         private enum CodingKeys: String, CodingKey {
+            case agentParameters = "agentParameters"
             case periodInSeconds = "periodInSeconds"
             case shouldProfile = "shouldProfile"
         }
@@ -51,6 +152,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingEnabled", required: true, type: .boolean)
         ]
 
+        ///  A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling. 
         public let profilingEnabled: Bool
 
         public init(profilingEnabled: Bool) {
@@ -68,9 +170,9 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "start", required: false, type: .timestamp)
         ]
 
-        /// The time period.
+        ///  The aggregation period. This indicates the period during which an aggregation profile collects posted agent profiles for a profiling group. Use one of three valid durations that are specified using the ISO 8601 format.     P1D — 1 day     PT1H — 1 hour     PT5M — 5 minutes   
         public let period: AggregationPeriod?
-        /// The start time.
+        ///  The time that aggregation of posted agent profiles for a profiling group starts. The aggregation profile contains profiles posted by the agent starting at this time for an aggregation period specified by the period property of the AggregatedProfileTime object.   Specify start using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
         public let start: TimeStamp?
 
         public init(period: AggregationPeriod? = nil, start: TimeStamp? = nil) {
@@ -84,24 +186,213 @@ extension CodeGuruProfiler {
         }
     }
 
+    public struct Anomaly: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instances", required: true, type: .list), 
+            AWSShapeMember(label: "metric", required: true, type: .structure), 
+            AWSShapeMember(label: "reason", required: true, type: .string)
+        ]
+
+        ///  A list of the instances of the detected anomalies during the requested period. 
+        public let instances: [AnomalyInstance]
+        ///  Details about the metric that the analysis used when it detected the anomaly. The metric includes the name of the frame that was analyzed with the type and thread states used to derive the metric value for that frame. 
+        public let metric: Metric
+        /// The reason for which metric was flagged as anomalous.
+        public let reason: String
+
+        public init(instances: [AnomalyInstance], metric: Metric, reason: String) {
+            self.instances = instances
+            self.metric = metric
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "instances"
+            case metric = "metric"
+            case reason = "reason"
+        }
+    }
+
+    public struct AnomalyInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "userFeedback", required: false, type: .structure)
+        ]
+
+        ///  The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let endTime: TimeStamp?
+        ///  The universally unique identifier (UUID) of an instance of an anomaly in a metric. 
+        public let id: String
+        ///  The start time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let startTime: TimeStamp
+        /// Feedback type on a specific instance of anomaly submitted by the user.
+        public let userFeedback: UserFeedback?
+
+        public init(endTime: TimeStamp? = nil, id: String, startTime: TimeStamp, userFeedback: UserFeedback? = nil) {
+            self.endTime = endTime
+            self.id = id
+            self.startTime = startTime
+            self.userFeedback = userFeedback
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case id = "id"
+            case startTime = "startTime"
+            case userFeedback = "userFeedback"
+        }
+    }
+
+    public struct BatchGetFrameMetricDataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "frameMetrics", required: false, type: .list), 
+            AWSShapeMember(label: "period", location: .querystring(locationName: "period"), required: false, type: .string), 
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "targetResolution", location: .querystring(locationName: "targetResolution"), required: false, type: .enum)
+        ]
+
+        ///  The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let endTime: TimeStamp?
+        ///  The details of the metrics that are used to request a time series of values. The metric includes the name of the frame, the aggregation type to calculate the metric value for the frame, and the thread states to use to get the count for the metric value of the frame.
+        public let frameMetrics: [FrameMetric]?
+        ///  The duration of the frame metrics used to return the time series values. Specify using the ISO 8601 format. The maximum period duration is one day (PT24H or P1D). 
+        public let period: String?
+        ///  The name of the profiling group associated with the the frame metrics used to return the time series values. 
+        public let profilingGroupName: String
+        ///  The start time of the time period for the frame metrics used to return the time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let startTime: TimeStamp?
+        /// The requested resolution of time steps for the returned time series of values. If the requested target resolution is not available due to data not being retained we provide a best effort result by falling back to the most granular available resolution after the target resolution. There are 3 valid values.     P1D — 1 day     PT1H — 1 hour     PT5M — 5 minutes   
+        public let targetResolution: AggregationPeriod?
+
+        public init(endTime: TimeStamp? = nil, frameMetrics: [FrameMetric]? = nil, period: String? = nil, profilingGroupName: String, startTime: TimeStamp? = nil, targetResolution: AggregationPeriod? = nil) {
+            self.endTime = endTime
+            self.frameMetrics = frameMetrics
+            self.period = period
+            self.profilingGroupName = profilingGroupName
+            self.startTime = startTime
+            self.targetResolution = targetResolution
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.period, name:"period", parent: name, max: 64)
+            try validate(self.period, name:"period", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case frameMetrics = "frameMetrics"
+            case period = "period"
+            case profilingGroupName = "profilingGroupName"
+            case startTime = "startTime"
+            case targetResolution = "targetResolution"
+        }
+    }
+
+    public struct BatchGetFrameMetricDataResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "endTimes", required: true, type: .list), 
+            AWSShapeMember(label: "frameMetricData", required: true, type: .list), 
+            AWSShapeMember(label: "resolution", required: true, type: .enum), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "unprocessedEndTimes", required: true, type: .map)
+        ]
+
+        ///  The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let endTime: TimeStamp
+        ///  List of instances, or time steps, in the time series. For example, if the period is one day (PT24H)), and the resolution is five minutes (PT5M), then there are 288 endTimes in the list that are each five minutes appart. 
+        public let endTimes: [TimestampStructure]
+        /// Details of the metrics to request a time series of values. The metric includes the name of the frame, the aggregation type to calculate the metric value for the frame, and the thread states to use to get the count for the metric value of the frame.
+        public let frameMetricData: [FrameMetricDatum]
+        /// Resolution or granularity of the profile data used to generate the time series. This is the value used to jump through time steps in a time series. There are 3 valid values.     P1D — 1 day     PT1H — 1 hour     PT5M — 5 minutes   
+        public let resolution: AggregationPeriod
+        ///  The start time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let startTime: TimeStamp
+        /// List of instances which remained unprocessed. This will create a missing time step in the list of end times.
+        public let unprocessedEndTimes: [String: [TimestampStructure]]
+
+        public init(endTime: TimeStamp, endTimes: [TimestampStructure], frameMetricData: [FrameMetricDatum], resolution: AggregationPeriod, startTime: TimeStamp, unprocessedEndTimes: [String: [TimestampStructure]]) {
+            self.endTime = endTime
+            self.endTimes = endTimes
+            self.frameMetricData = frameMetricData
+            self.resolution = resolution
+            self.startTime = startTime
+            self.unprocessedEndTimes = unprocessedEndTimes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case endTimes = "endTimes"
+            case frameMetricData = "frameMetricData"
+            case resolution = "resolution"
+            case startTime = "startTime"
+            case unprocessedEndTimes = "unprocessedEndTimes"
+        }
+    }
+
+    public struct Channel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventPublishers", required: true, type: .list), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "uri", required: true, type: .string)
+        ]
+
+        /// List of publishers for different type of events that may be detected in an application from the profile. Anomaly detection is the only event publisher in Profiler.
+        public let eventPublishers: [EventPublisher]
+        /// Unique identifier for each Channel in the notification configuration of a Profiling Group. A random UUID for channelId is used when adding a channel to the notification configuration if not specified in the request.
+        public let id: String?
+        /// Unique arn of the resource to be used for notifications. We support a valid SNS topic arn as a channel uri.
+        public let uri: String
+
+        public init(eventPublishers: [EventPublisher], id: String? = nil, uri: String) {
+            self.eventPublishers = eventPublishers
+            self.id = id
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.eventPublishers, name:"eventPublishers", parent: name, max: 1)
+            try validate(self.eventPublishers, name:"eventPublishers", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventPublishers = "eventPublishers"
+            case id = "id"
+            case uri = "uri"
+        }
+    }
+
     public struct ConfigureAgentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fleetInstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "metadata", required: false, type: .map), 
             AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
         ]
 
+        ///  A universally unique identifier (UUID) for a profiling instance. For example, if the profiling instance is an Amazon EC2 instance, it is the instance ID. If it is an AWS Fargate container, it is the container's task ID. 
         public let fleetInstanceId: String?
+        ///  Metadata captured about the compute platform the agent is running on. It includes information about sampling and reporting. The valid fields are:    COMPUTE_PLATFORM - The compute platform on which the agent is running     AGENT_ID - The ID for an agent instance.     AWS_REQUEST_ID - The AWS request ID of a Lambda invocation.     EXECUTION_ENVIRONMENT - The execution environment a Lambda function is running on.     LAMBDA_FUNCTION_ARN - The Amazon Resource Name (ARN) that is used to invoke a Lambda function.     LAMBDA_MEMORY_LIMIT_IN_MB - The memory allocated to a Lambda function.     LAMBDA_REMAINING_TIME_IN_MILLISECONDS - The time in milliseconds before execution of a Lambda function times out.     LAMBDA_TIME_GAP_BETWEEN_INVOKES_IN_MILLISECONDS - The time in milliseconds between two invocations of a Lambda function.     LAMBDA_PREVIOUS_EXECUTION_TIME_IN_MILLISECONDS - The time in milliseconds for the previous Lambda invocation.   
+        public let metadata: [MetadataField: String]?
+        ///  The name of the profiling group for which the configured agent is collecting profiling data. 
         public let profilingGroupName: String
 
-        public init(fleetInstanceId: String? = nil, profilingGroupName: String) {
+        public init(fleetInstanceId: String? = nil, metadata: [MetadataField: String]? = nil, profilingGroupName: String) {
             self.fleetInstanceId = fleetInstanceId
+            self.metadata = metadata
             self.profilingGroupName = profilingGroupName
         }
 
         public func validate(name: String) throws {
             try validate(self.fleetInstanceId, name:"fleetInstanceId", parent: name, max: 255)
             try validate(self.fleetInstanceId, name:"fleetInstanceId", parent: name, min: 1)
-            try validate(self.fleetInstanceId, name:"fleetInstanceId", parent: name, pattern: "^[\\w-.:/]+$")
             try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
             try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
             try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -109,6 +400,7 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case fleetInstanceId = "fleetInstanceId"
+            case metadata = "metadata"
             case profilingGroupName = "profilingGroupName"
         }
     }
@@ -120,6 +412,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "configuration", required: true, type: .structure)
         ]
 
+        ///  An  AgentConfiguration  object that specifies if an agent profiles or not and for how long to return profiling data. 
         public let configuration: AgentConfiguration
 
         public init(configuration: AgentConfiguration) {
@@ -135,20 +428,28 @@ extension CodeGuruProfiler {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentOrchestrationConfig", required: false, type: .structure), 
             AWSShapeMember(label: "clientToken", location: .querystring(locationName: "clientToken"), required: true, type: .string), 
-            AWSShapeMember(label: "profilingGroupName", required: true, type: .string)
+            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
+            AWSShapeMember(label: "profilingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
-        /// The agent orchestration configuration.
+        ///  Specifies whether profiling is enabled or disabled for the created profiling group. 
         public let agentOrchestrationConfig: AgentOrchestrationConfig?
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This parameter specifies a unique identifier for the new profiling group that helps ensure idempotency.
+        ///  Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental creation of duplicate profiling groups if there are failures and retries. 
         public let clientToken: String
-        /// The name of the profiling group.
+        ///  The compute platform of the profiling group. Use AWSLambda if your application runs on AWS Lambda. Use Default if your application runs on a compute platform that is not AWS Lambda, such an Amazon EC2 instance, an on-premises server, or a different platform. If not specified, Default is used. 
+        public let computePlatform: ComputePlatform?
+        /// The name of the profiling group to create.
         public let profilingGroupName: String
+        ///  A list of tags to add to the created profiling group. 
+        public let tags: [String: String]?
 
-        public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, clientToken: String = CreateProfilingGroupRequest.idempotencyToken(), profilingGroupName: String) {
+        public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, clientToken: String = CreateProfilingGroupRequest.idempotencyToken(), computePlatform: ComputePlatform? = nil, profilingGroupName: String, tags: [String: String]? = nil) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
             self.clientToken = clientToken
+            self.computePlatform = computePlatform
             self.profilingGroupName = profilingGroupName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -163,7 +464,9 @@ extension CodeGuruProfiler {
         private enum CodingKeys: String, CodingKey {
             case agentOrchestrationConfig = "agentOrchestrationConfig"
             case clientToken = "clientToken"
+            case computePlatform = "computePlatform"
             case profilingGroupName = "profilingGroupName"
+            case tags = "tags"
         }
     }
 
@@ -174,7 +477,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroup", required: true, type: .structure)
         ]
 
-        /// Information about the new profiling group
+        ///  The returned  ProfilingGroupDescription  object that contains information about the created profiling group. 
         public let profilingGroup: ProfilingGroupDescription
 
         public init(profilingGroup: ProfilingGroupDescription) {
@@ -191,7 +494,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
         ]
 
-        /// The profiling group name to delete.
+        /// The name of the profiling group to delete.
         public let profilingGroupName: String
 
         public init(profilingGroupName: String) {
@@ -222,7 +525,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
         ]
 
-        /// The profiling group name.
+        ///  The name of the profiling group to get information about. 
         public let profilingGroupName: String
 
         public init(profilingGroupName: String) {
@@ -247,7 +550,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroup", required: true, type: .structure)
         ]
 
-        /// Information about a profiling group.
+        ///  The returned  ProfilingGroupDescription  object that contains information about the requested profiling group. 
         public let profilingGroup: ProfilingGroupDescription
 
         public init(profilingGroup: ProfilingGroupDescription) {
@@ -256,6 +559,188 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case profilingGroup = "profilingGroup"
+        }
+    }
+
+    public struct FindingsReportSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "profileEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "profileStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "profilingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "totalNumberOfFindings", required: false, type: .integer)
+        ]
+
+        /// The universally unique identifier (UUID) of the recommendation report.
+        public let id: String?
+        ///  The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let profileEndTime: TimeStamp?
+        /// The start time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
+        public let profileStartTime: TimeStamp?
+        /// The name of the profiling group that is associated with the analysis data.
+        public let profilingGroupName: String?
+        /// The total number of different recommendations that were found by the analysis.
+        public let totalNumberOfFindings: Int?
+
+        public init(id: String? = nil, profileEndTime: TimeStamp? = nil, profileStartTime: TimeStamp? = nil, profilingGroupName: String? = nil, totalNumberOfFindings: Int? = nil) {
+            self.id = id
+            self.profileEndTime = profileEndTime
+            self.profileStartTime = profileStartTime
+            self.profilingGroupName = profilingGroupName
+            self.totalNumberOfFindings = totalNumberOfFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case profileEndTime = "profileEndTime"
+            case profileStartTime = "profileStartTime"
+            case profilingGroupName = "profilingGroupName"
+            case totalNumberOfFindings = "totalNumberOfFindings"
+        }
+    }
+
+    public struct FrameMetric: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "frameName", required: true, type: .string), 
+            AWSShapeMember(label: "threadStates", required: true, type: .list), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        ///  Name of the method common across the multiple occurrences of a frame in an application profile.
+        public let frameName: String
+        /// List of application runtime thread states used to get the counts for a frame a derive a metric value.
+        public let threadStates: [String]
+        ///  A type of aggregation that specifies how a metric for a frame is analyzed. The supported value AggregatedRelativeTotalTime is an aggregation of the metric value for one frame that is calculated across the occurrences of all frames in a profile. 
+        public let `type`: MetricType
+
+        public init(frameName: String, threadStates: [String], type: MetricType) {
+            self.frameName = frameName
+            self.threadStates = threadStates
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameName = "frameName"
+            case threadStates = "threadStates"
+            case `type` = "type"
+        }
+    }
+
+    public struct FrameMetricDatum: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "frameMetric", required: true, type: .structure), 
+            AWSShapeMember(label: "values", required: true, type: .list)
+        ]
+
+        public let frameMetric: FrameMetric
+        ///  A list of values that are associated with a frame metric. 
+        public let values: [Double]
+
+        public init(frameMetric: FrameMetric, values: [Double]) {
+            self.frameMetric = frameMetric
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameMetric = "frameMetric"
+            case values = "values"
+        }
+    }
+
+    public struct GetFindingsReportAccountSummaryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dailyReportsOnly", location: .querystring(locationName: "dailyReportsOnly"), required: false, type: .boolean), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// A Boolean value indicating whether to only return reports from daily profiles. If set to True, only analysis data from daily profiles is returned. If set to False, analysis data is returned from smaller time windows (for example, one hour).
+        public let dailyReportsOnly: Bool?
+        /// The maximum number of results returned by  GetFindingsReportAccountSummary in paginated output. When this parameter is used, GetFindingsReportAccountSummary only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another GetFindingsReportAccountSummary request with the returned nextToken value.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated GetFindingsReportAccountSummary request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
+
+        public init(dailyReportsOnly: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dailyReportsOnly = dailyReportsOnly
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 64)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dailyReportsOnly = "dailyReportsOnly"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetFindingsReportAccountSummaryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "reportSummaries", required: true, type: .list)
+        ]
+
+        /// The nextToken value to include in a future GetFindingsReportAccountSummary request. When the results of a GetFindingsReportAccountSummary request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The return list of  FindingsReportSummary  objects taht contain summaries of analysis results for all profiling groups in your AWS account.
+        public let reportSummaries: [FindingsReportSummary]
+
+        public init(nextToken: String? = nil, reportSummaries: [FindingsReportSummary]) {
+            self.nextToken = nextToken
+            self.reportSummaries = reportSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reportSummaries = "reportSummaries"
+        }
+    }
+
+    public struct GetNotificationConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
+        ]
+
+        /// The name of the profiling group we want to get the notification configuration for.
+        public let profilingGroupName: String
+
+        public init(profilingGroupName: String) {
+            self.profilingGroupName = profilingGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profilingGroupName = "profilingGroupName"
+        }
+    }
+
+    public struct GetNotificationConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "notificationConfiguration", required: true, type: .structure)
+        ]
+
+        /// The current notification configuration for this profiling group.
+        public let notificationConfiguration: NotificationConfiguration
+
+        public init(notificationConfiguration: NotificationConfiguration) {
+            self.notificationConfiguration = notificationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationConfiguration = "notificationConfiguration"
         }
     }
 
@@ -288,9 +773,9 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "revisionId", required: true, type: .string)
         ]
 
-        /// The resource-based policy attached to the ProfilingGroup.
+        /// The JSON-formatted resource-based policy attached to the ProfilingGroup.
         public let policy: String
-        /// A unique identifier for the current revision of the policy.
+        /// A unique identifier for the current revision of the returned policy.
         public let revisionId: String
 
         public init(policy: String, revisionId: String) {
@@ -314,17 +799,17 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp)
         ]
 
-        /// The format of the profile to return. You can choose application/json or the default application/x-amzn-ion. 
+        ///  The format of the returned profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default .   &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; — standard JSON format &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; — the Amazon Ion data format. For more information, see &lt;a href=&quot;http://amzn.github.io/ion-docs/&quot;&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; 
         public let accept: String?
-        ///  You must specify exactly two of the following parameters: startTime, period, and endTime. 
+        ///  The end time of the requested profile. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.   If you specify endTime, then you must also specify period or startTime, but not both. 
         public let endTime: TimeStamp?
-        /// The maximum depth of the graph.
+        ///  The maximum depth of the stacks in the code that is represented in the aggregated profile. For example, if CodeGuru Profiler finds a method A, which calls method B, which calls method C, which calls method D, then the depth is 4. If the maxDepth is set to 2, then the aggregated profile contains representations of methods A and B. 
         public let maxDepth: Int?
-        /// The period of the profile to get. The time range must be in the past and not longer than one week.  You must specify exactly two of the following parameters: startTime, period, and endTime. 
+        ///  Used with startTime or endTime to specify the time range for the returned aggregated profile. Specify using the ISO 8601 format. For example, P1DT1H1M1S.   &lt;p&gt; To get the latest aggregated profile, specify only &lt;code&gt;period&lt;/code&gt;. &lt;/p&gt; 
         public let period: String?
         /// The name of the profiling group to get.
         public let profilingGroupName: String
-        /// The start time of the profile to get. You must specify exactly two of the following parameters: startTime, period, and endTime. 
+        /// The start time of the profile to get. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.  &lt;p&gt; If you specify &lt;code&gt;startTime&lt;/code&gt;, then you must also specify &lt;code&gt;period&lt;/code&gt; or &lt;code&gt;endTime&lt;/code&gt;, but not both. &lt;/p&gt; 
         public let startTime: TimeStamp?
 
         public init(accept: String? = nil, endTime: TimeStamp? = nil, maxDepth: Int? = nil, period: String? = nil, profilingGroupName: String, startTime: TimeStamp? = nil) {
@@ -385,6 +870,156 @@ extension CodeGuruProfiler {
         }
     }
 
+    public struct GetRecommendationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .string), 
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp)
+        ]
+
+        ///  The start time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let endTime: TimeStamp
+        ///  The language used to provide analysis. Specify using a string that is one of the following BCP 47 language codes.     de-DE - German, Germany     en-GB - English, United Kingdom     en-US - English, United States     es-ES - Spanish, Spain     fr-FR - French, France     it-IT - Italian, Italy     ja-JP - Japanese, Japan     ko-KR - Korean, Republic of Korea     pt-BR - Portugese, Brazil     zh-CN - Chinese, China     zh-TW - Chinese, Taiwan   
+        public let locale: String?
+        ///  The name of the profiling group to get analysis data about. 
+        public let profilingGroupName: String
+        ///  The end time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let startTime: TimeStamp
+
+        public init(endTime: TimeStamp, locale: String? = nil, profilingGroupName: String, startTime: TimeStamp) {
+            self.endTime = endTime
+            self.locale = locale
+            self.profilingGroupName = profilingGroupName
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case locale = "locale"
+            case profilingGroupName = "profilingGroupName"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct GetRecommendationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "anomalies", required: true, type: .list), 
+            AWSShapeMember(label: "profileEndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "profileStartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "profilingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "recommendations", required: true, type: .list)
+        ]
+
+        ///  The list of anomalies that the analysis has found for this profile. 
+        public let anomalies: [Anomaly]
+        ///  The end time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let profileEndTime: TimeStamp
+        ///  The start time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let profileStartTime: TimeStamp
+        /// The name of the profiling group the analysis data is about.
+        public let profilingGroupName: String
+        /// The list of recommendations that the analysis found for this profile.
+        public let recommendations: [Recommendation]
+
+        public init(anomalies: [Anomaly], profileEndTime: TimeStamp, profileStartTime: TimeStamp, profilingGroupName: String, recommendations: [Recommendation]) {
+            self.anomalies = anomalies
+            self.profileEndTime = profileEndTime
+            self.profileStartTime = profileStartTime
+            self.profilingGroupName = profilingGroupName
+            self.recommendations = recommendations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalies = "anomalies"
+            case profileEndTime = "profileEndTime"
+            case profileStartTime = "profileStartTime"
+            case profilingGroupName = "profilingGroupName"
+            case recommendations = "recommendations"
+        }
+    }
+
+    public struct ListFindingsReportsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dailyReportsOnly", location: .querystring(locationName: "dailyReportsOnly"), required: false, type: .boolean), 
+            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp)
+        ]
+
+        /// A Boolean value indicating whether to only return reports from daily profiles. If set to True, only analysis data from daily profiles is returned. If set to False, analysis data is returned from smaller time windows (for example, one hour).
+        public let dailyReportsOnly: Bool?
+        ///  The end time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let endTime: TimeStamp
+        /// The maximum number of report results returned by ListFindingsReports in paginated output. When this parameter is used, ListFindingsReports only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFindingsReports request with the returned nextToken value.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListFindingsReportsRequest request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
+        /// The name of the profiling group from which to search for analysis data.
+        public let profilingGroupName: String
+        ///  The start time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let startTime: TimeStamp
+
+        public init(dailyReportsOnly: Bool? = nil, endTime: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, profilingGroupName: String, startTime: TimeStamp) {
+            self.dailyReportsOnly = dailyReportsOnly
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profilingGroupName = profilingGroupName
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 64)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[\\w-]+$")
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dailyReportsOnly = "dailyReportsOnly"
+            case endTime = "endTime"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case profilingGroupName = "profilingGroupName"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct ListFindingsReportsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "findingsReportSummaries", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// The list of analysis results summaries.
+        public let findingsReportSummaries: [FindingsReportSummary]
+        /// The nextToken value to include in a future ListFindingsReports request. When the results of a ListFindingsReports request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(findingsReportSummaries: [FindingsReportSummary], nextToken: String? = nil) {
+            self.findingsReportSummaries = findingsReportSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingsReportSummaries = "findingsReportSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListProfileTimesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
@@ -404,7 +1039,7 @@ extension CodeGuruProfiler {
         public let nextToken: String?
         /// The order (ascending or descending by start time of the profile) to use when listing profiles. Defaults to TIMESTAMP_DESCENDING. 
         public let orderBy: OrderBy?
-        /// The aggregation period.
+        ///  The aggregation period. This specifies the period during which an aggregation profile collects posted agent profiles for a profiling group. There are 3 valid values.     P1D — 1 day     PT1H — 1 hour     PT5M — 5 minutes   
         public let period: AggregationPeriod
         /// The name of the profiling group.
         public let profilingGroupName: String
@@ -472,7 +1107,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        /// A Boolean value indicating whether to include a description.
+        /// A Boolean value indicating whether to include a description. If true, then a list of  ProfilingGroupDescription  objects that contain detailed information about profiling groups is returned. If false, then a list of profiling group names is returned.
         public let includeDescription: Bool?
         /// The maximum number of profiling groups results returned by ListProfilingGroups in paginated output. When this parameter is used, ListProfilingGroups only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfilingGroups request with the returned nextToken value. 
         public let maxResults: Int?
@@ -509,9 +1144,9 @@ extension CodeGuruProfiler {
 
         /// The nextToken value to include in a future ListProfilingGroups request. When the results of a ListProfilingGroups request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
-        /// Information about profiling group names.
+        ///  A returned list of profiling group names. A list of the names is returned only if includeDescription is false, otherwise a list of  ProfilingGroupDescription  objects is returned. 
         public let profilingGroupNames: [String]
-        /// Information about profiling groups.
+        ///  A returned list  ProfilingGroupDescription  objects. A list of  ProfilingGroupDescription  objects is returned only if includeDescription is true, otherwise a list of profiling group names is returned. 
         public let profilingGroups: [ProfilingGroupDescription]?
 
         public init(nextToken: String? = nil, profilingGroupNames: [String], profilingGroups: [ProfilingGroupDescription]? = nil) {
@@ -527,6 +1162,158 @@ extension CodeGuruProfiler {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the resource that contains the tags to return. 
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        ///  The list of tags assigned to the specified resource. This is the list of tags returned in the response. 
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct Match: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "frameAddress", required: false, type: .string), 
+            AWSShapeMember(label: "targetFramesIndex", required: false, type: .integer), 
+            AWSShapeMember(label: "thresholdBreachValue", required: false, type: .double)
+        ]
+
+        /// The location in the profiling graph that contains a recommendation found during analysis.
+        public let frameAddress: String?
+        /// The target frame that triggered a match.
+        public let targetFramesIndex: Int?
+        /// The value in the profile data that exceeded the recommendation threshold.
+        public let thresholdBreachValue: Double?
+
+        public init(frameAddress: String? = nil, targetFramesIndex: Int? = nil, thresholdBreachValue: Double? = nil) {
+            self.frameAddress = frameAddress
+            self.targetFramesIndex = targetFramesIndex
+            self.thresholdBreachValue = thresholdBreachValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameAddress = "frameAddress"
+            case targetFramesIndex = "targetFramesIndex"
+            case thresholdBreachValue = "thresholdBreachValue"
+        }
+    }
+
+    public struct Metric: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "frameName", required: true, type: .string), 
+            AWSShapeMember(label: "threadStates", required: true, type: .list), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        ///  The name of the method that appears as a frame in any stack in a profile. 
+        public let frameName: String
+        ///  The list of application runtime thread states that is used to calculate the metric value for the frame. 
+        public let threadStates: [String]
+        ///  A type that specifies how a metric for a frame is analyzed. The supported value AggregatedRelativeTotalTime is an aggregation of the metric value for one frame that is calculated across the occurences of all frames in a profile.
+        public let `type`: MetricType
+
+        public init(frameName: String, threadStates: [String], type: MetricType) {
+            self.frameName = frameName
+            self.threadStates = threadStates
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameName = "frameName"
+            case threadStates = "threadStates"
+            case `type` = "type"
+        }
+    }
+
+    public struct NotificationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "channels", required: false, type: .list)
+        ]
+
+        /// List of up to two channels to be used for sending notifications for events detected from the application profile.
+        public let channels: [Channel]?
+
+        public init(channels: [Channel]? = nil) {
+            self.channels = channels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+        }
+    }
+
+    public struct Pattern: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "countersToAggregate", required: false, type: .list), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "resolutionSteps", required: false, type: .string), 
+            AWSShapeMember(label: "targetFrames", required: false, type: .list), 
+            AWSShapeMember(label: "thresholdPercent", required: false, type: .double)
+        ]
+
+        ///  A list of the different counters used to determine if there is a match. 
+        public let countersToAggregate: [String]?
+        /// The description of the recommendation. This explains a potential inefficiency in a profiled application.
+        public let description: String?
+        /// The universally unique identifier (UUID) of this pattern.
+        public let id: String?
+        /// The name for this pattern.
+        public let name: String?
+        ///  A string that contains the steps recommended to address the potential inefficiency. 
+        public let resolutionSteps: String?
+        /// A list of frame names that were searched during the analysis that generated a recommendation.
+        public let targetFrames: [[String]]?
+        ///  The percentage of time an application spends in one method that triggers a recommendation. The percentage of time is the same as the percentage of the total gathered sample counts during analysis. 
+        public let thresholdPercent: Double?
+
+        public init(countersToAggregate: [String]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, resolutionSteps: String? = nil, targetFrames: [[String]]? = nil, thresholdPercent: Double? = nil) {
+            self.countersToAggregate = countersToAggregate
+            self.description = description
+            self.id = id
+            self.name = name
+            self.resolutionSteps = resolutionSteps
+            self.targetFrames = targetFrames
+            self.thresholdPercent = thresholdPercent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countersToAggregate = "countersToAggregate"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case resolutionSteps = "resolutionSteps"
+            case targetFrames = "targetFrames"
+            case thresholdPercent = "thresholdPercent"
+        }
+    }
+
     public struct PostAgentProfileRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "agentProfile"
@@ -537,9 +1324,13 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
         ]
 
+        ///  The submitted profiling data. 
         public let agentProfile: Data
+        ///  The format of the submitted profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default .   &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; — standard JSON format &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; — the Amazon Ion data format. For more information, see &lt;a href=&quot;http://amzn.github.io/ion-docs/&quot;&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; 
         public let contentType: String
+        ///  Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental submission of duplicate profiling data if there are failures and retries. 
         public let profileToken: String?
+        ///  The name of the profiling group with the aggregated profile that receives the submitted profiling data. 
         public let profilingGroupName: String
 
         public init(agentProfile: Data, contentType: String, profileToken: String? = PostAgentProfileRequest.idempotencyToken(), profilingGroupName: String) {
@@ -579,7 +1370,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "start", required: false, type: .timestamp)
         ]
 
-        /// The start time of the profile.
+        /// The start time of a profile. It is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         public let start: TimeStamp?
 
         public init(start: TimeStamp? = nil) {
@@ -595,39 +1386,50 @@ extension CodeGuruProfiler {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentOrchestrationConfig", required: false, type: .structure), 
             AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "profilingStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "updatedAt", required: false, type: .timestamp)
         ]
 
+        ///  An  AgentOrchestrationConfig  object that indicates if the profiling group is enabled for profiled or not. 
         public let agentOrchestrationConfig: AgentOrchestrationConfig?
-        /// The Amazon Resource Name (ARN) identifying the profiling group.
+        /// The Amazon Resource Name (ARN) identifying the profiling group resource.
         public let arn: String?
-        /// The time, in milliseconds since the epoch, when the profiling group was created.
+        ///  The compute platform of the profiling group. If it is set to AWSLambda, then the profiled application runs on AWS Lambda. If it is set to Default, then the profiled application runs on a compute platform that is not AWS Lambda, such an Amazon EC2 instance, an on-premises server, or a different platform. The default is Default. 
+        public let computePlatform: ComputePlatform?
+        /// The time when the profiling group was created. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
         public let createdAt: TimeStamp?
         /// The name of the profiling group.
         public let name: String?
-        /// The status of the profiling group.
+        ///  A  ProfilingStatus  object that includes information about the last time a profile agent pinged back, the last time a profile was received, and the aggregation period and start time for the most recent aggregated profile. 
         public let profilingStatus: ProfilingStatus?
-        /// The time, in milliseconds since the epoch, when the profiling group was last updated.
+        ///  A list of the tags that belong to this profiling group. 
+        public let tags: [String: String]?
+        ///  The date and time when the profiling group was last updated. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
         public let updatedAt: TimeStamp?
 
-        public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, profilingStatus: ProfilingStatus? = nil, updatedAt: TimeStamp? = nil) {
+        public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, arn: String? = nil, computePlatform: ComputePlatform? = nil, createdAt: TimeStamp? = nil, name: String? = nil, profilingStatus: ProfilingStatus? = nil, tags: [String: String]? = nil, updatedAt: TimeStamp? = nil) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
             self.arn = arn
+            self.computePlatform = computePlatform
             self.createdAt = createdAt
             self.name = name
             self.profilingStatus = profilingStatus
+            self.tags = tags
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case agentOrchestrationConfig = "agentOrchestrationConfig"
             case arn = "arn"
+            case computePlatform = "computePlatform"
             case createdAt = "createdAt"
             case name = "name"
             case profilingStatus = "profilingStatus"
+            case tags = "tags"
             case updatedAt = "updatedAt"
         }
     }
@@ -639,11 +1441,11 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "latestAggregatedProfile", required: false, type: .structure)
         ]
 
-        /// The time, in milliseconds since the epoch, when the latest agent was orchestrated.
+        /// The date and time when the profiling agent most recently pinged back. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         public let latestAgentOrchestratedAt: TimeStamp?
-        /// The time, in milliseconds since the epoch, when the latest agent was reported..
+        /// The date and time when the most recent profile was received. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         public let latestAgentProfileReportedAt: TimeStamp?
-        /// The latest aggregated profile
+        ///  An  AggregatedProfileTime  object that contains the aggregation period and start time for an aggregated profile. 
         public let latestAggregatedProfile: AggregatedProfileTime?
 
         public init(latestAgentOrchestratedAt: TimeStamp? = nil, latestAgentProfileReportedAt: TimeStamp? = nil, latestAggregatedProfile: AggregatedProfileTime? = nil) {
@@ -667,13 +1469,13 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "revisionId", required: false, type: .string)
         ]
 
-        /// The list of actions that the users and roles can perform on the profiling group.
+        ///  Specifies an action group that contains permissions to add to a profiling group resource. One action group is supported, agentPermissions, which grants permission to perform actions required by the profiling agent, ConfigureAgent and PostAgentProfile permissions. 
         public let actionGroup: ActionGroup
-        /// The list of role and user ARNs or the accountId that needs access (wildcards are not allowed).
+        ///  A list ARNs for the roles and users you want to grant access to the profiling group. Wildcards are not are supported in the ARNs. 
         public let principals: [String]
-        /// The name of the profiling group.
+        /// The name of the profiling group to grant access to.
         public let profilingGroupName: String
-        /// A unique identifier for the current revision of the policy. This is required, if a policy exists for the profiling group. This is not required when creating the policy for the first time.
+        ///  A universally unique identifier (UUID) for the revision of the policy you are adding to the profiling group. Do not specify this when you add permissions to a profiling group for the first time. If a policy already exists on the profiling group, you must specify the revisionId. 
         public let revisionId: String?
 
         public init(actionGroup: ActionGroup, principals: [String], profilingGroupName: String, revisionId: String? = nil) {
@@ -706,9 +1508,9 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "revisionId", required: true, type: .string)
         ]
 
-        /// The resource-based policy.
+        ///  The JSON-formatted resource-based policy on the profiling group that includes the added permissions. 
         public let policy: String
-        /// A unique identifier for the current revision of the policy.
+        ///  A universally unique identifier (UUID) for the revision of the resource-based policy that includes the added permissions. The JSON-formatted policy is in the policy element of the response. 
         public let revisionId: String
 
         public init(policy: String, revisionId: String) {
@@ -722,6 +1524,94 @@ extension CodeGuruProfiler {
         }
     }
 
+    public struct Recommendation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "allMatchesCount", required: true, type: .integer), 
+            AWSShapeMember(label: "allMatchesSum", required: true, type: .double), 
+            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "pattern", required: true, type: .structure), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "topMatches", required: true, type: .list)
+        ]
+
+        /// How many different places in the profile graph triggered a match.
+        public let allMatchesCount: Int
+        /// How much of the total sample count is potentially affected.
+        public let allMatchesSum: Double
+        /// End time of the profile that was used by this analysis. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
+        public let endTime: TimeStamp
+        /// The pattern that analysis recognized in the profile to make this recommendation.
+        public let pattern: Pattern
+        /// The start time of the profile that was used by this analysis. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
+        public let startTime: TimeStamp
+        /// List of the matches with most impact. 
+        public let topMatches: [Match]
+
+        public init(allMatchesCount: Int, allMatchesSum: Double, endTime: TimeStamp, pattern: Pattern, startTime: TimeStamp, topMatches: [Match]) {
+            self.allMatchesCount = allMatchesCount
+            self.allMatchesSum = allMatchesSum
+            self.endTime = endTime
+            self.pattern = pattern
+            self.startTime = startTime
+            self.topMatches = topMatches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allMatchesCount = "allMatchesCount"
+            case allMatchesSum = "allMatchesSum"
+            case endTime = "endTime"
+            case pattern = "pattern"
+            case startTime = "startTime"
+            case topMatches = "topMatches"
+        }
+    }
+
+    public struct RemoveNotificationChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "channelId", location: .uri(locationName: "channelId"), required: true, type: .string), 
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
+        ]
+
+        /// The id of the channel that we want to stop receiving notifications.
+        public let channelId: String
+        /// The name of the profiling group we want to change notification configuration for.
+        public let profilingGroupName: String
+
+        public init(channelId: String, profilingGroupName: String) {
+            self.channelId = channelId
+            self.profilingGroupName = profilingGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.channelId, name:"channelId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+            case profilingGroupName = "profilingGroupName"
+        }
+    }
+
+    public struct RemoveNotificationChannelResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "notificationConfiguration", required: false, type: .structure)
+        ]
+
+        /// The new notification configuration for this profiling group.
+        public let notificationConfiguration: NotificationConfiguration?
+
+        public init(notificationConfiguration: NotificationConfiguration? = nil) {
+            self.notificationConfiguration = notificationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationConfiguration = "notificationConfiguration"
+        }
+    }
+
     public struct RemovePermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "actionGroup", location: .uri(locationName: "actionGroup"), required: true, type: .enum), 
@@ -729,11 +1619,11 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "revisionId", location: .querystring(locationName: "revisionId"), required: true, type: .string)
         ]
 
-        /// The list of actions that the users and roles can perform on the profiling group.
+        ///  Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy. One action group is supported, agentPermissions, which grants ConfigureAgent and PostAgentProfile permissions. 
         public let actionGroup: ActionGroup
         /// The name of the profiling group.
         public let profilingGroupName: String
-        /// A unique identifier for the current revision of the policy.
+        ///  A universally unique identifier (UUID) for the revision of the resource-based policy from which you want to remove permissions. 
         public let revisionId: String
 
         public init(actionGroup: ActionGroup, profilingGroupName: String, revisionId: String) {
@@ -762,9 +1652,9 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "revisionId", required: true, type: .string)
         ]
 
-        /// The resource-based policy.
+        ///  The JSON-formatted resource-based policy on the profiling group after the specified permissions were removed. 
         public let policy: String
-        /// A unique identifier for the current revision of the policy.
+        ///  A universally unique identifier (UUID) for the revision of the resource-based policy after the specified permissions were removed. The updated JSON-formatted policy is in the policy element of the response. 
         public let revisionId: String
 
         public init(policy: String, revisionId: String) {
@@ -778,12 +1668,137 @@ extension CodeGuruProfiler {
         }
     }
 
+    public struct SubmitFeedbackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "anomalyInstanceId", location: .uri(locationName: "anomalyInstanceId"), required: true, type: .string), 
+            AWSShapeMember(label: "comment", required: false, type: .string), 
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        /// The universally unique identifier (UUID) of the  AnomalyInstance  object that is included in the analysis data.
+        public let anomalyInstanceId: String
+        /// Optional feedback about this anomaly.
+        public let comment: String?
+        /// The name of the profiling group that is associated with the analysis data.
+        public let profilingGroupName: String
+        ///  The feedback tpye. Thee are two valid values, Positive and Negative. 
+        public let `type`: FeedbackType
+
+        public init(anomalyInstanceId: String, comment: String? = nil, profilingGroupName: String, type: FeedbackType) {
+            self.anomalyInstanceId = anomalyInstanceId
+            self.comment = comment
+            self.profilingGroupName = profilingGroupName
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.anomalyInstanceId, name:"anomalyInstanceId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyInstanceId = "anomalyInstanceId"
+            case comment = "comment"
+            case profilingGroupName = "profilingGroupName"
+            case `type` = "type"
+        }
+    }
+
+    public struct SubmitFeedbackResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the resource that the tags are added to. 
+        public let resourceArn: String
+        ///  The list of tags that are added to the specified resource. 
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct TimestampStructure: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "value", required: true, type: .timestamp)
+        ]
+
+        ///  A Timestamp. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. 
+        public let value: TimeStamp
+
+        public init(value: TimeStamp) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the resource that contains the tags to remove. 
+        public let resourceArn: String
+        ///  A list of tag keys. Existing tags of resources with keys in this list are removed from the specified resource. 
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct UpdateProfilingGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentOrchestrationConfig", required: true, type: .structure), 
             AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
         ]
 
+        ///  Specifies whether profiling is enabled or disabled for a profiling group. 
         public let agentOrchestrationConfig: AgentOrchestrationConfig
         /// The name of the profiling group to update.
         public let profilingGroupName: String
@@ -812,7 +1827,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroup", required: true, type: .structure)
         ]
 
-        /// Updated information about the profiling group.
+        ///  A  ProfilingGroupDescription  that contains information about the returned updated profiling group. 
         public let profilingGroup: ProfilingGroupDescription
 
         public init(profilingGroup: ProfilingGroupDescription) {
@@ -821,6 +1836,23 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case profilingGroup = "profilingGroup"
+        }
+    }
+
+    public struct UserFeedback: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        /// Optional Positive or Negative feedback submitted by the user about whether the recommendation is useful or not.
+        public let `type`: FeedbackType
+
+        public init(type: FeedbackType) {
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
         }
     }
 }

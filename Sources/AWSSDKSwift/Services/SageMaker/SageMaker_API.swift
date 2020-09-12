@@ -62,12 +62,12 @@ public struct SageMaker {
         return client.send(operation: "CreateAlgorithm", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a running App for the specified UserProfile. Supported Apps are JupyterServer and KernelGateway. This operation is automatically invoked by Amazon SageMaker Amazon SageMaker Studio (Studio) upon access to the associated Studio Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously. Apps will automatically terminate and be deleted when stopped from within Studio, or when the DeleteApp API is manually called. UserProfiles are limited to 5 concurrently running Apps at a time.
+    ///  Creates a running App for the specified UserProfile. Supported Apps are JupyterServer and KernelGateway. This operation is automatically invoked by Amazon SageMaker Studio upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
     public func createApp(_ input: CreateAppRequest) -> EventLoopFuture<CreateAppResponse> {
         return client.send(operation: "CreateApp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an AutoPilot job. After you run an AutoPilot job, you can find the best performing model by calling , and then deploy that model by following the steps described in Step 6.1: Deploy the Model to Amazon SageMaker Hosting Services. For information about how to use AutoPilot, see Use AutoPilot to Automate Model Development.
+    ///  Creates an Autopilot job. Find the best performing model after you run an Autopilot job by calling . Deploy that model by following the steps described in Step 6.1: Deploy the Model to Amazon SageMaker Hosting Services. For information about how to use Autopilot, see  Automate Model Development with Amazon SageMaker Autopilot.
     public func createAutoMLJob(_ input: CreateAutoMLJobRequest) -> EventLoopFuture<CreateAutoMLJobResponse> {
         return client.send(operation: "CreateAutoMLJob", path: "/", httpMethod: "POST", input: input)
     }
@@ -77,27 +77,27 @@ public struct SageMaker {
         return client.send(operation: "CreateCodeRepository", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts a model compilation job. After the model has been compiled, Amazon SageMaker saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts with AWS IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the following:   A name for the compilation job    Information about the input model artifacts    The output location for the compiled model and the device (target) that the model runs on     The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the model compilation job    You can also provide a Tag to track the model compilation job's resource use and costs. The response body contains the CompilationJobArn for the compiled job. To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
+    ///  Starts a model compilation job. After the model has been compiled, Amazon SageMaker saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts with AWS IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the following:   A name for the compilation job    Information about the input model artifacts    The output location for the compiled model and the device (target) that the model runs on    The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the model compilation job.    You can also provide a Tag to track the model compilation job's resource use and costs. The response body contains the CompilationJobArn for the compiled job. To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
     public func createCompilationJob(_ input: CreateCompilationJobRequest) -> EventLoopFuture<CreateCompilationJobResponse> {
         return client.send(operation: "CreateCompilationJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Domain for Amazon SageMaker Amazon SageMaker Studio (Studio), which can be accessed by end-users in a web browser. A Domain has an associated directory, list of authorized users, and a variety of security, application, policies, and Amazon Virtual Private Cloud configurations. An AWS account is limited to one Domain, per region. Users within a domain can share notebook files and other artifacts with each other. When a Domain is created, an Amazon Elastic File System (EFS) is also created for use by all of the users within the Domain. Each user receives a private home directory within the EFS for notebooks, Git repositories, and data files. 
+    ///  Creates a Domain used by SageMaker Studio. A domain consists of an associated directory, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An AWS account is limited to one domain per region. Users within a domain can share notebook files and other artifacts with each other. When a domain is created, an Amazon Elastic File System (EFS) volume is also created for use by all of the users within the domain. Each user receives a private home directory within the EFS for notebooks, Git repositories, and data files. All traffic between the domain and the EFS volume is communicated through the specified subnet IDs. All other traffic goes over the Internet through an Amazon SageMaker system VPC. The EFS traffic uses the NFS/TCP protocol over port 2049.  NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a SageMaker Studio app successfully. 
     public func createDomain(_ input: CreateDomainRequest) -> EventLoopFuture<CreateDomainResponse> {
         return client.send(operation: "CreateDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an endpoint using the endpoint configuration specified in the request. Amazon SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API.   Use this API to deploy models using Amazon SageMaker hosting services.  For an example that calls this method when deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon SageMaker Hosting Services (AWS SDK for Python (Boto 3)).    You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig.  The endpoint name must be unique within an AWS Region in your AWS account.  When it receives the request, Amazon SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them.  When Amazon SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. Amazon SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the DescribeEndpoint API. If any of the models hosted at this endpoint get model data from an Amazon S3 location, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provided. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.
+    ///  Creates an endpoint using the endpoint configuration specified in the request. Amazon SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API.   Use this API to deploy models using Amazon SageMaker hosting services.  For an example that calls this method when deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon SageMaker Hosting Services (AWS SDK for Python (Boto 3)).    You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig.  The endpoint name must be unique within an AWS Region in your AWS account.  When it receives the request, Amazon SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them.   When you call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting  Eventually Consistent Reads , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent read.  When Amazon SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. Amazon SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the DescribeEndpoint API. If any of the models hosted at this endpoint get model data from an Amazon S3 location, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provided. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.
     public func createEndpoint(_ input: CreateEndpointInput) -> EventLoopFuture<CreateEndpointOutput> {
         return client.send(operation: "CreateEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an endpoint configuration that Amazon SageMaker hosting services uses to deploy models. In the configuration, you identify one or more models, created using the CreateModel API, to deploy and the resources that you want Amazon SageMaker to provision. Then you call the CreateEndpoint API.   Use this API if you want to use Amazon SageMaker hosting services to deploy models into production.   In the request, you define a ProductionVariant, for each model that you want to deploy. Each ProductionVariant parameter also describes the resources that you want Amazon SageMaker to provision. This includes the number and type of ML compute instances to deploy.  If you are hosting multiple models, you also assign a VariantWeight to specify how much traffic you want to allocate to each model. For example, suppose that you want to host two models, A and B, and you assign traffic weight 2 for model A and 1 for model B. Amazon SageMaker distributes two-thirds of the traffic to Model A, and one-third to model B.  For an example that calls this method when deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon SageMaker Hosting Services (AWS SDK for Python (Boto 3)). 
+    ///  Creates an endpoint configuration that Amazon SageMaker hosting services uses to deploy models. In the configuration, you identify one or more models, created using the CreateModel API, to deploy and the resources that you want Amazon SageMaker to provision. Then you call the CreateEndpoint API.   Use this API if you want to use Amazon SageMaker hosting services to deploy models into production.   In the request, you define a ProductionVariant, for each model that you want to deploy. Each ProductionVariant parameter also describes the resources that you want Amazon SageMaker to provision. This includes the number and type of ML compute instances to deploy.  If you are hosting multiple models, you also assign a VariantWeight to specify how much traffic you want to allocate to each model. For example, suppose that you want to host two models, A and B, and you assign traffic weight 2 for model A and 1 for model B. Amazon SageMaker distributes two-thirds of the traffic to Model A, and one-third to model B.  For an example that calls this method when deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon SageMaker Hosting Services (AWS SDK for Python (Boto 3)).   When you call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting  Eventually Consistent Reads , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent read. 
     public func createEndpointConfig(_ input: CreateEndpointConfigInput) -> EventLoopFuture<CreateEndpointConfigOutput> {
         return client.send(operation: "CreateEndpointConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an Amazon SageMaker experiment. An experiment is a collection of trials that are observed, compared and evaluated as a group. A trial is a set of steps, called trial components, that produce a machine learning model. The goal of an experiment is to determine the components that produce the best model. Multiple trials are performed, each one isolating and measuring the impact of a change to one or more inputs, while keeping the remaining inputs constant. When you use Amazon SageMaker Studio or the Amazon SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to experiments, trials, trial components and then use the Search API to search for the tags. To add a description to an experiment, specify the optional Description parameter. To add a description later, or to change the description, call the UpdateExperiment API. To get a list of all your experiments, call the ListExperiments API. To view an experiment's properties, call the DescribeExperiment API. To get a list of all the trials associated with an experiment, call the ListTrials API. To create a trial call the CreateTrial API.
+    ///  Creates an SageMaker experiment. An experiment is a collection of trials that are observed, compared and evaluated as a group. A trial is a set of steps, called trial components, that produce a machine learning model. The goal of an experiment is to determine the components that produce the best model. Multiple trials are performed, each one isolating and measuring the impact of a change to one or more inputs, while keeping the remaining inputs constant. When you use Amazon SageMaker Studio or the Amazon SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to experiments, trials, trial components and then use the Search API to search for the tags. To add a description to an experiment, specify the optional Description parameter. To add a description later, or to change the description, call the UpdateExperiment API. To get a list of all your experiments, call the ListExperiments API. To view an experiment's properties, call the DescribeExperiment API. To get a list of all the trials associated with an experiment, call the ListTrials API. To create a trial call the CreateTrial API.
     public func createExperiment(_ input: CreateExperimentRequest) -> EventLoopFuture<CreateExperimentResponse> {
         return client.send(operation: "CreateExperiment", path: "/", httpMethod: "POST", input: input)
     }
@@ -147,12 +147,12 @@ public struct SageMaker {
         return client.send(operation: "CreateNotebookInstanceLifecycleConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Amazon SageMaker Studio (Studio), and granted access to all of the Apps and files associated with that Amazon Elastic File System (EFS). This operation can only be called when AuthMode equals IAM. 
+    ///  Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM. 
     public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest) -> EventLoopFuture<CreatePresignedDomainUrlResponse> {
         return client.send(operation: "CreatePresignedDomainUrl", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the Amazon SageMaker console, when you choose Open next to a notebook instance, Amazon SageMaker opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance.For example, you can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the AWS console sign-in page. 
+    ///  Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the Amazon SageMaker console, when you choose Open next to a notebook instance, Amazon SageMaker opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page.  The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the AWS console sign-in page. 
     public func createPresignedNotebookInstanceUrl(_ input: CreatePresignedNotebookInstanceUrlInput) -> EventLoopFuture<CreatePresignedNotebookInstanceUrlOutput> {
         return client.send(operation: "CreatePresignedNotebookInstanceUrl", path: "/", httpMethod: "POST", input: input)
     }
@@ -182,9 +182,14 @@ public struct SageMaker {
         return client.send(operation: "CreateTrialComponent", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new user profile. A user profile represents a single user within a Domain, and is the main way to reference a "person" for the purposes of sharing, reporting and other user-oriented features. This entity is created during on-boarding. If an administrator invites a person by email or imports them from SSO, a new UserProfile is automatically created. This entity is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System (EFS) home directory. 
+    ///  Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to Amazon SageMaker Studio. If an administrator invites a person by email or imports them from SSO, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System (EFS) home directory. 
     public func createUserProfile(_ input: CreateUserProfileRequest) -> EventLoopFuture<CreateUserProfileResponse> {
         return client.send(operation: "CreateUserProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Use this operation to create a workforce. This operation will return an error if a workforce already exists in the AWS Region that you specify. You can only create one workforce in each AWS Region per AWS account. If you want to create a new workforce in an AWS Region where a workforce already exists, use the API operation to delete the existing workforce and then use CreateWorkforce to create a new workforce. To create a private workforce using Amazon Cognito, you must specify a Cognito user pool in CognitoConfig. You can also create an Amazon Cognito workforce using the Amazon SageMaker console. For more information, see  Create a Private Workforce (Amazon Cognito). To create a private workforce using your own OIDC Identity Provider (IdP), specify your IdP configuration in OidcConfig. Your OIDC IdP must support groups because groups are used by Ground Truth and Amazon A2I to create work teams. For more information, see  Create a Private Workforce (OIDC IdP).
+    public func createWorkforce(_ input: CreateWorkforceRequest) -> EventLoopFuture<CreateWorkforceResponse> {
+        return client.send(operation: "CreateWorkforce", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new work team for labeling your data. A work team is defined by one or more Amazon Cognito user pools. You must first create the user pools before you can create a work team. You cannot create more than 25 work teams in an account and region.
@@ -207,7 +212,7 @@ public struct SageMaker {
         return client.send(operation: "DeleteCodeRepository", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Used to delete a domain. If you on-boarded with IAM mode, you will need to delete your domain to on-board again using SSO. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts. 
+    ///  Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using SSO. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts. 
     @discardableResult public func deleteDomain(_ input: DeleteDomainRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDomain", path: "/", httpMethod: "POST", input: input)
     }
@@ -217,7 +222,7 @@ public struct SageMaker {
         return client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration. 
+    ///  Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration.  You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. If you delete the EndpointConfig of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
     @discardableResult public func deleteEndpointConfig(_ input: DeleteEndpointConfigInput) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteEndpointConfig", path: "/", httpMethod: "POST", input: input)
     }
@@ -230,6 +235,11 @@ public struct SageMaker {
     ///  Deletes the specified flow definition.
     public func deleteFlowDefinition(_ input: DeleteFlowDefinitionRequest) -> EventLoopFuture<DeleteFlowDefinitionResponse> {
         return client.send(operation: "DeleteFlowDefinition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Use this operation to delete a human task user interface (worker task template).  To see a list of human task user interfaces (work task templates) in your account, use . When you delete a worker task template, it no longer appears when you call ListHumanTaskUis.
+    public func deleteHumanTaskUi(_ input: DeleteHumanTaskUiRequest) -> EventLoopFuture<DeleteHumanTaskUiResponse> {
+        return client.send(operation: "DeleteHumanTaskUi", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a model. The DeleteModel API deletes only the model entry that was created in Amazon SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model. 
@@ -272,9 +282,14 @@ public struct SageMaker {
         return client.send(operation: "DeleteTrialComponent", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a user profile.
+    ///  Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts.
     @discardableResult public func deleteUserProfile(_ input: DeleteUserProfileRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteUserProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Use this operation to delete a workforce. If you want to create a new workforce in an AWS Region where a workforce already exists, use this operation to delete the existing workforce and then use to create a new workforce.  If a private workforce contains one or more work teams, you must use the operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will recieve a ResourceInUse error. 
+    public func deleteWorkforce(_ input: DeleteWorkforceRequest) -> EventLoopFuture<DeleteWorkforceResponse> {
+        return client.send(operation: "DeleteWorkforce", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing work team. This operation can't be undone.
@@ -307,7 +322,7 @@ public struct SageMaker {
         return client.send(operation: "DescribeCompilationJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The desciption of the domain.
+    ///  The description of the domain.
     public func describeDomain(_ input: DescribeDomainRequest) -> EventLoopFuture<DescribeDomainResponse> {
         return client.send(operation: "DescribeDomain", path: "/", httpMethod: "POST", input: input)
     }
@@ -332,7 +347,7 @@ public struct SageMaker {
         return client.send(operation: "DescribeFlowDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the requested human task user interface.
+    ///  Returns information about the requested human task user interface (worker task template).
     public func describeHumanTaskUi(_ input: DescribeHumanTaskUiRequest) -> EventLoopFuture<DescribeHumanTaskUiResponse> {
         return client.send(operation: "DescribeHumanTaskUi", path: "/", httpMethod: "POST", input: input)
     }
@@ -402,7 +417,7 @@ public struct SageMaker {
         return client.send(operation: "DescribeTrialComponent", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the user profile.
+    ///  Describes a user profile. For more information, see CreateUserProfile.
     public func describeUserProfile(_ input: DescribeUserProfileRequest) -> EventLoopFuture<DescribeUserProfileResponse> {
         return client.send(operation: "DescribeUserProfile", path: "/", httpMethod: "POST", input: input)
     }
@@ -577,7 +592,12 @@ public struct SageMaker {
         return client.send(operation: "ListUserProfiles", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets a list of work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
+    ///  Use this operation to list all private and vendor workforces in an AWS Region. Note that you can only have one private workforce per AWS Region.
+    public func listWorkforces(_ input: ListWorkforcesRequest) -> EventLoopFuture<ListWorkforcesResponse> {
+        return client.send(operation: "ListWorkforces", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     public func listWorkteams(_ input: ListWorkteamsRequest) -> EventLoopFuture<ListWorkteamsResponse> {
         return client.send(operation: "ListWorkteams", path: "/", httpMethod: "POST", input: input)
     }
@@ -652,12 +672,12 @@ public struct SageMaker {
         return client.send(operation: "UpdateCodeRepository", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a domain. Changes will impact all of the people in the domain.
+    ///  Updates the default settings for new user profiles in the domain.
     public func updateDomain(_ input: UpdateDomainRequest) -> EventLoopFuture<UpdateDomainResponse> {
         return client.send(operation: "UpdateDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deploys the new EndpointConfig specified in the request, switches to using newly created endpoint, and then deletes resources provisioned for the endpoint using the previous EndpointConfig (there is no availability loss).  When Amazon SageMaker receives the request, it sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the DescribeEndpoint API.   You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig. 
+    ///  Deploys the new EndpointConfig specified in the request, switches to using newly created endpoint, and then deletes resources provisioned for the endpoint using the previous EndpointConfig (there is no availability loss).  When Amazon SageMaker receives the request, it sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the DescribeEndpoint API.   You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig. If you delete the EndpointConfig of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges. 
     public func updateEndpoint(_ input: UpdateEndpointInput) -> EventLoopFuture<UpdateEndpointOutput> {
         return client.send(operation: "UpdateEndpoint", path: "/", httpMethod: "POST", input: input)
     }
@@ -702,7 +722,7 @@ public struct SageMaker {
         return client.send(operation: "UpdateUserProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Restricts access to tasks assigned to workers in the specified workforce to those within specific ranges of IP addresses. You specify allowed IP addresses by creating a list of up to four CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied access and get a Not Found error message on the worker portal. After restricting access with this operation, you can see the allowed IP values for a private workforce with the operation.  This operation applies only to private workforces. 
+    ///  Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration.  Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP.   You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the operation.  After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the operation.  This operation only applies to private workforces. 
     public func updateWorkforce(_ input: UpdateWorkforceRequest) -> EventLoopFuture<UpdateWorkforceResponse> {
         return client.send(operation: "UpdateWorkforce", path: "/", httpMethod: "POST", input: input)
     }

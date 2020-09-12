@@ -11,7 +11,7 @@ extension KMS {
         return client.paginate(input: input, command: listAliases, tokenKey: \ListAliasesResponse.nextMarker, onPage: onPage)
     }
 
-    ///  Gets a list of all grants for the specified customer master key (CMK). To perform this operation on a CMK in a different AWS account, specify the key ARN in the value of the KeyId parameter.
+    ///  Gets a list of all grants for the specified customer master key (CMK). To perform this operation on a CMK in a different AWS account, specify the key ARN in the value of the KeyId parameter.  The GranteePrincipal field in the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, when the grantee principal in the grant is an AWS service, the GranteePrincipal field contains the service principal, which might represent several different grantee principals. 
     public func listGrantsPaginator(_ input: ListGrantsRequest, onPage: @escaping (ListGrantsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listGrants, tokenKey: \ListGrantsResponse.nextMarker, onPage: onPage)
     }

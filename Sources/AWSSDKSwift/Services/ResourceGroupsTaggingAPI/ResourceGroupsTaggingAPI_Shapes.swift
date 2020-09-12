@@ -181,7 +181,7 @@ extension ResourceGroupsTaggingAPI {
             try self.targetIdFilters?.forEach {
                 try validate($0, name: "targetIdFilters[]", parent: name, max: 68)
                 try validate($0, name: "targetIdFilters[]", parent: name, min: 6)
-                try validate($0, name: "targetIdFilters[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "targetIdFilters[]", parent: name, pattern: "[a-zA-Z0-9-]*")
             }
             try validate(self.targetIdFilters, name:"targetIdFilters", parent: name, max: 100)
             try validate(self.targetIdFilters, name:"targetIdFilters", parent: name, min: 1)
@@ -445,7 +445,7 @@ extension ResourceGroupsTaggingAPI {
         public func validate(name: String) throws {
             try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 63)
             try validate(self.s3Bucket, name:"s3Bucket", parent: name, min: 3)
-            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "[\\s\\S]*")
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "[a-z0-9.-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -511,7 +511,7 @@ extension ResourceGroupsTaggingAPI {
 
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
-        /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
+        /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
         public let value: String
 
         public init(key: String, value: String) {
@@ -533,7 +533,7 @@ extension ResourceGroupsTaggingAPI {
 
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
-        /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
+        /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -566,7 +566,7 @@ extension ResourceGroupsTaggingAPI {
             AWSShapeMember(label: "Tags", required: true, type: .map)
         ]
 
-        /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. You can specify a minimum of 1 and a maximum of 20 ARNs (resources) to tag. An ARN can be set to a maximum of 1600 characters. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
         /// The tags that you want to add to the specified resources. A tag consists of a key and a value that you define.
         public let tags: [String: String]
@@ -623,7 +623,7 @@ extension ResourceGroupsTaggingAPI {
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
-        /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. You can specify a minimum of 1 and a maximum of 20 ARNs (resources) to untag. An ARN can be set to a maximum of 1600 characters. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
         /// A list of the tag keys that you want to remove from the specified resources.
         public let tagKeys: [String]

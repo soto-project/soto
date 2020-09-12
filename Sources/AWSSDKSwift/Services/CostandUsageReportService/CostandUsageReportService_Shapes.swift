@@ -7,17 +7,29 @@ extension CostandUsageReportService {
     //MARK: Enums
 
     public enum AWSRegion: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case euCentral1 = "eu-central-1"
-        case euWest1 = "eu-west-1"
+        case afSouth1 = "af-south-1"
+        case apEast1 = "ap-east-1"
+        case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
         case apNortheast1 = "ap-northeast-1"
-        case euNorth1 = "eu-north-1"
+        case apNortheast2 = "ap-northeast-2"
         case apNortheast3 = "ap-northeast-3"
-        case apEast1 = "ap-east-1"
+        case caCentral1 = "ca-central-1"
+        case euCentral1 = "eu-central-1"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case euNorth1 = "eu-north-1"
+        case euSouth1 = "eu-south-1"
+        case meSouth1 = "me-south-1"
+        case saEast1 = "sa-east-1"
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case cnNorth1 = "cn-north-1"
+        case cnNorthwest1 = "cn-northwest-1"
         public var description: String { return self.rawValue }
     }
 
@@ -55,6 +67,7 @@ extension CostandUsageReportService {
     public enum TimeUnit: String, CustomStringConvertible, Codable {
         case hourly = "HOURLY"
         case daily = "DAILY"
+        case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
     }
 
@@ -65,6 +78,7 @@ extension CostandUsageReportService {
             AWSShapeMember(label: "ReportName", required: false, type: .string)
         ]
 
+        /// The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces.
         public let reportName: String?
 
         public init(reportName: String? = nil) {
@@ -114,6 +128,8 @@ extension CostandUsageReportService {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 5)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 5)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 256)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[A-Za-z0-9_\\.\\-=]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -255,6 +271,7 @@ extension CostandUsageReportService {
             try validate(self.reportName, name:"reportName", parent: name, max: 256)
             try validate(self.reportName, name:"reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
             try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 256)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "[A-Za-z0-9_\\.\\-]+")
             try validate(self.s3Prefix, name:"s3Prefix", parent: name, max: 256)
             try validate(self.s3Prefix, name:"s3Prefix", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()/]*")
         }

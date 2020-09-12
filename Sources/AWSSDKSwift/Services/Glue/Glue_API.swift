@@ -186,6 +186,16 @@ public struct Glue {
         return client.send(operation: "DeleteClassifier", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Delete the partition column statistics of a column.
+    public func deleteColumnStatisticsForPartition(_ input: DeleteColumnStatisticsForPartitionRequest) -> EventLoopFuture<DeleteColumnStatisticsForPartitionResponse> {
+        return client.send(operation: "DeleteColumnStatisticsForPartition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves table statistics of columns.
+    public func deleteColumnStatisticsForTable(_ input: DeleteColumnStatisticsForTableRequest) -> EventLoopFuture<DeleteColumnStatisticsForTableResponse> {
+        return client.send(operation: "DeleteColumnStatisticsForTable", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a connection from the Data Catalog.
     public func deleteConnection(_ input: DeleteConnectionRequest) -> EventLoopFuture<DeleteConnectionResponse> {
         return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
@@ -269,6 +279,16 @@ public struct Glue {
     ///  Lists all classifier objects in the Data Catalog.
     public func getClassifiers(_ input: GetClassifiersRequest) -> EventLoopFuture<GetClassifiersResponse> {
         return client.send(operation: "GetClassifiers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves partition statistics of columns.
+    public func getColumnStatisticsForPartition(_ input: GetColumnStatisticsForPartitionRequest) -> EventLoopFuture<GetColumnStatisticsForPartitionResponse> {
+        return client.send(operation: "GetColumnStatisticsForPartition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves table statistics of columns.
+    public func getColumnStatisticsForTable(_ input: GetColumnStatisticsForTableRequest) -> EventLoopFuture<GetColumnStatisticsForTableResponse> {
+        return client.send(operation: "GetColumnStatisticsForTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a connection definition from the Data Catalog.
@@ -381,6 +401,11 @@ public struct Glue {
         return client.send(operation: "GetPartition", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves the partition indexes associated with a table.
+    public func getPartitionIndexes(_ input: GetPartitionIndexesRequest) -> EventLoopFuture<GetPartitionIndexesResponse> {
+        return client.send(operation: "GetPartitionIndexes", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves information about the partitions in a table.
     public func getPartitions(_ input: GetPartitionsRequest) -> EventLoopFuture<GetPartitionsResponse> {
         return client.send(operation: "GetPartitions", path: "/", httpMethod: "POST", input: input)
@@ -389,6 +414,11 @@ public struct Glue {
     ///  Gets code to perform a specified mapping.
     public func getPlan(_ input: GetPlanRequest) -> EventLoopFuture<GetPlanResponse> {
         return client.send(operation: "GetPlan", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the security configurations for the resource policies set on individual resources, and also the account-level policy. This operation also returns the Data Catalog resource policy. However, if you enabled metadata encryption in Data Catalog settings, and you do not have permission on the AWS KMS key, the operation can't return the Data Catalog resource policy.
+    public func getResourcePolicies(_ input: GetResourcePoliciesRequest) -> EventLoopFuture<GetResourcePoliciesResponse> {
+        return client.send(operation: "GetResourcePolicies", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a specified resource policy.
@@ -526,6 +556,11 @@ public struct Glue {
         return client.send(operation: "ResetJobBookmark", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
+    public func resumeWorkflowRun(_ input: ResumeWorkflowRunRequest) -> EventLoopFuture<ResumeWorkflowRunResponse> {
+        return client.send(operation: "ResumeWorkflowRun", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search. 
     public func searchTables(_ input: SearchTablesRequest) -> EventLoopFuture<SearchTablesResponse> {
         return client.send(operation: "SearchTables", path: "/", httpMethod: "POST", input: input)
@@ -591,6 +626,11 @@ public struct Glue {
         return client.send(operation: "StopTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Stops the execution of the specified workflow run.
+    public func stopWorkflowRun(_ input: StopWorkflowRunRequest) -> EventLoopFuture<StopWorkflowRunResponse> {
+        return client.send(operation: "StopWorkflowRun", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Adds tags to a resource. A tag is a label you can assign to an AWS resource. In AWS Glue, you can tag only certain resources. For information about what resources you can tag, see AWS Tags in AWS Glue.
     public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
@@ -604,6 +644,16 @@ public struct Glue {
     ///  Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
     public func updateClassifier(_ input: UpdateClassifierRequest) -> EventLoopFuture<UpdateClassifierResponse> {
         return client.send(operation: "UpdateClassifier", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates or updates partition statistics of columns.
+    public func updateColumnStatisticsForPartition(_ input: UpdateColumnStatisticsForPartitionRequest) -> EventLoopFuture<UpdateColumnStatisticsForPartitionResponse> {
+        return client.send(operation: "UpdateColumnStatisticsForPartition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates or updates table statistics of columns.
+    public func updateColumnStatisticsForTable(_ input: UpdateColumnStatisticsForTableRequest) -> EventLoopFuture<UpdateColumnStatisticsForTableResponse> {
+        return client.send(operation: "UpdateColumnStatisticsForTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a connection definition in the Data Catalog.

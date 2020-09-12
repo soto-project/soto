@@ -17,12 +17,13 @@ extension SageMakerRuntime {
             AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
             AWSShapeMember(label: "CustomAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes"), required: false, type: .string), 
             AWSShapeMember(label: "EndpointName", location: .uri(locationName: "EndpointName"), required: true, type: .string), 
-            AWSShapeMember(label: "TargetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model"), required: false, type: .string)
+            AWSShapeMember(label: "TargetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model"), required: false, type: .string), 
+            AWSShapeMember(label: "TargetVariant", location: .header(locationName: "X-Amzn-SageMaker-Target-Variant"), required: false, type: .string)
         ]
 
         /// The desired MIME type of the inference in the response.
         public let accept: String?
-        /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats—Inference.
+        /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats-Inference.
         public let body: Data
         /// The MIME type of the input data in the request body.
         public let contentType: String?
@@ -30,22 +31,25 @@ extension SageMakerRuntime {
         public let customAttributes: String?
         /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. 
         public let endpointName: String
-        /// Specifies the model to be requested for an inference when invoking a multi-model endpoint. 
+        /// The model to request for inference when invoking a multi-model endpoint. 
         public let targetModel: String?
+        /// Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights.
+        public let targetVariant: String?
 
-        public init(accept: String? = nil, body: Data, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, targetModel: String? = nil) {
+        public init(accept: String? = nil, body: Data, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, targetModel: String? = nil, targetVariant: String? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
             self.customAttributes = customAttributes
             self.endpointName = endpointName
             self.targetModel = targetModel
+            self.targetVariant = targetVariant
         }
 
         public func validate(name: String) throws {
             try validate(self.accept, name:"accept", parent: name, max: 1024)
             try validate(self.accept, name:"accept", parent: name, pattern: "\\p{ASCII}*")
-            try validate(self.body, name:"body", parent: name, max: 5242880)
+            try validate(self.body, name:"body", parent: name, max: 6291456)
             try validate(self.contentType, name:"contentType", parent: name, max: 1024)
             try validate(self.contentType, name:"contentType", parent: name, pattern: "\\p{ASCII}*")
             try validate(self.customAttributes, name:"customAttributes", parent: name, max: 1024)
@@ -55,6 +59,8 @@ extension SageMakerRuntime {
             try validate(self.targetModel, name:"targetModel", parent: name, max: 1024)
             try validate(self.targetModel, name:"targetModel", parent: name, min: 1)
             try validate(self.targetModel, name:"targetModel", parent: name, pattern: "\\A\\S[\\p{Print}]*\\z")
+            try validate(self.targetVariant, name:"targetVariant", parent: name, max: 63)
+            try validate(self.targetVariant, name:"targetVariant", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -64,6 +70,7 @@ extension SageMakerRuntime {
             case customAttributes = "X-Amzn-SageMaker-Custom-Attributes"
             case endpointName = "EndpointName"
             case targetModel = "X-Amzn-SageMaker-Target-Model"
+            case targetVariant = "X-Amzn-SageMaker-Target-Variant"
         }
     }
 
@@ -77,7 +84,7 @@ extension SageMakerRuntime {
             AWSShapeMember(label: "InvokedProductionVariant", location: .header(locationName: "x-Amzn-Invoked-Production-Variant"), required: false, type: .string)
         ]
 
-        /// Includes the inference provided by the model. For information about the format of the response body, see Common Data Formats—Inference.
+        /// Includes the inference provided by the model. For information about the format of the response body, see Common Data Formats-Inference.
         public let body: Data
         /// The MIME type of the inference returned in the response body.
         public let contentType: String?

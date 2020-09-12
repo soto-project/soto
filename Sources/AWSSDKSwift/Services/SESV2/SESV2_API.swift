@@ -55,6 +55,11 @@ public struct SESV2 {
         return client.send(operation: "CreateConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a new custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func createCustomVerificationEmailTemplate(_ input: CreateCustomVerificationEmailTemplateRequest) -> EventLoopFuture<CreateCustomVerificationEmailTemplateResponse> {
+        return client.send(operation: "CreateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates", httpMethod: "POST", input: input)
+    }
+
     ///  Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your AWS account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.
     public func createDedicatedIpPool(_ input: CreateDedicatedIpPoolRequest) -> EventLoopFuture<CreateDedicatedIpPoolResponse> {
         return client.send(operation: "CreateDedicatedIpPool", path: "/v2/email/dedicated-ip-pools", httpMethod: "POST", input: input)
@@ -70,6 +75,21 @@ public struct SESV2 {
         return client.send(operation: "CreateEmailIdentity", path: "/v2/email/identities", httpMethod: "POST", input: input)
     }
 
+    ///  Creates the specified sending authorization policy for the given identity (an email address or a domain).  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func createEmailIdentityPolicy(_ input: CreateEmailIdentityPolicyRequest) -> EventLoopFuture<CreateEmailIdentityPolicyResponse> {
+        return client.send(operation: "CreateEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func createEmailTemplate(_ input: CreateEmailTemplateRequest) -> EventLoopFuture<CreateEmailTemplateResponse> {
+        return client.send(operation: "CreateEmailTemplate", path: "/v2/email/templates", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an import job for a data destination.
+    public func createImportJob(_ input: CreateImportJobRequest) -> EventLoopFuture<CreateImportJobResponse> {
+        return client.send(operation: "CreateImportJob", path: "/v2/email/import-jobs", httpMethod: "POST", input: input)
+    }
+
     ///  Delete an existing configuration set.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest) -> EventLoopFuture<DeleteConfigurationSetResponse> {
         return client.send(operation: "DeleteConfigurationSet", path: "/v2/email/configuration-sets/{ConfigurationSetName}", httpMethod: "DELETE", input: input)
@@ -80,6 +100,11 @@ public struct SESV2 {
         return client.send(operation: "DeleteConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func deleteCustomVerificationEmailTemplate(_ input: DeleteCustomVerificationEmailTemplateRequest) -> EventLoopFuture<DeleteCustomVerificationEmailTemplateResponse> {
+        return client.send(operation: "DeleteCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Delete a dedicated IP pool.
     public func deleteDedicatedIpPool(_ input: DeleteDedicatedIpPoolRequest) -> EventLoopFuture<DeleteDedicatedIpPoolResponse> {
         return client.send(operation: "DeleteDedicatedIpPool", path: "/v2/email/dedicated-ip-pools/{PoolName}", httpMethod: "DELETE", input: input)
@@ -88,6 +113,16 @@ public struct SESV2 {
     ///  Deletes an email identity. An identity can be either an email address or a domain name.
     public func deleteEmailIdentity(_ input: DeleteEmailIdentityRequest) -> EventLoopFuture<DeleteEmailIdentityResponse> {
         return client.send(operation: "DeleteEmailIdentity", path: "/v2/email/identities/{EmailIdentity}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func deleteEmailIdentityPolicy(_ input: DeleteEmailIdentityPolicyRequest) -> EventLoopFuture<DeleteEmailIdentityPolicyResponse> {
+        return client.send(operation: "DeleteEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes an email template. You can execute this operation no more than once per second.
+    public func deleteEmailTemplate(_ input: DeleteEmailTemplateRequest) -> EventLoopFuture<DeleteEmailTemplateResponse> {
+        return client.send(operation: "DeleteEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes an email address from the suppression list for your account.
@@ -113,6 +148,11 @@ public struct SESV2 {
     ///  Retrieve a list of event destinations that are associated with a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     public func getConfigurationSetEventDestinations(_ input: GetConfigurationSetEventDestinationsRequest) -> EventLoopFuture<GetConfigurationSetEventDestinationsResponse> {
         return client.send(operation: "GetConfigurationSetEventDestinations", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func getCustomVerificationEmailTemplate(_ input: GetCustomVerificationEmailTemplateRequest) -> EventLoopFuture<GetCustomVerificationEmailTemplateResponse> {
+        return client.send(operation: "GetCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: "GET", input: input)
     }
 
     ///  Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
@@ -145,9 +185,24 @@ public struct SESV2 {
         return client.send(operation: "GetDomainStatisticsReport", path: "/v2/email/deliverability-dashboard/statistics-report/{Domain}", httpMethod: "GET", input: input)
     }
 
-    ///  Provides information about a specific identity, including the identity's verification status, its DKIM authentication status, and its custom Mail-From settings.
+    ///  Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings.
     public func getEmailIdentity(_ input: GetEmailIdentityRequest) -> EventLoopFuture<GetEmailIdentityResponse> {
         return client.send(operation: "GetEmailIdentity", path: "/v2/email/identities/{EmailIdentity}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func getEmailIdentityPolicies(_ input: GetEmailIdentityPoliciesRequest) -> EventLoopFuture<GetEmailIdentityPoliciesResponse> {
+        return client.send(operation: "GetEmailIdentityPolicies", path: "/v2/email/identities/{EmailIdentity}/policies", httpMethod: "GET", input: input)
+    }
+
+    ///  Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
+    public func getEmailTemplate(_ input: GetEmailTemplateRequest) -> EventLoopFuture<GetEmailTemplateResponse> {
+        return client.send(operation: "GetEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Provides information about an import job.
+    public func getImportJob(_ input: GetImportJobRequest) -> EventLoopFuture<GetImportJobResponse> {
+        return client.send(operation: "GetImportJob", path: "/v2/email/import-jobs/{JobId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about a specific email address that's on the suppression list for your account.
@@ -158,6 +213,11 @@ public struct SESV2 {
     ///  List all of the configuration sets associated with your account in the current region.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     public func listConfigurationSets(_ input: ListConfigurationSetsRequest) -> EventLoopFuture<ListConfigurationSetsResponse> {
         return client.send(operation: "ListConfigurationSets", path: "/v2/email/configuration-sets", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func listCustomVerificationEmailTemplates(_ input: ListCustomVerificationEmailTemplatesRequest) -> EventLoopFuture<ListCustomVerificationEmailTemplatesResponse> {
+        return client.send(operation: "ListCustomVerificationEmailTemplates", path: "/v2/email/custom-verification-email-templates", httpMethod: "GET", input: input)
     }
 
     ///  List all of the dedicated IP pools that exist in your AWS account in the current Region.
@@ -180,6 +240,16 @@ public struct SESV2 {
         return client.send(operation: "ListEmailIdentities", path: "/v2/email/identities", httpMethod: "GET", input: input)
     }
 
+    ///  Lists the email templates present in your Amazon SES account in the current AWS Region. You can execute this operation no more than once per second.
+    public func listEmailTemplates(_ input: ListEmailTemplatesRequest) -> EventLoopFuture<ListEmailTemplatesResponse> {
+        return client.send(operation: "ListEmailTemplates", path: "/v2/email/templates", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists all of the import jobs.
+    public func listImportJobs(_ input: ListImportJobsRequest) -> EventLoopFuture<ListImportJobsResponse> {
+        return client.send(operation: "ListImportJobs", path: "/v2/email/import-jobs", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves a list of email addresses that are on the suppression list for your account.
     public func listSuppressedDestinations(_ input: ListSuppressedDestinationsRequest) -> EventLoopFuture<ListSuppressedDestinationsResponse> {
         return client.send(operation: "ListSuppressedDestinations", path: "/v2/email/suppression/addresses", httpMethod: "GET", input: input)
@@ -193,6 +263,11 @@ public struct SESV2 {
     ///  Enable or disable the automatic warm-up feature for dedicated IP addresses.
     public func putAccountDedicatedIpWarmupAttributes(_ input: PutAccountDedicatedIpWarmupAttributesRequest) -> EventLoopFuture<PutAccountDedicatedIpWarmupAttributesResponse> {
         return client.send(operation: "PutAccountDedicatedIpWarmupAttributes", path: "/v2/email/account/dedicated-ips/warmup", httpMethod: "PUT", input: input)
+    }
+
+    ///  Update your Amazon SES account details.
+    public func putAccountDetails(_ input: PutAccountDetailsRequest) -> EventLoopFuture<PutAccountDetailsResponse> {
+        return client.send(operation: "PutAccountDetails", path: "/v2/email/account/details", httpMethod: "POST", input: input)
     }
 
     ///  Enable or disable the ability of your account to send email.
@@ -269,7 +344,17 @@ public struct SESV2 {
         return client.send(operation: "PutSuppressedDestination", path: "/v2/email/suppression/addresses", httpMethod: "PUT", input: input)
     }
 
-    ///  Sends an email message. You can use the Amazon SES API v2 to send two types of messages:    Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.    Raw – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.  
+    ///  Composes an email message to multiple destinations.
+    public func sendBulkEmail(_ input: SendBulkEmailRequest) -> EventLoopFuture<SendBulkEmailResponse> {
+        return client.send(operation: "SendBulkEmail", path: "/v2/email/outbound-bulk-emails", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds an email address to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func sendCustomVerificationEmail(_ input: SendCustomVerificationEmailRequest) -> EventLoopFuture<SendCustomVerificationEmailResponse> {
+        return client.send(operation: "SendCustomVerificationEmail", path: "/v2/email/outbound-custom-verification-emails", httpMethod: "POST", input: input)
+    }
+
+    ///  Sends an email message. You can use the Amazon SES API v2 to send two types of messages:    Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.    Raw – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.    Templated – A message that contains personalization tags. When you send this type of email, Amazon SES API v2 automatically replaces the tags with values that you specify.  
     public func sendEmail(_ input: SendEmailRequest) -> EventLoopFuture<SendEmailResponse> {
         return client.send(operation: "SendEmail", path: "/v2/email/outbound-emails", httpMethod: "POST", input: input)
     }
@@ -277,6 +362,11 @@ public struct SESV2 {
     ///  Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/v2/email/tags", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
+    public func testRenderEmailTemplate(_ input: TestRenderEmailTemplateRequest) -> EventLoopFuture<TestRenderEmailTemplateResponse> {
+        return client.send(operation: "TestRenderEmailTemplate", path: "/v2/email/templates/{TemplateName}/render", httpMethod: "POST", input: input)
     }
 
     ///  Remove one or more tags (keys and values) from a specified resource.
@@ -287,5 +377,20 @@ public struct SESV2 {
     ///  Update the configuration of an event destination for a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest) -> EventLoopFuture<UpdateConfigurationSetEventDestinationResponse> {
         return client.send(operation: "UpdateConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func updateCustomVerificationEmailTemplate(_ input: UpdateCustomVerificationEmailTemplateRequest) -> EventLoopFuture<UpdateCustomVerificationEmailTemplateResponse> {
+        return client.send(operation: "UpdateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func updateEmailIdentityPolicy(_ input: UpdateEmailIdentityPolicyRequest) -> EventLoopFuture<UpdateEmailIdentityPolicyResponse> {
+        return client.send(operation: "UpdateEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func updateEmailTemplate(_ input: UpdateEmailTemplateRequest) -> EventLoopFuture<UpdateEmailTemplateResponse> {
+        return client.send(operation: "UpdateEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: "PUT", input: input)
     }
 }

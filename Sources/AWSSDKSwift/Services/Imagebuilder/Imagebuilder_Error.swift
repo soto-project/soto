@@ -19,6 +19,7 @@ public enum ImagebuilderErrorType: AWSErrorType {
     case resourceInUseException(message: String?)
     case resourceNotFoundException(message: String?)
     case serviceException(message: String?)
+    case serviceQuotaExceededException(message: String?)
     case serviceUnavailableException(message: String?)
 }
 
@@ -59,6 +60,8 @@ extension ImagebuilderErrorType {
             self = .resourceNotFoundException(message: message)
         case "ServiceException":
             self = .serviceException(message: message)
+        case "ServiceQuotaExceededException":
+            self = .serviceQuotaExceededException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
         default:
@@ -100,6 +103,8 @@ extension ImagebuilderErrorType : CustomStringConvertible {
             return "ResourceNotFoundException: \(message ?? "")"
         case .serviceException(let message):
             return "ServiceException: \(message ?? "")"
+        case .serviceQuotaExceededException(let message):
+            return "ServiceQuotaExceededException: \(message ?? "")"
         case .serviceUnavailableException(let message):
             return "ServiceUnavailableException: \(message ?? "")"
         }

@@ -6,6 +6,11 @@ import NIO
 
 extension GuardDuty {
 
+    ///  Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources the cost returned will include only the usage so far under 30 days, this may differ from the cost metrics in the console, which projects usage over 30 days to provide a monthly cost estimate. For more information see Understanding How Usage Costs are Calculated.
+    public func getUsageStatisticsPaginator(_ input: GetUsageStatisticsRequest, onPage: @escaping (GetUsageStatisticsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getUsageStatistics, tokenKey: \GetUsageStatisticsResponse.nextToken, onPage: onPage)
+    }
+
     ///  Lists detectorIds of all the existing Amazon GuardDuty detector resources.
     public func listDetectorsPaginator(_ input: ListDetectorsRequest, onPage: @escaping (ListDetectorsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDetectors, tokenKey: \ListDetectorsResponse.nextToken, onPage: onPage)
@@ -31,12 +36,12 @@ extension GuardDuty {
         return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists details about associated member accounts for the current GuardDuty master account.
+    ///  Lists details about all member accounts for the current GuardDuty master account.
     public func listMembersPaginator(_ input: ListMembersRequest, onPage: @escaping (ListMembersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists the accounts configured as AWS Organization delegated administrators.
+    ///  Lists the accounts configured as GuardDuty delegated administrators.
     public func listOrganizationAdminAccountsPaginator(_ input: ListOrganizationAdminAccountsRequest, onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOrganizationAdminAccounts, tokenKey: \ListOrganizationAdminAccountsResponse.nextToken, onPage: onPage)
     }
@@ -51,6 +56,20 @@ extension GuardDuty {
         return client.paginate(input: input, command: listThreatIntelSets, tokenKey: \ListThreatIntelSetsResponse.nextToken, onPage: onPage)
     }
 
+}
+
+extension GuardDuty.GetUsageStatisticsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> GuardDuty.GetUsageStatisticsRequest {
+        return .init(
+            detectorId: self.detectorId, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            unit: self.unit, 
+            usageCriteria: self.usageCriteria, 
+            usageStatisticType: self.usageStatisticType
+        )
+
+    }
 }
 
 extension GuardDuty.ListDetectorsRequest: AWSPaginateStringToken {

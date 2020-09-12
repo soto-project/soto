@@ -72,6 +72,7 @@ extension SavingsPlans {
     public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable {
         case amazonec2 = "AmazonEC2"
         case amazonecs = "AmazonECS"
+        case amazoneks = "AmazonEKS"
         case awslambda = "AWSLambda"
         public var description: String { return self.rawValue }
     }

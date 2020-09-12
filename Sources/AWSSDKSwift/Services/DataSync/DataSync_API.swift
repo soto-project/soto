@@ -46,12 +46,12 @@ public struct DataSync {
     
     //MARK: API Calls
 
-    ///  Cancels execution of a task.  When you cancel a task execution, the transfer of some files are abruptly interrupted. The contents of files that are transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution on the same task and you allow the task execution to complete, file content on the destination is complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, AWS DataSync successfully complete the transfer when you start the next task execution.
+    ///  Cancels execution of a task.  When you cancel a task execution, the transfer of some files is abruptly interrupted. The contents of files that are transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution on the same task and you allow the task execution to complete, file content on the destination is complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, AWS DataSync successfully complete the transfer when you start the next task execution.
     public func cancelTaskExecution(_ input: CancelTaskExecutionRequest) -> EventLoopFuture<CancelTaskExecutionResponse> {
         return client.send(operation: "CancelTaskExecution", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Activates an AWS DataSync agent that you have deployed on your host. The activation process associates your agent with your account. In the activation process, you specify information such as the AWS Region that you want to activate the agent in. You activate the agent in the AWS Region where your target locations (in Amazon S3 or Amazon EFS) reside. Your tasks are created in this AWS Region. You can activate the agent in a VPC (Virtual private Cloud) or provide the agent access to a VPC endpoint so you can run tasks without going over the public Internet. You can use an agent for more than one location. If a task uses multiple agents, all of them need to have status AVAILABLE for the task to run. If you use multiple agents for a source location, the status of all the agents must be AVAILABLE for the task to run.  Agents are automatically updated by AWS on a regular basis, using a mechanism that ensures minimal interruption to your tasks. 
+    ///  Activates an AWS DataSync agent that you have deployed on your host. The activation process associates your agent with your account. In the activation process, you specify information such as the AWS Region that you want to activate the agent in. You activate the agent in the AWS Region where your target locations (in Amazon S3 or Amazon EFS) reside. Your tasks are created in this AWS Region. You can activate the agent in a VPC (virtual private cloud) or provide the agent access to a VPC endpoint so you can run tasks without going over the public Internet. You can use an agent for more than one location. If a task uses multiple agents, all of them need to have status AVAILABLE for the task to run. If you use multiple agents for a source location, the status of all the agents must be AVAILABLE for the task to run.  Agents are automatically updated by AWS on a regular basis, using a mechanism that ensures minimal interruption to your tasks. 
     public func createAgent(_ input: CreateAgentRequest) -> EventLoopFuture<CreateAgentResponse> {
         return client.send(operation: "CreateAgent", path: "/", httpMethod: "POST", input: input)
     }
@@ -66,9 +66,14 @@ public struct DataSync {
         return client.send(operation: "CreateLocationFsxWindows", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Defines a file system on a Network File System (NFS) server that can be read from or written to
+    ///  Defines a file system on a Network File System (NFS) server that can be read from or written to.
     public func createLocationNfs(_ input: CreateLocationNfsRequest) -> EventLoopFuture<CreateLocationNfsResponse> {
         return client.send(operation: "CreateLocationNfs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an endpoint for a self-managed object storage bucket.
+    public func createLocationObjectStorage(_ input: CreateLocationObjectStorageRequest) -> EventLoopFuture<CreateLocationObjectStorageResponse> {
+        return client.send(operation: "CreateLocationObjectStorage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an endpoint for an Amazon S3 bucket. For AWS DataSync to access a destination S3 bucket, it needs an AWS Identity and Access Management (IAM) role that has the required permissions. You can set up the required permissions by creating an IAM policy that grants the required permissions and attaching the policy to the role. An example of such a policy is shown in the examples section. For more information, see https://docs.aws.amazon.com/datasync/latest/userguide/working-with-locations.html#create-s3-location in the AWS DataSync User Guide. 
@@ -76,7 +81,7 @@ public struct DataSync {
         return client.send(operation: "CreateLocationS3", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Defines a file system on an Server Message Block (SMB) server that can be read from or written to.
+    ///  Defines a file system on a Server Message Block (SMB) server that can be read from or written to.
     public func createLocationSmb(_ input: CreateLocationSmbRequest) -> EventLoopFuture<CreateLocationSmbResponse> {
         return client.send(operation: "CreateLocationSmb", path: "/", httpMethod: "POST", input: input)
     }
@@ -116,9 +121,14 @@ public struct DataSync {
         return client.send(operation: "DescribeLocationFsxWindows", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns metadata, such as the path information, about a NFS location.
+    ///  Returns metadata, such as the path information, about an NFS location.
     public func describeLocationNfs(_ input: DescribeLocationNfsRequest) -> EventLoopFuture<DescribeLocationNfsResponse> {
         return client.send(operation: "DescribeLocationNfs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns metadata about a self-managed object storage server location.
+    public func describeLocationObjectStorage(_ input: DescribeLocationObjectStorageRequest) -> EventLoopFuture<DescribeLocationObjectStorageResponse> {
+        return client.send(operation: "DescribeLocationObjectStorage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns metadata, such as bucket name, about an Amazon S3 bucket location.
@@ -126,7 +136,7 @@ public struct DataSync {
         return client.send(operation: "DescribeLocationS3", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns metadata, such as the path and user information about a SMB location.
+    ///  Returns metadata, such as the path and user information about an SMB location.
     public func describeLocationSmb(_ input: DescribeLocationSmbRequest) -> EventLoopFuture<DescribeLocationSmbResponse> {
         return client.send(operation: "DescribeLocationSmb", path: "/", httpMethod: "POST", input: input)
     }
@@ -146,12 +156,12 @@ public struct DataSync {
         return client.send(operation: "ListAgents", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a lists of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
+    ///  Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     public func listLocations(_ input: ListLocationsRequest) -> EventLoopFuture<ListLocationsResponse> {
         return client.send(operation: "ListLocations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns all the tags associated with a specified resources. 
+    ///  Returns all the tags associated with a specified resource. 
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }

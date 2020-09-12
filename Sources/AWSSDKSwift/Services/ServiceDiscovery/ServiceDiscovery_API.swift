@@ -45,22 +45,22 @@ public struct ServiceDiscovery {
     
     //MARK: API Calls
 
-    ///  Creates an HTTP namespace. Service instances that you register using an HTTP namespace can be discovered using a DiscoverInstances request but can't be discovered using DNS.  For the current limit on the number of namespaces that you can create using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
+    ///  Creates an HTTP namespace. Service instances that you register using an HTTP namespace can be discovered using a DiscoverInstances request but can't be discovered using DNS.  For the current quota on the number of namespaces that you can create using the same AWS account, see AWS Cloud Map quotas in the AWS Cloud Map Developer Guide.
     public func createHttpNamespace(_ input: CreateHttpNamespaceRequest) -> EventLoopFuture<CreateHttpNamespaceResponse> {
         return client.send(operation: "CreateHttpNamespace", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a private namespace based on DNS, which will be visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service will be backend.example.com. For the current limit on the number of namespaces that you can create using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
+    ///  Creates a private namespace based on DNS, which will be visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service will be backend.example.com. For the current quota on the number of namespaces that you can create using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
     public func createPrivateDnsNamespace(_ input: CreatePrivateDnsNamespaceRequest) -> EventLoopFuture<CreatePrivateDnsNamespaceResponse> {
         return client.send(operation: "CreatePrivateDnsNamespace", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a public namespace based on DNS, which will be visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service will be backend.example.com. For the current limit on the number of namespaces that you can create using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
+    ///  Creates a public namespace based on DNS, which will be visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service will be backend.example.com. For the current quota on the number of namespaces that you can create using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
     public func createPublicDnsNamespace(_ input: CreatePublicDnsNamespaceRequest) -> EventLoopFuture<CreatePublicDnsNamespaceResponse> {
         return client.send(operation: "CreatePublicDnsNamespace", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a service, which defines the configuration for the following entities:   For public and private DNS namespaces, one of the following combinations of DNS records in Amazon Route 53:   A   AAAA   A and AAAA   SRV   CNAME     Optionally, a health check   After you create the service, you can submit a RegisterInstance request, and AWS Cloud Map uses the values in the configuration to create the specified entities. For the current limit on the number of instances that you can register using the same namespace and using the same service, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
+    ///  Creates a service, which defines the configuration for the following entities:   For public and private DNS namespaces, one of the following combinations of DNS records in Amazon Route 53:    A     AAAA     A and AAAA     SRV     CNAME      Optionally, a health check   After you create the service, you can submit a RegisterInstance request, and AWS Cloud Map uses the values in the configuration to create the specified entities. For the current quota on the number of instances that you can register using the same namespace and using the same service, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
     public func createService(_ input: CreateServiceRequest) -> EventLoopFuture<CreateServiceResponse> {
         return client.send(operation: "CreateService", path: "/", httpMethod: "POST", input: input)
     }
@@ -75,7 +75,7 @@ public struct ServiceDiscovery {
         return client.send(operation: "DeleteService", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the Amazon Route 53 DNS records and health check, if any, that AWS Cloud Map created for the specified instance.
+    ///  Deletes the Amazon Route 53 DNS records and health check, if any, that AWS Cloud Map created for the specified instance.
     public func deregisterInstance(_ input: DeregisterInstanceRequest) -> EventLoopFuture<DeregisterInstanceResponse> {
         return client.send(operation: "DeregisterInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -130,12 +130,27 @@ public struct ServiceDiscovery {
         return client.send(operation: "ListServices", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates or updates one or more records and, optionally, creates a health check based on the settings in a specified service. When you submit a RegisterInstance request, the following occurs:   For each DNS record that you define in the service that is specified by ServiceId, a record is created or updated in the hosted zone that is associated with the corresponding namespace.   If the service includes HealthCheckConfig, a health check is created based on the settings in the health check configuration.   The health check, if any, is associated with each of the new or updated records.    One RegisterInstance request must complete before you can submit another request and specify the same service ID and instance ID.  For more information, see CreateService. When AWS Cloud Map receives a DNS query for the specified DNS name, it returns the applicable value:    If the health check is healthy: returns all the records    If the health check is unhealthy: returns the applicable value for the last healthy instance    If you didn't specify a health check configuration: returns all the records   For the current limit on the number of instances that you can register using the same namespace and using the same service, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
+    ///  Lists tags for the specified resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates or updates one or more records and, optionally, creates a health check based on the settings in a specified service. When you submit a RegisterInstance request, the following occurs:   For each DNS record that you define in the service that is specified by ServiceId, a record is created or updated in the hosted zone that is associated with the corresponding namespace.   If the service includes HealthCheckConfig, a health check is created based on the settings in the health check configuration.   The health check, if any, is associated with each of the new or updated records.    One RegisterInstance request must complete before you can submit another request and specify the same service ID and instance ID.  For more information, see CreateService. When AWS Cloud Map receives a DNS query for the specified DNS name, it returns the applicable value:    If the health check is healthy: returns all the records    If the health check is unhealthy: returns the applicable value for the last healthy instance    If you didn't specify a health check configuration: returns all the records   For the current quota on the number of instances that you can register using the same namespace and using the same service, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
     public func registerInstance(_ input: RegisterInstanceRequest) -> EventLoopFuture<RegisterInstanceResponse> {
         return client.send(operation: "RegisterInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig. For more information, see HealthCheckCustomConfig.
+    ///  Adds one or more tags to the specified resource.
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes one or more tags from the specified resource.
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig. For more information, see HealthCheckCustomConfig.
     @discardableResult public func updateInstanceCustomHealthStatus(_ input: UpdateInstanceCustomHealthStatusRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateInstanceCustomHealthStatus", path: "/", httpMethod: "POST", input: input)
     }

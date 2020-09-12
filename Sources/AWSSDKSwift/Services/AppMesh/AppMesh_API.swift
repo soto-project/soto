@@ -15,9 +15,9 @@ AWS App Mesh is a service mesh based on the Envoy proxy that makes it easy to mo
          Kubernetes on AWS, and Amazon EC2.
          
             App Mesh supports microservice applications that use service discovery naming for their
-            components. For more information about service discovery on Amazon ECS, see Service Discovery in the
-               Amazon Elastic Container Service Developer Guide. Kubernetes kube-dns and
-               coredns are supported. For more information, see DNS
+            components. For more information about service discovery on Amazon ECS, see Service Discovery in the Amazon Elastic Container Service Developer Guide. Kubernetes
+               kube-dns and coredns are supported. For more information,
+            see DNS
                for Services and Pods in the Kubernetes documentation.
          
 */
@@ -56,35 +56,50 @@ public struct AppMesh {
     
     //MARK: API Calls
 
-    ///  Creates a service mesh. A service mesh is a logical boundary for network traffic between
-    ///           the services that reside within it.
-    ///           After you create your service mesh, you can create virtual services, virtual nodes,
-    ///           virtual routers, and routes to distribute traffic between the applications in your
-    ///           mesh.
+    ///  Creates a gateway route.
+    ///           A gateway route is attached to a virtual gateway and routes traffic to an existing
+    ///           virtual service. If a route matches a request, it can distribute traffic to a target virtual service.
+    ///           For more information about gateway routes, see Gateway routes.
+    public func createGatewayRoute(_ input: CreateGatewayRouteInput) -> EventLoopFuture<CreateGatewayRouteOutput> {
+        return client.send(operation: "CreateGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes", httpMethod: "PUT", input: input)
+    }
+
+    ///  Creates a service mesh.
+    ///            A service mesh is a logical boundary for network traffic between services that are
+    ///           represented by resources within the mesh. After you create your service mesh, you can
+    ///           create virtual services, virtual nodes, virtual routers, and routes to distribute traffic
+    ///           between the applications in your mesh.
+    ///           For more information about service meshes, see Service meshes.
     public func createMesh(_ input: CreateMeshInput) -> EventLoopFuture<CreateMeshOutput> {
         return client.send(operation: "CreateMesh", path: "/v20190125/meshes", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a route that is associated with a virtual router.
-    ///           You can use the prefix parameter in your route specification for path-based
-    ///           routing of requests. For example, if your virtual service name is
-    ///              my-service.local and you want the route to match requests to
-    ///              my-service.local/metrics, your prefix should be
-    ///           /metrics.
-    ///           If your route matches a request, you can distribute traffic to one or more target
-    ///           virtual nodes with relative weighting.
+    ///            You can route several different protocols and define a retry policy for a route.
+    ///           Traffic can be routed to one or more virtual nodes.
     ///           For more information about routes, see Routes.
     public func createRoute(_ input: CreateRouteInput) -> EventLoopFuture<CreateRouteOutput> {
         return client.send(operation: "CreateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: "PUT", input: input)
     }
 
+    ///  Creates a virtual gateway.
+    ///           A virtual gateway allows resources outside your mesh to communicate to resources that
+    ///           are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS
+    ///           task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which
+    ///           represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself.
+    ///           For more information about virtual gateways, see Virtual gateways.
+    public func createVirtualGateway(_ input: CreateVirtualGatewayInput) -> EventLoopFuture<CreateVirtualGatewayOutput> {
+        return client.send(operation: "CreateVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways", httpMethod: "PUT", input: input)
+    }
+
     ///  Creates a virtual node within a service mesh.
-    ///           A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS
+    ///            A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS
     ///           service or a Kubernetes deployment. When you create a virtual node, you can specify the
-    ///           service discovery information for your task group.
-    ///           Any inbound traffic that your virtual node expects should be specified as a
-    ///              listener. Any outbound traffic that your virtual node expects to reach
-    ///           should be specified as a backend.
+    ///           service discovery information for your task group, and whether the proxy running in a task
+    ///           group will communicate with other proxies using Transport Layer Security (TLS).
+    ///           You define a listener for any inbound traffic that your virtual node
+    ///           expects. Any virtual service that your virtual node expects to communicate to is specified
+    ///           as a backend.
     ///           The response metadata for your new virtual node contains the arn that is
     ///           associated with the virtual node. Set this value (either the full ARN or the truncated
     ///           resource name: for example, mesh/default/virtualNode/simpleapp) as the
@@ -97,18 +112,18 @@ public struct AppMesh {
     ///                 APPMESH_VIRTUAL_NODE_NAME with the
     ///                 APPMESH_VIRTUAL_NODE_CLUSTER environment variable.
     ///           
-    ///           For more information about virtual nodes, see Virtual Nodes.
+    ///           For more information about virtual nodes, see Virtual nodes.
     public func createVirtualNode(_ input: CreateVirtualNodeInput) -> EventLoopFuture<CreateVirtualNodeOutput> {
         return client.send(operation: "CreateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a virtual router within a service mesh.
-    ///           Any inbound traffic that your virtual router expects should be specified as a
-    ///              listener. 
-    ///           Virtual routers handle traffic for one or more virtual services within your mesh. After
-    ///           you create your virtual router, create and associate routes for your virtual router that
-    ///           direct incoming requests to different virtual nodes.
-    ///           For more information about virtual routers, see Virtual Routers.
+    ///           Specify a listener for any inbound traffic that your virtual router
+    ///           receives. Create a virtual router for each protocol and port that you need to route.
+    ///           Virtual routers handle traffic for one or more virtual services within your mesh. After you
+    ///           create your virtual router, create and associate routes for your virtual router that direct
+    ///           incoming requests to different virtual nodes.
+    ///           For more information about virtual routers, see Virtual routers.
     public func createVirtualRouter(_ input: CreateVirtualRouterInput) -> EventLoopFuture<CreateVirtualRouterOutput> {
         return client.send(operation: "CreateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: "PUT", input: input)
     }
@@ -119,9 +134,14 @@ public struct AppMesh {
     ///           service by its virtualServiceName, and those requests are routed to the
     ///           virtual node or virtual router that is specified as the provider for the virtual
     ///           service.
-    ///           For more information about virtual services, see Virtual Services.
+    ///           For more information about virtual services, see Virtual services.
     public func createVirtualService(_ input: CreateVirtualServiceInput) -> EventLoopFuture<CreateVirtualServiceOutput> {
         return client.send(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: "PUT", input: input)
+    }
+
+    ///  Deletes an existing gateway route.
+    public func deleteGatewayRoute(_ input: DeleteGatewayRouteInput) -> EventLoopFuture<DeleteGatewayRouteOutput> {
+        return client.send(operation: "DeleteGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing service mesh.
@@ -134,6 +154,12 @@ public struct AppMesh {
     ///  Deletes an existing route.
     public func deleteRoute(_ input: DeleteRouteInput) -> EventLoopFuture<DeleteRouteOutput> {
         return client.send(operation: "DeleteRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway
+    ///           routes are associated to it.
+    public func deleteVirtualGateway(_ input: DeleteVirtualGatewayInput) -> EventLoopFuture<DeleteVirtualGatewayOutput> {
+        return client.send(operation: "DeleteVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing virtual node.
@@ -155,6 +181,11 @@ public struct AppMesh {
         return client.send(operation: "DeleteVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Describes an existing gateway route.
+    public func describeGatewayRoute(_ input: DescribeGatewayRouteInput) -> EventLoopFuture<DescribeGatewayRouteOutput> {
+        return client.send(operation: "DescribeGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", httpMethod: "GET", input: input)
+    }
+
     ///  Describes an existing service mesh.
     public func describeMesh(_ input: DescribeMeshInput) -> EventLoopFuture<DescribeMeshOutput> {
         return client.send(operation: "DescribeMesh", path: "/v20190125/meshes/{meshName}", httpMethod: "GET", input: input)
@@ -163,6 +194,11 @@ public struct AppMesh {
     ///  Describes an existing route.
     public func describeRoute(_ input: DescribeRouteInput) -> EventLoopFuture<DescribeRouteOutput> {
         return client.send(operation: "DescribeRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Describes an existing virtual gateway.
+    public func describeVirtualGateway(_ input: DescribeVirtualGatewayInput) -> EventLoopFuture<DescribeVirtualGatewayOutput> {
+        return client.send(operation: "DescribeVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes an existing virtual node.
@@ -180,6 +216,12 @@ public struct AppMesh {
         return client.send(operation: "DescribeVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: "GET", input: input)
     }
 
+    ///  Returns a list of existing gateway routes that are associated to a virtual
+    ///           gateway.
+    public func listGatewayRoutes(_ input: ListGatewayRoutesInput) -> EventLoopFuture<ListGatewayRoutesOutput> {
+        return client.send(operation: "ListGatewayRoutes", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes", httpMethod: "GET", input: input)
+    }
+
     ///  Returns a list of existing service meshes.
     public func listMeshes(_ input: ListMeshesInput) -> EventLoopFuture<ListMeshesOutput> {
         return client.send(operation: "ListMeshes", path: "/v20190125/meshes", httpMethod: "GET", input: input)
@@ -193,6 +235,11 @@ public struct AppMesh {
     ///  List the tags for an App Mesh resource.
     public func listTagsForResource(_ input: ListTagsForResourceInput) -> EventLoopFuture<ListTagsForResourceOutput> {
         return client.send(operation: "ListTagsForResource", path: "/v20190125/tags", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of existing virtual gateways in a service mesh.
+    public func listVirtualGateways(_ input: ListVirtualGatewaysInput) -> EventLoopFuture<ListVirtualGatewaysOutput> {
+        return client.send(operation: "ListVirtualGateways", path: "/v20190125/meshes/{meshName}/virtualGateways", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of existing virtual nodes.
@@ -223,6 +270,12 @@ public struct AppMesh {
         return client.send(operation: "UntagResource", path: "/v20190125/untag", httpMethod: "PUT", input: input)
     }
 
+    ///  Updates an existing gateway route that is associated to a specified virtual gateway in a
+    ///           service mesh.
+    public func updateGatewayRoute(_ input: UpdateGatewayRouteInput) -> EventLoopFuture<UpdateGatewayRouteOutput> {
+        return client.send(operation: "UpdateGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", httpMethod: "PUT", input: input)
+    }
+
     ///  Updates an existing service mesh.
     public func updateMesh(_ input: UpdateMeshInput) -> EventLoopFuture<UpdateMeshOutput> {
         return client.send(operation: "UpdateMesh", path: "/v20190125/meshes/{meshName}", httpMethod: "PUT", input: input)
@@ -231,6 +284,11 @@ public struct AppMesh {
     ///  Updates an existing route for a specified service mesh and virtual router.
     public func updateRoute(_ input: UpdateRouteInput) -> EventLoopFuture<UpdateRouteOutput> {
         return client.send(operation: "UpdateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an existing virtual gateway in a specified service mesh.
+    public func updateVirtualGateway(_ input: UpdateVirtualGatewayInput) -> EventLoopFuture<UpdateVirtualGatewayOutput> {
+        return client.send(operation: "UpdateVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing virtual node in a specified service mesh.

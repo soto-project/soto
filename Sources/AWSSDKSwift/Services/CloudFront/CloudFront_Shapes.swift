@@ -6,6 +6,34 @@ import AWSSDKSwiftCore
 extension CloudFront {
     //MARK: Enums
 
+    public enum CachePolicyCookieBehavior: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case whitelist = "whitelist"
+        case allexcept = "allExcept"
+        case all = "all"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CachePolicyHeaderBehavior: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case whitelist = "whitelist"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CachePolicyQueryStringBehavior: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case whitelist = "whitelist"
+        case allexcept = "allExcept"
+        case all = "all"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CachePolicyType: String, CustomStringConvertible, Codable {
+        case managed = "managed"
+        case custom = "custom"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventType: String, CustomStringConvertible, Codable {
         case viewerRequest = "viewer-request"
         case viewerResponse = "viewer-response"
@@ -39,13 +67,6 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum ItemSelection: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case whitelist = "whitelist"
-        case all = "all"
-        public var description: String { return self.rawValue }
-    }
-
     public enum Method: String, CustomStringConvertible, Codable {
         case get = "GET"
         case head = "HEAD"
@@ -63,6 +84,7 @@ extension CloudFront {
         case tlsv12016 = "TLSv1_2016"
         case tlsv112016 = "TLSv1.1_2016"
         case tlsv122018 = "TLSv1.2_2018"
+        case tlsv122019 = "TLSv1.2_2019"
         public var description: String { return self.rawValue }
     }
 
@@ -73,6 +95,34 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum OriginRequestPolicyCookieBehavior: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case whitelist = "whitelist"
+        case all = "all"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OriginRequestPolicyHeaderBehavior: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case whitelist = "whitelist"
+        case allviewer = "allViewer"
+        case allviewerandwhitelistcloudfront = "allViewerAndWhitelistCloudFront"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OriginRequestPolicyQueryStringBehavior: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case whitelist = "whitelist"
+        case all = "all"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OriginRequestPolicyType: String, CustomStringConvertible, Codable {
+        case managed = "managed"
+        case custom = "custom"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PriceClass: String, CustomStringConvertible, Codable {
         case priceclass100 = "PriceClass_100"
         case priceclass200 = "PriceClass_200"
@@ -80,9 +130,16 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum RealtimeMetricsSubscriptionStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SSLSupportMethod: String, CustomStringConvertible, Codable {
         case sniOnly = "sni-only"
         case vip = "vip"
+        case staticIp = "static-ip"
         public var description: String { return self.rawValue }
     }
 
@@ -203,14 +260,13 @@ extension CloudFront {
     public struct CacheBehavior: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedMethods", required: false, type: .structure), 
+            AWSShapeMember(label: "CachePolicyId", required: false, type: .string), 
             AWSShapeMember(label: "Compress", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultTTL", required: false, type: .long), 
             AWSShapeMember(label: "FieldLevelEncryptionId", required: false, type: .string), 
-            AWSShapeMember(label: "ForwardedValues", required: true, type: .structure), 
             AWSShapeMember(label: "LambdaFunctionAssociations", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxTTL", required: false, type: .long), 
-            AWSShapeMember(label: "MinTTL", required: true, type: .long), 
+            AWSShapeMember(label: "OriginRequestPolicyId", required: false, type: .string), 
             AWSShapeMember(label: "PathPattern", required: true, type: .string), 
+            AWSShapeMember(label: "RealtimeLogConfigArn", required: false, type: .string), 
             AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
             AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
             AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
@@ -218,41 +274,38 @@ extension CloudFront {
         ]
 
         public let allowedMethods: AllowedMethods?
+        /// The unique identifier of the cache policy that is attached to this cache behavior. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide.
+        public let cachePolicyId: String?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
-        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public let defaultTTL: Int64?
-        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for a cache behavior or for the default cache behavior in your distribution.
+        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for this cache behavior.
         public let fieldLevelEncryptionId: String?
-        /// A complex type that specifies how CloudFront handles query strings, cookies, and HTTP headers.
-        public let forwardedValues: ForwardedValues
         /// A complex type that contains zero or more Lambda function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
-        /// The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public let maxTTL: Int64?
-        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see  Managing How Long Content Stays in an Edge Cache (Expiration) in the  Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
-        public let minTTL: Int64
+        /// The unique identifier of the origin request policy that is attached to this cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
+        public let originRequestPolicyId: String?
         /// The pattern (for example, images/*.jpg) that specifies which requests to apply the behavior to. When CloudFront receives a viewer request, the requested path is compared with path patterns in the order in which cache behaviors are listed in the distribution.  You can optionally include a slash (/) at the beginning of the path pattern. For example, /images/*.jpg. CloudFront behavior is the same with or without the leading /.  The path pattern for the default cache behavior is * and cannot be changed. If the request for an object does not match the path pattern for any cache behaviors, CloudFront applies the behavior in the default cache behavior. For more information, see Path Pattern in the  Amazon CloudFront Developer Guide.
         public let pathPattern: String
+        /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to this cache behavior. For more information, see Real-time logs in the Amazon CloudFront Developer Guide.
+        public let realtimeLogConfigArn: String?
         /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
         public let smoothStreaming: Bool?
-        /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior in your distribution.
+        /// The value of ID for the origin that you want CloudFront to route requests to when they match this cache behavior.
         public let targetOriginId: String
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.  If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
+        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content with Signed URLs and Signed Cookies in the Amazon CloudFront Developer Guide.  If you don’t want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it’s currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
         public let trustedSigners: TrustedSigners
-        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
+        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64, pathPattern: String, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
+            self.cachePolicyId = cachePolicyId
             self.compress = compress
-            self.defaultTTL = defaultTTL
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
-            self.forwardedValues = forwardedValues
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
-            self.maxTTL = maxTTL
-            self.minTTL = minTTL
+            self.originRequestPolicyId = originRequestPolicyId
             self.pathPattern = pathPattern
+            self.realtimeLogConfigArn = realtimeLogConfigArn
             self.smoothStreaming = smoothStreaming
             self.targetOriginId = targetOriginId
             self.trustedSigners = trustedSigners
@@ -261,14 +314,13 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case allowedMethods = "AllowedMethods"
+            case cachePolicyId = "CachePolicyId"
             case compress = "Compress"
-            case defaultTTL = "DefaultTTL"
             case fieldLevelEncryptionId = "FieldLevelEncryptionId"
-            case forwardedValues = "ForwardedValues"
             case lambdaFunctionAssociations = "LambdaFunctionAssociations"
-            case maxTTL = "MaxTTL"
-            case minTTL = "MinTTL"
+            case originRequestPolicyId = "OriginRequestPolicyId"
             case pathPattern = "PathPattern"
+            case realtimeLogConfigArn = "RealtimeLogConfigArn"
             case smoothStreaming = "SmoothStreaming"
             case targetOriginId = "TargetOriginId"
             case trustedSigners = "TrustedSigners"
@@ -295,6 +347,193 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct CachePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachePolicyConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
+        ]
+
+        /// The cache policy configuration.
+        public let cachePolicyConfig: CachePolicyConfig
+        /// The unique identifier for the cache policy.
+        public let id: String
+        /// The date and time when the cache policy was last modified.
+        public let lastModifiedTime: TimeStamp
+
+        public init(cachePolicyConfig: CachePolicyConfig, id: String, lastModifiedTime: TimeStamp) {
+            self.cachePolicyConfig = cachePolicyConfig
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePolicyConfig = "CachePolicyConfig"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct CachePolicyConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultTTL", required: false, type: .long), 
+            AWSShapeMember(label: "MaxTTL", required: false, type: .long), 
+            AWSShapeMember(label: "MinTTL", required: true, type: .long), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ParametersInCacheKeyAndForwardedToOrigin", required: false, type: .structure)
+        ]
+
+        /// A comment to describe the cache policy.
+        public let comment: String?
+        /// The default amount of time, in seconds, that you want objects to stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. CloudFront uses this value as the object’s time to live (TTL) only when the origin does not send Cache-Control or Expires headers with the object. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. The default value for this field is 86400 seconds (one day). If the value of MinTTL is more than 86400 seconds, then the default value for this field is the same as the value of MinTTL.
+        public let defaultTTL: Int64?
+        /// The maximum amount of time, in seconds, that objects stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. CloudFront uses this value only when the origin sends Cache-Control or Expires headers with the object. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. The default value for this field is 31536000 seconds (one year). If the value of MinTTL or DefaultTTL is more than 31536000 seconds, then the default value for this field is the same as the value of DefaultTTL.
+        public let maxTTL: Int64?
+        /// The minimum amount of time, in seconds, that you want objects to stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        public let minTTL: Int64
+        /// A unique name to identify the cache policy.
+        public let name: String
+        /// The HTTP headers, cookies, and URL query strings to include in the cache key. The values included in the cache key are automatically included in requests that CloudFront sends to the origin.
+        public let parametersInCacheKeyAndForwardedToOrigin: ParametersInCacheKeyAndForwardedToOrigin?
+
+        public init(comment: String? = nil, defaultTTL: Int64? = nil, maxTTL: Int64? = nil, minTTL: Int64, name: String, parametersInCacheKeyAndForwardedToOrigin: ParametersInCacheKeyAndForwardedToOrigin? = nil) {
+            self.comment = comment
+            self.defaultTTL = defaultTTL
+            self.maxTTL = maxTTL
+            self.minTTL = minTTL
+            self.name = name
+            self.parametersInCacheKeyAndForwardedToOrigin = parametersInCacheKeyAndForwardedToOrigin
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case defaultTTL = "DefaultTTL"
+            case maxTTL = "MaxTTL"
+            case minTTL = "MinTTL"
+            case name = "Name"
+            case parametersInCacheKeyAndForwardedToOrigin = "ParametersInCacheKeyAndForwardedToOrigin"
+        }
+    }
+
+    public struct CachePolicyCookiesConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CookieBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "Cookies", required: false, type: .structure)
+        ]
+
+        /// Determines whether any cookies in viewer requests are included in the cache key and automatically included in requests that CloudFront sends to the origin. Valid values are:    none – Cookies in viewer requests are not included in the cache key and are not automatically included in requests that CloudFront sends to the origin. Even when this field is set to none, any cookies that are listed in an OriginRequestPolicy are included in origin requests.    whitelist – The cookies in viewer requests that are listed in the CookieNames type are included in the cache key and automatically included in requests that CloudFront sends to the origin.    allExcept – All cookies in viewer requests that are  not  listed in the CookieNames type are included in the cache key and automatically included in requests that CloudFront sends to the origin.    all – All cookies in viewer requests are included in the cache key and are automatically included in requests that CloudFront sends to the origin.  
+        public let cookieBehavior: CachePolicyCookieBehavior
+        public let cookies: CookieNames?
+
+        public init(cookieBehavior: CachePolicyCookieBehavior, cookies: CookieNames? = nil) {
+            self.cookieBehavior = cookieBehavior
+            self.cookies = cookies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cookieBehavior = "CookieBehavior"
+            case cookies = "Cookies"
+        }
+    }
+
+    public struct CachePolicyHeadersConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HeaderBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "Headers", required: false, type: .structure)
+        ]
+
+        /// Determines whether any HTTP headers are included in the cache key and automatically included in requests that CloudFront sends to the origin. Valid values are:    none – HTTP headers are not included in the cache key and are not automatically included in requests that CloudFront sends to the origin. Even when this field is set to none, any headers that are listed in an OriginRequestPolicy are included in origin requests.    whitelist – The HTTP headers that are listed in the Headers type are included in the cache key and are automatically included in requests that CloudFront sends to the origin.  
+        public let headerBehavior: CachePolicyHeaderBehavior
+        public let headers: Headers?
+
+        public init(headerBehavior: CachePolicyHeaderBehavior, headers: Headers? = nil) {
+            self.headerBehavior = headerBehavior
+            self.headers = headers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headerBehavior = "HeaderBehavior"
+            case headers = "Headers"
+        }
+    }
+
+    public struct CachePolicyList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"CachePolicySummary")), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+
+        /// Contains the cache policies in the list.
+        public let items: [CachePolicySummary]?
+        /// The maximum number of cache policies requested.
+        public let maxItems: Int
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing cache policies where you left off.
+        public let nextMarker: String?
+        /// The total number of cache policies returned in the response.
+        public let quantity: Int
+
+        public init(items: [CachePolicySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.items = items
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct CachePolicyQueryStringsConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryStringBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "QueryStrings", required: false, type: .structure)
+        ]
+
+        /// Determines whether any URL query strings in viewer requests are included in the cache key and automatically included in requests that CloudFront sends to the origin. Valid values are:    none – Query strings in viewer requests are not included in the cache key and are not automatically included in requests that CloudFront sends to the origin. Even when this field is set to none, any query strings that are listed in an OriginRequestPolicy are included in origin requests.    whitelist – The query strings in viewer requests that are listed in the QueryStringNames type are included in the cache key and automatically included in requests that CloudFront sends to the origin.    allExcept – All query strings in viewer requests that are  not  listed in the QueryStringNames type are included in the cache key and automatically included in requests that CloudFront sends to the origin.    all – All query strings in viewer requests are included in the cache key and are automatically included in requests that CloudFront sends to the origin.  
+        public let queryStringBehavior: CachePolicyQueryStringBehavior
+        /// Contains the specific query strings in viewer requests that either  are  or  are not  included in the cache key and automatically included in requests that CloudFront sends to the origin. The behavior depends on whether the QueryStringBehavior field in the CachePolicyQueryStringsConfig type is set to whitelist (the listed query strings  are  included) or allExcept (the listed query strings  are not  included, but all other query strings are).
+        public let queryStrings: QueryStringNames?
+
+        public init(queryStringBehavior: CachePolicyQueryStringBehavior, queryStrings: QueryStringNames? = nil) {
+            self.queryStringBehavior = queryStringBehavior
+            self.queryStrings = queryStrings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryStringBehavior = "QueryStringBehavior"
+            case queryStrings = "QueryStrings"
+        }
+    }
+
+    public struct CachePolicySummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachePolicy", required: true, type: .structure), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+
+        /// The cache policy.
+        public let cachePolicy: CachePolicy
+        /// The type of cache policy, either managed (created by AWS) or custom (created in this AWS account).
+        public let `type`: CachePolicyType
+
+        public init(cachePolicy: CachePolicy, type: CachePolicyType) {
+            self.cachePolicy = cachePolicy
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePolicy = "CachePolicy"
+            case `type` = "Type"
         }
     }
 
@@ -515,9 +754,9 @@ extension CloudFront {
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
 
-        /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior. It must contain the same number of items that is specified in the Quantity field. When you set Forward = whitelist (in the CookiePreferences object), this field must contain at least one item.
+        /// A list of cookie names.
         public let items: [String]?
-        /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior. The value must equal the number of items that are in the Items field. When you set Forward = whitelist (in the CookiePreferences object), this value must be 1 or higher.
+        /// The number of cookie names in the Items list.
         public let quantity: Int
 
         public init(items: [String]? = nil, quantity: Int) {
@@ -531,32 +770,59 @@ extension CloudFront {
         }
     }
 
-    public struct CookiePreference: AWSShape {
+    public struct CreateCachePolicyRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CachePolicyConfig"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Forward", required: true, type: .enum), 
-            AWSShapeMember(label: "WhitelistedNames", required: false, type: .structure)
+            AWSShapeMember(label: "CachePolicyConfig", location: .body(locationName: "CachePolicyConfig"), required: true, type: .structure)
         ]
 
-        /// Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element.
-        public let forward: ItemSelection
-        /// Required if you specify whitelist for the value of Forward. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see  CloudFront Limits in the AWS General Reference.
-        public let whitelistedNames: CookieNames?
+        /// A cache policy configuration.
+        public let cachePolicyConfig: CachePolicyConfig
 
-        public init(forward: ItemSelection, whitelistedNames: CookieNames? = nil) {
-            self.forward = forward
-            self.whitelistedNames = whitelistedNames
+        public init(cachePolicyConfig: CachePolicyConfig) {
+            self.cachePolicyConfig = cachePolicyConfig
         }
 
         private enum CodingKeys: String, CodingKey {
-            case forward = "Forward"
-            case whitelistedNames = "WhitelistedNames"
+            case cachePolicyConfig = "CachePolicyConfig"
+        }
+    }
+
+    public struct CreateCachePolicyResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CachePolicy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachePolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
+        ]
+
+        /// A cache policy.
+        public let cachePolicy: CachePolicy?
+        /// The current version of the cache policy.
+        public let eTag: String?
+        /// The fully qualified URI of the cache policy just created.
+        public let location: String?
+
+        public init(cachePolicy: CachePolicy? = nil, eTag: String? = nil, location: String? = nil) {
+            self.cachePolicy = cachePolicy
+            self.eTag = eTag
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePolicy = "CachePolicy"
+            case eTag = "ETag"
+            case location = "Location"
         }
     }
 
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure)
         ]
@@ -586,7 +852,7 @@ extension CloudFront {
         public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
         /// The current version of the origin access identity created.
         public let eTag: String?
-        /// The fully qualified URI of the new origin access identity just created. For example: https://cloudfront.amazonaws.com/2010-11-01/origin-access-identity/cloudfront/E74FTE3AJFJ256A.
+        /// The fully qualified URI of the new origin access identity just created.
         public let location: String?
 
         public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, eTag: String? = nil, location: String? = nil) {
@@ -605,7 +871,7 @@ extension CloudFront {
     public struct CreateDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
         ]
@@ -639,7 +905,7 @@ extension CloudFront {
         public let distribution: Distribution?
         /// The current version of the distribution created.
         public let eTag: String?
-        /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5.
+        /// The fully qualified URI of the new distribution resource just created.
         public let location: String?
 
         public init(distribution: Distribution? = nil, eTag: String? = nil, location: String? = nil) {
@@ -658,7 +924,7 @@ extension CloudFront {
     public struct CreateDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfigWithTags"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"), required: true, type: .structure)
         ]
@@ -692,7 +958,7 @@ extension CloudFront {
         public let distribution: Distribution?
         /// The current version of the distribution created.
         public let eTag: String?
-        /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5. 
+        /// The fully qualified URI of the new distribution resource just created.
         public let location: String?
 
         public init(distribution: Distribution? = nil, eTag: String? = nil, location: String? = nil) {
@@ -711,7 +977,7 @@ extension CloudFront {
     public struct CreateFieldLevelEncryptionConfigRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "FieldLevelEncryptionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"), required: true, type: .structure)
         ]
@@ -741,7 +1007,7 @@ extension CloudFront {
         public let eTag: String?
         /// Returned when you create a new field-level encryption configuration.
         public let fieldLevelEncryption: FieldLevelEncryption?
-        /// The fully qualified URI of the new configuration resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/field-level-encryption-config/EDFDVBD632BHDS5.
+        /// The fully qualified URI of the new configuration resource just created.
         public let location: String?
 
         public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil, location: String? = nil) {
@@ -760,7 +1026,7 @@ extension CloudFront {
     public struct CreateFieldLevelEncryptionProfileRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"), required: true, type: .structure)
         ]
@@ -790,7 +1056,7 @@ extension CloudFront {
         public let eTag: String?
         /// Returned when you create a new field-level encryption profile.
         public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
-        /// The fully qualified URI of the new profile resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/field-level-encryption-profile/EDFDVBD632BHDS5.
+        /// The fully qualified URI of the new profile resource just created.
         public let location: String?
 
         public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil, location: String? = nil) {
@@ -809,7 +1075,7 @@ extension CloudFront {
     public struct CreateInvalidationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "InvalidationBatch"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string), 
             AWSShapeMember(label: "InvalidationBatch", location: .body(locationName: "InvalidationBatch"), required: true, type: .structure)
@@ -855,10 +1121,103 @@ extension CloudFront {
         }
     }
 
+    public struct CreateMonitoringSubscriptionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "MonitoringSubscription"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string), 
+            AWSShapeMember(label: "MonitoringSubscription", location: .body(locationName: "MonitoringSubscription"), required: true, type: .structure)
+        ]
+
+        /// The ID of the distribution that you are enabling metrics for.
+        public let distributionId: String
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        public let monitoringSubscription: MonitoringSubscription
+
+        public init(distributionId: String, monitoringSubscription: MonitoringSubscription) {
+            self.distributionId = distributionId
+            self.monitoringSubscription = monitoringSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionId = "DistributionId"
+            case monitoringSubscription = "MonitoringSubscription"
+        }
+    }
+
+    public struct CreateMonitoringSubscriptionResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "MonitoringSubscription"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringSubscription", required: false, type: .structure)
+        ]
+
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        public let monitoringSubscription: MonitoringSubscription?
+
+        public init(monitoringSubscription: MonitoringSubscription? = nil) {
+            self.monitoringSubscription = monitoringSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringSubscription = "MonitoringSubscription"
+        }
+    }
+
+    public struct CreateOriginRequestPolicyRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "OriginRequestPolicyConfig"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginRequestPolicyConfig", location: .body(locationName: "OriginRequestPolicyConfig"), required: true, type: .structure)
+        ]
+
+        /// An origin request policy configuration.
+        public let originRequestPolicyConfig: OriginRequestPolicyConfig
+
+        public init(originRequestPolicyConfig: OriginRequestPolicyConfig) {
+            self.originRequestPolicyConfig = originRequestPolicyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originRequestPolicyConfig = "OriginRequestPolicyConfig"
+        }
+    }
+
+    public struct CreateOriginRequestPolicyResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "OriginRequestPolicy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "OriginRequestPolicy", required: false, type: .structure)
+        ]
+
+        /// The current version of the origin request policy.
+        public let eTag: String?
+        /// The fully qualified URI of the origin request policy just created.
+        public let location: String?
+        /// An origin request policy.
+        public let originRequestPolicy: OriginRequestPolicy?
+
+        public init(eTag: String? = nil, location: String? = nil, originRequestPolicy: OriginRequestPolicy? = nil) {
+            self.eTag = eTag
+            self.location = location
+            self.originRequestPolicy = originRequestPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case location = "Location"
+            case originRequestPolicy = "OriginRequestPolicy"
+        }
+    }
+
     public struct CreatePublicKeyRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicKeyConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"), required: true, type: .structure)
         ]
@@ -886,7 +1245,7 @@ extension CloudFront {
 
         /// The current version of the public key. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
-        /// The fully qualified URI of the new public key resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/cloudfront-public-key/EDFDVBD632BHDS5.
+        /// The fully qualified URI of the new public key resource just created.
         public let location: String?
         /// Returned when you add a public key.
         public let publicKey: PublicKey?
@@ -904,10 +1263,59 @@ extension CloudFront {
         }
     }
 
+    public struct CreateRealtimeLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndPoints", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Fields", required: true, type: .list, encoding: .list(member:"Field")), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SamplingRate", required: true, type: .long)
+        ]
+
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+        public let endPoints: [EndPoint]
+        /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
+        public let fields: [String]
+        /// A unique name to identify this real-time log configuration.
+        public let name: String
+        /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
+        public let samplingRate: Int64
+
+        public init(endPoints: [EndPoint], fields: [String], name: String, samplingRate: Int64) {
+            self.endPoints = endPoints
+            self.fields = fields
+            self.name = name
+            self.samplingRate = samplingRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endPoints = "EndPoints"
+            case fields = "Fields"
+            case name = "Name"
+            case samplingRate = "SamplingRate"
+        }
+    }
+
+    public struct CreateRealtimeLogConfigResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RealtimeLogConfig", required: false, type: .structure)
+        ]
+
+        /// A real-time log configuration.
+        public let realtimeLogConfig: RealtimeLogConfig?
+
+        public init(realtimeLogConfig: RealtimeLogConfig? = nil) {
+            self.realtimeLogConfig = realtimeLogConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeLogConfig = "RealtimeLogConfig"
+        }
+    }
+
     public struct CreateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure)
         ]
@@ -935,7 +1343,7 @@ extension CloudFront {
 
         /// The current version of the streaming distribution created.
         public let eTag: String?
-        /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
+        /// The fully qualified URI of the new streaming distribution resource just created.
         public let location: String?
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution?
@@ -956,7 +1364,7 @@ extension CloudFront {
     public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfigWithTags"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"), required: true, type: .structure)
         ]
@@ -988,7 +1396,7 @@ extension CloudFront {
 
         /// The current version of the distribution created.
         public let eTag: String?
-        /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
+        /// The fully qualified URI of the new streaming distribution resource just created.
         public let location: String?
         /// The streaming distribution's information. 
         public let streamingDistribution: StreamingDistribution?
@@ -1092,17 +1500,17 @@ extension CloudFront {
             AWSShapeMember(label: "OriginSslProtocols", required: false, type: .structure)
         ]
 
-        /// The HTTP port the custom origin listens on.
+        /// The HTTP port that CloudFront uses to connect to the origin. Specify the HTTP port that the origin listens on.
         public let hTTPPort: Int
-        /// The HTTPS port the custom origin listens on.
+        /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that the origin listens on.
         public let hTTPSPort: Int
-        /// You can create a custom keep-alive timeout. All timeout units are in seconds. The default keep-alive timeout is 5 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 1 second; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don’t specify otherwise) is 5 seconds. For more information, see Origin Keep-alive Timeout in the Amazon CloudFront Developer Guide.
         public let originKeepaliveTimeout: Int?
-        /// The origin protocol policy to apply to your origin.
+        /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:    http-only – CloudFront always uses HTTP to connect to the origin.    match-viewer – CloudFront connects to the origin using the same protocol that the viewer used to connect to CloudFront.    https-only – CloudFront always uses HTTPS to connect to the origin.  
         public let originProtocolPolicy: OriginProtocolPolicy
-        /// You can create a custom origin read timeout. All timeout units are in seconds. The default origin read timeout is 30 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 4 seconds; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don’t specify otherwise) is 30 seconds. For more information, see Origin Response Timeout in the Amazon CloudFront Developer Guide.
         public let originReadTimeout: Int?
-        /// The SSL/TLS protocols that you want CloudFront to use when communicating with your origin over HTTPS.
+        /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS. Valid values include SSLv3, TLSv1, TLSv1.1, and TLSv1.2. For more information, see Minimum Origin SSL Protocol in the Amazon CloudFront Developer Guide.
         public let originSslProtocols: OriginSslProtocols?
 
         public init(hTTPPort: Int, hTTPSPort: Int, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int? = nil, originSslProtocols: OriginSslProtocols? = nil) {
@@ -1127,13 +1535,12 @@ extension CloudFront {
     public struct DefaultCacheBehavior: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedMethods", required: false, type: .structure), 
+            AWSShapeMember(label: "CachePolicyId", required: false, type: .string), 
             AWSShapeMember(label: "Compress", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultTTL", required: false, type: .long), 
             AWSShapeMember(label: "FieldLevelEncryptionId", required: false, type: .string), 
-            AWSShapeMember(label: "ForwardedValues", required: true, type: .structure), 
             AWSShapeMember(label: "LambdaFunctionAssociations", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxTTL", required: false, type: .long), 
-            AWSShapeMember(label: "MinTTL", required: true, type: .long), 
+            AWSShapeMember(label: "OriginRequestPolicyId", required: false, type: .string), 
+            AWSShapeMember(label: "RealtimeLogConfigArn", required: false, type: .string), 
             AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
             AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
             AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
@@ -1141,38 +1548,35 @@ extension CloudFront {
         ]
 
         public let allowedMethods: AllowedMethods?
+        /// The unique identifier of the cache policy that is attached to the default cache behavior. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide.
+        public let cachePolicyId: String?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
-        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public let defaultTTL: Int64?
-        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for a cache behavior or for the default cache behavior in your distribution.
+        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for the default cache behavior.
         public let fieldLevelEncryptionId: String?
-        /// A complex type that specifies how CloudFront handles query strings, cookies, and HTTP headers.
-        public let forwardedValues: ForwardedValues
         /// A complex type that contains zero or more Lambda function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
-        /// The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public let maxTTL: Int64?
-        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
-        public let minTTL: Int64
+        /// The unique identifier of the origin request policy that is attached to the default cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
+        public let originRequestPolicyId: String?
+        /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to this cache behavior. For more information, see Real-time logs in the Amazon CloudFront Developer Guide.
+        public let realtimeLogConfigArn: String?
         /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
         public let smoothStreaming: Bool?
-        /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior in your distribution.
+        /// The value of ID for the origin that you want CloudFront to route requests to when they use the default cache behavior.
         public let targetOriginId: String
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the  Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
+        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content with Signed URLs and Signed Cookies in the Amazon CloudFront Developer Guide. If you don’t want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it’s currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
         public let trustedSigners: TrustedSigners
-        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
+        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
+            self.cachePolicyId = cachePolicyId
             self.compress = compress
-            self.defaultTTL = defaultTTL
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
-            self.forwardedValues = forwardedValues
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
-            self.maxTTL = maxTTL
-            self.minTTL = minTTL
+            self.originRequestPolicyId = originRequestPolicyId
+            self.realtimeLogConfigArn = realtimeLogConfigArn
             self.smoothStreaming = smoothStreaming
             self.targetOriginId = targetOriginId
             self.trustedSigners = trustedSigners
@@ -1181,17 +1585,38 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case allowedMethods = "AllowedMethods"
+            case cachePolicyId = "CachePolicyId"
             case compress = "Compress"
-            case defaultTTL = "DefaultTTL"
             case fieldLevelEncryptionId = "FieldLevelEncryptionId"
-            case forwardedValues = "ForwardedValues"
             case lambdaFunctionAssociations = "LambdaFunctionAssociations"
-            case maxTTL = "MaxTTL"
-            case minTTL = "MinTTL"
+            case originRequestPolicyId = "OriginRequestPolicyId"
+            case realtimeLogConfigArn = "RealtimeLogConfigArn"
             case smoothStreaming = "SmoothStreaming"
             case targetOriginId = "TargetOriginId"
             case trustedSigners = "TrustedSigners"
             case viewerProtocolPolicy = "ViewerProtocolPolicy"
+        }
+    }
+
+    public struct DeleteCachePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        ]
+
+        /// The unique identifier for the cache policy that you are deleting. To get the identifier, you can use ListCachePolicies.
+        public let id: String
+        /// The version of the cache policy that you are deleting. The version is the cache policy’s ETag value, which you can get using ListCachePolicies, GetCachePolicy, or GetCachePolicyConfig.
+        public let ifMatch: String?
+
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ifMatch = "If-Match"
         }
     }
 
@@ -1283,6 +1708,53 @@ extension CloudFront {
         }
     }
 
+    public struct DeleteMonitoringSubscriptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
+        ]
+
+        /// The ID of the distribution that you are disabling metrics for.
+        public let distributionId: String
+
+        public init(distributionId: String) {
+            self.distributionId = distributionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionId = "DistributionId"
+        }
+    }
+
+    public struct DeleteMonitoringSubscriptionResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteOriginRequestPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        ]
+
+        /// The unique identifier for the origin request policy that you are deleting. To get the identifier, you can use ListOriginRequestPolicies.
+        public let id: String
+        /// The version of the origin request policy that you are deleting. The version is the origin request policy’s ETag value, which you can get using ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
+        public let ifMatch: String?
+
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ifMatch = "If-Match"
+        }
+    }
+
     public struct DeletePublicKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -1302,6 +1774,28 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case ifMatch = "If-Match"
+        }
+    }
+
+    public struct DeleteRealtimeLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the real-time log configuration to delete.
+        public let arn: String?
+        /// The name of the real-time log configuration to delete.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case name = "Name"
         }
     }
 
@@ -1513,6 +2007,48 @@ extension CloudFront {
         }
     }
 
+    public struct DistributionIdList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"DistributionId")), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+
+        /// A flag that indicates whether more distribution IDs remain to be listed. If your results were truncated, you can make a subsequent request using the Marker request field to retrieve more distribution IDs in the list.
+        public let isTruncated: Bool
+        /// Contains the distribution IDs in the list.
+        public let items: [String]?
+        /// The value provided in the Marker request field.
+        public let marker: String
+        /// The maximum number of distribution IDs requested.
+        public let maxItems: Int
+        /// Contains the value that you should use in the Marker field of a subsequent request to continue listing distribution IDs where you left off.
+        public let nextMarker: String?
+        /// The total number of distribution IDs returned in the response.
+        public let quantity: Int
+
+        public init(isTruncated: Bool, items: [String]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case items = "Items"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
     public struct DistributionList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
@@ -1713,6 +2249,28 @@ extension CloudFront {
             case fieldPatterns = "FieldPatterns"
             case providerId = "ProviderId"
             case publicKeyId = "PublicKeyId"
+        }
+    }
+
+    public struct EndPoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KinesisStreamConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "StreamType", required: true, type: .string)
+        ]
+
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+        public let kinesisStreamConfig: KinesisStreamConfig?
+        /// The type of data stream where you are sending real-time log data. The only valid value is Kinesis.
+        public let streamType: String
+
+        public init(kinesisStreamConfig: KinesisStreamConfig? = nil, streamType: String) {
+            self.kinesisStreamConfig = kinesisStreamConfig
+            self.streamType = streamType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisStreamConfig = "KinesisStreamConfig"
+            case streamType = "StreamType"
         }
     }
 
@@ -1994,38 +2552,6 @@ extension CloudFront {
         }
     }
 
-    public struct ForwardedValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cookies", required: true, type: .structure), 
-            AWSShapeMember(label: "Headers", required: false, type: .structure), 
-            AWSShapeMember(label: "QueryString", required: true, type: .boolean), 
-            AWSShapeMember(label: "QueryStringCacheKeys", required: false, type: .structure)
-        ]
-
-        /// A complex type that specifies whether you want CloudFront to forward cookies to the origin and, if so, which ones. For more information about forwarding cookies to the origin, see How CloudFront Forwards, Caches, and Logs Cookies in the Amazon CloudFront Developer Guide.
-        public let cookies: CookiePreference
-        /// A complex type that specifies the Headers, if any, that you want CloudFront to forward to the origin for this cache behavior (whitelisted headers). For the headers that you specify, CloudFront also caches separate versions of a specified object that is based on the header values in viewer requests. For more information, see  Caching Content Based on Request Headers in the Amazon CloudFront Developer Guide.
-        public let headers: Headers?
-        /// Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin and caches based on all query string parameters. Depending on how many query string parameters and values you have, this can adversely affect performance because CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query string parameters to the origin, and doesn't cache based on query string parameters. For more information, see Configuring CloudFront to Cache Based on Query String Parameters in the Amazon CloudFront Developer Guide.
-        public let queryString: Bool
-        /// A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
-        public let queryStringCacheKeys: QueryStringCacheKeys?
-
-        public init(cookies: CookiePreference, headers: Headers? = nil, queryString: Bool, queryStringCacheKeys: QueryStringCacheKeys? = nil) {
-            self.cookies = cookies
-            self.headers = headers
-            self.queryString = queryString
-            self.queryStringCacheKeys = queryStringCacheKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cookies = "Cookies"
-            case headers = "Headers"
-            case queryString = "QueryString"
-            case queryStringCacheKeys = "QueryStringCacheKeys"
-        }
-    }
-
     public struct GeoRestriction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Location")), 
@@ -2050,6 +2576,88 @@ extension CloudFront {
             case items = "Items"
             case quantity = "Quantity"
             case restrictionType = "RestrictionType"
+        }
+    }
+
+    public struct GetCachePolicyConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+
+        /// The unique identifier for the cache policy. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct GetCachePolicyConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CachePolicyConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachePolicyConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+
+        /// The cache policy configuration.
+        public let cachePolicyConfig: CachePolicyConfig?
+        /// The current version of the cache policy.
+        public let eTag: String?
+
+        public init(cachePolicyConfig: CachePolicyConfig? = nil, eTag: String? = nil) {
+            self.cachePolicyConfig = cachePolicyConfig
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePolicyConfig = "CachePolicyConfig"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct GetCachePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+
+        /// The unique identifier for the cache policy. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct GetCachePolicyResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CachePolicy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachePolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+
+        /// The cache policy.
+        public let cachePolicy: CachePolicy?
+        /// The current version of the cache policy.
+        public let eTag: String?
+
+        public init(cachePolicy: CachePolicy? = nil, eTag: String? = nil) {
+            self.cachePolicy = cachePolicy
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePolicy = "CachePolicy"
+            case eTag = "ETag"
         }
     }
 
@@ -2422,6 +3030,124 @@ extension CloudFront {
         }
     }
 
+    public struct GetMonitoringSubscriptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
+        ]
+
+        /// The ID of the distribution that you are getting metrics information for.
+        public let distributionId: String
+
+        public init(distributionId: String) {
+            self.distributionId = distributionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionId = "DistributionId"
+        }
+    }
+
+    public struct GetMonitoringSubscriptionResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "MonitoringSubscription"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringSubscription", required: false, type: .structure)
+        ]
+
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        public let monitoringSubscription: MonitoringSubscription?
+
+        public init(monitoringSubscription: MonitoringSubscription? = nil) {
+            self.monitoringSubscription = monitoringSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringSubscription = "MonitoringSubscription"
+        }
+    }
+
+    public struct GetOriginRequestPolicyConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+
+        /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct GetOriginRequestPolicyConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "OriginRequestPolicyConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "OriginRequestPolicyConfig", required: false, type: .structure)
+        ]
+
+        /// The current version of the origin request policy.
+        public let eTag: String?
+        /// The origin request policy configuration.
+        public let originRequestPolicyConfig: OriginRequestPolicyConfig?
+
+        public init(eTag: String? = nil, originRequestPolicyConfig: OriginRequestPolicyConfig? = nil) {
+            self.eTag = eTag
+            self.originRequestPolicyConfig = originRequestPolicyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case originRequestPolicyConfig = "OriginRequestPolicyConfig"
+        }
+    }
+
+    public struct GetOriginRequestPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+
+        /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct GetOriginRequestPolicyResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "OriginRequestPolicy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "OriginRequestPolicy", required: false, type: .structure)
+        ]
+
+        /// The current version of the origin request policy.
+        public let eTag: String?
+        /// The origin request policy.
+        public let originRequestPolicy: OriginRequestPolicy?
+
+        public init(eTag: String? = nil, originRequestPolicy: OriginRequestPolicy? = nil) {
+            self.eTag = eTag
+            self.originRequestPolicy = originRequestPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case originRequestPolicy = "OriginRequestPolicy"
+        }
+    }
+
     public struct GetPublicKeyConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
@@ -2501,6 +3227,45 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
             case publicKey = "PublicKey"
+        }
+    }
+
+    public struct GetRealtimeLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the real-time log configuration to get.
+        public let arn: String?
+        /// The name of the real-time log configuration to get.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case name = "Name"
+        }
+    }
+
+    public struct GetRealtimeLogConfigResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RealtimeLogConfig", required: false, type: .structure)
+        ]
+
+        /// A real-time log configuration.
+        public let realtimeLogConfig: RealtimeLogConfig?
+
+        public init(realtimeLogConfig: RealtimeLogConfig? = nil) {
+            self.realtimeLogConfig = realtimeLogConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeLogConfig = "RealtimeLogConfig"
         }
     }
 
@@ -2592,9 +3357,9 @@ extension CloudFront {
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
 
-        /// A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0, omit Items.
+        /// A list of HTTP header names.
         public let items: [String]?
-        /// The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.      Forward a whitelist of headers you specify: Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.    Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.   Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:    S3 bucket: See HTTP Request Headers That CloudFront Removes or Updates     Custom origin: See HTTP Request Headers and CloudFront Behavior   
+        /// The number of header names in the Items list.
         public let quantity: Int
 
         public init(items: [String]? = nil, quantity: Int) {
@@ -2753,6 +3518,28 @@ extension CloudFront {
         }
     }
 
+    public struct KinesisStreamConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "StreamARN", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log configuration IAM role in the Amazon CloudFront Developer Guide.
+        public let roleARN: String
+        /// The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data.
+        public let streamARN: String
+
+        public init(roleARN: String, streamARN: String) {
+            self.roleARN = roleARN
+            self.streamARN = streamARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleARN = "RoleARN"
+            case streamARN = "StreamARN"
+        }
+    }
+
     public struct LambdaFunctionAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventType", required: true, type: .enum), 
@@ -2760,7 +3547,7 @@ extension CloudFront {
             AWSShapeMember(label: "LambdaFunctionARN", required: true, type: .string)
         ]
 
-        /// Specifies the event type that triggers a Lambda function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.     origin-request: The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.  
+        /// Specifies the event type that triggers a Lambda function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.     origin-request: The function executes only when CloudFront sends a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.  
         public let eventType: EventType
         /// A flag that allows a Lambda function to have read access to the body content. For more information, see Accessing the Request Body by Choosing the Include Body Option in the Amazon CloudFront Developer Guide.
         public let includeBody: Bool?
@@ -2802,6 +3589,52 @@ extension CloudFront {
         }
     }
 
+    public struct ListCachePoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
+            AWSShapeMember(label: "Type", location: .querystring(locationName: "Type"), required: false, type: .enum)
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of cache policies. The response includes cache policies in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of cache policies that you want in the response.
+        public let maxItems: String?
+        /// A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.  
+        public let `type`: CachePolicyType?
+
+        public init(marker: String? = nil, maxItems: String? = nil, type: CachePolicyType? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ListCachePoliciesResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CachePolicyList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachePolicyList", required: false, type: .structure)
+        ]
+
+        /// A list of cache policies.
+        public let cachePolicyList: CachePolicyList?
+
+        public init(cachePolicyList: CachePolicyList? = nil) {
+            self.cachePolicyList = cachePolicyList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePolicyList = "CachePolicyList"
+        }
+    }
+
     public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
@@ -2840,6 +3673,148 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFrontOriginAccessIdentityList = "CloudFrontOriginAccessIdentityList"
+        }
+    }
+
+    public struct ListDistributionsByCachePolicyIdRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachePolicyId", location: .uri(locationName: "CachePolicyId"), required: true, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        ]
+
+        /// The ID of the cache policy whose associated distribution IDs you want to list.
+        public let cachePolicyId: String
+        /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of distribution IDs that you want in the response.
+        public let maxItems: String?
+
+        public init(cachePolicyId: String, marker: String? = nil, maxItems: String? = nil) {
+            self.cachePolicyId = cachePolicyId
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePolicyId = "CachePolicyId"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListDistributionsByCachePolicyIdResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionIdList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionIdList", required: false, type: .structure)
+        ]
+
+        /// A list of distribution IDs.
+        public let distributionIdList: DistributionIdList?
+
+        public init(distributionIdList: DistributionIdList? = nil) {
+            self.distributionIdList = distributionIdList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionIdList = "DistributionIdList"
+        }
+    }
+
+    public struct ListDistributionsByOriginRequestPolicyIdRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
+            AWSShapeMember(label: "OriginRequestPolicyId", location: .uri(locationName: "OriginRequestPolicyId"), required: true, type: .string)
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of distribution IDs that you want in the response.
+        public let maxItems: String?
+        /// The ID of the origin request policy whose associated distribution IDs you want to list.
+        public let originRequestPolicyId: String
+
+        public init(marker: String? = nil, maxItems: String? = nil, originRequestPolicyId: String) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.originRequestPolicyId = originRequestPolicyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case originRequestPolicyId = "OriginRequestPolicyId"
+        }
+    }
+
+    public struct ListDistributionsByOriginRequestPolicyIdResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionIdList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionIdList", required: false, type: .structure)
+        ]
+
+        /// A list of distribution IDs.
+        public let distributionIdList: DistributionIdList?
+
+        public init(distributionIdList: DistributionIdList? = nil) {
+            self.distributionIdList = distributionIdList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionIdList = "DistributionIdList"
+        }
+    }
+
+    public struct ListDistributionsByRealtimeLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .string), 
+            AWSShapeMember(label: "RealtimeLogConfigArn", required: false, type: .string), 
+            AWSShapeMember(label: "RealtimeLogConfigName", required: false, type: .string)
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of distributions that you want in the response.
+        public let maxItems: String?
+        /// The Amazon Resource Name (ARN) of the real-time log configuration whose associated distributions you want to list.
+        public let realtimeLogConfigArn: String?
+        /// The name of the real-time log configuration whose associated distributions you want to list.
+        public let realtimeLogConfigName: String?
+
+        public init(marker: String? = nil, maxItems: String? = nil, realtimeLogConfigArn: String? = nil, realtimeLogConfigName: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.realtimeLogConfigArn = realtimeLogConfigArn
+            self.realtimeLogConfigName = realtimeLogConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case realtimeLogConfigArn = "RealtimeLogConfigArn"
+            case realtimeLogConfigName = "RealtimeLogConfigName"
+        }
+    }
+
+    public struct ListDistributionsByRealtimeLogConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionList", required: false, type: .structure)
+        ]
+
+        public let distributionList: DistributionList?
+
+        public init(distributionList: DistributionList? = nil) {
+            self.distributionList = distributionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionList = "DistributionList"
         }
     }
 
@@ -3058,6 +4033,52 @@ extension CloudFront {
         }
     }
 
+    public struct ListOriginRequestPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
+            AWSShapeMember(label: "Type", location: .querystring(locationName: "Type"), required: false, type: .enum)
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of origin request policies. The response includes origin request policies in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of origin request policies that you want in the response.
+        public let maxItems: String?
+        /// A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.  
+        public let `type`: OriginRequestPolicyType?
+
+        public init(marker: String? = nil, maxItems: String? = nil, type: OriginRequestPolicyType? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ListOriginRequestPoliciesResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "OriginRequestPolicyList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginRequestPolicyList", required: false, type: .structure)
+        ]
+
+        /// A list of origin request policies.
+        public let originRequestPolicyList: OriginRequestPolicyList?
+
+        public init(originRequestPolicyList: OriginRequestPolicyList? = nil) {
+            self.originRequestPolicyList = originRequestPolicyList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originRequestPolicyList = "OriginRequestPolicyList"
+        }
+    }
+
     public struct ListPublicKeysRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
@@ -3096,6 +4117,47 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case publicKeyList = "PublicKeyList"
+        }
+    }
+
+    public struct ListRealtimeLogConfigsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of real-time log configurations. The response includes real-time log configurations in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of real-time log configurations that you want in the response.
+        public let maxItems: String?
+
+        public init(marker: String? = nil, maxItems: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListRealtimeLogConfigsResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "RealtimeLogConfigs"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RealtimeLogConfigs", required: false, type: .structure)
+        ]
+
+        /// A list of real-time log configurations.
+        public let realtimeLogConfigs: RealtimeLogConfigs?
+
+        public init(realtimeLogConfigs: RealtimeLogConfigs? = nil) {
+            self.realtimeLogConfigs = realtimeLogConfigs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeLogConfigs = "RealtimeLogConfigs"
         }
     }
 
@@ -3212,8 +4274,27 @@ extension CloudFront {
         }
     }
 
+    public struct MonitoringSubscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RealtimeMetricsSubscriptionConfig", required: false, type: .structure)
+        ]
+
+        /// A subscription configuration for additional CloudWatch metrics.
+        public let realtimeMetricsSubscriptionConfig: RealtimeMetricsSubscriptionConfig?
+
+        public init(realtimeMetricsSubscriptionConfig: RealtimeMetricsSubscriptionConfig? = nil) {
+            self.realtimeMetricsSubscriptionConfig = realtimeMetricsSubscriptionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeMetricsSubscriptionConfig = "RealtimeMetricsSubscriptionConfig"
+        }
+    }
+
     public struct Origin: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionAttempts", required: false, type: .integer), 
+            AWSShapeMember(label: "ConnectionTimeout", required: false, type: .integer), 
             AWSShapeMember(label: "CustomHeaders", required: false, type: .structure), 
             AWSShapeMember(label: "CustomOriginConfig", required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
@@ -3222,20 +4303,26 @@ extension CloudFront {
             AWSShapeMember(label: "S3OriginConfig", required: false, type: .structure)
         ]
 
-        /// A complex type that contains names and values for the custom headers that you want.
+        /// The number of times that CloudFront attempts to connect to the origin. The minimum number is 1, the maximum is 3, and the default (if you don’t specify otherwise) is 3. For a custom origin (including an Amazon S3 bucket that’s configured with static website hosting), this value also specifies the number of times that CloudFront attempts to get a response from the origin, in the case of an Origin Response Timeout. For more information, see Origin Connection Attempts in the Amazon CloudFront Developer Guide.
+        public let connectionAttempts: Int?
+        /// The number of seconds that CloudFront waits when trying to establish a connection to the origin. The minimum timeout is 1 second, the maximum is 10 seconds, and the default (if you don’t specify otherwise) is 10 seconds. For more information, see Origin Connection Timeout in the Amazon CloudFront Developer Guide.
+        public let connectionTimeout: Int?
+        /// A list of HTTP header names and values that CloudFront adds to requests it sends to the origin. For more information, see Adding Custom Headers to Origin Requests in the Amazon CloudFront Developer Guide.
         public let customHeaders: CustomHeaders?
-        /// A complex type that contains information about a custom origin. If the origin is an Amazon S3 bucket, use the S3OriginConfig element instead.
+        /// Use this type to specify an origin that is a content container or HTTP server, including an Amazon S3 bucket that is configured with static website hosting. To specify an Amazon S3 bucket that is  not  configured with static website hosting, use the S3OriginConfig type instead.
         public let customOriginConfig: CustomOriginConfig?
-        ///  Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin, for example, myawsbucket.s3.amazonaws.com. If you set up your bucket to be configured as a website endpoint, enter the Amazon S3 static website hosting endpoint for the bucket. For more information about specifying this value for different types of origins, see Origin Domain Name in the Amazon CloudFront Developer Guide. Constraints for Amazon S3 origins:    If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName.   The bucket name must be between 3 and 63 characters long (inclusive).   The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.   The bucket name must not contain adjacent periods.    Custom Origins: The DNS domain name for the HTTP server from which you want CloudFront to get objects for this origin, for example, www.example.com.  Constraints for custom origins:    DomainName must be a valid DNS name that contains only a-z, A-Z, 0-9, dot (.), hyphen (-), or underscore (_) characters.   The name cannot exceed 128 characters.  
+        /// The domain name for the origin. For more information, see Origin Domain Name in the Amazon CloudFront Developer Guide.
         public let domainName: String
-        /// A unique identifier for the origin or origin group. The value of Id must be unique within the distribution. When you specify the value of TargetOriginId for the default cache behavior or for another cache behavior, you indicate the origin to which you want the cache behavior to route requests by specifying the value of the Id element for that origin. When a request matches the path pattern for that cache behavior, CloudFront routes the request to the specified origin. For more information, see Cache Behavior Settings in the Amazon CloudFront Developer Guide.
+        /// A unique identifier for the origin. This value must be unique within the distribution. Use this value to specify the TargetOriginId in a CacheBehavior or DefaultCacheBehavior.
         public let id: String
-        /// An optional element that causes CloudFront to request your content from a directory in your Amazon S3 bucket or your custom origin. When you include the OriginPath element, specify the directory name, beginning with a /. CloudFront appends the directory name to the value of DomainName, for example, example.com/production. Do not include a / at the end of the directory name. For example, suppose you've specified the following values for your distribution:    DomainName: An Amazon S3 bucket named myawsbucket.    OriginPath: /production     CNAME: example.com    When a user enters example.com/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/index.html. When a user enters example.com/acme/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/acme/index.html.
+        /// An optional path that CloudFront appends to the origin domain name when CloudFront requests content from the origin. For more information, see Origin Path in the Amazon CloudFront Developer Guide.
         public let originPath: String?
-        /// A complex type that contains information about the Amazon S3 origin. If the origin is a custom origin, use the CustomOriginConfig element instead.
+        /// Use this type to specify an origin that is an Amazon S3 bucket that is  not  configured with static website hosting. To specify any other type of origin, including an Amazon S3 bucket that is configured with static website hosting, use the CustomOriginConfig type instead.
         public let s3OriginConfig: S3OriginConfig?
 
-        public init(customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originPath: String? = nil, s3OriginConfig: S3OriginConfig? = nil) {
+        public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originPath: String? = nil, s3OriginConfig: S3OriginConfig? = nil) {
+            self.connectionAttempts = connectionAttempts
+            self.connectionTimeout = connectionTimeout
             self.customHeaders = customHeaders
             self.customOriginConfig = customOriginConfig
             self.domainName = domainName
@@ -3245,6 +4332,8 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionAttempts = "ConnectionAttempts"
+            case connectionTimeout = "ConnectionTimeout"
             case customHeaders = "CustomHeaders"
             case customOriginConfig = "CustomOriginConfig"
             case domainName = "DomainName"
@@ -3260,7 +4349,7 @@ extension CloudFront {
             AWSShapeMember(label: "HeaderValue", required: true, type: .string)
         ]
 
-        /// The name of a header that you want CloudFront to forward to your origin. For more information, see Forwarding Custom Headers to Your Origin (Web Distributions Only) in the  Amazon CloudFront Developer Guide.
+        /// The name of a header that you want CloudFront to send to your origin. For more information, see Adding Custom Headers to Origin Requests in the  Amazon CloudFront Developer Guide.
         public let headerName: String
         /// The value for the header that you specified in the HeaderName field.
         public let headerValue: String
@@ -3401,6 +4490,188 @@ extension CloudFront {
         }
     }
 
+    public struct OriginRequestPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "OriginRequestPolicyConfig", required: true, type: .structure)
+        ]
+
+        /// The unique identifier for the origin request policy.
+        public let id: String
+        /// The date and time when the origin request policy was last modified.
+        public let lastModifiedTime: TimeStamp
+        /// The origin request policy configuration.
+        public let originRequestPolicyConfig: OriginRequestPolicyConfig
+
+        public init(id: String, lastModifiedTime: TimeStamp, originRequestPolicyConfig: OriginRequestPolicyConfig) {
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.originRequestPolicyConfig = originRequestPolicyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case originRequestPolicyConfig = "OriginRequestPolicyConfig"
+        }
+    }
+
+    public struct OriginRequestPolicyConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "CookiesConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "HeadersConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "QueryStringsConfig", required: true, type: .structure)
+        ]
+
+        /// A comment to describe the origin request policy.
+        public let comment: String?
+        /// The cookies from viewer requests to include in origin requests.
+        public let cookiesConfig: OriginRequestPolicyCookiesConfig
+        /// The HTTP headers to include in origin requests. These can include headers from viewer requests and additional headers added by CloudFront.
+        public let headersConfig: OriginRequestPolicyHeadersConfig
+        /// A unique name to identify the origin request policy.
+        public let name: String
+        /// The URL query strings from viewer requests to include in origin requests.
+        public let queryStringsConfig: OriginRequestPolicyQueryStringsConfig
+
+        public init(comment: String? = nil, cookiesConfig: OriginRequestPolicyCookiesConfig, headersConfig: OriginRequestPolicyHeadersConfig, name: String, queryStringsConfig: OriginRequestPolicyQueryStringsConfig) {
+            self.comment = comment
+            self.cookiesConfig = cookiesConfig
+            self.headersConfig = headersConfig
+            self.name = name
+            self.queryStringsConfig = queryStringsConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case cookiesConfig = "CookiesConfig"
+            case headersConfig = "HeadersConfig"
+            case name = "Name"
+            case queryStringsConfig = "QueryStringsConfig"
+        }
+    }
+
+    public struct OriginRequestPolicyCookiesConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CookieBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "Cookies", required: false, type: .structure)
+        ]
+
+        /// Determines whether cookies in viewer requests are included in requests that CloudFront sends to the origin. Valid values are:    none – Cookies in viewer requests are not included in requests that CloudFront sends to the origin. Even when this field is set to none, any cookies that are listed in a CachePolicy are included in origin requests.    whitelist – The cookies in viewer requests that are listed in the CookieNames type are included in requests that CloudFront sends to the origin.    all – All cookies in viewer requests are included in requests that CloudFront sends to the origin.  
+        public let cookieBehavior: OriginRequestPolicyCookieBehavior
+        public let cookies: CookieNames?
+
+        public init(cookieBehavior: OriginRequestPolicyCookieBehavior, cookies: CookieNames? = nil) {
+            self.cookieBehavior = cookieBehavior
+            self.cookies = cookies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cookieBehavior = "CookieBehavior"
+            case cookies = "Cookies"
+        }
+    }
+
+    public struct OriginRequestPolicyHeadersConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HeaderBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "Headers", required: false, type: .structure)
+        ]
+
+        /// Determines whether any HTTP headers are included in requests that CloudFront sends to the origin. Valid values are:    none – HTTP headers are not included in requests that CloudFront sends to the origin. Even when this field is set to none, any headers that are listed in a CachePolicy are included in origin requests.    whitelist – The HTTP headers that are listed in the Headers type are included in requests that CloudFront sends to the origin.    allViewer – All HTTP headers in viewer requests are included in requests that CloudFront sends to the origin.    allViewerAndWhitelistCloudFront – All HTTP headers in viewer requests and the additional CloudFront headers that are listed in the Headers type are included in requests that CloudFront sends to the origin. The additional headers are added by CloudFront.  
+        public let headerBehavior: OriginRequestPolicyHeaderBehavior
+        public let headers: Headers?
+
+        public init(headerBehavior: OriginRequestPolicyHeaderBehavior, headers: Headers? = nil) {
+            self.headerBehavior = headerBehavior
+            self.headers = headers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headerBehavior = "HeaderBehavior"
+            case headers = "Headers"
+        }
+    }
+
+    public struct OriginRequestPolicyList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"OriginRequestPolicySummary")), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+
+        /// Contains the origin request policies in the list.
+        public let items: [OriginRequestPolicySummary]?
+        /// The maximum number of origin request policies requested.
+        public let maxItems: Int
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing origin request policies where you left off.
+        public let nextMarker: String?
+        /// The total number of origin request policies returned in the response.
+        public let quantity: Int
+
+        public init(items: [OriginRequestPolicySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.items = items
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct OriginRequestPolicyQueryStringsConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryStringBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "QueryStrings", required: false, type: .structure)
+        ]
+
+        /// Determines whether any URL query strings in viewer requests are included in requests that CloudFront sends to the origin. Valid values are:    none – Query strings in viewer requests are not included in requests that CloudFront sends to the origin. Even when this field is set to none, any query strings that are listed in a CachePolicy are included in origin requests.    whitelist – The query strings in viewer requests that are listed in the QueryStringNames type are included in requests that CloudFront sends to the origin.    all – All query strings in viewer requests are included in requests that CloudFront sends to the origin.  
+        public let queryStringBehavior: OriginRequestPolicyQueryStringBehavior
+        /// Contains a list of the query strings in viewer requests that are included in requests that CloudFront sends to the origin.
+        public let queryStrings: QueryStringNames?
+
+        public init(queryStringBehavior: OriginRequestPolicyQueryStringBehavior, queryStrings: QueryStringNames? = nil) {
+            self.queryStringBehavior = queryStringBehavior
+            self.queryStrings = queryStrings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryStringBehavior = "QueryStringBehavior"
+            case queryStrings = "QueryStrings"
+        }
+    }
+
+    public struct OriginRequestPolicySummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginRequestPolicy", required: true, type: .structure), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+
+        /// The origin request policy.
+        public let originRequestPolicy: OriginRequestPolicy
+        /// The type of origin request policy, either managed (created by AWS) or custom (created in this AWS account).
+        public let `type`: OriginRequestPolicyType
+
+        public init(originRequestPolicy: OriginRequestPolicy, type: OriginRequestPolicyType) {
+            self.originRequestPolicy = originRequestPolicy
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originRequestPolicy = "OriginRequestPolicy"
+            case `type` = "Type"
+        }
+    }
+
     public struct OriginSslProtocols: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"SslProtocol")), 
@@ -3446,6 +4717,43 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct ParametersInCacheKeyAndForwardedToOrigin: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CookiesConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "EnableAcceptEncodingBrotli", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableAcceptEncodingGzip", required: true, type: .boolean), 
+            AWSShapeMember(label: "HeadersConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "QueryStringsConfig", required: true, type: .structure)
+        ]
+
+        /// An object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        public let cookiesConfig: CachePolicyCookiesConfig
+        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingGzip field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer’s Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin   If one or both of these fields are true, you should not whitelist the Accept-Encoding header in the cache policy or in an origin request policy attached to the same cache behavior. For more information, see Cache compressed objects in the Amazon CloudFront Developer Guide. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
+        public let enableAcceptEncodingBrotli: Bool?
+        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingBrotli field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer’s Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin   If one or both of these fields are true, you should not whitelist the Accept-Encoding header in the cache policy or in an origin request policy attached to the same cache behavior. For more information, see Cache compressed objects in the Amazon CloudFront Developer Guide. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
+        public let enableAcceptEncodingGzip: Bool
+        /// An object that determines whether any HTTP headers (and if so, which headers) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        public let headersConfig: CachePolicyHeadersConfig
+        /// An object that determines whether any URL query strings in viewer requests (and if so, which query strings) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        public let queryStringsConfig: CachePolicyQueryStringsConfig
+
+        public init(cookiesConfig: CachePolicyCookiesConfig, enableAcceptEncodingBrotli: Bool? = nil, enableAcceptEncodingGzip: Bool, headersConfig: CachePolicyHeadersConfig, queryStringsConfig: CachePolicyQueryStringsConfig) {
+            self.cookiesConfig = cookiesConfig
+            self.enableAcceptEncodingBrotli = enableAcceptEncodingBrotli
+            self.enableAcceptEncodingGzip = enableAcceptEncodingGzip
+            self.headersConfig = headersConfig
+            self.queryStringsConfig = queryStringsConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cookiesConfig = "CookiesConfig"
+            case enableAcceptEncodingBrotli = "EnableAcceptEncodingBrotli"
+            case enableAcceptEncodingGzip = "EnableAcceptEncodingGzip"
+            case headersConfig = "HeadersConfig"
+            case queryStringsConfig = "QueryStringsConfig"
         }
     }
 
@@ -3665,15 +4973,15 @@ extension CloudFront {
         }
     }
 
-    public struct QueryStringCacheKeys: AWSShape {
+    public struct QueryStringNames: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Name")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
 
-        /// A list that contains the query string parameters that you want CloudFront to use as a basis for caching for a cache behavior. If Quantity is 0, you can omit Items. 
+        /// A list of query string names.
         public let items: [String]?
-        /// The number of whitelisted query string parameters for a cache behavior.
+        /// The number of query string names in the Items list.
         public let quantity: Int
 
         public init(items: [String]? = nil, quantity: Int) {
@@ -3684,6 +4992,97 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct RealtimeLogConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "EndPoints", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Fields", required: true, type: .list, encoding: .list(member:"Field")), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SamplingRate", required: true, type: .long)
+        ]
+
+        /// The Amazon Resource Name (ARN) of this real-time log configuration.
+        public let arn: String
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data for this real-time log configuration.
+        public let endPoints: [EndPoint]
+        /// A list of fields that are included in each real-time log record. In an API response, the fields are provided in the same order in which they are sent to the Amazon Kinesis data stream. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
+        public let fields: [String]
+        /// The unique name of this real-time log configuration.
+        public let name: String
+        /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. The sampling rate is an integer between 1 and 100, inclusive.
+        public let samplingRate: Int64
+
+        public init(arn: String, endPoints: [EndPoint], fields: [String], name: String, samplingRate: Int64) {
+            self.arn = arn
+            self.endPoints = endPoints
+            self.fields = fields
+            self.name = name
+            self.samplingRate = samplingRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case endPoints = "EndPoints"
+            case fields = "Fields"
+            case name = "Name"
+            case samplingRate = "SamplingRate"
+        }
+    }
+
+    public struct RealtimeLogConfigs: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        ]
+
+        /// A flag that indicates whether there are more real-time log configurations than are contained in this list.
+        public let isTruncated: Bool
+        /// Contains the list of real-time log configurations.
+        public let items: [RealtimeLogConfig]?
+        /// This parameter indicates where this list of real-time log configurations begins. This list includes real-time log configurations that occur after the marker.
+        public let marker: String
+        /// The maximum number of real-time log configurations requested.
+        public let maxItems: Int
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing real-time log configurations where you left off. 
+        public let nextMarker: String?
+
+        public init(isTruncated: Bool, items: [RealtimeLogConfig]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil) {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case items = "Items"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct RealtimeMetricsSubscriptionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RealtimeMetricsSubscriptionStatus", required: true, type: .enum)
+        ]
+
+        /// A flag that indicates whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        public let realtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus
+
+        public init(realtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus) {
+            self.realtimeMetricsSubscriptionStatus = realtimeMetricsSubscriptionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeMetricsSubscriptionStatus = "RealtimeMetricsSubscriptionStatus"
         }
     }
 
@@ -4111,7 +5510,7 @@ extension CloudFront {
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Tags"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tags"), required: true, type: .structure)
@@ -4191,7 +5590,7 @@ extension CloudFront {
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "TagKeys"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .body(locationName: "TagKeys"), required: true, type: .structure)
@@ -4218,10 +5617,64 @@ extension CloudFront {
         }
     }
 
+    public struct UpdateCachePolicyRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CachePolicyConfig"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachePolicyConfig", location: .body(locationName: "CachePolicyConfig"), required: true, type: .structure), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        ]
+
+        /// A cache policy configuration.
+        public let cachePolicyConfig: CachePolicyConfig
+        /// The unique identifier for the cache policy that you are updating. The identifier is returned in a cache behavior’s CachePolicyId field in the response to GetDistributionConfig.
+        public let id: String
+        /// The version of the cache policy that you are updating. The version is returned in the cache policy’s ETag field in the response to GetCachePolicyConfig.
+        public let ifMatch: String?
+
+        public init(cachePolicyConfig: CachePolicyConfig, id: String, ifMatch: String? = nil) {
+            self.cachePolicyConfig = cachePolicyConfig
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePolicyConfig = "CachePolicyConfig"
+            case id = "Id"
+            case ifMatch = "If-Match"
+        }
+    }
+
+    public struct UpdateCachePolicyResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CachePolicy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachePolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+
+        /// A cache policy.
+        public let cachePolicy: CachePolicy?
+        /// The current version of the cache policy.
+        public let eTag: String?
+
+        public init(cachePolicy: CachePolicy? = nil, eTag: String? = nil) {
+            self.cachePolicy = cachePolicy
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePolicy = "CachePolicy"
+            case eTag = "ETag"
+        }
+    }
+
     public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -4275,7 +5728,7 @@ extension CloudFront {
     public struct UpdateDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -4333,7 +5786,7 @@ extension CloudFront {
     public struct UpdateFieldLevelEncryptionConfigRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "FieldLevelEncryptionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -4387,7 +5840,7 @@ extension CloudFront {
     public struct UpdateFieldLevelEncryptionProfileRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -4438,10 +5891,64 @@ extension CloudFront {
         }
     }
 
+    public struct UpdateOriginRequestPolicyRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "OriginRequestPolicyConfig"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "OriginRequestPolicyConfig", location: .body(locationName: "OriginRequestPolicyConfig"), required: true, type: .structure)
+        ]
+
+        /// The unique identifier for the origin request policy that you are updating. The identifier is returned in a cache behavior’s OriginRequestPolicyId field in the response to GetDistributionConfig.
+        public let id: String
+        /// The version of the origin request policy that you are updating. The version is returned in the origin request policy’s ETag field in the response to GetOriginRequestPolicyConfig.
+        public let ifMatch: String?
+        /// An origin request policy configuration.
+        public let originRequestPolicyConfig: OriginRequestPolicyConfig
+
+        public init(id: String, ifMatch: String? = nil, originRequestPolicyConfig: OriginRequestPolicyConfig) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.originRequestPolicyConfig = originRequestPolicyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ifMatch = "If-Match"
+            case originRequestPolicyConfig = "OriginRequestPolicyConfig"
+        }
+    }
+
+    public struct UpdateOriginRequestPolicyResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "OriginRequestPolicy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "OriginRequestPolicy", required: false, type: .structure)
+        ]
+
+        /// The current version of the origin request policy.
+        public let eTag: String?
+        /// An origin request policy.
+        public let originRequestPolicy: OriginRequestPolicy?
+
+        public init(eTag: String? = nil, originRequestPolicy: OriginRequestPolicy? = nil) {
+            self.eTag = eTag
+            self.originRequestPolicy = originRequestPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case originRequestPolicy = "OriginRequestPolicy"
+        }
+    }
+
     public struct UpdatePublicKeyRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicKeyConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
@@ -4492,10 +5999,64 @@ extension CloudFront {
         }
     }
 
+    public struct UpdateRealtimeLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "EndPoints", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Fields", required: false, type: .list, encoding: .list(member:"Field")), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SamplingRate", required: false, type: .long)
+        ]
+
+        /// The Amazon Resource Name (ARN) for this real-time log configuration.
+        public let arn: String?
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+        public let endPoints: [EndPoint]?
+        /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
+        public let fields: [String]?
+        /// The name for this real-time log configuration.
+        public let name: String?
+        /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
+        public let samplingRate: Int64?
+
+        public init(arn: String? = nil, endPoints: [EndPoint]? = nil, fields: [String]? = nil, name: String? = nil, samplingRate: Int64? = nil) {
+            self.arn = arn
+            self.endPoints = endPoints
+            self.fields = fields
+            self.name = name
+            self.samplingRate = samplingRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case endPoints = "EndPoints"
+            case fields = "Fields"
+            case name = "Name"
+            case samplingRate = "SamplingRate"
+        }
+    }
+
+    public struct UpdateRealtimeLogConfigResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RealtimeLogConfig", required: false, type: .structure)
+        ]
+
+        /// A real-time log configuration.
+        public let realtimeLogConfig: RealtimeLogConfig?
+
+        public init(realtimeLogConfig: RealtimeLogConfig? = nil) {
+            self.realtimeLogConfig = realtimeLogConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeLogConfig = "RealtimeLogConfig"
+        }
+    }
+
     public struct UpdateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
@@ -4561,9 +6122,9 @@ extension CloudFront {
         public let cloudFrontDefaultCertificate: Bool?
         /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in AWS Identity and Access Management (AWS IAM), provide the ID of the IAM certificate. If you specify an IAM certificate ID, you must also specify values for MinimumProtocolVerison and SSLSupportMethod. 
         public let iAMCertificateId: String?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security Policy.  We recommend that you specify TLSv1.2_2018 unless your viewers are using browsers or devices that don’t support TLSv1.2. When you’re using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher.  If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security Policy.  When you’re using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher.  If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
         public let minimumProtocolVersion: MinimumProtocolVersion?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients released after 2010 support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don’t support SNI. This is not recommended, and results in additional monthly charges from CloudFront.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don’t set a value for this field.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don’t support SNI. This is not recommended, and results in additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the AWS Support Center.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don’t set a value for this field.
         public let sSLSupportMethod: SSLSupportMethod?
 
         public init(aCMCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {

@@ -13,6 +13,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum EntitlementStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KeyType: String, CustomStringConvertible, Codable {
         case speke = "speke"
         case staticKey = "static-key"
@@ -456,6 +462,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
             AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: true, type: .string), 
+            AWSShapeMember(label: "EntitlementStatus", location: .body(locationName: "entitlementStatus"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list)
         ]
@@ -468,16 +475,19 @@ extension MediaConnect {
         public let encryption: Encryption?
         /// The ARN of the entitlement.
         public let entitlementArn: String
+        /// An indication of whether the entitlement is enabled.
+        public let entitlementStatus: EntitlementStatus?
         /// The name of the entitlement.
         public let name: String
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementArn: String, name: String, subscribers: [String]) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementArn: String, entitlementStatus: EntitlementStatus? = nil, name: String, subscribers: [String]) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
             self.entitlementArn = entitlementArn
+            self.entitlementStatus = entitlementStatus
             self.name = name
             self.subscribers = subscribers
         }
@@ -487,6 +497,7 @@ extension MediaConnect {
             case description = "description"
             case encryption = "encryption"
             case entitlementArn = "entitlementArn"
+            case entitlementStatus = "entitlementStatus"
             case name = "name"
             case subscribers = "subscribers"
         }
@@ -587,6 +598,7 @@ extension MediaConnect {
             AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent"), required: false, type: .integer), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "EntitlementStatus", location: .body(locationName: "entitlementStatus"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list)
         ]
@@ -597,15 +609,18 @@ extension MediaConnect {
         public let description: String?
         /// The type of encryption that will be used on the output that is associated with this entitlement.
         public let encryption: Encryption?
+        /// An indication of whether the new entitlement should be enabled or disabled as soon as it is created. If you don’t specify the entitlementStatus field in your request, MediaConnect sets it to ENABLED.
+        public let entitlementStatus: EntitlementStatus?
         /// The name of the entitlement. This value must be unique within the current flow.
         public let name: String?
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
         public let subscribers: [String]
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, name: String? = nil, subscribers: [String]) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
+            self.entitlementStatus = entitlementStatus
             self.name = name
             self.subscribers = subscribers
         }
@@ -614,6 +629,7 @@ extension MediaConnect {
             case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
             case description = "description"
             case encryption = "encryption"
+            case entitlementStatus = "entitlementStatus"
             case name = "name"
             case subscribers = "subscribers"
         }
@@ -1496,6 +1512,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
             AWSShapeMember(label: "EntitlementArn", location: .uri(locationName: "entitlementArn"), required: true, type: .string), 
+            AWSShapeMember(label: "EntitlementStatus", location: .body(locationName: "entitlementStatus"), required: false, type: .enum), 
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
             AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: false, type: .list)
         ]
@@ -1505,14 +1522,17 @@ extension MediaConnect {
         /// The type of encryption that will be used on the output associated with this entitlement.
         public let encryption: UpdateEncryption?
         public let entitlementArn: String
+        /// An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscriber’s flow temporarily. If you don’t specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged.
+        public let entitlementStatus: EntitlementStatus?
         public let flowArn: String
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]?
 
-        public init(description: String? = nil, encryption: UpdateEncryption? = nil, entitlementArn: String, flowArn: String, subscribers: [String]? = nil) {
+        public init(description: String? = nil, encryption: UpdateEncryption? = nil, entitlementArn: String, entitlementStatus: EntitlementStatus? = nil, flowArn: String, subscribers: [String]? = nil) {
             self.description = description
             self.encryption = encryption
             self.entitlementArn = entitlementArn
+            self.entitlementStatus = entitlementStatus
             self.flowArn = flowArn
             self.subscribers = subscribers
         }
@@ -1521,6 +1541,7 @@ extension MediaConnect {
             case description = "description"
             case encryption = "encryption"
             case entitlementArn = "entitlementArn"
+            case entitlementStatus = "entitlementStatus"
             case flowArn = "flowArn"
             case subscribers = "subscribers"
         }

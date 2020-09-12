@@ -51,6 +51,7 @@ extension Route53 {
         case cnNorthwest1 = "cn-northwest-1"
         case cnNorth1 = "cn-north-1"
         case afSouth1 = "af-south-1"
+        case euSouth1 = "eu-south-1"
         case usGovWest1 = "us-gov-west-1"
         case usGovEast1 = "us-gov-east-1"
         case usIsoEast1 = "us-iso-east-1"
@@ -155,6 +156,7 @@ extension Route53 {
         case meSouth1 = "me-south-1"
         case apSouth1 = "ap-south-1"
         case afSouth1 = "af-south-1"
+        case euSouth1 = "eu-south-1"
         public var description: String { return self.rawValue }
     }
 
@@ -204,6 +206,7 @@ extension Route53 {
         case caCentral1 = "ca-central-1"
         case cnNorth1 = "cn-north-1"
         case afSouth1 = "af-south-1"
+        case euSouth1 = "eu-south-1"
         public var description: String { return self.rawValue }
     }
 
@@ -2371,6 +2374,55 @@ extension Route53 {
         }
     }
 
+    public struct HostedZoneOwner: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OwningAccount", required: false, type: .string), 
+            AWSShapeMember(label: "OwningService", required: false, type: .string)
+        ]
+
+        /// If the hosted zone was created by an AWS account, or was created by an AWS service that creates hosted zones using the current account, OwningAccount contains the account ID of that account. For example, when you use AWS Cloud Map to create a hosted zone, Cloud Map creates the hosted zone using the current AWS account. 
+        public let owningAccount: String?
+        /// If an AWS service uses its own account to create a hosted zone and associate the specified VPC with that hosted zone, OwningService contains an abbreviation that identifies the service. For example, if Amazon Elastic File System (Amazon EFS) created a hosted zone and associated a VPC with the hosted zone, the value of OwningService is efs.amazonaws.com.
+        public let owningService: String?
+
+        public init(owningAccount: String? = nil, owningService: String? = nil) {
+            self.owningAccount = owningAccount
+            self.owningService = owningService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case owningAccount = "OwningAccount"
+            case owningService = "OwningService"
+        }
+    }
+
+    public struct HostedZoneSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Owner", required: true, type: .structure)
+        ]
+
+        /// The Route 53 hosted zone ID of a private hosted zone that the specified VPC is associated with.
+        public let hostedZoneId: String
+        /// The name of the private hosted zone, such as example.com.
+        public let name: String
+        /// The owner of a private hosted zone that the specified VPC is associated with. The owner can be either an AWS account or an AWS service.
+        public let owner: HostedZoneOwner
+
+        public init(hostedZoneId: String, name: String, owner: HostedZoneOwner) {
+            self.hostedZoneId = hostedZoneId
+            self.name = name
+            self.owner = owner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostedZoneId = "HostedZoneId"
+            case name = "Name"
+            case owner = "Owner"
+        }
+    }
+
     public struct LinkedService: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -2618,6 +2670,70 @@ extension Route53 {
         }
     }
 
+    public struct ListHostedZonesByVPCRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nexttoken"), required: false, type: .string), 
+            AWSShapeMember(label: "VPCId", location: .querystring(locationName: "vpcid"), required: true, type: .string), 
+            AWSShapeMember(label: "VPCRegion", location: .querystring(locationName: "vpcregion"), required: true, type: .enum)
+        ]
+
+        /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the response includes a NextToken element. NextToken contains an encrypted token that identifies the first hosted zone that Route 53 will return if you submit another request.
+        public let maxItems: String?
+        /// If the previous response included a NextToken element, the specified VPC is associated with more hosted zones. To get more hosted zones, submit another ListHostedZonesByVPC request.  For the value of NextToken, specify the value of NextToken from the previous response. If the previous response didn't include a NextToken element, there are no more hosted zones to get.
+        public let nextToken: String?
+        /// The ID of the Amazon VPC that you want to list hosted zones for.
+        public let vPCId: String
+        /// For the Amazon VPC that you specified for VPCId, the AWS Region that you created the VPC in. 
+        public let vPCRegion: VPCRegion
+
+        public init(maxItems: String? = nil, nextToken: String? = nil, vPCId: String, vPCRegion: VPCRegion) {
+            self.maxItems = maxItems
+            self.nextToken = nextToken
+            self.vPCId = vPCId
+            self.vPCRegion = vPCRegion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.vPCId, name:"vPCId", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxitems"
+            case nextToken = "nexttoken"
+            case vPCId = "vpcid"
+            case vPCRegion = "vpcregion"
+        }
+    }
+
+    public struct ListHostedZonesByVPCResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZoneSummaries", required: true, type: .list, encoding: .list(member:"HostedZoneSummary")), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list that contains one HostedZoneSummary element for each hosted zone that the specified Amazon VPC is associated with. Each HostedZoneSummary element contains the hosted zone name and ID, and information about who owns the hosted zone.
+        public let hostedZoneSummaries: [HostedZoneSummary]
+        /// The value that you specified for MaxItems in the most recent ListHostedZonesByVPC request.
+        public let maxItems: String
+        /// The value that you specified for NextToken in the most recent ListHostedZonesByVPC request.
+        public let nextToken: String?
+
+        public init(hostedZoneSummaries: [HostedZoneSummary], maxItems: String, nextToken: String? = nil) {
+            self.hostedZoneSummaries = hostedZoneSummaries
+            self.maxItems = maxItems
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostedZoneSummaries = "HostedZoneSummaries"
+            case maxItems = "MaxItems"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListHostedZonesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DelegationSetId", location: .querystring(locationName: "delegationsetid"), required: false, type: .string), 
@@ -2709,7 +2825,7 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 256)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3372,7 +3488,7 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 256)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {

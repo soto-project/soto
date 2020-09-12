@@ -11,7 +11,7 @@ extension CodeGuruReviewer {
         return client.paginate(input: input, command: listCodeReviews, tokenKey: \ListCodeReviewsResponse.nextToken, onPage: onPage)
     }
 
-    ///   Lists the customer feedback for a CodeGuru Reviewer recommendation for all users. This API will be used from the console to extract the previously given feedback by the user to pre-populate the feedback emojis for all recommendations. 
+    ///   Returns a list of  RecommendationFeedbackSummary  objects that contain customer recommendation feedback for all CodeGuru Reviewer users. 
     public func listRecommendationFeedbackPaginator(_ input: ListRecommendationFeedbackRequest, onPage: @escaping (ListRecommendationFeedbackResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRecommendationFeedback, tokenKey: \ListRecommendationFeedbackResponse.nextToken, onPage: onPage)
     }
@@ -21,7 +21,7 @@ extension CodeGuruReviewer {
         return client.paginate(input: input, command: listRecommendations, tokenKey: \ListRecommendationsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
+    ///   Returns a list of  RepositoryAssociationSummary  objects that contain summary information about a repository association. You can filter the returned list by  ProviderType ,  Name ,  State , and  Owner . 
     public func listRepositoryAssociationsPaginator(_ input: ListRepositoryAssociationsRequest, onPage: @escaping (ListRepositoryAssociationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRepositoryAssociations, tokenKey: \ListRepositoryAssociationsResponse.nextToken, onPage: onPage)
     }
