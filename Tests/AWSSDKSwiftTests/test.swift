@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import AWSSDKSwiftCore
+@testable import AWSSDKSwiftCore
 import Foundation
 import NIO
 import XCTest
@@ -36,25 +36,28 @@ extension EventLoopFuture {
 
 /// Provide various test environment variables
 struct TestEnvironment {
-    /// are we using Localstack to test
-    static var isUsingLocalstack: Bool { return ProcessInfo.processInfo.environment["AWS_DISABLE_LOCALSTACK"] != "true" }
+    /// are we using Localstack to test. Also return use localstack if we are running a github action and don't have an access key if
+    static var isUsingLocalstack: Bool {
+        return Environment["AWS_DISABLE_LOCALSTACK"] != "true" ||
+            (Environment["GITHUB_ACTIONS"] == "true" && Environment["AWS_ACCESS_KEY_ID"] == nil)
+    }
 
     static var credentialProvider: CredentialProviderFactory { return isUsingLocalstack ? .static(accessKeyId: "foo", secretAccessKey: "bar") : .default }
 
     /// current list of middleware
     static var middlewares: [AWSServiceMiddleware] {
-        return (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
+        return (Environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
     }
 
     /// return endpoint
     static func getEndPoint(environment: String, default: String) -> String? {
         guard self.isUsingLocalstack == true else { return nil }
-        return ProcessInfo.processInfo.environment[environment] ?? `default`
+        return Environment[environment] ?? `default`
     }
 
     /// get name to use for AWS resource
     static func generateResourceName(_ function: String = #function) -> String {
-        let prefix = ProcessInfo.processInfo.environment["AWS_TEST_RESOURCE_PREFIX"] ?? ""
+        let prefix = Environment["AWS_TEST_RESOURCE_PREFIX"] ?? ""
         return "swift-" + (prefix + function).filter { $0.isLetter || $0.isNumber }.lowercased()
     }
 }
