@@ -26,6 +26,21 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum Application: String, CustomStringConvertible, Codable {
+        case microsoftOffice2016 = "Microsoft_Office_2016"
+        case microsoftOffice2019 = "Microsoft_Office_2019"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationStatus: String, CustomStringConvertible, Codable {
+        case notAssociated = "NOT_ASSOCIATED"
+        case associatedWithOwnerAccount = "ASSOCIATED_WITH_OWNER_ACCOUNT"
+        case associatedWithSharedAccount = "ASSOCIATED_WITH_SHARED_ACCOUNT"
+        case pendingAssociation = "PENDING_ASSOCIATION"
+        case pendingDisassociation = "PENDING_DISASSOCIATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Compute: String, CustomStringConvertible, Codable {
         case value = "VALUE"
         case standard = "STANDARD"
@@ -34,6 +49,13 @@ extension WorkSpaces {
         case graphics = "GRAPHICS"
         case powerpro = "POWERPRO"
         case graphicspro = "GRAPHICSPRO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionAliasState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -203,6 +225,45 @@ extension WorkSpaces {
         }
     }
 
+    public struct AssociateConnectionAliasRequest: AWSEncodableShape {
+
+        /// The identifier of the connection alias.
+        public let aliasId: String
+        /// The identifier of the directory to associate the connection alias with.
+        public let resourceId: String
+
+        public init(aliasId: String, resourceId: String) {
+            self.aliasId = aliasId
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name: "aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name: "aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+            try validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct AssociateConnectionAliasResult: AWSDecodableShape {
+
+        /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when you're configuring your DNS routing policies. 
+        public let connectionIdentifier: String?
+
+        public init(connectionIdentifier: String? = nil) {
+            self.connectionIdentifier = connectionIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionIdentifier = "ConnectionIdentifier"
+        }
+    }
+
     public struct AssociateIpGroupsRequest: AWSEncodableShape {
 
         /// The identifier of the directory.
@@ -314,6 +375,84 @@ extension WorkSpaces {
         }
     }
 
+    public struct ConnectionAlias: AWSDecodableShape {
+
+        /// The identifier of the connection alias.
+        public let aliasId: String?
+        /// The association status of the connection alias.
+        public let associations: [ConnectionAliasAssociation]?
+        /// The connection string specified for the connection alias. The connection string must be in the form of a fully qualified domain name (FQDN), such as www.example.com.
+        public let connectionString: String?
+        /// The identifier of the AWS account that owns the connection alias.
+        public let ownerAccountId: String?
+        /// The current state of the connection alias.
+        public let state: ConnectionAliasState?
+
+        public init(aliasId: String? = nil, associations: [ConnectionAliasAssociation]? = nil, connectionString: String? = nil, ownerAccountId: String? = nil, state: ConnectionAliasState? = nil) {
+            self.aliasId = aliasId
+            self.associations = associations
+            self.connectionString = connectionString
+            self.ownerAccountId = ownerAccountId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case associations = "Associations"
+            case connectionString = "ConnectionString"
+            case ownerAccountId = "OwnerAccountId"
+            case state = "State"
+        }
+    }
+
+    public struct ConnectionAliasAssociation: AWSDecodableShape {
+
+        /// The identifier of the AWS account that associated the connection alias with a directory.
+        public let associatedAccountId: String?
+        /// The association status of the connection alias.
+        public let associationStatus: AssociationStatus?
+        /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when you're configuring your DNS routing policies.
+        public let connectionIdentifier: String?
+        /// The identifier of the directory associated with a connection alias.
+        public let resourceId: String?
+
+        public init(associatedAccountId: String? = nil, associationStatus: AssociationStatus? = nil, connectionIdentifier: String? = nil, resourceId: String? = nil) {
+            self.associatedAccountId = associatedAccountId
+            self.associationStatus = associationStatus
+            self.connectionIdentifier = connectionIdentifier
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedAccountId = "AssociatedAccountId"
+            case associationStatus = "AssociationStatus"
+            case connectionIdentifier = "ConnectionIdentifier"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ConnectionAliasPermission: AWSEncodableShape & AWSDecodableShape {
+
+        /// Indicates whether the specified AWS account is allowed to associate the connection alias with a directory.
+        public let allowAssociation: Bool
+        /// The identifier of the AWS account that the connection alias is shared with.
+        public let sharedAccountId: String
+
+        public init(allowAssociation: Bool, sharedAccountId: String) {
+            self.allowAssociation = allowAssociation
+            self.sharedAccountId = sharedAccountId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.sharedAccountId, name: "sharedAccountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAssociation = "AllowAssociation"
+            case sharedAccountId = "SharedAccountId"
+        }
+    }
+
     public struct CopyWorkspaceImageRequest: AWSEncodableShape {
 
         /// A description of the image.
@@ -374,6 +513,47 @@ extension WorkSpaces {
         }
     }
 
+    public struct CreateConnectionAliasRequest: AWSEncodableShape {
+
+        /// A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com.  After you create a connection string, it is always associated to your AWS account. You cannot recreate the same connection string with a different account, even if you delete all instances of it from the original account. The connection string is globally reserved for your account. 
+        public let connectionString: String
+        /// The tags to associate with the connection alias.
+        public let tags: [Tag]?
+
+        public init(connectionString: String, tags: [Tag]? = nil) {
+            self.connectionString = connectionString
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.connectionString, name: "connectionString", parent: name, max: 255)
+            try validate(self.connectionString, name: "connectionString", parent: name, min: 1)
+            try validate(self.connectionString, name: "connectionString", parent: name, pattern: "^[.0-9a-zA-Z\\-]{1,255}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionString = "ConnectionString"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectionAliasResult: AWSDecodableShape {
+
+        /// The identifier of the connection alias.
+        public let aliasId: String?
+
+        public init(aliasId: String? = nil) {
+            self.aliasId = aliasId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+        }
+    }
+
     public struct CreateIpGroupRequest: AWSEncodableShape {
 
         /// The description of the group.
@@ -422,7 +602,7 @@ extension WorkSpaces {
 
     public struct CreateTagsRequest: AWSEncodableShape {
 
-        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
         public let resourceId: String
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. If you want to add new tags to a set of existing tags, you must submit all of the existing tags along with the new ones.
         public let tags: [Tag]
@@ -527,6 +707,34 @@ extension WorkSpaces {
         }
     }
 
+    public struct DeleteConnectionAliasRequest: AWSEncodableShape {
+
+        /// The identifier of the connection alias to delete.
+        public let aliasId: String
+
+        public init(aliasId: String) {
+            self.aliasId = aliasId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name: "aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name: "aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+        }
+    }
+
+    public struct DeleteConnectionAliasResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteIpGroupRequest: AWSEncodableShape {
 
         /// The identifier of the IP access control group.
@@ -555,7 +763,7 @@ extension WorkSpaces {
 
     public struct DeleteTagsRequest: AWSEncodableShape {
 
-        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
         public let resourceId: String
         /// The tag keys.
         public let tagKeys: [String]
@@ -650,7 +858,7 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -739,6 +947,119 @@ extension WorkSpaces {
         }
     }
 
+    public struct DescribeConnectionAliasPermissionsRequest: AWSEncodableShape {
+
+        /// The identifier of the connection alias.
+        public let aliasId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. 
+        public let nextToken: String?
+
+        public init(aliasId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.aliasId = aliasId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name: "aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name: "aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeConnectionAliasPermissionsResult: AWSDecodableShape {
+
+        /// The identifier of the connection alias.
+        public let aliasId: String?
+        /// The permissions associated with a connection alias.
+        public let connectionAliasPermissions: [ConnectionAliasPermission]?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+
+        public init(aliasId: String? = nil, connectionAliasPermissions: [ConnectionAliasPermission]? = nil, nextToken: String? = nil) {
+            self.aliasId = aliasId
+            self.connectionAliasPermissions = connectionAliasPermissions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case connectionAliasPermissions = "ConnectionAliasPermissions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeConnectionAliasesRequest: AWSEncodableShape {
+
+        /// The identifiers of the connection aliases to describe.
+        public let aliasIds: [String]?
+        /// The maximum number of connection aliases to return.
+        public let limit: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. 
+        public let nextToken: String?
+        /// The identifier of the directory associated with the connection alias.
+        public let resourceId: String?
+
+        public init(aliasIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String? = nil) {
+            self.aliasIds = aliasIds
+            self.limit = limit
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.aliasIds?.forEach {
+                try validate($0, name: "aliasIds[]", parent: name, max: 68)
+                try validate($0, name: "aliasIds[]", parent: name, min: 13)
+                try validate($0, name: "aliasIds[]", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+            }
+            try validate(self.aliasIds, name: "aliasIds", parent: name, max: 25)
+            try validate(self.aliasIds, name: "aliasIds", parent: name, min: 1)
+            try validate(self.limit, name: "limit", parent: name, max: 25)
+            try validate(self.limit, name: "limit", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasIds = "AliasIds"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DescribeConnectionAliasesResult: AWSDecodableShape {
+
+        /// Information about the specified connection aliases.
+        public let connectionAliases: [ConnectionAlias]?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+
+        public init(connectionAliases: [ConnectionAlias]? = nil, nextToken: String? = nil) {
+            self.connectionAliases = connectionAliases
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionAliases = "ConnectionAliases"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeIpGroupsRequest: AWSEncodableShape {
 
         /// The identifiers of one or more IP access control groups.
@@ -760,7 +1081,7 @@ extension WorkSpaces {
             }
             try validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -791,7 +1112,7 @@ extension WorkSpaces {
 
     public struct DescribeTagsRequest: AWSEncodableShape {
 
-        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
         public let resourceId: String
 
         public init(resourceId: String) {
@@ -842,7 +1163,7 @@ extension WorkSpaces {
             }
             try validate(self.bundleIds, name: "bundleIds", parent: name, max: 25)
             try validate(self.bundleIds, name: "bundleIds", parent: name, min: 1)
-            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -896,7 +1217,7 @@ extension WorkSpaces {
             try validate(self.directoryIds, name: "directoryIds", parent: name, min: 1)
             try validate(self.limit, name: "limit", parent: name, max: 25)
             try validate(self.limit, name: "limit", parent: name, min: 1)
-            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -944,7 +1265,7 @@ extension WorkSpaces {
             try validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
             try validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1003,7 +1324,7 @@ extension WorkSpaces {
             try validate(self.imageIds, name: "imageIds", parent: name, min: 1)
             try validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1082,7 +1403,7 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.workspaceIds?.forEach {
                 try validate($0, name: "workspaceIds[]", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
@@ -1146,7 +1467,7 @@ extension WorkSpaces {
             try validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try validate(self.limit, name: "limit", parent: name, max: 25)
             try validate(self.limit, name: "limit", parent: name, min: 1)
-            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try validate(self.userName, name: "userName", parent: name, max: 63)
             try validate(self.userName, name: "userName", parent: name, min: 1)
@@ -1183,6 +1504,34 @@ extension WorkSpaces {
             case nextToken = "NextToken"
             case workspaces = "Workspaces"
         }
+    }
+
+    public struct DisassociateConnectionAliasRequest: AWSEncodableShape {
+
+        /// The identifier of the connection alias to disassociate.
+        public let aliasId: String
+
+        public init(aliasId: String) {
+            self.aliasId = aliasId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name: "aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name: "aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+        }
+    }
+
+    public struct DisassociateConnectionAliasResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateIpGroupsRequest: AWSEncodableShape {
@@ -1280,18 +1629,21 @@ extension WorkSpaces {
 
     public struct ImportWorkspaceImageRequest: AWSEncodableShape {
 
+        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.  Although this parameter is an array, only one item is allowed at this time. 
+        public let applications: [Application]?
         /// The identifier of the EC2 image.
         public let ec2ImageId: String
         /// The description of the WorkSpace image.
         public let imageDescription: String
         /// The name of the WorkSpace image.
         public let imageName: String
-        /// The ingestion process to be used when importing the image.
+        /// The ingestion process to be used when importing the image. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR.
         public let ingestionProcess: WorkspaceImageIngestionProcess
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]?
 
-        public init(ec2ImageId: String, imageDescription: String, imageName: String, ingestionProcess: WorkspaceImageIngestionProcess, tags: [Tag]? = nil) {
+        public init(applications: [Application]? = nil, ec2ImageId: String, imageDescription: String, imageName: String, ingestionProcess: WorkspaceImageIngestionProcess, tags: [Tag]? = nil) {
+            self.applications = applications
             self.ec2ImageId = ec2ImageId
             self.imageDescription = imageDescription
             self.imageName = imageName
@@ -1300,6 +1652,8 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
+            try validate(self.applications, name: "applications", parent: name, max: 5)
+            try validate(self.applications, name: "applications", parent: name, min: 1)
             try validate(self.ec2ImageId, name: "ec2ImageId", parent: name, pattern: "^ami\\-([a-f0-9]{8}|[a-f0-9]{17})$")
             try validate(self.imageDescription, name: "imageDescription", parent: name, max: 256)
             try validate(self.imageDescription, name: "imageDescription", parent: name, min: 1)
@@ -1313,6 +1667,7 @@ extension WorkSpaces {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
             case ec2ImageId = "Ec2ImageId"
             case imageDescription = "ImageDescription"
             case imageName = "ImageName"
@@ -1372,7 +1727,7 @@ extension WorkSpaces {
             try validate(self.managementCidrRangeConstraint, name: "managementCidrRangeConstraint", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$")
             try validate(self.maxResults, name: "maxResults", parent: name, max: 5)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name: "nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2156,6 +2511,39 @@ extension WorkSpaces {
         }
     }
 
+    public struct UpdateConnectionAliasPermissionRequest: AWSEncodableShape {
+
+        /// The identifier of the connection alias that you want to update permissions for.
+        public let aliasId: String
+        /// Indicates whether to share or unshare the connection alias with the specified AWS account.
+        public let connectionAliasPermission: ConnectionAliasPermission
+
+        public init(aliasId: String, connectionAliasPermission: ConnectionAliasPermission) {
+            self.aliasId = aliasId
+            self.connectionAliasPermission = connectionAliasPermission
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name: "aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name: "aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+            try self.connectionAliasPermission.validate(name: "\(name).connectionAliasPermission")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case connectionAliasPermission = "ConnectionAliasPermission"
+        }
+    }
+
+    public struct UpdateConnectionAliasPermissionResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct UpdateRulesOfIpGroupRequest: AWSEncodableShape {
 
         /// The identifier of the group.
@@ -2419,7 +2807,7 @@ extension WorkSpaces {
 
         /// The identifier of your custom security group.
         public let customSecurityGroupId: String?
-        /// The default organizational unit (OU) for your WorkSpace directories.
+        /// The default organizational unit (OU) for your WorkSpaces directories. This string must be the full Lightweight Directory Access Protocol (LDAP) distinguished name for the target domain and OU. It must be in the form "OU=value,DC=value,DC=value", where value is any string of characters, and the number of domain components (DCs) is two or more. For example, OU=WorkSpaces_machines,DC=machines,DC=example,DC=com.     To avoid errors, certain characters in the distinguished name must be escaped. For more information, see  Distinguished Names in the Microsoft documentation.   The API doesn't validate whether the OU exists.   
         public let defaultOu: String?
         /// Indicates whether internet access is enabled for your WorkSpaces.
         public let enableInternetAccess: Bool?

@@ -70,10 +70,29 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
+    public enum PoolStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetentionLockType: String, CustomStringConvertible, Codable {
+        case compliance = "COMPLIANCE"
+        case governance = "GOVERNANCE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SMBSecurityStrategy: String, CustomStringConvertible, Codable {
         case clientspecified = "ClientSpecified"
         case mandatorysigning = "MandatorySigning"
         case mandatoryencryption = "MandatoryEncryption"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TapeStorageClass: String, CustomStringConvertible, Codable {
+        case deepArchive = "DEEP_ARCHIVE"
+        case glacier = "GLACIER"
         public var description: String { return self.rawValue }
     }
 
@@ -91,7 +110,7 @@ extension StorageGateway {
         public let gatewayTimezone: String
         /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 
         public let gatewayType: String?
-        /// The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL 
+        /// The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 
         public let mediumChangerType: String?
         /// A list of up to 50 tags that you can assign to the gateway. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers that can be represented in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256 characters. 
         public let tags: [Tag]?
@@ -314,12 +333,15 @@ extension StorageGateway {
 
     public struct AssignTapePoolInput: AWSEncodableShape {
 
+        /// Set permissions to bypass governance retention. If the lock type of the archived tape is Governance, the tape's archived age is not older than RetentionLockInDays, and the user does not already have BypassGovernanceRetention, setting this to TRUE enables the user to bypass the retention lock. This parameter is set to true by default for calls from the console. Valid values: TRUE | FALSE 
+        public let bypassGovernanceRetention: Bool?
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE 
         public let poolId: String
         /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool.
         public let tapeARN: String
 
-        public init(poolId: String, tapeARN: String) {
+        public init(bypassGovernanceRetention: Bool? = nil, poolId: String, tapeARN: String) {
+            self.bypassGovernanceRetention = bypassGovernanceRetention
             self.poolId = poolId
             self.tapeARN = tapeARN
         }
@@ -333,6 +355,7 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bypassGovernanceRetention = "BypassGovernanceRetention"
             case poolId = "PoolId"
             case tapeARN = "TapeARN"
         }
@@ -432,7 +455,7 @@ extension StorageGateway {
 
     public struct AutomaticTapeCreationRule: AWSEncodableShape & AWSDecodableShape {
 
-        /// The minimum number of available virtual tapes that the gateway maintains at all times. If the number of tapes on the gateway goes below this value, the gateway creates as many new tapes as are needed to have MinimumNumTapes on the gateway.
+        /// The minimum number of available virtual tapes that the gateway maintains at all times. If the number of tapes on the gateway goes below this value, the gateway creates as many new tapes as are needed to have MinimumNumTapes on the gateway. For more information about automatic tape creation, see Creating Tapes Automatically.
         public let minimumNumTapes: Int
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the Amazon S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE 
         public let poolId: String
@@ -440,12 +463,15 @@ extension StorageGateway {
         public let tapeBarcodePrefix: String
         /// The size, in bytes, of the virtual tape capacity.
         public let tapeSizeInBytes: Int64
+        /// Set to true to indicate that tapes are to be archived as write-once-read-many (WORM). Set to false when WORM is not enabled for tapes.
+        public let worm: Bool?
 
-        public init(minimumNumTapes: Int, poolId: String, tapeBarcodePrefix: String, tapeSizeInBytes: Int64) {
+        public init(minimumNumTapes: Int, poolId: String, tapeBarcodePrefix: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
             self.minimumNumTapes = minimumNumTapes
             self.poolId = poolId
             self.tapeBarcodePrefix = tapeBarcodePrefix
             self.tapeSizeInBytes = tapeSizeInBytes
+            self.worm = worm
         }
 
         public func validate(name: String) throws {
@@ -463,6 +489,7 @@ extension StorageGateway {
             case poolId = "PoolId"
             case tapeBarcodePrefix = "TapeBarcodePrefix"
             case tapeSizeInBytes = "TapeSizeInBytes"
+            case worm = "Worm"
         }
     }
 
@@ -482,10 +509,10 @@ extension StorageGateway {
 
     public struct CachediSCSIVolume: AWSDecodableShape {
 
-        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
+        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this timestamp.
         public let createdDate: TimeStamp?
         public let kMSKey: String?
-        /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
+        /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g., snap-78e22663. Otherwise, this field is not included.
         public let sourceSnapshotId: String?
         /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name.
         public let targetName: String?
@@ -493,7 +520,7 @@ extension StorageGateway {
         public let volumeARN: String?
         /// A value that indicates whether a storage volume is attached to or detached from a gateway. For more information, see Moving your volumes to a different gateway.
         public let volumeAttachmentStatus: String?
-        /// The unique identifier of the volume, e.g. vol-AE4B946D.
+        /// The unique identifier of the volume, e.g., vol-AE4B946D.
         public let volumeId: String?
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
         public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
@@ -625,7 +652,7 @@ extension StorageGateway {
         public let initiatorName: String?
         /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.
         public let secretToAuthenticateInitiator: String?
-        /// The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).
+        /// The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g., Windows client).
         public let secretToAuthenticateTarget: String?
         /// The Amazon Resource Name (ARN) of the volume. Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public let targetARN: String?
@@ -1194,6 +1221,61 @@ extension StorageGateway {
         }
     }
 
+    public struct CreateTapePoolInput: AWSEncodableShape {
+
+        /// The name of the new custom tape pool.
+        public let poolName: String
+        /// Tape retention lock time is set in days. Tape retention lock can be enabled for up to 100 years (36,500 days).
+        public let retentionLockTimeInDays: Int?
+        /// Tape retention lock can be configured in two modes. When configured in governance mode, AWS accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root AWS account.
+        public let retentionLockType: RetentionLockType?
+        /// The storage class that is associated with the new custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
+        public let storageClass: TapeStorageClass
+        /// A list of up to 50 tags that can be assigned to tape pool. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
+        public let tags: [Tag]?
+
+        public init(poolName: String, retentionLockTimeInDays: Int? = nil, retentionLockType: RetentionLockType? = nil, storageClass: TapeStorageClass, tags: [Tag]? = nil) {
+            self.poolName = poolName
+            self.retentionLockTimeInDays = retentionLockTimeInDays
+            self.retentionLockType = retentionLockType
+            self.storageClass = storageClass
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.poolName, name: "poolName", parent: name, max: 100)
+            try validate(self.poolName, name: "poolName", parent: name, min: 1)
+            try validate(self.poolName, name: "poolName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
+            try validate(self.retentionLockTimeInDays, name: "retentionLockTimeInDays", parent: name, max: 36500)
+            try validate(self.retentionLockTimeInDays, name: "retentionLockTimeInDays", parent: name, min: 0)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolName = "PoolName"
+            case retentionLockTimeInDays = "RetentionLockTimeInDays"
+            case retentionLockType = "RetentionLockType"
+            case storageClass = "StorageClass"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateTapePoolOutput: AWSDecodableShape {
+
+        /// The unique Amazon Resource Name (ARN) that represents the custom tape pool. Use the ListTapePools operation to return a list of tape pools for your account and AWS Region.
+        public let poolARN: String?
+
+        public init(poolARN: String? = nil) {
+            self.poolARN = poolARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolARN = "PoolARN"
+        }
+    }
+
     public struct CreateTapeWithBarcodeInput: AWSEncodableShape {
 
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
@@ -1210,8 +1292,10 @@ extension StorageGateway {
         public let tapeBarcode: String
         /// The size, in bytes, of the virtual tape that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 bytes). 
         public let tapeSizeInBytes: Int64
+        /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
+        public let worm: Bool?
 
-        public init(gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcode: String, tapeSizeInBytes: Int64) {
+        public init(gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcode: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
             self.gatewayARN = gatewayARN
             self.kMSEncrypted = kMSEncrypted
             self.kMSKey = kMSKey
@@ -1219,6 +1303,7 @@ extension StorageGateway {
             self.tags = tags
             self.tapeBarcode = tapeBarcode
             self.tapeSizeInBytes = tapeSizeInBytes
+            self.worm = worm
         }
 
         public func validate(name: String) throws {
@@ -1245,6 +1330,7 @@ extension StorageGateway {
             case tags = "Tags"
             case tapeBarcode = "TapeBarcode"
             case tapeSizeInBytes = "TapeSizeInBytes"
+            case worm = "Worm"
         }
     }
 
@@ -1282,8 +1368,10 @@ extension StorageGateway {
         public let tapeBarcodePrefix: String
         /// The size, in bytes, of the virtual tapes that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 bytes). 
         public let tapeSizeInBytes: Int64
+        /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
+        public let worm: Bool?
 
-        public init(clientToken: String, gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, numTapesToCreate: Int, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcodePrefix: String, tapeSizeInBytes: Int64) {
+        public init(clientToken: String, gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, numTapesToCreate: Int, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcodePrefix: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
             self.clientToken = clientToken
             self.gatewayARN = gatewayARN
             self.kMSEncrypted = kMSEncrypted
@@ -1293,6 +1381,7 @@ extension StorageGateway {
             self.tags = tags
             self.tapeBarcodePrefix = tapeBarcodePrefix
             self.tapeSizeInBytes = tapeSizeInBytes
+            self.worm = worm
         }
 
         public func validate(name: String) throws {
@@ -1325,6 +1414,7 @@ extension StorageGateway {
             case tags = "Tags"
             case tapeBarcodePrefix = "TapeBarcodePrefix"
             case tapeSizeInBytes = "TapeSizeInBytes"
+            case worm = "Worm"
         }
     }
 
@@ -1375,7 +1465,7 @@ extension StorageGateway {
 
     public struct DeleteBandwidthRateLimitInput: AWSEncodableShape {
 
-        /// One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: Upload | Download | All 
+        /// One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: UPLOAD | DOWNLOAD | ALL 
         public let bandwidthType: String
         public let gatewayARN: String
 
@@ -1557,10 +1647,13 @@ extension StorageGateway {
 
     public struct DeleteTapeArchiveInput: AWSEncodableShape {
 
+        /// Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape retention lock set to compliance can't be deleted.
+        public let bypassGovernanceRetention: Bool?
         /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
         public let tapeARN: String
 
-        public init(tapeARN: String) {
+        public init(bypassGovernanceRetention: Bool? = nil, tapeARN: String) {
+            self.bypassGovernanceRetention = bypassGovernanceRetention
             self.tapeARN = tapeARN
         }
 
@@ -1571,6 +1664,7 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bypassGovernanceRetention = "BypassGovernanceRetention"
             case tapeARN = "TapeARN"
         }
     }
@@ -1591,12 +1685,15 @@ extension StorageGateway {
 
     public struct DeleteTapeInput: AWSEncodableShape {
 
+        /// Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape retention lock set to compliance can't be deleted.
+        public let bypassGovernanceRetention: Bool?
         /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape to delete.
         public let tapeARN: String
 
-        public init(gatewayARN: String, tapeARN: String) {
+        public init(bypassGovernanceRetention: Bool? = nil, gatewayARN: String, tapeARN: String) {
+            self.bypassGovernanceRetention = bypassGovernanceRetention
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
         }
@@ -1610,6 +1707,7 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bypassGovernanceRetention = "BypassGovernanceRetention"
             case gatewayARN = "GatewayARN"
             case tapeARN = "TapeARN"
         }
@@ -1626,6 +1724,39 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct DeleteTapePoolInput: AWSEncodableShape {
+
+        /// The Amazon Resource Name (ARN) of the custom tape pool to delete.
+        public let poolARN: String
+
+        public init(poolARN: String) {
+            self.poolARN = poolARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.poolARN, name: "poolARN", parent: name, max: 500)
+            try validate(self.poolARN, name: "poolARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolARN = "PoolARN"
+        }
+    }
+
+    public struct DeleteTapePoolOutput: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the custom tape pool being deleted.
+        public let poolARN: String?
+
+        public init(poolARN: String? = nil) {
+            self.poolARN = poolARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolARN = "PoolARN"
         }
     }
 
@@ -1883,7 +2014,7 @@ extension StorageGateway {
 
     public struct DescribeGatewayInformationOutput: AWSDecodableShape {
 
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Log Group that is used to monitor events in the gateway.
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor events in the gateway.
         public let cloudWatchLogGroupARN: String?
         /// Date after which this gateway will not receive software updates for new features and bug fixes.
         public let deprecationDate: String?
@@ -2995,7 +3126,7 @@ extension StorageGateway {
 
         /// An opaque string that indicates the position at which to stop returning the list of tags.
         public let marker: String?
-        /// he Amazon Resource Name (ARN) of the resource for which you want to list tags.
+        /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceARN: String?
         /// An array that contains the tags for the specified resource.
         public let tags: [Tag]?
@@ -3010,6 +3141,56 @@ extension StorageGateway {
             case marker = "Marker"
             case resourceARN = "ResourceARN"
             case tags = "Tags"
+        }
+    }
+
+    public struct ListTapePoolsInput: AWSEncodableShape {
+
+        /// An optional number limit for the tape pools in the list returned by this call.
+        public let limit: Int?
+        /// A string that indicates the position at which to begin the returned list of tape pools.
+        public let marker: String?
+        /// The Amazon Resource Name (ARN) of each of the custom tape pools you want to list. If you don't specify a custom tape pool ARN, the response lists all custom tape pools. 
+        public let poolARNs: [String]?
+
+        public init(limit: Int? = nil, marker: String? = nil, poolARNs: [String]? = nil) {
+            self.limit = limit
+            self.marker = marker
+            self.poolARNs = poolARNs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.limit, name: "limit", parent: name, min: 1)
+            try validate(self.marker, name: "marker", parent: name, max: 1000)
+            try validate(self.marker, name: "marker", parent: name, min: 1)
+            try self.poolARNs?.forEach {
+                try validate($0, name: "poolARNs[]", parent: name, max: 500)
+                try validate($0, name: "poolARNs[]", parent: name, min: 50)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case marker = "Marker"
+            case poolARNs = "PoolARNs"
+        }
+    }
+
+    public struct ListTapePoolsOutput: AWSDecodableShape {
+
+        /// A string that indicates the position at which to begin the returned list of tape pools. Use the marker in your next request to continue pagination of tape pools. If there are no more tape pools to list, this element does not appear in the response body. 
+        public let marker: String?
+        /// An array of PoolInfo objects, where each object describes a single custom tape pool. If there are no custom tape pools, the PoolInfos is an empty array. 
+        public let poolInfos: [PoolInfo]?
+
+        public init(marker: String? = nil, poolInfos: [PoolInfo]? = nil) {
+            self.marker = marker
+            self.poolInfos = poolInfos
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case poolInfos = "PoolInfos"
         }
     }
 
@@ -3350,6 +3531,40 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case fileShareARN = "FileShareARN"
             case notificationId = "NotificationId"
+        }
+    }
+
+    public struct PoolInfo: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the custom tape pool. Use the ListTapePools operation to return a list of custom tape pools for your account and AWS Region.
+        public let poolARN: String?
+        /// The name of the custom tape pool. PoolName can use all ASCII characters, except '/' and '\'.
+        public let poolName: String?
+        /// Status of the custom tape pool. Pool can be ACTIVE or DELETED.
+        public let poolStatus: PoolStatus?
+        /// Tape retention lock time is set in days. Tape retention lock can be enabled for up to 100 years (36,500 days).
+        public let retentionLockTimeInDays: Int?
+        /// Tape retention lock type, which can be configured in two modes. When configured in governance mode, AWS accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root AWS account.
+        public let retentionLockType: RetentionLockType?
+        /// The storage class that is associated with the custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
+        public let storageClass: TapeStorageClass?
+
+        public init(poolARN: String? = nil, poolName: String? = nil, poolStatus: PoolStatus? = nil, retentionLockTimeInDays: Int? = nil, retentionLockType: RetentionLockType? = nil, storageClass: TapeStorageClass? = nil) {
+            self.poolARN = poolARN
+            self.poolName = poolName
+            self.poolStatus = poolStatus
+            self.retentionLockTimeInDays = retentionLockTimeInDays
+            self.retentionLockType = retentionLockType
+            self.storageClass = storageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolARN = "PoolARN"
+            case poolName = "PoolName"
+            case poolStatus = "PoolStatus"
+            case retentionLockTimeInDays = "RetentionLockTimeInDays"
+            case retentionLockType = "RetentionLockType"
+            case storageClass = "StorageClass"
         }
     }
 
@@ -3823,7 +4038,7 @@ extension StorageGateway {
 
     public struct StorediSCSIVolume: AWSDecodableShape {
 
-        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
+        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this timestamp.
         public let createdDate: TimeStamp?
         public let kMSKey: String?
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved. Valid Values: true | false 
@@ -3838,7 +4053,7 @@ extension StorageGateway {
         public let volumeAttachmentStatus: String?
         /// The ID of the local disk that was specified in the CreateStorediSCSIVolume operation.
         public let volumeDiskId: String?
-        /// The unique identifier of the volume, e.g. vol-AE4B946D.
+        /// The unique identifier of the volume, e.g., vol-AE4B946D.
         public let volumeId: String?
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
         public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
@@ -3918,10 +4133,14 @@ extension StorageGateway {
     public struct Tape: AWSDecodableShape {
 
         public let kMSKey: String?
+        /// The date that the tape enters a custom tape pool.
+        public let poolEntryDate: TimeStamp?
         /// The ID of the pool that contains tapes that will be archived. The tapes in this pool are archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE 
         public let poolId: String?
         /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
         public let progress: Double?
+        /// The date that the tape is first archived with tape retention lock enabled.
+        public let retentionStartDate: TimeStamp?
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
         /// The barcode that identifies a specific virtual tape.
@@ -3936,11 +4155,15 @@ extension StorageGateway {
         public let tapeUsedInBytes: Int64?
         /// The virtual tape library (VTL) device that the virtual tape is associated with.
         public let vTLDevice: String?
+        /// If the tape is archived as write-once-read-many (WORM), this value is true.
+        public let worm: Bool?
 
-        public init(kMSKey: String? = nil, poolId: String? = nil, progress: Double? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: TimeStamp? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, vTLDevice: String? = nil) {
+        public init(kMSKey: String? = nil, poolEntryDate: TimeStamp? = nil, poolId: String? = nil, progress: Double? = nil, retentionStartDate: TimeStamp? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: TimeStamp? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, vTLDevice: String? = nil, worm: Bool? = nil) {
             self.kMSKey = kMSKey
+            self.poolEntryDate = poolEntryDate
             self.poolId = poolId
             self.progress = progress
+            self.retentionStartDate = retentionStartDate
             self.tapeARN = tapeARN
             self.tapeBarcode = tapeBarcode
             self.tapeCreatedDate = tapeCreatedDate
@@ -3948,12 +4171,15 @@ extension StorageGateway {
             self.tapeStatus = tapeStatus
             self.tapeUsedInBytes = tapeUsedInBytes
             self.vTLDevice = vTLDevice
+            self.worm = worm
         }
 
         private enum CodingKeys: String, CodingKey {
             case kMSKey = "KMSKey"
+            case poolEntryDate = "PoolEntryDate"
             case poolId = "PoolId"
             case progress = "Progress"
+            case retentionStartDate = "RetentionStartDate"
             case tapeARN = "TapeARN"
             case tapeBarcode = "TapeBarcode"
             case tapeCreatedDate = "TapeCreatedDate"
@@ -3961,16 +4187,21 @@ extension StorageGateway {
             case tapeStatus = "TapeStatus"
             case tapeUsedInBytes = "TapeUsedInBytes"
             case vTLDevice = "VTLDevice"
+            case worm = "Worm"
         }
     }
 
     public struct TapeArchive: AWSDecodableShape {
 
-        /// The time that the archiving of the virtual tape was completed. The default time stamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
+        /// The time that the archiving of the virtual tape was completed. The default timestamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
         public let completionTime: TimeStamp?
         public let kMSKey: String?
+        /// The time that the tape entered the custom tape pool. The default timestamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
+        public let poolEntryDate: TimeStamp?
         /// The ID of the pool that was used to archive the tape. The tapes in this pool are archived in the S3 storage class that is associated with the pool. Valid Values: GLACIER | DEEP_ARCHIVE 
         public let poolId: String?
+        /// If the archived tape is subject to tape retention lock, the date that the archived tape started being retained.
+        public let retentionStartDate: TimeStamp?
         /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is being retrieved to. The virtual tape is retrieved from the virtual tape shelf (VTS).
         public let retrievedTo: String?
         /// The Amazon Resource Name (ARN) of an archived virtual tape.
@@ -3985,11 +4216,15 @@ extension StorageGateway {
         public let tapeStatus: String?
         /// The size, in bytes, of data stored on the virtual tape.  This value is not available for tapes created prior to May 13, 2015. 
         public let tapeUsedInBytes: Int64?
+        /// Set to true if the archived tape is stored as write-once-read-many (WORM).
+        public let worm: Bool?
 
-        public init(completionTime: TimeStamp? = nil, kMSKey: String? = nil, poolId: String? = nil, retrievedTo: String? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: TimeStamp? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil) {
+        public init(completionTime: TimeStamp? = nil, kMSKey: String? = nil, poolEntryDate: TimeStamp? = nil, poolId: String? = nil, retentionStartDate: TimeStamp? = nil, retrievedTo: String? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: TimeStamp? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, worm: Bool? = nil) {
             self.completionTime = completionTime
             self.kMSKey = kMSKey
+            self.poolEntryDate = poolEntryDate
             self.poolId = poolId
+            self.retentionStartDate = retentionStartDate
             self.retrievedTo = retrievedTo
             self.tapeARN = tapeARN
             self.tapeBarcode = tapeBarcode
@@ -3997,12 +4232,15 @@ extension StorageGateway {
             self.tapeSizeInBytes = tapeSizeInBytes
             self.tapeStatus = tapeStatus
             self.tapeUsedInBytes = tapeUsedInBytes
+            self.worm = worm
         }
 
         private enum CodingKeys: String, CodingKey {
             case completionTime = "CompletionTime"
             case kMSKey = "KMSKey"
+            case poolEntryDate = "PoolEntryDate"
             case poolId = "PoolId"
+            case retentionStartDate = "RetentionStartDate"
             case retrievedTo = "RetrievedTo"
             case tapeARN = "TapeARN"
             case tapeBarcode = "TapeBarcode"
@@ -4010,6 +4248,7 @@ extension StorageGateway {
             case tapeSizeInBytes = "TapeSizeInBytes"
             case tapeStatus = "TapeStatus"
             case tapeUsedInBytes = "TapeUsedInBytes"
+            case worm = "Worm"
         }
     }
 
@@ -4017,8 +4256,12 @@ extension StorageGateway {
 
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String?
+        /// The date that the tape entered the custom tape pool with tape retention lock enabled.
+        public let poolEntryDate: TimeStamp?
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE 
         public let poolId: String?
+        /// The date that the tape became subject to tape retention lock.
+        public let retentionStartDate: TimeStamp?
         /// The Amazon Resource Name (ARN) of a virtual tape.
         public let tapeARN: String?
         /// The barcode that identifies a specific virtual tape.
@@ -4028,9 +4271,11 @@ extension StorageGateway {
         /// The status of the tape.
         public let tapeStatus: String?
 
-        public init(gatewayARN: String? = nil, poolId: String? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil) {
+        public init(gatewayARN: String? = nil, poolEntryDate: TimeStamp? = nil, poolId: String? = nil, retentionStartDate: TimeStamp? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil) {
             self.gatewayARN = gatewayARN
+            self.poolEntryDate = poolEntryDate
             self.poolId = poolId
+            self.retentionStartDate = retentionStartDate
             self.tapeARN = tapeARN
             self.tapeBarcode = tapeBarcode
             self.tapeSizeInBytes = tapeSizeInBytes
@@ -4039,7 +4284,9 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
+            case poolEntryDate = "PoolEntryDate"
             case poolId = "PoolId"
+            case retentionStartDate = "RetentionStartDate"
             case tapeARN = "TapeARN"
             case tapeBarcode = "TapeBarcode"
             case tapeSizeInBytes = "TapeSizeInBytes"
@@ -4051,7 +4298,7 @@ extension StorageGateway {
 
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
-        /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The default time stamp format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
+        /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The default timestamp format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
         public let tapeRecoveryPointTime: TimeStamp?
         /// The size, in bytes, of the virtual tapes to recover.
         public let tapeSizeInBytes: Int64?
@@ -4212,7 +4459,7 @@ extension StorageGateway {
 
     public struct UpdateGatewayInformationInput: AWSEncodableShape {
 
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway. For more information, see What is Amazon CloudWatch logs?.
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway. For more information, see What is Amazon CloudWatch Logs? 
         public let cloudWatchLogGroupARN: String?
         public let gatewayARN: String
         public let gatewayName: String?
@@ -4658,7 +4905,7 @@ extension StorageGateway {
 
     public struct UpdateVTLDeviceTypeInput: AWSEncodableShape {
 
-        /// The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL 
+        /// The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 
         public let deviceType: String
         /// The Amazon Resource Name (ARN) of the medium changer you want to select.
         public let vTLDeviceARN: String

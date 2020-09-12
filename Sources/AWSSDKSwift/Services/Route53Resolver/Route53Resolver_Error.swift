@@ -18,6 +18,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for Route53Resolver
 public enum Route53ResolverErrorType: AWSErrorType {
+    case accessDeniedException(message: String?)
     case internalServiceErrorException(message: String?)
     case invalidNextTokenException(message: String?)
     case invalidParameterException(message: String?)
@@ -40,6 +41,8 @@ extension Route53ResolverErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
         case "InternalServiceErrorException":
             self = .internalServiceErrorException(message: message)
         case "InvalidNextTokenException":
@@ -75,6 +78,8 @@ extension Route53ResolverErrorType {
 extension Route53ResolverErrorType: CustomStringConvertible {
     public var description: String {
         switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
         case .internalServiceErrorException(let message):
             return "InternalServiceErrorException: \(message ?? "")"
         case .invalidNextTokenException(let message):

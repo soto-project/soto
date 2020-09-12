@@ -52,6 +52,7 @@ extension CodeGuruReviewer {
 
     public enum `Type`: String, CustomStringConvertible, Codable {
         case pullrequest = "PullRequest"
+        case repositoryanalysis = "RepositoryAnalysis"
         public var description: String { return self.rawValue }
     }
 
@@ -59,7 +60,7 @@ extension CodeGuruReviewer {
 
     public struct AssociateRepositoryRequest: AWSEncodableShape {
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. To add a new repository association, this parameter specifies a unique identifier for the new repository association that helps ensure idempotency. If you use the AWS CLI or one of the AWS SDKs to call this operation, you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically interact with this value if you implement your own retry logic and want to ensure that a given repository association is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified repository association. Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. 
+        /// Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. 
         public let clientRequestToken: String?
         /// The repository to associate.
         public let repository: Repository
@@ -128,7 +129,7 @@ extension CodeGuruReviewer {
         public let metrics: Metrics?
         ///  The name of the code review. 
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub or Bitbucket repository, this is the username for the account that owns the repository.
+        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
         public let owner: String?
         ///  The type of repository that contains the reviewed code (for example, GitHub or Bitbucket). 
         public let providerType: ProviderType?
@@ -190,7 +191,7 @@ extension CodeGuruReviewer {
         public let metricsSummary: MetricsSummary?
         ///  The name of the code review. 
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub or Bitbucket repository, this is the username for the account that owns the repository.
+        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
         public let owner: String?
         ///  The provider type of the repository association. 
         public let providerType: ProviderType?
@@ -232,11 +233,29 @@ extension CodeGuruReviewer {
         }
     }
 
+    public struct CodeReviewType: AWSEncodableShape {
+
+        ///  A code review that analyzes all code under a specified branch in an associated respository. The assocated repository is specified using its ARN in  CreateCodeReview  
+        public let repositoryAnalysis: RepositoryAnalysis
+
+        public init(repositoryAnalysis: RepositoryAnalysis) {
+            self.repositoryAnalysis = repositoryAnalysis
+        }
+
+        public func validate(name: String) throws {
+            try self.repositoryAnalysis.validate(name: "\(name).repositoryAnalysis")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryAnalysis = "RepositoryAnalysis"
+        }
+    }
+
     public struct CommitDiffSourceCodeType: AWSDecodableShape {
 
-        ///  The SHA of the destination commit. 
+        ///  The SHA of the destination commit used to generate a commit diff. 
         public let destinationCommit: String?
-        ///  The SHA of the source commit. 
+        ///  The SHA of the source commit used to generate a commit diff. 
         public let sourceCommit: String?
 
         public init(destinationCommit: String? = nil, sourceCommit: String? = nil) {
@@ -247,6 +266,58 @@ extension CodeGuruReviewer {
         private enum CodingKeys: String, CodingKey {
             case destinationCommit = "DestinationCommit"
             case sourceCommit = "SourceCommit"
+        }
+    }
+
+    public struct CreateCodeReviewRequest: AWSEncodableShape {
+
+        ///  Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate code reviews if there are failures and retries. 
+        public let clientRequestToken: String?
+        ///  The name of the code review. Each code review of the same code review type must have a unique name in your AWS account. 
+        public let name: String
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories.   A code review can only be created on an associated repository. This is the ARN of the associated repository. 
+        public let repositoryAssociationArn: String
+        ///  The type of code review to create. This is specified using a  CodeReviewType  object. 
+        public let `type`: CodeReviewType
+
+        public init(clientRequestToken: String? = CreateCodeReviewRequest.idempotencyToken(), name: String, repositoryAssociationArn: String, type: CodeReviewType) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.repositoryAssociationArn = repositoryAssociationArn
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w-]+$")
+            try validate(self.name, name: "name", parent: name, max: 100)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-_]*")
+            try validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, max: 1600)
+            try validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, min: 1)
+            try validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
+            try self.`type`.validate(name: "\(name).`type`")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case name = "Name"
+            case repositoryAssociationArn = "RepositoryAssociationArn"
+            case `type` = "Type"
+        }
+    }
+
+    public struct CreateCodeReviewResponse: AWSDecodableShape {
+
+        public let codeReview: CodeReview?
+
+        public init(codeReview: CodeReview? = nil) {
+            self.codeReview = codeReview
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeReview = "CodeReview"
         }
     }
 
@@ -337,7 +408,7 @@ extension CodeGuruReviewer {
             AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories.
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories. 
         public let associationArn: String
 
         public init(associationArn: String) {
@@ -372,7 +443,7 @@ extension CodeGuruReviewer {
             AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. 
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories. 
         public let associationArn: String
 
         public init(associationArn: String) {
@@ -611,11 +682,11 @@ extension CodeGuruReviewer {
         public let names: [String]?
         /// The nextToken value returned from a previous paginated ListRepositoryAssociations request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   Treat this token as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
-        /// List of owners to use as a filter. For AWS CodeCommit, it is the name of the CodeCommit account that was used to associate the repository. For other repository source providers, such as Bitbucket, this is name of the account that was used to associate the repository. 
+        /// List of owners to use as a filter. For AWS CodeCommit, it is the name of the CodeCommit account that was used to associate the repository. For other repository source providers, such as Bitbucket and GitHub Enterprise Server, this is name of the account that was used to associate the repository. 
         public let owners: [String]?
         /// List of provider types to use as a filter.
         public let providerTypes: [ProviderType]?
-        /// List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.   
+        /// List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.   
         public let states: [RepositoryAssociationState]?
 
         public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil, owners: [String]? = nil, providerTypes: [ProviderType]? = nil, states: [RepositoryAssociationState]? = nil) {
@@ -863,13 +934,31 @@ extension CodeGuruReviewer {
         }
     }
 
+    public struct RepositoryAnalysis: AWSEncodableShape {
+
+        ///  A  SourceCodeType  that specifies the tip of a branch in an associated repository. 
+        public let repositoryHead: RepositoryHeadSourceCodeType
+
+        public init(repositoryHead: RepositoryHeadSourceCodeType) {
+            self.repositoryHead = repositoryHead
+        }
+
+        public func validate(name: String) throws {
+            try self.repositoryHead.validate(name: "\(name).repositoryHead")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryHead = "RepositoryHead"
+        }
+    }
+
     public struct RepositoryAssociation: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) identifying the repository association.
         public let associationArn: String?
         /// The ID of the repository association.
         public let associationId: String?
-        ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see Connection in the AWS CodeStar Connections API Reference. 
+        ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the AWS CodeStar Connections API Reference. 
         public let connectionArn: String?
         /// The time, in milliseconds since the epoch, when the repository association was created.
         public let createdTimeStamp: TimeStamp?
@@ -877,11 +966,11 @@ extension CodeGuruReviewer {
         public let lastUpdatedTimeStamp: TimeStamp?
         /// The name of the repository.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub or Bitbucket repository, this is the username for the account that owns the repository.
+        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
-        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.   
+        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.   
         public let state: RepositoryAssociationState?
         /// A description of why the repository association is in the current state.
         public let stateReason: String?
@@ -915,21 +1004,21 @@ extension CodeGuruReviewer {
 
     public struct RepositoryAssociationSummary: AWSDecodableShape {
 
-        /// The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. 
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories. 
         public let associationArn: String?
         ///  The repository association ID. 
         public let associationId: String?
-        ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see Connection in the AWS CodeStar Connections API Reference. 
+        ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the AWS CodeStar Connections API Reference. 
         public let connectionArn: String?
         /// The time, in milliseconds since the epoch, since the repository association was last updated. 
         public let lastUpdatedTimeStamp: TimeStamp?
         /// The name of the repository association.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub or Bitbucket repository, this is the username for the account that owns the repository.
+        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
-        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.   
+        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.   
         public let state: RepositoryAssociationState?
 
         public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil) {
@@ -955,23 +1044,45 @@ extension CodeGuruReviewer {
         }
     }
 
+    public struct RepositoryHeadSourceCodeType: AWSEncodableShape & AWSDecodableShape {
+
+        ///  The name of the branch in an associated repository. The RepositoryHeadSourceCodeType specifies the tip of this branch. 
+        public let branchName: String
+
+        public init(branchName: String) {
+            self.branchName = branchName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.branchName, name: "branchName", parent: name, max: 256)
+            try validate(self.branchName, name: "branchName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "BranchName"
+        }
+    }
+
     public struct SourceCodeType: AWSDecodableShape {
 
-        ///  The commit diff for the pull request. 
+        ///  A  SourceCodeType  that specifies a commit diff created by a pull request on an associated repository. 
         public let commitDiff: CommitDiffSourceCodeType?
+        public let repositoryHead: RepositoryHeadSourceCodeType?
 
-        public init(commitDiff: CommitDiffSourceCodeType? = nil) {
+        public init(commitDiff: CommitDiffSourceCodeType? = nil, repositoryHead: RepositoryHeadSourceCodeType? = nil) {
             self.commitDiff = commitDiff
+            self.repositoryHead = repositoryHead
         }
 
         private enum CodingKeys: String, CodingKey {
             case commitDiff = "CommitDiff"
+            case repositoryHead = "RepositoryHead"
         }
     }
 
     public struct ThirdPartySourceRepository: AWSEncodableShape {
 
-        ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see Connection in the AWS CodeStar Connections API Reference. 
+        ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the AWS CodeStar Connections API Reference. 
         public let connectionArn: String
         ///  The name of the third party source repository. 
         public let name: String

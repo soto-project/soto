@@ -106,6 +106,8 @@ extension IoTSiteWise {
 
     public enum MonitorErrorCode: String, CustomStringConvertible, Codable {
         case internalFailure = "INTERNAL_FAILURE"
+        case validationError = "VALIDATION_ERROR"
+        case limitExceeded = "LIMIT_EXCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -154,6 +156,12 @@ extension IoTSiteWise {
     public enum TimeOrdering: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TraversalDirection: String, CustomStringConvertible, Codable {
+        case parent = "PARENT"
+        case child = "CHILD"
         public var description: String { return self.rawValue }
     }
 
@@ -487,7 +495,7 @@ extension IoTSiteWise {
 
     public struct AssetProperty: AWSDecodableShape {
 
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping Industrial Data Streams to Asset Properties in the AWS IoT SiteWise User Guide.
+        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
         public let alias: String?
         /// The data type of the asset property.
         public let dataType: PropertyDataType
@@ -495,7 +503,7 @@ extension IoTSiteWise {
         public let id: String
         /// The name of the property.
         public let name: String
-        /// The asset property's notification topic and state. For more information, see UpdateAssetProperty 
+        /// The asset property's notification topic and state. For more information, see UpdateAssetProperty.
         public let notification: PropertyNotification?
         /// The unit (such as Newtons or RPM) of the asset property.
         public let unit: String?
@@ -617,7 +625,7 @@ extension IoTSiteWise {
         public let childAssetId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The ID of a hierarchy in the parent asset's model. Hierarchies allow different groupings of assets to be formed that all come from the same asset model. For more information, see Asset Hierarchies in the AWS IoT SiteWise User Guide.
+        /// The ID of a hierarchy in the parent asset's model. Hierarchies allow different groupings of assets to be formed that all come from the same asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide.
         public let hierarchyId: String
 
         public init(assetId: String, childAssetId: String, clientToken: String? = AssociateAssetsRequest.idempotencyToken(), hierarchyId: String) {
@@ -693,7 +701,7 @@ extension IoTSiteWise {
 
     public struct Attribute: AWSEncodableShape & AWSDecodableShape {
 
-        /// The default value of the asset model property attribute. All assets that you create from the asset model contain this attribute value. You can update an attribute's value after you create an asset. For more information, see Updating Attribute Values in the AWS IoT SiteWise User Guide.
+        /// The default value of the asset model property attribute. All assets that you create from the asset model contain this attribute value. You can update an attribute's value after you create an asset. For more information, see Updating attribute values in the AWS IoT SiteWise User Guide.
         public let defaultValue: String?
 
         public init(defaultValue: String? = nil) {
@@ -959,11 +967,11 @@ extension IoTSiteWise {
 
         /// A description for the asset model.
         public let assetModelDescription: String?
-        /// The hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset Hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
         public let assetModelHierarchies: [AssetModelHierarchyDefinition]?
         /// A unique, friendly name for the asset model.
         public let assetModelName: String
-        /// The property definitions of the asset model. For more information, see Asset Properties in the AWS IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The property definitions of the asset model. For more information, see Asset properties in the AWS IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
         public let assetModelProperties: [AssetModelPropertyDefinition]?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
@@ -1105,7 +1113,7 @@ extension IoTSiteWise {
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The dashboard definition specified in a JSON literal. For detailed information, see Creating Dashboards (CLI) in the AWS IoT SiteWise User Guide.
+        /// The dashboard definition specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the AWS IoT SiteWise User Guide.
         public let dashboardDefinition: String
         /// A description for the dashboard.
         public let dashboardDescription: String?
@@ -1951,7 +1959,7 @@ extension IoTSiteWise {
         public let dashboardArn: String
         /// The date the dashboard was created, in Unix epoch time.
         public let dashboardCreationDate: TimeStamp
-        /// The dashboard's definition JSON literal. For detailed information, see Creating Dashboards (CLI) in the AWS IoT SiteWise User Guide.
+        /// The dashboard's definition JSON literal. For detailed information, see Creating dashboards (CLI) in the AWS IoT SiteWise User Guide.
         public let dashboardDefinition: String
         /// The dashboard's description.
         public let dashboardDescription: String?
@@ -2271,7 +2279,7 @@ extension IoTSiteWise {
         public let childAssetId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The ID of a hierarchy in the parent asset's model. Hierarchies allow different groupings of assets to be formed that all come from the same asset model. You can use the hierarchy ID to identify the correct asset to disassociate. For more information, see Asset Hierarchies in the AWS IoT SiteWise User Guide.
+        /// The ID of a hierarchy in the parent asset's model. Hierarchies allow different groupings of assets to be formed that all come from the same asset model. You can use the hierarchy ID to identify the correct asset to disassociate. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide.
         public let hierarchyId: String
 
         public init(assetId: String, childAssetId: String, clientToken: String? = DisassociateAssetsRequest.idempotencyToken(), hierarchyId: String) {
@@ -2433,11 +2441,11 @@ extension IoTSiteWise {
         public let assetId: String?
         /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
         public let endDate: TimeStamp
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 100
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping Industrial Data Streams to Asset Properties in the AWS IoT SiteWise User Guide.
+        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
         public let propertyAlias: String?
         /// The ID of the asset property.
         public let propertyId: String?
@@ -2447,7 +2455,7 @@ extension IoTSiteWise {
         public let resolution: String
         /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
         public let startDate: TimeStamp
-        /// The chronological sorting order of the requested information.
+        /// The chronological sorting order of the requested information. Default: ASCENDING 
         public let timeOrdering: TimeOrdering?
 
         public init(aggregateTypes: [AggregateType], assetId: String? = nil, endDate: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, resolution: String, startDate: TimeStamp, timeOrdering: TimeOrdering? = nil) {
@@ -2525,11 +2533,11 @@ extension IoTSiteWise {
         public let assetId: String?
         /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
         public let endDate: TimeStamp?
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 100
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping Industrial Data Streams to Asset Properties in the AWS IoT SiteWise User Guide.
+        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
         public let propertyAlias: String?
         /// The ID of the asset property.
         public let propertyId: String?
@@ -2537,7 +2545,7 @@ extension IoTSiteWise {
         public let qualities: [Quality]?
         /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
         public let startDate: TimeStamp?
-        /// The chronological sorting order of the requested information.
+        /// The chronological sorting order of the requested information. Default: ASCENDING 
         public let timeOrdering: TimeOrdering?
 
         public init(assetId: String? = nil, endDate: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, startDate: TimeStamp? = nil, timeOrdering: TimeOrdering? = nil) {
@@ -2601,7 +2609,7 @@ extension IoTSiteWise {
 
         /// The ID of the asset.
         public let assetId: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping Industrial Data Streams to Asset Properties in the AWS IoT SiteWise User Guide.
+        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
         public let propertyAlias: String?
         /// The ID of the asset property.
         public let propertyId: String?
@@ -2783,7 +2791,7 @@ extension IoTSiteWise {
         public let identityId: String?
         /// The type of identity (user or group). This parameter is required if you specify identityId.
         public let identityType: IdentityType?
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -2842,7 +2850,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -2891,9 +2899,9 @@ extension IoTSiteWise {
 
         /// The ID of the asset model by which to filter the list of assets. This parameter is required if you choose ALL for filter.
         public let assetModelId: String?
-        /// The filter for the requested list of assets. Choose one of the following options. Defaults to ALL.    ALL – The list includes all assets for a given asset model ID. The assetModelId parameter is required if you filter by ALL.    TOP_LEVEL – The list includes only top-level assets in the asset hierarchy tree.  
+        /// The filter for the requested list of assets. Choose one of the following options:    ALL – The list includes all assets for a given asset model ID. The assetModelId parameter is required if you filter by ALL.    TOP_LEVEL – The list includes only top-level assets in the asset hierarchy tree.   Default: ALL 
         public let filter: ListAssetsFilter?
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -2942,23 +2950,27 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")), 
             AWSMemberEncoding(label: "hierarchyId", location: .querystring(locationName: "hierarchyId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "traversalDirection", location: .querystring(locationName: "traversalDirection"))
         ]
 
-        /// The ID of the parent asset.
+        /// The ID of the asset to query.
         public let assetId: String
-        /// The hierarchy ID (of the parent asset model) whose associated assets are returned. To find a hierarchy ID, use the DescribeAsset or DescribeAssetModel actions. For more information, see Asset Hierarchies in the AWS IoT SiteWise User Guide.
-        public let hierarchyId: String
-        /// The maximum number of results to be returned per paginated request.
+        /// The ID of the hierarchy by which child assets are associated to the asset. To find a hierarchy ID, use the DescribeAsset or DescribeAssetModel operations. This parameter is required if you choose CHILD for traversalDirection. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide.
+        public let hierarchyId: String?
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
+        /// The direction to list associated assets. Choose one of the following options:    CHILD – The list includes all child assets associated to the asset. The hierarchyId parameter is required if you choose CHILD.    PARENT – The list includes the asset's parent asset.   Default: CHILD 
+        public let traversalDirection: TraversalDirection?
 
-        public init(assetId: String, hierarchyId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(assetId: String, hierarchyId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, traversalDirection: TraversalDirection? = nil) {
             self.assetId = assetId
             self.hierarchyId = hierarchyId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.traversalDirection = traversalDirection
         }
 
         public func validate(name: String) throws {
@@ -3003,7 +3015,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
         ]
 
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3054,7 +3066,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3099,7 +3111,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3145,7 +3157,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
 
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3197,7 +3209,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "portalId", location: .querystring(locationName: "portalId"))
         ]
 
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3420,8 +3432,9 @@ extension IoTSiteWise {
         public let roleArn: String?
         /// The public root URL for the AWS IoT AWS IoT SiteWise Monitor application portal.
         public let startUrl: String
+        public let status: PortalStatus
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, id: String, lastUpdateDate: TimeStamp? = nil, name: String, roleArn: String? = nil, startUrl: String) {
+        public init(creationDate: TimeStamp? = nil, description: String? = nil, id: String, lastUpdateDate: TimeStamp? = nil, name: String, roleArn: String? = nil, startUrl: String, status: PortalStatus) {
             self.creationDate = creationDate
             self.description = description
             self.id = id
@@ -3429,6 +3442,7 @@ extension IoTSiteWise {
             self.name = name
             self.roleArn = roleArn
             self.startUrl = startUrl
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3439,6 +3453,7 @@ extension IoTSiteWise {
             case name = "name"
             case roleArn = "roleArn"
             case startUrl = "startUrl"
+            case status = "status"
         }
     }
 
@@ -3494,7 +3509,7 @@ extension IoTSiteWise {
 
     public struct Property: AWSDecodableShape {
 
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping Industrial Data Streams to Asset Properties in the AWS IoT SiteWise User Guide.
+        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
         public let alias: String?
         /// The property data type.
         public let dataType: PropertyDataType
@@ -3502,7 +3517,7 @@ extension IoTSiteWise {
         public let id: String
         /// The name of the property.
         public let name: String
-        /// The asset property's notification topic and state. For more information, see UpdateAssetProperty 
+        /// The asset property's notification topic and state. For more information, see UpdateAssetProperty.
         public let notification: PropertyNotification?
         /// The property type (see PropertyType). A property contains one type.
         public let `type`: PropertyType?
@@ -3586,7 +3601,7 @@ extension IoTSiteWise {
         public let assetId: String?
         /// The user specified ID for the entry. You can use this ID to identify which entries failed.
         public let entryId: String
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping Industrial Data Streams to Asset Properties in the AWS IoT SiteWise User Guide.
+        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
         public let propertyAlias: String?
         /// The ID of the asset property for this entry.
         public let propertyId: String?
@@ -3880,13 +3895,13 @@ extension IoTSiteWise {
 
         /// A description for the asset model.
         public let assetModelDescription: String?
-        /// The updated hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset Hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The updated hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
         public let assetModelHierarchies: [AssetModelHierarchy]?
         /// The ID of the asset model to update.
         public let assetModelId: String
         /// A unique, friendly name for the asset model.
         public let assetModelName: String
-        /// The updated property definitions of the asset model. For more information, see Asset Properties in the AWS IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The updated property definitions of the asset model. For more information, see Asset properties in the AWS IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
         public let assetModelProperties: [AssetModelProperty]?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
@@ -3954,11 +3969,11 @@ extension IoTSiteWise {
         public let assetId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping Industrial Data Streams to Asset Properties in the AWS IoT SiteWise User Guide. If you omit this parameter, the alias is removed from the property.
+        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide. If you omit this parameter, the alias is removed from the property.
         public let propertyAlias: String?
         /// The ID of the asset property to be updated.
         public let propertyId: String
-        /// The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, AWS IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with Other Services in the AWS IoT SiteWise User Guide. If you omit this parameter, the notification state is set to DISABLED.
+        /// The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, AWS IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with other services in the AWS IoT SiteWise User Guide. If you omit this parameter, the notification state is set to DISABLED.
         public let propertyNotificationState: PropertyNotificationState?
 
         public init(assetId: String, clientToken: String? = UpdateAssetPropertyRequest.idempotencyToken(), propertyAlias: String? = nil, propertyId: String, propertyNotificationState: PropertyNotificationState? = nil) {
@@ -3976,7 +3991,6 @@ extension IoTSiteWise {
             try validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
-            try validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
             try validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
             try validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try validate(self.propertyId, name: "propertyId", parent: name, max: 36)
@@ -4048,7 +4062,7 @@ extension IoTSiteWise {
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The new dashboard definition, as specified in a JSON literal. For detailed information, see Creating Dashboards (CLI) in the AWS IoT SiteWise User Guide.
+        /// The new dashboard definition, as specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the AWS IoT SiteWise User Guide.
         public let dashboardDefinition: String
         /// A new description for the dashboard.
         public let dashboardDescription: String?
@@ -4329,7 +4343,7 @@ extension IoTSiteWise {
 
     public struct VariableValue: AWSEncodableShape & AWSDecodableShape {
 
-        /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see Asset Hierarchies in the AWS IoT SiteWise User Guide.
+        /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide.
         public let hierarchyId: String?
         /// The ID of the property to use as the variable. You can use the property name if it's from the same asset model.
         public let propertyId: String

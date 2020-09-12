@@ -918,11 +918,14 @@ extension QuickSight {
         public let awsAccountId: String
         /// The QuickSight namespace that you want to add customizations to.
         public let namespace: String?
+        /// A list of the tags that you want to attach to this resource.
+        public let tags: [Tag]?
 
-        public init(accountCustomization: AccountCustomization, awsAccountId: String, namespace: String? = nil) {
+        public init(accountCustomization: AccountCustomization, awsAccountId: String, namespace: String? = nil, tags: [Tag]? = nil) {
             self.accountCustomization = accountCustomization
             self.awsAccountId = awsAccountId
             self.namespace = namespace
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -931,10 +934,16 @@ extension QuickSight {
             try validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.namespace, name: "namespace", parent: name, max: 64)
             try validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name: "tags", parent: name, max: 200)
+            try validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountCustomization = "AccountCustomization"
+            case tags = "Tags"
         }
     }
 
@@ -945,6 +954,8 @@ extension QuickSight {
 
         /// The QuickSight customizations you're adding in the current AWS Region. 
         public let accountCustomization: AccountCustomization?
+        /// The Amazon Resource Name (ARN) for the customization that you created for this AWS account.
+        public let arn: String?
         /// The ID for the AWS account that you want to customize QuickSight for.
         public let awsAccountId: String?
         /// The namespace associated with the customization you're creating. 
@@ -954,8 +965,9 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
-        public init(accountCustomization: AccountCustomization? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
+        public init(accountCustomization: AccountCustomization? = nil, arn: String? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.accountCustomization = accountCustomization
+            self.arn = arn
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.requestId = requestId
@@ -964,6 +976,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case accountCustomization = "AccountCustomization"
+            case arn = "Arn"
             case awsAccountId = "AwsAccountId"
             case namespace = "Namespace"
             case requestId = "RequestId"
@@ -3831,6 +3844,8 @@ extension QuickSight {
 
         /// The QuickSight customizations that exist in the current AWS Region. 
         public let accountCustomization: AccountCustomization?
+        /// The Amazon Resource Name (ARN) of the customization that's associated with this AWS account.
+        public let arn: String?
         /// The ID for the AWS account that you're describing.
         public let awsAccountId: String?
         /// The QuickSight namespace that you're describing. 
@@ -3840,8 +3855,9 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
-        public init(accountCustomization: AccountCustomization? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
+        public init(accountCustomization: AccountCustomization? = nil, arn: String? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.accountCustomization = accountCustomization
+            self.arn = arn
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.requestId = requestId
@@ -3850,6 +3866,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case accountCustomization = "AccountCustomization"
+            case arn = "Arn"
             case awsAccountId = "AwsAccountId"
             case namespace = "Namespace"
             case requestId = "RequestId"
@@ -8737,6 +8754,8 @@ extension QuickSight {
 
         /// The QuickSight customizations you're updating in the current AWS Region. 
         public let accountCustomization: AccountCustomization?
+        /// The Amazon Resource Name (ARN) for the updated customization for this AWS account.
+        public let arn: String?
         /// The ID for the AWS account that you want to update QuickSight customizations for.
         public let awsAccountId: String?
         /// The namespace associated with the customization that you're updating.
@@ -8746,8 +8765,9 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
-        public init(accountCustomization: AccountCustomization? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
+        public init(accountCustomization: AccountCustomization? = nil, arn: String? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.accountCustomization = accountCustomization
+            self.arn = arn
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.requestId = requestId
@@ -8756,6 +8776,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case accountCustomization = "AccountCustomization"
+            case arn = "Arn"
             case awsAccountId = "AwsAccountId"
             case namespace = "Namespace"
             case requestId = "RequestId"

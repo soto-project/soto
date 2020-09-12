@@ -4170,16 +4170,24 @@ extension ServiceCatalog {
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
+        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
+        public let lastProvisioningRecordId: String?
         /// The record identifier of the last request performed on this provisioned product.
         public let lastRecordId: String?
+        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
+        public let lastSuccessfulProvisioningRecordId: String?
         /// The user-friendly name of the provisioned product.
         public let name: String?
         /// The assigned identifier for the resource, such as an EC2 instance ID or an S3 bucket name.
         public let physicalId: String?
         /// The product identifier.
         public let productId: String?
+        /// The name of the product.
+        public let productName: String?
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String?
+        /// The name of the provisioning artifact.
+        public let provisioningArtifactName: String?
         /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.  
         public let status: ProvisionedProductStatus?
         /// The current status message of the provisioned product.
@@ -4193,16 +4201,20 @@ extension ServiceCatalog {
         /// The ARN of the IAM user in the session. This ARN might contain a session ID.
         public let userArnSession: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastRecordId: String? = nil, name: String? = nil, physicalId: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, type: String? = nil, userArn: String? = nil, userArnSession: String? = nil) {
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, physicalId: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, type: String? = nil, userArn: String? = nil, userArnSession: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
             self.idempotencyToken = idempotencyToken
+            self.lastProvisioningRecordId = lastProvisioningRecordId
             self.lastRecordId = lastRecordId
+            self.lastSuccessfulProvisioningRecordId = lastSuccessfulProvisioningRecordId
             self.name = name
             self.physicalId = physicalId
             self.productId = productId
+            self.productName = productName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
             self.status = status
             self.statusMessage = statusMessage
             self.tags = tags
@@ -4216,11 +4228,15 @@ extension ServiceCatalog {
             case createdTime = "CreatedTime"
             case id = "Id"
             case idempotencyToken = "IdempotencyToken"
+            case lastProvisioningRecordId = "LastProvisioningRecordId"
             case lastRecordId = "LastRecordId"
+            case lastSuccessfulProvisioningRecordId = "LastSuccessfulProvisioningRecordId"
             case name = "Name"
             case physicalId = "PhysicalId"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
             case status = "Status"
             case statusMessage = "StatusMessage"
             case tags = "Tags"
@@ -4240,8 +4256,12 @@ extension ServiceCatalog {
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
+        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
+        public let lastProvisioningRecordId: String?
         /// The record identifier of the last request performed on this provisioned product.
         public let lastRecordId: String?
+        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
+        public let lastSuccessfulProvisioningRecordId: String?
         /// The user-friendly name of the provisioned product.
         public let name: String?
         /// The product identifier. For example, prod-abcdzk7xy33qa.
@@ -4255,12 +4275,14 @@ extension ServiceCatalog {
         /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
         public let `type`: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastRecordId: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
             self.idempotencyToken = idempotencyToken
+            self.lastProvisioningRecordId = lastProvisioningRecordId
             self.lastRecordId = lastRecordId
+            self.lastSuccessfulProvisioningRecordId = lastSuccessfulProvisioningRecordId
             self.name = name
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
@@ -4274,7 +4296,9 @@ extension ServiceCatalog {
             case createdTime = "CreatedTime"
             case id = "Id"
             case idempotencyToken = "IdempotencyToken"
+            case lastProvisioningRecordId = "LastProvisioningRecordId"
             case lastRecordId = "LastRecordId"
+            case lastSuccessfulProvisioningRecordId = "LastSuccessfulProvisioningRecordId"
             case name = "Name"
             case productId = "ProductId"
             case provisioningArtifactId = "ProvisioningArtifactId"
@@ -5141,7 +5165,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
-        /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, and userArnSession. Example: "SearchQuery":["status:AVAILABLE"] 
+        /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"] 
         public let filters: [ProvisionedProductViewFilterBy: [String]]?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?

@@ -63,7 +63,7 @@ public struct Route53: AWSService {
     
     // MARK: API Calls
 
-    ///  Associates an Amazon VPC with a private hosted zone.   To perform the association, the VPC and the private hosted zone must already exist. Also, you can't convert a public hosted zone into a private hosted zone.  If you want to associate a VPC that was created by one AWS account with a private hosted zone that was created by a different account, do one of the following:   Use the AWS account that created the private hosted zone to submit a CreateVPCAssociationAuthorization request. Then use the account that created the VPC to submit an AssociateVPCWithHostedZone request.   If a subnet in the VPC was shared with another account, you can use the account that the subnet was shared with to submit an AssociateVPCWithHostedZone request. For more information about sharing subnets, see Working with Shared VPCs.  
+    ///  Associates an Amazon VPC with a private hosted zone.   To perform the association, the VPC and the private hosted zone must already exist. You can't convert a public hosted zone into a private hosted zone.   If you want to associate a VPC that was created by using one AWS account with a private hosted zone that was created by using a different account, the AWS account that created the private hosted zone must first submit a CreateVPCAssociationAuthorization request. Then the account that created the VPC must submit an AssociateVPCWithHostedZone request. 
     public func associateVPCWithHostedZone(_ input: AssociateVPCWithHostedZoneRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateVPCWithHostedZoneResponse> {
         return self.client.execute(operation: "AssociateVPCWithHostedZone", path: "/2013-04-01/hostedzone/{Id}/associatevpc", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
@@ -138,7 +138,7 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "DeleteReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes a traffic policy.
+    ///  Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following:   Deleted traffic policies aren't listed if you run ListTrafficPolicies.    There's no way to get a list of deleted policies.   If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running GetTrafficPolicy.  
     public func deleteTrafficPolicy(_ input: DeleteTrafficPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteTrafficPolicyResponse> {
         return self.client.execute(operation: "DeleteTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
@@ -228,7 +228,7 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "GetReusableDelegationSetLimit", path: "/2013-04-01/reusabledelegationsetlimit/{Id}/{Type}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Gets information about a specific traffic policy version.
+    ///  Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from GetTrafficPolicy, see DeleteTrafficPolicy. 
     public func getTrafficPolicy(_ input: GetTrafficPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetTrafficPolicyResponse> {
         return self.client.execute(operation: "GetTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
@@ -293,7 +293,7 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "ListTagsForResources", path: "/2013-04-01/tags/{ResourceType}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Gets information about the latest version for every traffic policy that is associated with the current AWS account. Policies are listed in the order that they were created in. 
+    ///  Gets information about the latest version for every traffic policy that is associated with the current AWS account. Policies are listed in the order that they were created in.  For information about how of deleting a traffic policy affects the response from ListTrafficPolicies, see DeleteTrafficPolicy. 
     public func listTrafficPolicies(_ input: ListTrafficPoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTrafficPoliciesResponse> {
         return self.client.execute(operation: "ListTrafficPolicies", path: "/2013-04-01/trafficpolicies", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }

@@ -154,6 +154,8 @@ extension IVS {
 
         /// Channel ARN.
         public let arn: String?
+        /// Whether the channel is authorized.
+        public let authorized: Bool?
         /// Channel ingest endpoint, part of the definition of an ingest server, used when you set up streaming software.
         public let ingestEndpoint: String?
         /// Channel latency mode. Default: LOW.
@@ -167,8 +169,9 @@ extension IVS {
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
         public let `type`: ChannelType?
 
-        public init(arn: String? = nil, ingestEndpoint: String? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackUrl: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(arn: String? = nil, authorized: Bool? = nil, ingestEndpoint: String? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackUrl: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.arn = arn
+            self.authorized = authorized
             self.ingestEndpoint = ingestEndpoint
             self.latencyMode = latencyMode
             self.name = name
@@ -179,6 +182,7 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorized = "authorized"
             case ingestEndpoint = "ingestEndpoint"
             case latencyMode = "latencyMode"
             case name = "name"
@@ -192,6 +196,8 @@ extension IVS {
 
         /// Channel ARN.
         public let arn: String?
+        /// Whether the channel is authorized.
+        public let authorized: Bool?
         /// Channel latency mode. Default: LOW.
         public let latencyMode: ChannelLatencyMode?
         /// Channel name.
@@ -199,8 +205,9 @@ extension IVS {
         /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorized: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.authorized = authorized
             self.latencyMode = latencyMode
             self.name = name
             self.tags = tags
@@ -208,6 +215,7 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorized = "authorized"
             case latencyMode = "latencyMode"
             case name = "name"
             case tags = "tags"
@@ -216,6 +224,8 @@ extension IVS {
 
     public struct CreateChannelRequest: AWSEncodableShape {
 
+        /// Whether the channel is authorized. Default: false.
+        public let authorized: Bool?
         /// Channel latency mode. Default: LOW.
         public let latencyMode: ChannelLatencyMode?
         /// Channel name.
@@ -225,7 +235,8 @@ extension IVS {
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
         public let `type`: ChannelType?
 
-        public init(latencyMode: ChannelLatencyMode? = nil, name: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(authorized: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+            self.authorized = authorized
             self.latencyMode = latencyMode
             self.name = name
             self.tags = tags
@@ -244,6 +255,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authorized = "authorized"
             case latencyMode = "latencyMode"
             case name = "name"
             case tags = "tags"
@@ -330,6 +342,34 @@ extension IVS {
         }
     }
 
+    public struct DeletePlaybackKeyPairRequest: AWSEncodableShape {
+
+        /// ARN of the key pair to be deleted.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name: "arn", parent: name, max: 128)
+            try validate(self.arn, name: "arn", parent: name, min: 1)
+            try validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeletePlaybackKeyPairResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteStreamKeyRequest: AWSEncodableShape {
 
         /// ARN of the stream key to be deleted.
@@ -380,6 +420,39 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
+        }
+    }
+
+    public struct GetPlaybackKeyPairRequest: AWSEncodableShape {
+
+        /// ARN of the key pair to be returned.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name: "arn", parent: name, max: 128)
+            try validate(self.arn, name: "arn", parent: name, min: 1)
+            try validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetPlaybackKeyPairResponse: AWSDecodableShape {
+
+        public let keyPair: PlaybackKeyPair?
+
+        public init(keyPair: PlaybackKeyPair? = nil) {
+            self.keyPair = keyPair
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPair = "keyPair"
         }
     }
 
@@ -449,6 +522,52 @@ extension IVS {
         }
     }
 
+    public struct ImportPlaybackKeyPairRequest: AWSEncodableShape {
+
+        /// An arbitrary string (a nickname) assigned to a playback key pair that helps the customer identify that resource. The value does not need to be unique.
+        public let name: String?
+        /// The public portion of a customer-generated key pair.
+        public let publicKeyMaterial: String
+        /// Any tags provided with the request are added to the playback key pair tags.
+        public let tags: [String: String]?
+
+        public init(name: String? = nil, publicKeyMaterial: String, tags: [String: String]? = nil) {
+            self.name = name
+            self.publicKeyMaterial = publicKeyMaterial
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name: "name", parent: name, max: 128)
+            try validate(self.name, name: "name", parent: name, min: 0)
+            try validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case publicKeyMaterial = "publicKeyMaterial"
+            case tags = "tags"
+        }
+    }
+
+    public struct ImportPlaybackKeyPairResponse: AWSDecodableShape {
+
+        public let keyPair: PlaybackKeyPair?
+
+        public init(keyPair: PlaybackKeyPair? = nil) {
+            self.keyPair = keyPair
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPair = "keyPair"
+        }
+    }
+
     public struct ListChannelsRequest: AWSEncodableShape {
 
         /// Filters the channel list to match the specified name.
@@ -495,6 +614,49 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case channels = "channels"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPlaybackKeyPairsRequest: AWSEncodableShape {
+
+        /// The first key pair to retrieve. This is used for pagination; see the nextToken response field.
+        public let maxResults: Int?
+        /// Maximum number of key pairs to return.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 500)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPlaybackKeyPairsResponse: AWSDecodableShape {
+
+        /// List of key pairs.
+        public let keyPairs: [PlaybackKeyPairSummary]
+        /// If there are more key pairs than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+
+        public init(keyPairs: [PlaybackKeyPairSummary], nextToken: String? = nil) {
+            self.keyPairs = keyPairs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPairs = "keyPairs"
             case nextToken = "nextToken"
         }
     }
@@ -641,6 +803,54 @@ extension IVS {
         }
     }
 
+    public struct PlaybackKeyPair: AWSDecodableShape {
+
+        /// Key-pair ARN.
+        public let arn: String?
+        /// Key-pair identifier.
+        public let fingerprint: String?
+        /// Key-pair name.
+        public let name: String?
+        /// Array of 1-50 maps, each of the form string:string (key:value).
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, fingerprint: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.fingerprint = fingerprint
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case fingerprint = "fingerprint"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct PlaybackKeyPairSummary: AWSDecodableShape {
+
+        /// Key-pair ARN.
+        public let arn: String?
+        /// Key-pair name.
+        public let name: String?
+        /// Array of 1-50 maps, each of the form string:string (key:value) 
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
     public struct PutMetadataRequest: AWSEncodableShape {
 
         /// ARN of the channel into which metadata is inserted. This channel must have an active stream.
@@ -733,7 +943,7 @@ extension IVS {
         public let arn: String?
         /// Channel ARN for the stream.
         public let channelArn: String?
-        /// Array of 1-50 maps, each of the form string:string (key:value) 
+        /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
         /// Stream-key value.
         public let value: String?
@@ -759,7 +969,7 @@ extension IVS {
         public let arn: String?
         /// Channel ARN for the stream.
         public let channelArn: String?
-        /// Array of 1-50 maps, each of the form string:string (key:value) 
+        /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
 
         public init(arn: String? = nil, channelArn: String? = nil, tags: [String: String]? = nil) {
@@ -887,6 +1097,8 @@ extension IVS {
 
         /// ARN of the channel to be updated.
         public let arn: String
+        /// Whether the channel is authorized. Default: false.
+        public let authorized: Bool?
         /// Channel latency mode. Default: LOW.
         public let latencyMode: ChannelLatencyMode?
         /// Channel name.
@@ -894,8 +1106,9 @@ extension IVS {
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
         public let `type`: ChannelType?
 
-        public init(arn: String, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, type: ChannelType? = nil) {
+        public init(arn: String, authorized: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, type: ChannelType? = nil) {
             self.arn = arn
+            self.authorized = authorized
             self.latencyMode = latencyMode
             self.name = name
             self.`type` = `type`
@@ -912,6 +1125,7 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorized = "authorized"
             case latencyMode = "latencyMode"
             case name = "name"
             case `type` = "type"

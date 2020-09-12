@@ -356,15 +356,18 @@ extension GuardDuty {
         public let callerType: String?
         /// The domain information for the AWS API call.
         public let domainDetails: DomainDetails?
-        /// The remote IP information of the connection.
+        /// The error code of the failed AWS API action.
+        public let errorCode: String?
+        /// The remote IP information of the connection that initiated the AWS API call.
         public let remoteIpDetails: RemoteIpDetails?
         /// The AWS service name whose API was invoked.
         public let serviceName: String?
 
-        public init(api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil) {
+        public init(api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, errorCode: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil) {
             self.api = api
             self.callerType = callerType
             self.domainDetails = domainDetails
+            self.errorCode = errorCode
             self.remoteIpDetails = remoteIpDetails
             self.serviceName = serviceName
         }
@@ -373,6 +376,7 @@ extension GuardDuty {
             case api = "api"
             case callerType = "callerType"
             case domainDetails = "domainDetails"
+            case errorCode = "errorCode"
             case remoteIpDetails = "remoteIpDetails"
             case serviceName = "serviceName"
         }

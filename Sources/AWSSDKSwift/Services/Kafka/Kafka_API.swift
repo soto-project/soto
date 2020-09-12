@@ -78,6 +78,11 @@ public struct Kafka: AWSService {
         return self.client.execute(operation: "DeleteCluster", path: "/v1/clusters/{clusterArn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Deletes the specified MSK configuration. The configuration must be in the ACTIVE or DELETE_FAILED state.
+    public func deleteConfiguration(_ input: DeleteConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteConfigurationResponse> {
+        return self.client.execute(operation: "DeleteConfiguration", path: "/v1/configurations/{arn}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     public func describeCluster(_ input: DescribeClusterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeClusterResponse> {
         return self.client.execute(operation: "DescribeCluster", path: "/v1/clusters/{clusterArn}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
@@ -176,6 +181,11 @@ public struct Kafka: AWSService {
     ///  Updates the Apache Kafka version for the cluster.
     public func updateClusterKafkaVersion(_ input: UpdateClusterKafkaVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateClusterKafkaVersionResponse> {
         return self.client.execute(operation: "UpdateClusterKafkaVersion", path: "/v1/clusters/{clusterArn}/version", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Updates an existing MSK configuration. The configuration must be in the Active state.
+    public func updateConfiguration(_ input: UpdateConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateConfigurationResponse> {
+        return self.client.execute(operation: "UpdateConfiguration", path: "/v1/configurations/{arn}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.

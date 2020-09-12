@@ -323,6 +323,7 @@ extension CloudWatchLogs {
 
     public struct DeleteQueryDefinitionRequest: AWSEncodableShape {
 
+        /// The ID of the query definition that you want to delete. You can use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions.
         public let queryDefinitionId: String
 
         public init(queryDefinitionId: String) {
@@ -341,6 +342,7 @@ extension CloudWatchLogs {
 
     public struct DeleteQueryDefinitionResponse: AWSDecodableShape {
 
+        /// A value of TRUE indicates that the operation succeeded. FALSE indicates that the operation failed.
         public let success: Bool?
 
         public init(success: Bool? = nil) {
@@ -545,7 +547,7 @@ extension CloudWatchLogs {
 
     public struct DescribeLogGroupsResponse: AWSDecodableShape {
 
-        /// The log groups.
+        /// The log groups. If the retentionInDays value if not included for a log group, then that log group is set to have its events never expire.
         public let logGroups: [LogGroup]?
         public let nextToken: String?
 
@@ -568,11 +570,11 @@ extension CloudWatchLogs {
         public let limit: Int?
         /// The name of the log group.
         public let logGroupName: String
-        /// The prefix to match. If orderBy is LastEventTime,you cannot specify this parameter.
+        /// The prefix to match. If orderBy is LastEventTime, you cannot specify this parameter.
         public let logStreamNamePrefix: String?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter. lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
+        /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.  lastEventTimeStamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but in rare situations might take longer.
         public let orderBy: OrderBy?
 
         public init(descending: Bool? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
@@ -625,7 +627,7 @@ extension CloudWatchLogs {
 
     public struct DescribeMetricFiltersRequest: AWSEncodableShape {
 
-        /// The prefix to match.
+        /// The prefix to match. CloudWatch Logs uses the value you set here only if you also include the logGroupName parameter in your request.
         public let filterNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
@@ -743,8 +745,10 @@ extension CloudWatchLogs {
 
     public struct DescribeQueryDefinitionsRequest: AWSEncodableShape {
 
+        /// Limits the number of returned query definitions to the specified number.
         public let maxResults: Int?
         public let nextToken: String?
+        /// Use this parameter to filter your results to only the query definitions that have names that start with the prefix you specify.
         public let queryDefinitionNamePrefix: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, queryDefinitionNamePrefix: String? = nil) {
@@ -772,6 +776,7 @@ extension CloudWatchLogs {
     public struct DescribeQueryDefinitionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
+        /// The list of query definitions that match your request.
         public let queryDefinitions: [QueryDefinition]?
 
         public init(nextToken: String? = nil, queryDefinitions: [QueryDefinition]? = nil) {
@@ -892,7 +897,7 @@ extension CloudWatchLogs {
         public let destinationName: String?
         /// A role for impersonation, used when delivering log events to the target.
         public let roleArn: String?
-        /// The Amazon Resource Name (ARN) of the physical target to where the log events are delivered (for example, a Kinesis stream).
+        /// The Amazon Resource Name (ARN) of the physical target where the log events are delivered (for example, a Kinesis stream).
         public let targetArn: String?
 
         public init(accessPolicy: String? = nil, arn: String? = nil, creationTime: Int64? = nil, destinationName: String? = nil, roleArn: String? = nil, targetArn: String? = nil) {
@@ -936,11 +941,11 @@ extension CloudWatchLogs {
 
     public struct ExportTask: AWSDecodableShape {
 
-        /// The name of Amazon S3 bucket to which the log data was exported.
+        /// The name of the S3 bucket to which the log data was exported.
         public let destination: String?
         /// The prefix that was used as the start of Amazon S3 key for every object exported.
         public let destinationPrefix: String?
-        /// Execution info about the export task.
+        /// Execution information about the export task.
         public let executionInfo: ExportTaskExecutionInfo?
         /// The start time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not exported.
         public let from: Int64?
@@ -1032,7 +1037,7 @@ extension CloudWatchLogs {
         public let logStreamNames: [String]?
         /// The token for the next set of events to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
+        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned. If you omit startTime and endTime the most recent log events are retrieved, to up 1 MB or 10,000 log events.
         public let startTime: Int64?
 
         public init(endTime: Int64? = nil, filterPattern: String? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
@@ -1087,7 +1092,7 @@ extension CloudWatchLogs {
         public let events: [FilteredLogEvent]?
         /// The token to use when requesting the next set of items. The token expires after 24 hours.
         public let nextToken: String?
-        /// Indicates which log streams have been searched and whether each has been searched completely.
+        ///  IMPORTANT Starting on May 15, 2020, this parameter will be deprecated. This parameter will be an empty list after the deprecation occurs. Indicates which log streams have been searched and whether each has been searched completely.
         public let searchedLogStreams: [SearchedLogStream]?
 
         public init(events: [FilteredLogEvent]? = nil, nextToken: String? = nil, searchedLogStreams: [SearchedLogStream]? = nil) {
@@ -1189,9 +1194,9 @@ extension CloudWatchLogs {
 
         /// The events.
         public let events: [OutputLogEvent]?
-        /// The token for the next set of items in the backward direction. The token expires after 24 hours. This token will never be null. If you have reached the end of the stream, it will return the same token you passed in.
+        /// The token for the next set of items in the backward direction. The token expires after 24 hours. This token is never null. If you have reached the end of the stream, it returns the same token you passed in.
         public let nextBackwardToken: String?
-        /// The token for the next set of items in the forward direction. The token expires after 24 hours. If you have reached the end of the stream, it will return the same token you passed in.
+        /// The token for the next set of items in the forward direction. The token expires after 24 hours. If you have reached the end of the stream, it returns the same token you passed in.
         public let nextForwardToken: String?
 
         public init(events: [OutputLogEvent]? = nil, nextBackwardToken: String? = nil, nextForwardToken: String? = nil) {
@@ -1297,9 +1302,9 @@ extension CloudWatchLogs {
 
         /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
         public let results: [[ResultField]]?
-        /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the log events that were scanned.
+        /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the log events that were scanned. These values reflect the full raw results of the query.
         public let statistics: QueryStatistics?
-        /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, Timeout, and Unknown. Queries time out after 15 minutes of execution. To avoid having your queries time out, reduce the time range being searched, or partition your query into a number of queries.
+        /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, Timeout, and Unknown. Queries time out after 15 minutes of execution. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
         public let status: QueryStatus?
 
         public init(results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
@@ -1435,7 +1440,7 @@ extension CloudWatchLogs {
         public let creationTime: Int64?
         /// The time of the first event, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let firstEventTimestamp: Int64?
-        /// The time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. The lastEventTime value updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
+        /// The time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. The lastEventTime value updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but in rare situations might take longer.
         public let lastEventTimestamp: Int64?
         /// The ingestion time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let lastIngestionTime: Int64?
@@ -1574,7 +1579,7 @@ extension CloudWatchLogs {
 
     public struct PutDestinationPolicyRequest: AWSEncodableShape {
 
-        /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination.
+        /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination. This can be up to 5120 bytes.
         public let accessPolicy: String
         /// A name for an existing destination.
         public let destinationName: String
@@ -1649,7 +1654,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The name of the log stream.
         public let logStreamName: String
-        /// The sequence token obtained from the response of the previous PutLogEvents call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using DescribeLogStreams. If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken, both calls may be successful, or one may be rejected.
+        /// The sequence token obtained from the response of the previous PutLogEvents call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using DescribeLogStreams. If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken, both calls might be successful or one might be rejected.
         public let sequenceToken: String?
 
         public init(logEvents: [InputLogEvent], logGroupName: String, logStreamName: String, sequenceToken: String? = nil) {
@@ -1744,9 +1749,13 @@ extension CloudWatchLogs {
 
     public struct PutQueryDefinitionRequest: AWSEncodableShape {
 
+        /// Use this parameter to include specific log groups as part of your query definition. If you are updating a query definition and you omit this parameter, then the updated definition will contain no log groups.
         public let logGroupNames: [String]?
+        /// A name for the query definition. If you are saving a lot of query definitions, we recommend that you name them so that you can easily find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions.
         public let name: String
+        /// If you are updating a query definition, use this parameter to specify the ID of the query definition that you want to update. You can use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parameter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation.
         public let queryDefinitionId: String?
+        /// The query string to use for this definition. For more information, see CloudWatch Logs Insights Query Syntax.
         public let queryString: String
 
         public init(logGroupNames: [String]? = nil, name: String, queryDefinitionId: String? = nil, queryString: String) {
@@ -1781,6 +1790,7 @@ extension CloudWatchLogs {
 
     public struct PutQueryDefinitionResponse: AWSDecodableShape {
 
+        /// The ID of the query definition.
         public let queryDefinitionId: String?
 
         public init(queryDefinitionId: String? = nil) {
@@ -1856,7 +1866,7 @@ extension CloudWatchLogs {
 
         /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.  
         public let destinationArn: String
-        /// The method used to distribute log data to the destination. By default log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream. 
+        /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream. 
         public let distribution: Distribution?
         /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. Otherwise, the call fails because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
         public let filterName: String
@@ -1901,10 +1911,15 @@ extension CloudWatchLogs {
 
     public struct QueryDefinition: AWSDecodableShape {
 
+        /// The date that the query definition was most recently modified.
         public let lastModified: Int64?
+        /// If this query definition contains a list of log groups that it is limited to, that list appears here.
         public let logGroupNames: [String]?
+        /// The name of the query definition.
         public let name: String?
+        /// The unique ID of the query definition.
         public let queryDefinitionId: String?
+        /// The query string to use for this definition. For more information, see CloudWatch Logs Insights Query Syntax.
         public let queryString: String?
 
         public init(lastModified: Int64? = nil, logGroupNames: [String]? = nil, name: String? = nil, queryDefinitionId: String? = nil, queryString: String? = nil) {
@@ -2123,7 +2138,7 @@ extension CloudWatchLogs {
 
     public struct StopQueryRequest: AWSEncodableShape {
 
-        /// The ID number of the query to stop. If necessary, you can use DescribeQueries to find this ID number.
+        /// The ID number of the query to stop. To find this ID number, use DescribeQueries.
         public let queryId: String
 
         public init(queryId: String) {

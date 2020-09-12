@@ -1356,6 +1356,7 @@ extension EC2 {
         case customerGateway = "customer-gateway"
         case dedicatedHost = "dedicated-host"
         case dhcpOptions = "dhcp-options"
+        case egressOnlyInternetGateway = "egress-only-internet-gateway"
         case elasticIp = "elastic-ip"
         case elasticGpu = "elastic-gpu"
         case exportImageTask = "export-image-task"
@@ -1622,12 +1623,14 @@ extension EC2 {
         case vpc = "vpc"
         case vpn = "vpn"
         case directConnectGateway = "direct-connect-gateway"
+        case peering = "peering"
         case tgwPeering = "tgw-peering"
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayAttachmentState: String, CustomStringConvertible, Codable {
         case initiating = "initiating"
+        case initiatingrequest = "initiatingRequest"
         case pendingacceptance = "pendingAcceptance"
         case rollingback = "rollingBack"
         case pending = "pending"
@@ -1655,6 +1658,14 @@ extension EC2 {
         case available = "available"
         case deleting = "deleting"
         case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayPrefixListReferenceState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        case modifying = "modifying"
+        case deleting = "deleting"
         public var description: String { return self.rawValue }
     }
 
@@ -1786,6 +1797,7 @@ extension EC2 {
     public enum VolumeType: String, CustomStringConvertible, Codable {
         case standard = "standard"
         case io1 = "io1"
+        case io2 = "io2"
         case gp2 = "gp2"
         case sc1 = "sc1"
         case st1 = "st1"
@@ -7278,6 +7290,50 @@ extension EC2 {
         }
     }
 
+    public struct CreateTransitGatewayPrefixListReferenceRequest: AWSEncodableShape {
+
+        /// Indicates whether to drop traffic that matches this route.
+        public let blackhole: Bool?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the prefix list that is used for destination matches.
+        public let prefixListId: String
+        /// The ID of the attachment to which traffic is routed.
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway route table.
+        public let transitGatewayRouteTableId: String
+
+        public init(blackhole: Bool? = nil, dryRun: Bool? = nil, prefixListId: String, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String) {
+            self.blackhole = blackhole
+            self.dryRun = dryRun
+            self.prefixListId = prefixListId
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayRouteTableId = transitGatewayRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blackhole = "Blackhole"
+            case dryRun = "DryRun"
+            case prefixListId = "PrefixListId"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayRouteTableId = "TransitGatewayRouteTableId"
+        }
+    }
+
+    public struct CreateTransitGatewayPrefixListReferenceResult: AWSDecodableShape {
+
+        /// Information about the prefix list reference.
+        public let transitGatewayPrefixListReference: TransitGatewayPrefixListReference?
+
+        public init(transitGatewayPrefixListReference: TransitGatewayPrefixListReference? = nil) {
+            self.transitGatewayPrefixListReference = transitGatewayPrefixListReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayPrefixListReference = "transitGatewayPrefixListReference"
+        }
+    }
+
     public struct CreateTransitGatewayRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -7519,9 +7575,9 @@ extension EC2 {
         public let availabilityZone: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Specifies whether the volume should be encrypted. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Encryption by Default in the Amazon Elastic Compute Cloud User Guide. Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types.
+        /// Specifies whether the volume should be encrypted. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Encryption by default in the Amazon Elastic Compute Cloud User Guide. Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types.
         public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) to provision for the volume, with a maximum ratio of 50 IOPS/GiB. Range is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. This parameter is valid only for Provisioned IOPS SSD (io1) volumes.
+        /// The number of I/O operations per second (IOPS) to provision for an io1 or io2 volume, with a maximum ratio of 50 IOPS/GiB for io1, and 500 IOPS/GiB for io2. Range is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. This parameter is valid only for Provisioned IOPS SSD (io1 and io2) volumes.
         public let iops: Int?
         /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
         public let kmsKeyId: String?
@@ -7529,14 +7585,14 @@ extension EC2 {
         public let multiAttachEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
-        /// The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. Constraints: 1-16,384 for gp2, 4-16,384 for io1, 500-16,384 for st1, 500-16,384 for sc1, and 1-1,024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
+        /// The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. Constraints: 1-16,384 for gp2, 4-16,384 for io1 and io2, 500-16,384 for st1, 500-16,384 for sc1, and 1-1,024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
         public let size: Int?
         /// The snapshot from which to create the volume. You must specify either a snapshot ID or a volume size.
         public let snapshotId: String?
         /// The tags to apply to the volume during creation.
         @OptionalCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
-        /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: gp2 
+        /// The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: gp2 
         public let volumeType: VolumeType?
 
         public init(availabilityZone: String, dryRun: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil, volumeType: VolumeType? = nil) {
@@ -9232,6 +9288,42 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case transitGatewayPeeringAttachment = "transitGatewayPeeringAttachment"
+        }
+    }
+
+    public struct DeleteTransitGatewayPrefixListReferenceRequest: AWSEncodableShape {
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the prefix list.
+        public let prefixListId: String
+        /// The ID of the route table.
+        public let transitGatewayRouteTableId: String
+
+        public init(dryRun: Bool? = nil, prefixListId: String, transitGatewayRouteTableId: String) {
+            self.dryRun = dryRun
+            self.prefixListId = prefixListId
+            self.transitGatewayRouteTableId = transitGatewayRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case prefixListId = "PrefixListId"
+            case transitGatewayRouteTableId = "TransitGatewayRouteTableId"
+        }
+    }
+
+    public struct DeleteTransitGatewayPrefixListReferenceResult: AWSDecodableShape {
+
+        /// Information about the deleted prefix list reference.
+        public let transitGatewayPrefixListReference: TransitGatewayPrefixListReference?
+
+        public init(transitGatewayPrefixListReference: TransitGatewayPrefixListReference? = nil) {
+            self.transitGatewayPrefixListReference = transitGatewayPrefixListReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayPrefixListReference = "transitGatewayPrefixListReference"
         }
     }
 
@@ -11734,7 +11826,7 @@ extension EC2 {
         /// Scopes the images by users with explicit launch permissions. Specify an AWS account ID, self (the sender of the request), or all (public AMIs).
         @OptionalCoding<ArrayCoder<_ExecutableUsersEncoding, String>>
         public var executableUsers: [String]?
-        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | st1 | sc1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the EBS volume is encrypted.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias, from an Amazon-maintained list (amazon | aws-marketplace). This is not the user-configured AWS account alias set using the IAM console. We recommend that you use the related parameter instead of this filter.    owner-id - The AWS account ID of the owner. We recommend that you use the related parameter instead of this filter.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).  
+        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | io2 | st1 | sc1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the EBS volume is encrypted.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias, from an Amazon-maintained list (amazon | aws-marketplace). This is not the user-configured AWS account alias set using the IAM console. We recommend that you use the related parameter instead of this filter.    owner-id - The AWS account ID of the owner. We recommend that you use the related parameter instead of this filter.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The image IDs. Default: Describes all images available to you.
@@ -14383,7 +14475,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    availability-zone-group - The Availability Zone group.    create-time - The time stamp when the Spot Instance request was created.    fault-code - The fault code related to the request.    fault-message - The fault message related to the request.    instance-id - The ID of the instance that fulfilled the request.    launch-group - The Spot Instance launch group.    launch.block-device-mapping.delete-on-termination - Indicates whether the EBS volume is deleted on instance termination.    launch.block-device-mapping.device-name - The device name for the volume in the block device mapping (for example, /dev/sdh or xvdh).    launch.block-device-mapping.snapshot-id - The ID of the snapshot for the EBS volume.    launch.block-device-mapping.volume-size - The size of the EBS volume, in GiB.    launch.block-device-mapping.volume-type - The type of EBS volume: gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1for Cold HDD, or standard for Magnetic.    launch.group-id - The ID of the security group for the instance.    launch.group-name - The name of the security group for the instance.    launch.image-id - The ID of the AMI.    launch.instance-type - The type of instance (for example, m3.medium).    launch.kernel-id - The kernel ID.    launch.key-name - The name of the key pair the instance launched with.    launch.monitoring-enabled - Whether detailed monitoring is enabled for the Spot Instance.    launch.ramdisk-id - The RAM disk ID.    launched-availability-zone - The Availability Zone in which the request is launched.    network-interface.addresses.primary - Indicates whether the IP address is the primary private IP address.    network-interface.delete-on-termination - Indicates whether the network interface is deleted when the instance is terminated.    network-interface.description - A description of the network interface.    network-interface.device-index - The index of the device for the network interface attachment on the instance.    network-interface.group-id - The ID of the security group associated with the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.private-ip-address - The primary private IP address of the network interface.    network-interface.subnet-id - The ID of the subnet for the instance.    product-description - The product description associated with the instance (Linux/UNIX | Windows).    spot-instance-request-id - The Spot Instance request ID.    spot-price - The maximum hourly price for any Spot Instance launched to fulfill the request.    state - The state of the Spot Instance request (open | active | closed | cancelled | failed). Spot request status information can help you track your Amazon EC2 Spot Instance requests. For more information, see Spot request status in the Amazon EC2 User Guide for Linux Instances.    status-code - The short code describing the most recent evaluation of your Spot Instance request.    status-message - The message explaining the status of the Spot Instance request.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    type - The type of Spot Instance request (one-time | persistent).    valid-from - The start date of the request.    valid-until - The end date of the request.  
+        /// One or more filters.    availability-zone-group - The Availability Zone group.    create-time - The time stamp when the Spot Instance request was created.    fault-code - The fault code related to the request.    fault-message - The fault message related to the request.    instance-id - The ID of the instance that fulfilled the request.    launch-group - The Spot Instance launch group.    launch.block-device-mapping.delete-on-termination - Indicates whether the EBS volume is deleted on instance termination.    launch.block-device-mapping.device-name - The device name for the volume in the block device mapping (for example, /dev/sdh or xvdh).    launch.block-device-mapping.snapshot-id - The ID of the snapshot for the EBS volume.    launch.block-device-mapping.volume-size - The size of the EBS volume, in GiB.    launch.block-device-mapping.volume-type - The type of EBS volume: gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1for Cold HDD, or standard for Magnetic.    launch.group-id - The ID of the security group for the instance.    launch.group-name - The name of the security group for the instance.    launch.image-id - The ID of the AMI.    launch.instance-type - The type of instance (for example, m3.medium).    launch.kernel-id - The kernel ID.    launch.key-name - The name of the key pair the instance launched with.    launch.monitoring-enabled - Whether detailed monitoring is enabled for the Spot Instance.    launch.ramdisk-id - The RAM disk ID.    launched-availability-zone - The Availability Zone in which the request is launched.    network-interface.addresses.primary - Indicates whether the IP address is the primary private IP address.    network-interface.delete-on-termination - Indicates whether the network interface is deleted when the instance is terminated.    network-interface.description - A description of the network interface.    network-interface.device-index - The index of the device for the network interface attachment on the instance.    network-interface.group-id - The ID of the security group associated with the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.private-ip-address - The primary private IP address of the network interface.    network-interface.subnet-id - The ID of the subnet for the instance.    product-description - The product description associated with the instance (Linux/UNIX | Windows).    spot-instance-request-id - The Spot Instance request ID.    spot-price - The maximum hourly price for any Spot Instance launched to fulfill the request.    state - The state of the Spot Instance request (open | active | closed | cancelled | failed). Spot request status information can help you track your Amazon EC2 Spot Instance requests. For more information, see Spot request status in the Amazon EC2 User Guide for Linux Instances.    status-code - The short code describing the most recent evaluation of your Spot Instance request.    status-message - The message explaining the status of the Spot Instance request.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    type - The type of Spot Instance request (one-time | persistent).    valid-from - The start date of the request.    valid-until - The end date of the request.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return in a single call. Specify a value between 5 and 1000. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -14843,7 +14935,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type (vpc | vpn).    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.  
+        /// One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    state - The state of the attachment. Valid values are available | deleted | deleting | failed | failing | initiatingRequest | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting.    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -14960,7 +15052,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    transit-gateway-attachment-id - The ID of the transit gateway attachment.    local-owner-id - The ID of your AWS account.    remote-owner-id - The ID of the AWS account in the remote Region that owns the transit gateway.    state - The state of the peering attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-id - The ID of the transit gateway.  
+        /// One or more filters. The possible values are:    transit-gateway-attachment-id - The ID of the transit gateway attachment.    local-owner-id - The ID of your AWS account.    remote-owner-id - The ID of the AWS account in the remote Region that owns the transit gateway.    state - The state of the peering attachment. Valid values are available | deleted | deleting | failed | failing | initiatingRequest | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-id - The ID of the transit gateway.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -15019,7 +15111,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    default-association-route-table - Indicates whether this is the default association route table for the transit gateway (true | false).    default-propagation-route-table - Indicates whether this is the default propagation route table for the transit gateway (true | false).    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-id - The ID of the transit gateway.    transit-gateway-route-table-id - The ID of the transit gateway route table.  
+        /// One or more filters. The possible values are:    default-association-route-table - Indicates whether this is the default association route table for the transit gateway (true | false).    default-propagation-route-table - Indicates whether this is the default propagation route table for the transit gateway (true | false).    state - The state of the route table (available | deleting | deleted | pending).    transit-gateway-id - The ID of the transit gateway.    transit-gateway-route-table-id - The ID of the transit gateway route table.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -15077,7 +15169,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    vpc-id - The ID of the VPC.  
+        /// One or more filters. The possible values are:    state - The state of the attachment. Valid values are available | deleted | deleting | failed | failing | initiatingRequest | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting.    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    vpc-id - The ID of the VPC.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -15136,7 +15228,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    options.propagation-default-route-table-id - The ID of the default propagation route table.    options.amazon-side-asn - The private ASN for the Amazon side of a BGP session.    options.association-default-route-table-id - The ID of the default association route table.    options.auto-accept-shared-attachments - Indicates whether there is automatic acceptance of attachment requests (enable | disable).    options.default-route-table-association - Indicates whether resource attachments are automatically associated with the default association route table (enable | disable).    options.default-route-table-propagation - Indicates whether resource attachments automatically propagate routes to the default propagation route table (enable | disable).    options.dns-support - Indicates whether DNS support is enabled (enable | disable).    options.vpn-ecmp-support - Indicates whether Equal Cost Multipath Protocol support is enabled (enable | disable).    owner-id - The ID of the AWS account that owns the transit gateway.    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-id - The ID of the transit gateway.  
+        /// One or more filters. The possible values are:    options.propagation-default-route-table-id - The ID of the default propagation route table.    options.amazon-side-asn - The private ASN for the Amazon side of a BGP session.    options.association-default-route-table-id - The ID of the default association route table.    options.auto-accept-shared-attachments - Indicates whether there is automatic acceptance of attachment requests (enable | disable).    options.default-route-table-association - Indicates whether resource attachments are automatically associated with the default association route table (enable | disable).    options.default-route-table-propagation - Indicates whether resource attachments automatically propagate routes to the default propagation route table (enable | disable).    options.dns-support - Indicates whether DNS support is enabled (enable | disable).    options.vpn-ecmp-support - Indicates whether Equal Cost Multipath Protocol support is enabled (enable | disable).    owner-id - The ID of the AWS account that owns the transit gateway.    state - The state of the transit gateway (available | deleted | deleting | modifying | pending).    transit-gateway-id - The ID of the transit gateway.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -15295,7 +15387,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    modification-state - The current modification state (modifying | optimizing | completed | failed).    original-iops - The original IOPS rate of the volume.    original-size - The original size of the volume, in GiB.    original-volume-type - The original volume type of the volume (standard | io1 | gp2 | sc1 | st1).    originalMultiAttachEnabled - Indicates whether Multi-Attach support was enabled (true | false).    start-time - The modification start time.    target-iops - The target IOPS rate of the volume.    target-size - The target size of the volume, in GiB.    target-volume-type - The target volume type of the volume (standard | io1 | gp2 | sc1 | st1).    targetMultiAttachEnabled - Indicates whether Multi-Attach support is to be enabled (true | false).    volume-id - The ID of the volume.  
+        /// The filters.    modification-state - The current modification state (modifying | optimizing | completed | failed).    original-iops - The original IOPS rate of the volume.    original-size - The original size of the volume, in GiB.    original-volume-type - The original volume type of the volume (standard | io1 | io2 | gp2 | sc1 | st1).    originalMultiAttachEnabled - Indicates whether Multi-Attach support was enabled (true | false).    start-time - The modification start time.    target-iops - The target IOPS rate of the volume.    target-size - The target size of the volume, in GiB.    target-volume-type - The target volume type of the volume (standard | io1 | io2 | gp2 | sc1 | st1).    targetMultiAttachEnabled - Indicates whether Multi-Attach support is to be enabled (true | false).    volume-id - The ID of the volume.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results (up to a limit of 500) to be returned in a paginated request.
@@ -15349,7 +15441,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true | false)    fast-restored - Indicates whether the volume was created from a snapshot that is enabled for fast snapshot restore (true | false).    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The status of the volume (creating | available | in-use | deleting | deleted | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.  
+        /// The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true | false)    fast-restored - Indicates whether the volume was created from a snapshot that is enabled for fast snapshot restore (true | false).    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of volume results returned by DescribeVolumes in paginated output. When this parameter is used, DescribeVolumes only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeVolumes request with the returned NextToken value. This value can be between 5 and 500; if MaxResults is given a value larger than 500, only 500 results are returned. If this parameter is not used, then DescribeVolumes returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
@@ -16978,15 +17070,15 @@ extension EC2 {
         public let deleteOnTermination: Bool?
         /// Indicates whether the encryption state of an EBS volume is changed while being restored from a backing snapshot. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. In no case can you remove encryption from an encrypted volume. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types. This parameter is not returned by .
         public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) that the volume supports. For io1 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Constraints: Range is 100-16,000 IOPS for gp2 volumes and 100 to 64,000 IOPS for io1 volumes in most Regions. Maximum io1 IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Condition: This parameter is required for requests to create io1 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
+        /// The number of I/O operations per second (IOPS) that the volume supports. For io1 and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Constraints: Range is 100-16,000 IOPS for gp2 volumes and 100 to 64,000 IOPS for io1 and io2 volumes in most Regions. Maximum io1 and io2 IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Condition: This parameter is required for requests to create io1 and io2 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
         public let iops: Int?
         /// Identifier (key ID, key alias, ID ARN, or alias ARN) for a customer managed CMK under which the EBS volume is encrypted. This parameter is only supported on BlockDeviceMapping objects called by RunInstances, RequestSpotFleet, and RequestSpotInstances.
         public let kmsKeyId: String?
         /// The ID of the snapshot.
         public let snapshotId: String?
-        /// The size of the volume, in GiB. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size. Constraints: 1-16384 for General Purpose SSD (gp2), 4-16384 for Provisioned IOPS SSD (io1), 500-16384 for Throughput Optimized HDD (st1), 500-16384 for Cold HDD (sc1), and 1-1024 for Magnetic (standard) volumes. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size.
+        /// The size of the volume, in GiB. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size. Constraints: 1-16384 for General Purpose SSD (gp2), 4-16384 for Provisioned IOPS SSD (io1 and io2), 500-16384 for Throughput Optimized HDD (st1), 500-16384 for Cold HDD (sc1), and 1-1024 for Magnetic (standard) volumes. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size.
         public let volumeSize: Int?
-        /// The volume type. If you set the type to io1, you must also specify the Iops parameter. If you set the type to gp2, st1, sc1, or standard, you must omit the Iops parameter. Default: gp2 
+        /// The volume type. If you set the type to io1 or io2, you must also specify the Iops parameter. If you set the type to gp2, st1, sc1, or standard, you must omit the Iops parameter. Default: gp2 
         public let volumeType: VolumeType?
 
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
@@ -17981,7 +18073,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id - The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-route-destination-cidr-block - The CIDR range.    type - The type of route (active | blackhole).  
+        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id - The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    transit-gateway-route-destination-cidr-block - The CIDR range.    type - The type of route (propagated | static).  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The name of the S3 bucket.
@@ -19435,12 +19527,69 @@ extension EC2 {
         }
     }
 
+    public struct GetTransitGatewayPrefixListReferencesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters. The possible values are:    attachment.resource-id - The ID of the resource for the attachment.    attachment.resource-type - The type of resource for the attachment. Valid values are vpc | vpn | direct-connect-gateway | peering.    attachment.transit-gateway-attachment-id - The ID of the attachment.    is-blackhole - Whether traffic matching the route is blocked (true | false).    prefix-list-id - The ID of the prefix list.    prefix-list-owner-id - The ID of the owner of the prefix list.    state - The state of the prefix list reference (pending | available | modifying | deleting).  
+        @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the transit gateway route table.
+        public let transitGatewayRouteTableId: String
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayRouteTableId = transitGatewayRouteTableId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transitGatewayRouteTableId = "TransitGatewayRouteTableId"
+        }
+    }
+
+    public struct GetTransitGatewayPrefixListReferencesResult: AWSDecodableShape {
+        public struct _TransitGatewayPrefixListReferencesEncoding: ArrayCoderProperties { static public let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the prefix list references.
+        @OptionalCoding<ArrayCoder<_TransitGatewayPrefixListReferencesEncoding, TransitGatewayPrefixListReference>>
+        public var transitGatewayPrefixListReferences: [TransitGatewayPrefixListReference]?
+
+        public init(nextToken: String? = nil, transitGatewayPrefixListReferences: [TransitGatewayPrefixListReference]? = nil) {
+            self.nextToken = nextToken
+            self.transitGatewayPrefixListReferences = transitGatewayPrefixListReferences
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case transitGatewayPrefixListReferences = "transitGatewayPrefixListReferenceSet"
+        }
+    }
+
     public struct GetTransitGatewayRouteTableAssociationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type (vpc | vpn).    transit-gateway-attachment-id - The ID of the attachment.  
+        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    transit-gateway-attachment-id - The ID of the attachment.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -19497,7 +19646,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type (vpc | vpn).    transit-gateway-attachment-id - The ID of the attachment.  
+        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    transit-gateway-attachment-id - The ID of the attachment.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -22794,7 +22943,7 @@ extension EC2 {
         public let deleteOnTermination: Bool?
         /// Indicates whether the EBS volume is encrypted. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. If you are creating a volume from a snapshot, you can't specify an encryption value.
         public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) that the volume supports. For io1, this represents the number of IOPS that are provisioned for the volume. For gp2, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information about General Purpose SSD baseline performance, I/O credits, and bursting, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Condition: This parameter is required for requests to create io1 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
+        /// The number of I/O operations per second (IOPS) to provision for an io1 or io2 volume, with a maximum ratio of 50 IOPS/GiB for io1, and 500 IOPS/GiB for io2. Range is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. This parameter is valid only for Provisioned IOPS SSD (io1 and io2) volumes.
         public let iops: Int?
         /// The ARN of the symmetric AWS Key Management Service (AWS KMS) CMK used for encryption.
         public let kmsKeyId: String?
@@ -24126,6 +24275,7 @@ extension EC2 {
     }
 
     public struct ModifyFleetRequest: AWSEncodableShape {
+        public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -24133,20 +24283,32 @@ extension EC2 {
         public let excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy?
         /// The ID of the EC2 Fleet.
         public let fleetId: String
+        /// The launch template and overrides.
+        @OptionalCoding<ArrayCoder<_LaunchTemplateConfigsEncoding, FleetLaunchTemplateConfigRequest>>
+        public var launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]?
         /// The size of the EC2 Fleet.
         public let targetCapacitySpecification: TargetCapacitySpecificationRequest
 
-        public init(dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, fleetId: String, targetCapacitySpecification: TargetCapacitySpecificationRequest) {
+        public init(dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, fleetId: String, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest) {
             self.dryRun = dryRun
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
             self.fleetId = fleetId
+            self.launchTemplateConfigs = launchTemplateConfigs
             self.targetCapacitySpecification = targetCapacitySpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.launchTemplateConfigs?.forEach {
+                try $0.validate(name: "\(name).launchTemplateConfigs[]")
+            }
+            try validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
             case excessCapacityTerminationPolicy = "ExcessCapacityTerminationPolicy"
             case fleetId = "FleetId"
+            case launchTemplateConfigs = "LaunchTemplateConfig"
             case targetCapacitySpecification = "TargetCapacitySpecification"
         }
     }
@@ -24910,9 +25072,13 @@ extension EC2 {
     }
 
     public struct ModifySpotFleetRequestRequest: AWSEncodableShape {
+        public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Indicates whether running Spot Instances should be terminated if the target capacity of the Spot Fleet request is decreased below the current size of the Spot Fleet.
         public let excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy?
+        /// The launch template and overrides. You can only use this parameter if you specified a launch template (LaunchTemplateConfigs) in your Spot Fleet request. If you specified LaunchSpecifications in your Spot Fleet request, then omit this parameter.
+        @OptionalCoding<ArrayCoder<_LaunchTemplateConfigsEncoding, LaunchTemplateConfig>>
+        public var launchTemplateConfigs: [LaunchTemplateConfig]?
         /// The number of On-Demand Instances in the fleet.
         public let onDemandTargetCapacity: Int?
         /// The ID of the Spot Fleet request.
@@ -24920,15 +25086,23 @@ extension EC2 {
         /// The size of the fleet.
         public let targetCapacity: Int?
 
-        public init(excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, onDemandTargetCapacity: Int? = nil, spotFleetRequestId: String, targetCapacity: Int? = nil) {
+        public init(excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, onDemandTargetCapacity: Int? = nil, spotFleetRequestId: String, targetCapacity: Int? = nil) {
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
+            self.launchTemplateConfigs = launchTemplateConfigs
             self.onDemandTargetCapacity = onDemandTargetCapacity
             self.spotFleetRequestId = spotFleetRequestId
             self.targetCapacity = targetCapacity
         }
 
+        public func validate(name: String) throws {
+            try self.launchTemplateConfigs?.forEach {
+                try $0.validate(name: "\(name).launchTemplateConfigs[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case excessCapacityTerminationPolicy = "excessCapacityTerminationPolicy"
+            case launchTemplateConfigs = "LaunchTemplateConfig"
             case onDemandTargetCapacity = "OnDemandTargetCapacity"
             case spotFleetRequestId = "spotFleetRequestId"
             case targetCapacity = "targetCapacity"
@@ -25157,6 +25331,127 @@ extension EC2 {
         }
     }
 
+    public struct ModifyTransitGatewayOptions: AWSEncodableShape {
+
+        /// The ID of the default association route table.
+        public let associationDefaultRouteTableId: String?
+        /// Enable or disable automatic acceptance of attachment requests.
+        public let autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue?
+        /// Enable or disable automatic association with the default association route table.
+        public let defaultRouteTableAssociation: DefaultRouteTableAssociationValue?
+        /// Enable or disable automatic propagation of routes to the default propagation route table.
+        public let defaultRouteTablePropagation: DefaultRouteTablePropagationValue?
+        /// Enable or disable DNS support.
+        public let dnsSupport: DnsSupportValue?
+        /// The ID of the default propagation route table.
+        public let propagationDefaultRouteTableId: String?
+        /// Enable or disable Equal Cost Multipath Protocol support.
+        public let vpnEcmpSupport: VpnEcmpSupportValue?
+
+        public init(associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
+            self.associationDefaultRouteTableId = associationDefaultRouteTableId
+            self.autoAcceptSharedAttachments = autoAcceptSharedAttachments
+            self.defaultRouteTableAssociation = defaultRouteTableAssociation
+            self.defaultRouteTablePropagation = defaultRouteTablePropagation
+            self.dnsSupport = dnsSupport
+            self.propagationDefaultRouteTableId = propagationDefaultRouteTableId
+            self.vpnEcmpSupport = vpnEcmpSupport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationDefaultRouteTableId = "AssociationDefaultRouteTableId"
+            case autoAcceptSharedAttachments = "AutoAcceptSharedAttachments"
+            case defaultRouteTableAssociation = "DefaultRouteTableAssociation"
+            case defaultRouteTablePropagation = "DefaultRouteTablePropagation"
+            case dnsSupport = "DnsSupport"
+            case propagationDefaultRouteTableId = "PropagationDefaultRouteTableId"
+            case vpnEcmpSupport = "VpnEcmpSupport"
+        }
+    }
+
+    public struct ModifyTransitGatewayPrefixListReferenceRequest: AWSEncodableShape {
+
+        /// Indicates whether to drop traffic that matches this route.
+        public let blackhole: Bool?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the prefix list.
+        public let prefixListId: String
+        /// The ID of the attachment to which traffic is routed.
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway route table.
+        public let transitGatewayRouteTableId: String
+
+        public init(blackhole: Bool? = nil, dryRun: Bool? = nil, prefixListId: String, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String) {
+            self.blackhole = blackhole
+            self.dryRun = dryRun
+            self.prefixListId = prefixListId
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayRouteTableId = transitGatewayRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blackhole = "Blackhole"
+            case dryRun = "DryRun"
+            case prefixListId = "PrefixListId"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayRouteTableId = "TransitGatewayRouteTableId"
+        }
+    }
+
+    public struct ModifyTransitGatewayPrefixListReferenceResult: AWSDecodableShape {
+
+        /// Information about the prefix list reference.
+        public let transitGatewayPrefixListReference: TransitGatewayPrefixListReference?
+
+        public init(transitGatewayPrefixListReference: TransitGatewayPrefixListReference? = nil) {
+            self.transitGatewayPrefixListReference = transitGatewayPrefixListReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayPrefixListReference = "transitGatewayPrefixListReference"
+        }
+    }
+
+    public struct ModifyTransitGatewayRequest: AWSEncodableShape {
+
+        /// The description for the transit gateway.
+        public let description: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The options to modify.
+        public let options: ModifyTransitGatewayOptions?
+        /// The ID of the transit gateway.
+        public let transitGatewayId: String
+
+        public init(description: String? = nil, dryRun: Bool? = nil, options: ModifyTransitGatewayOptions? = nil, transitGatewayId: String) {
+            self.description = description
+            self.dryRun = dryRun
+            self.options = options
+            self.transitGatewayId = transitGatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case dryRun = "DryRun"
+            case options = "Options"
+            case transitGatewayId = "TransitGatewayId"
+        }
+    }
+
+    public struct ModifyTransitGatewayResult: AWSDecodableShape {
+
+        public let transitGateway: TransitGateway?
+
+        public init(transitGateway: TransitGateway? = nil) {
+            self.transitGateway = transitGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGateway = "transitGateway"
+        }
+    }
+
     public struct ModifyTransitGatewayVpcAttachmentRequest: AWSEncodableShape {
         public struct _AddSubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveSubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -25249,7 +25544,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The target IOPS rate of the volume. This is only valid for Provisioned IOPS SSD (io1) volumes. For more information, see Provisioned IOPS SSD (io1) Volumes. Default: If no IOPS value is specified, the existing value is retained.
+        /// The target IOPS rate of the volume. This is only valid for Provisioned IOPS SSD (io1 and io2) volumes. For moreinformation, see  Provisioned IOPS SSD (io1 and io2) volumes. Default: If no IOPS value is specified, the existing value is retained.
         public let iops: Int?
         /// The target size of the volume, in GiB. The target volume size must be greater than or equal to than the existing size of the volume. For information about available EBS volume sizes, see Amazon EBS Volume Types. Default: If no size is specified, the existing size is retained.
         public let size: Int?
@@ -25613,6 +25908,53 @@ extension EC2 {
         }
     }
 
+    public struct ModifyVpnConnectionOptionsRequest: AWSEncodableShape {
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IPv4 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: 0.0.0.0/0 
+        public let localIpv4NetworkCidr: String?
+        /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: ::/0 
+        public let localIpv6NetworkCidr: String?
+        /// The IPv4 CIDR on the AWS side of the VPN connection. Default: 0.0.0.0/0 
+        public let remoteIpv4NetworkCidr: String?
+        /// The IPv6 CIDR on the AWS side of the VPN connection. Default: ::/0 
+        public let remoteIpv6NetworkCidr: String?
+        /// The ID of the Site-to-Site VPN VPN connection. 
+        public let vpnConnectionId: String
+
+        public init(dryRun: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, vpnConnectionId: String) {
+            self.dryRun = dryRun
+            self.localIpv4NetworkCidr = localIpv4NetworkCidr
+            self.localIpv6NetworkCidr = localIpv6NetworkCidr
+            self.remoteIpv4NetworkCidr = remoteIpv4NetworkCidr
+            self.remoteIpv6NetworkCidr = remoteIpv6NetworkCidr
+            self.vpnConnectionId = vpnConnectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case localIpv4NetworkCidr = "LocalIpv4NetworkCidr"
+            case localIpv6NetworkCidr = "LocalIpv6NetworkCidr"
+            case remoteIpv4NetworkCidr = "RemoteIpv4NetworkCidr"
+            case remoteIpv6NetworkCidr = "RemoteIpv6NetworkCidr"
+            case vpnConnectionId = "VpnConnectionId"
+        }
+    }
+
+    public struct ModifyVpnConnectionOptionsResult: AWSDecodableShape {
+
+        public let vpnConnection: VpnConnection?
+
+        public init(vpnConnection: VpnConnection? = nil) {
+            self.vpnConnection = vpnConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpnConnection = "vpnConnection"
+        }
+    }
+
     public struct ModifyVpnConnectionRequest: AWSEncodableShape {
 
         /// The ID of the customer gateway at your end of the VPN connection.
@@ -25739,6 +26081,8 @@ extension EC2 {
         public struct _Phase2EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase2IntegrityAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
 
+        /// The action to take after DPD timeout occurs. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid Values: clear | none | restart  Default: clear 
+        public let dPDTimeoutAction: String?
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value between 0 and 30. Default: 30 
         public let dPDTimeoutSeconds: Int?
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2 
@@ -25774,12 +26118,15 @@ extension EC2 {
         public let rekeyMarginTimeSeconds: Int?
         /// The number of packets in an IKE replay window. Constraints: A value between 64 and 2048. Default: 1024 
         public let replayWindowSize: Int?
+        /// The action to take when the establishing the tunnel for the VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid Values: add | start  Default: add 
+        public let startupAction: String?
         /// The range of inside IPv4 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same virtual private gateway.  Constraints: A size /30 CIDR block from the 169.254.0.0/16 range. The following CIDR blocks are reserved and cannot be used:    169.254.0.0/30     169.254.1.0/30     169.254.2.0/30     169.254.3.0/30     169.254.4.0/30     169.254.5.0/30     169.254.169.252/30   
         public let tunnelInsideCidr: String?
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dPDTimeoutSeconds: Int? = nil, iKEVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+        public init(dPDTimeoutAction: String? = nil, dPDTimeoutSeconds: Int? = nil, iKEVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+            self.dPDTimeoutAction = dPDTimeoutAction
             self.dPDTimeoutSeconds = dPDTimeoutSeconds
             self.iKEVersions = iKEVersions
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
@@ -25794,11 +26141,13 @@ extension EC2 {
             self.rekeyFuzzPercentage = rekeyFuzzPercentage
             self.rekeyMarginTimeSeconds = rekeyMarginTimeSeconds
             self.replayWindowSize = replayWindowSize
+            self.startupAction = startupAction
             self.tunnelInsideCidr = tunnelInsideCidr
             self.tunnelInsideIpv6Cidr = tunnelInsideIpv6Cidr
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dPDTimeoutAction = "DPDTimeoutAction"
             case dPDTimeoutSeconds = "DPDTimeoutSeconds"
             case iKEVersions = "IKEVersion"
             case phase1DHGroupNumbers = "Phase1DHGroupNumber"
@@ -25813,6 +26162,7 @@ extension EC2 {
             case rekeyFuzzPercentage = "RekeyFuzzPercentage"
             case rekeyMarginTimeSeconds = "RekeyMarginTimeSeconds"
             case replayWindowSize = "ReplayWindowSize"
+            case startupAction = "StartupAction"
             case tunnelInsideCidr = "TunnelInsideCidr"
             case tunnelInsideIpv6Cidr = "TunnelInsideIpv6Cidr"
         }
@@ -30314,13 +30664,13 @@ extension EC2 {
         public let deleteOnTermination: Bool?
         /// Indicates whether the volume is encrypted. You can attached encrypted volumes only to instances that support them.
         public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) that the volume supports. For io1 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information about gp2 baseline performance, I/O credits, and bursting, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraint: Range is 100-20000 IOPS for io1 volumes and 100-10000 IOPS for gp2 volumes. Condition: This parameter is required for requests to create io1volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
+        /// The number of I/O operations per second (IOPS) to provision for an io1 or io2 volume, with a maximum ratio of 50 IOPS/GiB for io1, and 500 IOPS/GiB for io2. Range is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. This parameter is valid only for Provisioned IOPS SSD (io1 and io2) volumes.
         public let iops: Int?
         /// The ID of the snapshot.
         public let snapshotId: String?
         /// The size of the volume, in GiB. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
         public let volumeSize: Int?
-        /// The volume type. gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, Throughput Optimized HDD for st1, Cold HDD for sc1, or standard for Magnetic. Default: gp2 
+        /// The volume type. gp2 for General Purpose SSD, io1 or  io2 for Provisioned IOPS SSD, Throughput Optimized HDD for st1, Cold HDD for sc1, or standard for Magnetic. Default: gp2 
         public let volumeType: String?
 
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
@@ -30674,7 +31024,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type (vpc | vpn).    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).  
+        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    prefix-list-id - The ID of the prefix list.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).  
         @Coding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]
         /// The maximum number of routes to return.
@@ -32886,7 +33236,7 @@ extension EC2 {
 
         /// The ID of the resource.
         public let resourceId: String?
-        /// The resource type.
+        /// The resource type. Note that the tgw-peering resource type has been deprecated.
         public let resourceType: TransitGatewayAttachmentResourceType?
         /// The state of the association.
         public let state: TransitGatewayAssociationState?
@@ -32923,9 +33273,9 @@ extension EC2 {
         public let resourceId: String?
         /// The ID of the AWS account that owns the resource.
         public let resourceOwnerId: String?
-        /// The resource type.
+        /// The resource type. Note that the tgw-peering resource type has been deprecated.
         public let resourceType: TransitGatewayAttachmentResourceType?
-        /// The attachment state.
+        /// The attachment state. Note that the initiating state has been deprecated.
         public let state: TransitGatewayAttachmentState?
         /// The tags for the attachment.
         @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -33291,7 +33641,7 @@ extension EC2 {
         public let creationTime: TimeStamp?
         /// Information about the requester transit gateway.
         public let requesterTgwInfo: PeeringTgwInfo?
-        /// The state of the transit gateway peering attachment.
+        /// The state of the transit gateway peering attachment. Note that the initiating state has been deprecated.
         public let state: TransitGatewayAttachmentState?
         /// The status of the transit gateway peering attachment.
         public let status: PeeringAttachmentStatus?
@@ -33322,11 +33672,67 @@ extension EC2 {
         }
     }
 
+    public struct TransitGatewayPrefixListAttachment: AWSDecodableShape {
+
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The resource type. Note that the tgw-peering resource type has been deprecated.
+        public let resourceType: TransitGatewayAttachmentResourceType?
+        /// The ID of the attachment.
+        public let transitGatewayAttachmentId: String?
+
+        public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, transitGatewayAttachmentId: String? = nil) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case transitGatewayAttachmentId = "transitGatewayAttachmentId"
+        }
+    }
+
+    public struct TransitGatewayPrefixListReference: AWSDecodableShape {
+
+        /// Indicates whether traffic that matches this route is dropped.
+        public let blackhole: Bool?
+        /// The ID of the prefix list.
+        public let prefixListId: String?
+        /// The ID of the prefix list owner.
+        public let prefixListOwnerId: String?
+        /// The state of the prefix list reference.
+        public let state: TransitGatewayPrefixListReferenceState?
+        /// Information about the transit gateway attachment.
+        public let transitGatewayAttachment: TransitGatewayPrefixListAttachment?
+        /// The ID of the transit gateway route table.
+        public let transitGatewayRouteTableId: String?
+
+        public init(blackhole: Bool? = nil, prefixListId: String? = nil, prefixListOwnerId: String? = nil, state: TransitGatewayPrefixListReferenceState? = nil, transitGatewayAttachment: TransitGatewayPrefixListAttachment? = nil, transitGatewayRouteTableId: String? = nil) {
+            self.blackhole = blackhole
+            self.prefixListId = prefixListId
+            self.prefixListOwnerId = prefixListOwnerId
+            self.state = state
+            self.transitGatewayAttachment = transitGatewayAttachment
+            self.transitGatewayRouteTableId = transitGatewayRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blackhole = "blackhole"
+            case prefixListId = "prefixListId"
+            case prefixListOwnerId = "prefixListOwnerId"
+            case state = "state"
+            case transitGatewayAttachment = "transitGatewayAttachment"
+            case transitGatewayRouteTableId = "transitGatewayRouteTableId"
+        }
+    }
+
     public struct TransitGatewayPropagation: AWSDecodableShape {
 
         /// The ID of the resource.
         public let resourceId: String?
-        /// The resource type.
+        /// The resource type. Note that the tgw-peering resource type has been deprecated.
         public let resourceType: TransitGatewayAttachmentResourceType?
         /// The state.
         public let state: TransitGatewayPropagationState?
@@ -33395,6 +33801,8 @@ extension EC2 {
 
         /// The CIDR block used for destination matches.
         public let destinationCidrBlock: String?
+        /// The ID of the prefix list used for destination matches.
+        public let prefixListId: String?
         /// The state of the route.
         public let state: TransitGatewayRouteState?
         /// The attachments.
@@ -33403,8 +33811,9 @@ extension EC2 {
         /// The route type.
         public let `type`: TransitGatewayRouteType?
 
-        public init(destinationCidrBlock: String? = nil, state: TransitGatewayRouteState? = nil, transitGatewayAttachments: [TransitGatewayRouteAttachment]? = nil, type: TransitGatewayRouteType? = nil) {
+        public init(destinationCidrBlock: String? = nil, prefixListId: String? = nil, state: TransitGatewayRouteState? = nil, transitGatewayAttachments: [TransitGatewayRouteAttachment]? = nil, type: TransitGatewayRouteType? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
+            self.prefixListId = prefixListId
             self.state = state
             self.transitGatewayAttachments = transitGatewayAttachments
             self.`type` = `type`
@@ -33412,6 +33821,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case destinationCidrBlock = "destinationCidrBlock"
+            case prefixListId = "prefixListId"
             case state = "state"
             case transitGatewayAttachments = "transitGatewayAttachments"
             case `type` = "type"
@@ -33422,7 +33832,7 @@ extension EC2 {
 
         /// The ID of the resource.
         public let resourceId: String?
-        /// The resource type.
+        /// The resource type. Note that the tgw-peering resource type has been deprecated. 
         public let resourceType: TransitGatewayAttachmentResourceType?
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
@@ -33484,7 +33894,7 @@ extension EC2 {
 
         /// The ID of the resource.
         public let resourceId: String?
-        /// The resource type.
+        /// The resource type. Note that the tgw-peering resource type has been deprecated.
         public let resourceType: TransitGatewayAttachmentResourceType?
         /// The state of the association.
         public let state: TransitGatewayAssociationState?
@@ -33510,7 +33920,7 @@ extension EC2 {
 
         /// The ID of the resource.
         public let resourceId: String?
-        /// The type of resource.
+        /// The type of resource. Note that the tgw-peering resource type has been deprecated.
         public let resourceType: TransitGatewayAttachmentResourceType?
         /// The state of the resource.
         public let state: TransitGatewayPropagationState?
@@ -33540,7 +33950,7 @@ extension EC2 {
         public let creationTime: TimeStamp?
         /// The VPC attachment options.
         public let options: TransitGatewayVpcAttachmentOptions?
-        /// The state of the VPC attachment.
+        /// The state of the VPC attachment. Note that the initiating state has been deprecated.
         public let state: TransitGatewayAttachmentState?
         /// The IDs of the subnets.
         @OptionalCoding<ArrayCoder<_SubnetIdsEncoding, String>>
@@ -33609,6 +34019,8 @@ extension EC2 {
         public struct _Phase2EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase2IntegrityAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
 
+        /// The action to take after a DPD timeout occurs.
+        public let dpdTimeoutAction: String?
         /// The number of seconds after which a DPD timeout occurs.
         public let dpdTimeoutSeconds: Int?
         /// The IKE versions that are permitted for the VPN tunnel.
@@ -33646,12 +34058,15 @@ extension EC2 {
         public let rekeyMarginTimeSeconds: Int?
         /// The number of packets in an IKE replay window.
         public let replayWindowSize: Int?
+        /// The action to take when the establishing the VPN tunnels for a VPN connection.
+        public let startupAction: String?
         /// The range of inside IPv4 addresses for the tunnel.
         public let tunnelInsideCidr: String?
         /// The range of inside IPv6 addresses for the tunnel.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsListValue]? = nil, outsideIpAddress: String? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsListValue]? = nil, outsideIpAddress: String? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+            self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
             self.ikeVersions = ikeVersions
             self.outsideIpAddress = outsideIpAddress
@@ -33667,11 +34082,13 @@ extension EC2 {
             self.rekeyFuzzPercentage = rekeyFuzzPercentage
             self.rekeyMarginTimeSeconds = rekeyMarginTimeSeconds
             self.replayWindowSize = replayWindowSize
+            self.startupAction = startupAction
             self.tunnelInsideCidr = tunnelInsideCidr
             self.tunnelInsideIpv6Cidr = tunnelInsideIpv6Cidr
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dpdTimeoutAction = "dpdTimeoutAction"
             case dpdTimeoutSeconds = "dpdTimeoutSeconds"
             case ikeVersions = "ikeVersionSet"
             case outsideIpAddress = "outsideIpAddress"
@@ -33687,6 +34104,7 @@ extension EC2 {
             case rekeyFuzzPercentage = "rekeyFuzzPercentage"
             case rekeyMarginTimeSeconds = "rekeyMarginTimeSeconds"
             case replayWindowSize = "replayWindowSize"
+            case startupAction = "startupAction"
             case tunnelInsideCidr = "tunnelInsideCidr"
             case tunnelInsideIpv6Cidr = "tunnelInsideIpv6Cidr"
         }
@@ -34149,7 +34567,7 @@ extension EC2 {
         public let encrypted: Bool?
         /// Indicates whether the volume was created using fast snapshot restore.
         public let fastRestored: Bool?
-        /// The number of I/O operations per second (IOPS) that the volume supports. For Provisioned IOPS SSD volumes, this represents the number of IOPS that are provisioned for the volume. For General Purpose SSD volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraints: Range is 100-16,000 IOPS for gp2 volumes and 100 to 64,000IOPS for io1 volumes, in most Regions. The maximum IOPS for io1 of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. Condition: This parameter is required for requests to create io1 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
+        /// The number of I/O operations per second (IOPS) that the volume supports. For Provisioned IOPS SSD volumes, this represents the number of IOPS that are provisioned for the volume. For General Purpose SSD volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Constraints: Range is 100-16,000 IOPS for gp2 volumes and 100 to 64,000 IOPS for io1 and io2 volumes, in most Regions. The maximum IOPS for io1 and io2 of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. Condition: This parameter is required for requests to create io1 and io2 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
         public let iops: Int?
         /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the volume.
         public let kmsKeyId: String?
@@ -34168,7 +34586,7 @@ extension EC2 {
         public var tags: [Tag]?
         /// The ID of the volume.
         public let volumeId: String?
-        /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
+        /// The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
         public let volumeType: VolumeType?
 
         public init(attachments: [VolumeAttachment]? = nil, availabilityZone: String? = nil, createTime: TimeStamp? = nil, encrypted: Bool? = nil, fastRestored: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, state: VolumeState? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
@@ -34961,6 +35379,14 @@ extension EC2 {
 
         /// Indicates whether acceleration is enabled for the VPN connection.
         public let enableAcceleration: Bool?
+        /// The IPv4 CIDR on the customer gateway (on-premises) side of the VPN connection.
+        public let localIpv4NetworkCidr: String?
+        /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
+        public let localIpv6NetworkCidr: String?
+        /// The IPv4 CIDR on the AWS side of the VPN connection.
+        public let remoteIpv4NetworkCidr: String?
+        /// The IPv6 CIDR on the AWS side of the VPN connection.
+        public let remoteIpv6NetworkCidr: String?
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
         public let staticRoutesOnly: Bool?
         /// Indicates whether the VPN tunnels process IPv4 or IPv6 traffic.
@@ -34969,8 +35395,12 @@ extension EC2 {
         @OptionalCoding<ArrayCoder<_TunnelOptionsEncoding, TunnelOption>>
         public var tunnelOptions: [TunnelOption]?
 
-        public init(enableAcceleration: Bool? = nil, staticRoutesOnly: Bool? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [TunnelOption]? = nil) {
+        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [TunnelOption]? = nil) {
             self.enableAcceleration = enableAcceleration
+            self.localIpv4NetworkCidr = localIpv4NetworkCidr
+            self.localIpv6NetworkCidr = localIpv6NetworkCidr
+            self.remoteIpv4NetworkCidr = remoteIpv4NetworkCidr
+            self.remoteIpv6NetworkCidr = remoteIpv6NetworkCidr
             self.staticRoutesOnly = staticRoutesOnly
             self.tunnelInsideIpVersion = tunnelInsideIpVersion
             self.tunnelOptions = tunnelOptions
@@ -34978,6 +35408,10 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case enableAcceleration = "enableAcceleration"
+            case localIpv4NetworkCidr = "localIpv4NetworkCidr"
+            case localIpv6NetworkCidr = "localIpv6NetworkCidr"
+            case remoteIpv4NetworkCidr = "remoteIpv4NetworkCidr"
+            case remoteIpv6NetworkCidr = "remoteIpv6NetworkCidr"
             case staticRoutesOnly = "staticRoutesOnly"
             case tunnelInsideIpVersion = "tunnelInsideIpVersion"
             case tunnelOptions = "tunnelOptionSet"
@@ -34988,6 +35422,14 @@ extension EC2 {
 
         /// Indicate whether to enable acceleration for the VPN connection. Default: false 
         public let enableAcceleration: Bool?
+        /// The IPv4 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: 0.0.0.0/0 
+        public let localIpv4NetworkCidr: String?
+        /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: ::/0 
+        public let localIpv6NetworkCidr: String?
+        /// The IPv4 CIDR on the AWS side of the VPN connection. Default: 0.0.0.0/0 
+        public let remoteIpv4NetworkCidr: String?
+        /// The IPv6 CIDR on the AWS side of the VPN connection. Default: ::/0 
+        public let remoteIpv6NetworkCidr: String?
         /// Indicate whether the VPN connection uses static routes only. If you are creating a VPN connection for a device that does not support BGP, you must specify true. Use CreateVpnConnectionRoute to create a static route. Default: false 
         public let staticRoutesOnly: Bool?
         /// Indicate whether the VPN tunnels process IPv4 or IPv6 traffic. Default: ipv4 
@@ -34996,8 +35438,12 @@ extension EC2 {
         @OptionalCoding<DefaultArrayCoder>
         public var tunnelOptions: [VpnTunnelOptionsSpecification]?
 
-        public init(enableAcceleration: Bool? = nil, staticRoutesOnly: Bool? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {
+        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {
             self.enableAcceleration = enableAcceleration
+            self.localIpv4NetworkCidr = localIpv4NetworkCidr
+            self.localIpv6NetworkCidr = localIpv6NetworkCidr
+            self.remoteIpv4NetworkCidr = remoteIpv4NetworkCidr
+            self.remoteIpv6NetworkCidr = remoteIpv6NetworkCidr
             self.staticRoutesOnly = staticRoutesOnly
             self.tunnelInsideIpVersion = tunnelInsideIpVersion
             self.tunnelOptions = tunnelOptions
@@ -35005,6 +35451,10 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case enableAcceleration = "EnableAcceleration"
+            case localIpv4NetworkCidr = "LocalIpv4NetworkCidr"
+            case localIpv6NetworkCidr = "LocalIpv6NetworkCidr"
+            case remoteIpv4NetworkCidr = "RemoteIpv4NetworkCidr"
+            case remoteIpv6NetworkCidr = "RemoteIpv6NetworkCidr"
             case staticRoutesOnly = "staticRoutesOnly"
             case tunnelInsideIpVersion = "TunnelInsideIpVersion"
             case tunnelOptions = "TunnelOptions"
@@ -35084,6 +35534,8 @@ extension EC2 {
         public struct _Phase2EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase2IntegrityAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
 
+        /// The action to take after DPD timeout occurs. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid Values: clear | none | restart  Default: clear 
+        public let dPDTimeoutAction: String?
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value between 0 and 30. Default: 30 
         public let dPDTimeoutSeconds: Int?
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2 
@@ -35119,12 +35571,15 @@ extension EC2 {
         public let rekeyMarginTimeSeconds: Int?
         /// The number of packets in an IKE replay window. Constraints: A value between 64 and 2048. Default: 1024 
         public let replayWindowSize: Int?
+        /// The action to take when the establishing the tunnel for the VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid Values: add | start  Default: add 
+        public let startupAction: String?
         /// The range of inside IPv4 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same virtual private gateway.  Constraints: A size /30 CIDR block from the 169.254.0.0/16 range. The following CIDR blocks are reserved and cannot be used:    169.254.0.0/30     169.254.1.0/30     169.254.2.0/30     169.254.3.0/30     169.254.4.0/30     169.254.5.0/30     169.254.169.252/30   
         public let tunnelInsideCidr: String?
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dPDTimeoutSeconds: Int? = nil, iKEVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+        public init(dPDTimeoutAction: String? = nil, dPDTimeoutSeconds: Int? = nil, iKEVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+            self.dPDTimeoutAction = dPDTimeoutAction
             self.dPDTimeoutSeconds = dPDTimeoutSeconds
             self.iKEVersions = iKEVersions
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
@@ -35139,11 +35594,13 @@ extension EC2 {
             self.rekeyFuzzPercentage = rekeyFuzzPercentage
             self.rekeyMarginTimeSeconds = rekeyMarginTimeSeconds
             self.replayWindowSize = replayWindowSize
+            self.startupAction = startupAction
             self.tunnelInsideCidr = tunnelInsideCidr
             self.tunnelInsideIpv6Cidr = tunnelInsideIpv6Cidr
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dPDTimeoutAction = "DPDTimeoutAction"
             case dPDTimeoutSeconds = "DPDTimeoutSeconds"
             case iKEVersions = "IKEVersion"
             case phase1DHGroupNumbers = "Phase1DHGroupNumber"
@@ -35158,6 +35615,7 @@ extension EC2 {
             case rekeyFuzzPercentage = "RekeyFuzzPercentage"
             case rekeyMarginTimeSeconds = "RekeyMarginTimeSeconds"
             case replayWindowSize = "ReplayWindowSize"
+            case startupAction = "StartupAction"
             case tunnelInsideCidr = "TunnelInsideCidr"
             case tunnelInsideIpv6Cidr = "TunnelInsideIpv6Cidr"
         }

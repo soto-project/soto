@@ -424,6 +424,7 @@ extension S3 {
     public struct AbortMultipartUploadRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "uploadId", location: .querystring(locationName: "uploadId"))
@@ -431,14 +432,17 @@ extension S3 {
 
         /// The bucket name to which the upload was taking place.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Key of the object for which the multipart upload was initiated.
         public let key: String
         public let requestPayer: RequestPayer?
         /// Upload ID that identifies the multipart upload.
         public let uploadId: String
 
-        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, uploadId: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, uploadId: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.requestPayer = requestPayer
             self.uploadId = uploadId
@@ -881,6 +885,7 @@ extension S3 {
         public static let _payloadPath: String = "multipartUpload"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "multipartUpload", location: .body(locationName: "CompleteMultipartUpload")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
@@ -889,6 +894,8 @@ extension S3 {
 
         /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Object key for which the multipart upload was initiated.
         public let key: String
         /// The container for the multipart upload request information.
@@ -897,8 +904,9 @@ extension S3 {
         /// ID for the initiated multipart upload.
         public let uploadId: String
 
-        public init(bucket: String, key: String, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.multipartUpload = multipartUpload
             self.requestPayer = requestPayer
@@ -1053,6 +1061,8 @@ extension S3 {
             AWSMemberEncoding(label: "copySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm")), 
             AWSMemberEncoding(label: "copySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key")), 
             AWSMemberEncoding(label: "copySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "expectedSourceBucketOwner", location: .header(locationName: "x-amz-source-expected-bucket-owner")), 
             AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
             AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
             AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
@@ -1091,7 +1101,7 @@ extension S3 {
         public let contentLanguage: String?
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
-        /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
+        /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point:   For objects not accessed through an access point, specify the name of the source bucket and the key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL encoded.   For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:accesspoint/&lt;access-point-name&gt;/object/&lt;key&gt;. For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded.  Amazon S3 supports copy operations using access points only when the source and destination buckets are in the same AWS Region.    To copy a specific version of an object, append ?versionId=&lt;version-id&gt; to the value (for example, awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you don't specify a version ID, Amazon S3 copies the latest version of the source object.
         public let copySource: String
         /// Copies the object if its entity tag (ETag) matches the specified tag.
         public let copySourceIfMatch: String?
@@ -1107,6 +1117,10 @@ extension S3 {
         public let copySourceSSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let copySourceSSECustomerKeyMD5: String?
+        /// The account id of the expected destination bucket owner. If the destination bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
+        /// The account id of the expected source bucket owner. If the source bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedSourceBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
         public let expires: TimeStamp?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
@@ -1134,7 +1148,7 @@ extension S3 {
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
@@ -1151,7 +1165,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.cacheControl = cacheControl
@@ -1167,6 +1181,8 @@ extension S3 {
             self.copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm
             self.copySourceSSECustomerKey = copySourceSSECustomerKey
             self.copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5
+            self.expectedBucketOwner = expectedBucketOwner
+            self.expectedSourceBucketOwner = expectedSourceBucketOwner
             self.expires = expires
             self.grantFullControl = grantFullControl
             self.grantRead = grantRead
@@ -1390,6 +1406,7 @@ extension S3 {
             AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
             AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
             AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
             AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
@@ -1426,6 +1443,8 @@ extension S3 {
         public let contentLanguage: String?
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
         public let expires: TimeStamp?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
@@ -1451,7 +1470,7 @@ extension S3 {
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
@@ -1466,7 +1485,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.cacheControl = cacheControl
@@ -1474,6 +1493,7 @@ extension S3 {
             self.contentEncoding = contentEncoding
             self.contentLanguage = contentLanguage
             self.contentType = contentType
+            self.expectedBucketOwner = expectedBucketOwner
             self.expires = expires
             self.grantFullControl = grantFullControl
             self.grantRead = grantRead
@@ -1553,16 +1573,20 @@ extension S3 {
     public struct DeleteBucketAnalyticsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
         /// The name of the bucket from which an analytics configuration is deleted.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The ID that identifies the analytics configuration.
         public let id: String
 
-        public init(bucket: String, id: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
         }
 
@@ -1571,14 +1595,18 @@ extension S3 {
 
     public struct DeleteBucketCorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// Specifies the bucket whose cors configuration is being deleted.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1586,14 +1614,18 @@ extension S3 {
 
     public struct DeleteBucketEncryptionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket containing the server-side encryption configuration to delete.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1602,16 +1634,20 @@ extension S3 {
     public struct DeleteBucketInventoryConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
         /// The name of the bucket containing the inventory configuration to delete.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The ID used to identify the inventory configuration.
         public let id: String
 
-        public init(bucket: String, id: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
         }
 
@@ -1620,14 +1656,18 @@ extension S3 {
 
     public struct DeleteBucketLifecycleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket name of the lifecycle to delete.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1636,16 +1676,20 @@ extension S3 {
     public struct DeleteBucketMetricsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
         /// The name of the bucket containing the metrics configuration to delete.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The ID used to identify the metrics configuration.
         public let id: String
 
-        public init(bucket: String, id: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
         }
 
@@ -1654,14 +1698,18 @@ extension S3 {
 
     public struct DeleteBucketPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket name.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1669,14 +1717,18 @@ extension S3 {
 
     public struct DeleteBucketReplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         ///  The bucket name. 
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1684,14 +1736,18 @@ extension S3 {
 
     public struct DeleteBucketRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// Specifies the bucket being deleted.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1699,14 +1755,18 @@ extension S3 {
 
     public struct DeleteBucketTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket that has the tag set to be removed.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1714,14 +1774,18 @@ extension S3 {
 
     public struct DeleteBucketWebsiteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket name for which you want to remove the website configuration. 
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1801,6 +1865,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
@@ -1811,6 +1876,8 @@ extension S3 {
         public let bucket: String
         /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation.
         public let bypassGovernanceRetention: Bool?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Key name of the object to delete.
         public let key: String
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled.
@@ -1819,9 +1886,10 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, key: String, mfa: String? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, expectedBucketOwner: String? = nil, key: String, mfa: String? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.mfa = mfa
             self.requestPayer = requestPayer
@@ -1855,19 +1923,23 @@ extension S3 {
     public struct DeleteObjectTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
         /// The bucket name containing the objects from which to remove the tags.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Name of the object key.
         public let key: String
         /// The versionId of the object that the tag-set will be removed from.
         public let versionId: String?
 
-        public init(bucket: String, key: String, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.versionId = versionId
         }
@@ -1910,6 +1982,7 @@ extension S3 {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
             AWSMemberEncoding(label: "delete", location: .body(locationName: "Delete")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer"))
         ]
@@ -1920,14 +1993,17 @@ extension S3 {
         public let bypassGovernanceRetention: Bool?
         /// Container for the request.
         public let delete: Delete
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled.
         public let mfa: String?
         public let requestPayer: RequestPayer?
 
-        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, delete: Delete, mfa: String? = nil, requestPayer: RequestPayer? = nil) {
+        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, delete: Delete, expectedBucketOwner: String? = nil, mfa: String? = nil, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.delete = delete
+            self.expectedBucketOwner = expectedBucketOwner
             self.mfa = mfa
             self.requestPayer = requestPayer
         }
@@ -1943,14 +2019,18 @@ extension S3 {
 
     public struct DeletePublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete. 
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2155,14 +2235,18 @@ extension S3 {
 
     public struct GetBucketAccelerateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// Name of the bucket for which the accelerate configuration is retrieved.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2190,14 +2274,18 @@ extension S3 {
 
     public struct GetBucketAclRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// Specifies the S3 bucket whose ACL is being requested.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2225,16 +2313,20 @@ extension S3 {
     public struct GetBucketAnalyticsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
         /// The name of the bucket from which an analytics configuration is retrieved.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The ID that identifies the analytics configuration.
         public let id: String
 
-        public init(bucket: String, id: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
         }
 
@@ -2257,14 +2349,18 @@ extension S3 {
 
     public struct GetBucketCorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket name for which to get the cors configuration.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2290,14 +2386,18 @@ extension S3 {
 
     public struct GetBucketEncryptionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket from which the server-side encryption configuration is retrieved.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2325,16 +2425,20 @@ extension S3 {
     public struct GetBucketInventoryConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
         /// The name of the bucket containing the inventory configuration to retrieve.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The ID used to identify the inventory configuration.
         public let id: String
 
-        public init(bucket: String, id: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
         }
 
@@ -2357,14 +2461,18 @@ extension S3 {
 
     public struct GetBucketLifecycleConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket for which to get the lifecycle information.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2386,14 +2494,18 @@ extension S3 {
 
     public struct GetBucketLifecycleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket for which to get the lifecycle information.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2415,14 +2527,18 @@ extension S3 {
 
     public struct GetBucketLocationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket for which to get the location.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2443,14 +2559,18 @@ extension S3 {
 
     public struct GetBucketLoggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket name for which to get the logging information.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2478,16 +2598,20 @@ extension S3 {
     public struct GetBucketMetricsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
         /// The name of the bucket containing the metrics configuration to retrieve.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The ID used to identify the metrics configuration.
         public let id: String
 
-        public init(bucket: String, id: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
         }
 
@@ -2496,14 +2620,18 @@ extension S3 {
 
     public struct GetBucketNotificationConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// Name of the bucket for which to get the notification configuration.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2530,14 +2658,18 @@ extension S3 {
 
     public struct GetBucketPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket name for which to get the bucket policy.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2564,14 +2696,18 @@ extension S3 {
 
     public struct GetBucketPolicyStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the Amazon S3 bucket whose policy status you want to retrieve.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2597,14 +2733,18 @@ extension S3 {
 
     public struct GetBucketReplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket name for which to get the replication information.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2626,14 +2766,18 @@ extension S3 {
 
     public struct GetBucketRequestPaymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket for which to get the payment request configuration
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2657,14 +2801,18 @@ extension S3 {
 
     public struct GetBucketTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket for which to get the tagging information.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2690,14 +2838,18 @@ extension S3 {
 
     public struct GetBucketVersioningRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket for which to get the versioning information.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2733,14 +2885,18 @@ extension S3 {
 
     public struct GetBucketWebsiteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket name for which to get the website configuration.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2775,6 +2931,7 @@ extension S3 {
     public struct GetObjectAclRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
@@ -2782,14 +2939,17 @@ extension S3 {
 
         /// The bucket name that contains the object for which to get the ACL information.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The key of the object for which to get the ACL information.
         public let key: String
         public let requestPayer: RequestPayer?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.requestPayer = requestPayer
             self.versionId = versionId
@@ -2824,6 +2984,7 @@ extension S3 {
     public struct GetObjectLegalHoldRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
@@ -2831,14 +2992,17 @@ extension S3 {
 
         /// The bucket name containing the object whose Legal Hold status you want to retrieve.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The key name for the object whose Legal Hold status you want to retrieve.
         public let key: String
         public let requestPayer: RequestPayer?
         /// The version ID of the object whose Legal Hold status you want to retrieve.
         public let versionId: String?
 
-        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.requestPayer = requestPayer
             self.versionId = versionId
@@ -2872,14 +3036,18 @@ extension S3 {
 
     public struct GetObjectLockConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket whose Object Lock configuration you want to retrieve.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3057,6 +3225,7 @@ extension S3 {
     public struct GetObjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
             AWSMemberEncoding(label: "ifModifiedSince", location: .header(locationName: "If-Modified-Since")), 
             AWSMemberEncoding(label: "ifNoneMatch", location: .header(locationName: "If-None-Match")), 
@@ -3079,6 +3248,8 @@ extension S3 {
 
         /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
@@ -3108,15 +3279,16 @@ extension S3 {
         public let responseExpires: TimeStamp?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, responseCacheControl: String? = nil, responseContentDisposition: String? = nil, responseContentEncoding: String? = nil, responseContentLanguage: String? = nil, responseContentType: String? = nil, responseExpires: TimeStamp? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, responseCacheControl: String? = nil, responseContentDisposition: String? = nil, responseContentEncoding: String? = nil, responseContentLanguage: String? = nil, responseContentType: String? = nil, responseExpires: TimeStamp? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.ifMatch = ifMatch
             self.ifModifiedSince = ifModifiedSince
             self.ifNoneMatch = ifNoneMatch
@@ -3166,6 +3338,7 @@ extension S3 {
     public struct GetObjectRetentionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
@@ -3173,14 +3346,17 @@ extension S3 {
 
         /// The bucket name containing the object whose retention settings you want to retrieve.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The key name for the object whose retention settings you want to retrieve.
         public let key: String
         public let requestPayer: RequestPayer?
         /// The version ID for the object whose retention settings you want to retrieve.
         public let versionId: String?
 
-        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.requestPayer = requestPayer
             self.versionId = versionId
@@ -3219,19 +3395,23 @@ extension S3 {
     public struct GetObjectTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
         /// The bucket name containing the object for which to get the tagging information.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Object key for which to get the tagging information.
         public let key: String
         /// The versionId of the object for which to get the tagging information.
         public let versionId: String?
 
-        public init(bucket: String, key: String, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.versionId = versionId
         }
@@ -3270,18 +3450,22 @@ extension S3 {
     public struct GetObjectTorrentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer"))
         ]
 
         /// The name of the bucket containing the object for which to get the torrent files.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The object key for which to get the information.
         public let key: String
         public let requestPayer: RequestPayer?
 
-        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.requestPayer = requestPayer
         }
@@ -3314,14 +3498,18 @@ extension S3 {
 
     public struct GetPublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve. 
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3392,14 +3580,18 @@ extension S3 {
 
     public struct HeadBucketRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The bucket name.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3559,6 +3751,7 @@ extension S3 {
     public struct HeadObjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
             AWSMemberEncoding(label: "ifModifiedSince", location: .header(locationName: "If-Modified-Since")), 
             AWSMemberEncoding(label: "ifNoneMatch", location: .header(locationName: "If-None-Match")), 
@@ -3575,6 +3768,8 @@ extension S3 {
 
         /// The name of the bucket containing the object.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
@@ -3592,15 +3787,16 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.ifMatch = ifMatch
             self.ifModifiedSince = ifModifiedSince
             self.ifNoneMatch = ifNoneMatch
@@ -4023,17 +4219,21 @@ extension S3 {
     public struct ListBucketAnalyticsConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token"))
+            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket from which analytics configurations are retrieved.
         public let bucket: String
         /// The ContinuationToken that represents a placeholder from where this request should begin.
         public let continuationToken: String?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String, continuationToken: String? = nil) {
+        public init(bucket: String, continuationToken: String? = nil, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4068,17 +4268,21 @@ extension S3 {
     public struct ListBucketInventoryConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token"))
+            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket containing the inventory configurations to retrieve.
         public let bucket: String
         /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
         public let continuationToken: String?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String, continuationToken: String? = nil) {
+        public init(bucket: String, continuationToken: String? = nil, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4113,17 +4317,21 @@ extension S3 {
     public struct ListBucketMetricsConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token"))
+            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket containing the metrics configurations to retrieve.
         public let bucket: String
         /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
         public let continuationToken: String?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String, continuationToken: String? = nil) {
+        public init(bucket: String, continuationToken: String? = nil, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4212,6 +4420,7 @@ extension S3 {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
             AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "keyMarker", location: .querystring(locationName: "key-marker")), 
             AWSMemberEncoding(label: "maxUploads", location: .querystring(locationName: "max-uploads")), 
             AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")), 
@@ -4223,6 +4432,8 @@ extension S3 {
         /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response.
         public let delimiter: String?
         public let encodingType: EncodingType?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin. If upload-id-marker is not specified, only the keys lexicographically greater than the specified key-marker will be included in the list. If upload-id-marker is specified, any multipart uploads for a key equal to the key-marker might also be included, provided those multipart uploads have upload IDs lexicographically greater than the specified upload-id-marker.
         public let keyMarker: String?
         /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
@@ -4232,10 +4443,11 @@ extension S3 {
         /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker.
         public let uploadIdMarker: String?
 
-        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil, maxUploads: Int? = nil, prefix: String? = nil, uploadIdMarker: String? = nil) {
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxUploads: Int? = nil, prefix: String? = nil, uploadIdMarker: String? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
             self.encodingType = encodingType
+            self.expectedBucketOwner = expectedBucketOwner
             self.keyMarker = keyMarker
             self.maxUploads = maxUploads
             self.prefix = prefix
@@ -4312,6 +4524,7 @@ extension S3 {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
             AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "keyMarker", location: .querystring(locationName: "key-marker")), 
             AWSMemberEncoding(label: "maxKeys", location: .querystring(locationName: "max-keys")), 
             AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")), 
@@ -4323,6 +4536,8 @@ extension S3 {
         /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
         public let delimiter: String?
         public let encodingType: EncodingType?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Specifies the key to start with when listing objects in a bucket.
         public let keyMarker: String?
         /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more. If additional keys satisfy the search criteria, but were not returned because max-keys was exceeded, the response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;. To return the additional keys, see key-marker and version-id-marker.
@@ -4332,10 +4547,11 @@ extension S3 {
         /// Specifies the object version you want to start listing from.
         public let versionIdMarker: String?
 
-        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil, maxKeys: Int? = nil, prefix: String? = nil, versionIdMarker: String? = nil) {
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxKeys: Int? = nil, prefix: String? = nil, versionIdMarker: String? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
             self.encodingType = encodingType
+            self.expectedBucketOwner = expectedBucketOwner
             self.keyMarker = keyMarker
             self.maxKeys = maxKeys
             self.prefix = prefix
@@ -4400,6 +4616,7 @@ extension S3 {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
             AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
             AWSMemberEncoding(label: "maxKeys", location: .querystring(locationName: "max-keys")), 
             AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")), 
@@ -4411,6 +4628,8 @@ extension S3 {
         /// A delimiter is a character you use to group keys.
         public let delimiter: String?
         public let encodingType: EncodingType?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Specifies the key to start with when listing objects in a bucket.
         public let marker: String?
         /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more. 
@@ -4420,10 +4639,11 @@ extension S3 {
         /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
         public let requestPayer: RequestPayer?
 
-        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, marker: String? = nil, maxKeys: Int? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil) {
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, marker: String? = nil, maxKeys: Int? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
             self.encodingType = encodingType
+            self.expectedBucketOwner = expectedBucketOwner
             self.marker = marker
             self.maxKeys = maxKeys
             self.prefix = prefix
@@ -4497,6 +4717,7 @@ extension S3 {
             AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")), 
             AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
             AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "fetchOwner", location: .querystring(locationName: "fetch-owner")), 
             AWSMemberEncoding(label: "maxKeys", location: .querystring(locationName: "max-keys")), 
             AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")), 
@@ -4512,6 +4733,8 @@ extension S3 {
         public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
         public let encodingType: EncodingType?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true.
         public let fetchOwner: Bool?
         /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
@@ -4523,11 +4746,12 @@ extension S3 {
         /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket.
         public let startAfter: String?
 
-        public init(bucket: String, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, fetchOwner: Bool? = nil, maxKeys: Int? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil, startAfter: String? = nil) {
+        public init(bucket: String, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, fetchOwner: Bool? = nil, maxKeys: Int? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil, startAfter: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
             self.delimiter = delimiter
             self.encodingType = encodingType
+            self.expectedBucketOwner = expectedBucketOwner
             self.fetchOwner = fetchOwner
             self.maxKeys = maxKeys
             self.prefix = prefix
@@ -4611,6 +4835,7 @@ extension S3 {
     public struct ListPartsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "maxParts", location: .querystring(locationName: "max-parts")), 
             AWSMemberEncoding(label: "partNumberMarker", location: .querystring(locationName: "part-number-marker")), 
@@ -4620,6 +4845,8 @@ extension S3 {
 
         /// Name of the bucket to which the parts are being uploaded.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Object key for which the multipart upload was initiated.
         public let key: String
         /// Sets the maximum number of parts to return.
@@ -4630,8 +4857,9 @@ extension S3 {
         /// Upload ID identifying the multipart upload whose parts are being listed.
         public let uploadId: String
 
-        public init(bucket: String, key: String, maxParts: Int? = nil, partNumberMarker: Int? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, maxParts: Int? = nil, partNumberMarker: Int? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.maxParts = maxParts
             self.partNumberMarker = partNumberMarker
@@ -5241,17 +5469,21 @@ extension S3 {
         public static let _payloadPath: String = "accelerateConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "accelerateConfiguration", location: .body(locationName: "AccelerateConfiguration")), 
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// Container for setting the transfer acceleration state.
         public let accelerateConfiguration: AccelerateConfiguration
         /// Name of the bucket for which the accelerate configuration is set.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(accelerateConfiguration: AccelerateConfiguration, bucket: String) {
+        public init(accelerateConfiguration: AccelerateConfiguration, bucket: String, expectedBucketOwner: String? = nil) {
             self.accelerateConfiguration = accelerateConfiguration
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5266,6 +5498,7 @@ extension S3 {
             AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
             AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
             AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
@@ -5279,6 +5512,8 @@ extension S3 {
         public let acl: BucketCannedACL?
         /// The bucket to which to apply the ACL.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
         public let grantFullControl: String?
         /// Allows grantee to list the objects in the bucket.
@@ -5290,10 +5525,11 @@ extension S3 {
         /// Allows grantee to write the ACL for the applicable bucket.
         public let grantWriteACP: String?
 
-        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: BucketCannedACL? = nil, bucket: String, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil) {
+        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: BucketCannedACL? = nil, bucket: String, expectedBucketOwner: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil) {
             self.accessControlPolicy = accessControlPolicy
             self.acl = acl
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.grantFullControl = grantFullControl
             self.grantRead = grantRead
             self.grantReadACP = grantReadACP
@@ -5312,6 +5548,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
@@ -5319,12 +5556,15 @@ extension S3 {
         public let analyticsConfiguration: AnalyticsConfiguration
         /// The name of the bucket to which an analytics configuration is stored.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The ID that identifies the analytics configuration.
         public let id: String
 
-        public init(analyticsConfiguration: AnalyticsConfiguration, bucket: String, id: String) {
+        public init(analyticsConfiguration: AnalyticsConfiguration, bucket: String, expectedBucketOwner: String? = nil, id: String) {
             self.analyticsConfiguration = analyticsConfiguration
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
         }
 
@@ -5342,17 +5582,21 @@ extension S3 {
         public static let _payloadPath: String = "cORSConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "cORSConfiguration", location: .body(locationName: "CORSConfiguration"))
+            AWSMemberEncoding(label: "cORSConfiguration", location: .body(locationName: "CORSConfiguration")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// Specifies the bucket impacted by the corsconfiguration.
         public let bucket: String
         /// Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon Simple Storage Service Developer Guide.
         public let cORSConfiguration: CORSConfiguration
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String, cORSConfiguration: CORSConfiguration) {
+        public init(bucket: String, cORSConfiguration: CORSConfiguration, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.cORSConfiguration = cORSConfiguration
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5365,15 +5609,19 @@ extension S3 {
         public static let _payloadPath: String = "serverSideEncryptionConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "serverSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"))
         ]
 
         /// Specifies default encryption for a bucket using server-side encryption with Amazon S3-managed keys (SSE-S3) or customer master keys stored in AWS KMS (SSE-KMS). For information about the Amazon S3 default encryption feature, see Amazon S3 Default Bucket Encryption in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
 
-        public init(bucket: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
 
@@ -5387,19 +5635,23 @@ extension S3 {
         public static let _payloadPath: String = "inventoryConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")), 
             AWSMemberEncoding(label: "inventoryConfiguration", location: .body(locationName: "InventoryConfiguration"))
         ]
 
         /// The name of the bucket where the inventory configuration will be stored.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The ID used to identify the inventory configuration.
         public let id: String
         /// Specifies the inventory configuration.
         public let inventoryConfiguration: InventoryConfiguration
 
-        public init(bucket: String, id: String, inventoryConfiguration: InventoryConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String, inventoryConfiguration: InventoryConfiguration) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
             self.inventoryConfiguration = inventoryConfiguration
         }
@@ -5414,16 +5666,20 @@ extension S3 {
         public static let _payloadPath: String = "lifecycleConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
         ]
 
         /// The name of the bucket for which to set the configuration.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Container for lifecycle rules. You can add as many as 1,000 rules.
         public let lifecycleConfiguration: BucketLifecycleConfiguration?
 
-        public init(bucket: String, lifecycleConfiguration: BucketLifecycleConfiguration? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, lifecycleConfiguration: BucketLifecycleConfiguration? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.lifecycleConfiguration = lifecycleConfiguration
         }
 
@@ -5441,14 +5697,18 @@ extension S3 {
         public static let _payloadPath: String = "lifecycleConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
         ]
 
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         public let lifecycleConfiguration: LifecycleConfiguration?
 
-        public init(bucket: String, lifecycleConfiguration: LifecycleConfiguration? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, lifecycleConfiguration: LifecycleConfiguration? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.lifecycleConfiguration = lifecycleConfiguration
         }
 
@@ -5462,17 +5722,21 @@ extension S3 {
         public static let _payloadPath: String = "bucketLoggingStatus"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
-            AWSMemberEncoding(label: "bucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus"))
+            AWSMemberEncoding(label: "bucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
         /// The name of the bucket for which to set the logging parameters.
         public let bucket: String
         /// Container for logging status information.
         public let bucketLoggingStatus: BucketLoggingStatus
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
 
-        public init(bucket: String, bucketLoggingStatus: BucketLoggingStatus) {
+        public init(bucket: String, bucketLoggingStatus: BucketLoggingStatus, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.bucketLoggingStatus = bucketLoggingStatus
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5485,19 +5749,23 @@ extension S3 {
         public static let _payloadPath: String = "metricsConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")), 
             AWSMemberEncoding(label: "metricsConfiguration", location: .body(locationName: "MetricsConfiguration"))
         ]
 
         /// The name of the bucket for which the metrics configuration is set.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The ID used to identify the metrics configuration.
         public let id: String
         /// Specifies the metrics configuration.
         public let metricsConfiguration: MetricsConfiguration
 
-        public init(bucket: String, id: String, metricsConfiguration: MetricsConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String, metricsConfiguration: MetricsConfiguration) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
             self.metricsConfiguration = metricsConfiguration
         }
@@ -5516,15 +5784,19 @@ extension S3 {
         public static let _payloadPath: String = "notificationConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "notificationConfiguration", location: .body(locationName: "NotificationConfiguration"))
         ]
 
         /// The name of the bucket.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         public let notificationConfiguration: NotificationConfiguration
 
-        public init(bucket: String, notificationConfiguration: NotificationConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, notificationConfiguration: NotificationConfiguration) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.notificationConfiguration = notificationConfiguration
         }
 
@@ -5538,16 +5810,20 @@ extension S3 {
         public static let _payloadPath: String = "notificationConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "notificationConfiguration", location: .body(locationName: "NotificationConfiguration"))
         ]
 
         /// The name of the bucket.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The container for the configuration.
         public let notificationConfiguration: NotificationConfigurationDeprecated
 
-        public init(bucket: String, notificationConfiguration: NotificationConfigurationDeprecated) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, notificationConfiguration: NotificationConfigurationDeprecated) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.notificationConfiguration = notificationConfiguration
         }
 
@@ -5562,6 +5838,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "policy", location: .body(locationName: "Policy"))
         ]
 
@@ -5569,12 +5846,15 @@ extension S3 {
         public let bucket: String
         /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
         public let confirmRemoveSelfBucketAccess: Bool?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The bucket policy as a JSON document.
         public let policy: String
 
-        public init(bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, policy: String) {
+        public init(bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, expectedBucketOwner: String? = nil, policy: String) {
             self.bucket = bucket
             self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
+            self.expectedBucketOwner = expectedBucketOwner
             self.policy = policy
         }
 
@@ -5588,17 +5868,21 @@ extension S3 {
         public static let _payloadPath: String = "replicationConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "replicationConfiguration", location: .body(locationName: "ReplicationConfiguration")), 
             AWSMemberEncoding(label: "token", location: .header(locationName: "x-amz-bucket-object-lock-token"))
         ]
 
         /// The name of the bucket
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         public let replicationConfiguration: ReplicationConfiguration
         public let token: String?
 
-        public init(bucket: String, replicationConfiguration: ReplicationConfiguration, token: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, replicationConfiguration: ReplicationConfiguration, token: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.replicationConfiguration = replicationConfiguration
             self.token = token
         }
@@ -5617,16 +5901,20 @@ extension S3 {
         public static let _payloadPath: String = "requestPaymentConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "requestPaymentConfiguration", location: .body(locationName: "RequestPaymentConfiguration"))
         ]
 
         /// The bucket name.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Container for Payer.
         public let requestPaymentConfiguration: RequestPaymentConfiguration
 
-        public init(bucket: String, requestPaymentConfiguration: RequestPaymentConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, requestPaymentConfiguration: RequestPaymentConfiguration) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.requestPaymentConfiguration = requestPaymentConfiguration
         }
 
@@ -5640,16 +5928,20 @@ extension S3 {
         public static let _payloadPath: String = "tagging"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging"))
         ]
 
         /// The bucket name.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Container for the TagSet and Tag elements.
         public let tagging: Tagging
 
-        public init(bucket: String, tagging: Tagging) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, tagging: Tagging) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.tagging = tagging
         }
 
@@ -5667,19 +5959,23 @@ extension S3 {
         public static let _payloadPath: String = "versioningConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")), 
             AWSMemberEncoding(label: "versioningConfiguration", location: .body(locationName: "VersioningConfiguration"))
         ]
 
         /// The bucket name.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
         public let mfa: String?
         /// Container for setting the versioning state.
         public let versioningConfiguration: VersioningConfiguration
 
-        public init(bucket: String, mfa: String? = nil, versioningConfiguration: VersioningConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, mfa: String? = nil, versioningConfiguration: VersioningConfiguration) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.mfa = mfa
             self.versioningConfiguration = versioningConfiguration
         }
@@ -5694,16 +5990,20 @@ extension S3 {
         public static let _payloadPath: String = "websiteConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "websiteConfiguration", location: .body(locationName: "WebsiteConfiguration"))
         ]
 
         /// The bucket name.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Container for the request.
         public let websiteConfiguration: WebsiteConfiguration
 
-        public init(bucket: String, websiteConfiguration: WebsiteConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, websiteConfiguration: WebsiteConfiguration) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.websiteConfiguration = websiteConfiguration
         }
 
@@ -5739,6 +6039,7 @@ extension S3 {
             AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
             AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
             AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
@@ -5755,6 +6056,8 @@ extension S3 {
         public let acl: ObjectCannedACL?
         /// The bucket name that contains the object to which you want to attach the ACL.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
         public let grantFullControl: String?
         /// Allows grantee to list the objects in the bucket.
@@ -5771,10 +6074,11 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: ObjectCannedACL? = nil, bucket: String, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: ObjectCannedACL? = nil, bucket: String, expectedBucketOwner: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.accessControlPolicy = accessControlPolicy
             self.acl = acl
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.grantFullControl = grantFullControl
             self.grantRead = grantRead
             self.grantReadACP = grantReadACP
@@ -5815,6 +6119,7 @@ extension S3 {
         public static let _payloadPath: String = "legalHold"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "legalHold", location: .body(locationName: "LegalHold")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
@@ -5823,6 +6128,8 @@ extension S3 {
 
         /// The bucket name containing the object that you want to place a Legal Hold on.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The key name for the object that you want to place a Legal Hold on.
         public let key: String
         /// Container element for the Legal Hold configuration you want to apply to the specified object.
@@ -5831,8 +6138,9 @@ extension S3 {
         /// The version ID of the object that you want to place a Legal Hold on.
         public let versionId: String?
 
-        public init(bucket: String, key: String, legalHold: ObjectLockLegalHold? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, legalHold: ObjectLockLegalHold? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.legalHold = legalHold
             self.requestPayer = requestPayer
@@ -5869,6 +6177,7 @@ extension S3 {
         public static let _payloadPath: String = "objectLockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "objectLockConfiguration", location: .body(locationName: "ObjectLockConfiguration")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "token", location: .header(locationName: "x-amz-bucket-object-lock-token"))
@@ -5876,14 +6185,17 @@ extension S3 {
 
         /// The bucket whose Object Lock configuration you want to create or replace.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The Object Lock configuration that you want to apply to the specified bucket.
         public let objectLockConfiguration: ObjectLockConfiguration?
         public let requestPayer: RequestPayer?
         /// A token to allow Object Lock to be enabled for an existing bucket.
         public let token: String?
 
-        public init(bucket: String, objectLockConfiguration: ObjectLockConfiguration? = nil, requestPayer: RequestPayer? = nil, token: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, objectLockConfiguration: ObjectLockConfiguration? = nil, requestPayer: RequestPayer? = nil, token: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.objectLockConfiguration = objectLockConfiguration
             self.requestPayer = requestPayer
             self.token = token
@@ -5965,6 +6277,7 @@ extension S3 {
             AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
             AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
             AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
@@ -6007,6 +6320,8 @@ extension S3 {
         public let contentMD5: String?
         /// A standard MIME type describing the format of the contents. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17.
         public let contentType: String?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21.
         public let expires: TimeStamp?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
@@ -6032,7 +6347,7 @@ extension S3 {
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
@@ -6047,7 +6362,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects. 
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, body: AWSPayload? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSPayload? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -6058,6 +6373,7 @@ extension S3 {
             self.contentLength = contentLength
             self.contentMD5 = contentMD5
             self.contentType = contentType
+            self.expectedBucketOwner = expectedBucketOwner
             self.expires = expires
             self.grantFullControl = grantFullControl
             self.grantRead = grantRead
@@ -6109,6 +6425,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "retention", location: .body(locationName: "Retention")), 
@@ -6119,6 +6436,8 @@ extension S3 {
         public let bucket: String
         /// Indicates whether this operation should bypass Governance-mode restrictions.
         public let bypassGovernanceRetention: Bool?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The key name for the object that you want to apply this Object Retention configuration to.
         public let key: String
         public let requestPayer: RequestPayer?
@@ -6127,9 +6446,10 @@ extension S3 {
         /// The version ID for the object that you want to apply this Object Retention configuration to.
         public let versionId: String?
 
-        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, key: String, requestPayer: RequestPayer? = nil, retention: ObjectLockRetention? = nil, versionId: String? = nil) {
+        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, retention: ObjectLockRetention? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.requestPayer = requestPayer
             self.retention = retention
@@ -6167,6 +6487,7 @@ extension S3 {
         public static let _payloadPath: String = "tagging"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
@@ -6174,6 +6495,8 @@ extension S3 {
 
         /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Name of the object key.
         public let key: String
         /// Container for the TagSet and Tag elements
@@ -6181,8 +6504,9 @@ extension S3 {
         /// The versionId of the object that the tag-set will be added to.
         public let versionId: String?
 
-        public init(bucket: String, key: String, tagging: Tagging, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, tagging: Tagging, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.tagging = tagging
             self.versionId = versionId
@@ -6203,16 +6527,20 @@ extension S3 {
         public static let _payloadPath: String = "publicAccessBlockConfiguration"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
         ]
 
         /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to set.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see The Meaning of "Public" in the Amazon Simple Storage Service Developer Guide.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
-        public init(bucket: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
 
@@ -6534,6 +6862,7 @@ extension S3 {
         public static let _payloadPath: String = "restoreRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "restoreRequest", location: .body(locationName: "RestoreRequest")), 
@@ -6542,6 +6871,8 @@ extension S3 {
 
         /// The bucket name or containing the object to restore.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Object key for which the operation was initiated.
         public let key: String
         public let requestPayer: RequestPayer?
@@ -6549,8 +6880,9 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, restoreRequest: RestoreRequest? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, restoreRequest: RestoreRequest? = nil, versionId: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.requestPayer = requestPayer
             self.restoreRequest = restoreRequest
@@ -6822,6 +7154,7 @@ extension S3 {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
             AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")), 
@@ -6830,6 +7163,8 @@ extension S3 {
 
         /// The S3 bucket.
         public let bucket: String
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// The expression that is used to query the object.
         public let expression: String
         /// The type of the provided expression (for example, SQL).
@@ -6851,8 +7186,9 @@ extension S3 {
         /// The SSE Customer Key MD5. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerKeyMD5: String?
 
-        public init(bucket: String, expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, key: String, outputSerialization: OutputSerialization, requestProgress: RequestProgress? = nil, scanRange: ScanRange? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, key: String, outputSerialization: OutputSerialization, requestProgress: RequestProgress? = nil, scanRange: ScanRange? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.expression = expression
             self.expressionType = expressionType
             self.inputSerialization = inputSerialization
@@ -7239,6 +7575,8 @@ extension S3 {
             AWSMemberEncoding(label: "copySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm")), 
             AWSMemberEncoding(label: "copySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key")), 
             AWSMemberEncoding(label: "copySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "expectedSourceBucketOwner", location: .header(locationName: "x-amz-source-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
@@ -7250,7 +7588,7 @@ extension S3 {
 
         /// The bucket name.
         public let bucket: String
-        /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
+        /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point:   For objects not accessed through an access point, specify the name of the source bucket and key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL encoded.   For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:accesspoint/&lt;access-point-name&gt;/object/&lt;key&gt;. For example, to copy the object reports/january.pdf through the access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded.  Amazon S3 supports copy operations using access points only when the source and destination buckets are in the same AWS Region.    To copy a specific version of an object, append ?versionId=&lt;version-id&gt; to the value (for example, awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you don't specify a version ID, Amazon S3 copies the latest version of the source object.
         public let copySource: String
         /// Copies the object if its entity tag (ETag) matches the specified tag.
         public let copySourceIfMatch: String?
@@ -7268,6 +7606,10 @@ extension S3 {
         public let copySourceSSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let copySourceSSECustomerKeyMD5: String?
+        /// The account id of the expected destination bucket owner. If the destination bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
+        /// The account id of the expected source bucket owner. If the source bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedSourceBucketOwner: String?
         /// Object key for which the multipart upload was initiated.
         public let key: String
         /// Part number of part being copied. This is a positive integer between 1 and 10,000.
@@ -7275,14 +7617,14 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Upload ID identifying the multipart upload whose part is being copied.
         public let uploadId: String
 
-        public init(bucket: String, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceRange: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(bucket: String, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceRange: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
             self.bucket = bucket
             self.copySource = copySource
             self.copySourceIfMatch = copySourceIfMatch
@@ -7293,6 +7635,8 @@ extension S3 {
             self.copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm
             self.copySourceSSECustomerKey = copySourceSSECustomerKey
             self.copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5
+            self.expectedBucketOwner = expectedBucketOwner
+            self.expectedSourceBucketOwner = expectedSourceBucketOwner
             self.key = key
             self.partNumber = partNumber
             self.requestPayer = requestPayer
@@ -7360,6 +7704,7 @@ extension S3 {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
@@ -7377,6 +7722,8 @@ extension S3 {
         public let contentLength: Int64?
         /// The base64-encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameter is required if object lock parameters are specified.
         public let contentMD5: String?
+        /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
         /// Object key for which the multipart upload was initiated.
         public let key: String
         /// Part number of part being uploaded. This is a positive integer between 1 and 10,000.
@@ -7384,18 +7731,19 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Upload ID identifying the multipart upload whose part is being uploaded.
         public let uploadId: String
 
-        public init(body: AWSPayload? = nil, bucket: String, contentLength: Int64? = nil, contentMD5: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(body: AWSPayload? = nil, bucket: String, contentLength: Int64? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
             self.body = body
             self.bucket = bucket
             self.contentLength = contentLength
             self.contentMD5 = contentMD5
+            self.expectedBucketOwner = expectedBucketOwner
             self.key = key
             self.partNumber = partNumber
             self.requestPayer = requestPayer

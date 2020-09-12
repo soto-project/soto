@@ -144,9 +144,16 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum RealtimeMetricsSubscriptionStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SSLSupportMethod: String, CustomStringConvertible, Codable {
         case sniOnly = "sni-only"
         case vip = "vip"
+        case staticIp = "static-ip"
         public var description: String { return self.rawValue }
     }
 
@@ -267,6 +274,8 @@ extension CloudFront {
         public let originRequestPolicyId: String?
         /// The pattern (for example, images/*.jpg) that specifies which requests to apply the behavior to. When CloudFront receives a viewer request, the requested path is compared with path patterns in the order in which cache behaviors are listed in the distribution.  You can optionally include a slash (/) at the beginning of the path pattern. For example, /images/*.jpg. CloudFront behavior is the same with or without the leading /.  The path pattern for the default cache behavior is * and cannot be changed. If the request for an object does not match the path pattern for any cache behaviors, CloudFront applies the behavior in the default cache behavior. For more information, see Path Pattern in the  Amazon CloudFront Developer Guide.
         public let pathPattern: String
+        /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to this cache behavior. For more information, see Real-time logs in the Amazon CloudFront Developer Guide.
+        public let realtimeLogConfigArn: String?
         /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they match this cache behavior.
@@ -276,7 +285,7 @@ extension CloudFront {
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -284,6 +293,7 @@ extension CloudFront {
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.originRequestPolicyId = originRequestPolicyId
             self.pathPattern = pathPattern
+            self.realtimeLogConfigArn = realtimeLogConfigArn
             self.smoothStreaming = smoothStreaming
             self.targetOriginId = targetOriginId
             self.trustedSigners = trustedSigners
@@ -298,6 +308,7 @@ extension CloudFront {
             case lambdaFunctionAssociations = "LambdaFunctionAssociations"
             case originRequestPolicyId = "OriginRequestPolicyId"
             case pathPattern = "PathPattern"
+            case realtimeLogConfigArn = "RealtimeLogConfigArn"
             case smoothStreaming = "SmoothStreaming"
             case targetOriginId = "TargetOriginId"
             case trustedSigners = "TrustedSigners"
@@ -1022,6 +1033,48 @@ extension CloudFront {
         }
     }
 
+    public struct CreateMonitoringSubscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "monitoringSubscription"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId")), 
+            AWSMemberEncoding(label: "monitoringSubscription", location: .body(locationName: "MonitoringSubscription"))
+        ]
+
+        /// The ID of the distribution that you are enabling metrics for.
+        public let distributionId: String
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        public let monitoringSubscription: MonitoringSubscription
+
+        public init(distributionId: String, monitoringSubscription: MonitoringSubscription) {
+            self.distributionId = distributionId
+            self.monitoringSubscription = monitoringSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringSubscription = "MonitoringSubscription"
+        }
+    }
+
+    public struct CreateMonitoringSubscriptionResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "monitoringSubscription"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "monitoringSubscription", location: .body(locationName: "MonitoringSubscription"))
+        ]
+
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        public let monitoringSubscription: MonitoringSubscription?
+
+        public init(monitoringSubscription: MonitoringSubscription? = nil) {
+            self.monitoringSubscription = monitoringSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringSubscription = "MonitoringSubscription"
+        }
+    }
+
     public struct CreateOriginRequestPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "originRequestPolicyConfig"
@@ -1115,6 +1168,50 @@ extension CloudFront {
             case eTag = "ETag"
             case location = "Location"
             case publicKey = "PublicKey"
+        }
+    }
+
+    public struct CreateRealtimeLogConfigRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public struct _FieldsEncoding: ArrayCoderProperties { static public let member = "Field" }
+
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+        @Coding<DefaultArrayCoder>
+        public var endPoints: [EndPoint]
+        /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
+        @Coding<ArrayCoder<_FieldsEncoding, String>>
+        public var fields: [String]
+        /// A unique name to identify this real-time log configuration.
+        public let name: String
+        /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
+        public let samplingRate: Int64
+
+        public init(endPoints: [EndPoint], fields: [String], name: String, samplingRate: Int64) {
+            self.endPoints = endPoints
+            self.fields = fields
+            self.name = name
+            self.samplingRate = samplingRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endPoints = "EndPoints"
+            case fields = "Fields"
+            case name = "Name"
+            case samplingRate = "SamplingRate"
+        }
+    }
+
+    public struct CreateRealtimeLogConfigResult: AWSDecodableShape {
+
+        /// A real-time log configuration.
+        public let realtimeLogConfig: RealtimeLogConfig?
+
+        public init(realtimeLogConfig: RealtimeLogConfig? = nil) {
+            self.realtimeLogConfig = realtimeLogConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeLogConfig = "RealtimeLogConfig"
         }
     }
 
@@ -1331,6 +1428,8 @@ extension CloudFront {
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
         /// The unique identifier of the origin request policy that is attached to the default cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
         public let originRequestPolicyId: String?
+        /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to this cache behavior. For more information, see Real-time logs in the Amazon CloudFront Developer Guide.
+        public let realtimeLogConfigArn: String?
         /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they use the default cache behavior.
@@ -1340,13 +1439,14 @@ extension CloudFront {
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.originRequestPolicyId = originRequestPolicyId
+            self.realtimeLogConfigArn = realtimeLogConfigArn
             self.smoothStreaming = smoothStreaming
             self.targetOriginId = targetOriginId
             self.trustedSigners = trustedSigners
@@ -1360,6 +1460,7 @@ extension CloudFront {
             case fieldLevelEncryptionId = "FieldLevelEncryptionId"
             case lambdaFunctionAssociations = "LambdaFunctionAssociations"
             case originRequestPolicyId = "OriginRequestPolicyId"
+            case realtimeLogConfigArn = "RealtimeLogConfigArn"
             case smoothStreaming = "SmoothStreaming"
             case targetOriginId = "TargetOriginId"
             case trustedSigners = "TrustedSigners"
@@ -1462,6 +1563,29 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteMonitoringSubscriptionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId"))
+        ]
+
+        /// The ID of the distribution that you are disabling metrics for.
+        public let distributionId: String
+
+        public init(distributionId: String) {
+            self.distributionId = distributionId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteMonitoringSubscriptionResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteOriginRequestPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
@@ -1498,6 +1622,25 @@ extension CloudFront {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRealtimeLogConfigRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+
+        /// The Amazon Resource Name (ARN) of the real-time log configuration to delete.
+        public let arn: String?
+        /// The name of the real-time log configuration to delete.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case name = "Name"
+        }
     }
 
     public struct DeleteStreamingDistributionRequest: AWSEncodableShape {
@@ -1878,6 +2021,24 @@ extension CloudFront {
             case fieldPatterns = "FieldPatterns"
             case providerId = "ProviderId"
             case publicKeyId = "PublicKeyId"
+        }
+    }
+
+    public struct EndPoint: AWSEncodableShape & AWSDecodableShape {
+
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+        public let kinesisStreamConfig: KinesisStreamConfig?
+        /// The type of data stream where you are sending real-time log data. The only valid value is Kinesis.
+        public let streamType: String
+
+        public init(kinesisStreamConfig: KinesisStreamConfig? = nil, streamType: String) {
+            self.kinesisStreamConfig = kinesisStreamConfig
+            self.streamType = streamType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisStreamConfig = "KinesisStreamConfig"
+            case streamType = "StreamType"
         }
     }
 
@@ -2567,6 +2728,40 @@ extension CloudFront {
         }
     }
 
+    public struct GetMonitoringSubscriptionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId"))
+        ]
+
+        /// The ID of the distribution that you are getting metrics information for.
+        public let distributionId: String
+
+        public init(distributionId: String) {
+            self.distributionId = distributionId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMonitoringSubscriptionResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "monitoringSubscription"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "monitoringSubscription", location: .body(locationName: "MonitoringSubscription"))
+        ]
+
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        public let monitoringSubscription: MonitoringSubscription?
+
+        public init(monitoringSubscription: MonitoringSubscription? = nil) {
+            self.monitoringSubscription = monitoringSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringSubscription = "MonitoringSubscription"
+        }
+    }
+
     public struct GetOriginRequestPolicyConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
@@ -2720,6 +2915,39 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
             case publicKey = "PublicKey"
+        }
+    }
+
+    public struct GetRealtimeLogConfigRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+
+        /// The Amazon Resource Name (ARN) of the real-time log configuration to get.
+        public let arn: String?
+        /// The name of the real-time log configuration to get.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case name = "Name"
+        }
+    }
+
+    public struct GetRealtimeLogConfigResult: AWSDecodableShape {
+
+        /// A real-time log configuration.
+        public let realtimeLogConfig: RealtimeLogConfig?
+
+        public init(realtimeLogConfig: RealtimeLogConfig? = nil) {
+            self.realtimeLogConfig = realtimeLogConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeLogConfig = "RealtimeLogConfig"
         }
     }
 
@@ -2944,6 +3172,24 @@ extension CloudFront {
         }
     }
 
+    public struct KinesisStreamConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log configuration IAM role in the Amazon CloudFront Developer Guide.
+        public let roleARN: String
+        /// The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data.
+        public let streamARN: String
+
+        public init(roleARN: String, streamARN: String) {
+            self.roleARN = roleARN
+            self.streamARN = streamARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleARN = "RoleARN"
+            case streamARN = "StreamARN"
+        }
+    }
+
     public struct LambdaFunctionAssociation: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the event type that triggers a Lambda function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.     origin-request: The function executes only when CloudFront sends a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.  
@@ -3147,6 +3393,51 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case distributionIdList = "DistributionIdList"
+        }
+    }
+
+    public struct ListDistributionsByRealtimeLogConfigRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+
+        /// Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of distributions that you want in the response.
+        public let maxItems: String?
+        /// The Amazon Resource Name (ARN) of the real-time log configuration whose associated distributions you want to list.
+        public let realtimeLogConfigArn: String?
+        /// The name of the real-time log configuration whose associated distributions you want to list.
+        public let realtimeLogConfigName: String?
+
+        public init(marker: String? = nil, maxItems: String? = nil, realtimeLogConfigArn: String? = nil, realtimeLogConfigName: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.realtimeLogConfigArn = realtimeLogConfigArn
+            self.realtimeLogConfigName = realtimeLogConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case realtimeLogConfigArn = "RealtimeLogConfigArn"
+            case realtimeLogConfigName = "RealtimeLogConfigName"
+        }
+    }
+
+    public struct ListDistributionsByRealtimeLogConfigResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "distributionList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distributionList", location: .body(locationName: "DistributionList"))
+        ]
+
+        public let distributionList: DistributionList?
+
+        public init(distributionList: DistributionList? = nil) {
+            self.distributionList = distributionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionList = "DistributionList"
         }
     }
 
@@ -3428,6 +3719,44 @@ extension CloudFront {
         }
     }
 
+    public struct ListRealtimeLogConfigsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of real-time log configurations. The response includes real-time log configurations in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of real-time log configurations that you want in the response.
+        public let maxItems: String?
+
+        public init(marker: String? = nil, maxItems: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRealtimeLogConfigsResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "realtimeLogConfigs"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "realtimeLogConfigs", location: .body(locationName: "RealtimeLogConfigs"))
+        ]
+
+        /// A list of real-time log configurations.
+        public let realtimeLogConfigs: RealtimeLogConfigs?
+
+        public init(realtimeLogConfigs: RealtimeLogConfigs? = nil) {
+            self.realtimeLogConfigs = realtimeLogConfigs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeLogConfigs = "RealtimeLogConfigs"
+        }
+    }
+
     public struct ListStreamingDistributionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
@@ -3527,6 +3856,21 @@ extension CloudFront {
             case enabled = "Enabled"
             case includeCookies = "IncludeCookies"
             case prefix = "Prefix"
+        }
+    }
+
+    public struct MonitoringSubscription: AWSEncodableShape & AWSDecodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+
+        /// A subscription configuration for additional CloudWatch metrics.
+        public let realtimeMetricsSubscriptionConfig: RealtimeMetricsSubscriptionConfig?
+
+        public init(realtimeMetricsSubscriptionConfig: RealtimeMetricsSubscriptionConfig? = nil) {
+            self.realtimeMetricsSubscriptionConfig = realtimeMetricsSubscriptionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeMetricsSubscriptionConfig = "RealtimeMetricsSubscriptionConfig"
         }
     }
 
@@ -3899,15 +4243,18 @@ extension CloudFront {
 
         /// An object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
         public let cookiesConfig: CachePolicyCookiesConfig
-        /// A flag that determines whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. If this field is true and the viewer request includes the Accept-Encoding header, then CloudFront normalizes the value of the viewer’s Accept-Encoding header to one of the following:    Accept-Encoding: gzip (if gzip is in the viewer’s Accept-Encoding header)    Accept-Encoding: identity (if gzip is not in the viewer’s Accept-Encoding header)   CloudFront includes the normalized header in the cache key and includes it in requests that CloudFront sends to the origin. If this field is false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. You can manually add Accept-Encoding to the headers whitelist like any other HTTP header. When this field is true, you should not whitelist the Accept-Encoding header in the cache policy or in an origin request policy attached to the same cache behavior. For more information, see Cache compressed objects in the Amazon CloudFront Developer Guide.
+        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingGzip field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer’s Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin   If one or both of these fields are true, you should not whitelist the Accept-Encoding header in the cache policy or in an origin request policy attached to the same cache behavior. For more information, see Cache compressed objects in the Amazon CloudFront Developer Guide. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
+        public let enableAcceptEncodingBrotli: Bool?
+        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingBrotli field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer’s Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin   If one or both of these fields are true, you should not whitelist the Accept-Encoding header in the cache policy or in an origin request policy attached to the same cache behavior. For more information, see Cache compressed objects in the Amazon CloudFront Developer Guide. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
         public let enableAcceptEncodingGzip: Bool
         /// An object that determines whether any HTTP headers (and if so, which headers) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
         public let headersConfig: CachePolicyHeadersConfig
         /// An object that determines whether any URL query strings in viewer requests (and if so, which query strings) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
         public let queryStringsConfig: CachePolicyQueryStringsConfig
 
-        public init(cookiesConfig: CachePolicyCookiesConfig, enableAcceptEncodingGzip: Bool, headersConfig: CachePolicyHeadersConfig, queryStringsConfig: CachePolicyQueryStringsConfig) {
+        public init(cookiesConfig: CachePolicyCookiesConfig, enableAcceptEncodingBrotli: Bool? = nil, enableAcceptEncodingGzip: Bool, headersConfig: CachePolicyHeadersConfig, queryStringsConfig: CachePolicyQueryStringsConfig) {
             self.cookiesConfig = cookiesConfig
+            self.enableAcceptEncodingBrotli = enableAcceptEncodingBrotli
             self.enableAcceptEncodingGzip = enableAcceptEncodingGzip
             self.headersConfig = headersConfig
             self.queryStringsConfig = queryStringsConfig
@@ -3915,6 +4262,7 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case cookiesConfig = "CookiesConfig"
+            case enableAcceptEncodingBrotli = "EnableAcceptEncodingBrotli"
             case enableAcceptEncodingGzip = "EnableAcceptEncodingGzip"
             case headersConfig = "HeadersConfig"
             case queryStringsConfig = "QueryStringsConfig"
@@ -4121,6 +4469,84 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct RealtimeLogConfig: AWSDecodableShape {
+        public struct _FieldsEncoding: ArrayCoderProperties { static public let member = "Field" }
+
+        /// The Amazon Resource Name (ARN) of this real-time log configuration.
+        public let arn: String
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data for this real-time log configuration.
+        @Coding<DefaultArrayCoder>
+        public var endPoints: [EndPoint]
+        /// A list of fields that are included in each real-time log record. In an API response, the fields are provided in the same order in which they are sent to the Amazon Kinesis data stream. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
+        @Coding<ArrayCoder<_FieldsEncoding, String>>
+        public var fields: [String]
+        /// The unique name of this real-time log configuration.
+        public let name: String
+        /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. The sampling rate is an integer between 1 and 100, inclusive.
+        public let samplingRate: Int64
+
+        public init(arn: String, endPoints: [EndPoint], fields: [String], name: String, samplingRate: Int64) {
+            self.arn = arn
+            self.endPoints = endPoints
+            self.fields = fields
+            self.name = name
+            self.samplingRate = samplingRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case endPoints = "EndPoints"
+            case fields = "Fields"
+            case name = "Name"
+            case samplingRate = "SamplingRate"
+        }
+    }
+
+    public struct RealtimeLogConfigs: AWSDecodableShape {
+
+        /// A flag that indicates whether there are more real-time log configurations than are contained in this list.
+        public let isTruncated: Bool
+        /// Contains the list of real-time log configurations.
+        @OptionalCoding<DefaultArrayCoder>
+        public var items: [RealtimeLogConfig]?
+        /// This parameter indicates where this list of real-time log configurations begins. This list includes real-time log configurations that occur after the marker.
+        public let marker: String
+        /// The maximum number of real-time log configurations requested.
+        public let maxItems: Int
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing real-time log configurations where you left off. 
+        public let nextMarker: String?
+
+        public init(isTruncated: Bool, items: [RealtimeLogConfig]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil) {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case items = "Items"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct RealtimeMetricsSubscriptionConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// A flag that indicates whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        public let realtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus
+
+        public init(realtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus) {
+            self.realtimeMetricsSubscriptionStatus = realtimeMetricsSubscriptionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeMetricsSubscriptionStatus = "RealtimeMetricsSubscriptionStatus"
         }
     }
 
@@ -4944,6 +5370,54 @@ extension CloudFront {
         }
     }
 
+    public struct UpdateRealtimeLogConfigRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public struct _FieldsEncoding: ArrayCoderProperties { static public let member = "Field" }
+
+        /// The Amazon Resource Name (ARN) for this real-time log configuration.
+        public let arn: String?
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+        @OptionalCoding<DefaultArrayCoder>
+        public var endPoints: [EndPoint]?
+        /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
+        @OptionalCoding<ArrayCoder<_FieldsEncoding, String>>
+        public var fields: [String]?
+        /// The name for this real-time log configuration.
+        public let name: String?
+        /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
+        public let samplingRate: Int64?
+
+        public init(arn: String? = nil, endPoints: [EndPoint]? = nil, fields: [String]? = nil, name: String? = nil, samplingRate: Int64? = nil) {
+            self.arn = arn
+            self.endPoints = endPoints
+            self.fields = fields
+            self.name = name
+            self.samplingRate = samplingRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case endPoints = "EndPoints"
+            case fields = "Fields"
+            case name = "Name"
+            case samplingRate = "SamplingRate"
+        }
+    }
+
+    public struct UpdateRealtimeLogConfigResult: AWSDecodableShape {
+
+        /// A real-time log configuration.
+        public let realtimeLogConfig: RealtimeLogConfig?
+
+        public init(realtimeLogConfig: RealtimeLogConfig? = nil) {
+            self.realtimeLogConfig = realtimeLogConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realtimeLogConfig = "RealtimeLogConfig"
+        }
+    }
+
     public struct UpdateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "streamingDistributionConfig"
@@ -5005,7 +5479,7 @@ extension CloudFront {
         public let iAMCertificateId: String?
         /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security Policy.  When you’re using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher.  If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
         public let minimumProtocolVersion: MinimumProtocolVersion?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don’t support SNI. This is not recommended, and results in additional monthly charges from CloudFront.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don’t set a value for this field.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don’t support SNI. This is not recommended, and results in additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the AWS Support Center.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don’t set a value for this field.
         public let sSLSupportMethod: SSLSupportMethod?
 
         public init(aCMCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {

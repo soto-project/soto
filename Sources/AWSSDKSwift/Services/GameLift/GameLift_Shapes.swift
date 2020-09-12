@@ -35,6 +35,7 @@ extension GameLift {
     public enum BalancingStrategy: String, CustomStringConvertible, Codable {
         case spotOnly = "SPOT_ONLY"
         case spotPreferred = "SPOT_PREFERRED"
+        case onDemandOnly = "ON_DEMAND_ONLY"
         public var description: String { return self.rawValue }
     }
 
@@ -256,6 +257,13 @@ extension GameLift {
 
     public enum GameServerHealthCheck: String, CustomStringConvertible, Codable {
         case healthy = "HEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GameServerInstanceStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case draining = "DRAINING"
+        case spotTerminating = "SPOT_TERMINATING"
         public var description: String { return self.rawValue }
     }
 
@@ -595,9 +603,9 @@ extension GameLift {
 
     public struct ClaimGameServerInput: AWSEncodableShape {
 
-        /// A set of custom game server properties, formatted as a single string value, to be passed to the claimed game server. 
+        /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers using ListGameServers or ClaimGameServer. 
         public let gameServerData: String?
-        /// An identifier for the game server group. When claiming a specific game server, this is the game server group whether the game server is located. When requesting that GameLift FleetIQ locate an available game server, this is the game server group to search on. You can use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value.. If you are not specifying a game server to claim, this value identifies where you want GameLift FleetIQ to look for an available game server to claim. 
         public let gameServerGroupName: String
         /// A custom string that uniquely identifies the game server to claim. If this parameter is left empty, GameLift FleetIQ searches for an available game server in the specified game server group.
         public let gameServerId: String?
@@ -629,7 +637,7 @@ extension GameLift {
 
     public struct ClaimGameServerOutput: AWSDecodableShape {
 
-        /// Object that describes the newly claimed game server resource.
+        /// Object that describes the newly claimed game server.
         public let gameServer: GameServer?
 
         public init(gameServer: GameServer? = nil) {
@@ -900,27 +908,27 @@ extension GameLift {
 
     public struct CreateGameServerGroupInput: AWSEncodableShape {
 
-        /// Configuration settings to define a scaling policy for the Auto Scaling group that is optimized for game hosting. The scaling policy uses the metric "PercentUtilizedGameServers" to maintain a buffer of idle game servers that can immediately accommodate new games and players. Once the game server and Auto Scaling groups are created, you can update the scaling policy settings directly in Auto Scaling Groups.
+        /// Configuration settings to define a scaling policy for the Auto Scaling group that is optimized for game hosting. The scaling policy uses the metric "PercentUtilizedGameServers" to maintain a buffer of idle game servers that can immediately accommodate new games and players. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the AWS console or APIs.
         public let autoScalingPolicy: GameServerGroupAutoScalingPolicy?
-        /// The fallback balancing method to use for the game server group when Spot instances in a Region become unavailable or are not viable for game hosting. Once triggered, this method remains active until Spot instances can once again be used. Method options include:   SPOT_ONLY -- If Spot instances are unavailable, the game server group provides no hosting capacity. No new instances are started, and the existing nonviable Spot instances are terminated (once current gameplay ends) and not replaced.   SPOT_PREFERRED -- If Spot instances are unavailable, the game server group continues to provide hosting capacity by using On-Demand instances. Existing nonviable Spot instances are terminated (once current gameplay ends) and replaced with new On-Demand instances.   
+        /// Indicates how GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:    SPOT_ONLY - Only Spot Instances are used in the game server group. If Spot Instances are unavailable or not viable for game hosting, the game server group provides no hosting capacity until Spot Instances can again be used. Until then, no new instances are started, and the existing nonviable Spot Instances are terminated (after current gameplay ends) and are not replaced.    SPOT_PREFERRED - (default value) Spot Instances are used whenever available in the game server group. If Spot Instances are unavailable, the game server group continues to provide hosting capacity by falling back to On-Demand Instances. Existing nonviable Spot Instances are terminated (after current gameplay ends) and are replaced with new On-Demand Instances.    ON_DEMAND_ONLY - Only On-Demand Instances are used in the game server group. No Spot Instances are used, even when available, while this balancing strategy is in force.  
         public let balancingStrategy: BalancingStrategy?
         /// An identifier for the new game server group. This value is used to generate unique ARN identifiers for the EC2 Auto Scaling group and the GameLift FleetIQ game server group. The name must be unique per Region per AWS account.
         public let gameServerGroupName: String
-        /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running may by terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running. An exception to this is Spot Instances, which may be terminated by AWS regardless of protection status. This property is set to NO_PROTECTION by default.
+        /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by AWS regardless of protection status. This property is set to NO_PROTECTION by default.
         public let gameServerProtectionPolicy: GameServerProtectionPolicy?
-        /// A set of EC2 instance types to use when creating instances in the group. The instance definitions must specify at least two different instance types that are supported by GameLift FleetIQ. For more information on instance types, see EC2 Instance Types in the Amazon EC2 User Guide.
+        /// The EC2 instance types and sizes to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by GameLift FleetIQ. For more information on instance types, see EC2 Instance Types in the Amazon EC2 User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see  Instance Weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let instanceDefinitions: [InstanceDefinition]
-        /// The EC2 launch template that contains configuration settings and game server code to be deployed to all instances in the game server group. You can specify the template using either the template name or ID. For help with creating a launch template, see Creating a Launch Template for an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
+        /// The EC2 launch template that contains configuration settings and game server code to be deployed to all instances in the game server group. You can specify the template using either the template name or ID. For help with creating a launch template, see Creating a Launch Template for an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the AWS console or APIs.
         public let launchTemplate: LaunchTemplateSpecification
-        /// The maximum number of instances allowed in the EC2 Auto Scaling group. During autoscaling events, GameLift FleetIQ and EC2 do not scale up the group above this maximum.
+        /// The maximum number of instances allowed in the EC2 Auto Scaling group. During automatic scaling events, GameLift FleetIQ and EC2 do not scale up the group above this maximum. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the AWS console or APIs.
         public let maxSize: Int
-        /// The minimum number of instances allowed in the EC2 Auto Scaling group. During autoscaling events, GameLift FleetIQ and EC2 do not scale down the group below this minimum. In production, this value should be set to at least 1.
+        /// The minimum number of instances allowed in the EC2 Auto Scaling group. During automatic scaling events, GameLift FleetIQ and EC2 do not scale down the group below this minimum. In production, this value should be set to at least 1. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the AWS console or APIs.
         public let minSize: Int
-        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your EC2 Auto Scaling groups. The submitted role is validated to ensure that it contains the necessary permissions for game server groups.
+        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your EC2 Auto Scaling groups.
         public let roleArn: String
-        /// A list of labels to assign to the new game server group resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management, and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
+        /// A list of labels to assign to the new game server group resource. Tags are developer-defined key-value pairs. Tagging AWS resources is useful for resource management, access management, and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags, respectively. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
-        /// A list of virtual private cloud (VPC) subnets to use with instances in the game server group. By default, all GameLift FleetIQ-supported availability zones are used; this parameter allows you to specify VPCs that you've set up. 
+        /// A list of virtual private cloud (VPC) subnets to use with instances in the game server group. By default, all GameLift FleetIQ-supported Availability Zones are used. You can use this parameter to specify VPCs that you've set up. This property cannot be updated after the game server group is created, and the corresponding Auto Scaling group will always use the property value that is set with this request, even if the Auto Scaling group is updated directly
         public let vpcSubnets: [String]?
 
         public init(autoScalingPolicy: GameServerGroupAutoScalingPolicy? = nil, balancingStrategy: BalancingStrategy? = nil, gameServerGroupName: String, gameServerProtectionPolicy: GameServerProtectionPolicy? = nil, instanceDefinitions: [InstanceDefinition], launchTemplate: LaunchTemplateSpecification, maxSize: Int, minSize: Int, roleArn: String, tags: [Tag]? = nil, vpcSubnets: [String]? = nil) {
@@ -959,9 +967,9 @@ extension GameLift {
             try validate(self.tags, name: "tags", parent: name, max: 200)
             try validate(self.tags, name: "tags", parent: name, min: 0)
             try self.vpcSubnets?.forEach {
-                try validate($0, name: "vpcSubnets[]", parent: name, max: 15)
+                try validate($0, name: "vpcSubnets[]", parent: name, max: 24)
                 try validate($0, name: "vpcSubnets[]", parent: name, min: 15)
-                try validate($0, name: "vpcSubnets[]", parent: name, pattern: "^subnet-[0-9a-z]{8}$")
+                try validate($0, name: "vpcSubnets[]", parent: name, pattern: "^subnet-[0-9a-z]+$")
             }
             try validate(self.vpcSubnets, name: "vpcSubnets", parent: name, max: 20)
             try validate(self.vpcSubnets, name: "vpcSubnets", parent: name, min: 1)
@@ -1595,9 +1603,9 @@ extension GameLift {
 
     public struct DeleteGameServerGroupInput: AWSEncodableShape {
 
-        /// The type of delete to perform. Options include:   SAFE_DELETE – Terminates the game server group and EC2 Auto Scaling group only when it has no game servers that are in IN_USE status.   FORCE_DELETE – Terminates the game server group, including all active game servers regardless of their utilization status, and the EC2 Auto Scaling group.    RETAIN – Does a safe delete of the game server group but retains the EC2 Auto Scaling group as is.  
+        /// The type of delete to perform. Options include the following:    SAFE_DELETE – Terminates the game server group and EC2 Auto Scaling group only when it has no game servers that are in UTILIZED status.    FORCE_DELETE – Terminates the game server group, including all active game servers regardless of their utilization status, and the EC2 Auto Scaling group.     RETAIN – Does a safe delete of the game server group but retains the EC2 Auto Scaling group as is.  
         public let deleteOption: GameServerGroupDeleteOption?
-        /// The unique identifier of the game server group to delete. Use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
 
         public init(deleteOption: GameServerGroupDeleteOption? = nil, gameServerGroupName: String) {
@@ -1824,9 +1832,9 @@ extension GameLift {
 
     public struct DeregisterGameServerInput: AWSEncodableShape {
 
-        /// An identifier for the game server group where the game server to be de-registered is running. Use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
-        /// The identifier for the game server to be de-registered.
+        /// A custom string that uniquely identifies the game server to deregister.
         public let gameServerId: String
 
         public init(gameServerGroupName: String, gameServerId: String) {
@@ -1947,7 +1955,7 @@ extension GameLift {
         public let fleetIds: [String]?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let nextToken: String?
 
         public init(fleetIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
@@ -1977,7 +1985,7 @@ extension GameLift {
 
         /// A collection of objects containing attribute metadata for each requested fleet ID. Attribute objects are returned only for fleets that currently exist.
         public let fleetAttributes: [FleetAttributes]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(fleetAttributes: [FleetAttributes]? = nil, nextToken: String? = nil) {
@@ -1997,7 +2005,7 @@ extension GameLift {
         public let fleetIds: [String]?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let nextToken: String?
 
         public init(fleetIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
@@ -2027,7 +2035,7 @@ extension GameLift {
 
         /// A collection of objects containing capacity information for each requested fleet ID. Leave this parameter empty to retrieve capacity information for all fleets.
         public let fleetCapacity: [FleetCapacity]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(fleetCapacity: [FleetCapacity]? = nil, nextToken: String? = nil) {
@@ -2049,7 +2057,7 @@ extension GameLift {
         public let fleetId: String
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
         public let startTime: TimeStamp?
@@ -2082,7 +2090,7 @@ extension GameLift {
 
         /// A collection of objects containing event log entries for the specified fleet.
         public let events: [Event]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(events: [Event]? = nil, nextToken: String? = nil) {
@@ -2134,7 +2142,7 @@ extension GameLift {
         public let fleetIds: [String]?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let nextToken: String?
 
         public init(fleetIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
@@ -2164,7 +2172,7 @@ extension GameLift {
 
         /// A collection of objects containing utilization information for each requested fleet ID.
         public let fleetUtilization: [FleetUtilization]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(fleetUtilization: [FleetUtilization]? = nil, nextToken: String? = nil) {
@@ -2180,7 +2188,7 @@ extension GameLift {
 
     public struct DescribeGameServerGroupInput: AWSEncodableShape {
 
-        /// The unique identifier for the game server group being requested. Use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
 
         public init(gameServerGroupName: String) {
@@ -2200,7 +2208,7 @@ extension GameLift {
 
     public struct DescribeGameServerGroupOutput: AWSDecodableShape {
 
-        /// An object that describes the requested game server group resource. 
+        /// An object with the property settings for the requested game server group resource. 
         public let gameServerGroup: GameServerGroup?
 
         public init(gameServerGroup: GameServerGroup? = nil) {
@@ -2214,9 +2222,9 @@ extension GameLift {
 
     public struct DescribeGameServerInput: AWSEncodableShape {
 
-        /// An identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
-        /// The identifier for the game server to be retrieved.
+        /// A custom string that uniquely identifies the game server information to be retrieved.
         public let gameServerId: String
 
         public init(gameServerGroupName: String, gameServerId: String) {
@@ -2239,9 +2247,69 @@ extension GameLift {
         }
     }
 
+    public struct DescribeGameServerInstancesInput: AWSEncodableShape {
+
+        /// A unique identifier for the game server group. Use either the GameServerGroup name or ARN value.
+        public let gameServerGroupName: String
+        /// The EC2 instance IDs that you want to retrieve status on. EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0. To retrieve all instances in the game server group, leave this parameter empty. 
+        public let instanceIds: [String]?
+        ///  The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential segments. 
+        public let limit: Int?
+        ///  A token that indicates the start of the next sequential segment of results. Use the token returned with the previous call to this operation. To start at the beginning of the result set, do not specify a value. 
+        public let nextToken: String?
+
+        public init(gameServerGroupName: String, instanceIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.gameServerGroupName = gameServerGroupName
+            self.instanceIds = instanceIds
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
+            try validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
+            try validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
+            try self.instanceIds?.forEach {
+                try validate($0, name: "instanceIds[]", parent: name, max: 19)
+                try validate($0, name: "instanceIds[]", parent: name, min: 19)
+                try validate($0, name: "instanceIds[]", parent: name, pattern: "^i-[0-9a-zA-Z]{17}$")
+            }
+            try validate(self.instanceIds, name: "instanceIds", parent: name, max: 20)
+            try validate(self.instanceIds, name: "instanceIds", parent: name, min: 1)
+            try validate(self.limit, name: "limit", parent: name, min: 1)
+            try validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameServerGroupName = "GameServerGroupName"
+            case instanceIds = "InstanceIds"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeGameServerInstancesOutput: AWSDecodableShape {
+
+        ///  The collection of requested game server instances. 
+        public let gameServerInstances: [GameServerInstance]?
+        ///  A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list. 
+        public let nextToken: String?
+
+        public init(gameServerInstances: [GameServerInstance]? = nil, nextToken: String? = nil) {
+            self.gameServerInstances = gameServerInstances
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameServerInstances = "GameServerInstances"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeGameServerOutput: AWSDecodableShape {
 
-        /// Object that describes the requested game server resource.
+        /// Object that describes the requested game server.
         public let gameServer: GameServer?
 
         public init(gameServer: GameServer? = nil) {
@@ -2263,7 +2331,7 @@ extension GameLift {
         public let gameSessionId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory). 
         public let statusFilter: String?
@@ -2304,7 +2372,7 @@ extension GameLift {
 
         /// A collection of objects containing game session properties and the protection policy currently in force for each session matching the request.
         public let gameSessionDetails: [GameSessionDetail]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(gameSessionDetails: [GameSessionDetail]? = nil, nextToken: String? = nil) {
@@ -2354,11 +2422,11 @@ extension GameLift {
 
     public struct DescribeGameSessionQueuesInput: AWSEncodableShape {
 
-        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. You can request up to 50 results.
         public let limit: Int?
         /// A list of queue names to retrieve information for. You can use either the queue ID or ARN value. To request settings for all queues, leave this parameter empty. 
         public let names: [String]?
-        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
         public init(limit: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
@@ -2389,7 +2457,7 @@ extension GameLift {
 
         /// A collection of objects that describe the requested game session queues.
         public let gameSessionQueues: [GameSessionQueue]?
-        /// A token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(gameSessionQueues: [GameSessionQueue]? = nil, nextToken: String? = nil) {
@@ -2413,7 +2481,7 @@ extension GameLift {
         public let gameSessionId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING, and TERMINATING (the last two are transitory). 
         public let statusFilter: String?
@@ -2454,7 +2522,7 @@ extension GameLift {
 
         /// A collection of objects containing game session properties for each session matching the request.
         public let gameSessions: [GameSession]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(gameSessions: [GameSession]? = nil, nextToken: String? = nil) {
@@ -2476,7 +2544,7 @@ extension GameLift {
         public let instanceId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
         public init(fleetId: String, instanceId: String? = nil, limit: Int? = nil, nextToken: String? = nil) {
@@ -2506,7 +2574,7 @@ extension GameLift {
 
         /// A collection of objects containing properties for each instance returned.
         public let instances: [Instance]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(instances: [Instance]? = nil, nextToken: String? = nil) {
@@ -2526,7 +2594,7 @@ extension GameLift {
         public let limit: Int?
         /// A unique identifier for a matchmaking configuration(s) to retrieve. You can use either the configuration name or ARN value. To request all existing configurations, leave this parameter empty.
         public let names: [String]?
-        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// A unique identifier for a matchmaking rule set. You can use either the rule set name or ARN value. Use this parameter to retrieve all matchmaking configurations that use this rule set.
         public let ruleSetName: String?
@@ -2564,7 +2632,7 @@ extension GameLift {
 
         /// A collection of requested matchmaking configurations.
         public let configurations: [MatchmakingConfiguration]?
-        /// A token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(configurations: [MatchmakingConfiguration]? = nil, nextToken: String? = nil) {
@@ -2619,7 +2687,7 @@ extension GameLift {
         public let limit: Int?
         /// A list of one or more matchmaking rule set names to retrieve details for. (Note: The rule set name is different from the optional "name" field in the rule set body.) You can use either the rule set name or ARN value. 
         public let names: [String]?
-        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
         public init(limit: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
@@ -2651,7 +2719,7 @@ extension GameLift {
 
     public struct DescribeMatchmakingRuleSetsOutput: AWSDecodableShape {
 
-        /// A token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// A collection of requested matchmaking rule set objects. 
         public let ruleSets: [MatchmakingRuleSet]
@@ -2673,7 +2741,7 @@ extension GameLift {
         public let gameSessionId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. If a player session ID is specified, this parameter is ignored.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. If a player session ID is specified, this parameter is ignored.
         public let nextToken: String?
         /// A unique identifier for a player to retrieve player sessions for.
         public let playerId: String?
@@ -2717,7 +2785,7 @@ extension GameLift {
 
     public struct DescribePlayerSessionsOutput: AWSDecodableShape {
 
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// A collection of objects containing properties for each player session that matches the request.
         public let playerSessions: [PlayerSession]?
@@ -2771,7 +2839,7 @@ extension GameLift {
         public let fleetId: String
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.    ACTIVE -- The scaling policy is currently in force.    UPDATEREQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETEREQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.  
         public let statusFilter: ScalingStatusType?
@@ -2800,7 +2868,7 @@ extension GameLift {
 
     public struct DescribeScalingPoliciesOutput: AWSDecodableShape {
 
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// A collection of objects containing the scaling policies matching the request.
         public let scalingPolicies: [ScalingPolicy]?
@@ -3065,7 +3133,7 @@ extension GameLift {
         public let serverLaunchPath: String?
         /// Current status of the fleet. Possible fleet statuses include the following:    NEW -- A new fleet has been defined and desired instances is set to 1.     DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up the new fleet, creating new instances with the game build or Realtime script and starting server processes.    ACTIVE -- Hosts can now accept game sessions.    ERROR -- An error occurred when downloading, validating, building, or activating the fleet.    DELETING -- Hosts are responding to a delete fleet request.    TERMINATED -- The fleet no longer exists.  
         public let status: FleetStatus?
-        /// List of fleet actions that have been suspended using StopFleetActions. This includes auto-scaling.
+        /// List of fleet activity that have been suspended using StopFleetActions. This includes auto-scaling.
         public let stoppedActions: [FleetAction]?
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: TimeStamp?
@@ -3200,35 +3268,32 @@ extension GameLift {
 
     public struct GameServer: AWSDecodableShape {
 
-        /// Indicates when an available game server has been reserved but has not yet started hosting a game. Once it is claimed, game server remains in CLAIMED status for a maximum of one minute. During this time, game clients must connect to the game server and start the game, which triggers the game server to update its utilization status. After one minute, the game server claim status reverts to null.
+        /// Indicates when an available game server has been reserved for gameplay but has not yet started hosting a game. Once it is claimed, the game server remains in CLAIMED status for a maximum of one minute. During this time, game clients connect to the game server to start the game and trigger the game server to update its utilization status. After one minute, the game server claim status reverts to null.
         public let claimStatus: GameServerClaimStatus?
         /// The port and IP address that must be used to establish a client connection to the game server.
         public let connectionInfo: String?
-        /// A game server tag that can be used to request sorted lists of game servers when calling ListGameServers. Custom sort keys are developer-defined. This property can be updated using UpdateGameServer.
-        public let customSortKey: String?
-        /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service in response to requests ListGameServers or ClaimGameServer. This property can be updated using UpdateGameServer.
+        /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers using ListGameServers or ClaimGameServer.
         public let gameServerData: String?
         /// The ARN identifier for the game server group where the game server is located.
         public let gameServerGroupArn: String?
-        /// The name identifier for the game server group where the game server is located.
+        /// A unique identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String?
         /// A custom string that uniquely identifies the game server. Game server IDs are developer-defined and are unique across all game server groups in an AWS account.
         public let gameServerId: String?
-        /// The unique identifier for the instance where the game server is located.
+        /// The unique identifier for the instance where the game server is running. This ID is available in the instance metadata. EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0.
         public let instanceId: String?
-        /// Time stamp indicating the last time the game server was claimed with a ClaimGameServer request. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057"). This value is used to calculate when the game server's claim status.
+        /// Timestamp that indicates the last time the game server was claimed with a ClaimGameServer request. The format is a number expressed in Unix time as milliseconds (for example "1469498468.057"). This value is used to calculate when a claimed game server's status should revert to null.
         public let lastClaimTime: TimeStamp?
-        /// Time stamp indicating the last time the game server was updated with health status using an UpdateGameServer request. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057"). After game server registration, this property is only changed when a game server update specifies a health check value.
+        /// Timestamp that indicates the last time the game server was updated with health status using an UpdateGameServer request. The format is a number expressed in Unix time as milliseconds (for example "1469498468.057"). After game server registration, this property is only changed when a game server update specifies a health check value.
         public let lastHealthCheckTime: TimeStamp?
-        /// Time stamp indicating when the game server resource was created with a RegisterGameServer request. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// Timestamp that indicates when the game server was created with a RegisterGameServer request. The format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let registrationTime: TimeStamp?
-        /// Indicates whether the game server is currently available for new games or is busy. Possible statuses include:   AVAILABLE - The game server is available to be claimed. A game server that has been claimed remains in this status until it reports game hosting activity.    IN_USE - The game server is currently hosting a game session with players.   
+        /// Indicates whether the game server is currently available for new games or is busy. Possible statuses include:    AVAILABLE - The game server is available to be claimed. A game server that has been claimed remains in this status until it reports game hosting activity.     UTILIZED - The game server is currently hosting a game session with players.   
         public let utilizationStatus: GameServerUtilizationStatus?
 
-        public init(claimStatus: GameServerClaimStatus? = nil, connectionInfo: String? = nil, customSortKey: String? = nil, gameServerData: String? = nil, gameServerGroupArn: String? = nil, gameServerGroupName: String? = nil, gameServerId: String? = nil, instanceId: String? = nil, lastClaimTime: TimeStamp? = nil, lastHealthCheckTime: TimeStamp? = nil, registrationTime: TimeStamp? = nil, utilizationStatus: GameServerUtilizationStatus? = nil) {
+        public init(claimStatus: GameServerClaimStatus? = nil, connectionInfo: String? = nil, gameServerData: String? = nil, gameServerGroupArn: String? = nil, gameServerGroupName: String? = nil, gameServerId: String? = nil, instanceId: String? = nil, lastClaimTime: TimeStamp? = nil, lastHealthCheckTime: TimeStamp? = nil, registrationTime: TimeStamp? = nil, utilizationStatus: GameServerUtilizationStatus? = nil) {
             self.claimStatus = claimStatus
             self.connectionInfo = connectionInfo
-            self.customSortKey = customSortKey
             self.gameServerData = gameServerData
             self.gameServerGroupArn = gameServerGroupArn
             self.gameServerGroupName = gameServerGroupName
@@ -3243,7 +3308,6 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case claimStatus = "ClaimStatus"
             case connectionInfo = "ConnectionInfo"
-            case customSortKey = "CustomSortKey"
             case gameServerData = "GameServerData"
             case gameServerGroupArn = "GameServerGroupArn"
             case gameServerGroupName = "GameServerGroupName"
@@ -3258,27 +3322,27 @@ extension GameLift {
 
     public struct GameServerGroup: AWSDecodableShape {
 
-        /// A generated unique ID for the EC2 Auto Scaling group with is associated with this game server group.
+        /// A generated unique ID for the EC2 Auto Scaling group that is associated with this game server group.
         public let autoScalingGroupArn: String?
-        /// The fallback balancing method to use for the game server group when Spot instances in a Region become unavailable or are not viable for game hosting. Once triggered, this method remains active until Spot instances can once again be used. Method options include:   SPOT_ONLY -- If Spot instances are unavailable, the game server group provides no hosting capacity. No new instances are started, and the existing nonviable Spot instances are terminated (once current gameplay ends) and not replaced.   SPOT_PREFERRED -- If Spot instances are unavailable, the game server group continues to provide hosting capacity by using On-Demand instances. Existing nonviable Spot instances are terminated (once current gameplay ends) and replaced with new On-Demand instances.   
+        /// Indicates how GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:    SPOT_ONLY - Only Spot Instances are used in the game server group. If Spot Instances are unavailable or not viable for game hosting, the game server group provides no hosting capacity until Spot Instances can again be used. Until then, no new instances are started, and the existing nonviable Spot Instances are terminated (after current gameplay ends) and are not replaced.    SPOT_PREFERRED - (default value) Spot Instances are used whenever available in the game server group. If Spot Instances are unavailable, the game server group continues to provide hosting capacity by falling back to On-Demand Instances. Existing nonviable Spot Instances are terminated (after current gameplay ends) and are replaced with new On-Demand Instances.    ON_DEMAND_ONLY - Only On-Demand Instances are used in the game server group. No Spot Instances are used, even when available, while this balancing strategy is in force.  
         public let balancingStrategy: BalancingStrategy?
-        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A timestamp that indicates when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
         /// A generated unique ID for the game server group.
         public let gameServerGroupArn: String?
-        /// A developer-defined identifier for the game server group. The name is unique per Region per AWS account.
+        /// A developer-defined identifier for the game server group. The name is unique for each Region in each AWS account.
         public let gameServerGroupName: String?
-        /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running may be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see DeleteGameServerGroup). An exception to this is Spot Instances, which may be terminated by AWS regardless of protection status.
+        /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by AWS regardless of protection status. 
         public let gameServerProtectionPolicy: GameServerProtectionPolicy?
-        /// The set of EC2 instance types that GameLift FleetIQ can use when rebalancing and autoscaling instances in the group. 
+        /// The set of EC2 instance types that GameLift FleetIQ can use when balancing and automatically scaling instances in the corresponding Auto Scaling group. 
         public let instanceDefinitions: [InstanceDefinition]?
-        /// A time stamp indicating when this game server group was last updated.
+        /// A timestamp that indicates when this game server group was last updated.
         public let lastUpdatedTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your EC2 Auto Scaling groups. The submitted role is validated to ensure that it contains the necessary permissions for game server groups.
+        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your EC2 Auto Scaling groups.
         public let roleArn: String?
-        /// The current status of the game server group. Possible statuses include:    NEW - GameLift FleetIQ has validated the CreateGameServerGroup() request.    ACTIVATING - GameLift FleetIQ is setting up a game server group, which includes creating an autoscaling group in your AWS account.    ACTIVE - The game server group has been successfully created.    DELETE_SCHEDULED - A request to delete the game server group has been received.    DELETING - GameLift FleetIQ has received a valid DeleteGameServerGroup() request and is processing it. GameLift FleetIQ must first complete and release hosts before it deletes the autoscaling group and the game server group.    DELETED - The game server group has been successfully deleted.    ERROR - The asynchronous processes of activating or deleting a game server group has failed, resulting in an error state.  
+        /// The current status of the game server group. Possible statuses include:    NEW - GameLift FleetIQ has validated the CreateGameServerGroup() request.     ACTIVATING - GameLift FleetIQ is setting up a game server group, which includes creating an Auto Scaling group in your AWS account.     ACTIVE - The game server group has been successfully created.     DELETE_SCHEDULED - A request to delete the game server group has been received.     DELETING - GameLift FleetIQ has received a valid DeleteGameServerGroup() request and is processing it. GameLift FleetIQ must first complete and release hosts before it deletes the Auto Scaling group and the game server group.     DELETED - The game server group has been successfully deleted.     ERROR - The asynchronous processes of activating or deleting a game server group has failed, resulting in an error state.  
         public let status: GameServerGroupStatus?
-        /// Additional information about the current game server group status. This information may provide additional insight on groups that in ERROR status.
+        /// Additional information about the current game server group status. This information might provide additional insight on groups that are in ERROR status.
         public let statusReason: String?
         /// A list of activities that are currently suspended for this game server group. If this property is empty, all activities are occurring.
         public let suspendedActions: [GameServerGroupAction]?
@@ -3316,7 +3380,7 @@ extension GameLift {
 
     public struct GameServerGroupAutoScalingPolicy: AWSEncodableShape {
 
-        /// Length of time, in seconds, it takes for a new instance to start new game server processes and register with GameLift FleetIQ. Specifying a warm-up time can be useful, particularly with game servers that take a long time to start up, because it avoids prematurely starting new instances 
+        /// Length of time, in seconds, it takes for a new instance to start new game server processes and register with GameLift FleetIQ. Specifying a warm-up time can be useful, particularly with game servers that take a long time to start up, because it avoids prematurely starting new instances. 
         public let estimatedInstanceWarmup: Int?
         /// Settings for a target-based scaling policy applied to Auto Scaling group. These settings are used to create a target-based policy that tracks the GameLift FleetIQ metric "PercentUtilizedGameServers" and specifies a target value for the metric. As player usage changes, the policy triggers to adjust the game server group capacity so that the metric returns to the target value. 
         public let targetTrackingConfiguration: TargetTrackingConfiguration
@@ -3334,6 +3398,32 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
             case targetTrackingConfiguration = "TargetTrackingConfiguration"
+        }
+    }
+
+    public struct GameServerInstance: AWSDecodableShape {
+
+        /// A generated unique identifier for the game server group that includes the game server instance. 
+        public let gameServerGroupArn: String?
+        /// A developer-defined identifier for the game server group that includes the game server instance. The name is unique for each Region in each AWS account.
+        public let gameServerGroupName: String?
+        /// The unique identifier for the instance where the game server is running. This ID is available in the instance metadata. EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0.
+        public let instanceId: String?
+        ///  Current status of the game server instance.     ACTIVE -- The instance is viable for hosting game servers.     DRAINING -- The instance is not viable for hosting game servers. Existing game servers are in the process of ending, and new game servers are not started on this instance unless no other resources are available. When the instance is put in DRAINING, a new instance is started up to replace it. Once the instance has no UTILIZED game servers, it will be terminated in favor of the new instance.    SPOT_TERMINATING -- The instance is in the process of shutting down due to a Spot instance interruption. No new game servers are started on this instance.  
+        public let instanceStatus: GameServerInstanceStatus?
+
+        public init(gameServerGroupArn: String? = nil, gameServerGroupName: String? = nil, instanceId: String? = nil, instanceStatus: GameServerInstanceStatus? = nil) {
+            self.gameServerGroupArn = gameServerGroupArn
+            self.gameServerGroupName = gameServerGroupName
+            self.instanceId = instanceId
+            self.instanceStatus = instanceStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameServerGroupArn = "GameServerGroupArn"
+            case gameServerGroupName = "GameServerGroupName"
+            case instanceId = "InstanceId"
+            case instanceStatus = "InstanceStatus"
         }
     }
 
@@ -3824,7 +3914,7 @@ extension GameLift {
         public let launchTemplateId: String?
         /// A readable identifier for an existing EC2 launch template. 
         public let launchTemplateName: String?
-        /// The version of the EC2 launch template to use. If no version is specified, the default version will be used. EC2 allows you to specify a default version for a launch template, if none is set, the default is the first version created.
+        /// The version of the EC2 launch template to use. If no version is specified, the default version will be used. With Amazon EC2, you can specify a default version for a launch template. If none is set, the default is the first version created.
         public let version: String?
 
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
@@ -3858,7 +3948,7 @@ extension GameLift {
         public let limit: Int?
         /// A descriptive label that is associated with an alias. Alias names do not need to be unique.
         public let name: String?
-        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// The routing type to filter results on. Use this parameter to retrieve only aliases with a certain routing type. To retrieve all aliases, leave this parameter empty. Possible routing types include the following:    SIMPLE -- The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL -- The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
         public let routingStrategyType: RoutingStrategyType?
@@ -3888,7 +3978,7 @@ extension GameLift {
 
         /// A collection of alias resources that match the request parameters.
         public let aliases: [Alias]?
-        /// A token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(aliases: [Alias]? = nil, nextToken: String? = nil) {
@@ -3906,7 +3996,7 @@ extension GameLift {
 
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.   
         public let status: BuildStatus?
@@ -3933,7 +4023,7 @@ extension GameLift {
 
         /// A collection of build resources that match the request.
         public let builds: [Build]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(builds: [Build]? = nil, nextToken: String? = nil) {
@@ -3953,7 +4043,7 @@ extension GameLift {
         public let buildId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// A unique identifier for a Realtime script to return fleets for. Use this parameter to return only fleets using a specified script. Use either the script ID or ARN value. To retrieve all fleets, leave this parameter empty.
         public let scriptId: String?
@@ -3985,7 +4075,7 @@ extension GameLift {
 
         /// Set of fleet IDs matching the list request. You can retrieve additional information about all returned fleets by passing this result set to a call to DescribeFleetAttributes, DescribeFleetCapacity, or DescribeFleetUtilization.
         public let fleetIds: [String]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(fleetIds: [String]? = nil, nextToken: String? = nil) {
@@ -4001,9 +4091,9 @@ extension GameLift {
 
     public struct ListGameServerGroupsInput: AWSEncodableShape {
 
-        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential segments.
         public let limit: Int?
-        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential segment of results. Use the token returned with the previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
         public init(limit: Int? = nil, nextToken: String? = nil) {
@@ -4027,7 +4117,7 @@ extension GameLift {
 
         /// A collection of game server group objects that match the request.
         public let gameServerGroups: [GameServerGroup]?
-        /// A token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(gameServerGroups: [GameServerGroup]? = nil, nextToken: String? = nil) {
@@ -4043,13 +4133,13 @@ extension GameLift {
 
     public struct ListGameServersInput: AWSEncodableShape {
 
-        /// An identifier for the game server group for the game server you want to list. Use either the GameServerGroup name or ARN value.
+        /// An identifier for the game server group to retrieve a list of game servers from. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
-        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential segments.
         public let limit: Int?
-        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential segment of results. Use the token returned with the previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
-        /// Indicates how to sort the returned data based on the game servers' custom key sort value. If this parameter is left empty, the list of game servers is returned in no particular order.
+        /// Indicates how to sort the returned data based on game server registration timestamp. Use ASCENDING to retrieve oldest game servers first, or use DESCENDING to retrieve newest game servers first. If this parameter is left empty, game servers are returned in no particular order.
         public let sortOrder: SortOrder?
 
         public init(gameServerGroupName: String, limit: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
@@ -4080,7 +4170,7 @@ extension GameLift {
 
         /// A collection of game server objects that match the request.
         public let gameServers: [GameServer]?
-        /// A token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(gameServers: [GameServer]? = nil, nextToken: String? = nil) {
@@ -4098,7 +4188,7 @@ extension GameLift {
 
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
         public init(limit: Int? = nil, nextToken: String? = nil) {
@@ -4119,7 +4209,7 @@ extension GameLift {
 
     public struct ListScriptsOutput: AWSDecodableShape {
 
-        /// A token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// A set of properties describing the requested script.
         public let scripts: [Script]?
@@ -4137,7 +4227,7 @@ extension GameLift {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
 
-        ///  The Amazon Resource Name (ARN) that is assigned to and uniquely identifies the GameLift resource that you want to retrieve tags for. GameLift resource ARNs are included in the data object for the resource, which can be retrieved by calling a List or Describe action for the resource type. 
+        ///  The Amazon Resource Name (ARN) that is assigned to and uniquely identifies the GameLift resource that you want to retrieve tags for. GameLift resource ARNs are included in the data object for the resource, which can be retrieved by calling a List or Describe operation for the resource type. 
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -4583,38 +4673,29 @@ extension GameLift {
 
     public struct RegisterGameServerInput: AWSEncodableShape {
 
-        /// Information needed to make inbound client connections to the game server. This might include IP address and port, DNS name, etc.
+        /// Information that is needed to make inbound client connections to the game server. This might include the IP address and port, DNS name, and other information.
         public let connectionInfo: String?
-        /// A game server tag that can be used to request sorted lists of game servers using ListGameServers. Custom sort keys are developer-defined based on how you want to organize the retrieved game server information.
-        public let customSortKey: String?
-        /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on a game servers using ListGameServers or ClaimGameServer. 
+        /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers using ListGameServers or ClaimGameServer. 
         public let gameServerData: String?
-        /// An identifier for the game server group where the game server is running. You can use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
-        /// A custom string that uniquely identifies the new game server. Game server IDs are developer-defined and must be unique across all game server groups in your AWS account.
+        /// A custom string that uniquely identifies the game server to register. Game server IDs are developer-defined and must be unique across all game server groups in your AWS account.
         public let gameServerId: String
-        /// The unique identifier for the instance where the game server is running. This ID is available in the instance metadata.
+        /// The unique identifier for the instance where the game server is running. This ID is available in the instance metadata. EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0.
         public let instanceId: String
-        /// A list of labels to assign to the new game server resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management, and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
-        public let tags: [Tag]?
 
-        public init(connectionInfo: String? = nil, customSortKey: String? = nil, gameServerData: String? = nil, gameServerGroupName: String, gameServerId: String, instanceId: String, tags: [Tag]? = nil) {
+        public init(connectionInfo: String? = nil, gameServerData: String? = nil, gameServerGroupName: String, gameServerId: String, instanceId: String) {
             self.connectionInfo = connectionInfo
-            self.customSortKey = customSortKey
             self.gameServerData = gameServerData
             self.gameServerGroupName = gameServerGroupName
             self.gameServerId = gameServerId
             self.instanceId = instanceId
-            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.connectionInfo, name: "connectionInfo", parent: name, max: 512)
             try validate(self.connectionInfo, name: "connectionInfo", parent: name, min: 1)
             try validate(self.connectionInfo, name: "connectionInfo", parent: name, pattern: ".*\\S.*")
-            try validate(self.customSortKey, name: "customSortKey", parent: name, max: 64)
-            try validate(self.customSortKey, name: "customSortKey", parent: name, min: 1)
-            try validate(self.customSortKey, name: "customSortKey", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
             try validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
             try validate(self.gameServerData, name: "gameServerData", parent: name, pattern: ".*\\S.*")
@@ -4627,27 +4708,20 @@ extension GameLift {
             try validate(self.instanceId, name: "instanceId", parent: name, max: 19)
             try validate(self.instanceId, name: "instanceId", parent: name, min: 19)
             try validate(self.instanceId, name: "instanceId", parent: name, pattern: "^i-[0-9a-zA-Z]{17}$")
-            try self.tags?.forEach {
-                try $0.validate(name: "\(name).tags[]")
-            }
-            try validate(self.tags, name: "tags", parent: name, max: 200)
-            try validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionInfo = "ConnectionInfo"
-            case customSortKey = "CustomSortKey"
             case gameServerData = "GameServerData"
             case gameServerGroupName = "GameServerGroupName"
             case gameServerId = "GameServerId"
             case instanceId = "InstanceId"
-            case tags = "Tags"
         }
     }
 
     public struct RegisterGameServerOutput: AWSDecodableShape {
 
-        /// Object that describes the newly created game server resource.
+        /// Object that describes the newly registered game server.
         public let gameServer: GameServer?
 
         public init(gameServer: GameServer? = nil) {
@@ -4756,9 +4830,9 @@ extension GameLift {
 
     public struct ResumeGameServerGroupInput: AWSEncodableShape {
 
-        /// The unique identifier of the game server group to resume activity on. Use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
-        /// The action to resume for this game server group.
+        /// The activity to resume for this game server group.
         public let resumeActions: [GameServerGroupAction]
 
         public init(gameServerGroupName: String, resumeActions: [GameServerGroupAction]) {
@@ -4856,7 +4930,7 @@ extension GameLift {
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
 
-        /// An S3 bucket identifier. This is the name of the S3 bucket.
+        /// An S3 bucket identifier. This is the name of the S3 bucket.  GameLift currently does not support uploading from S3 buckets with names that contain a dot (.). 
         public let bucket: String?
         /// The name of the zip file that contains the build files or script files. 
         public let key: String?
@@ -4988,7 +5062,7 @@ extension GameLift {
         public let fleetId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. The maximum number of results returned is 20, even if this value is not set or is set higher than 20. 
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
         public let sortExpression: String?
@@ -5028,7 +5102,7 @@ extension GameLift {
 
         /// A collection of objects containing game session properties for each session matching the request.
         public let gameSessions: [GameSession]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(gameSessions: [GameSession]? = nil, nextToken: String? = nil) {
@@ -5380,9 +5454,9 @@ extension GameLift {
 
     public struct SuspendGameServerGroupInput: AWSEncodableShape {
 
-        /// The unique identifier of the game server group to stop activity on. Use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
-        /// The action to suspend for this game server group.
+        /// The activity to suspend for this game server group.
         public let suspendActions: [GameServerGroupAction]
 
         public init(gameServerGroupName: String, suspendActions: [GameServerGroupAction]) {
@@ -5445,7 +5519,7 @@ extension GameLift {
 
     public struct TagResourceRequest: AWSEncodableShape {
 
-        ///  The Amazon Resource Name (ARN) that is assigned to and uniquely identifies the GameLift resource that you want to assign tags to. GameLift resource ARNs are included in the data object for the resource, which can be retrieved by calling a List or Describe action for the resource type. 
+        ///  The Amazon Resource Name (ARN) that is assigned to and uniquely identifies the GameLift resource that you want to assign tags to. GameLift resource ARNs are included in the data object for the resource, which can be retrieved by calling a List or Describe operation for the resource type. 
         public let resourceARN: String
         /// A list of one or more tags to assign to the specified GameLift resource. Tags are developer-defined and structured as key-value pairs. The maximum tag limit may be lower than stated. See  Tagging AWS Resources for actual tagging limits.
         public let tags: [Tag]
@@ -5513,7 +5587,7 @@ extension GameLift {
 
     public struct UntagResourceRequest: AWSEncodableShape {
 
-        /// The Amazon Resource Name (ARN) that is assigned to and uniquely identifies the GameLift resource that you want to remove tags from. GameLift resource ARNs are included in the data object for the resource, which can be retrieved by calling a List or Describe action for the resource type. 
+        /// The Amazon Resource Name (ARN) that is assigned to and uniquely identifies the GameLift resource that you want to remove tags from. GameLift resource ARNs are included in the data object for the resource, which can be retrieved by calling a List or Describe operation for the resource type. 
         public let resourceARN: String
         /// A list of one or more tag keys to remove from the specified GameLift resource. An AWS resource can have only one tag with a specific tag key, so specifying the tag key identifies which tag to remove. 
         public let tagKeys: [String]
@@ -5801,15 +5875,15 @@ extension GameLift {
 
     public struct UpdateGameServerGroupInput: AWSEncodableShape {
 
-        /// The fallback balancing method to use for the game server group when Spot instances in a Region become unavailable or are not viable for game hosting. Once triggered, this method remains active until Spot instances can once again be used. Method options include:   SPOT_ONLY -- If Spot instances are unavailable, the game server group provides no hosting capacity. No new instances are started, and the existing nonviable Spot instances are terminated (once current gameplay ends) and not replaced.   SPOT_PREFERRED -- If Spot instances are unavailable, the game server group continues to provide hosting capacity by using On-Demand instances. Existing nonviable Spot instances are terminated (once current gameplay ends) and replaced with new On-Demand instances.   
+        /// Indicates how GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:    SPOT_ONLY - Only Spot Instances are used in the game server group. If Spot Instances are unavailable or not viable for game hosting, the game server group provides no hosting capacity until Spot Instances can again be used. Until then, no new instances are started, and the existing nonviable Spot Instances are terminated (after current gameplay ends) and are not replaced.    SPOT_PREFERRED - (default value) Spot Instances are used whenever available in the game server group. If Spot Instances are unavailable, the game server group continues to provide hosting capacity by falling back to On-Demand Instances. Existing nonviable Spot Instances are terminated (after current gameplay ends) and are replaced with new On-Demand Instances.    ON_DEMAND_ONLY - Only On-Demand Instances are used in the game server group. No Spot Instances are used, even when available, while this balancing strategy is in force.  
         public let balancingStrategy: BalancingStrategy?
-        /// The unique identifier of the game server group to update. Use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
-        /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running may by terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running. An exception to this is Spot Instances, which may be terminated by AWS regardless of protection status. This property is set to NO_PROTECTION by default.
+        /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by AWS regardless of protection status. This property is set to NO_PROTECTION by default.
         public let gameServerProtectionPolicy: GameServerProtectionPolicy?
-        /// An updated list of EC2 instance types to use when creating instances in the group. The instance definition must specify instance types that are supported by GameLift FleetIQ, and must include at least two instance types. This updated list replaces the entire current list of instance definitions for the game server group. For more information on instance types, see EC2 Instance Types in the Amazon EC2 User Guide..
+        /// An updated list of EC2 instance types to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by GameLift FleetIQ. This updated list replaces the entire current list of instance definitions for the game server group. For more information on instance types, see EC2 Instance Types in the Amazon EC2 User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see  Instance Weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let instanceDefinitions: [InstanceDefinition]?
-        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your EC2 Auto Scaling groups. The submitted role is validated to ensure that it contains the necessary permissions for game server groups.
+        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your EC2 Auto Scaling groups.
         public let roleArn: String?
 
         public init(balancingStrategy: BalancingStrategy? = nil, gameServerGroupName: String, gameServerProtectionPolicy: GameServerProtectionPolicy? = nil, instanceDefinitions: [InstanceDefinition]? = nil, roleArn: String? = nil) {
@@ -5859,21 +5933,18 @@ extension GameLift {
 
     public struct UpdateGameServerInput: AWSEncodableShape {
 
-        /// A game server tag that can be used to request sorted lists of game servers using ListGameServers. Custom sort keys are developer-defined based on how you want to organize the retrieved game server information.
-        public let customSortKey: String?
-        /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on a game servers using DescribeGameServer or ClaimGameServer. 
+        /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers using ListGameServers or ClaimGameServer. 
         public let gameServerData: String?
-        /// An identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value.
+        /// A unique identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
-        /// The identifier for the game server to be updated.
+        /// A custom string that uniquely identifies the game server to update.
         public let gameServerId: String
-        /// Indicates health status of the game server. An update that explicitly includes this parameter updates the game server's LastHealthCheckTime time stamp. 
+        /// Indicates health status of the game server. A request that includes this parameter updates the game server's LastHealthCheckTime timestamp. 
         public let healthCheck: GameServerHealthCheck?
         /// Indicates whether the game server is available or is currently hosting gameplay.
         public let utilizationStatus: GameServerUtilizationStatus?
 
-        public init(customSortKey: String? = nil, gameServerData: String? = nil, gameServerGroupName: String, gameServerId: String, healthCheck: GameServerHealthCheck? = nil, utilizationStatus: GameServerUtilizationStatus? = nil) {
-            self.customSortKey = customSortKey
+        public init(gameServerData: String? = nil, gameServerGroupName: String, gameServerId: String, healthCheck: GameServerHealthCheck? = nil, utilizationStatus: GameServerUtilizationStatus? = nil) {
             self.gameServerData = gameServerData
             self.gameServerGroupName = gameServerGroupName
             self.gameServerId = gameServerId
@@ -5882,9 +5953,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(self.customSortKey, name: "customSortKey", parent: name, max: 64)
-            try validate(self.customSortKey, name: "customSortKey", parent: name, min: 1)
-            try validate(self.customSortKey, name: "customSortKey", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
             try validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
             try validate(self.gameServerData, name: "gameServerData", parent: name, pattern: ".*\\S.*")
@@ -5897,7 +5965,6 @@ extension GameLift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customSortKey = "CustomSortKey"
             case gameServerData = "GameServerData"
             case gameServerGroupName = "GameServerGroupName"
             case gameServerId = "GameServerId"
@@ -5908,7 +5975,7 @@ extension GameLift {
 
     public struct UpdateGameServerOutput: AWSDecodableShape {
 
-        /// Object that describes the newly updated game server resource.
+        /// Object that describes the newly updated game server.
         public let gameServer: GameServer?
 
         public init(gameServer: GameServer? = nil) {

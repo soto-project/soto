@@ -64,7 +64,7 @@ public struct DatabaseMigrationService: AWSService {
     
     // MARK: API Calls
 
-    ///  Adds metadata tags to an AWS DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS.
+    ///  Adds metadata tags to an AWS DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see  Tag  data type description.
     public func addTagsToResource(_ input: AddTagsToResourceMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddTagsToResourceResponse> {
         return self.client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
@@ -254,7 +254,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "ImportCertificate", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Lists all tags for an AWS DMS resource.
+    ///  Lists all metadata tags attached to an AWS DMS resource, including replication instance, endpoint, security group, and migration task. For more information, see  Tag  data type description.
     public func listTagsForResource(_ input: ListTagsForResourceMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
@@ -299,7 +299,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "ReloadTables", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Removes metadata tags from a DMS resource.
+    ///  Removes metadata tags from an AWS DMS resource, including replication instance, endpoint, security group, and migration task. For more information, see  Tag  data type description.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RemoveTagsFromResourceResponse> {
         return self.client.execute(operation: "RemoveTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }

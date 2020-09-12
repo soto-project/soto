@@ -64,6 +64,11 @@ public struct WorkSpaces: AWSService {
     
     // MARK: API Calls
 
+    ///  Associates the specified connection alias with the specified directory to enable cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED. 
+    public func associateConnectionAlias(_ input: AssociateConnectionAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateConnectionAliasResult> {
+        return self.client.execute(operation: "AssociateConnectionAlias", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Associates the specified IP access control group with the specified directory.
     public func associateIpGroups(_ input: AssociateIpGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateIpGroupsResult> {
         return self.client.execute(operation: "AssociateIpGroups", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
@@ -79,6 +84,11 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "CopyWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Creates the specified connection alias for use with cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+    public func createConnectionAlias(_ input: CreateConnectionAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateConnectionAliasResult> {
+        return self.client.execute(operation: "CreateConnectionAlias", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
     public func createIpGroup(_ input: CreateIpGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateIpGroupResult> {
         return self.client.execute(operation: "CreateIpGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
@@ -92,6 +102,11 @@ public struct WorkSpaces: AWSService {
     ///  Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.
     public func createWorkspaces(_ input: CreateWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateWorkspacesResult> {
         return self.client.execute(operation: "CreateWorkspaces", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Deletes the specified connection alias. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.   If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see  Security Considerations if You Stop Using Cross-Region Redirection.   To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories. 
+    public func deleteConnectionAlias(_ input: DeleteConnectionAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteConnectionAliasResult> {
+        return self.client.execute(operation: "DeleteConnectionAlias", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes the specified IP access control group. You cannot delete an IP access control group that is associated with a directory.
@@ -127,6 +142,16 @@ public struct WorkSpaces: AWSService {
     ///  Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
     public func describeClientProperties(_ input: DescribeClientPropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeClientPropertiesResult> {
         return self.client.execute(operation: "DescribeClientProperties", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Describes the permissions that the owner of a connection alias has granted to another AWS account for the specified connection alias. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+    public func describeConnectionAliasPermissions(_ input: DescribeConnectionAliasPermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeConnectionAliasPermissionsResult> {
+        return self.client.execute(operation: "DescribeConnectionAliasPermissions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+    public func describeConnectionAliases(_ input: DescribeConnectionAliasesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeConnectionAliasesResult> {
+        return self.client.execute(operation: "DescribeConnectionAliases", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Describes one or more of your IP access control groups.
@@ -174,12 +199,17 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "DescribeWorkspacesConnectionStatus", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different AWS Regions. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED. 
+    public func disassociateConnectionAlias(_ input: DisassociateConnectionAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateConnectionAliasResult> {
+        return self.client.execute(operation: "DisassociateConnectionAlias", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Disassociates the specified IP access control group from the specified directory.
     public func disassociateIpGroups(_ input: DisassociateIpGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateIpGroupsResult> {
         return self.client.execute(operation: "DisassociateIpGroups", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Imports the specified Windows 7 or Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed EC2 image that is in your AWS account, and you must own the image. 
+    ///  Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your AWS account, and you must own the image. For more information about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
     public func importWorkspaceImage(_ input: ImportWorkspaceImageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ImportWorkspaceImageResult> {
         return self.client.execute(operation: "ImportWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
@@ -267,6 +297,11 @@ public struct WorkSpaces: AWSService {
     ///  Terminates the specified WorkSpaces. Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated.
     public func terminateWorkspaces(_ input: TerminateWorkspacesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TerminateWorkspacesResult> {
         return self.client.execute(operation: "TerminateWorkspaces", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connection alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.    Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.   To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories.   
+    public func updateConnectionAliasPermission(_ input: UpdateConnectionAliasPermissionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateConnectionAliasPermissionResult> {
+        return self.client.execute(operation: "UpdateConnectionAliasPermission", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Replaces the current rules of the specified IP access control group with the specified rules.

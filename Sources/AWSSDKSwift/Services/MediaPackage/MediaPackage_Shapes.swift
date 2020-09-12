@@ -88,6 +88,13 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
+    public enum UtcTiming: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case httpHead = "HTTP-HEAD"
+        case httpIso = "HTTP-ISO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Adtriggerselement: String, CustomStringConvertible, Codable {
         case spliceInsert = "SPLICE_INSERT"
         case `break` = "BREAK"
@@ -489,8 +496,12 @@ extension MediaPackage {
         public let streamSelection: StreamSelection?
         /// Duration (in seconds) to delay live content before presentation.
         public let suggestedPresentationDelaySeconds: Int?
+        /// Determines the type of UTCTiming included in the Media Presentation Description (MPD)
+        public let utcTiming: UtcTiming?
+        /// Specifies the value attribute of the UTCTiming field when utcTiming is set to HTTP-ISO or HTTP-HEAD
+        public let utcTimingUri: String?
 
-        public init(adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [Adtriggerselement]? = nil, encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [Periodtriggerselement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int? = nil) {
+        public init(adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [Adtriggerselement]? = nil, encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [Periodtriggerselement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: UtcTiming? = nil, utcTimingUri: String? = nil) {
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.adTriggers = adTriggers
             self.encryption = encryption
@@ -504,6 +515,8 @@ extension MediaPackage {
             self.segmentTemplateFormat = segmentTemplateFormat
             self.streamSelection = streamSelection
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.utcTiming = utcTiming
+            self.utcTimingUri = utcTimingUri
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -520,6 +533,8 @@ extension MediaPackage {
             case segmentTemplateFormat = "segmentTemplateFormat"
             case streamSelection = "streamSelection"
             case suggestedPresentationDelaySeconds = "suggestedPresentationDelaySeconds"
+            case utcTiming = "utcTiming"
+            case utcTimingUri = "utcTimingUri"
         }
     }
 

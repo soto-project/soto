@@ -50,6 +50,12 @@ extension SESV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case pendingExpiration = "PENDING_EXPIRATION"
@@ -105,6 +111,19 @@ extension SESV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImportDestinationType: String, CustomStringConvertible, Codable {
+        case suppressionList = "SUPPRESSION_LIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case processing = "PROCESSING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MailFromDomainStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case success = "SUCCESS"
@@ -124,6 +143,12 @@ extension SESV2 {
         case failed = "FAILED"
         case granted = "GRANTED"
         case denied = "DENIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SuppressionListImportAction: String, CustomStringConvertible, Codable {
+        case delete = "DELETE"
+        case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
@@ -654,6 +679,42 @@ extension SESV2 {
         public init() {
         }
 
+    }
+
+    public struct CreateImportJobRequest: AWSEncodableShape {
+
+        /// The data source for the import job.
+        public let importDataSource: ImportDataSource
+        /// The destination for the import job.
+        public let importDestination: ImportDestination
+
+        public init(importDataSource: ImportDataSource, importDestination: ImportDestination) {
+            self.importDataSource = importDataSource
+            self.importDestination = importDestination
+        }
+
+        public func validate(name: String) throws {
+            try self.importDataSource.validate(name: "\(name).importDataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importDataSource = "ImportDataSource"
+            case importDestination = "ImportDestination"
+        }
+    }
+
+    public struct CreateImportJobResponse: AWSDecodableShape {
+
+        /// A string that represents the import job ID.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
     }
 
     public struct CustomVerificationEmailTemplateMetadata: AWSDecodableShape {
@@ -1327,6 +1388,24 @@ extension SESV2 {
         }
     }
 
+    public struct FailureInfo: AWSDecodableShape {
+
+        /// A message about why the import job failed.
+        public let errorMessage: String?
+        /// An Amazon S3 presigned URL that contains all the failed records and related information.
+        public let failedRecordsS3Url: String?
+
+        public init(errorMessage: String? = nil, failedRecordsS3Url: String? = nil) {
+            self.errorMessage = errorMessage
+            self.failedRecordsS3Url = failedRecordsS3Url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case failedRecordsS3Url = "FailedRecordsS3Url"
+        }
+    }
+
     public struct GetAccountRequest: AWSEncodableShape {
 
 
@@ -1891,6 +1970,71 @@ extension SESV2 {
         }
     }
 
+    public struct GetImportJobRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+        ]
+
+        /// The ID of the import job.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name: "jobId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetImportJobResponse: AWSDecodableShape {
+
+        /// The time stamp of when the import job was completed.
+        public let completedTimestamp: TimeStamp?
+        /// The time stamp of when the import job was created.
+        public let createdTimestamp: TimeStamp?
+        /// The number of records that failed processing because of invalid input or other reasons.
+        public let failedRecordsCount: Int?
+        /// The failure details about an import job.
+        public let failureInfo: FailureInfo?
+        /// The data source of the import job.
+        public let importDataSource: ImportDataSource?
+        /// The destination of the import job.
+        public let importDestination: ImportDestination?
+        /// A string that represents the import job ID.
+        public let jobId: String?
+        /// The status of the import job.
+        public let jobStatus: JobStatus?
+        /// The current number of records processed.
+        public let processedRecordsCount: Int?
+
+        public init(completedTimestamp: TimeStamp? = nil, createdTimestamp: TimeStamp? = nil, failedRecordsCount: Int? = nil, failureInfo: FailureInfo? = nil, importDataSource: ImportDataSource? = nil, importDestination: ImportDestination? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, processedRecordsCount: Int? = nil) {
+            self.completedTimestamp = completedTimestamp
+            self.createdTimestamp = createdTimestamp
+            self.failedRecordsCount = failedRecordsCount
+            self.failureInfo = failureInfo
+            self.importDataSource = importDataSource
+            self.importDestination = importDestination
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+            self.processedRecordsCount = processedRecordsCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedTimestamp = "CompletedTimestamp"
+            case createdTimestamp = "CreatedTimestamp"
+            case failedRecordsCount = "FailedRecordsCount"
+            case failureInfo = "FailureInfo"
+            case importDataSource = "ImportDataSource"
+            case importDestination = "ImportDestination"
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+            case processedRecordsCount = "ProcessedRecordsCount"
+        }
+    }
+
     public struct GetSuppressedDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
@@ -1939,6 +2083,64 @@ extension SESV2 {
             case identityName = "IdentityName"
             case identityType = "IdentityType"
             case sendingEnabled = "SendingEnabled"
+        }
+    }
+
+    public struct ImportDataSource: AWSEncodableShape & AWSDecodableShape {
+
+        /// The data format of the import job's data source.
+        public let dataFormat: DataFormat
+        /// An Amazon S3 URL in the format s3://&lt;bucket_name&gt;/&lt;object&gt;.
+        public let s3Url: String
+
+        public init(dataFormat: DataFormat, s3Url: String) {
+            self.dataFormat = dataFormat
+            self.s3Url = s3Url
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Url, name: "s3Url", parent: name, pattern: "^s3:\\/\\/([^\\/]+)\\/(.*?([^\\/]+)\\/?)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFormat = "DataFormat"
+            case s3Url = "S3Url"
+        }
+    }
+
+    public struct ImportDestination: AWSEncodableShape & AWSDecodableShape {
+
+        /// An object that contains the action of the import job towards suppression list.
+        public let suppressionListDestination: SuppressionListDestination
+
+        public init(suppressionListDestination: SuppressionListDestination) {
+            self.suppressionListDestination = suppressionListDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suppressionListDestination = "SuppressionListDestination"
+        }
+    }
+
+    public struct ImportJobSummary: AWSDecodableShape {
+
+        public let createdTimestamp: TimeStamp?
+        public let importDestination: ImportDestination?
+        public let jobId: String?
+        public let jobStatus: JobStatus?
+
+        public init(createdTimestamp: TimeStamp? = nil, importDestination: ImportDestination? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.importDestination = importDestination
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case importDestination = "ImportDestination"
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
         }
     }
 
@@ -2264,6 +2466,48 @@ extension SESV2 {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case templatesMetadata = "TemplatesMetadata"
+        }
+    }
+
+    public struct ListImportJobsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+        ]
+
+        /// The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType.
+        public let importDestinationType: ImportDestinationType?
+        /// A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
+        public let nextToken: String?
+        /// Maximum number of import jobs to return at once. Use this parameter to paginate results. If additional import jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional addresses.
+        public let pageSize: Int?
+
+        public init(importDestinationType: ImportDestinationType? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.importDestinationType = importDestinationType
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importDestinationType = "ImportDestinationType"
+        }
+    }
+
+    public struct ListImportJobsResponse: AWSDecodableShape {
+
+        /// A list of the import job summaries.
+        public let importJobs: [ImportJobSummary]?
+        /// A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
+        public let nextToken: String?
+
+        public init(importJobs: [ImportJobSummary]? = nil, nextToken: String? = nil) {
+            self.importJobs = importJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importJobs = "ImportJobs"
+            case nextToken = "NextToken"
         }
     }
 
@@ -3374,6 +3618,20 @@ extension SESV2 {
 
         private enum CodingKeys: String, CodingKey {
             case suppressedReasons = "SuppressedReasons"
+        }
+    }
+
+    public struct SuppressionListDestination: AWSEncodableShape & AWSDecodableShape {
+
+        /// The type of action that you want to perform on the address. Acceptable values:   PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value.   DELETE: remove the addresses from the suppression list.  
+        public let suppressionListImportAction: SuppressionListImportAction
+
+        public init(suppressionListImportAction: SuppressionListImportAction) {
+            self.suppressionListImportAction = suppressionListImportAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suppressionListImportAction = "SuppressionListImportAction"
         }
     }
 

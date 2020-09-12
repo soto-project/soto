@@ -7639,7 +7639,7 @@ extension Pinpoint {
         public let body: String?
         /// The SMS program name that you provided to AWS Support when you requested your dedicated number.
         public let keyword: String?
-        /// The URL of an image or video to display in the SMS message.
+        /// The URL of an image or video to display in the SMS message. This field is reserved for future use.
         public let mediaUrl: String?
         /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL (for messsages that aren't critical or time-sensitive, such as marketing messages).
         public let messageType: MessageType?

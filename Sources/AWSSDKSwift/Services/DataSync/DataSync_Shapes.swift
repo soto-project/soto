@@ -52,6 +52,13 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum LocationFilterName: String, CustomStringConvertible, Codable {
+        case locationuri = "LocationUri"
+        case locationtype = "LocationType"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogLevel: String, CustomStringConvertible, Codable {
         case off = "OFF"
         case basic = "BASIC"
@@ -76,6 +83,20 @@ extension DataSync {
     public enum ObjectStorageServerProtocol: String, CustomStringConvertible, Codable {
         case https = "HTTPS"
         case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Operator`: String, CustomStringConvertible, Codable {
+        case equals = "Equals"
+        case notequals = "NotEquals"
+        case `in` = "In"
+        case lessthanorequal = "LessThanOrEqual"
+        case lessthan = "LessThan"
+        case greaterthanorequal = "GreaterThanOrEqual"
+        case greaterthan = "GreaterThan"
+        case contains = "Contains"
+        case notcontains = "NotContains"
+        case beginswith = "BeginsWith"
         public var description: String { return self.rawValue }
     }
 
@@ -135,6 +156,12 @@ extension DataSync {
         case verifying = "VERIFYING"
         case success = "SUCCESS"
         case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskFilterName: String, CustomStringConvertible, Codable {
+        case locationid = "LocationId"
+        case creationtime = "CreationTime"
         public var description: String { return self.rawValue }
     }
 
@@ -1497,17 +1524,22 @@ extension DataSync {
 
     public struct ListLocationsRequest: AWSEncodableShape {
 
+        public let filters: [LocationFilter]?
         /// The maximum number of locations to return.
         public let maxResults: Int?
         /// An opaque string that indicates the position at which to begin the next list of locations.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: [LocationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
             try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
@@ -1515,6 +1547,7 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -1638,17 +1671,22 @@ extension DataSync {
 
     public struct ListTasksRequest: AWSEncodableShape {
 
+        public let filters: [TaskFilter]?
         /// The maximum number of tasks to return.
         public let maxResults: Int?
         /// An opaque string that indicates the position at which to begin the next list of tasks.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: [TaskFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
             try validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
@@ -1656,6 +1694,7 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -1676,6 +1715,33 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tasks = "Tasks"
+        }
+    }
+
+    public struct LocationFilter: AWSEncodableShape {
+
+        public let name: LocationFilterName
+        public let `operator`: Operator
+        public let values: [String]
+
+        public init(name: LocationFilterName, operator: Operator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z_\\ \\-\\:\\*\\.\\\\/\\?-]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case values = "Values"
         }
     }
 
@@ -2029,6 +2095,33 @@ extension DataSync {
             case transferStatus = "TransferStatus"
             case verifyDuration = "VerifyDuration"
             case verifyStatus = "VerifyStatus"
+        }
+    }
+
+    public struct TaskFilter: AWSEncodableShape {
+
+        public let name: TaskFilterName
+        public let `operator`: Operator
+        public let values: [String]
+
+        public init(name: TaskFilterName, operator: Operator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z_\\ \\-\\:\\*\\.\\\\/\\?-]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case values = "Values"
         }
     }
 

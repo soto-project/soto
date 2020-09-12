@@ -398,6 +398,20 @@ extension LakeFormation {
         }
     }
 
+    public struct DetailsMap: AWSDecodableShape {
+
+        /// A share resource ARN for a catalog resource shared through AWS Resource Access Manager (AWS RAM).
+        public let resourceShare: [String]?
+
+        public init(resourceShare: [String]? = nil) {
+            self.resourceShare = resourceShare
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceShare = "ResourceShare"
+        }
+    }
+
     public struct ErrorDetail: AWSDecodableShape {
 
         /// The code associated with this error.
@@ -703,6 +717,8 @@ extension LakeFormation {
 
     public struct PrincipalResourcePermissions: AWSDecodableShape {
 
+        /// This attribute can be used to return any additional details of PrincipalResourcePermissions. Currently returns only as a RAM share resource ARN.
+        public let additionalDetails: DetailsMap?
         /// The permissions to be granted or revoked on the resource.
         public let permissions: [Permission]?
         /// Indicates whether to grant the ability to grant permissions (as a subset of permissions granted).
@@ -712,7 +728,8 @@ extension LakeFormation {
         /// The resource where permissions are to be granted or revoked.
         public let resource: Resource?
 
-        public init(permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+        public init(additionalDetails: DetailsMap? = nil, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+            self.additionalDetails = additionalDetails
             self.permissions = permissions
             self.permissionsWithGrantOption = permissionsWithGrantOption
             self.principal = principal
@@ -720,6 +737,7 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalDetails = "AdditionalDetails"
             case permissions = "Permissions"
             case permissionsWithGrantOption = "PermissionsWithGrantOption"
             case principal = "Principal"

@@ -34,6 +34,7 @@ extension KinesisAnalyticsV2 {
         case ready = "READY"
         case running = "RUNNING"
         case updating = "UPDATING"
+        case autoscaling = "AUTOSCALING"
         public var description: String { return self.rawValue }
     }
 
@@ -775,7 +776,9 @@ extension KinesisAnalyticsV2 {
         }
 
         public func validate(name: String) throws {
+            try validate(self.recordColumnDelimiter, name: "recordColumnDelimiter", parent: name, max: 1024)
             try validate(self.recordColumnDelimiter, name: "recordColumnDelimiter", parent: name, min: 1)
+            try validate(self.recordRowDelimiter, name: "recordRowDelimiter", parent: name, max: 1024)
             try validate(self.recordRowDelimiter, name: "recordRowDelimiter", parent: name, min: 1)
         }
 
@@ -1067,7 +1070,7 @@ extension KinesisAnalyticsV2 {
             }
             try validate(self.serviceExecutionRole, name: "serviceExecutionRole", parent: name, max: 2048)
             try validate(self.serviceExecutionRole, name: "serviceExecutionRole", parent: name, min: 1)
-            try validate(self.serviceExecutionRole, name: "serviceExecutionRole", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try validate(self.serviceExecutionRole, name: "serviceExecutionRole", parent: name, pattern: "arn:.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1587,7 +1590,7 @@ extension KinesisAnalyticsV2 {
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
             try validate(self.serviceExecutionRole, name: "serviceExecutionRole", parent: name, max: 2048)
             try validate(self.serviceExecutionRole, name: "serviceExecutionRole", parent: name, min: 1)
-            try validate(self.serviceExecutionRole, name: "serviceExecutionRole", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try validate(self.serviceExecutionRole, name: "serviceExecutionRole", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1761,7 +1764,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct FlinkRunConfiguration: AWSEncodableShape {
+    public struct FlinkRunConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// When restoring from a savepoint, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between savepoints to remove stateful parameters, and state data in the savepoint no longer corresponds to valid application data. For more information, see  Allowing Non-Restored State in the Apache Flink documentation.
         public let allowNonRestoredState: Bool?
@@ -1807,6 +1810,7 @@ extension KinesisAnalyticsV2 {
             try self.kinesisStreamsInput?.validate(name: "\(name).kinesisStreamsInput")
             try validate(self.namePrefix, name: "namePrefix", parent: name, max: 32)
             try validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
+            try validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[^-\\s<>&]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2032,6 +2036,8 @@ extension KinesisAnalyticsV2 {
             }
             try validate(self.recordColumnUpdates, name: "recordColumnUpdates", parent: name, max: 1000)
             try validate(self.recordColumnUpdates, name: "recordColumnUpdates", parent: name, min: 1)
+            try validate(self.recordEncodingUpdate, name: "recordEncodingUpdate", parent: name, max: 5)
+            try validate(self.recordEncodingUpdate, name: "recordEncodingUpdate", parent: name, min: 5)
             try validate(self.recordEncodingUpdate, name: "recordEncodingUpdate", parent: name, pattern: "UTF-8")
             try self.recordFormatUpdate?.validate(name: "\(name).recordFormatUpdate")
         }
@@ -2095,6 +2101,7 @@ extension KinesisAnalyticsV2 {
             try self.kinesisStreamsInputUpdate?.validate(name: "\(name).kinesisStreamsInputUpdate")
             try validate(self.namePrefixUpdate, name: "namePrefixUpdate", parent: name, max: 32)
             try validate(self.namePrefixUpdate, name: "namePrefixUpdate", parent: name, min: 1)
+            try validate(self.namePrefixUpdate, name: "namePrefixUpdate", parent: name, pattern: "[^-\\s<>&]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2118,7 +2125,9 @@ extension KinesisAnalyticsV2 {
         }
 
         public func validate(name: String) throws {
+            try validate(self.recordRowPath, name: "recordRowPath", parent: name, max: 65535)
             try validate(self.recordRowPath, name: "recordRowPath", parent: name, min: 1)
+            try validate(self.recordRowPath, name: "recordRowPath", parent: name, pattern: "^(?=^\\$)(?=^\\S+$).*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2522,7 +2531,7 @@ extension KinesisAnalyticsV2 {
         public func validate(name: String) throws {
             try validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2660,6 +2669,7 @@ extension KinesisAnalyticsV2 {
             try self.lambdaOutput?.validate(name: "\(name).lambdaOutput")
             try validate(self.name, name: "name", parent: name, max: 32)
             try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[^-\\s<>&]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2735,6 +2745,7 @@ extension KinesisAnalyticsV2 {
             try self.lambdaOutputUpdate?.validate(name: "\(name).lambdaOutputUpdate")
             try validate(self.nameUpdate, name: "nameUpdate", parent: name, max: 32)
             try validate(self.nameUpdate, name: "nameUpdate", parent: name, min: 1)
+            try validate(self.nameUpdate, name: "nameUpdate", parent: name, pattern: "[^-\\s<>&]*")
             try validate(self.outputId, name: "outputId", parent: name, max: 50)
             try validate(self.outputId, name: "outputId", parent: name, min: 1)
             try validate(self.outputId, name: "outputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -2888,6 +2899,12 @@ extension KinesisAnalyticsV2 {
         }
 
         public func validate(name: String) throws {
+            try validate(self.mapping, name: "mapping", parent: name, max: 65535)
+            try validate(self.mapping, name: "mapping", parent: name, min: 0)
+            try validate(self.name, name: "name", parent: name, max: 256)
+            try validate(self.name, name: "name", parent: name, min: 1)
+            try validate(self.name, name: "name", parent: name, pattern: "[^-\\s<>&]*")
+            try validate(self.sqlType, name: "sqlType", parent: name, max: 100)
             try validate(self.sqlType, name: "sqlType", parent: name, min: 1)
         }
 
@@ -3044,13 +3061,16 @@ extension KinesisAnalyticsV2 {
 
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfigurationDescription: ApplicationRestoreConfiguration?
+        public let flinkRunConfigurationDescription: FlinkRunConfiguration?
 
-        public init(applicationRestoreConfigurationDescription: ApplicationRestoreConfiguration? = nil) {
+        public init(applicationRestoreConfigurationDescription: ApplicationRestoreConfiguration? = nil, flinkRunConfigurationDescription: FlinkRunConfiguration? = nil) {
             self.applicationRestoreConfigurationDescription = applicationRestoreConfigurationDescription
+            self.flinkRunConfigurationDescription = flinkRunConfigurationDescription
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationRestoreConfigurationDescription = "ApplicationRestoreConfigurationDescription"
+            case flinkRunConfigurationDescription = "FlinkRunConfigurationDescription"
         }
     }
 
@@ -3145,6 +3165,8 @@ extension KinesisAnalyticsV2 {
             try validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "arn:.*")
             try validate(self.fileKey, name: "fileKey", parent: name, max: 1024)
             try validate(self.fileKey, name: "fileKey", parent: name, min: 1)
+            try validate(self.objectVersion, name: "objectVersion", parent: name, max: 1024)
+            try validate(self.objectVersion, name: "objectVersion", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3175,6 +3197,8 @@ extension KinesisAnalyticsV2 {
             try validate(self.bucketARNUpdate, name: "bucketARNUpdate", parent: name, pattern: "arn:.*")
             try validate(self.fileKeyUpdate, name: "fileKeyUpdate", parent: name, max: 1024)
             try validate(self.fileKeyUpdate, name: "fileKeyUpdate", parent: name, min: 1)
+            try validate(self.objectVersionUpdate, name: "objectVersionUpdate", parent: name, max: 1024)
+            try validate(self.objectVersionUpdate, name: "objectVersionUpdate", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3305,6 +3329,8 @@ extension KinesisAnalyticsV2 {
             }
             try validate(self.recordColumns, name: "recordColumns", parent: name, max: 1000)
             try validate(self.recordColumns, name: "recordColumns", parent: name, min: 1)
+            try validate(self.recordEncoding, name: "recordEncoding", parent: name, max: 5)
+            try validate(self.recordEncoding, name: "recordEncoding", parent: name, min: 5)
             try validate(self.recordEncoding, name: "recordEncoding", parent: name, pattern: "UTF-8")
             try self.recordFormat.validate(name: "\(name).recordFormat")
         }
@@ -3531,7 +3557,7 @@ extension KinesisAnalyticsV2 {
         public func validate(name: String) throws {
             try validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:.*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3568,7 +3594,7 @@ extension KinesisAnalyticsV2 {
         public func validate(name: String) throws {
             try validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+            try validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:.*")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -3628,7 +3654,7 @@ extension KinesisAnalyticsV2 {
             try self.runConfigurationUpdate?.validate(name: "\(name).runConfigurationUpdate")
             try validate(self.serviceExecutionRoleUpdate, name: "serviceExecutionRoleUpdate", parent: name, max: 2048)
             try validate(self.serviceExecutionRoleUpdate, name: "serviceExecutionRoleUpdate", parent: name, min: 1)
-            try validate(self.serviceExecutionRoleUpdate, name: "serviceExecutionRoleUpdate", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try validate(self.serviceExecutionRoleUpdate, name: "serviceExecutionRoleUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {

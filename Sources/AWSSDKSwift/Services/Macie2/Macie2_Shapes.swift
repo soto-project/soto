@@ -45,6 +45,7 @@ extension Macie2 {
     public enum EffectivePermission: String, CustomStringConvertible, Codable {
         case `public` = "PUBLIC"
         case notPublic = "NOT_PUBLIC"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -210,6 +211,7 @@ extension Macie2 {
         case external = "EXTERNAL"
         case `internal` = "INTERNAL"
         case notShared = "NOT_SHARED"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -637,6 +639,7 @@ extension Macie2 {
         public var bucketCreatedAt: TimeStamp?
         public let bucketName: String?
         public let classifiableObjectCount: Int64?
+        public let classifiableSizeInBytes: Int64?
         @OptionalCoding<ISO8601TimeStampCoder>
         public var lastUpdated: TimeStamp?
         public let objectCount: Int64?
@@ -648,14 +651,17 @@ extension Macie2 {
         public let sizeInBytes: Int64?
         public let sizeInBytesCompressed: Int64?
         public let tags: [KeyValuePair]?
+        public let unclassifiableObjectCount: ObjectLevelStatistics?
+        public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
         public let versioning: Bool?
 
-        public init(accountId: String? = nil, bucketArn: String? = nil, bucketCreatedAt: TimeStamp? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, lastUpdated: TimeStamp? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, versioning: Bool? = nil) {
+        public init(accountId: String? = nil, bucketArn: String? = nil, bucketCreatedAt: TimeStamp? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: TimeStamp? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
             self.accountId = accountId
             self.bucketArn = bucketArn
             self.bucketCreatedAt = bucketCreatedAt
             self.bucketName = bucketName
             self.classifiableObjectCount = classifiableObjectCount
+            self.classifiableSizeInBytes = classifiableSizeInBytes
             self.lastUpdated = lastUpdated
             self.objectCount = objectCount
             self.objectCountByEncryptionType = objectCountByEncryptionType
@@ -666,6 +672,8 @@ extension Macie2 {
             self.sizeInBytes = sizeInBytes
             self.sizeInBytesCompressed = sizeInBytesCompressed
             self.tags = tags
+            self.unclassifiableObjectCount = unclassifiableObjectCount
+            self.unclassifiableObjectSizeInBytes = unclassifiableObjectSizeInBytes
             self.versioning = versioning
         }
 
@@ -675,6 +683,7 @@ extension Macie2 {
             case bucketCreatedAt = "bucketCreatedAt"
             case bucketName = "bucketName"
             case classifiableObjectCount = "classifiableObjectCount"
+            case classifiableSizeInBytes = "classifiableSizeInBytes"
             case lastUpdated = "lastUpdated"
             case objectCount = "objectCount"
             case objectCountByEncryptionType = "objectCountByEncryptionType"
@@ -685,6 +694,8 @@ extension Macie2 {
             case sizeInBytes = "sizeInBytes"
             case sizeInBytesCompressed = "sizeInBytesCompressed"
             case tags = "tags"
+            case unclassifiableObjectCount = "unclassifiableObjectCount"
+            case unclassifiableObjectSizeInBytes = "unclassifiableObjectSizeInBytes"
             case versioning = "versioning"
         }
     }
@@ -1768,22 +1779,28 @@ extension Macie2 {
         public let bucketCountByEncryptionType: BucketCountByEncryptionType?
         public let bucketCountBySharedAccessType: BucketCountBySharedAccessType?
         public let classifiableObjectCount: Int64?
+        public let classifiableSizeInBytes: Int64?
         @OptionalCoding<ISO8601TimeStampCoder>
         public var lastUpdated: TimeStamp?
         public let objectCount: Int64?
         public let sizeInBytes: Int64?
         public let sizeInBytesCompressed: Int64?
+        public let unclassifiableObjectCount: ObjectLevelStatistics?
+        public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
 
-        public init(bucketCount: Int64? = nil, bucketCountByEffectivePermission: BucketCountByEffectivePermission? = nil, bucketCountByEncryptionType: BucketCountByEncryptionType? = nil, bucketCountBySharedAccessType: BucketCountBySharedAccessType? = nil, classifiableObjectCount: Int64? = nil, lastUpdated: TimeStamp? = nil, objectCount: Int64? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil) {
+        public init(bucketCount: Int64? = nil, bucketCountByEffectivePermission: BucketCountByEffectivePermission? = nil, bucketCountByEncryptionType: BucketCountByEncryptionType? = nil, bucketCountBySharedAccessType: BucketCountBySharedAccessType? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: TimeStamp? = nil, objectCount: Int64? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
             self.bucketCount = bucketCount
             self.bucketCountByEffectivePermission = bucketCountByEffectivePermission
             self.bucketCountByEncryptionType = bucketCountByEncryptionType
             self.bucketCountBySharedAccessType = bucketCountBySharedAccessType
             self.classifiableObjectCount = classifiableObjectCount
+            self.classifiableSizeInBytes = classifiableSizeInBytes
             self.lastUpdated = lastUpdated
             self.objectCount = objectCount
             self.sizeInBytes = sizeInBytes
             self.sizeInBytesCompressed = sizeInBytesCompressed
+            self.unclassifiableObjectCount = unclassifiableObjectCount
+            self.unclassifiableObjectSizeInBytes = unclassifiableObjectSizeInBytes
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1792,10 +1809,13 @@ extension Macie2 {
             case bucketCountByEncryptionType = "bucketCountByEncryptionType"
             case bucketCountBySharedAccessType = "bucketCountBySharedAccessType"
             case classifiableObjectCount = "classifiableObjectCount"
+            case classifiableSizeInBytes = "classifiableSizeInBytes"
             case lastUpdated = "lastUpdated"
             case objectCount = "objectCount"
             case sizeInBytes = "sizeInBytes"
             case sizeInBytesCompressed = "sizeInBytesCompressed"
+            case unclassifiableObjectCount = "unclassifiableObjectCount"
+            case unclassifiableObjectSizeInBytes = "unclassifiableObjectSizeInBytes"
         }
     }
 
@@ -2831,6 +2851,25 @@ extension Macie2 {
             case kmsManaged = "kmsManaged"
             case s3Managed = "s3Managed"
             case unencrypted = "unencrypted"
+        }
+    }
+
+    public struct ObjectLevelStatistics: AWSDecodableShape {
+
+        public let fileType: Int64?
+        public let storageClass: Int64?
+        public let total: Int64?
+
+        public init(fileType: Int64? = nil, storageClass: Int64? = nil, total: Int64? = nil) {
+            self.fileType = fileType
+            self.storageClass = storageClass
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileType = "fileType"
+            case storageClass = "storageClass"
+            case total = "total"
         }
     }
 

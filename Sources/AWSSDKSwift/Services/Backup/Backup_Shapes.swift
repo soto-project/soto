@@ -369,9 +369,9 @@ extension Backup {
 
     public struct BackupSelection: AWSEncodableShape & AWSDecodableShape {
 
-        /// The ARN of the IAM role that AWS Backup uses to authenticate when restoring the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
+        /// The ARN of the IAM role that AWS Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
-        /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "STRINGEQUALS": {"ec2:ResourceTag/Department": "accounting".
+        /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "StringEquals": {"ec2:ResourceTag/Department": "accounting".
         public let listOfTags: [Condition]?
         /// An array of strings that contain Amazon Resource Names (ARNs) of resources to assign to a backup plan.
         public let resources: [String]?
@@ -487,7 +487,7 @@ extension Backup {
 
         /// The key in a key-value pair. For example, in "ec2:ResourceTag/Department": "accounting", "ec2:ResourceTag/Department" is the key.
         public let conditionKey: String
-        /// An operation, such as STRINGEQUALS, that is applied to a key-value pair used to filter resources in a selection.
+        /// An operation, such as StringEquals, that is applied to a key-value pair used to filter resources in a selection.
         public let conditionType: ConditionType
         /// The value in a key-value pair. For example, in "ec2:ResourceTag/Department": "accounting", "accounting" is the value.
         public let conditionValue: String

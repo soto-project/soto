@@ -20,7 +20,7 @@ import AWSSDKSwiftCore
 
 extension Route53Resolver {
 
-    ///  Gets the IP addresses for a specified resolver endpoint.
+    ///  Gets the IP addresses for a specified Resolver endpoint.
     public func listResolverEndpointIpAddressesPaginator(
         _ input: ListResolverEndpointIpAddressesRequest,
         on eventLoop: EventLoop? = nil,
@@ -36,7 +36,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists all the resolver endpoints that were created using the current AWS account.
+    ///  Lists all the Resolver endpoints that were created using the current AWS account.
     public func listResolverEndpointsPaginator(
         _ input: ListResolverEndpointsRequest,
         on eventLoop: EventLoop? = nil,
@@ -52,7 +52,39 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists the associations that were created between resolver rules and VPCs using the current AWS account.
+    ///  Lists information about associations between Amazon VPCs and query logging configurations.
+    public func listResolverQueryLogConfigAssociationsPaginator(
+        _ input: ListResolverQueryLogConfigAssociationsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListResolverQueryLogConfigAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listResolverQueryLogConfigAssociations,
+            tokenKey: \ListResolverQueryLogConfigAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save DNS query logs and specifies the VPCs that you want to log queries for.
+    public func listResolverQueryLogConfigsPaginator(
+        _ input: ListResolverQueryLogConfigsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListResolverQueryLogConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listResolverQueryLogConfigs,
+            tokenKey: \ListResolverQueryLogConfigsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the associations that were created between Resolver rules and VPCs using the current AWS account.
     public func listResolverRuleAssociationsPaginator(
         _ input: ListResolverRuleAssociationsRequest,
         on eventLoop: EventLoop? = nil,
@@ -68,7 +100,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists the resolver rules that were created using the current AWS account.
+    ///  Lists the Resolver rules that were created using the current AWS account.
     public func listResolverRulesPaginator(
         _ input: ListResolverRulesRequest,
         on eventLoop: EventLoop? = nil,
@@ -79,6 +111,22 @@ extension Route53Resolver {
             input: input,
             command: listResolverRules,
             tokenKey: \ListResolverRulesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the tags that you associated with the specified resource.
+    public func listTagsForResourcePaginator(
+        _ input: ListTagsForResourceRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listTagsForResource,
+            tokenKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -108,6 +156,32 @@ extension Route53Resolver.ListResolverEndpointsRequest: AWSPaginateToken {
     }
 }
 
+extension Route53Resolver.ListResolverQueryLogConfigAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverQueryLogConfigAssociationsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+
+    }
+}
+
+extension Route53Resolver.ListResolverQueryLogConfigsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverQueryLogConfigsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+
+    }
+}
+
 extension Route53Resolver.ListResolverRuleAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverRuleAssociationsRequest {
         return .init(
@@ -125,6 +199,17 @@ extension Route53Resolver.ListResolverRulesRequest: AWSPaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
+        )
+
+    }
+}
+
+extension Route53Resolver.ListTagsForResourceRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListTagsForResourceRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
         )
 
     }

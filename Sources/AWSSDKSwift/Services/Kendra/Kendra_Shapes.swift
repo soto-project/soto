@@ -182,6 +182,13 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScoreConfidence: String, CustomStringConvertible, Codable {
+        case veryHigh = "VERY_HIGH"
+        case high = "HIGH"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceNowBuildVersionType: String, CustomStringConvertible, Codable {
         case london = "LONDON"
         case others = "OTHERS"
@@ -280,9 +287,9 @@ extension Kendra {
 
         /// Performs a logical AND operation on all supplied filters.
         public let andAllFilters: [AttributeFilter]?
-        /// Returns true when a document contains all of the specified document attributes. This filter is only appicable to StringListValue metadata.
+        /// Returns true when a document contains all of the specified document attributes. This filter is only applicable to StringListValue metadata.
         public let containsAll: DocumentAttribute?
-        /// Returns true when a document contains any of the specified document attributes.This filter is only appicable to StringListValue metadata.
+        /// Returns true when a document contains any of the specified document attributes. This filter is only applicable to StringListValue metadata.
         public let containsAny: DocumentAttribute?
         /// Performs an equals operation on two document attributes.
         public let equalsTo: DocumentAttribute?
@@ -2052,7 +2059,7 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
@@ -2063,7 +2070,7 @@ extension Kendra {
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 50)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
@@ -2239,7 +2246,7 @@ extension Kendra {
 
     public struct QueryResultItem: AWSDecodableShape {
 
-        /// One or more additional attribues associated with the query result.
+        /// One or more additional attributes associated with the query result.
         public let additionalAttributes: [AdditionalResultAttribute]?
         /// An array of document attributes for the document that the query result maps to. For example, the document author (Author) or the source URI (SourceUri) of the document.
         public let documentAttributes: [DocumentAttribute]?
@@ -2253,10 +2260,12 @@ extension Kendra {
         public let documentURI: String?
         /// The unique identifier for the query result.
         public let id: String?
+        /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, and MEDIUM. You can use the score to determine if a response meets the confidence needed for your application. Confidence scores are only returned for results with the Type field set to QUESTION_ANSWER or ANSWER. This field is not returned if the Type field is set to DOCUMENT.
+        public let scoreAttributes: ScoreAttributes?
         /// The type of document. 
         public let `type`: QueryResultType?
 
-        public init(additionalAttributes: [AdditionalResultAttribute]? = nil, documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, id: String? = nil, type: QueryResultType? = nil) {
+        public init(additionalAttributes: [AdditionalResultAttribute]? = nil, documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, id: String? = nil, scoreAttributes: ScoreAttributes? = nil, type: QueryResultType? = nil) {
             self.additionalAttributes = additionalAttributes
             self.documentAttributes = documentAttributes
             self.documentExcerpt = documentExcerpt
@@ -2264,6 +2273,7 @@ extension Kendra {
             self.documentTitle = documentTitle
             self.documentURI = documentURI
             self.id = id
+            self.scoreAttributes = scoreAttributes
             self.`type` = `type`
         }
 
@@ -2275,6 +2285,7 @@ extension Kendra {
             case documentTitle = "DocumentTitle"
             case documentURI = "DocumentURI"
             case id = "Id"
+            case scoreAttributes = "ScoreAttributes"
             case `type` = "Type"
         }
     }
@@ -2373,13 +2384,13 @@ extension Kendra {
             try validate(self.bucketName, name: "bucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
             try self.documentsMetadataConfiguration?.validate(name: "\(name).documentsMetadataConfiguration")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
             try validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
             try self.inclusionPrefixes?.forEach {
-                try validate($0, name: "inclusionPrefixes[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPrefixes[]", parent: name, max: 50)
                 try validate($0, name: "inclusionPrefixes[]", parent: name, min: 1)
             }
             try validate(self.inclusionPrefixes, name: "inclusionPrefixes", parent: name, max: 100)
@@ -2499,13 +2510,13 @@ extension Kendra {
         public func validate(name: String) throws {
             try self.chatterFeedConfiguration?.validate(name: "\(name).chatterFeedConfiguration")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
             try validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, min: 0)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
@@ -2719,6 +2730,20 @@ extension Kendra {
         }
     }
 
+    public struct ScoreAttributes: AWSDecodableShape {
+
+        /// A relative ranking for how well the response matches the query.
+        public let scoreConfidence: ScoreConfidence?
+
+        public init(scoreConfidence: ScoreConfidence? = nil) {
+            self.scoreConfidence = scoreConfidence
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scoreConfidence = "ScoreConfidence"
+        }
+    }
+
     public struct Search: AWSEncodableShape & AWSDecodableShape {
 
         /// Determines whether the field is returned in the query response. The default is true.
@@ -2837,7 +2862,7 @@ extension Kendra {
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
@@ -2848,7 +2873,7 @@ extension Kendra {
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
@@ -2897,7 +2922,7 @@ extension Kendra {
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
@@ -2908,7 +2933,7 @@ extension Kendra {
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
@@ -2965,7 +2990,7 @@ extension Kendra {
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
@@ -2976,7 +3001,7 @@ extension Kendra {
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 50)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
@@ -3034,7 +3059,7 @@ extension Kendra {
 
     public struct SqlConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// Determines whether Amazon Kendra encloses SQL identifiers in double quotes (") when making a database query. By default, Amazon Kendra passes SQL identifiers the way that they are entered into the data source configuration. It does not change the case of identifiers or enclose them in quotes. PostgreSQL internally converts uppercase characters to lower case characters in identifiers unless they are quoted. Choosing this option encloses identifiers in quotes so that PostgreSQL does not convert the character's case. For MySQL databases, you must enable the ansi_quotes option when you choose this option.
+        /// Determines whether Amazon Kendra encloses SQL identifiers for tables and column names in double quotes (") when making a database query. By default, Amazon Kendra passes SQL identifiers the way that they are entered into the data source configuration. It does not change the case of identifiers or enclose them in quotes. PostgreSQL internally converts uppercase characters to lower case characters in identifiers unless they are quoted. Choosing this option encloses identifiers in quotes so that PostgreSQL does not convert the character's case. For MySQL databases, you must enable the ansi_quotes option when you set this field to DOUBLE_QUOTES.
         public let queryIdentifiersEnclosingOption: QueryIdentifiersEnclosingOption?
 
         public init(queryIdentifiersEnclosingOption: QueryIdentifiersEnclosingOption? = nil) {

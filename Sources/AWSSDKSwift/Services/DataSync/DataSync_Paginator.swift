@@ -115,6 +115,7 @@ extension DataSync.ListAgentsRequest: AWSPaginateToken {
 extension DataSync.ListLocationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataSync.ListLocationsRequest {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -147,6 +148,7 @@ extension DataSync.ListTaskExecutionsRequest: AWSPaginateToken {
 extension DataSync.ListTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataSync.ListTasksRequest {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )

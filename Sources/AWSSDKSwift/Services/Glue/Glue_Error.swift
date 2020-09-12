@@ -23,6 +23,7 @@ public enum GlueErrorType: AWSErrorType {
     case concurrentModificationException(message: String?)
     case concurrentRunsExceededException(message: String?)
     case conditionCheckFailureException(message: String?)
+    case conflictException(message: String?)
     case crawlerNotRunningException(message: String?)
     case crawlerRunningException(message: String?)
     case crawlerStoppingException(message: String?)
@@ -60,6 +61,8 @@ extension GlueErrorType {
             self = .concurrentRunsExceededException(message: message)
         case "ConditionCheckFailureException":
             self = .conditionCheckFailureException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "CrawlerNotRunningException":
             self = .crawlerNotRunningException(message: message)
         case "CrawlerRunningException":
@@ -115,6 +118,8 @@ extension GlueErrorType: CustomStringConvertible {
             return "ConcurrentRunsExceededException: \(message ?? "")"
         case .conditionCheckFailureException(let message):
             return "ConditionCheckFailureException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .crawlerNotRunningException(let message):
             return "CrawlerNotRunningException: \(message ?? "")"
         case .crawlerRunningException(let message):

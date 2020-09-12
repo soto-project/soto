@@ -177,6 +177,11 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum PartitionIndexStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Permission: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case select = "SELECT"
@@ -1558,7 +1563,7 @@ extension Glue {
 
     public struct Connection: AWSDecodableShape {
 
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. AWS Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".  
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.  
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -1606,7 +1611,7 @@ extension Glue {
 
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).   SFTP is not supported.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.   SFTP is not supported.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
@@ -2744,12 +2749,15 @@ extension Glue {
         public let catalogId: String?
         /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
+        /// A list of partition indexes, PartitionIndex structures, to create in the table.
+        public let partitionIndexes: [PartitionIndex]?
         /// The TableInput object that defines the metadata table to create in the catalog.
         public let tableInput: TableInput
 
-        public init(catalogId: String? = nil, databaseName: String, tableInput: TableInput) {
+        public init(catalogId: String? = nil, databaseName: String, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput) {
             self.catalogId = catalogId
             self.databaseName = databaseName
+            self.partitionIndexes = partitionIndexes
             self.tableInput = tableInput
         }
 
@@ -2760,12 +2768,17 @@ extension Glue {
             try validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.partitionIndexes?.forEach {
+                try $0.validate(name: "\(name).partitionIndexes[]")
+            }
+            try validate(self.partitionIndexes, name: "partitionIndexes", parent: name, max: 3)
             try self.tableInput.validate(name: "\(name).tableInput")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
+            case partitionIndexes = "PartitionIndexes"
             case tableInput = "TableInput"
         }
     }
@@ -5581,6 +5594,62 @@ extension Glue {
         }
     }
 
+    public struct GetPartitionIndexesRequest: AWSEncodableShape {
+
+        /// The catalog ID where the table resides.
+        public let catalogId: String?
+        /// Specifies the name of a database from which you want to retrieve partition indexes.
+        public let databaseName: String
+        /// A continuation token, included if this is a continuation call.
+        public let nextToken: String?
+        /// Specifies the name of a table for which you want to retrieve the partition indexes.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, nextToken: String? = nil, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.nextToken = nextToken
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case nextToken = "NextToken"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetPartitionIndexesResponse: AWSDecodableShape {
+
+        /// A continuation token, present if the current list segment is not the last.
+        public let nextToken: String?
+        /// A list of index descriptors.
+        public let partitionIndexDescriptorList: [PartitionIndexDescriptor]?
+
+        public init(nextToken: String? = nil, partitionIndexDescriptorList: [PartitionIndexDescriptor]? = nil) {
+            self.nextToken = nextToken
+            self.partitionIndexDescriptorList = partitionIndexDescriptorList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case partitionIndexDescriptorList = "PartitionIndexDescriptorList"
+        }
+    }
+
     public struct GetPartitionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the partition in question resides. If none is provided, the AWS account ID is used by default.
@@ -7129,6 +7198,24 @@ extension Glue {
         }
     }
 
+    public struct KeySchemaElement: AWSDecodableShape {
+
+        /// The name of a partition key.
+        public let name: String
+        /// The type of a partition key.
+        public let `type`: String
+
+        public init(name: String, type: String) {
+            self.name = name
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `type` = "Type"
+        }
+    }
+
     public struct LabelingSetGenerationTaskRunProperties: AWSDecodableShape {
 
         /// The Amazon Simple Storage Service (Amazon S3) path where you will generate the labeling set.
@@ -7806,6 +7893,58 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case errorDetail = "ErrorDetail"
             case partitionValues = "PartitionValues"
+        }
+    }
+
+    public struct PartitionIndex: AWSEncodableShape {
+
+        /// The name of the partition index.
+        public let indexName: String
+        /// The keys for the partition index.
+        public let keys: [String]
+
+        public init(indexName: String, keys: [String]) {
+            self.indexName = indexName
+            self.keys = keys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try validate(self.indexName, name: "indexName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.keys.forEach {
+                try validate($0, name: "keys[]", parent: name, max: 255)
+                try validate($0, name: "keys[]", parent: name, min: 1)
+                try validate($0, name: "keys[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
+            try validate(self.keys, name: "keys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case keys = "Keys"
+        }
+    }
+
+    public struct PartitionIndexDescriptor: AWSDecodableShape {
+
+        /// The name of the partition index.
+        public let indexName: String
+        /// The status of the partition index. 
+        public let indexStatus: PartitionIndexStatus
+        /// A list of one or more keys, as KeySchemaElement structures, for the partition index.
+        public let keys: [KeySchemaElement]
+
+        public init(indexName: String, indexStatus: PartitionIndexStatus, keys: [KeySchemaElement]) {
+            self.indexName = indexName
+            self.indexStatus = indexStatus
+            self.keys = keys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case indexStatus = "IndexStatus"
+            case keys = "Keys"
         }
     }
 

@@ -20,7 +20,7 @@ import AWSSDKSwiftCore
 
 extension EBS {
 
-    ///  Returns the block indexes and block tokens for blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
+    ///  Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
     public func listChangedBlocksPaginator(
         _ input: ListChangedBlocksRequest,
         on eventLoop: EventLoop? = nil,
@@ -36,7 +36,7 @@ extension EBS {
         )
     }
 
-    ///  Returns the block indexes and block tokens for blocks in an Amazon Elastic Block Store snapshot.
+    ///  Returns information about the blocks in an Amazon Elastic Block Store snapshot.
     public func listSnapshotBlocksPaginator(
         _ input: ListSnapshotBlocksRequest,
         on eventLoop: EventLoop? = nil,

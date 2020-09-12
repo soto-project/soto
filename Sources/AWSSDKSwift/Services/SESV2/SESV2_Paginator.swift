@@ -148,6 +148,22 @@ extension SESV2 {
         )
     }
 
+    ///  Lists all of the import jobs.
+    public func listImportJobsPaginator(
+        _ input: ListImportJobsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListImportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listImportJobs,
+            tokenKey: \ListImportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves a list of email addresses that are on the suppression list for your account.
     public func listSuppressedDestinationsPaginator(
         _ input: ListSuppressedDestinationsRequest,
@@ -243,6 +259,17 @@ extension SESV2.ListEmailIdentitiesRequest: AWSPaginateToken {
 extension SESV2.ListEmailTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListEmailTemplatesRequest {
         return .init(
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+
+    }
+}
+
+extension SESV2.ListImportJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SESV2.ListImportJobsRequest {
+        return .init(
+            importDestinationType: self.importDestinationType,
             nextToken: token,
             pageSize: self.pageSize
         )

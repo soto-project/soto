@@ -172,16 +172,19 @@ extension SFN {
 
         /// The maximum allowed duration between two heartbeats for the activity task.
         public let heartbeatInSeconds: Int64?
-        /// The JSON data input to the activity task.
+        /// The JSON data input to the activity task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
+        /// Contains details about the input for an execution history event.
+        public let inputDetails: HistoryEventExecutionDataDetails?
         /// The Amazon Resource Name (ARN) of the scheduled activity.
         public let resource: String
         /// The maximum allowed duration of the activity task.
         public let timeoutInSeconds: Int64?
 
-        public init(heartbeatInSeconds: Int64? = nil, input: String? = nil, resource: String, timeoutInSeconds: Int64? = nil) {
+        public init(heartbeatInSeconds: Int64? = nil, input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, timeoutInSeconds: Int64? = nil) {
             self.heartbeatInSeconds = heartbeatInSeconds
             self.input = input
+            self.inputDetails = inputDetails
             self.resource = resource
             self.timeoutInSeconds = timeoutInSeconds
         }
@@ -189,6 +192,7 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case heartbeatInSeconds = "heartbeatInSeconds"
             case input = "input"
+            case inputDetails = "inputDetails"
             case resource = "resource"
             case timeoutInSeconds = "timeoutInSeconds"
         }
@@ -210,15 +214,19 @@ extension SFN {
 
     public struct ActivitySucceededEventDetails: AWSDecodableShape {
 
-        /// The JSON data output by the activity task.
+        /// The JSON data output by the activity task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
+        /// Contains details about the output of an execution history event.
+        public let outputDetails: HistoryEventExecutionDataDetails?
 
-        public init(output: String? = nil) {
+        public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
             self.output = output
+            self.outputDetails = outputDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
@@ -237,6 +245,20 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case cause = "cause"
             case error = "error"
+        }
+    }
+
+    public struct CloudWatchEventsExecutionDataDetails: AWSDecodableShape {
+
+        /// Indicates whether input or output was included in the response. Always true for API calls, but may be false for CloudWatch Events.
+        public let included: Bool?
+
+        public init(included: Bool? = nil) {
+            self.included = included
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case included = "included"
         }
     }
 
@@ -486,12 +508,14 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) that id entifies the execution.
         public let executionArn: String
-        /// The string that contains the JSON input data of the execution.
-        public let input: String
+        /// The string that contains the JSON input data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        public let input: String?
+        public let inputDetails: CloudWatchEventsExecutionDataDetails?
         /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String?
-        /// The JSON output data of the execution.  This field is set only if the execution succeeds. If the execution fails, this field is null. 
+        /// The JSON output data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.  This field is set only if the execution succeeds. If the execution fails, this field is null. 
         public let output: String?
+        public let outputDetails: CloudWatchEventsExecutionDataDetails?
         /// The date the execution is started.
         public let startDate: TimeStamp
         /// The Amazon Resource Name (ARN) of the executed stated machine.
@@ -501,11 +525,13 @@ extension SFN {
         /// If the execution has already ended, the date the execution stopped.
         public let stopDate: TimeStamp?
 
-        public init(executionArn: String, input: String, name: String? = nil, output: String? = nil, startDate: TimeStamp, stateMachineArn: String, status: ExecutionStatus, stopDate: TimeStamp? = nil) {
+        public init(executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: TimeStamp, stateMachineArn: String, status: ExecutionStatus, stopDate: TimeStamp? = nil) {
             self.executionArn = executionArn
             self.input = input
+            self.inputDetails = inputDetails
             self.name = name
             self.output = output
+            self.outputDetails = outputDetails
             self.startDate = startDate
             self.stateMachineArn = stateMachineArn
             self.status = status
@@ -515,8 +541,10 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case executionArn = "executionArn"
             case input = "input"
+            case inputDetails = "inputDetails"
             case name = "name"
             case output = "output"
+            case outputDetails = "outputDetails"
             case startDate = "startDate"
             case stateMachineArn = "stateMachineArn"
             case status = "status"
@@ -708,33 +736,41 @@ extension SFN {
 
     public struct ExecutionStartedEventDetails: AWSDecodableShape {
 
-        /// The JSON data input to the execution.
+        /// The JSON data input to the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
+        /// Contains details about the input for an execution history event.
+        public let inputDetails: HistoryEventExecutionDataDetails?
         /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
         public let roleArn: String?
 
-        public init(input: String? = nil, roleArn: String? = nil) {
+        public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, roleArn: String? = nil) {
             self.input = input
+            self.inputDetails = inputDetails
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case input = "input"
+            case inputDetails = "inputDetails"
             case roleArn = "roleArn"
         }
     }
 
     public struct ExecutionSucceededEventDetails: AWSDecodableShape {
 
-        /// The JSON data output by the execution.
+        /// The JSON data output by the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
+        /// Contains details about the output of an execution history event.
+        public let outputDetails: HistoryEventExecutionDataDetails?
 
-        public init(output: String? = nil) {
+        public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
             self.output = output
+            self.outputDetails = outputDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
@@ -783,7 +819,7 @@ extension SFN {
 
     public struct GetActivityTaskOutput: AWSDecodableShape {
 
-        /// The string that contains the JSON input data for the task.
+        /// The string that contains the JSON input data for the task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// A token that identifies the scheduled task. This token must be copied and included in subsequent calls to SendTaskHeartbeat, SendTaskSuccess or SendTaskFailure in order to report the progress or completion of the task.
         public let taskToken: String?
@@ -803,6 +839,8 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) of the execution.
         public let executionArn: String
+        /// You can select whether execution data (input or output of a history event) is returned. The default is true.
+        public let includeExecutionData: Bool?
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -810,8 +848,9 @@ extension SFN {
         /// Lists events in descending order of their timeStamp.
         public let reverseOrder: Bool?
 
-        public init(executionArn: String, maxResults: Int? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
+        public init(executionArn: String, includeExecutionData: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
             self.executionArn = executionArn
+            self.includeExecutionData = includeExecutionData
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reverseOrder = reverseOrder
@@ -828,6 +867,7 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case executionArn = "executionArn"
+            case includeExecutionData = "includeExecutionData"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case reverseOrder = "reverseOrder"
@@ -990,6 +1030,20 @@ extension SFN {
         }
     }
 
+    public struct HistoryEventExecutionDataDetails: AWSDecodableShape {
+
+        /// Indicates whether input or output was truncated in the response. Always false.
+        public let truncated: Bool?
+
+        public init(truncated: Bool? = nil) {
+            self.truncated = truncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case truncated = "truncated"
+        }
+    }
+
     public struct LambdaFunctionFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
@@ -1028,21 +1082,25 @@ extension SFN {
 
     public struct LambdaFunctionScheduledEventDetails: AWSDecodableShape {
 
-        /// The JSON data input to the lambda function.
+        /// The JSON data input to the lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
+        /// Contains details about input for an execution history event.
+        public let inputDetails: HistoryEventExecutionDataDetails?
         /// The Amazon Resource Name (ARN) of the scheduled lambda function.
         public let resource: String
         /// The maximum allowed duration of the lambda function.
         public let timeoutInSeconds: Int64?
 
-        public init(input: String? = nil, resource: String, timeoutInSeconds: Int64? = nil) {
+        public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, timeoutInSeconds: Int64? = nil) {
             self.input = input
+            self.inputDetails = inputDetails
             self.resource = resource
             self.timeoutInSeconds = timeoutInSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
             case input = "input"
+            case inputDetails = "inputDetails"
             case resource = "resource"
             case timeoutInSeconds = "timeoutInSeconds"
         }
@@ -1068,15 +1126,19 @@ extension SFN {
 
     public struct LambdaFunctionSucceededEventDetails: AWSDecodableShape {
 
-        /// The JSON data output by the lambda function.
+        /// The JSON data output by the lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
+        /// Contains details about the output of an execution history event.
+        public let outputDetails: HistoryEventExecutionDataDetails?
 
-        public init(output: String? = nil) {
+        public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
             self.output = output
+            self.outputDetails = outputDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
@@ -1291,7 +1353,7 @@ extension SFN {
 
         /// An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF.
         public let destinations: [LogDestination]?
-        /// Determines whether execution data is included in your log. When set to FALSE, data is excluded.
+        /// Determines whether execution data is included in your log. When set to false, data is excluded.
         public let includeExecutionData: Bool?
         /// Defines which category of execution history events are logged.
         public let level: LogLevel?
@@ -1415,7 +1477,7 @@ extension SFN {
 
     public struct SendTaskSuccessInput: AWSEncodableShape {
 
-        /// The JSON output of the task.
+        /// The JSON output of the task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String
         /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
@@ -1426,7 +1488,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try validate(self.output, name: "output", parent: name, max: 32768)
+            try validate(self.output, name: "output", parent: name, max: 262144)
             try validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
@@ -1447,7 +1509,7 @@ extension SFN {
 
     public struct StartExecutionInput: AWSEncodableShape {
 
-        /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"  
+        /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String?
@@ -1461,7 +1523,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try validate(self.input, name: "input", parent: name, max: 32768)
+            try validate(self.input, name: "input", parent: name, max: 262144)
             try validate(self.name, name: "name", parent: name, max: 80)
             try validate(self.name, name: "name", parent: name, min: 1)
             try validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
@@ -1495,18 +1557,22 @@ extension SFN {
 
     public struct StateEnteredEventDetails: AWSDecodableShape {
 
-        /// The string that contains the JSON input data for the state.
+        /// The string that contains the JSON input data for the state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
+        /// Contains details about the input for an execution history event.
+        public let inputDetails: HistoryEventExecutionDataDetails?
         /// The name of the state.
         public let name: String
 
-        public init(input: String? = nil, name: String) {
+        public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, name: String) {
             self.input = input
+            self.inputDetails = inputDetails
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case input = "input"
+            case inputDetails = "inputDetails"
             case name = "name"
         }
     }
@@ -1515,17 +1581,21 @@ extension SFN {
 
         /// The name of the state. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
-        /// The JSON output data of the state.
+        /// The JSON output data of the state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
+        /// Contains details about the output of an execution history event.
+        public let outputDetails: HistoryEventExecutionDataDetails?
 
-        public init(name: String, output: String? = nil) {
+        public init(name: String, output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
             self.name = name
             self.output = output
+            self.outputDetails = outputDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
@@ -1686,7 +1756,9 @@ extension SFN {
 
     public struct TaskScheduledEventDetails: AWSDecodableShape {
 
-        /// The JSON data passed to the resource referenced in a task state.
+        /// The maximum allowed duration between two heartbeats for the task.
+        public let heartbeatInSeconds: Int64?
+        /// The JSON data passed to the resource referenced in a task state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let parameters: String
         /// The region of the scheduled task
         public let region: String
@@ -1697,7 +1769,8 @@ extension SFN {
         /// The maximum allowed duration of the task.
         public let timeoutInSeconds: Int64?
 
-        public init(parameters: String, region: String, resource: String, resourceType: String, timeoutInSeconds: Int64? = nil) {
+        public init(heartbeatInSeconds: Int64? = nil, parameters: String, region: String, resource: String, resourceType: String, timeoutInSeconds: Int64? = nil) {
+            self.heartbeatInSeconds = heartbeatInSeconds
             self.parameters = parameters
             self.region = region
             self.resource = resource
@@ -1706,6 +1779,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case heartbeatInSeconds = "heartbeatInSeconds"
             case parameters = "parameters"
             case region = "region"
             case resource = "resource"
@@ -1786,21 +1860,25 @@ extension SFN {
 
     public struct TaskSubmittedEventDetails: AWSDecodableShape {
 
-        /// The response from a resource when a task has started.
+        /// The response from a resource when a task has started. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
+        /// Contains details about the output of an execution history event.
+        public let outputDetails: HistoryEventExecutionDataDetails?
         /// The service name of the resource in a task state.
         public let resource: String
         /// The action of the resource called by a task state.
         public let resourceType: String
 
-        public init(output: String? = nil, resource: String, resourceType: String) {
+        public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, resourceType: String) {
             self.output = output
+            self.outputDetails = outputDetails
             self.resource = resource
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case output = "output"
+            case outputDetails = "outputDetails"
             case resource = "resource"
             case resourceType = "resourceType"
         }
@@ -1808,21 +1886,25 @@ extension SFN {
 
     public struct TaskSucceededEventDetails: AWSDecodableShape {
 
-        /// The full JSON response from a resource when a task has succeeded. This response becomes the output of the related task.
+        /// The full JSON response from a resource when a task has succeeded. This response becomes the output of the related task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
+        /// Contains details about the output of an execution history event.
+        public let outputDetails: HistoryEventExecutionDataDetails?
         /// The service name of the resource in a task state.
         public let resource: String
         /// The action of the resource called by a task state.
         public let resourceType: String
 
-        public init(output: String? = nil, resource: String, resourceType: String) {
+        public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, resourceType: String) {
             self.output = output
+            self.outputDetails = outputDetails
             self.resource = resource
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case output = "output"
+            case outputDetails = "outputDetails"
             case resource = "resource"
             case resourceType = "resourceType"
         }

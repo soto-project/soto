@@ -191,7 +191,7 @@ extension SQS {
         public let queueUrl: String
         /// The receipt handle associated with the message whose visibility timeout is changed. This parameter is returned by the  ReceiveMessage  action.
         public let receiptHandle: String
-        /// The new value for the message's visibility timeout (in seconds). Values values: 0 to 43200. Maximum: 12 hours.
+        /// The new value for the message's visibility timeout (in seconds). Values range: 0 to 43200. Maximum: 12 hours.
         public let visibilityTimeout: Int
 
         public init(queueUrl: String, receiptHandle: String, visibilityTimeout: Int) {
@@ -415,7 +415,7 @@ extension SQS {
 
     public struct ListDeadLetterSourceQueuesRequest: AWSEncodableShape {
 
-        /// Maximum number of results to include in the response.
+        /// Maximum number of results to include in the response. Value range is 1 to 1000. You must set MaxResults to receive a value for NextToken in the response.
         public let maxResults: Int?
         /// Pagination token to request the next set of results.
         public let nextToken: String?
@@ -437,7 +437,7 @@ extension SQS {
 
     public struct ListDeadLetterSourceQueuesResult: AWSDecodableShape {
 
-        /// Pagination token to include in the next request.
+        /// Pagination token to include in the next request. Token value is null if there are no additional results to request, or if you did not set MaxResults in the request.
         public let nextToken: String?
         /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead-letter queue.
         public let queueUrls: [String]
@@ -485,7 +485,7 @@ extension SQS {
 
     public struct ListQueuesRequest: AWSEncodableShape {
 
-        /// Maximum number of results to include in the response.
+        /// Maximum number of results to include in the response. Value range is 1 to 1000. You must set MaxResults to receive a value for NextToken in the response.
         public let maxResults: Int?
         /// Pagination token to request the next set of results.
         public let nextToken: String?
@@ -507,7 +507,7 @@ extension SQS {
 
     public struct ListQueuesResult: AWSDecodableShape {
 
-        /// Pagination token to include in the next request.
+        /// Pagination token to include in the next request. Token value is null if there are no additional results to request, or if you did not set MaxResults in the request.
         public let nextToken: String?
         /// A list of queue URLs, up to 1,000 entries, or the value of MaxResults that you sent in the request.
         public let queueUrls: [String]?
@@ -830,7 +830,7 @@ extension SQS {
         /// Each message attribute consists of a Name, Type, and Value. For more information, see Amazon SQS Message Attributes in the Amazon Simple Queue Service Developer Guide.
         @OptionalCoding<DictionaryCoder<_MessageAttributesEncoding, String, MessageAttributeValue>>
         public var messageAttributes: [String: MessageAttributeValue]?
-        /// The message to send. The maximum string size is 256 KB.  A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed:  #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF  Any characters not included in this list will be rejected. For more information, see the W3C specification for characters. 
+        /// The message to send. The minimum size is one character. The maximum size is 256 KB.  A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed:  #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF  Any characters not included in this list will be rejected. For more information, see the W3C specification for characters. 
         public let messageBody: String
         /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of sent messages. If a message with a particular MessageDeduplicationId is sent successfully, any messages sent with the same MessageDeduplicationId are accepted successfully but aren't delivered during the 5-minute deduplication interval. For more information, see  Exactly-Once Processing in the Amazon Simple Queue Service Developer Guide.   Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.     The MessageDeduplicationId is available to the consumer of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages. Amazon SQS continues to keep track of the message deduplication ID even after the message is received and deleted.  The maximum length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using MessageDeduplicationId, see Using the MessageDeduplicationId Property in the Amazon Simple Queue Service Developer Guide.
         public let messageDeduplicationId: String?

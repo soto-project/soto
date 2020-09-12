@@ -70,6 +70,7 @@ public enum CloudFrontErrorType: AWSErrorType {
     case noSuchOrigin(message: String?)
     case noSuchOriginRequestPolicy(message: String?)
     case noSuchPublicKey(message: String?)
+    case noSuchRealtimeLogConfig(message: String?)
     case noSuchResource(message: String?)
     case noSuchStreamingDistribution(message: String?)
     case originRequestPolicyAlreadyExists(message: String?)
@@ -78,6 +79,8 @@ public enum CloudFrontErrorType: AWSErrorType {
     case publicKeyAlreadyExists(message: String?)
     case publicKeyInUse(message: String?)
     case queryArgProfileEmpty(message: String?)
+    case realtimeLogConfigAlreadyExists(message: String?)
+    case realtimeLogConfigInUse(message: String?)
     case streamingDistributionAlreadyExists(message: String?)
     case streamingDistributionNotDisabled(message: String?)
     case tooManyCacheBehaviors(message: String?)
@@ -113,6 +116,7 @@ public enum CloudFrontErrorType: AWSErrorType {
     case tooManyQueryStringParameters(message: String?)
     case tooManyQueryStringsInCachePolicy(message: String?)
     case tooManyQueryStringsInOriginRequestPolicy(message: String?)
+    case tooManyRealtimeLogConfigs(message: String?)
     case tooManyStreamingDistributionCNAMEs(message: String?)
     case tooManyStreamingDistributions(message: String?)
     case tooManyTrustedSigners(message: String?)
@@ -230,6 +234,8 @@ extension CloudFrontErrorType {
             self = .noSuchOriginRequestPolicy(message: message)
         case "NoSuchPublicKey":
             self = .noSuchPublicKey(message: message)
+        case "NoSuchRealtimeLogConfig":
+            self = .noSuchRealtimeLogConfig(message: message)
         case "NoSuchResource":
             self = .noSuchResource(message: message)
         case "NoSuchStreamingDistribution":
@@ -246,6 +252,10 @@ extension CloudFrontErrorType {
             self = .publicKeyInUse(message: message)
         case "QueryArgProfileEmpty":
             self = .queryArgProfileEmpty(message: message)
+        case "RealtimeLogConfigAlreadyExists":
+            self = .realtimeLogConfigAlreadyExists(message: message)
+        case "RealtimeLogConfigInUse":
+            self = .realtimeLogConfigInUse(message: message)
         case "StreamingDistributionAlreadyExists":
             self = .streamingDistributionAlreadyExists(message: message)
         case "StreamingDistributionNotDisabled":
@@ -316,6 +326,8 @@ extension CloudFrontErrorType {
             self = .tooManyQueryStringsInCachePolicy(message: message)
         case "TooManyQueryStringsInOriginRequestPolicy":
             self = .tooManyQueryStringsInOriginRequestPolicy(message: message)
+        case "TooManyRealtimeLogConfigs":
+            self = .tooManyRealtimeLogConfigs(message: message)
         case "TooManyStreamingDistributionCNAMEs":
             self = .tooManyStreamingDistributionCNAMEs(message: message)
         case "TooManyStreamingDistributions":
@@ -437,6 +449,8 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "NoSuchOriginRequestPolicy: \(message ?? "")"
         case .noSuchPublicKey(let message):
             return "NoSuchPublicKey: \(message ?? "")"
+        case .noSuchRealtimeLogConfig(let message):
+            return "NoSuchRealtimeLogConfig: \(message ?? "")"
         case .noSuchResource(let message):
             return "NoSuchResource: \(message ?? "")"
         case .noSuchStreamingDistribution(let message):
@@ -453,6 +467,10 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "PublicKeyInUse: \(message ?? "")"
         case .queryArgProfileEmpty(let message):
             return "QueryArgProfileEmpty: \(message ?? "")"
+        case .realtimeLogConfigAlreadyExists(let message):
+            return "RealtimeLogConfigAlreadyExists: \(message ?? "")"
+        case .realtimeLogConfigInUse(let message):
+            return "RealtimeLogConfigInUse: \(message ?? "")"
         case .streamingDistributionAlreadyExists(let message):
             return "StreamingDistributionAlreadyExists: \(message ?? "")"
         case .streamingDistributionNotDisabled(let message):
@@ -523,6 +541,8 @@ extension CloudFrontErrorType: CustomStringConvertible {
             return "TooManyQueryStringsInCachePolicy: \(message ?? "")"
         case .tooManyQueryStringsInOriginRequestPolicy(let message):
             return "TooManyQueryStringsInOriginRequestPolicy: \(message ?? "")"
+        case .tooManyRealtimeLogConfigs(let message):
+            return "TooManyRealtimeLogConfigs: \(message ?? "")"
         case .tooManyStreamingDistributionCNAMEs(let message):
             return "TooManyStreamingDistributionCNAMEs: \(message ?? "")"
         case .tooManyStreamingDistributions(let message):

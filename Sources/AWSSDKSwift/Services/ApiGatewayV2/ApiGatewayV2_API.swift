@@ -348,6 +348,11 @@ public struct ApiGatewayV2: AWSService {
         return self.client.execute(operation: "ReimportApi", path: "/v2/apis/{apiId}", httpMethod: .PUT, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Resets all authorizer cache entries for the specified stage. Supported only for HTTP API Lambda authorizers.
+    @discardableResult public func resetAuthorizersCache(_ input: ResetAuthorizersCacheRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "ResetAuthorizersCache", path: "/v2/apis/{apiId}/stages/{stageName}/cache/authorizers", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Creates a new Tag resource to represent a tag.
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/v2/tags/{resource-arn}", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)

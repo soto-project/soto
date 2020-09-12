@@ -180,6 +180,22 @@ extension Glue {
         )
     }
 
+    ///  Retrieves the partition indexes associated with a table.
+    public func getPartitionIndexesPaginator(
+        _ input: GetPartitionIndexesRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (GetPartitionIndexesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getPartitionIndexes,
+            tokenKey: \GetPartitionIndexesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves information about the partitions in a table.
     public func getPartitionsPaginator(
         _ input: GetPartitionsRequest,
@@ -513,6 +529,18 @@ extension Glue.GetMLTransformsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sort: self.sort
+        )
+
+    }
+}
+
+extension Glue.GetPartitionIndexesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.GetPartitionIndexesRequest {
+        return .init(
+            catalogId: self.catalogId,
+            databaseName: self.databaseName,
+            nextToken: token,
+            tableName: self.tableName
         )
 
     }

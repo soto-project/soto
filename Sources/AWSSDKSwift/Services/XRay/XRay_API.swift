@@ -138,6 +138,11 @@ public struct XRay: AWSService {
         return self.client.execute(operation: "GetTraceSummaries", path: "/TraceSummaries", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Returns a list of tags that are applied to the specified AWS X-Ray group or sampling rule.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Updates the encryption configuration for X-Ray data.
     public func putEncryptionConfig(_ input: PutEncryptionConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutEncryptionConfigResult> {
         return self.client.execute(operation: "PutEncryptionConfig", path: "/PutEncryptionConfig", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
@@ -151,6 +156,16 @@ public struct XRay: AWSService {
     ///  Uploads segment documents to AWS X-Ray. The X-Ray SDK generates segment documents and sends them to the X-Ray daemon, which uploads them in batches. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see AWS X-Ray Segment Documents in the AWS X-Ray Developer Guide.  Required Segment Document Fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in progress segment when your application receives a request that will take a long time to serve, to trace the fact that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, i.e. 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.  
     public func putTraceSegments(_ input: PutTraceSegmentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutTraceSegmentsResult> {
         return self.client.execute(operation: "PutTraceSegments", path: "/TraceSegments", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Applies tags to an existing AWS X-Ray group or sampling rule.
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/TagResource", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Removes tags from an AWS X-Ray group or sampling rule. You cannot edit or delete system tags (those with an aws: prefix).
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/UntagResource", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates a group resource.

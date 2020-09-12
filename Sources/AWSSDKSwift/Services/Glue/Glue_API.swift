@@ -419,6 +419,11 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "GetPartition", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Retrieves the partition indexes associated with a table.
+    public func getPartitionIndexes(_ input: GetPartitionIndexesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPartitionIndexesResponse> {
+        return self.client.execute(operation: "GetPartitionIndexes", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Retrieves information about the partitions in a table.
     public func getPartitions(_ input: GetPartitionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPartitionsResponse> {
         return self.client.execute(operation: "GetPartitions", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)

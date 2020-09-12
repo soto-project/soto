@@ -2824,7 +2824,7 @@ extension SSM {
         public let dryRun: Bool?
         /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all inventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory action for a version greater than the disabled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want.
         public let schemaDeleteOption: InventorySchemaDeleteOption?
-        /// The name of the custom inventory type for which you want to delete either all previously collected data, or the inventory type itself. 
+        /// The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself. 
         public let typeName: String
 
         public init(clientToken: String? = DeleteInventoryRequest.idempotencyToken(), dryRun: Bool? = nil, schemaDeleteOption: InventorySchemaDeleteOption? = nil, typeName: String) {
@@ -2835,8 +2835,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(self.clientToken, name: "clientToken", parent: name, max: 64)
-            try validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
             try validate(self.typeName, name: "typeName", parent: name, max: 100)
             try validate(self.typeName, name: "typeName", parent: name, min: 1)
             try validate(self.typeName, name: "typeName", parent: name, pattern: "^(AWS|Custom):.*$")
@@ -4046,6 +4045,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try validate(self.deletionId, name: "deletionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
             try validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6410,7 +6410,7 @@ extension SSM {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        /// Filters to limit the request results.
+        /// Filters to limit the request results.  For GetParametersByPath, the following filter Key names are supported: Type, KeyId, Label, and DataType. The following Key values are not supported for GetParametersByPath: tag, Name, Path, and Tier. 
         public let parameterFilters: [ParameterStringFilter]?
         /// The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end with the parameter name. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33 
         public let path: String
@@ -6965,7 +6965,7 @@ extension SSM {
         public let installedOtherCount: Int?
         /// The number of patches installed by Patch Manager since the last time the instance was rebooted.
         public let installedPendingRebootCount: Int?
-        /// The number of instances with patches installed that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero). 
+        /// The number of patches installed on an instance that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero). 
         public let installedRejectedCount: Int?
         /// An https URL or an Amazon S3 path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see About the SSM document AWS-RunPatchBaseline in the AWS Systems Manager User Guide.
         public let installOverrideList: String?
@@ -8775,6 +8775,8 @@ extension SSM {
             try validate(self.aggregatorType, name: "aggregatorType", parent: name, max: 20)
             try validate(self.aggregatorType, name: "aggregatorType", parent: name, min: 1)
             try validate(self.aggregatorType, name: "aggregatorType", parent: name, pattern: "^(range|count|sum)")
+            try validate(self.attributeName, name: "attributeName", parent: name, max: 128)
+            try validate(self.attributeName, name: "attributeName", parent: name, min: 1)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
@@ -8855,6 +8857,10 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(self.key, name: "key", parent: name, max: 200)
             try validate(self.key, name: "key", parent: name, min: 1)
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 256)
+                try validate($0, name: "values[]", parent: name, min: 0)
+            }
             try validate(self.values, name: "values", parent: name, max: 40)
             try validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -9276,9 +9282,9 @@ extension SSM {
 
     public struct ParameterStringFilter: AWSEncodableShape {
 
-        /// The name of the filter.
+        /// The name of the filter.  The ParameterStringFilter object is used by the DescribeParameters and GetParametersByPath API actions. However, not all of the pattern values listed for Key can be used with both actions. For DescribeActions, all of the listed patterns are valid, with the exception of Label. For GetParametersByPath, the following patterns listed for Key are not valid: tag, Name, Path, and Tier. For examples of CLI commands demonstrating valid parameter filter constructions, see Searching for Systems Manager parameters in the AWS Systems Manager User Guide. 
         public let key: String
-        /// For all filters used with DescribeParameters, valid options include Equals and BeginsWith. The Name filter additionally supports the Contains option. (Exception: For filters using the key Path, valid options include Recursive and OneLevel.) For filters used with GetParametersByPath, valid options include Equals and BeginsWith. (Exception: For filters using the key Label, the only valid option is Equals.)
+        /// For all filters used with DescribeParameters, valid options include Equals and BeginsWith. The Name filter additionally supports the Contains option. (Exception: For filters using the key Path, valid options include Recursive and OneLevel.) For filters used with GetParametersByPath, valid options include Equals and BeginsWith. (Exception: For filters using Label as the Key name, the only valid option is Equals.)
         public let option: String?
         /// The value you want to search for.
         public let values: [String]?
@@ -9829,7 +9835,7 @@ extension SSM {
         public let tier: ParameterTier?
         /// The type of parameter that you want to add to the system.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions.  Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.  Specifying a parameter type is not required when updating a parameter. You must specify a parameter type when creating a parameter. 
         public let `type`: ParameterType?
-        /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
+        /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.  Parameters can't be referenced or nested in the values of other parameters. You can't include {{}} or {{ssm:parameter-name}} in a parameter value. 
         public let value: String
 
         public init(allowedPattern: String? = nil, dataType: String? = nil, description: String? = nil, keyId: String? = nil, name: String, overwrite: Bool? = nil, policies: String? = nil, tags: [Tag]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, value: String) {
@@ -11965,7 +11971,7 @@ extension SSM {
         public let name: String?
         /// The new task priority to specify. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
         public let priority: Int?
-        /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWndow action are also required for this API request. Optional fields that are not specified are set to null.
+        /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWindow action are also required for this API request. Optional fields that are not specified are set to null.
         public let replace: Bool?
         /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?    
         public let serviceRoleArn: String?
@@ -11973,7 +11979,7 @@ extension SSM {
         public let targets: [Target]?
         /// The task ARN to modify.
         public let taskArn: String?
-        /// The parameters that the task should use during execution. Populate only the fields that match the task type. All other fields should be empty.
+        /// The parameters that the task should use during execution. Populate only the fields that match the task type. All other fields should be empty.  When you update a maintenance window task that has options specified in TaskInvocationParameters, you must provide again all the TaskInvocationParameters values that you want to retain. The values you do not specify again are removed. For example, suppose that when you registered a Run Command task, you specified TaskInvocationParameters values for Comment, NotificationConfig, and OutputS3BucketName. If you update the maintenance window task and specify only a different OutputS3BucketName value, the values for Comment and NotificationConfig are removed. 
         public let taskInvocationParameters: MaintenanceWindowTaskInvocationParameters?
         /// The parameters to modify.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?

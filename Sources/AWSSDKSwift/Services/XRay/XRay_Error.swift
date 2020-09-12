@@ -19,8 +19,10 @@ import AWSSDKSwiftCore
 /// Error enum for XRay
 public enum XRayErrorType: AWSErrorType {
     case invalidRequestException(message: String?)
+    case resourceNotFoundException(message: String?)
     case ruleLimitExceededException(message: String?)
     case throttledException(message: String?)
+    case tooManyTagsException(message: String?)
 }
 
 extension XRayErrorType {
@@ -32,10 +34,14 @@ extension XRayErrorType {
         switch errorCode {
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "RuleLimitExceededException":
             self = .ruleLimitExceededException(message: message)
         case "ThrottledException":
             self = .throttledException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         default:
             return nil
         }
@@ -47,10 +53,14 @@ extension XRayErrorType: CustomStringConvertible {
         switch self {
         case .invalidRequestException(let message):
             return "InvalidRequestException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
         case .ruleLimitExceededException(let message):
             return "RuleLimitExceededException: \(message ?? "")"
         case .throttledException(let message):
             return "ThrottledException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
         }
     }
 }

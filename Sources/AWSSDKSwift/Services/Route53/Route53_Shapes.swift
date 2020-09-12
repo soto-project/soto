@@ -2400,7 +2400,7 @@ extension Route53 {
             AWSMemberEncoding(label: "vPCRegion", location: .querystring(locationName: "vpcregion"))
         ]
 
-        /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the response includes a NextToken element. NextToken contains the hosted zone ID of the first hosted zone that Route 53 will return if you submit another request.
+        /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the response includes a NextToken element. NextToken contains an encrypted token that identifies the first hosted zone that Route 53 will return if you submit another request.
         public let maxItems: String?
         /// If the previous response included a NextToken element, the specified VPC is associated with more hosted zones. To get more hosted zones, submit another ListHostedZonesByVPC request.  For the value of NextToken, specify the value of NextToken from the previous response. If the previous response didn't include a NextToken element, there are no more hosted zones to get.
         public let nextToken: String?

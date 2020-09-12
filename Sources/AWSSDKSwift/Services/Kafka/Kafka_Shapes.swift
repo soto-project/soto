@@ -41,6 +41,13 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnhancedMonitoring: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
         case perBroker = "PER_BROKER"
@@ -420,14 +427,16 @@ extension Kafka {
         public let latestRevision: ConfigurationRevision
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
         public let name: String
+        public let state: ConfigurationState
 
-        public init(arn: String, creationTime: TimeStamp, description: String, kafkaVersions: [String], latestRevision: ConfigurationRevision, name: String) {
+        public init(arn: String, creationTime: TimeStamp, description: String, kafkaVersions: [String], latestRevision: ConfigurationRevision, name: String, state: ConfigurationState) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.kafkaVersions = kafkaVersions
             self.latestRevision = latestRevision
             self.name = name
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -437,6 +446,7 @@ extension Kafka {
             case kafkaVersions = "kafkaVersions"
             case latestRevision = "latestRevision"
             case name = "name"
+            case state = "state"
         }
     }
 
@@ -603,12 +613,15 @@ extension Kafka {
         public let latestRevision: ConfigurationRevision?
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
         public let name: String?
+        /// The state of the configuration. The possible states are ACTIVE, DELETING and DELETE_FAILED.
+        public let state: ConfigurationState?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.latestRevision = latestRevision
             self.name = name
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -616,6 +629,7 @@ extension Kafka {
             case creationTime = "creationTime"
             case latestRevision = "latestRevision"
             case name = "name"
+            case state = "state"
         }
     }
 
@@ -650,6 +664,39 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "clusterArn"
+            case state = "state"
+        }
+    }
+
+    public struct DeleteConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConfigurationResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String?
+        /// The state of the configuration. The possible states are ACTIVE, DELETING and DELETE_FAILED.
+        public let state: ConfigurationState?
+
+        public init(arn: String? = nil, state: ConfigurationState? = nil) {
+            self.arn = arn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case state = "state"
         }
     }
@@ -739,14 +786,17 @@ extension Kafka {
         public let latestRevision: ConfigurationRevision?
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
         public let name: String?
+        /// The state of the configuration. The possible states are ACTIVE, DELETING and DELETE_FAILED.
+        public let state: ConfigurationState?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.kafkaVersions = kafkaVersions
             self.latestRevision = latestRevision
             self.name = name
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -756,6 +806,7 @@ extension Kafka {
             case kafkaVersions = "kafkaVersions"
             case latestRevision = "latestRevision"
             case name = "name"
+            case state = "state"
         }
     }
 
@@ -1773,6 +1824,47 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "clusterArn"
             case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
+    public struct UpdateConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String
+        /// The description of the configuration.
+        public let description: String?
+        public let serverProperties: Data
+
+        public init(arn: String, description: String? = nil, serverProperties: Data) {
+            self.arn = arn
+            self.description = description
+            self.serverProperties = serverProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case serverProperties = "serverProperties"
+        }
+    }
+
+    public struct UpdateConfigurationResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String?
+        /// Latest revision of the configuration.
+        public let latestRevision: ConfigurationRevision?
+
+        public init(arn: String? = nil, latestRevision: ConfigurationRevision? = nil) {
+            self.arn = arn
+            self.latestRevision = latestRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case latestRevision = "latestRevision"
         }
     }
 

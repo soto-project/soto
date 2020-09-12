@@ -124,7 +124,7 @@ public struct CodeBuild: AWSService {
         return self.client.execute(operation: "DeleteReport", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   DeleteReportGroup: Deletes a report group. Before you delete a report group, you must delete its reports. Use ListReportsForReportGroup to get the reports in a report group. Use DeleteReport to delete the reports. If you call DeleteReportGroup for a report group that contains one or more reports, an exception is thrown. 
+    ///  Deletes a report group. Before you delete a report group, you must delete its reports. 
     public func deleteReportGroup(_ input: DeleteReportGroupInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteReportGroupOutput> {
         return self.client.execute(operation: "DeleteReportGroup", path: "/", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }

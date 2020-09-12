@@ -96,6 +96,11 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExecutionEngineType: String, CustomStringConvertible, Codable {
+        case emr = "EMR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceCollectionType: String, CustomStringConvertible, Codable {
         case instanceFleet = "INSTANCE_FLEET"
         case instanceGroup = "INSTANCE_GROUP"
@@ -198,6 +203,20 @@ extension EMR {
     public enum MarketType: String, CustomStringConvertible, Codable {
         case onDemand = "ON_DEMAND"
         case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookExecutionStatus: String, CustomStringConvertible, Codable {
+        case startPending = "START_PENDING"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case finishing = "FINISHING"
+        case finished = "FINISHED"
+        case failing = "FAILING"
+        case failed = "FAILED"
+        case stopPending = "STOP_PENDING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -1217,6 +1236,40 @@ extension EMR {
         }
     }
 
+    public struct DescribeNotebookExecutionInput: AWSEncodableShape {
+
+        /// The unique identifier of the notebook execution.
+        public let notebookExecutionId: String
+
+        public init(notebookExecutionId: String) {
+            self.notebookExecutionId = notebookExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, max: 256)
+            try validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, min: 0)
+            try validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookExecutionId = "NotebookExecutionId"
+        }
+    }
+
+    public struct DescribeNotebookExecutionOutput: AWSDecodableShape {
+
+        /// Properties of the notebook execution.
+        public let notebookExecution: NotebookExecution?
+
+        public init(notebookExecution: NotebookExecution? = nil) {
+            self.notebookExecution = notebookExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookExecution = "NotebookExecution"
+        }
+    }
+
     public struct DescribeSecurityConfigurationInput: AWSEncodableShape {
 
         /// The name of the security configuration.
@@ -1414,6 +1467,37 @@ extension EMR {
             case requestedEc2AvailabilityZones = "RequestedEc2AvailabilityZones"
             case requestedEc2SubnetIds = "RequestedEc2SubnetIds"
             case serviceAccessSecurityGroup = "ServiceAccessSecurityGroup"
+        }
+    }
+
+    public struct ExecutionEngineConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// The unique identifier of the execution engine. For an EMR cluster, this is the cluster ID.
+        public let id: String
+        /// An optional unique ID of an EC2 security group to associate with the master instance of the EMR cluster for this notebook execution. For more information see Specifying EC2 Security Groups for EMR Notebooks in the EMR Management Guide.
+        public let masterInstanceSecurityGroupId: String?
+        /// The type of execution engine. A value of EMR specifies an EMR cluster.
+        public let `type`: ExecutionEngineType?
+
+        public init(id: String, masterInstanceSecurityGroupId: String? = nil, type: ExecutionEngineType? = nil) {
+            self.id = id
+            self.masterInstanceSecurityGroupId = masterInstanceSecurityGroupId
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.id, name: "id", parent: name, max: 256)
+            try validate(self.id, name: "id", parent: name, min: 0)
+            try validate(self.id, name: "id", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.masterInstanceSecurityGroupId, name: "masterInstanceSecurityGroupId", parent: name, max: 256)
+            try validate(self.masterInstanceSecurityGroupId, name: "masterInstanceSecurityGroupId", parent: name, min: 0)
+            try validate(self.masterInstanceSecurityGroupId, name: "masterInstanceSecurityGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case masterInstanceSecurityGroupId = "MasterInstanceSecurityGroupId"
+            case `type` = "Type"
         }
     }
 
@@ -2871,6 +2955,60 @@ extension EMR {
         }
     }
 
+    public struct ListNotebookExecutionsInput: AWSEncodableShape {
+
+        /// The unique ID of the editor associated with the notebook execution.
+        public let editorId: String?
+        /// The beginning of time range filter for listing notebook executions. The default is the timestamp of 30 days ago.
+        public let from: TimeStamp?
+        /// The pagination token, returned by a previous ListNotebookExecutions call, that indicates the start of the list for this ListNotebookExecutions call.
+        public let marker: String?
+        /// The status filter for listing notebook executions.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.  
+        public let status: NotebookExecutionStatus?
+        /// The end of time range filter for listing notebook executions. The default is the current timestamp.
+        public let to: TimeStamp?
+
+        public init(editorId: String? = nil, from: TimeStamp? = nil, marker: String? = nil, status: NotebookExecutionStatus? = nil, to: TimeStamp? = nil) {
+            self.editorId = editorId
+            self.from = from
+            self.marker = marker
+            self.status = status
+            self.to = to
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.editorId, name: "editorId", parent: name, max: 256)
+            try validate(self.editorId, name: "editorId", parent: name, min: 0)
+            try validate(self.editorId, name: "editorId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case editorId = "EditorId"
+            case from = "From"
+            case marker = "Marker"
+            case status = "Status"
+            case to = "To"
+        }
+    }
+
+    public struct ListNotebookExecutionsOutput: AWSDecodableShape {
+
+        /// A pagination token that a subsequent ListNotebookExecutions can use to determine the next set of results to retrieve.
+        public let marker: String?
+        /// A list of notebook executions.
+        public let notebookExecutions: [NotebookExecutionSummary]?
+
+        public init(marker: String? = nil, notebookExecutions: [NotebookExecutionSummary]? = nil) {
+            self.marker = marker
+            self.notebookExecutions = notebookExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case notebookExecutions = "NotebookExecutions"
+        }
+    }
+
     public struct ListSecurityConfigurationsInput: AWSEncodableShape {
 
         /// The pagination token that indicates the set of results to retrieve.
@@ -2957,7 +3095,7 @@ extension EMR {
 
     public struct ManagedScalingPolicy: AWSEncodableShape & AWSDecodableShape {
 
-        ///  The EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+        /// The EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
         public let computeLimits: ComputeLimits?
 
         public init(computeLimits: ComputeLimits? = nil) {
@@ -3065,6 +3203,102 @@ extension EMR {
         }
     }
 
+    public struct NotebookExecution: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the notebook execution.
+        public let arn: String?
+        /// The unique identifier of the EMR Notebook that is used for the notebook execution.
+        public let editorId: String?
+        /// The timestamp when notebook execution ended.
+        public let endTime: TimeStamp?
+        /// The execution engine, such as an EMR cluster, used to run the EMR notebook and perform the notebook execution.
+        public let executionEngine: ExecutionEngineConfig?
+        /// The reason for the latest status change of the notebook execution.
+        public let lastStateChangeReason: String?
+        /// The unique identifier of a notebook execution.
+        public let notebookExecutionId: String?
+        /// A name for the notebook execution.
+        public let notebookExecutionName: String?
+        /// The unique identifier of the EC2 security group associated with the EMR Notebook instance. For more information see Specifying EC2 Security Groups for EMR Notebooks in the EMR Management Guide.
+        public let notebookInstanceSecurityGroupId: String?
+        /// Input parameters in JSON format passed to the EMR Notebook at runtime for execution.
+        public let notebookParams: String?
+        /// The location of the notebook execution's output file in Amazon S3.
+        public let outputNotebookURI: String?
+        /// The timestamp when notebook execution started.
+        public let startTime: TimeStamp?
+        /// The status of the notebook execution.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.  
+        public let status: NotebookExecutionStatus?
+        /// A list of tags associated with a notebook execution. Tags are user-defined key value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters.
+        public let tags: [Tag]?
+
+        public init(arn: String? = nil, editorId: String? = nil, endTime: TimeStamp? = nil, executionEngine: ExecutionEngineConfig? = nil, lastStateChangeReason: String? = nil, notebookExecutionId: String? = nil, notebookExecutionName: String? = nil, notebookInstanceSecurityGroupId: String? = nil, notebookParams: String? = nil, outputNotebookURI: String? = nil, startTime: TimeStamp? = nil, status: NotebookExecutionStatus? = nil, tags: [Tag]? = nil) {
+            self.arn = arn
+            self.editorId = editorId
+            self.endTime = endTime
+            self.executionEngine = executionEngine
+            self.lastStateChangeReason = lastStateChangeReason
+            self.notebookExecutionId = notebookExecutionId
+            self.notebookExecutionName = notebookExecutionName
+            self.notebookInstanceSecurityGroupId = notebookInstanceSecurityGroupId
+            self.notebookParams = notebookParams
+            self.outputNotebookURI = outputNotebookURI
+            self.startTime = startTime
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case editorId = "EditorId"
+            case endTime = "EndTime"
+            case executionEngine = "ExecutionEngine"
+            case lastStateChangeReason = "LastStateChangeReason"
+            case notebookExecutionId = "NotebookExecutionId"
+            case notebookExecutionName = "NotebookExecutionName"
+            case notebookInstanceSecurityGroupId = "NotebookInstanceSecurityGroupId"
+            case notebookParams = "NotebookParams"
+            case outputNotebookURI = "OutputNotebookURI"
+            case startTime = "StartTime"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct NotebookExecutionSummary: AWSDecodableShape {
+
+        /// The unique identifier of the editor associated with the notebook execution.
+        public let editorId: String?
+        /// The timestamp when notebook execution started.
+        public let endTime: TimeStamp?
+        /// The unique identifier of the notebook execution.
+        public let notebookExecutionId: String?
+        /// The name of the notebook execution.
+        public let notebookExecutionName: String?
+        /// The timestamp when notebook execution started.
+        public let startTime: TimeStamp?
+        /// The status of the notebook execution.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.  
+        public let status: NotebookExecutionStatus?
+
+        public init(editorId: String? = nil, endTime: TimeStamp? = nil, notebookExecutionId: String? = nil, notebookExecutionName: String? = nil, startTime: TimeStamp? = nil, status: NotebookExecutionStatus? = nil) {
+            self.editorId = editorId
+            self.endTime = endTime
+            self.notebookExecutionId = notebookExecutionId
+            self.notebookExecutionName = notebookExecutionName
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case editorId = "EditorId"
+            case endTime = "EndTime"
+            case notebookExecutionId = "NotebookExecutionId"
+            case notebookExecutionName = "NotebookExecutionName"
+            case startTime = "StartTime"
+            case status = "Status"
+        }
+    }
+
     public struct OnDemandProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
 
         ///  Specifies the strategy to use in launching On-Demand instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first. 
@@ -3122,9 +3356,9 @@ extension EMR {
 
         public func validate(name: String) throws {
             try validate(self.maxRange, name: "maxRange", parent: name, max: 65535)
-            try validate(self.maxRange, name: "maxRange", parent: name, min: 0)
+            try validate(self.maxRange, name: "maxRange", parent: name, min: -1)
             try validate(self.minRange, name: "minRange", parent: name, max: 65535)
-            try validate(self.minRange, name: "minRange", parent: name, min: 0)
+            try validate(self.minRange, name: "minRange", parent: name, min: -1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3749,6 +3983,84 @@ extension EMR {
         }
     }
 
+    public struct StartNotebookExecutionInput: AWSEncodableShape {
+
+        /// The unique identifier of the EMR Notebook to use for notebook execution.
+        public let editorId: String
+        /// Specifies the execution engine (cluster) that runs the notebook execution.
+        public let executionEngine: ExecutionEngineConfig
+        /// An optional name for the notebook execution.
+        public let notebookExecutionName: String?
+        /// The unique identifier of the Amazon EC2 security group to associate with the EMR Notebook for this notebook execution.
+        public let notebookInstanceSecurityGroupId: String?
+        /// Input parameters in JSON format passed to the EMR Notebook at runtime for execution.
+        public let notebookParams: String?
+        /// The path and file name of the notebook file for this execution, relative to the path specified for the EMR Notebook. For example, if you specify a path of s3://MyBucket/MyNotebooks when you create an EMR Notebook for a notebook with an ID of e-ABCDEFGHIJK1234567890ABCD (the EditorID of this request), and you specify a RelativePath of my_notebook_executions/notebook_execution.ipynb, the location of the file for the notebook execution is s3://MyBucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_executions/notebook_execution.ipynb.
+        public let relativePath: String
+        /// The name or ARN of the IAM role that is used as the service role for Amazon EMR (the EMR role) for the notebook execution.
+        public let serviceRole: String
+        /// A list of tags associated with a notebook execution. Tags are user-defined key value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters.
+        public let tags: [Tag]?
+
+        public init(editorId: String, executionEngine: ExecutionEngineConfig, notebookExecutionName: String? = nil, notebookInstanceSecurityGroupId: String? = nil, notebookParams: String? = nil, relativePath: String, serviceRole: String, tags: [Tag]? = nil) {
+            self.editorId = editorId
+            self.executionEngine = executionEngine
+            self.notebookExecutionName = notebookExecutionName
+            self.notebookInstanceSecurityGroupId = notebookInstanceSecurityGroupId
+            self.notebookParams = notebookParams
+            self.relativePath = relativePath
+            self.serviceRole = serviceRole
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.editorId, name: "editorId", parent: name, max: 256)
+            try validate(self.editorId, name: "editorId", parent: name, min: 0)
+            try validate(self.editorId, name: "editorId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.executionEngine.validate(name: "\(name).executionEngine")
+            try validate(self.notebookExecutionName, name: "notebookExecutionName", parent: name, max: 256)
+            try validate(self.notebookExecutionName, name: "notebookExecutionName", parent: name, min: 0)
+            try validate(self.notebookExecutionName, name: "notebookExecutionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.notebookInstanceSecurityGroupId, name: "notebookInstanceSecurityGroupId", parent: name, max: 256)
+            try validate(self.notebookInstanceSecurityGroupId, name: "notebookInstanceSecurityGroupId", parent: name, min: 0)
+            try validate(self.notebookInstanceSecurityGroupId, name: "notebookInstanceSecurityGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.notebookParams, name: "notebookParams", parent: name, max: 10280)
+            try validate(self.notebookParams, name: "notebookParams", parent: name, min: 0)
+            try validate(self.notebookParams, name: "notebookParams", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.relativePath, name: "relativePath", parent: name, max: 10280)
+            try validate(self.relativePath, name: "relativePath", parent: name, min: 0)
+            try validate(self.relativePath, name: "relativePath", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.serviceRole, name: "serviceRole", parent: name, max: 10280)
+            try validate(self.serviceRole, name: "serviceRole", parent: name, min: 0)
+            try validate(self.serviceRole, name: "serviceRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case editorId = "EditorId"
+            case executionEngine = "ExecutionEngine"
+            case notebookExecutionName = "NotebookExecutionName"
+            case notebookInstanceSecurityGroupId = "NotebookInstanceSecurityGroupId"
+            case notebookParams = "NotebookParams"
+            case relativePath = "RelativePath"
+            case serviceRole = "ServiceRole"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartNotebookExecutionOutput: AWSDecodableShape {
+
+        /// The unique identifier of the notebook execution.
+        public let notebookExecutionId: String?
+
+        public init(notebookExecutionId: String? = nil) {
+            self.notebookExecutionId = notebookExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookExecutionId = "NotebookExecutionId"
+        }
+    }
+
     public struct Step: AWSDecodableShape {
 
         /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
@@ -3949,6 +4261,26 @@ extension EMR {
             case creationDateTime = "CreationDateTime"
             case endDateTime = "EndDateTime"
             case startDateTime = "StartDateTime"
+        }
+    }
+
+    public struct StopNotebookExecutionInput: AWSEncodableShape {
+
+        /// The unique identifier of the notebook execution.
+        public let notebookExecutionId: String
+
+        public init(notebookExecutionId: String) {
+            self.notebookExecutionId = notebookExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, max: 256)
+            try validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, min: 0)
+            try validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookExecutionId = "NotebookExecutionId"
         }
     }
 

@@ -345,19 +345,23 @@ extension ELBV2 {
         /// [Network Load Balancers] If you need static IP addresses for your load balancer, you can specify one Elastic IP address per Availability Zone when you create an internal-facing load balancer. For internal load balancers, you can specify a private IP address from the IPv4 range of the subnet.
         @OptionalCoding<DefaultArrayCoder>
         public var loadBalancerAddresses: [LoadBalancerAddress]?
+        /// [Application Load Balancers on Outposts] The ID of the Outpost.
+        public let outpostId: String?
         /// The ID of the subnet. You can specify one subnet per Availability Zone.
         public let subnetId: String?
         /// The name of the Availability Zone.
         public let zoneName: String?
 
-        public init(loadBalancerAddresses: [LoadBalancerAddress]? = nil, subnetId: String? = nil, zoneName: String? = nil) {
+        public init(loadBalancerAddresses: [LoadBalancerAddress]? = nil, outpostId: String? = nil, subnetId: String? = nil, zoneName: String? = nil) {
             self.loadBalancerAddresses = loadBalancerAddresses
+            self.outpostId = outpostId
             self.subnetId = subnetId
             self.zoneName = zoneName
         }
 
         private enum CodingKeys: String, CodingKey {
             case loadBalancerAddresses = "LoadBalancerAddresses"
+            case outpostId = "OutpostId"
             case subnetId = "SubnetId"
             case zoneName = "ZoneName"
         }
@@ -465,6 +469,8 @@ extension ELBV2 {
 
     public struct CreateLoadBalancerInput: AWSEncodableShape {
 
+        /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool (CoIP pool).
+        public let customerOwnedIpv4Pool: String?
         /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
         public let ipAddressType: IpAddressType?
         /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
@@ -474,10 +480,10 @@ extension ELBV2 {
         /// [Application Load Balancers] The IDs of the security groups for the load balancer.
         @OptionalCoding<DefaultArrayCoder>
         public var securityGroups: [String]?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
         @OptionalCoding<DefaultArrayCoder>
         public var subnetMappings: [SubnetMapping]?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
         @OptionalCoding<DefaultArrayCoder>
         public var subnets: [String]?
         /// One or more tags to assign to the load balancer.
@@ -486,7 +492,8 @@ extension ELBV2 {
         /// The type of load balancer. The default is application.
         public let `type`: LoadBalancerTypeEnum?
 
-        public init(ipAddressType: IpAddressType? = nil, name: String, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil, type: LoadBalancerTypeEnum? = nil) {
+        public init(customerOwnedIpv4Pool: String? = nil, ipAddressType: IpAddressType? = nil, name: String, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil, type: LoadBalancerTypeEnum? = nil) {
+            self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.ipAddressType = ipAddressType
             self.name = name
             self.scheme = scheme
@@ -498,6 +505,8 @@ extension ELBV2 {
         }
 
         public func validate(name: String) throws {
+            try validate(self.customerOwnedIpv4Pool, name: "customerOwnedIpv4Pool", parent: name, max: 256)
+            try validate(self.customerOwnedIpv4Pool, name: "customerOwnedIpv4Pool", parent: name, pattern: "^(ipv4pool-coip-)[a-zA-Z0-9]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -505,6 +514,7 @@ extension ELBV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
             case ipAddressType = "IpAddressType"
             case name = "Name"
             case scheme = "Scheme"
@@ -1438,13 +1448,15 @@ extension ELBV2 {
 
     public struct LoadBalancer: AWSDecodableShape {
 
-        /// The Availability Zones for the load balancer.
+        /// The subnets for the load balancer.
         @OptionalCoding<DefaultArrayCoder>
         public var availabilityZones: [AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
         public let canonicalHostedZoneId: String?
         /// The date and time the load balancer was created.
         public let createdTime: TimeStamp?
+        /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool.
+        public let customerOwnedIpv4Pool: String?
         /// The public DNS name of the load balancer.
         public let dNSName: String?
         /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
@@ -1465,10 +1477,11 @@ extension ELBV2 {
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: TimeStamp? = nil, dNSName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: TimeStamp? = nil, customerOwnedIpv4Pool: String? = nil, dNSName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
             self.createdTime = createdTime
+            self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.dNSName = dNSName
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
@@ -1484,6 +1497,7 @@ extension ELBV2 {
             case availabilityZones = "AvailabilityZones"
             case canonicalHostedZoneId = "CanonicalHostedZoneId"
             case createdTime = "CreatedTime"
+            case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
             case dNSName = "DNSName"
             case ipAddressType = "IpAddressType"
             case loadBalancerArn = "LoadBalancerArn"
@@ -2263,7 +2277,7 @@ extension ELBV2 {
 
     public struct SetSubnetsOutput: AWSDecodableShape {
 
-        /// Information about the subnet and Availability Zone.
+        /// Information about the subnets.
         @OptionalCoding<DefaultArrayCoder>
         public var availabilityZones: [AvailabilityZone]?
 

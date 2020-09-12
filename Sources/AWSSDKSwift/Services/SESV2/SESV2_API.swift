@@ -104,6 +104,11 @@ public struct SESV2: AWSService {
         return self.client.execute(operation: "CreateEmailTemplate", path: "/v2/email/templates", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Creates an import job for a data destination.
+    public func createImportJob(_ input: CreateImportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateImportJobResponse> {
+        return self.client.execute(operation: "CreateImportJob", path: "/v2/email/import-jobs", httpMethod: .POST, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Delete an existing configuration set.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteConfigurationSetResponse> {
         return self.client.execute(operation: "DeleteConfigurationSet", path: "/v2/email/configuration-sets/{ConfigurationSetName}", httpMethod: .DELETE, serviceConfig: config, input: input, on: eventLoop, logger: logger)
@@ -214,6 +219,11 @@ public struct SESV2: AWSService {
         return self.client.execute(operation: "GetEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Provides information about an import job.
+    public func getImportJob(_ input: GetImportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetImportJobResponse> {
+        return self.client.execute(operation: "GetImportJob", path: "/v2/email/import-jobs/{JobId}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Retrieves information about a specific email address that's on the suppression list for your account.
     public func getSuppressedDestination(_ input: GetSuppressedDestinationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSuppressedDestinationResponse> {
         return self.client.execute(operation: "GetSuppressedDestination", path: "/v2/email/suppression/addresses/{EmailAddress}", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
@@ -252,6 +262,11 @@ public struct SESV2: AWSService {
     ///  Lists the email templates present in your Amazon SES account in the current AWS Region. You can execute this operation no more than once per second.
     public func listEmailTemplates(_ input: ListEmailTemplatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListEmailTemplatesResponse> {
         return self.client.execute(operation: "ListEmailTemplates", path: "/v2/email/templates", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Lists all of the import jobs.
+    public func listImportJobs(_ input: ListImportJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListImportJobsResponse> {
+        return self.client.execute(operation: "ListImportJobs", path: "/v2/email/import-jobs", httpMethod: .GET, serviceConfig: config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves a list of email addresses that are on the suppression list for your account.

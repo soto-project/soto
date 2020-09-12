@@ -36,6 +36,22 @@ extension IVS {
         )
     }
 
+    ///  Gets summary information about playback key pairs.
+    public func listPlaybackKeyPairsPaginator(
+        _ input: ListPlaybackKeyPairsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListPlaybackKeyPairsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPlaybackKeyPairs,
+            tokenKey: \ListPlaybackKeyPairsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets summary information about stream keys for the specified channel.
     public func listStreamKeysPaginator(
         _ input: ListStreamKeysRequest,
@@ -90,6 +106,16 @@ extension IVS.ListChannelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IVS.ListChannelsRequest {
         return .init(
             filterByName: self.filterByName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+
+    }
+}
+
+extension IVS.ListPlaybackKeyPairsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IVS.ListPlaybackKeyPairsRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -1641,16 +1641,19 @@ extension CognitoIdentityProvider {
 
     public struct AnalyticsConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
+        /// The Amazon Resource Name (ARN) of an Amazon Pinpoint project. You can use the Amazon Pinpoint project for Pinpoint integration with the chosen User Pool Client. Amazon Cognito publishes events to the pinpoint project declared by the app ARN.
+        public let applicationArn: String?
         /// The application ID for an Amazon Pinpoint application.
-        public let applicationId: String
+        public let applicationId: String?
         /// The external ID.
-        public let externalId: String
+        public let externalId: String?
         /// The ARN of an IAM role that authorizes Amazon Cognito to publish events to Amazon Pinpoint analytics.
-        public let roleArn: String
+        public let roleArn: String?
         /// If UserDataShared is true, Amazon Cognito will include user data in the events it publishes to Amazon Pinpoint analytics.
         public let userDataShared: Bool?
 
-        public init(applicationId: String, externalId: String, roleArn: String, userDataShared: Bool? = nil) {
+        public init(applicationArn: String? = nil, applicationId: String? = nil, externalId: String? = nil, roleArn: String? = nil, userDataShared: Bool? = nil) {
+            self.applicationArn = applicationArn
             self.applicationId = applicationId
             self.externalId = externalId
             self.roleArn = roleArn
@@ -1658,6 +1661,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
+            try validate(self.applicationArn, name: "applicationArn", parent: name, max: 2048)
+            try validate(self.applicationArn, name: "applicationArn", parent: name, min: 20)
+            try validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
             try validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-fA-F]+$")
             try validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try validate(self.roleArn, name: "roleArn", parent: name, min: 20)
@@ -1665,6 +1671,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
             case applicationId = "ApplicationId"
             case externalId = "ExternalId"
             case roleArn = "RoleArn"

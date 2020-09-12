@@ -351,11 +351,11 @@ extension DatabaseMigrationService {
         public let dynamoDbSettings: DynamoDbSettings?
         /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration Service User Guide.
         public let elasticsearchSettings: ElasticsearchSettings?
-        /// The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
+        /// The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
         public let endpointIdentifier: String
         /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue
-        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", and "neptune".
         public let engineName: String
         /// The external table definition. 
         public let externalTableDefinition: String?
@@ -544,7 +544,7 @@ extension DatabaseMigrationService {
         public let availabilityZone: String?
         /// A list of custom DNS name servers supported for the replication instance to access your on-premise source or target database. This list overrides the default name servers supported by the replication instance. You can specify a comma-separated list of internet addresses for up to four on-premise DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4" 
         public let dnsNameServers: String?
-        /// The engine version number of the replication instance.
+        /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available.
         public let engineVersion: String?
         /// An AWS KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
@@ -660,7 +660,7 @@ extension DatabaseMigrationService {
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
         public let cdcStartTime: TimeStamp?
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
         public let cdcStopPosition: String?
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc 
         public let migrationType: MigrationTypeValue
@@ -2199,28 +2199,34 @@ extension DatabaseMigrationService {
 
         /// The broker location and port of the Kafka broker that hosts your Kafka instance. Specify the broker in the form  broker-hostname-or-ip:port . For example, "ec2-12-345-678-901.compute-1.amazonaws.com:2345".
         public let broker: String?
-        /// Shows detailed control information for table definition, column definition, and table and column changes in the Kafka message output. The default is False.
+        /// Shows detailed control information for table definition, column definition, and table and column changes in the Kafka message output. The default is false.
         public let includeControlDetails: Bool?
-        /// Shows the partition value within the Kafka message output, unless the partition type is schema-table-type. The default is False.
+        /// Include NULL and empty columns for records migrated to the endpoint. The default is false.
+        public let includeNullAndEmpty: Bool?
+        /// Shows the partition value within the Kafka message output, unless the partition type is schema-table-type. The default is false.
         public let includePartitionValue: Bool?
-        /// Includes any data definition language (DDL) operations that change the table in the control data, such as rename-table, drop-table, add-column, drop-column, and rename-column. The default is False.
+        /// Includes any data definition language (DDL) operations that change the table in the control data, such as rename-table, drop-table, add-column, drop-column, and rename-column. The default is false.
         public let includeTableAlterOperations: Bool?
-        /// Provides detailed transaction information from the source database. This information includes a commit timestamp, a log position, and values for transaction_id, previous transaction_id, and transaction_record_id (the record offset within a transaction). The default is False.
+        /// Provides detailed transaction information from the source database. This information includes a commit timestamp, a log position, and values for transaction_id, previous transaction_id, and transaction_record_id (the record offset within a transaction). The default is false.
         public let includeTransactionDetails: Bool?
         /// The output format for the records created on the endpoint. The message format is JSON (default) or JSON_UNFORMATTED (a single line with no tab).
         public let messageFormat: MessageFormatValue?
-        /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kafka partitions. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same partition, which causes throttling. The default is False.
+        /// The maximum size in bytes for records created on the endpoint The default is 1,000,000.
+        public let messageMaxBytes: Int?
+        /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kafka partitions. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same partition, which causes throttling. The default is false.
         public let partitionIncludeSchemaTable: Bool?
         /// The topic to which you migrate the data. If you don't specify a topic, AWS DMS specifies "kafka-default-topic" as the migration topic.
         public let topic: String?
 
-        public init(broker: String? = nil, includeControlDetails: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, partitionIncludeSchemaTable: Bool? = nil, topic: String? = nil) {
+        public init(broker: String? = nil, includeControlDetails: Bool? = nil, includeNullAndEmpty: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, messageMaxBytes: Int? = nil, partitionIncludeSchemaTable: Bool? = nil, topic: String? = nil) {
             self.broker = broker
             self.includeControlDetails = includeControlDetails
+            self.includeNullAndEmpty = includeNullAndEmpty
             self.includePartitionValue = includePartitionValue
             self.includeTableAlterOperations = includeTableAlterOperations
             self.includeTransactionDetails = includeTransactionDetails
             self.messageFormat = messageFormat
+            self.messageMaxBytes = messageMaxBytes
             self.partitionIncludeSchemaTable = partitionIncludeSchemaTable
             self.topic = topic
         }
@@ -2228,10 +2234,12 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case broker = "Broker"
             case includeControlDetails = "IncludeControlDetails"
+            case includeNullAndEmpty = "IncludeNullAndEmpty"
             case includePartitionValue = "IncludePartitionValue"
             case includeTableAlterOperations = "IncludeTableAlterOperations"
             case includeTransactionDetails = "IncludeTransactionDetails"
             case messageFormat = "MessageFormat"
+            case messageMaxBytes = "MessageMaxBytes"
             case partitionIncludeSchemaTable = "PartitionIncludeSchemaTable"
             case topic = "Topic"
         }
@@ -2239,25 +2247,28 @@ extension DatabaseMigrationService {
 
     public struct KinesisSettings: AWSEncodableShape & AWSDecodableShape {
 
-        /// Shows detailed control information for table definition, column definition, and table and column changes in the Kinesis message output. The default is False.
+        /// Shows detailed control information for table definition, column definition, and table and column changes in the Kinesis message output. The default is false.
         public let includeControlDetails: Bool?
-        /// Shows the partition value within the Kinesis message output, unless the partition type is schema-table-type. The default is False.
+        /// Include NULL and empty columns for records migrated to the endpoint. The default is false.
+        public let includeNullAndEmpty: Bool?
+        /// Shows the partition value within the Kinesis message output, unless the partition type is schema-table-type. The default is false.
         public let includePartitionValue: Bool?
-        /// Includes any data definition language (DDL) operations that change the table in the control data, such as rename-table, drop-table, add-column, drop-column, and rename-column. The default is False.
+        /// Includes any data definition language (DDL) operations that change the table in the control data, such as rename-table, drop-table, add-column, drop-column, and rename-column. The default is false.
         public let includeTableAlterOperations: Bool?
-        /// Provides detailed transaction information from the source database. This information includes a commit timestamp, a log position, and values for transaction_id, previous transaction_id, and transaction_record_id (the record offset within a transaction). The default is False.
+        /// Provides detailed transaction information from the source database. This information includes a commit timestamp, a log position, and values for transaction_id, previous transaction_id, and transaction_record_id (the record offset within a transaction). The default is false.
         public let includeTransactionDetails: Bool?
         /// The output format for the records created on the endpoint. The message format is JSON (default) or JSON_UNFORMATTED (a single line with no tab).
         public let messageFormat: MessageFormatValue?
-        /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kinesis shards. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same shard, which causes throttling. The default is False.
+        /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kinesis shards. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same shard, which causes throttling. The default is false.
         public let partitionIncludeSchemaTable: Bool?
         /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role that AWS DMS uses to write to the Kinesis data stream.
         public let serviceAccessRoleArn: String?
         /// The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams endpoint.
         public let streamArn: String?
 
-        public init(includeControlDetails: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, partitionIncludeSchemaTable: Bool? = nil, serviceAccessRoleArn: String? = nil, streamArn: String? = nil) {
+        public init(includeControlDetails: Bool? = nil, includeNullAndEmpty: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, partitionIncludeSchemaTable: Bool? = nil, serviceAccessRoleArn: String? = nil, streamArn: String? = nil) {
             self.includeControlDetails = includeControlDetails
+            self.includeNullAndEmpty = includeNullAndEmpty
             self.includePartitionValue = includePartitionValue
             self.includeTableAlterOperations = includeTableAlterOperations
             self.includeTransactionDetails = includeTransactionDetails
@@ -2269,6 +2280,7 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case includeControlDetails = "IncludeControlDetails"
+            case includeNullAndEmpty = "IncludeNullAndEmpty"
             case includePartitionValue = "IncludePartitionValue"
             case includeTableAlterOperations = "IncludeTableAlterOperations"
             case includeTransactionDetails = "IncludeTransactionDetails"
@@ -2530,7 +2542,7 @@ extension DatabaseMigrationService {
         public let applyImmediately: Bool?
         /// A value that indicates that minor version upgrades are applied automatically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case dsecribed following. The change is asynchronously applied as soon as possible.  An outage does result if these factors apply:    This parameter is set to true during the maintenance window.   A newer minor version is available.    AWS DMS has enabled automatic patching for the given engine version.   
         public let autoMinorVersionUpgrade: Bool?
-        /// The engine version number of the replication instance.
+        /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
         public let engineVersion: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
@@ -2630,7 +2642,7 @@ extension DatabaseMigrationService {
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
         public let cdcStartTime: TimeStamp?
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
         public let cdcStopPosition: String?
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc 
         public let migrationType: MigrationTypeValue?
@@ -3020,7 +3032,7 @@ extension DatabaseMigrationService {
         public let dateFormat: String?
         /// A value that specifies whether AWS DMS should migrate empty CHAR and VARCHAR fields as NULL. A value of true sets empty CHAR and VARCHAR fields to null. The default is false.
         public let emptyAsNull: Bool?
-        /// The type of server-side encryption that you want to use for your data. This encryption type is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (the default) or SSE_KMS. To use SSE_S3, create an AWS Identity and Access Management (IAM) role with a policy that allows "arn:aws:s3:::*" to use the following actions: "s3:PutObject", "s3:ListBucket" 
+        /// The type of server-side encryption that you want to use for your data. This encryption type is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (the default) or SSE_KMS.   For the ModifyEndpoint operation, you can change the existing value of the EncryptionMode parameter from SSE_KMS to SSE_S3. But you can’t change the existing value from SSE_S3 to SSE_KMS.  To use SSE_S3, create an AWS Identity and Access Management (IAM) role with a policy that allows "arn:aws:s3:::*" to use the following actions: "s3:PutObject", "s3:ListBucket" 
         public let encryptionMode: EncryptionModeValue?
         /// The number of threads used to upload a single file. This parameter accepts a value from 1 through 64. It defaults to 10.
         public let fileTransferUploadStreams: Int?
@@ -3246,7 +3258,7 @@ extension DatabaseMigrationService {
         public let availabilityZone: String?
         /// The DNS name servers supported for the replication instance to access your on-premise source or target database.
         public let dnsNameServers: String?
-        /// The engine version number of the replication instance.
+        /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
         public let engineVersion: String?
         ///  The expiration date of the free replication instance that is part of the Free DMS program. 
         public let freeUntil: TimeStamp?
@@ -3258,15 +3270,15 @@ extension DatabaseMigrationService {
         public let multiAZ: Bool?
         /// The pending modification values.
         public let pendingModifiedValues: ReplicationPendingModifiedValues?
-        /// The maintenance window times for the replication instance.
+        /// The maintenance window times for the replication instance. Any pending upgrades to the replication instance are performed during this time.
         public let preferredMaintenanceWindow: String?
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
         public let publiclyAccessible: Bool?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String?
-        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For more information on the settings and capacities for the available replication instance classes, see  Selecting the right AWS DMS replication instance for your migration. 
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. It is a required parameter, although a defualt value is pre-selected in the DMS console. For more information on the settings and capacities for the available replication instance classes, see  Selecting the right AWS DMS replication instance for your migration. 
         public let replicationInstanceClass: String?
-        /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
+        /// The replication instance identifier is a required parameter. This parameter is stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
         public let replicationInstanceIdentifier: String?
         /// One or more private IP addresses for the replication instance.
         public let replicationInstancePrivateIpAddresses: [String]?
@@ -3412,9 +3424,9 @@ extension DatabaseMigrationService {
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want the CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public let cdcStartPosition: String?
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
         public let cdcStopPosition: String?
-        /// The last error (failure) message generated for the replication instance.
+        /// The last error (failure) message generated for the replication task.
         public let lastFailureMessage: String?
         /// The type of migration.
         public let migrationType: MigrationTypeValue?
@@ -3712,15 +3724,15 @@ extension DatabaseMigrationService {
         public let bucketFolder: String?
         ///  The name of the S3 bucket. 
         public let bucketName: String?
-        /// A value that enables a change data capture (CDC) load to write INSERT and UPDATE operations to .csv or .parquet (columnar storage) output files. The default setting is false, but when CdcInsertsAndUpdates is set to trueor y, INSERTs and UPDATEs from the source database are migrated to the .csv or .parquet file.  For .csv file format only, how these INSERTs and UPDATEs are recorded depends on the value of the IncludeOpForFullLoad parameter. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to either I or U to indicate INSERT and UPDATE operations at the source. But if IncludeOpForFullLoad is set to false, CDC records are written without an indication of INSERT or UPDATE operations at the source. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide..  AWS DMS supports the use of the CdcInsertsAndUpdates parameter in versions 3.3.1 and later.  CdcInsertsOnly and CdcInsertsAndUpdates can't both be set to true for the same endpoint. Set either CdcInsertsOnly or CdcInsertsAndUpdates to true for the same endpoint, but not both. 
+        /// A value that enables a change data capture (CDC) load to write INSERT and UPDATE operations to .csv or .parquet (columnar storage) output files. The default setting is false, but when CdcInsertsAndUpdates is set to true or y, only INSERTs and UPDATEs from the source database are migrated to the .csv or .parquet file.  For .csv file format only, how these INSERTs and UPDATEs are recorded depends on the value of the IncludeOpForFullLoad parameter. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to either I or U to indicate INSERT and UPDATE operations at the source. But if IncludeOpForFullLoad is set to false, CDC records are written without an indication of INSERT or UPDATE operations at the source. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide..  AWS DMS supports the use of the CdcInsertsAndUpdates parameter in versions 3.3.1 and later.  CdcInsertsOnly and CdcInsertsAndUpdates can't both be set to true for the same endpoint. Set either CdcInsertsOnly or CdcInsertsAndUpdates to true for the same endpoint, but not both. 
         public let cdcInsertsAndUpdates: Bool?
         /// A value that enables a change data capture (CDC) load to write only INSERT operations to .csv or columnar storage (.parquet) output files. By default (the false setting), the first field in a .csv or .parquet record contains the letter I (INSERT), U (UPDATE), or D (DELETE). These values indicate whether the row was inserted, updated, or deleted at the source database for a CDC load to the target. If CdcInsertsOnly is set to true or y, only INSERTs from the source database are migrated to the .csv or .parquet file. For .csv format only, how these INSERTs are recorded depends on the value of IncludeOpForFullLoad. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to I to indicate the INSERT operation at the source. If IncludeOpForFullLoad is set to false, every CDC record is written without a first field to indicate the INSERT operation at the source. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide..  AWS DMS supports the interaction described preceding between the CdcInsertsOnly and IncludeOpForFullLoad parameters in versions 3.1.4 and later.   CdcInsertsOnly and CdcInsertsAndUpdates can't both be set to true for the same endpoint. Set either CdcInsertsOnly or CdcInsertsAndUpdates to true for the same endpoint, but not both. 
         public let cdcInsertsOnly: Bool?
         /// An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Either set this parameter to NONE (the default) or don't use it to leave the files uncompressed. This parameter applies to both .csv and .parquet file formats. 
         public let compressionType: CompressionTypeValue?
-        ///  The delimiter used to separate columns in the source files. The default is a comma. 
+        ///  The delimiter used to separate columns in the .csv file for both source and target. The default is a comma. 
         public let csvDelimiter: String?
-        ///  The delimiter used to separate rows in the source files. The default is a carriage return (\n). 
+        ///  The delimiter used to separate rows in the .csv file for both source and target. The default is a carriage return (\n). 
         public let csvRowDelimiter: String?
         /// The format of the data that you want to use for output. You can choose one of the following:     csv : This is a row-based file format with comma-separated values (.csv).     parquet : Apache Parquet (.parquet) is a columnar storage file format that features efficient compression and provides faster query response.   
         public let dataFormat: DataFormatValue?
@@ -3732,9 +3744,9 @@ extension DatabaseMigrationService {
         public let enableStatistics: Bool?
         /// The type of encoding you are using:     RLE_DICTIONARY uses a combination of bit-packing and run-length encoding to store repeated values more efficiently. This is the default.    PLAIN doesn't use encoding at all. Values are stored as they are.    PLAIN_DICTIONARY builds a dictionary of the values encountered in a given column. The dictionary is stored in a dictionary page for each column chunk.  
         public let encodingType: EncodingTypeValue?
-        /// The type of server-side encryption that you want to use for your data. This encryption type is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (the default) or SSE_KMS. To use SSE_S3, you need an AWS Identity and Access Management (IAM) role with permission to allow "arn:aws:s3:::dms-*" to use the following actions:    s3:CreateBucket     s3:ListBucket     s3:DeleteBucket     s3:GetBucketLocation     s3:GetObject     s3:PutObject     s3:DeleteObject     s3:GetObjectVersion     s3:GetBucketPolicy     s3:PutBucketPolicy     s3:DeleteBucketPolicy   
+        /// The type of server-side encryption that you want to use for your data. This encryption type is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (the default) or SSE_KMS.   For the ModifyEndpoint operation, you can change the existing value of the EncryptionMode parameter from SSE_KMS to SSE_S3. But you can’t change the existing value from SSE_S3 to SSE_KMS.  To use SSE_S3, you need an AWS Identity and Access Management (IAM) role with permission to allow "arn:aws:s3:::dms-*" to use the following actions:    s3:CreateBucket     s3:ListBucket     s3:DeleteBucket     s3:GetBucketLocation     s3:GetObject     s3:PutObject     s3:DeleteObject     s3:GetObjectVersion     s3:GetBucketPolicy     s3:PutBucketPolicy     s3:DeleteBucketPolicy   
         public let encryptionMode: EncryptionModeValue?
-        ///  The external table definition. 
+        ///  Specifies how tables are defined in the S3 source files only. 
         public let externalTableDefinition: String?
         /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) output files only to indicate how the rows were added to the source database.  AWS DMS supports the IncludeOpForFullLoad parameter in versions 3.1.4 and later.  For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load.  This setting works together with the CdcInsertsOnly and the CdcInsertsAndUpdates parameters for output to .csv files only. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide.. 
         public let includeOpForFullLoad: Bool?
@@ -3746,7 +3758,7 @@ extension DatabaseMigrationService {
         public let rowGroupLength: Int?
         /// If you are using SSE_KMS for the EncryptionMode, provide the AWS KMS key ID. The key that you use needs an attached policy that enables AWS Identity and Access Management (IAM) user permissions and allows use of the key. Here is a CLI example: aws dms create-endpoint --endpoint-identifier value --endpoint-type target --engine-name s3 --s3-settings ServiceAccessRoleArn=value,BucketFolder=value,BucketName=value,EncryptionMode=SSE_KMS,ServerSideEncryptionKmsKeyId=value  
         public let serverSideEncryptionKmsKeyId: String?
-        ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
+        ///  The Amazon Resource Name (ARN) used by the service access IAM role. It is a required parameter that enables DMS to write and read objects from an 3S bucket.
         public let serviceAccessRoleArn: String?
         /// A value that when nonblank causes AWS DMS to add a column with timestamp information to the endpoint data for an Amazon S3 target.  AWS DMS supports the TimestampColumnName parameter in versions 3.1.4 and later.  DMS includes an additional STRING column in the .csv or .parquet object files of your migrated data when you set TimestampColumnName to a nonblank value. For a full load, each row of this timestamp column contains a timestamp for when the data was transferred from the source to the target by DMS.  For a change data capture (CDC) load, each row of the timestamp column contains the timestamp for the commit of that row in the source database. The string format for this timestamp column value is yyyy-MM-dd HH:mm:ss.SSSSSS. By default, the precision of this value is in microseconds. For a CDC load, the rounding of the precision depends on the commit timestamp supported by DMS for the source database. When the AddColumnName parameter is set to true, DMS also includes a name for the timestamp column that you set with TimestampColumnName.
         public let timestampColumnName: String?
@@ -3894,7 +3906,7 @@ extension DatabaseMigrationService {
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
         public let cdcStartTime: TimeStamp?
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
         public let cdcStopPosition: String?
         /// The Amazon Resource Name (ARN) of the replication task to be started.
         public let replicationTaskArn: String
@@ -4076,7 +4088,7 @@ extension DatabaseMigrationService {
         public let validationFailedRecords: Int64?
         /// The number of records that have yet to be validated.
         public let validationPendingRecords: Int64?
-        /// The validation state of the table. This parameter can have the following values:   Not enabled - Validation isn't enabled for the table in the migration task.   Pending records - Some records in the table are waiting for validation.   Mismatched records - Some records in the table don't match between the source and target.   Suspended records - Some records in the table couldn't be validated.   No primary key - The table couldn't be validated because it has no primary key.   Table error - The table wasn't validated because it's in an error state and some data wasn't migrated.   Validated - All rows in the table are validated. If the table is updated, the status can change from Validated.   Error - The table couldn't be validated because of an unexpected error.  
+        /// The validation state of the table. This parameter can have the following values:   Not enabled – Validation isn't enabled for the table in the migration task.   Pending records – Some records in the table are waiting for validation.   Mismatched records – Some records in the table don't match between the source and target.   Suspended records – Some records in the table couldn't be validated.   No primary key –The table couldn't be validated because it has no primary key.   Table error – The table wasn't validated because it's in an error state and some data wasn't migrated.   Validated – All rows in the table are validated. If the table is updated, the status can change from Validated.   Error – The table couldn't be validated because of an unexpected error.   Pending validation – The table is waiting validation.   Preparing table – Preparing the table enabled in the migration task for validation.   Pending revalidation – All rows in the table are pending validation after the table was updated.  
         public let validationState: String?
         /// Additional details about the state of validation.
         public let validationStateDetails: String?
