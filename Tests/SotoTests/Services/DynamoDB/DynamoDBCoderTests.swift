@@ -12,8 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import SotoDynamoDB
 import NIO
+import SotoDynamoDB
 import XCTest
 
 final class DynamoDBCoderTests: XCTestCase {

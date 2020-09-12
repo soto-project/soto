@@ -16,9 +16,9 @@ import AsyncHTTPClient
 import Foundation
 import NIO
 import NIOHTTP1
-import XCTest
-@testable import SotoS3
 @testable import SotoCore
+@testable import SotoS3
+import XCTest
 
 class S3ExtensionTests: XCTestCase {
     static var client: AWSClient!

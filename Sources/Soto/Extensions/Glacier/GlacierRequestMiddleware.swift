@@ -12,9 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import SotoCrypto
-import SotoCore
 import NIO
+import SotoCore
+import SotoCrypto
 
 let MEGA_BYTE = 1024 * 1024
 

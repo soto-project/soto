@@ -12,11 +12,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-import SotoCrypto
-import SotoCore
-import SotoXML
 import Foundation
 import NIO
+import SotoCore
+import SotoCrypto
+import SotoXML
 
 public struct S3RequestMiddleware: AWSServiceMiddleware {
     public init() {}

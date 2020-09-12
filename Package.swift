@@ -246,10 +246,10 @@ let package = Package(
         .library(name: "SotoWorkMail", targets: ["SotoWorkMail"]),
         .library(name: "SotoWorkMailMessageFlow", targets: ["SotoWorkMailMessageFlow"]),
         .library(name: "SotoWorkSpaces", targets: ["SotoWorkSpaces"]),
-        .library(name: "SotoXRay", targets: ["SotoXRay"])
+        .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/adam-fowler/soto-core.git", .branch("soto"))
+        .package(url: "https://github.com/adam-fowler/soto-core.git", .branch("soto")),
     ],
     targets: [
         .target(name: "SotoACM", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/ACM"),
@@ -496,7 +496,7 @@ let package = Package(
             "SotoSNS",
             "SotoSQS",
             "SotoSSM",
-            "SotoSTS"
-        ])
+            "SotoSTS",
+        ]),
     ]
 )

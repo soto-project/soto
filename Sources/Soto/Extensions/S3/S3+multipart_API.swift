@@ -12,9 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import SotoCore
 import Foundation
 import NIO
+import SotoCore
 
 // MARK: Multipart
 

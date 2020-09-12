@@ -17,11 +17,11 @@ import XCTest
 
 @testable import SotoACM
 @testable import SotoCloudFront
+@testable import SotoCore
 @testable import SotoEC2
 @testable import SotoIAM
 @testable import SotoRoute53
 @testable import SotoS3
-@testable import SotoCore
 @testable import SotoSES
 @testable import SotoSNS
 import SotoXML

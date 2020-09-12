@@ -12,10 +12,10 @@
 //
 //===----------------------------------------------------------------------===//
 
-import SotoCore
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
 import NIO
+import SotoCore
 
 extension CognitoIdentity {
     struct RotatingCredential: ExpiringCredential {

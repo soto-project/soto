@@ -12,8 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-@testable import SotoIAM
 import NIO
+@testable import SotoIAM
 import XCTest
 
 // testing query service

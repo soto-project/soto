@@ -13,10 +13,10 @@
 //===----------------------------------------------------------------------===//
 
 import AsyncHTTPClient
-import SotoCore
 import Foundation
 import NIO
 import NIOHTTP1
+import SotoCore
 import XCTest
 
 @testable import SotoS3

@@ -12,11 +12,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-import SotoCrypto
-import SotoXML
 import CSotoZlib
 import Foundation
 import NIO
+import SotoCrypto
+import SotoXML
 
 // MARK: SelectObjectContent EventStream
 

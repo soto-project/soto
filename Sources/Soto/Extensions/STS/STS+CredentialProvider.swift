@@ -12,9 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import SotoCore
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
+import SotoCore
 
 /// Credential Provider that holds an AWSClient
 protocol CredentialProviderWithClient: CredentialProvider {

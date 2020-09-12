@@ -12,9 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-@testable import SotoCore
 import Foundation
 import NIO
+@testable import SotoCore
 import XCTest
 
 extension EventLoopFuture {

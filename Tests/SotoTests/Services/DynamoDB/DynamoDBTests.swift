@@ -14,8 +14,8 @@
 
 import Foundation
 import NIO
-import XCTest
 @testable import SotoDynamoDB
+import XCTest
 
 // testing json service
 
