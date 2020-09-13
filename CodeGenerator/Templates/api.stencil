@@ -1,6 +1,6 @@
 {%include "header.stencil" %}
 
-@_exported import AWSSDKSwiftCore
+@_exported import SotoCore
 
 {% if middlewareFramework %}
 import {{ middlewareFramework }}
@@ -34,7 +34,7 @@ public struct {{ name }}: AWSService {
     public init(
         client: AWSClient,
 {% if regionalized %}
-        region: AWSSDKSwiftCore.Region? = nil,
+        region: SotoCore.Region? = nil,
 {% endif %}
         partition: AWSPartition = .aws,
         endpoint: String? = nil,

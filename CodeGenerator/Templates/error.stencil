@@ -1,6 +1,6 @@
 {%include "header.stencil" %}
 
-import AWSSDKSwiftCore
+import SotoCore
 
 /// Error enum for {{name}}
 public enum {{errorName}}: AWSErrorType {

@@ -1,13 +1,13 @@
 #!/bin/bash
 ##===----------------------------------------------------------------------===##
 ##
-## This source file is part of the AWSSDKSwift open source project
+## This source file is part of the Soto for AWS open source project
 ##
-## Copyright (c) 2020 the AWSSDKSwift project authors
+## Copyright (c) 2020 the Soto project authors
 ## Licensed under Apache License v2.0
 ##
 ## See LICENSE.txt for license information
-## See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+## See CONTRIBUTORS.txt for the list of Soto project authors
 ##
 ## SPDX-License-Identifier: Apache-2.0
 ##
@@ -15,7 +15,7 @@
 
 #######################################################
 #
-# usage bash publish-module.sh /path/to/swift-aws "sync with aws-sdk-swift@1.0.2" 1.0.2
+# usage bash publish-module.sh /path/to/soto-project "sync with soto@1.0.2" 1.0.2
 #  $1: path for aws partial modules are stored
 #  $2: commit comment
 #  $3: tag for release (if not included will not make a release)
@@ -50,9 +50,9 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
     fi
 
     if [ -z "$(git remote -v | grep origin)" ]; then
-        git remote add origin "https://github.com/swift-aws/$BASENAME.git"
+        git remote add origin "https://github.com/soto-project/$BASENAME.git"
     else
-        git remote set-url origin "https://github.com/swift-aws/$BASENAME.git"
+        git remote set-url origin "https://github.com/soto-project/$BASENAME.git"
     fi
 
     GIT_STATUS_R=$(git status --porcelain)

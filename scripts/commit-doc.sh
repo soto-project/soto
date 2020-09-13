@@ -1,13 +1,13 @@
 #!/bin/sh
 ##===----------------------------------------------------------------------===##
 ##
-## This source file is part of the AWSSDKSwift open source project
+## This source file is part of the Soto for AWS open source project
 ##
-## Copyright (c) 2020 the AWSSDKSwift project authors
+## Copyright (c) 2020 the Soto project authors
 ## Licensed under Apache License v2.0
 ##
 ## See LICENSE.txt for license information
-## See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+## See CONTRIBUTORS.txt for the list of Soto project authors
 ##
 ## SPDX-License-Identifier: Apache-2.0
 ##
@@ -20,14 +20,14 @@ BRANCH=gh-pages
 
 move_docs_to_aws_sdk_swift_docs() {
     REVISION_HASH=$(git rev-parse HEAD)
-    COMMIT_MSG="Documentation for https://github.com/swift-aws/aws-sdk-swift/tree/$REVISION_HASH"
+    COMMIT_MSG="Documentation for https://github.com/soto-project/soto/tree/$REVISION_HASH"
     if [ -n "$1" ]; then
         COMMIT_MSG=$1
     fi
 
-    git clone https://github.com/swift-aws/aws-sdk-swift-docs -b "$BRANCH"
+    git clone https://github.com/soto-project/soto-docs -b "$BRANCH"
 
-    cd aws-sdk-swift-docs
+    cd soto-docs
     # copy contents of docs to docs/current replacing the ones that are already there
     rm -rf "$FOLDER"
     mv ../docs/ "$FOLDER"/
@@ -37,7 +37,7 @@ move_docs_to_aws_sdk_swift_docs() {
     git push
 
     cd ..
-    rm -rf aws-sdk-swift-docs
+    rm -rf soto-docs
 }
 
 COMMIT_MSG=""

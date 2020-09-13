@@ -1,20 +1,20 @@
 #!/usr/bin/env swift sh
 //===----------------------------------------------------------------------===//
 //
-// This source file is part of the AWSSDKSwift open source project
+// This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Copyright (c) 2017-2020 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
-// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+// See CONTRIBUTORS.txt for the list of Soto project authors
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 //===----------------------------------------------------------------------===//
 
 import Files // JohnSundell/Files
-import Stencil // swift-aws/Stencil
+import Stencil // soto-project/Stencil
 
 struct GeneratePackage {
     let environment: Environment
@@ -32,9 +32,9 @@ struct GeneratePackage {
     }
 
     func run() throws {
-        let servicesFolder = try Folder(path: "./Sources/AWSSDKSwift/Services")
-        let extensionsFolder = try Folder(path: "./Sources/AWSSDKSwift/Extensions")
-        let testFolder = try Folder(path: "./Tests/AWSSDKSwiftTests/Services")
+        let servicesFolder = try Folder(path: "./Sources/Soto/Services")
+        let extensionsFolder = try Folder(path: "./Sources/Soto/Extensions")
+        let testFolder = try Folder(path: "./Tests/SotoTests/Services")
         let currentFolder = try Folder(path: ".")
 
         let extensionSubfolders = extensionsFolder.subfolders
@@ -43,9 +43,9 @@ struct GeneratePackage {
             let hasExtension = extensionSubfolders.first { $0.name == folder.name } != nil
             let dependencies: [String]
             if folder.name == "S3" {
-                dependencies = ["AWSSDKSwiftCore", "CAWSZlib"]
+                dependencies = ["SotoCore", "CSotoZlib"]
             } else {
-                dependencies = ["AWSSDKSwiftCore"]
+                dependencies = ["SotoCore"]
             }
             return Target(name: folder.name, hasExtension: hasExtension, dependencies: dependencies)
         }
