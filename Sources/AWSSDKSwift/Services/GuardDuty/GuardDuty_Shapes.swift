@@ -12,6 +12,20 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataSource: String, CustomStringConvertible, Codable {
+        case flowLogs = "FLOW_LOGS"
+        case cloudTrail = "CLOUD_TRAIL"
+        case dnsLogs = "DNS_LOGS"
+        case s3Logs = "S3_LOGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DestinationType: String, CustomStringConvertible, Codable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
@@ -103,6 +117,14 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum UsageStatisticType: String, CustomStringConvertible, Codable {
+        case sumByAccount = "SUM_BY_ACCOUNT"
+        case sumByDataSource = "SUM_BY_DATA_SOURCE"
+        case sumByResource = "SUM_BY_RESOURCE"
+        case topResources = "TOP_RESOURCES"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSShape {
@@ -143,6 +165,28 @@ extension GuardDuty {
         public init() {
         }
 
+    }
+
+    public struct AccessControlList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowsPublicReadAccess", location: .body(locationName: "allowsPublicReadAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowsPublicWriteAccess", location: .body(locationName: "allowsPublicWriteAccess"), required: false, type: .boolean)
+        ]
+
+        /// A value that indicates whether public read access for the bucket is enabled through an Access Control List (ACL).
+        public let allowsPublicReadAccess: Bool?
+        /// A value that indicates whether public write access for the bucket is enabled through an Access Control List (ACL).
+        public let allowsPublicWriteAccess: Bool?
+
+        public init(allowsPublicReadAccess: Bool? = nil, allowsPublicWriteAccess: Bool? = nil) {
+            self.allowsPublicReadAccess = allowsPublicReadAccess
+            self.allowsPublicWriteAccess = allowsPublicWriteAccess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
+        }
     }
 
     public struct AccessKeyDetails: AWSShape {
@@ -203,6 +247,23 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case email = "email"
+        }
+    }
+
+    public struct AccountLevelPermissions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlockPublicAccess", location: .body(locationName: "blockPublicAccess"), required: false, type: .structure)
+        ]
+
+        /// Describes the S3 Block Public Access settings of the bucket's parent account.
+        public let blockPublicAccess: BlockPublicAccess?
+
+        public init(blockPublicAccess: BlockPublicAccess? = nil) {
+            self.blockPublicAccess = blockPublicAccess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicAccess = "blockPublicAccess"
         }
     }
 
@@ -311,6 +372,7 @@ extension GuardDuty {
             AWSShapeMember(label: "Api", location: .body(locationName: "api"), required: false, type: .string), 
             AWSShapeMember(label: "CallerType", location: .body(locationName: "callerType"), required: false, type: .string), 
             AWSShapeMember(label: "DomainDetails", location: .body(locationName: "domainDetails"), required: false, type: .structure), 
+            AWSShapeMember(label: "ErrorCode", location: .body(locationName: "errorCode"), required: false, type: .string), 
             AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails"), required: false, type: .structure), 
             AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"), required: false, type: .string)
         ]
@@ -321,15 +383,18 @@ extension GuardDuty {
         public let callerType: String?
         /// The domain information for the AWS API call.
         public let domainDetails: DomainDetails?
-        /// The remote IP information of the connection.
+        /// The error code of the failed AWS API action.
+        public let errorCode: String?
+        /// The remote IP information of the connection that initiated the AWS API call.
         public let remoteIpDetails: RemoteIpDetails?
         /// The AWS service name whose API was invoked.
         public let serviceName: String?
 
-        public init(api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil) {
+        public init(api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, errorCode: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil) {
             self.api = api
             self.callerType = callerType
             self.domainDetails = domainDetails
+            self.errorCode = errorCode
             self.remoteIpDetails = remoteIpDetails
             self.serviceName = serviceName
         }
@@ -338,8 +403,90 @@ extension GuardDuty {
             case api = "api"
             case callerType = "callerType"
             case domainDetails = "domainDetails"
+            case errorCode = "errorCode"
             case remoteIpDetails = "remoteIpDetails"
             case serviceName = "serviceName"
+        }
+    }
+
+    public struct BlockPublicAccess: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlockPublicAcls", location: .body(locationName: "blockPublicAcls"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BlockPublicPolicy", location: .body(locationName: "blockPublicPolicy"), required: false, type: .boolean), 
+            AWSShapeMember(label: "IgnorePublicAcls", location: .body(locationName: "ignorePublicAcls"), required: false, type: .boolean), 
+            AWSShapeMember(label: "RestrictPublicBuckets", location: .body(locationName: "restrictPublicBuckets"), required: false, type: .boolean)
+        ]
+
+        /// Indicates if S3 Block Public Access is set to BlockPublicAcls.
+        public let blockPublicAcls: Bool?
+        /// Indicates if S3 Block Public Access is set to BlockPublicPolicy.
+        public let blockPublicPolicy: Bool?
+        /// Indicates if S3 Block Public Access is set to IgnorePublicAcls.
+        public let ignorePublicAcls: Bool?
+        /// Indicates if S3 Block Public Access is set to RestrictPublicBuckets.
+        public let restrictPublicBuckets: Bool?
+
+        public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
+            self.blockPublicAcls = blockPublicAcls
+            self.blockPublicPolicy = blockPublicPolicy
+            self.ignorePublicAcls = ignorePublicAcls
+            self.restrictPublicBuckets = restrictPublicBuckets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicAcls = "blockPublicAcls"
+            case blockPublicPolicy = "blockPublicPolicy"
+            case ignorePublicAcls = "ignorePublicAcls"
+            case restrictPublicBuckets = "restrictPublicBuckets"
+        }
+    }
+
+    public struct BucketLevelPermissions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessControlList", location: .body(locationName: "accessControlList"), required: false, type: .structure), 
+            AWSShapeMember(label: "BlockPublicAccess", location: .body(locationName: "blockPublicAccess"), required: false, type: .structure), 
+            AWSShapeMember(label: "BucketPolicy", location: .body(locationName: "bucketPolicy"), required: false, type: .structure)
+        ]
+
+        /// Contains information on how Access Control Policies are applied to the bucket.
+        public let accessControlList: AccessControlList?
+        /// Contains information on which account level S3 Block Public Access settings are applied to the S3 bucket.
+        public let blockPublicAccess: BlockPublicAccess?
+        /// Contains information on the bucket policies for the S3 bucket.
+        public let bucketPolicy: BucketPolicy?
+
+        public init(accessControlList: AccessControlList? = nil, blockPublicAccess: BlockPublicAccess? = nil, bucketPolicy: BucketPolicy? = nil) {
+            self.accessControlList = accessControlList
+            self.blockPublicAccess = blockPublicAccess
+            self.bucketPolicy = bucketPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlList = "accessControlList"
+            case blockPublicAccess = "blockPublicAccess"
+            case bucketPolicy = "bucketPolicy"
+        }
+    }
+
+    public struct BucketPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowsPublicReadAccess", location: .body(locationName: "allowsPublicReadAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowsPublicWriteAccess", location: .body(locationName: "allowsPublicWriteAccess"), required: false, type: .boolean)
+        ]
+
+        /// A value that indicates whether public read access for the bucket is enabled through a bucket policy.
+        public let allowsPublicReadAccess: Bool?
+        /// A value that indicates whether public write access for the bucket is enabled through a bucket policy.
+        public let allowsPublicWriteAccess: Bool?
+
+        public init(allowsPublicReadAccess: Bool? = nil, allowsPublicWriteAccess: Bool? = nil) {
+            self.allowsPublicReadAccess = allowsPublicReadAccess
+            self.allowsPublicWriteAccess = allowsPublicWriteAccess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
         }
     }
 
@@ -357,6 +504,23 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case cityName = "cityName"
+        }
+    }
+
+    public struct CloudTrailConfigurationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
+        ]
+
+        /// Describes whether CloudTrail is enabled as a data source for the detector.
+        public let status: DataSourceStatus
+
+        public init(status: DataSourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
@@ -427,6 +591,7 @@ extension GuardDuty {
     public struct CreateDetectorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "DataSources", location: .body(locationName: "dataSources"), required: false, type: .structure), 
             AWSShapeMember(label: "Enable", location: .body(locationName: "enable"), required: true, type: .boolean), 
             AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
@@ -434,6 +599,8 @@ extension GuardDuty {
 
         /// The idempotency token for the create request.
         public let clientToken: String?
+        /// An object that describes which data sources will be enabled for the detector.
+        public let dataSources: DataSourceConfigurations?
         /// A Boolean value that specifies whether the detector is to be enabled.
         public let enable: Bool
         /// An enum value that specifies how frequently updated findings are exported.
@@ -441,8 +608,9 @@ extension GuardDuty {
         /// The tags to be added to a new detector resource.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), enable: Bool, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), dataSources: DataSourceConfigurations? = nil, enable: Bool, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
+            self.dataSources = dataSources
             self.enable = enable
             self.findingPublishingFrequency = findingPublishingFrequency
             self.tags = tags
@@ -461,6 +629,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case dataSources = "dataSources"
             case enable = "enable"
             case findingPublishingFrequency = "findingPublishingFrequency"
             case tags = "tags"
@@ -504,7 +673,7 @@ extension GuardDuty {
         public let description: String?
         /// The unique ID of the detector of the GuardDuty account that you want to create a filter for.
         public let detectorId: String
-        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.  
+        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.  
         public let findingCriteria: FindingCriteria
         /// The name of the filter.
         public let name: String
@@ -880,6 +1049,72 @@ extension GuardDuty {
         }
     }
 
+    public struct DNSLogsConfigurationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
+        ]
+
+        /// Denotes whether DNS logs is enabled as a data source.
+        public let status: DataSourceStatus
+
+        public init(status: DataSourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct DataSourceConfigurations: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Logs", location: .body(locationName: "s3Logs"), required: false, type: .structure)
+        ]
+
+        /// Describes whether S3 data event logs are enabled as a data source.
+        public let s3Logs: S3LogsConfiguration?
+
+        public init(s3Logs: S3LogsConfiguration? = nil) {
+            self.s3Logs = s3Logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Logs = "s3Logs"
+        }
+    }
+
+    public struct DataSourceConfigurationsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudTrail", location: .body(locationName: "cloudTrail"), required: true, type: .structure), 
+            AWSShapeMember(label: "DNSLogs", location: .body(locationName: "dnsLogs"), required: true, type: .structure), 
+            AWSShapeMember(label: "FlowLogs", location: .body(locationName: "flowLogs"), required: true, type: .structure), 
+            AWSShapeMember(label: "S3Logs", location: .body(locationName: "s3Logs"), required: true, type: .structure)
+        ]
+
+        /// An object that contains information on the status of CloudTrail as a data source.
+        public let cloudTrail: CloudTrailConfigurationResult
+        /// An object that contains information on the status of DNS logs as a data source.
+        public let dNSLogs: DNSLogsConfigurationResult
+        /// An object that contains information on the status of VPC flow logs as a data source.
+        public let flowLogs: FlowLogsConfigurationResult
+        /// An object that contains information on the status of S3 Data event logs as a data source.
+        public let s3Logs: S3LogsConfigurationResult
+
+        public init(cloudTrail: CloudTrailConfigurationResult, dNSLogs: DNSLogsConfigurationResult, flowLogs: FlowLogsConfigurationResult, s3Logs: S3LogsConfigurationResult) {
+            self.cloudTrail = cloudTrail
+            self.dNSLogs = dNSLogs
+            self.flowLogs = flowLogs
+            self.s3Logs = s3Logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudTrail = "cloudTrail"
+            case dNSLogs = "dnsLogs"
+            case flowLogs = "flowLogs"
+            case s3Logs = "s3Logs"
+        }
+    }
+
     public struct DeclineInvitationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list)
@@ -920,6 +1155,28 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
+    public struct DefaultServerSideEncryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionType", location: .body(locationName: "encryptionType"), required: false, type: .string), 
+            AWSShapeMember(label: "KmsMasterKeyArn", location: .body(locationName: "kmsMasterKeyArn"), required: false, type: .string)
+        ]
+
+        /// The type of encryption used for objects within the S3 bucket.
+        public let encryptionType: String?
+        /// The Amazon Resource Name (ARN) of the KMS encryption key. Only available if the bucket EncryptionType is aws:kms.
+        public let kmsMasterKeyArn: String?
+
+        public init(encryptionType: String? = nil, kmsMasterKeyArn: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsMasterKeyArn = kmsMasterKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case kmsMasterKeyArn = "kmsMasterKeyArn"
         }
     }
 
@@ -1211,21 +1468,26 @@ extension GuardDuty {
     public struct DescribeOrganizationConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoEnable", location: .body(locationName: "autoEnable"), required: true, type: .boolean), 
+            AWSShapeMember(label: "DataSources", location: .body(locationName: "dataSources"), required: false, type: .structure), 
             AWSShapeMember(label: "MemberAccountLimitReached", location: .body(locationName: "memberAccountLimitReached"), required: true, type: .boolean)
         ]
 
         /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization.
         public let autoEnable: Bool
+        /// An object that describes which data sources are enabled automatically for member accounts.
+        public let dataSources: OrganizationDataSourceConfigurationsResult?
         /// Indicates whether the maximum number of allowed member accounts are already associated with the delegated administrator master account.
         public let memberAccountLimitReached: Bool
 
-        public init(autoEnable: Bool, memberAccountLimitReached: Bool) {
+        public init(autoEnable: Bool, dataSources: OrganizationDataSourceConfigurationsResult? = nil, memberAccountLimitReached: Bool) {
             self.autoEnable = autoEnable
+            self.dataSources = dataSources
             self.memberAccountLimitReached = memberAccountLimitReached
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoEnable = "autoEnable"
+            case dataSources = "dataSources"
             case memberAccountLimitReached = "memberAccountLimitReached"
         }
     }
@@ -1348,7 +1610,7 @@ extension GuardDuty {
             AWSShapeMember(label: "AdminAccountId", location: .body(locationName: "adminAccountId"), required: true, type: .string)
         ]
 
-        /// The AWS Account ID for the Organizations account to be disabled as a GuardDuty delegated administrator.
+        /// The AWS Account ID for the organizations account to be disabled as a GuardDuty delegated administrator.
         public let adminAccountId: String
 
         public init(adminAccountId: String) {
@@ -1487,7 +1749,7 @@ extension GuardDuty {
             AWSShapeMember(label: "AdminAccountId", location: .body(locationName: "adminAccountId"), required: true, type: .string)
         ]
 
-        /// The AWS Account ID for the Organizations account to be enabled as a GuardDuty delegated administrator.
+        /// The AWS Account ID for the organization account to be enabled as a GuardDuty delegated administrator.
         public let adminAccountId: String
 
         public init(adminAccountId: String) {
@@ -1643,6 +1905,23 @@ extension GuardDuty {
         }
     }
 
+    public struct FlowLogsConfigurationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
+        ]
+
+        /// Denotes whether VPC flow logs is enabled as a data source.
+        public let status: DataSourceStatus
+
+        public init(status: DataSourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct GeoLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Lat", location: .body(locationName: "lat"), required: false, type: .double), 
@@ -1690,6 +1969,7 @@ extension GuardDuty {
     public struct GetDetectorResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .string), 
+            AWSShapeMember(label: "DataSources", location: .body(locationName: "dataSources"), required: false, type: .structure), 
             AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum), 
             AWSShapeMember(label: "ServiceRole", location: .body(locationName: "serviceRole"), required: true, type: .string), 
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum), 
@@ -1699,6 +1979,8 @@ extension GuardDuty {
 
         /// The timestamp of when the detector was created.
         public let createdAt: String?
+        /// An object that describes which data sources are enabled for the detector.
+        public let dataSources: DataSourceConfigurationsResult?
         /// The publishing frequency of the finding.
         public let findingPublishingFrequency: FindingPublishingFrequency?
         /// The GuardDuty service role.
@@ -1710,8 +1992,9 @@ extension GuardDuty {
         /// The last-updated timestamp for the detector.
         public let updatedAt: String?
 
-        public init(createdAt: String? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String, status: DetectorStatus, tags: [String: String]? = nil, updatedAt: String? = nil) {
+        public init(createdAt: String? = nil, dataSources: DataSourceConfigurationsResult? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String, status: DetectorStatus, tags: [String: String]? = nil, updatedAt: String? = nil) {
             self.createdAt = createdAt
+            self.dataSources = dataSources
             self.findingPublishingFrequency = findingPublishingFrequency
             self.serviceRole = serviceRole
             self.status = status
@@ -1721,6 +2004,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case dataSources = "dataSources"
             case findingPublishingFrequency = "findingPublishingFrequency"
             case serviceRole = "serviceRole"
             case status = "status"
@@ -2032,6 +2316,61 @@ extension GuardDuty {
         }
     }
 
+    public struct GetMemberDetectorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+
+        /// The account ID of the member account.
+        public let accountIds: [String]
+        /// The detector ID for the master account.
+        public let detectorId: String
+
+        public init(accountIds: [String], detectorId: String) {
+            self.accountIds = accountIds
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+            }
+            try validate(self.accountIds, name:"accountIds", parent: name, max: 50)
+            try validate(self.accountIds, name:"accountIds", parent: name, min: 1)
+            try validate(self.detectorId, name:"detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct GetMemberDetectorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MemberDataSourceConfigurations", location: .body(locationName: "members"), required: true, type: .list), 
+            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: true, type: .list)
+        ]
+
+        /// An object that describes which data sources are enabled for a member account.
+        public let memberDataSourceConfigurations: [MemberDataSourceConfiguration]
+        /// A list of member account IDs that were unable to be processed along with an explanation for why they were not processed.
+        public let unprocessedAccounts: [UnprocessedAccount]
+
+        public init(memberDataSourceConfigurations: [MemberDataSourceConfiguration], unprocessedAccounts: [UnprocessedAccount]) {
+            self.memberDataSourceConfigurations = memberDataSourceConfigurations
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberDataSourceConfigurations = "members"
+            case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
     public struct GetMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
@@ -2148,6 +2487,78 @@ extension GuardDuty {
             case name = "name"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct GetUsageStatisticsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Unit", location: .body(locationName: "unit"), required: false, type: .string), 
+            AWSShapeMember(label: "UsageCriteria", location: .body(locationName: "usageCriteria"), required: true, type: .structure), 
+            AWSShapeMember(label: "UsageStatisticType", location: .body(locationName: "usageStatisticsType"), required: true, type: .enum)
+        ]
+
+        /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
+        public let detectorId: String
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+        /// The currency unit you would like to view your usage statistics in. Current valid values are USD.
+        public let unit: String?
+        /// Represents the criteria used for querying usage.
+        public let usageCriteria: UsageCriteria
+        /// The type of usage statistics to retrieve.
+        public let usageStatisticType: UsageStatisticType
+
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, unit: String? = nil, usageCriteria: UsageCriteria, usageStatisticType: UsageStatisticType) {
+            self.detectorId = detectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.unit = unit
+            self.usageCriteria = usageCriteria
+            self.usageStatisticType = usageStatisticType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name:"detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.usageCriteria.validate(name: "\(name).usageCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case unit = "unit"
+            case usageCriteria = "usageCriteria"
+            case usageStatisticType = "usageStatisticsType"
+        }
+    }
+
+    public struct GetUsageStatisticsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "UsageStatistics", location: .body(locationName: "usageStatistics"), required: false, type: .structure)
+        ]
+
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
+        public let nextToken: String?
+        /// The usage statistics object. If a UsageStatisticType was provided, the objects representing other types will be null.
+        public let usageStatistics: UsageStatistics?
+
+        public init(nextToken: String? = nil, usageStatistics: UsageStatistics? = nil) {
+            self.nextToken = nextToken
+            self.usageStatistics = usageStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case usageStatistics = "usageStatistics"
         }
     }
 
@@ -2294,9 +2705,9 @@ extension GuardDuty {
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account that you want to invite members with.
         public let detectorId: String
-        /// A Boolean value that specifies whether you want to disable email notification to the accounts that you’re inviting to GuardDuty as members.
+        /// A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
         public let disableEmailNotification: Bool?
-        /// The invitation message that you want to send to the accounts that you’re inviting to GuardDuty as members.
+        /// The invitation message that you want to send to the accounts that you're inviting to GuardDuty as members.
         public let message: String?
 
         public init(accountIds: [String], detectorId: String, disableEmailNotification: Bool? = nil, message: String? = nil) {
@@ -2632,7 +3043,7 @@ extension GuardDuty {
         public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        /// Specifies what member accounts the response includes based on their relationship status with the master account. The default value is "true". If set to "false" the response includes all existing member accounts (including members who haven't been invited yet or have been disassociated).
+        /// Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated).
         public let onlyAssociated: String?
 
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: String? = nil) {
@@ -2996,6 +3407,28 @@ extension GuardDuty {
         }
     }
 
+    public struct MemberDataSourceConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSources", location: .body(locationName: "dataSources"), required: true, type: .structure)
+        ]
+
+        /// The account ID for the member account.
+        public let accountId: String
+        /// Contains information on the status of data sources for the account.
+        public let dataSources: DataSourceConfigurationsResult
+
+        public init(accountId: String, dataSources: DataSourceConfigurationsResult) {
+            self.accountId = accountId
+            self.dataSources = dataSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case dataSources = "dataSources"
+        }
+    }
+
     public struct NetworkConnectionAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Blocked", location: .body(locationName: "blocked"), required: false, type: .boolean), 
@@ -3137,6 +3570,113 @@ extension GuardDuty {
         }
     }
 
+    public struct OrganizationDataSourceConfigurations: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Logs", location: .body(locationName: "s3Logs"), required: false, type: .structure)
+        ]
+
+        /// Describes whether S3 data event logs are enabled for new members of the organization.
+        public let s3Logs: OrganizationS3LogsConfiguration?
+
+        public init(s3Logs: OrganizationS3LogsConfiguration? = nil) {
+            self.s3Logs = s3Logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Logs = "s3Logs"
+        }
+    }
+
+    public struct OrganizationDataSourceConfigurationsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Logs", location: .body(locationName: "s3Logs"), required: true, type: .structure)
+        ]
+
+        /// Describes whether S3 data event logs are enabled as a data source.
+        public let s3Logs: OrganizationS3LogsConfigurationResult
+
+        public init(s3Logs: OrganizationS3LogsConfigurationResult) {
+            self.s3Logs = s3Logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Logs = "s3Logs"
+        }
+    }
+
+    public struct OrganizationS3LogsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoEnable", location: .body(locationName: "autoEnable"), required: true, type: .boolean)
+        ]
+
+        /// A value that contains information on whether S3 data event logs will be enabled automatically as a data source for the organization.
+        public let autoEnable: Bool
+
+        public init(autoEnable: Bool) {
+            self.autoEnable = autoEnable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "autoEnable"
+        }
+    }
+
+    public struct OrganizationS3LogsConfigurationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoEnable", location: .body(locationName: "autoEnable"), required: true, type: .boolean)
+        ]
+
+        /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
+        public let autoEnable: Bool
+
+        public init(autoEnable: Bool) {
+            self.autoEnable = autoEnable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "autoEnable"
+        }
+    }
+
+    public struct Owner: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+        ]
+
+        /// The canonical user ID of the bucket owner. For information about locating your canonical user ID see Finding Your Account Canonical User ID. 
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct PermissionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountLevelPermissions", location: .body(locationName: "accountLevelPermissions"), required: false, type: .structure), 
+            AWSShapeMember(label: "BucketLevelPermissions", location: .body(locationName: "bucketLevelPermissions"), required: false, type: .structure)
+        ]
+
+        /// Contains information about the account level permissions on the S3 bucket.
+        public let accountLevelPermissions: AccountLevelPermissions?
+        /// Contains information about the bucket level permissions for the S3 bucket.
+        public let bucketLevelPermissions: BucketLevelPermissions?
+
+        public init(accountLevelPermissions: AccountLevelPermissions? = nil, bucketLevelPermissions: BucketLevelPermissions? = nil) {
+            self.accountLevelPermissions = accountLevelPermissions
+            self.bucketLevelPermissions = bucketLevelPermissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountLevelPermissions = "accountLevelPermissions"
+            case bucketLevelPermissions = "bucketLevelPermissions"
+        }
+    }
+
     public struct PortProbeAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Blocked", location: .body(locationName: "blocked"), required: false, type: .boolean), 
@@ -3230,6 +3770,28 @@ extension GuardDuty {
         }
     }
 
+    public struct PublicAccess: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EffectivePermission", location: .body(locationName: "effectivePermission"), required: false, type: .string), 
+            AWSShapeMember(label: "PermissionConfiguration", location: .body(locationName: "permissionConfiguration"), required: false, type: .structure)
+        ]
+
+        /// Describes the effective permission on this bucket after factoring all attached policies.
+        public let effectivePermission: String?
+        /// Contains information about how permissions are configured for the S3 bucket.
+        public let permissionConfiguration: PermissionConfiguration?
+
+        public init(effectivePermission: String? = nil, permissionConfiguration: PermissionConfiguration? = nil) {
+            self.effectivePermission = effectivePermission
+            self.permissionConfiguration = permissionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effectivePermission = "effectivePermission"
+            case permissionConfiguration = "permissionConfiguration"
+        }
+    }
+
     public struct RemoteIpDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "City", location: .body(locationName: "city"), required: false, type: .structure), 
@@ -3293,7 +3855,8 @@ extension GuardDuty {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessKeyDetails", location: .body(locationName: "accessKeyDetails"), required: false, type: .structure), 
             AWSShapeMember(label: "InstanceDetails", location: .body(locationName: "instanceDetails"), required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType"), required: false, type: .string)
+            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType"), required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketDetails", location: .body(locationName: "s3BucketDetails"), required: false, type: .list)
         ]
 
         /// The IAM access key details (IAM user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
@@ -3302,17 +3865,107 @@ extension GuardDuty {
         public let instanceDetails: InstanceDetails?
         /// The type of AWS resource.
         public let resourceType: String?
+        /// Contains information on the S3 bucket.
+        public let s3BucketDetails: [S3BucketDetail]?
 
-        public init(accessKeyDetails: AccessKeyDetails? = nil, instanceDetails: InstanceDetails? = nil, resourceType: String? = nil) {
+        public init(accessKeyDetails: AccessKeyDetails? = nil, instanceDetails: InstanceDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
             self.accessKeyDetails = accessKeyDetails
             self.instanceDetails = instanceDetails
             self.resourceType = resourceType
+            self.s3BucketDetails = s3BucketDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessKeyDetails = "accessKeyDetails"
             case instanceDetails = "instanceDetails"
             case resourceType = "resourceType"
+            case s3BucketDetails = "s3BucketDetails"
+        }
+    }
+
+    public struct S3BucketDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "DefaultServerSideEncryption", location: .body(locationName: "defaultServerSideEncryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Owner", location: .body(locationName: "owner"), required: false, type: .structure), 
+            AWSShapeMember(label: "PublicAccess", location: .body(locationName: "publicAccess"), required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the S3 bucket.
+        public let arn: String?
+        /// The date and time the bucket was created at.
+        public let createdAt: TimeStamp?
+        /// Describes the server side encryption method used in the S3 bucket.
+        public let defaultServerSideEncryption: DefaultServerSideEncryption?
+        /// The name of the S3 bucket.
+        public let name: String?
+        /// The owner of the S3 bucket.
+        public let owner: Owner?
+        /// Describes the public access policies that apply to the S3 bucket.
+        public let publicAccess: PublicAccess?
+        /// All tags attached to the S3 bucket
+        public let tags: [Tag]?
+        /// Describes whether the bucket is a source or destination bucket.
+        public let `type`: String?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, defaultServerSideEncryption: DefaultServerSideEncryption? = nil, name: String? = nil, owner: Owner? = nil, publicAccess: PublicAccess? = nil, tags: [Tag]? = nil, type: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.defaultServerSideEncryption = defaultServerSideEncryption
+            self.name = name
+            self.owner = owner
+            self.publicAccess = publicAccess
+            self.tags = tags
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case defaultServerSideEncryption = "defaultServerSideEncryption"
+            case name = "name"
+            case owner = "owner"
+            case publicAccess = "publicAccess"
+            case tags = "tags"
+            case `type` = "type"
+        }
+    }
+
+    public struct S3LogsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enable", location: .body(locationName: "enable"), required: true, type: .boolean)
+        ]
+
+        ///  The status of S3 data event logs as a data source.
+        public let enable: Bool
+
+        public init(enable: Bool) {
+            self.enable = enable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enable = "enable"
+        }
+    }
+
+    public struct S3LogsConfigurationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
+        ]
+
+        /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
+        public let status: DataSourceStatus
+
+        public init(status: DataSourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
@@ -3606,6 +4259,28 @@ extension GuardDuty {
         }
     }
 
+    public struct Total: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Amount", location: .body(locationName: "amount"), required: false, type: .string), 
+            AWSShapeMember(label: "Unit", location: .body(locationName: "unit"), required: false, type: .string)
+        ]
+
+        /// The total usage.
+        public let amount: String?
+        /// The currency unit that the amount is given in.
+        public let unit: String?
+
+        public init(amount: String? = nil, unit: String? = nil) {
+            self.amount = amount
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "amount"
+            case unit = "unit"
+        }
+    }
+
     public struct UnarchiveFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
@@ -3712,11 +4387,14 @@ extension GuardDuty {
 
     public struct UpdateDetectorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSources", location: .body(locationName: "dataSources"), required: false, type: .structure), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
             AWSShapeMember(label: "Enable", location: .body(locationName: "enable"), required: false, type: .boolean), 
             AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum)
         ]
 
+        /// An object that describes which data sources will be updated.
+        public let dataSources: DataSourceConfigurations?
         /// The unique ID of the detector to update.
         public let detectorId: String
         /// Specifies whether the detector is enabled or not enabled.
@@ -3724,7 +4402,8 @@ extension GuardDuty {
         /// An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
         public let findingPublishingFrequency: FindingPublishingFrequency?
 
-        public init(detectorId: String, enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
+        public init(dataSources: DataSourceConfigurations? = nil, detectorId: String, enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
+            self.dataSources = dataSources
             self.detectorId = detectorId
             self.enable = enable
             self.findingPublishingFrequency = findingPublishingFrequency
@@ -3736,6 +4415,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataSources = "dataSources"
             case detectorId = "detectorId"
             case enable = "enable"
             case findingPublishingFrequency = "findingPublishingFrequency"
@@ -3923,19 +4603,78 @@ extension GuardDuty {
 
     }
 
+    public struct UpdateMemberDetectorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
+            AWSShapeMember(label: "DataSources", location: .body(locationName: "dataSources"), required: false, type: .structure), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+
+        /// A list of member account IDs to be updated.
+        public let accountIds: [String]
+        /// An object describes which data sources will be updated.
+        public let dataSources: DataSourceConfigurations?
+        /// The detector ID of the master account.
+        public let detectorId: String
+
+        public init(accountIds: [String], dataSources: DataSourceConfigurations? = nil, detectorId: String) {
+            self.accountIds = accountIds
+            self.dataSources = dataSources
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+            }
+            try validate(self.accountIds, name:"accountIds", parent: name, max: 50)
+            try validate(self.accountIds, name:"accountIds", parent: name, min: 1)
+            try validate(self.detectorId, name:"detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case dataSources = "dataSources"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct UpdateMemberDetectorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: true, type: .list)
+        ]
+
+        /// A list of member account IDs that were unable to be processed along with an explanation for why they were not processed.
+        public let unprocessedAccounts: [UnprocessedAccount]
+
+        public init(unprocessedAccounts: [UnprocessedAccount]) {
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
     public struct UpdateOrganizationConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoEnable", location: .body(locationName: "autoEnable"), required: true, type: .boolean), 
+            AWSShapeMember(label: "DataSources", location: .body(locationName: "dataSources"), required: false, type: .structure), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
 
         /// Indicates whether to automatically enable member accounts in the organization.
         public let autoEnable: Bool
+        /// An object describes which data sources will be updated.
+        public let dataSources: OrganizationDataSourceConfigurations?
         /// The ID of the detector to update the delegated administrator for.
         public let detectorId: String
 
-        public init(autoEnable: Bool, detectorId: String) {
+        public init(autoEnable: Bool, dataSources: OrganizationDataSourceConfigurations? = nil, detectorId: String) {
             self.autoEnable = autoEnable
+            self.dataSources = dataSources
             self.detectorId = detectorId
         }
 
@@ -3946,6 +4685,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case autoEnable = "autoEnable"
+            case dataSources = "dataSources"
             case detectorId = "detectorId"
         }
     }
@@ -4050,5 +4790,139 @@ extension GuardDuty {
         public init() {
         }
 
+    }
+
+    public struct UsageAccountResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: false, type: .string), 
+            AWSShapeMember(label: "Total", location: .body(locationName: "total"), required: false, type: .structure)
+        ]
+
+        /// The Account ID that generated usage.
+        public let accountId: String?
+        /// Represents the total of usage for the Account ID.
+        public let total: Total?
+
+        public init(accountId: String? = nil, total: Total? = nil) {
+            self.accountId = accountId
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case total = "total"
+        }
+    }
+
+    public struct UsageCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: false, type: .list), 
+            AWSShapeMember(label: "DataSources", location: .body(locationName: "dataSources"), required: true, type: .list), 
+            AWSShapeMember(label: "Resources", location: .body(locationName: "resources"), required: false, type: .list)
+        ]
+
+        /// The account IDs to aggregate usage statistics from.
+        public let accountIds: [String]?
+        /// The data sources to aggregate usage statistics from.
+        public let dataSources: [DataSource]
+        /// The resources to aggregate usage statistics from. Only accepts exact resource names.
+        public let resources: [String]?
+
+        public init(accountIds: [String]? = nil, dataSources: [DataSource], resources: [String]? = nil) {
+            self.accountIds = accountIds
+            self.dataSources = dataSources
+            self.resources = resources
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+            }
+            try validate(self.accountIds, name:"accountIds", parent: name, max: 50)
+            try validate(self.accountIds, name:"accountIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case dataSources = "dataSources"
+            case resources = "resources"
+        }
+    }
+
+    public struct UsageDataSourceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSource", location: .body(locationName: "dataSource"), required: false, type: .enum), 
+            AWSShapeMember(label: "Total", location: .body(locationName: "total"), required: false, type: .structure)
+        ]
+
+        /// The data source type that generated usage.
+        public let dataSource: DataSource?
+        /// Represents the total of usage for the specified data source.
+        public let total: Total?
+
+        public init(dataSource: DataSource? = nil, total: Total? = nil) {
+            self.dataSource = dataSource
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "dataSource"
+            case total = "total"
+        }
+    }
+
+    public struct UsageResourceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", location: .body(locationName: "resource"), required: false, type: .string), 
+            AWSShapeMember(label: "Total", location: .body(locationName: "total"), required: false, type: .structure)
+        ]
+
+        /// The AWS resource that generated usage.
+        public let resource: String?
+        /// Represents the sum total of usage for the specified resource type.
+        public let total: Total?
+
+        public init(resource: String? = nil, total: Total? = nil) {
+            self.resource = resource
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+            case total = "total"
+        }
+    }
+
+    public struct UsageStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SumByAccount", location: .body(locationName: "sumByAccount"), required: false, type: .list), 
+            AWSShapeMember(label: "SumByDataSource", location: .body(locationName: "sumByDataSource"), required: false, type: .list), 
+            AWSShapeMember(label: "SumByResource", location: .body(locationName: "sumByResource"), required: false, type: .list), 
+            AWSShapeMember(label: "TopResources", location: .body(locationName: "topResources"), required: false, type: .list)
+        ]
+
+        /// The usage statistic sum organized by account ID.
+        public let sumByAccount: [UsageAccountResult]?
+        /// The usage statistic sum organized by on data source.
+        public let sumByDataSource: [UsageDataSourceResult]?
+        /// The usage statistic sum organized by resource.
+        public let sumByResource: [UsageResourceResult]?
+        /// Lists the top 50 resources that have generated the most GuardDuty usage, in order from most to least expensive.
+        public let topResources: [UsageResourceResult]?
+
+        public init(sumByAccount: [UsageAccountResult]? = nil, sumByDataSource: [UsageDataSourceResult]? = nil, sumByResource: [UsageResourceResult]? = nil, topResources: [UsageResourceResult]? = nil) {
+            self.sumByAccount = sumByAccount
+            self.sumByDataSource = sumByDataSource
+            self.sumByResource = sumByResource
+            self.topResources = topResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sumByAccount = "sumByAccount"
+            case sumByDataSource = "sumByDataSource"
+            case sumByResource = "sumByResource"
+            case topResources = "topResources"
+        }
     }
 }

@@ -36,6 +36,7 @@ public struct GroundStation {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2019-05-23",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-2": "groundstation-fips.us-east-2.amazonaws.com", "fips-us-west-2": "groundstation-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [GroundStationErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

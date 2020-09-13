@@ -134,12 +134,22 @@ public struct Connect {
         return client.send(operation: "ListUsers", path: "/users-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
 
+    ///  When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording the call. Only voice recordings are supported at this time.
+    public func resumeContactRecording(_ input: ResumeContactRecordingRequest) -> EventLoopFuture<ResumeContactRecordingResponse> {
+        return client.send(operation: "ResumeContactRecording", path: "/contact/resume-recording", httpMethod: "POST", input: input)
+    }
+
     ///  Initiates a contact flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients need to subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. 
     public func startChatContact(_ input: StartChatContactRequest) -> EventLoopFuture<StartChatContactResponse> {
         return client.send(operation: "StartChatContact", path: "/contact/chat", httpMethod: "PUT", input: input)
     }
 
-    ///  Initiates a contact flow to place an outbound call to a customer. There is a 60 second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.
+    ///  This API starts recording the contact when the agent joins the call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number), use SuspendContactRecording and ResumeContactRecording. You can use this API to override the recording behavior configured in the Set recording behavior block. Only voice recordings are supported at this time.
+    public func startContactRecording(_ input: StartContactRecordingRequest) -> EventLoopFuture<StartContactRecordingResponse> {
+        return client.send(operation: "StartContactRecording", path: "/contact/start-recording", httpMethod: "POST", input: input)
+    }
+
+    ///  This API places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in ContactFlowId). Agents are not involved in initiating the outbound API (that is, dialing the contact). If the contact flow places an outbound call to a contact, and then puts the contact in queue, that's when the call is routed to the agent, like any other inbound case. There is a 60 second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.
     public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest) -> EventLoopFuture<StartOutboundVoiceContactResponse> {
         return client.send(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: "PUT", input: input)
     }
@@ -147,6 +157,16 @@ public struct Connect {
     ///  Ends the specified contact.
     public func stopContact(_ input: StopContactRequest) -> EventLoopFuture<StopContactResponse> {
         return client.send(operation: "StopContact", path: "/contact/stop", httpMethod: "POST", input: input)
+    }
+
+    ///  When a contact is being recorded, this API stops recording the call. StopContactRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time.
+    public func stopContactRecording(_ input: StopContactRecordingRequest) -> EventLoopFuture<StopContactRecordingResponse> {
+        return client.send(operation: "StopContactRecording", path: "/contact/stop-recording", httpMethod: "POST", input: input)
+    }
+
+    ///  When a contact is being recorded, this API suspends recording the call. For example, you might suspend the call recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording.  The period of time that the recording is suspended is filled with silence in the final recording.  Only voice recordings are supported at this time.
+    public func suspendContactRecording(_ input: SuspendContactRecordingRequest) -> EventLoopFuture<SuspendContactRecordingResponse> {
+        return client.send(operation: "SuspendContactRecording", path: "/contact/suspend-recording", httpMethod: "POST", input: input)
     }
 
     ///  Adds the specified tags to the specified resource. The supported resource type is users.

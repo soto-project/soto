@@ -126,7 +126,7 @@ extension ELBV2 {
         public let fixedResponseConfig: FixedResponseActionConfig?
         /// Information for creating an action that distributes requests among one or more target groups. For Network Load Balancers, you can specify a single target group. Specify only when Type is forward. If you specify both ForwardConfig and TargetGroupArn, you can specify only one target group using ForwardConfig and it must be the same target group specified in TargetGroupArn.
         public let forwardConfig: ForwardActionConfig?
-        /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first. The last action to be performed must be one of the following types of actions: a forward, fixed-response, or redirect.
+        /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first.
         public let order: Int?
         /// [Application Load Balancer] Information for creating a redirect action. Specify only when Type is redirect.
         public let redirectConfig: RedirectActionConfig?
@@ -368,25 +368,30 @@ extension ELBV2 {
     public struct AvailabilityZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerAddresses", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "OutpostId", required: false, type: .string), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
             AWSShapeMember(label: "ZoneName", required: false, type: .string)
         ]
 
         /// [Network Load Balancers] If you need static IP addresses for your load balancer, you can specify one Elastic IP address per Availability Zone when you create an internal-facing load balancer. For internal load balancers, you can specify a private IP address from the IPv4 range of the subnet.
         public let loadBalancerAddresses: [LoadBalancerAddress]?
+        /// [Application Load Balancers on Outposts] The ID of the Outpost.
+        public let outpostId: String?
         /// The ID of the subnet. You can specify one subnet per Availability Zone.
         public let subnetId: String?
         /// The name of the Availability Zone.
         public let zoneName: String?
 
-        public init(loadBalancerAddresses: [LoadBalancerAddress]? = nil, subnetId: String? = nil, zoneName: String? = nil) {
+        public init(loadBalancerAddresses: [LoadBalancerAddress]? = nil, outpostId: String? = nil, subnetId: String? = nil, zoneName: String? = nil) {
             self.loadBalancerAddresses = loadBalancerAddresses
+            self.outpostId = outpostId
             self.subnetId = subnetId
             self.zoneName = zoneName
         }
 
         private enum CodingKeys: String, CodingKey {
             case loadBalancerAddresses = "LoadBalancerAddresses"
+            case outpostId = "OutpostId"
             case subnetId = "SubnetId"
             case zoneName = "ZoneName"
         }
@@ -438,6 +443,7 @@ extension ELBV2 {
 
     public struct CreateListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlpnPolicy", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "DefaultActions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
@@ -446,6 +452,8 @@ extension ELBV2 {
             AWSShapeMember(label: "SslPolicy", required: false, type: .string)
         ]
 
+        /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN Policies in the Network Load Balancers Guide.
+        public let alpnPolicy: [String]?
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list for the listener, use AddListenerCertificates.
         public let certificates: [Certificate]?
         /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
@@ -459,7 +467,8 @@ extension ELBV2 {
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. The following are the possible values:    ELBSecurityPolicy-2016-08     ELBSecurityPolicy-TLS-1-0-2015-04     ELBSecurityPolicy-TLS-1-1-2017-01     ELBSecurityPolicy-TLS-1-2-2017-01     ELBSecurityPolicy-TLS-1-2-Ext-2018-06     ELBSecurityPolicy-FS-2018-06     ELBSecurityPolicy-FS-1-1-2019-08     ELBSecurityPolicy-FS-1-2-2019-08     ELBSecurityPolicy-FS-1-2-Res-2019-08    For more information, see Security Policies in the Application Load Balancers Guide and Security Policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
 
-        public init(certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int, protocol: ProtocolEnum, sslPolicy: String? = nil) {
+        public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int, protocol: ProtocolEnum, sslPolicy: String? = nil) {
+            self.alpnPolicy = alpnPolicy
             self.certificates = certificates
             self.defaultActions = defaultActions
             self.loadBalancerArn = loadBalancerArn
@@ -477,6 +486,7 @@ extension ELBV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alpnPolicy = "AlpnPolicy"
             case certificates = "Certificates"
             case defaultActions = "DefaultActions"
             case loadBalancerArn = "LoadBalancerArn"
@@ -505,6 +515,7 @@ extension ELBV2 {
 
     public struct CreateLoadBalancerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomerOwnedIpv4Pool", required: false, type: .string), 
             AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Scheme", required: false, type: .enum), 
@@ -515,6 +526,8 @@ extension ELBV2 {
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
 
+        /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool (CoIP pool).
+        public let customerOwnedIpv4Pool: String?
         /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
         public let ipAddressType: IpAddressType?
         /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
@@ -523,16 +536,17 @@ extension ELBV2 {
         public let scheme: LoadBalancerSchemeEnum?
         /// [Application Load Balancers] The IDs of the security groups for the load balancer.
         public let securityGroups: [String]?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
         public let subnetMappings: [SubnetMapping]?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
         public let subnets: [String]?
         /// One or more tags to assign to the load balancer.
         public let tags: [Tag]?
         /// The type of load balancer. The default is application.
         public let `type`: LoadBalancerTypeEnum?
 
-        public init(ipAddressType: IpAddressType? = nil, name: String, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil, type: LoadBalancerTypeEnum? = nil) {
+        public init(customerOwnedIpv4Pool: String? = nil, ipAddressType: IpAddressType? = nil, name: String, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil, type: LoadBalancerTypeEnum? = nil) {
+            self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.ipAddressType = ipAddressType
             self.name = name
             self.scheme = scheme
@@ -544,6 +558,8 @@ extension ELBV2 {
         }
 
         public func validate(name: String) throws {
+            try validate(self.customerOwnedIpv4Pool, name:"customerOwnedIpv4Pool", parent: name, max: 256)
+            try validate(self.customerOwnedIpv4Pool, name:"customerOwnedIpv4Pool", parent: name, pattern: "^(ipv4pool-coip-)[a-zA-Z0-9]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -551,6 +567,7 @@ extension ELBV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
             case ipAddressType = "IpAddressType"
             case name = "Name"
             case scheme = "Scheme"
@@ -589,7 +606,7 @@ extension ELBV2 {
 
         /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         public let actions: [Action]
-        /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
+        /// The conditions. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string.
         public let conditions: [RuleCondition]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -679,7 +696,7 @@ extension ELBV2 {
         public let port: Int?
         /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. A TCP_UDP listener must be associated with a TCP_UDP target group. If the target is a Lambda function, this parameter does not apply.
         public let `protocol`: ProtocolEnum?
-        /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value. If the target group protocol is UDP or TCP_UDP, the target type must be instance.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
+        /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
         public let targetType: TargetTypeEnum?
         /// The number of consecutive health check failures required before considering a target unhealthy. For target groups with a protocol of HTTP or HTTPS, the default is 2. For target groups with a protocol of TCP or TLS, this value must be the same as the healthy threshold count. If the target type is lambda, the default is 2.
         public let unhealthyThresholdCount: Int?
@@ -1571,6 +1588,7 @@ extension ELBV2 {
 
     public struct Listener: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlpnPolicy", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "DefaultActions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
@@ -1580,6 +1598,8 @@ extension ELBV2 {
             AWSShapeMember(label: "SslPolicy", required: false, type: .string)
         ]
 
+        /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN) policy.
+        public let alpnPolicy: [String]?
         /// [HTTPS or TLS listener] The default certificate for the listener.
         public let certificates: [Certificate]?
         /// The default actions for the listener.
@@ -1595,7 +1615,8 @@ extension ELBV2 {
         /// [HTTPS or TLS listener] The security policy that defines which protocols and ciphers are supported.
         public let sslPolicy: String?
 
-        public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+        public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+            self.alpnPolicy = alpnPolicy
             self.certificates = certificates
             self.defaultActions = defaultActions
             self.listenerArn = listenerArn
@@ -1606,6 +1627,7 @@ extension ELBV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alpnPolicy = "AlpnPolicy"
             case certificates = "Certificates"
             case defaultActions = "DefaultActions"
             case listenerArn = "ListenerArn"
@@ -1621,6 +1643,7 @@ extension ELBV2 {
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "CanonicalHostedZoneId", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CustomerOwnedIpv4Pool", required: false, type: .string), 
             AWSShapeMember(label: "DNSName", required: false, type: .string), 
             AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
@@ -1632,12 +1655,14 @@ extension ELBV2 {
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
 
-        /// The Availability Zones for the load balancer.
+        /// The subnets for the load balancer.
         public let availabilityZones: [AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
         public let canonicalHostedZoneId: String?
         /// The date and time the load balancer was created.
         public let createdTime: TimeStamp?
+        /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool.
+        public let customerOwnedIpv4Pool: String?
         /// The public DNS name of the load balancer.
         public let dNSName: String?
         /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
@@ -1657,10 +1682,11 @@ extension ELBV2 {
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: TimeStamp? = nil, dNSName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: TimeStamp? = nil, customerOwnedIpv4Pool: String? = nil, dNSName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
             self.createdTime = createdTime
+            self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.dNSName = dNSName
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
@@ -1676,6 +1702,7 @@ extension ELBV2 {
             case availabilityZones = "AvailabilityZones"
             case canonicalHostedZoneId = "CanonicalHostedZoneId"
             case createdTime = "CreatedTime"
+            case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
             case dNSName = "DNSName"
             case ipAddressType = "IpAddressType"
             case loadBalancerArn = "LoadBalancerArn"
@@ -1721,7 +1748,7 @@ extension ELBV2 {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
-        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.  
+        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.  
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -1784,6 +1811,7 @@ extension ELBV2 {
 
     public struct ModifyListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlpnPolicy", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "DefaultActions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
@@ -1792,6 +1820,8 @@ extension ELBV2 {
             AWSShapeMember(label: "SslPolicy", required: false, type: .string)
         ]
 
+        /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN Policies in the Network Load Balancers Guide.
+        public let alpnPolicy: [String]?
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
         public let certificates: [Certificate]?
         /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
@@ -1805,7 +1835,8 @@ extension ELBV2 {
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. The following are the possible values:    ELBSecurityPolicy-2016-08     ELBSecurityPolicy-TLS-1-0-2015-04     ELBSecurityPolicy-TLS-1-1-2017-01     ELBSecurityPolicy-TLS-1-2-2017-01     ELBSecurityPolicy-TLS-1-2-Ext-2018-06     ELBSecurityPolicy-FS-2018-06     ELBSecurityPolicy-FS-1-1-2019-08     ELBSecurityPolicy-FS-1-2-2019-08     ELBSecurityPolicy-FS-1-2-Res-2019-08    For more information, see Security Policies in the Application Load Balancers Guide and Security Policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
 
-        public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+        public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+            self.alpnPolicy = alpnPolicy
             self.certificates = certificates
             self.defaultActions = defaultActions
             self.listenerArn = listenerArn
@@ -1823,6 +1854,7 @@ extension ELBV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alpnPolicy = "AlpnPolicy"
             case certificates = "Certificates"
             case defaultActions = "DefaultActions"
             case listenerArn = "ListenerArn"
@@ -2021,7 +2053,7 @@ extension ELBV2 {
         public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
         public let healthyThresholdCount: Int?
-        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target. With Network Load Balancers, you can't modify this setting.
+        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target. The possible values are from 200 to 499. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). The default is 200. With Network Load Balancers, you can't modify this setting.
         public let matcher: Matcher?
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -2360,7 +2392,7 @@ extension ELBV2 {
         public let queryStringConfig: QueryStringConditionConfig?
         /// Information for a source IP condition. Specify only when Field is source-ip.
         public let sourceIpConfig: SourceIpConditionConfig?
-        /// The condition value. You can use Values if the rule contains only host-header and path-pattern conditions. Otherwise, you can use HostHeaderConfig for host-header conditions and PathPatternConfig for path-pattern conditions. If Field is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If Field is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        /// The condition value. Specify only when Field is host-header or path-pattern. Alternatively, to specify multiple host names or multiple path patterns, use HostHeaderConfig or PathPatternConfig. If Field is host-header and you are not using HostHeaderConfig, you can specify a single host name (for example, my.example.com) in Values. A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If Field is path-pattern and you are not using PathPatternConfig, you can specify a single path pattern (for example, /img/*) in Values. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
         public let values: [String]?
 
         public init(field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil, httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, queryStringConfig: QueryStringConditionConfig? = nil, sourceIpConfig: SourceIpConditionConfig? = nil, values: [String]? = nil) {
@@ -2567,7 +2599,7 @@ extension ELBV2 {
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
-        /// Information about the subnet and Availability Zone.
+        /// Information about the subnets.
         public let availabilityZones: [AvailabilityZone]?
 
         public init(availabilityZones: [AvailabilityZone]? = nil) {
@@ -2833,7 +2865,7 @@ extension ELBV2 {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
-        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible values are lb_cookie for Application Load Balancers or source_ip for Network Load Balancers.   The following attributes are supported by Application Load Balancers if the target is not a Lambda function:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives a linearly increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the target is a Lambda function.    lambda.multi_value_headers.enabled - Indicates whether the request and response headers exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
+        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible values are lb_cookie for Application Load Balancers or source_ip for Network Load Balancers.   The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives an increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). The default is 0 seconds (disabled).    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the load balancer is an Application Load Balancer and the target is a Lambda function:    lambda.multi_value_headers.enabled - Indicates whether the request and response headers that are exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
         public let key: String?
         /// The value of the attribute.
         public let value: String?

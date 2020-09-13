@@ -32,6 +32,7 @@ extension SFN.GetExecutionHistoryInput: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> SFN.GetExecutionHistoryInput {
         return .init(
             executionArn: self.executionArn, 
+            includeExecutionData: self.includeExecutionData, 
             maxResults: self.maxResults, 
             nextToken: token, 
             reverseOrder: self.reverseOrder

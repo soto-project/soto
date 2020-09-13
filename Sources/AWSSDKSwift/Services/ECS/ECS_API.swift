@@ -76,6 +76,11 @@ public struct ECS {
         return client.send(operation: "DeleteAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified capacity provider.  The FARGATE and FARGATE_SPOT capacity providers are reserved and cannot be deleted. You can disassociate them from a cluster using either the PutClusterCapacityProviders API or by deleting the cluster.  Prior to a capacity provider being deleted, the capacity provider must be removed from the capacity provider strategy from all services. The UpdateService API can be used to remove a capacity provider from a service's capacity provider strategy. When updating a service, the forceNewDeployment option can be used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity provider are transitioned to use the capacity from the remaining capacity providers. Only capacity providers that are not associated with a cluster can be deleted. To remove a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
+    public func deleteCapacityProvider(_ input: DeleteCapacityProviderRequest) -> EventLoopFuture<DeleteCapacityProviderResponse> {
+        return client.send(operation: "DeleteCapacityProvider", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the specified cluster. The cluster will transition to the INACTIVE state. Clusters with an INACTIVE status may remain discoverable in your account for a period of time. However, this behavior is subject to change in the future, so you should not rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
     public func deleteCluster(_ input: DeleteClusterRequest) -> EventLoopFuture<DeleteClusterResponse> {
         return client.send(operation: "DeleteCluster", path: "/", httpMethod: "POST", input: input)

@@ -6,12 +6,12 @@ import NIO
 
 extension IoTSiteWise {
 
-    ///  Gets aggregated values for an asset property. For more information, see Querying Aggregated Property Values in the AWS IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.  
+    ///  Gets aggregated values for an asset property. For more information, see Querying aggregates in the AWS IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.  
     public func getAssetPropertyAggregatesPaginator(_ input: GetAssetPropertyAggregatesRequest, onPage: @escaping (GetAssetPropertyAggregatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getAssetPropertyAggregates, tokenKey: \GetAssetPropertyAggregatesResponse.nextToken, onPage: onPage)
     }
 
-    ///  Gets the history of an asset property's values. For more information, see Querying Historical Property Values in the AWS IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.  
+    ///  Gets the history of an asset property's values. For more information, see Querying historical values in the AWS IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.  
     public func getAssetPropertyValueHistoryPaginator(_ input: GetAssetPropertyValueHistoryRequest, onPage: @escaping (GetAssetPropertyValueHistoryResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getAssetPropertyValueHistory, tokenKey: \GetAssetPropertyValueHistoryResponse.nextToken, onPage: onPage)
     }
@@ -26,12 +26,12 @@ extension IoTSiteWise {
         return client.paginate(input: input, command: listAssetModels, tokenKey: \ListAssetModelsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Retrieves a paginated list of asset summaries.
+    ///  Retrieves a paginated list of asset summaries. You can use this operation to do the following:   List assets based on a specific asset model.   List top-level assets.   You can't use this operation to list all assets. To retrieve summaries for all of your assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model.
     public func listAssetsPaginator(_ input: ListAssetsRequest, onPage: @escaping (ListAssetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssets, tokenKey: \ListAssetsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Retrieves a paginated list of the assets associated to a parent asset (assetId) by a given hierarchy (hierarchyId).
+    ///  Retrieves a paginated list of associated assets. You can use this operation to do the following:   List child assets associated to a parent asset by a hierarchy that you specify.   List an asset's parent asset.  
     public func listAssociatedAssetsPaginator(_ input: ListAssociatedAssetsRequest, onPage: @escaping (ListAssociatedAssetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAssociatedAssets, tokenKey: \ListAssociatedAssetsResponse.nextToken, onPage: onPage)
     }
@@ -141,7 +141,8 @@ extension IoTSiteWise.ListAssociatedAssetsRequest: AWSPaginateStringToken {
             assetId: self.assetId, 
             hierarchyId: self.hierarchyId, 
             maxResults: self.maxResults, 
-            nextToken: token
+            nextToken: token, 
+            traversalDirection: self.traversalDirection
         )
 
     }

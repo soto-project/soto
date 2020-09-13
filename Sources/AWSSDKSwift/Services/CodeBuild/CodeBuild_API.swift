@@ -51,6 +51,11 @@ public struct CodeBuild {
         return client.send(operation: "BatchDeleteBuilds", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves information about one or more batch builds.
+    public func batchGetBuildBatches(_ input: BatchGetBuildBatchesInput) -> EventLoopFuture<BatchGetBuildBatchesOutput> {
+        return client.send(operation: "BatchGetBuildBatches", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about one or more builds.
     public func batchGetBuilds(_ input: BatchGetBuildsInput) -> EventLoopFuture<BatchGetBuildsOutput> {
         return client.send(operation: "BatchGetBuilds", path: "/", httpMethod: "POST", input: input)
@@ -86,6 +91,11 @@ public struct CodeBuild {
         return client.send(operation: "CreateWebhook", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes a batch build.
+    public func deleteBuildBatch(_ input: DeleteBuildBatchInput) -> EventLoopFuture<DeleteBuildBatchOutput> {
+        return client.send(operation: "DeleteBuildBatch", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///   Deletes a build project. When you delete a project, its builds are not deleted. 
     public func deleteProject(_ input: DeleteProjectInput) -> EventLoopFuture<DeleteProjectOutput> {
         return client.send(operation: "DeleteProject", path: "/", httpMethod: "POST", input: input)
@@ -96,7 +106,7 @@ public struct CodeBuild {
         return client.send(operation: "DeleteReport", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   DeleteReportGroup: Deletes a report group. Before you delete a report group, you must delete its reports. Use ListReportsForReportGroup to get the reports in a report group. Use DeleteReport to delete the reports. If you call DeleteReportGroup for a report group that contains one or more reports, an exception is thrown. 
+    ///  Deletes a report group. Before you delete a report group, you must delete its reports. 
     public func deleteReportGroup(_ input: DeleteReportGroupInput) -> EventLoopFuture<DeleteReportGroupOutput> {
         return client.send(operation: "DeleteReportGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -114,6 +124,11 @@ public struct CodeBuild {
     ///  For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops AWS CodeBuild from rebuilding the source code every time a code change is pushed to the repository.
     public func deleteWebhook(_ input: DeleteWebhookInput) -> EventLoopFuture<DeleteWebhookOutput> {
         return client.send(operation: "DeleteWebhook", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves one or more code coverage reports.
+    public func describeCodeCoverages(_ input: DescribeCodeCoveragesInput) -> EventLoopFuture<DescribeCodeCoveragesOutput> {
+        return client.send(operation: "DescribeCodeCoverages", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of details about test cases for a report. 
@@ -134,6 +149,16 @@ public struct CodeBuild {
     ///  Resets the cache for a project.
     public func invalidateProjectCache(_ input: InvalidateProjectCacheInput) -> EventLoopFuture<InvalidateProjectCacheOutput> {
         return client.send(operation: "InvalidateProjectCache", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the identifiers of your build batches in the current region.
+    public func listBuildBatches(_ input: ListBuildBatchesInput) -> EventLoopFuture<ListBuildBatchesOutput> {
+        return client.send(operation: "ListBuildBatches", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the identifiers of the build batches for a specific project.
+    public func listBuildBatchesForProject(_ input: ListBuildBatchesForProjectInput) -> EventLoopFuture<ListBuildBatchesForProjectOutput> {
+        return client.send(operation: "ListBuildBatchesForProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of build IDs, with each build ID representing a single build.
@@ -191,14 +216,34 @@ public struct CodeBuild {
         return client.send(operation: "PutResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Restarts a build.
+    public func retryBuild(_ input: RetryBuildInput) -> EventLoopFuture<RetryBuildOutput> {
+        return client.send(operation: "RetryBuild", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Restarts a batch build.
+    public func retryBuildBatch(_ input: RetryBuildBatchInput) -> EventLoopFuture<RetryBuildBatchOutput> {
+        return client.send(operation: "RetryBuildBatch", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Starts running a build.
     public func startBuild(_ input: StartBuildInput) -> EventLoopFuture<StartBuildOutput> {
         return client.send(operation: "StartBuild", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Starts a batch build for a project.
+    public func startBuildBatch(_ input: StartBuildBatchInput) -> EventLoopFuture<StartBuildBatchOutput> {
+        return client.send(operation: "StartBuildBatch", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Attempts to stop running a build.
     public func stopBuild(_ input: StopBuildInput) -> EventLoopFuture<StopBuildOutput> {
         return client.send(operation: "StopBuild", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops a running batch build.
+    public func stopBuildBatch(_ input: StopBuildBatchInput) -> EventLoopFuture<StopBuildBatchOutput> {
+        return client.send(operation: "StopBuildBatch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the settings of a build project.

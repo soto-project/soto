@@ -99,6 +99,16 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
+    public enum InboundCrossClusterSearchConnectionStatusCode: String, CustomStringConvertible, Codable {
+        case pendingAcceptance = "PENDING_ACCEPTANCE"
+        case approved = "APPROVED"
+        case rejecting = "REJECTING"
+        case rejected = "REJECTED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogType: String, CustomStringConvertible, Codable {
         case indexSlowLogs = "INDEX_SLOW_LOGS"
         case searchSlowLogs = "SEARCH_SLOW_LOGS"
@@ -110,6 +120,18 @@ extension ElasticsearchService {
         case requiresindexdocuments = "RequiresIndexDocuments"
         case processing = "Processing"
         case active = "Active"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutboundCrossClusterSearchConnectionStatusCode: String, CustomStringConvertible, Codable {
+        case pendingAcceptance = "PENDING_ACCEPTANCE"
+        case validating = "VALIDATING"
+        case validationFailed = "VALIDATION_FAILED"
+        case provisioning = "PROVISIONING"
+        case active = "ACTIVE"
+        case rejected = "REJECTED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
@@ -166,6 +188,40 @@ extension ElasticsearchService {
     }
 
     //MARK: Shapes
+
+    public struct AcceptInboundCrossClusterSearchConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnectionId", location: .uri(locationName: "ConnectionId"), required: true, type: .string)
+        ]
+
+        /// The id of the inbound connection that you want to accept.
+        public let crossClusterSearchConnectionId: String
+
+        public init(crossClusterSearchConnectionId: String) {
+            self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnectionId = "ConnectionId"
+        }
+    }
+
+    public struct AcceptInboundCrossClusterSearchConnectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnection", required: false, type: .structure)
+        ]
+
+        /// Specifies the InboundCrossClusterSearchConnection of accepted inbound connection. 
+        public let crossClusterSearchConnection: InboundCrossClusterSearchConnection?
+
+        public init(crossClusterSearchConnection: InboundCrossClusterSearchConnection? = nil) {
+            self.crossClusterSearchConnection = crossClusterSearchConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnection = "CrossClusterSearchConnection"
+        }
+    }
 
     public struct AccessPoliciesStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -615,6 +671,76 @@ extension ElasticsearchService {
         }
     }
 
+    public struct CreateOutboundCrossClusterSearchConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionAlias", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationDomainInfo", required: true, type: .structure), 
+            AWSShapeMember(label: "SourceDomainInfo", required: true, type: .structure)
+        ]
+
+        /// Specifies the connection alias that will be used by the customer for this connection.
+        public let connectionAlias: String
+        /// Specifies the DomainInformation for the destination Elasticsearch domain.
+        public let destinationDomainInfo: DomainInformation
+        /// Specifies the DomainInformation for the source Elasticsearch domain.
+        public let sourceDomainInfo: DomainInformation
+
+        public init(connectionAlias: String, destinationDomainInfo: DomainInformation, sourceDomainInfo: DomainInformation) {
+            self.connectionAlias = connectionAlias
+            self.destinationDomainInfo = destinationDomainInfo
+            self.sourceDomainInfo = sourceDomainInfo
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.connectionAlias, name:"connectionAlias", parent: name, max: 20)
+            try self.destinationDomainInfo.validate(name: "\(name).destinationDomainInfo")
+            try self.sourceDomainInfo.validate(name: "\(name).sourceDomainInfo")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionAlias = "ConnectionAlias"
+            case destinationDomainInfo = "DestinationDomainInfo"
+            case sourceDomainInfo = "SourceDomainInfo"
+        }
+    }
+
+    public struct CreateOutboundCrossClusterSearchConnectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionAlias", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectionStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "CrossClusterSearchConnectionId", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationDomainInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceDomainInfo", required: false, type: .structure)
+        ]
+
+        /// Specifies the connection alias provided during the create connection request.
+        public let connectionAlias: String?
+        /// Specifies the OutboundCrossClusterSearchConnectionStatus for the newly created connection.
+        public let connectionStatus: OutboundCrossClusterSearchConnectionStatus?
+        /// Unique id for the created outbound connection, which is used for subsequent operations on connection.
+        public let crossClusterSearchConnectionId: String?
+        /// Specifies the DomainInformation for the destination Elasticsearch domain.
+        public let destinationDomainInfo: DomainInformation?
+        /// Specifies the DomainInformation for the source Elasticsearch domain.
+        public let sourceDomainInfo: DomainInformation?
+
+        public init(connectionAlias: String? = nil, connectionStatus: OutboundCrossClusterSearchConnectionStatus? = nil, crossClusterSearchConnectionId: String? = nil, destinationDomainInfo: DomainInformation? = nil, sourceDomainInfo: DomainInformation? = nil) {
+            self.connectionAlias = connectionAlias
+            self.connectionStatus = connectionStatus
+            self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
+            self.destinationDomainInfo = destinationDomainInfo
+            self.sourceDomainInfo = sourceDomainInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionAlias = "ConnectionAlias"
+            case connectionStatus = "ConnectionStatus"
+            case crossClusterSearchConnectionId = "CrossClusterSearchConnectionId"
+            case destinationDomainInfo = "DestinationDomainInfo"
+            case sourceDomainInfo = "SourceDomainInfo"
+        }
+    }
+
     public struct CreatePackageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PackageDescription", required: false, type: .string), 
@@ -709,6 +835,74 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case domainStatus = "DomainStatus"
+        }
+    }
+
+    public struct DeleteInboundCrossClusterSearchConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnectionId", location: .uri(locationName: "ConnectionId"), required: true, type: .string)
+        ]
+
+        /// The id of the inbound connection that you want to permanently delete.
+        public let crossClusterSearchConnectionId: String
+
+        public init(crossClusterSearchConnectionId: String) {
+            self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnectionId = "ConnectionId"
+        }
+    }
+
+    public struct DeleteInboundCrossClusterSearchConnectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnection", required: false, type: .structure)
+        ]
+
+        /// Specifies the InboundCrossClusterSearchConnection of deleted inbound connection. 
+        public let crossClusterSearchConnection: InboundCrossClusterSearchConnection?
+
+        public init(crossClusterSearchConnection: InboundCrossClusterSearchConnection? = nil) {
+            self.crossClusterSearchConnection = crossClusterSearchConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnection = "CrossClusterSearchConnection"
+        }
+    }
+
+    public struct DeleteOutboundCrossClusterSearchConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnectionId", location: .uri(locationName: "ConnectionId"), required: true, type: .string)
+        ]
+
+        /// The id of the outbound connection that you want to permanently delete.
+        public let crossClusterSearchConnectionId: String
+
+        public init(crossClusterSearchConnectionId: String) {
+            self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnectionId = "ConnectionId"
+        }
+    }
+
+    public struct DeleteOutboundCrossClusterSearchConnectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnection", required: false, type: .structure)
+        ]
+
+        /// Specifies the OutboundCrossClusterSearchConnection of deleted outbound connection. 
+        public let crossClusterSearchConnection: OutboundCrossClusterSearchConnection?
+
+        public init(crossClusterSearchConnection: OutboundCrossClusterSearchConnection? = nil) {
+            self.crossClusterSearchConnection = crossClusterSearchConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnection = "CrossClusterSearchConnection"
         }
     }
 
@@ -914,6 +1108,118 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case limitsByRole = "LimitsByRole"
+        }
+    }
+
+    public struct DescribeInboundCrossClusterSearchConnectionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        ///  A list of filters used to match properties for inbound cross-cluster search connection. Available Filter names for this operation are:  cross-cluster-search-connection-id source-domain-info.domain-name source-domain-info.owner-id source-domain-info.region destination-domain-info.domain-name  
+        public let filters: [Filter]?
+        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        public let maxResults: Int?
+        ///  NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeInboundCrossClusterSearchConnectionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnections", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Consists of list of InboundCrossClusterSearchConnection matching the specified filter criteria.
+        public let crossClusterSearchConnections: [InboundCrossClusterSearchConnection]?
+        /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results. 
+        public let nextToken: String?
+
+        public init(crossClusterSearchConnections: [InboundCrossClusterSearchConnection]? = nil, nextToken: String? = nil) {
+            self.crossClusterSearchConnections = crossClusterSearchConnections
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnections = "CrossClusterSearchConnections"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeOutboundCrossClusterSearchConnectionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        ///  A list of filters used to match properties for outbound cross-cluster search connection. Available Filter names for this operation are:  cross-cluster-search-connection-id destination-domain-info.domain-name destination-domain-info.owner-id destination-domain-info.region source-domain-info.domain-name  
+        public let filters: [Filter]?
+        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        public let maxResults: Int?
+        ///  NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeOutboundCrossClusterSearchConnectionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnections", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Consists of list of OutboundCrossClusterSearchConnection matching the specified filter criteria.
+        public let crossClusterSearchConnections: [OutboundCrossClusterSearchConnection]?
+        /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results. 
+        public let nextToken: String?
+
+        public init(crossClusterSearchConnections: [OutboundCrossClusterSearchConnection]? = nil, nextToken: String? = nil) {
+            self.crossClusterSearchConnections = crossClusterSearchConnections
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnections = "CrossClusterSearchConnections"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1211,6 +1517,38 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
+        }
+    }
+
+    public struct DomainInformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string)
+        ]
+
+        public let domainName: String
+        public let ownerId: String?
+        public let region: String?
+
+        public init(domainName: String, ownerId: String? = nil, region: String? = nil) {
+            self.domainName = domainName
+            self.ownerId = ownerId
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, max: 28)
+            try validate(self.domainName, name:"domainName", parent: name, min: 3)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try validate(self.ownerId, name:"ownerId", parent: name, max: 12)
+            try validate(self.ownerId, name:"ownerId", parent: name, min: 12)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case ownerId = "OwnerId"
+            case region = "Region"
         }
     }
 
@@ -1698,6 +2036,36 @@ extension ElasticsearchService {
         }
     }
 
+    public struct Filter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+
+        ///  Specifies the name of the filter. 
+        public let name: String?
+        ///  Contains one or more values for the filter. 
+        public let values: [String]?
+
+        public init(name: String? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try validate(self.values, name:"values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
     public struct GetCompatibleElasticsearchVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string)
@@ -1836,6 +2204,60 @@ extension ElasticsearchService {
             case stepStatus = "StepStatus"
             case upgradeName = "UpgradeName"
             case upgradeStep = "UpgradeStep"
+        }
+    }
+
+    public struct InboundCrossClusterSearchConnection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "CrossClusterSearchConnectionId", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationDomainInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceDomainInfo", required: false, type: .structure)
+        ]
+
+        /// Specifies the InboundCrossClusterSearchConnectionStatus for the outbound connection.
+        public let connectionStatus: InboundCrossClusterSearchConnectionStatus?
+        /// Specifies the connection id for the inbound cross-cluster search connection.
+        public let crossClusterSearchConnectionId: String?
+        /// Specifies the DomainInformation for the destination Elasticsearch domain.
+        public let destinationDomainInfo: DomainInformation?
+        /// Specifies the DomainInformation for the source Elasticsearch domain.
+        public let sourceDomainInfo: DomainInformation?
+
+        public init(connectionStatus: InboundCrossClusterSearchConnectionStatus? = nil, crossClusterSearchConnectionId: String? = nil, destinationDomainInfo: DomainInformation? = nil, sourceDomainInfo: DomainInformation? = nil) {
+            self.connectionStatus = connectionStatus
+            self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
+            self.destinationDomainInfo = destinationDomainInfo
+            self.sourceDomainInfo = sourceDomainInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionStatus = "ConnectionStatus"
+            case crossClusterSearchConnectionId = "CrossClusterSearchConnectionId"
+            case destinationDomainInfo = "DestinationDomainInfo"
+            case sourceDomainInfo = "SourceDomainInfo"
+        }
+    }
+
+    public struct InboundCrossClusterSearchConnectionStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: false, type: .enum)
+        ]
+
+        /// Specifies verbose information for the inbound connection status.
+        public let message: String?
+        /// The state code for inbound connection. This can be one of the following:  PENDING_ACCEPTANCE: Inbound connection is not yet accepted by destination domain owner. APPROVED: Inbound connection is pending acceptance by destination domain owner. REJECTING: Inbound connection rejection is in process. REJECTED: Inbound connection is rejected. DELETING: Inbound connection deletion is in progress. DELETED: Inbound connection is deleted and cannot be used further. 
+        public let statusCode: InboundCrossClusterSearchConnectionStatusCode?
+
+        public init(message: String? = nil, statusCode: InboundCrossClusterSearchConnectionStatusCode? = nil) {
+            self.message = message
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case statusCode = "StatusCode"
         }
     }
 
@@ -2317,6 +2739,65 @@ extension ElasticsearchService {
         }
     }
 
+    public struct OutboundCrossClusterSearchConnection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionAlias", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectionStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "CrossClusterSearchConnectionId", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationDomainInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceDomainInfo", required: false, type: .structure)
+        ]
+
+        /// Specifies the connection alias for the outbound cross-cluster search connection.
+        public let connectionAlias: String?
+        /// Specifies the OutboundCrossClusterSearchConnectionStatus for the outbound connection.
+        public let connectionStatus: OutboundCrossClusterSearchConnectionStatus?
+        /// Specifies the connection id for the outbound cross-cluster search connection.
+        public let crossClusterSearchConnectionId: String?
+        /// Specifies the DomainInformation for the destination Elasticsearch domain.
+        public let destinationDomainInfo: DomainInformation?
+        /// Specifies the DomainInformation for the source Elasticsearch domain.
+        public let sourceDomainInfo: DomainInformation?
+
+        public init(connectionAlias: String? = nil, connectionStatus: OutboundCrossClusterSearchConnectionStatus? = nil, crossClusterSearchConnectionId: String? = nil, destinationDomainInfo: DomainInformation? = nil, sourceDomainInfo: DomainInformation? = nil) {
+            self.connectionAlias = connectionAlias
+            self.connectionStatus = connectionStatus
+            self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
+            self.destinationDomainInfo = destinationDomainInfo
+            self.sourceDomainInfo = sourceDomainInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionAlias = "ConnectionAlias"
+            case connectionStatus = "ConnectionStatus"
+            case crossClusterSearchConnectionId = "CrossClusterSearchConnectionId"
+            case destinationDomainInfo = "DestinationDomainInfo"
+            case sourceDomainInfo = "SourceDomainInfo"
+        }
+    }
+
+    public struct OutboundCrossClusterSearchConnectionStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: false, type: .enum)
+        ]
+
+        /// Specifies verbose information for the outbound connection status.
+        public let message: String?
+        /// The state code for outbound connection. This can be one of the following:  VALIDATING: The outbound connection request is being validated. VALIDATION_FAILED: Validation failed for the connection request. PENDING_ACCEPTANCE: Outbound connection request is validated and is not yet accepted by destination domain owner. PROVISIONING: Outbound connection request is in process. ACTIVE: Outbound connection is active and ready to use. REJECTED: Outbound connection request is rejected by destination domain owner. DELETING: Outbound connection deletion is in progress. DELETED: Outbound connection is deleted and cannot be used further. 
+        public let statusCode: OutboundCrossClusterSearchConnectionStatusCode?
+
+        public init(message: String? = nil, statusCode: OutboundCrossClusterSearchConnectionStatusCode? = nil) {
+            self.message = message
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case statusCode = "StatusCode"
+        }
+    }
+
     public struct PackageDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
@@ -2466,6 +2947,40 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case recurringChargeAmount = "RecurringChargeAmount"
             case recurringChargeFrequency = "RecurringChargeFrequency"
+        }
+    }
+
+    public struct RejectInboundCrossClusterSearchConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnectionId", location: .uri(locationName: "ConnectionId"), required: true, type: .string)
+        ]
+
+        /// The id of the inbound connection that you want to reject.
+        public let crossClusterSearchConnectionId: String
+
+        public init(crossClusterSearchConnectionId: String) {
+            self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnectionId = "ConnectionId"
+        }
+    }
+
+    public struct RejectInboundCrossClusterSearchConnectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrossClusterSearchConnection", required: false, type: .structure)
+        ]
+
+        /// Specifies the InboundCrossClusterSearchConnection of rejected inbound connection. 
+        public let crossClusterSearchConnection: InboundCrossClusterSearchConnection?
+
+        public init(crossClusterSearchConnection: InboundCrossClusterSearchConnection? = nil) {
+            self.crossClusterSearchConnection = crossClusterSearchConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossClusterSearchConnection = "CrossClusterSearchConnection"
         }
     }
 

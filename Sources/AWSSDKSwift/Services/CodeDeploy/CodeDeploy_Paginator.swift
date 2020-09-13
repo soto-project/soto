@@ -100,6 +100,7 @@ extension CodeDeploy.ListDeploymentsInput: AWSPaginateStringToken {
             applicationName: self.applicationName, 
             createTimeRange: self.createTimeRange, 
             deploymentGroupName: self.deploymentGroupName, 
+            externalId: self.externalId, 
             includeOnlyStatuses: self.includeOnlyStatuses, 
             nextToken: token
         )

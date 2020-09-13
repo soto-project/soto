@@ -61,7 +61,7 @@ extension AWSBackup {
         return client.paginate(input: input, command: listRestoreJobs, tokenKey: \ListRestoreJobsOutput.nextToken, onPage: onPage)
     }
 
-    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.
+    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.   ListTags are currently only supported with Amazon EFS backups. 
     public func listTagsPaginator(_ input: ListTagsInput, onPage: @escaping (ListTagsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsOutput.nextToken, onPage: onPage)
     }
@@ -71,6 +71,7 @@ extension AWSBackup {
 extension AWSBackup.ListBackupJobsInput: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> AWSBackup.ListBackupJobsInput {
         return .init(
+            byAccountId: self.byAccountId, 
             byBackupVaultName: self.byBackupVaultName, 
             byCreatedAfter: self.byCreatedAfter, 
             byCreatedBefore: self.byCreatedBefore, 
@@ -140,6 +141,7 @@ extension AWSBackup.ListBackupVaultsInput: AWSPaginateStringToken {
 extension AWSBackup.ListCopyJobsInput: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> AWSBackup.ListCopyJobsInput {
         return .init(
+            byAccountId: self.byAccountId, 
             byCreatedAfter: self.byCreatedAfter, 
             byCreatedBefore: self.byCreatedBefore, 
             byDestinationVaultArn: self.byDestinationVaultArn, 
@@ -193,6 +195,10 @@ extension AWSBackup.ListRecoveryPointsByResourceInput: AWSPaginateStringToken {
 extension AWSBackup.ListRestoreJobsInput: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> AWSBackup.ListRestoreJobsInput {
         return .init(
+            byAccountId: self.byAccountId, 
+            byCreatedAfter: self.byCreatedAfter, 
+            byCreatedBefore: self.byCreatedBefore, 
+            byStatus: self.byStatus, 
             maxResults: self.maxResults, 
             nextToken: token
         )

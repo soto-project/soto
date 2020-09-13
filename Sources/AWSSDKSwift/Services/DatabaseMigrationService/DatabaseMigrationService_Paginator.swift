@@ -6,6 +6,11 @@ import NIO
 
 extension DatabaseMigrationService {
 
+    ///  Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a source database engine, a target database engine, and a migration type. This combination of parameters potentially limits the default individual assessments available for an assessment run created for a corresponding migration task. If you specify no parameters, this operation provides a list of all possible individual assessments that you can specify for an assessment run. If you specify any one of the task modeling parameters, you must specify all of them or the operation cannot provide a list of individual assessments. The only parameter that you can specify alone is for an existing migration task. The specified task definition then determines the default list of individual assessments that you can specify in an assessment run for the task.
+    public func describeApplicableIndividualAssessmentsPaginator(_ input: DescribeApplicableIndividualAssessmentsMessage, onPage: @escaping (DescribeApplicableIndividualAssessmentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeApplicableIndividualAssessments, tokenKey: \DescribeApplicableIndividualAssessmentsResponse.marker, onPage: onPage)
+    }
+
     ///  Provides a description of the certificate.
     public func describeCertificatesPaginator(_ input: DescribeCertificatesMessage, onPage: @escaping (DescribeCertificatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCertificates, tokenKey: \DescribeCertificatesResponse.marker, onPage: onPage)
@@ -66,6 +71,16 @@ extension DatabaseMigrationService {
         return client.paginate(input: input, command: describeReplicationTaskAssessmentResults, tokenKey: \DescribeReplicationTaskAssessmentResultsResponse.marker, onPage: onPage)
     }
 
+    ///  Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values.  This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.  
+    public func describeReplicationTaskAssessmentRunsPaginator(_ input: DescribeReplicationTaskAssessmentRunsMessage, onPage: @escaping (DescribeReplicationTaskAssessmentRunsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReplicationTaskAssessmentRuns, tokenKey: \DescribeReplicationTaskAssessmentRunsResponse.marker, onPage: onPage)
+    }
+
+    ///  Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values.
+    public func describeReplicationTaskIndividualAssessmentsPaginator(_ input: DescribeReplicationTaskIndividualAssessmentsMessage, onPage: @escaping (DescribeReplicationTaskIndividualAssessmentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReplicationTaskIndividualAssessments, tokenKey: \DescribeReplicationTaskIndividualAssessmentsResponse.marker, onPage: onPage)
+    }
+
     ///  Returns information about replication tasks for your account in the current region.
     public func describeReplicationTasksPaginator(_ input: DescribeReplicationTasksMessage, onPage: @escaping (DescribeReplicationTasksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReplicationTasks, tokenKey: \DescribeReplicationTasksResponse.marker, onPage: onPage)
@@ -81,6 +96,21 @@ extension DatabaseMigrationService {
         return client.paginate(input: input, command: describeTableStatistics, tokenKey: \DescribeTableStatisticsResponse.marker, onPage: onPage)
     }
 
+}
+
+extension DatabaseMigrationService.DescribeApplicableIndividualAssessmentsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeApplicableIndividualAssessmentsMessage {
+        return .init(
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            migrationType: self.migrationType, 
+            replicationInstanceArn: self.replicationInstanceArn, 
+            replicationTaskArn: self.replicationTaskArn, 
+            sourceEngineName: self.sourceEngineName, 
+            targetEngineName: self.targetEngineName
+        )
+
+    }
 }
 
 extension DatabaseMigrationService.DescribeCertificatesMessage: AWSPaginateStringToken {
@@ -217,6 +247,28 @@ extension DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessa
             marker: token, 
             maxRecords: self.maxRecords, 
             replicationTaskArn: self.replicationTaskArn
+        )
+
+    }
+}
+
+extension DatabaseMigrationService.DescribeReplicationTaskAssessmentRunsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationTaskAssessmentRunsMessage {
+        return .init(
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
+    }
+}
+
+extension DatabaseMigrationService.DescribeReplicationTaskIndividualAssessmentsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationTaskIndividualAssessmentsMessage {
+        return .init(
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
         )
 
     }

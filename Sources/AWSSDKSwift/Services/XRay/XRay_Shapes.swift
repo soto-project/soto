@@ -198,27 +198,42 @@ extension XRay {
     public struct CreateGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string)
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "InsightsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// The filter expression defining criteria by which to group traces.
         public let filterExpression: String?
         /// The case-sensitive name of the new group. Default is a reserved name and names must be unique.
         public let groupName: String
+        /// The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group.
+        public let insightsConfiguration: InsightsConfiguration?
+        /// A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see Tagging AWS resources in the AWS General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.  
+        public let tags: [Tag]?
 
-        public init(filterExpression: String? = nil, groupName: String) {
+        public init(filterExpression: String? = nil, groupName: String, insightsConfiguration: InsightsConfiguration? = nil, tags: [Tag]? = nil) {
             self.filterExpression = filterExpression
             self.groupName = groupName
+            self.insightsConfiguration = insightsConfiguration
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.groupName, name:"groupName", parent: name, max: 32)
             try validate(self.groupName, name:"groupName", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case filterExpression = "FilterExpression"
             case groupName = "GroupName"
+            case insightsConfiguration = "InsightsConfiguration"
+            case tags = "Tags"
         }
     }
 
@@ -227,7 +242,7 @@ extension XRay {
             AWSShapeMember(label: "Group", required: false, type: .structure)
         ]
 
-        /// The group that was created. Contains the name of the group that was created, the ARN of the group that was generated based on the group name, and the filter expression that was assigned to the group.
+        /// The group that was created. Contains the name of the group that was created, the ARN of the group that was generated based on the group name, the filter expression, and the insight configuration that was assigned to the group.
         public let group: Group?
 
         public init(group: Group? = nil) {
@@ -241,22 +256,32 @@ extension XRay {
 
     public struct CreateSamplingRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SamplingRule", required: true, type: .structure)
+            AWSShapeMember(label: "SamplingRule", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// The rule definition.
         public let samplingRule: SamplingRule
+        /// A map that contains one or more tag keys and tag values to attach to an X-Ray sampling rule. For more information about ways to use tags, see Tagging AWS resources in the AWS General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.  
+        public let tags: [Tag]?
 
-        public init(samplingRule: SamplingRule) {
+        public init(samplingRule: SamplingRule, tags: [Tag]? = nil) {
             self.samplingRule = samplingRule
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.samplingRule.validate(name: "\(name).samplingRule")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case samplingRule = "SamplingRule"
+            case tags = "Tags"
         }
     }
 
@@ -1232,7 +1257,8 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
             AWSShapeMember(label: "GroupARN", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string)
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "InsightsConfiguration", required: false, type: .structure)
         ]
 
         /// The filter expression defining the parameters to include traces.
@@ -1241,17 +1267,21 @@ extension XRay {
         public let groupARN: String?
         /// The unique case-sensitive name of the group.
         public let groupName: String?
+        /// The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.
+        public let insightsConfiguration: InsightsConfiguration?
 
-        public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil) {
+        public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
             self.groupName = groupName
+            self.insightsConfiguration = insightsConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case filterExpression = "FilterExpression"
             case groupARN = "GroupARN"
             case groupName = "GroupName"
+            case insightsConfiguration = "InsightsConfiguration"
         }
     }
 
@@ -1259,7 +1289,8 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
             AWSShapeMember(label: "GroupARN", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string)
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "InsightsConfiguration", required: false, type: .structure)
         ]
 
         /// The filter expression defining the parameters to include traces.
@@ -1268,17 +1299,21 @@ extension XRay {
         public let groupARN: String?
         /// The unique case-sensitive name of the group.
         public let groupName: String?
+        /// The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the groups or false to disable insights for the groups.
+        public let insightsConfiguration: InsightsConfiguration?
 
-        public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil) {
+        public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
             self.groupName = groupName
+            self.insightsConfiguration = insightsConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case filterExpression = "FilterExpression"
             case groupARN = "GroupARN"
             case groupName = "GroupName"
+            case insightsConfiguration = "InsightsConfiguration"
         }
     }
 
@@ -1341,6 +1376,23 @@ extension XRay {
         }
     }
 
+    public struct InsightsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightsEnabled", required: false, type: .boolean)
+        ]
+
+        /// Set the InsightsEnabled value to true to enable insights or false to disable insights.
+        public let insightsEnabled: Bool?
+
+        public init(insightsEnabled: Bool? = nil) {
+            self.insightsEnabled = insightsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightsEnabled = "InsightsEnabled"
+        }
+    }
+
     public struct InstanceIdDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string)
@@ -1355,6 +1407,55 @@ extension XRay {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+        ]
+
+        /// A pagination token. If multiple pages of results are returned, use the NextToken value returned with the current page of results as the value of this parameter to get the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
+        public let resourceARN: String
+
+        public init(nextToken: String? = nil, resourceARN: String) {
+            self.nextToken = nextToken
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// A pagination token. If multiple pages of results are returned, use the NextToken value returned with the current page of results to get the next page of results.
+        public let nextToken: String?
+        /// A list of tags, as key and value pairs, that is associated with the specified X-Ray group or sampling rule.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
         }
     }
 
@@ -2136,6 +2237,75 @@ extension XRay {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// A tag key, such as Stage or Name. A tag key cannot be empty. The key can be a maximum of 128 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / 
+        public let key: String
+        /// An optional tag value, such as Production or test-only. The value can be a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / 
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
+        public let resourceARN: String
+        /// A map that contains one or more tag keys and tag values to attach to an X-Ray group or sampling rule. For more information about ways to use tags, see Tagging AWS resources in the AWS General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use. You cannot edit or delete system tags.  
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct TelemetryRecord: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackendConnectionErrors", required: false, type: .structure), 
@@ -2417,11 +2587,53 @@ extension XRay {
         }
     }
 
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
+        public let resourceARN: String
+        /// Keys for one or more tags that you want to remove from an X-Ray group or sampling rule.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct UpdateGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
             AWSShapeMember(label: "GroupARN", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string)
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "InsightsConfiguration", required: false, type: .structure)
         ]
 
         /// The updated filter expression defining criteria by which to group traces.
@@ -2430,11 +2642,14 @@ extension XRay {
         public let groupARN: String?
         /// The case-sensitive name of the group.
         public let groupName: String?
+        /// The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.
+        public let insightsConfiguration: InsightsConfiguration?
 
-        public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil) {
+        public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
             self.groupName = groupName
+            self.insightsConfiguration = insightsConfiguration
         }
 
         public func validate(name: String) throws {
@@ -2448,6 +2663,7 @@ extension XRay {
             case filterExpression = "FilterExpression"
             case groupARN = "GroupARN"
             case groupName = "GroupName"
+            case insightsConfiguration = "InsightsConfiguration"
         }
     }
 
@@ -2456,7 +2672,7 @@ extension XRay {
             AWSShapeMember(label: "Group", required: false, type: .structure)
         ]
 
-        /// The group that was updated. Contains the name of the group that was updated, the ARN of the group that was updated, and the updated filter expression assigned to the group.
+        /// The group that was updated. Contains the name of the group that was updated, the ARN of the group that was updated, the updated filter expression, and the updated insight configuration assigned to the group.
         public let group: Group?
 
         public init(group: Group? = nil) {

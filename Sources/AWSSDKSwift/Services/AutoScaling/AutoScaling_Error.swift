@@ -4,7 +4,9 @@ import AWSSDKSwiftCore
 
 /// Error enum for AutoScaling
 public enum AutoScalingErrorType: AWSErrorType {
+    case activeInstanceRefreshNotFoundFault(message: String?)
     case alreadyExistsFault(message: String?)
+    case instanceRefreshInProgressFault(message: String?)
     case invalidNextToken(message: String?)
     case limitExceededFault(message: String?)
     case resourceContentionFault(message: String?)
@@ -20,8 +22,12 @@ extension AutoScalingErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ActiveInstanceRefreshNotFound":
+            self = .activeInstanceRefreshNotFoundFault(message: message)
         case "AlreadyExists":
             self = .alreadyExistsFault(message: message)
+        case "InstanceRefreshInProgress":
+            self = .instanceRefreshInProgressFault(message: message)
         case "InvalidNextToken":
             self = .invalidNextToken(message: message)
         case "LimitExceeded":
@@ -43,8 +49,12 @@ extension AutoScalingErrorType {
 extension AutoScalingErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .activeInstanceRefreshNotFoundFault(let message):
+            return "ActiveInstanceRefreshNotFound: \(message ?? "")"
         case .alreadyExistsFault(let message):
             return "AlreadyExists: \(message ?? "")"
+        case .instanceRefreshInProgressFault(let message):
+            return "InstanceRefreshInProgress: \(message ?? "")"
         case .invalidNextToken(let message):
             return "InvalidNextToken: \(message ?? "")"
         case .limitExceededFault(let message):

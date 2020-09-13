@@ -21,7 +21,7 @@ extension Imagebuilder {
         return client.paginate(input: input, command: listDistributionConfigurations, tokenKey: \ListDistributionConfigurationsResponse.nextToken, onPage: onPage)
     }
 
-    ///   Returns a list of distribution configurations. 
+    ///   Returns a list of image build versions. 
     public func listImageBuildVersionsPaginator(_ input: ListImageBuildVersionsRequest, onPage: @escaping (ListImageBuildVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImageBuildVersions, tokenKey: \ListImageBuildVersionsResponse.nextToken, onPage: onPage)
     }
@@ -41,7 +41,7 @@ extension Imagebuilder {
         return client.paginate(input: input, command: listImageRecipes, tokenKey: \ListImageRecipesResponse.nextToken, onPage: onPage)
     }
 
-    ///   Returns the list of image build versions for the specified semantic version. 
+    ///   Returns the list of images that you have access to. 
     public func listImagesPaginator(_ input: ListImagesRequest, onPage: @escaping (ListImagesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImages, tokenKey: \ListImagesResponse.nextToken, onPage: onPage)
     }

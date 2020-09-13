@@ -92,6 +92,9 @@ class IAMTests: XCTestCase {
             let getResponse = try client.getUserPolicy(getRequest).wait()
 
             XCTAssertEqual(getResponse.policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
+            
+            let deleteRequest = IAM.DeleteUserPolicyRequest(policyName: "testSimulatePolicy", userName: testData.userName)
+            _ = try client.deleteUserPolicy(deleteRequest).wait()
         }
 
     }

@@ -11,12 +11,12 @@ extension ACMPCA {
         return client.paginate(input: input, command: listCertificateAuthorities, tokenKey: \ListCertificateAuthoritiesResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists all the permissions, if any, that have been assigned by a private CA. Permissions can be granted with the CreatePermission action and revoked with the DeletePermission action.
+    ///  List all permissions on a private CA, if any, granted to the AWS Certificate Manager (ACM) service principal (acm.amazonaws.com).  These permissions allow ACM to issue and renew ACM certificates that reside in the same AWS account as the CA.  Permissions can be granted with the CreatePermission action and revoked with the DeletePermission action.  About Permissions    If the private CA and the certificates it issues reside in the same account, you can use CreatePermission to grant permissions for ACM to carry out automatic certificate renewals.   For automatic certificate renewal to succeed, the ACM service principal needs permissions to create, retrieve, and list certificates.   If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with ACM Private CA.  
     public func listPermissionsPaginator(_ input: ListPermissionsRequest, onPage: @escaping (ListPermissionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPermissions, tokenKey: \ListPermissionsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists the tags, if any, that are associated with your private CA. Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. Call the TagCertificateAuthority action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags. 
+    ///  Lists the tags, if any, that are associated with your private CA or one that has been shared with you. Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. Call the TagCertificateAuthority action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags. 
     public func listTagsPaginator(_ input: ListTagsRequest, onPage: @escaping (ListTagsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, onPage: onPage)
     }
@@ -27,7 +27,8 @@ extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> ACMPCA.ListCertificateAuthoritiesRequest {
         return .init(
             maxResults: self.maxResults, 
-            nextToken: token
+            nextToken: token, 
+            resourceOwner: self.resourceOwner
         )
 
     }

@@ -43,6 +43,7 @@ extension LakeFormation {
         case drop = "DROP"
         case delete = "DELETE"
         case insert = "INSERT"
+        case describe = "DESCRIBE"
         case createDatabase = "CREATE_DATABASE"
         case createTable = "CREATE_TABLE"
         case dataLocationAccess = "DATA_LOCATION_ACCESS"
@@ -272,20 +273,24 @@ extension LakeFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateDatabaseDefaultPermissions", required: false, type: .list), 
             AWSShapeMember(label: "CreateTableDefaultPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "DataLakeAdmins", required: false, type: .list)
+            AWSShapeMember(label: "DataLakeAdmins", required: false, type: .list), 
+            AWSShapeMember(label: "TrustedResourceOwners", required: false, type: .list)
         ]
 
-        /// A list of up to three principal permissions entries for default create database permissions.
+        /// A structure representing a list of up to three principal permissions entries for default create database permissions.
         public let createDatabaseDefaultPermissions: [PrincipalPermissions]?
-        /// A list of up to three principal permissions entries for default create table permissions.
+        /// A structure representing a list of up to three principal permissions entries for default create table permissions.
         public let createTableDefaultPermissions: [PrincipalPermissions]?
-        /// A list of AWS Lake Formation principals.
+        /// A list of AWS Lake Formation principals. Supported principals are IAM users or IAM roles.
         public let dataLakeAdmins: [DataLakePrincipal]?
+        /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's AWS CloudTrail log. You may want to specify this property when you are in a high-trust boundary, such as the same team or company. 
+        public let trustedResourceOwners: [String]?
 
-        public init(createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil) {
+        public init(createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil, trustedResourceOwners: [String]? = nil) {
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.dataLakeAdmins = dataLakeAdmins
+            self.trustedResourceOwners = trustedResourceOwners
         }
 
         public func validate(name: String) throws {
@@ -300,51 +305,76 @@ extension LakeFormation {
             }
             try validate(self.dataLakeAdmins, name:"dataLakeAdmins", parent: name, max: 10)
             try validate(self.dataLakeAdmins, name:"dataLakeAdmins", parent: name, min: 0)
+            try self.trustedResourceOwners?.forEach {
+                try validate($0, name: "trustedResourceOwners[]", parent: name, max: 255)
+                try validate($0, name: "trustedResourceOwners[]", parent: name, min: 1)
+                try validate($0, name: "trustedResourceOwners[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case createDatabaseDefaultPermissions = "CreateDatabaseDefaultPermissions"
             case createTableDefaultPermissions = "CreateTableDefaultPermissions"
             case dataLakeAdmins = "DataLakeAdmins"
+            case trustedResourceOwners = "TrustedResourceOwners"
         }
     }
 
     public struct DataLocationResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
 
+        /// The identifier for the Data Catalog where the location is registered with AWS Lake Formation. By default, it is the account ID of the caller.
+        public let catalogId: String?
         /// The Amazon Resource Name (ARN) that uniquely identifies the data location resource.
         public let resourceArn: String
 
-        public init(resourceArn: String) {
+        public init(catalogId: String? = nil, resourceArn: String) {
+            self.catalogId = catalogId
             self.resourceArn = resourceArn
         }
 
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name:"catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name:"catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name:"catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case resourceArn = "ResourceArn"
         }
     }
 
     public struct DatabaseResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
+        /// The identifier for the Data Catalog. By default, it is the account ID of the caller.
+        public let catalogId: String?
         /// The name of the database resource. Unique to the Data Catalog.
         public let name: String
 
-        public init(name: String) {
+        public init(catalogId: String? = nil, name: String) {
+            self.catalogId = catalogId
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try validate(self.catalogId, name:"catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name:"catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name:"catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try validate(self.name, name:"name", parent: name, max: 255)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case name = "Name"
         }
     }
@@ -405,6 +435,23 @@ extension LakeFormation {
 
         private enum CodingKeys: String, CodingKey {
             case resourceInfo = "ResourceInfo"
+        }
+    }
+
+    public struct DetailsMap: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceShare", required: false, type: .list)
+        ]
+
+        /// A share resource ARN for a catalog resource shared through AWS Resource Access Manager (AWS RAM).
+        public let resourceShare: [String]?
+
+        public init(resourceShare: [String]? = nil) {
+            self.resourceShare = resourceShare
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceShare = "ResourceShare"
         }
     }
 
@@ -485,7 +532,7 @@ extension LakeFormation {
             AWSShapeMember(label: "DataLakeSettings", required: false, type: .structure)
         ]
 
-        /// A list of AWS Lake Formation principals. 
+        /// A structure representing a list of AWS Lake Formation principals designated as data lake administrators.
         public let dataLakeSettings: DataLakeSettings?
 
         public init(dataLakeSettings: DataLakeSettings? = nil) {
@@ -770,12 +817,15 @@ extension LakeFormation {
 
     public struct PrincipalResourcePermissions: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalDetails", required: false, type: .structure), 
             AWSShapeMember(label: "Permissions", required: false, type: .list), 
             AWSShapeMember(label: "PermissionsWithGrantOption", required: false, type: .list), 
             AWSShapeMember(label: "Principal", required: false, type: .structure), 
             AWSShapeMember(label: "Resource", required: false, type: .structure)
         ]
 
+        /// This attribute can be used to return any additional details of PrincipalResourcePermissions. Currently returns only as a RAM share resource ARN.
+        public let additionalDetails: DetailsMap?
         /// The permissions to be granted or revoked on the resource.
         public let permissions: [Permission]?
         /// Indicates whether to grant the ability to grant permissions (as a subset of permissions granted).
@@ -785,7 +835,8 @@ extension LakeFormation {
         /// The resource where permissions are to be granted or revoked.
         public let resource: Resource?
 
-        public init(permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+        public init(additionalDetails: DetailsMap? = nil, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+            self.additionalDetails = additionalDetails
             self.permissions = permissions
             self.permissionsWithGrantOption = permissionsWithGrantOption
             self.principal = principal
@@ -793,6 +844,7 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalDetails = "AdditionalDetails"
             case permissions = "Permissions"
             case permissionsWithGrantOption = "PermissionsWithGrantOption"
             case principal = "Principal"
@@ -808,7 +860,7 @@ extension LakeFormation {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
-        /// A list of AWS Lake Formation principals.
+        /// A structure representing a list of AWS Lake Formation principals designated as data lake administrators.
         public let dataLakeSettings: DataLakeSettings
 
         public init(catalogId: String? = nil, dataLakeSettings: DataLakeSettings) {
@@ -846,9 +898,9 @@ extension LakeFormation {
 
         /// The Amazon Resource Name (ARN) of the resource that you want to register.
         public let resourceArn: String
-        /// The identifier for the role.
+        /// The identifier for the role that registers the resource.
         public let roleArn: String?
-        /// Designates a trusted caller, an IAM principal, by registering this caller with the Data Catalog. 
+        /// Designates an AWS Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation. For more information, see Using Service-Linked Roles for Lake Formation.
         public let useServiceLinkedRole: Bool?
 
         public init(resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil) {
@@ -906,6 +958,7 @@ extension LakeFormation {
 
         public func validate(name: String) throws {
             try self.database?.validate(name: "\(name).database")
+            try self.dataLocation?.validate(name: "\(name).dataLocation")
             try self.table?.validate(name: "\(name).table")
             try self.tableWithColumns?.validate(name: "\(name).tableWithColumns")
         }
@@ -1001,21 +1054,32 @@ extension LakeFormation {
 
     public struct TableResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "TableWildcard", required: false, type: .structure)
         ]
 
+        /// The identifier for the Data Catalog. By default, it is the account ID of the caller.
+        public let catalogId: String?
         /// The name of the database for the table. Unique to a Data Catalog. A database is a set of associated table definitions organized into a logical group. You can Grant and Revoke database privileges to a principal. 
         public let databaseName: String
         /// The name of the table.
-        public let name: String
+        public let name: String?
+        /// A wildcard object representing every table under a database. At least one of TableResource$Name or TableResource$TableWildcard is required.
+        public let tableWildcard: TableWildcard?
 
-        public init(databaseName: String, name: String) {
+        public init(catalogId: String? = nil, databaseName: String, name: String? = nil, tableWildcard: TableWildcard? = nil) {
+            self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
+            self.tableWildcard = tableWildcard
         }
 
         public func validate(name: String) throws {
+            try validate(self.catalogId, name:"catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name:"catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name:"catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try validate(self.databaseName, name:"databaseName", parent: name, max: 255)
             try validate(self.databaseName, name:"databaseName", parent: name, min: 1)
             try validate(self.databaseName, name:"databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1025,29 +1089,43 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case name = "Name"
+            case tableWildcard = "TableWildcard"
         }
+    }
+
+    public struct TableWildcard: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct TableWithColumnsResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "ColumnNames", required: false, type: .list), 
             AWSShapeMember(label: "ColumnWildcard", required: false, type: .structure), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
+        /// The identifier for the Data Catalog. By default, it is the account ID of the caller.
+        public let catalogId: String?
         /// The list of column names for the table. At least one of ColumnNames or ColumnWildcard is required.
         public let columnNames: [String]?
         /// A wildcard specified by a ColumnWildcard object. At least one of ColumnNames or ColumnWildcard is required.
         public let columnWildcard: ColumnWildcard?
         /// The name of the database for the table with columns resource. Unique to the Data Catalog. A database is a set of associated table definitions organized into a logical group. You can Grant and Revoke database privileges to a principal. 
-        public let databaseName: String?
+        public let databaseName: String
         /// The name of the table resource. A table is a metadata definition that represents your data. You can Grant and Revoke table privileges to a principal. 
-        public let name: String?
+        public let name: String
 
-        public init(columnNames: [String]? = nil, columnWildcard: ColumnWildcard? = nil, databaseName: String? = nil, name: String? = nil) {
+        public init(catalogId: String? = nil, columnNames: [String]? = nil, columnWildcard: ColumnWildcard? = nil, databaseName: String, name: String) {
+            self.catalogId = catalogId
             self.columnNames = columnNames
             self.columnWildcard = columnWildcard
             self.databaseName = databaseName
@@ -1055,6 +1133,9 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try validate(self.catalogId, name:"catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name:"catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name:"catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.columnNames?.forEach {
                 try validate($0, name: "columnNames[]", parent: name, max: 255)
                 try validate($0, name: "columnNames[]", parent: name, min: 1)
@@ -1070,6 +1151,7 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case columnNames = "ColumnNames"
             case columnWildcard = "ColumnWildcard"
             case databaseName = "DatabaseName"

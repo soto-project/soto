@@ -40,7 +40,7 @@ public struct S3Control {
             serviceProtocol: ServiceProtocol(type: .restxml),
             apiVersion: "2018-08-20",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com", "ap-south-1": "s3-control.ap-south-1.amazonaws.com", "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com", "ca-central-1": "s3-control.ca-central-1.amazonaws.com", "eu-central-1": "s3-control.eu-central-1.amazonaws.com", "eu-north-1": "s3-control.eu-north-1.amazonaws.com", "eu-west-1": "s3-control.eu-west-1.amazonaws.com", "eu-west-2": "s3-control.eu-west-2.amazonaws.com", "eu-west-3": "s3-control.eu-west-3.amazonaws.com", "sa-east-1": "s3-control.sa-east-1.amazonaws.com", "us-east-1": "s3-control.us-east-1.amazonaws.com", "us-east-1-fips": "s3-control-fips.us-east-1.amazonaws.com", "us-east-2": "s3-control.us-east-2.amazonaws.com", "us-east-2-fips": "s3-control-fips.us-east-2.amazonaws.com", "us-west-1": "s3-control.us-west-1.amazonaws.com", "us-west-1-fips": "s3-control-fips.us-west-1.amazonaws.com", "us-west-2": "s3-control.us-west-2.amazonaws.com", "us-west-2-fips": "s3-control-fips.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com", "ap-south-1": "s3-control.ap-south-1.amazonaws.com", "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com", "ca-central-1": "s3-control.ca-central-1.amazonaws.com", "ca-central-1-fips": "s3-control-fips.ca-central-1.amazonaws.com", "eu-central-1": "s3-control.eu-central-1.amazonaws.com", "eu-north-1": "s3-control.eu-north-1.amazonaws.com", "eu-west-1": "s3-control.eu-west-1.amazonaws.com", "eu-west-2": "s3-control.eu-west-2.amazonaws.com", "eu-west-3": "s3-control.eu-west-3.amazonaws.com", "sa-east-1": "s3-control.sa-east-1.amazonaws.com", "us-east-1": "s3-control.us-east-1.amazonaws.com", "us-east-1-fips": "s3-control-fips.us-east-1.amazonaws.com", "us-east-2": "s3-control.us-east-2.amazonaws.com", "us-east-2-fips": "s3-control-fips.us-east-2.amazonaws.com", "us-west-1": "s3-control.us-west-1.amazonaws.com", "us-west-1-fips": "s3-control-fips.us-west-1.amazonaws.com", "us-west-2": "s3-control.us-west-2.amazonaws.com", "us-west-2-fips": "s3-control-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [S3ControlErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -54,7 +54,7 @@ public struct S3Control {
         return client.send(operation: "CreateAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "PUT", input: input)
     }
 
-    ///  Creates an Amazon S3 batch operations job.
+    ///  You can use Amazon S3 Batch Operations to perform large-scale Batch Operations on Amazon S3 objects. Amazon S3 Batch Operations can execute a single operation or action on lists of Amazon S3 objects that you specify. For more information, see Amazon S3 Batch Operations in the Amazon Simple Storage Service Developer Guide. Related actions include:    DescribeJob     ListJobs     UpdateJobPriority     UpdateJobStatus   
     public func createJob(_ input: CreateJobRequest) -> EventLoopFuture<CreateJobResult> {
         return client.send(operation: "CreateJob", path: "/v20180820/jobs", httpMethod: "POST", input: input)
     }
@@ -69,7 +69,7 @@ public struct S3Control {
         return client.send(operation: "DeleteAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "DELETE", input: input)
     }
 
-    ///  Delete the tags on a Amazon S3 batch operations job, if any.
+    ///  Removes the entire tag set from the specified Amazon S3 Batch Operations job. To use this operation, you must have permission to perform the s3:DeleteJobTagging action. For more information, see Using Job Tags in the Amazon Simple Storage Service Developer Guide.  Related actions include:    CreateJob     GetJobTagging     PutJobTagging   
     public func deleteJobTagging(_ input: DeleteJobTaggingRequest) -> EventLoopFuture<DeleteJobTaggingResult> {
         return client.send(operation: "DeleteJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "DELETE", input: input)
     }
@@ -79,7 +79,7 @@ public struct S3Control {
         return client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
     }
 
-    ///  Retrieves the configuration parameters and status for a batch operations job.
+    ///  Retrieves the configuration parameters and status for a Batch Operations job. For more information, see Amazon S3 Batch Operations in the Amazon Simple Storage Service Developer Guide.  Related actions include:    CreateJob     ListJobs     UpdateJobPriority     UpdateJobStatus   
     public func describeJob(_ input: DescribeJobRequest) -> EventLoopFuture<DescribeJobResult> {
         return client.send(operation: "DescribeJob", path: "/v20180820/jobs/{id}", httpMethod: "GET", input: input)
     }
@@ -99,7 +99,7 @@ public struct S3Control {
         return client.send(operation: "GetAccessPointPolicyStatus", path: "/v20180820/accesspoint/{name}/policyStatus", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieve the tags on a Amazon S3 batch operations job.
+    ///  Returns the tags on an Amazon S3 Batch Operations job. To use this operation, you must have permission to perform the s3:GetJobTagging action. For more information, see Using Job Tags in the Amazon Simple Storage Service Developer Guide.  Related actions include:    CreateJob     PutJobTagging     DeleteJobTagging   
     public func getJobTagging(_ input: GetJobTaggingRequest) -> EventLoopFuture<GetJobTaggingResult> {
         return client.send(operation: "GetJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "GET", input: input)
     }
@@ -109,12 +109,12 @@ public struct S3Control {
         return client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1000 access points (or the number specified in maxResults, whichever is less), then the response will include a continuation token that you can use to list the additional access points.
+    ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points.
     public func listAccessPoints(_ input: ListAccessPointsRequest) -> EventLoopFuture<ListAccessPointsResult> {
         return client.send(operation: "ListAccessPoints", path: "/v20180820/accesspoint", httpMethod: "GET", input: input)
     }
 
-    ///  Lists current jobs and jobs that have ended within the last 30 days for the AWS account making the request.
+    ///  Lists current Amazon S3 Batch Operations jobs and jobs that have ended within the last 30 days for the AWS account making the request. For more information, see Amazon S3 Batch Operations in the Amazon Simple Storage Service Developer Guide. Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus   
     public func listJobs(_ input: ListJobsRequest) -> EventLoopFuture<ListJobsResult> {
         return client.send(operation: "ListJobs", path: "/v20180820/jobs", httpMethod: "GET", input: input)
     }
@@ -124,7 +124,7 @@ public struct S3Control {
         return client.send(operation: "PutAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "PUT", input: input)
     }
 
-    ///  Replace the set of tags on a Amazon S3 batch operations job.
+    ///  Set the supplied tag-set on an Amazon S3 Batch Operations job. A tag is a key-value pair. You can associate Amazon S3 Batch Operations tags with any job by sending a PUT request against the tagging subresource that is associated with the job. To modify the existing tag set, you can either replace the existing tag set entirely, or make changes within the existing tag set by retrieving the existing tag set using GetJobTagging, modify that tag set, and use this API action to replace the tag set with the one you have modified.. For more information, see Using Job Tags in the Amazon Simple Storage Service Developer Guide.      If you send this request with an empty tag set, Amazon S3 deletes the existing tag set on the Batch Operations job. If you use this method, you will be charged for a Tier 1 Request (PUT). For more information, see Amazon S3 pricing.   For deleting existing tags for your batch operations job, DeleteJobTagging request is preferred because it achieves the same result without incurring charges.   A few things to consider about using tags:   Amazon S3 limits the maximum number of tags to 50 tags per job.   You can associate up to 50 tags with a job as long as they have unique tag keys.   A tag key can be up to 128 Unicode characters in length, and tag values can be up to 256 Unicode characters in length.   The key and values are case sensitive.   For tagging-related restrictions related to characters and encodings, see User-Defined Tag Restrictions.       To use this operation, you must have permission to perform the s3:PutJobTagging action. Related actions include:    CreateJob     GetJobTagging     DeleteJobTagging   
     public func putJobTagging(_ input: PutJobTaggingRequest) -> EventLoopFuture<PutJobTaggingResult> {
         return client.send(operation: "PutJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "PUT", input: input)
     }
@@ -134,12 +134,12 @@ public struct S3Control {
         return client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates an existing job's priority.
+    ///  Updates an existing Amazon S3 Batch Operations job's priority. For more information, see Amazon S3 Batch Operations in the Amazon Simple Storage Service Developer Guide.  Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus   
     public func updateJobPriority(_ input: UpdateJobPriorityRequest) -> EventLoopFuture<UpdateJobPriorityResult> {
         return client.send(operation: "UpdateJobPriority", path: "/v20180820/jobs/{id}/priority", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job.
+    ///  Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more information, see Amazon S3 Batch Operations in the Amazon Simple Storage Service Developer Guide.  Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus   
     public func updateJobStatus(_ input: UpdateJobStatusRequest) -> EventLoopFuture<UpdateJobStatusResult> {
         return client.send(operation: "UpdateJobStatus", path: "/v20180820/jobs/{id}/status", httpMethod: "POST", input: input)
     }

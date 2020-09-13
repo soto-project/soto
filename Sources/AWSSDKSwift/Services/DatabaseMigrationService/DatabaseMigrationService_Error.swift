@@ -11,6 +11,7 @@ public enum DatabaseMigrationServiceErrorType: AWSErrorType {
     case invalidSubnet(message: String?)
     case kMSAccessDeniedFault(message: String?)
     case kMSDisabledFault(message: String?)
+    case kMSFault(message: String?)
     case kMSInvalidStateFault(message: String?)
     case kMSKeyNotAccessibleFault(message: String?)
     case kMSNotFoundFault(message: String?)
@@ -19,6 +20,8 @@ public enum DatabaseMigrationServiceErrorType: AWSErrorType {
     case resourceAlreadyExistsFault(message: String?)
     case resourceNotFoundFault(message: String?)
     case resourceQuotaExceededFault(message: String?)
+    case s3AccessDeniedFault(message: String?)
+    case s3ResourceNotFoundFault(message: String?)
     case sNSInvalidTopicFault(message: String?)
     case sNSNoAuthorizationFault(message: String?)
     case storageQuotaExceededFault(message: String?)
@@ -47,6 +50,8 @@ extension DatabaseMigrationServiceErrorType {
             self = .kMSAccessDeniedFault(message: message)
         case "KMSDisabledFault":
             self = .kMSDisabledFault(message: message)
+        case "KMSFault":
+            self = .kMSFault(message: message)
         case "KMSInvalidStateFault":
             self = .kMSInvalidStateFault(message: message)
         case "KMSKeyNotAccessibleFault":
@@ -63,6 +68,10 @@ extension DatabaseMigrationServiceErrorType {
             self = .resourceNotFoundFault(message: message)
         case "ResourceQuotaExceededFault":
             self = .resourceQuotaExceededFault(message: message)
+        case "S3AccessDeniedFault":
+            self = .s3AccessDeniedFault(message: message)
+        case "S3ResourceNotFoundFault":
+            self = .s3ResourceNotFoundFault(message: message)
         case "SNSInvalidTopicFault":
             self = .sNSInvalidTopicFault(message: message)
         case "SNSNoAuthorizationFault":
@@ -96,6 +105,8 @@ extension DatabaseMigrationServiceErrorType : CustomStringConvertible {
             return "KMSAccessDeniedFault: \(message ?? "")"
         case .kMSDisabledFault(let message):
             return "KMSDisabledFault: \(message ?? "")"
+        case .kMSFault(let message):
+            return "KMSFault: \(message ?? "")"
         case .kMSInvalidStateFault(let message):
             return "KMSInvalidStateFault: \(message ?? "")"
         case .kMSKeyNotAccessibleFault(let message):
@@ -112,6 +123,10 @@ extension DatabaseMigrationServiceErrorType : CustomStringConvertible {
             return "ResourceNotFoundFault: \(message ?? "")"
         case .resourceQuotaExceededFault(let message):
             return "ResourceQuotaExceededFault: \(message ?? "")"
+        case .s3AccessDeniedFault(let message):
+            return "S3AccessDeniedFault: \(message ?? "")"
+        case .s3ResourceNotFoundFault(let message):
+            return "S3ResourceNotFoundFault: \(message ?? "")"
         case .sNSInvalidTopicFault(let message):
             return "SNSInvalidTopicFault: \(message ?? "")"
         case .sNSNoAuthorizationFault(let message):

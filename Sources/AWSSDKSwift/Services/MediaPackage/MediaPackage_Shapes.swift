@@ -10,6 +10,7 @@ extension MediaPackage {
         case none = "NONE"
         case scte35Enhanced = "SCTE35_ENHANCED"
         case passthrough = "PASSTHROUGH"
+        case daterange = "DATERANGE"
         public var description: String { return self.rawValue }
     }
 
@@ -70,6 +71,13 @@ extension MediaPackage {
         case original = "ORIGINAL"
         case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
         case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UtcTiming: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case httpHead = "HTTP-HEAD"
+        case httpIso = "HTTP-ISO"
         public var description: String { return self.rawValue }
     }
 
@@ -557,7 +565,9 @@ extension MediaPackage {
             AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "SegmentTemplateFormat", location: .body(locationName: "segmentTemplateFormat"), required: false, type: .enum), 
             AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
-            AWSShapeMember(label: "SuggestedPresentationDelaySeconds", location: .body(locationName: "suggestedPresentationDelaySeconds"), required: false, type: .integer)
+            AWSShapeMember(label: "SuggestedPresentationDelaySeconds", location: .body(locationName: "suggestedPresentationDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "UtcTiming", location: .body(locationName: "utcTiming"), required: false, type: .enum), 
+            AWSShapeMember(label: "UtcTimingUri", location: .body(locationName: "utcTimingUri"), required: false, type: .string)
         ]
 
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
@@ -586,8 +596,12 @@ extension MediaPackage {
         public let streamSelection: StreamSelection?
         /// Duration (in seconds) to delay live content before presentation.
         public let suggestedPresentationDelaySeconds: Int?
+        /// Determines the type of UTCTiming included in the Media Presentation Description (MPD)
+        public let utcTiming: UtcTiming?
+        /// Specifies the value attribute of the UTCTiming field when utcTiming is set to HTTP-ISO or HTTP-HEAD
+        public let utcTimingUri: String?
 
-        public init(adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [Adtriggerselement]? = nil, encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [Periodtriggerselement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int? = nil) {
+        public init(adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [Adtriggerselement]? = nil, encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [Periodtriggerselement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: UtcTiming? = nil, utcTimingUri: String? = nil) {
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.adTriggers = adTriggers
             self.encryption = encryption
@@ -601,6 +615,8 @@ extension MediaPackage {
             self.segmentTemplateFormat = segmentTemplateFormat
             self.streamSelection = streamSelection
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.utcTiming = utcTiming
+            self.utcTimingUri = utcTimingUri
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -617,6 +633,8 @@ extension MediaPackage {
             case segmentTemplateFormat = "segmentTemplateFormat"
             case streamSelection = "streamSelection"
             case suggestedPresentationDelaySeconds = "suggestedPresentationDelaySeconds"
+            case utcTiming = "utcTiming"
+            case utcTimingUri = "utcTimingUri"
         }
     }
 
@@ -1004,6 +1022,9 @@ extension MediaPackage {
         /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
         /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
         /// messages in the input source.
+        /// "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition events 
+        /// in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value 
+        /// that is greater than 0.
         public let adMarkers: AdMarkers?
         /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
         public let id: String
@@ -1072,6 +1093,9 @@ extension MediaPackage {
         /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
         /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
         /// messages in the input source.
+        /// "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition events 
+        /// in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value 
+        /// that is greater than 0.
         public let adMarkers: AdMarkers?
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [Adtriggerselement]?
@@ -1144,6 +1168,9 @@ extension MediaPackage {
         /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
         /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
         /// messages in the input source.
+        /// "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition events 
+        /// in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value 
+        /// that is greater than 0.
         public let adMarkers: AdMarkers?
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [Adtriggerselement]?

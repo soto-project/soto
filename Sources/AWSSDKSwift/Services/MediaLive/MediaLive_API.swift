@@ -36,6 +36,7 @@ public struct MediaLive {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-10-14",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "medialive-fips.us-east-1.amazonaws.com", "fips-us-east-2": "medialive-fips.us-east-2.amazonaws.com", "fips-us-west-2": "medialive-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [MediaLiveErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -129,6 +130,16 @@ public struct MediaLive {
         return client.send(operation: "DescribeInput", path: "/prod/inputs/{inputId}", httpMethod: "GET", input: input)
     }
 
+    ///  Gets the details for the input device
+    public func describeInputDevice(_ input: DescribeInputDeviceRequest) -> EventLoopFuture<DescribeInputDeviceResponse> {
+        return client.send(operation: "DescribeInputDevice", path: "/prod/inputDevices/{inputDeviceId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Get the latest thumbnail data for the input device.
+    public func describeInputDeviceThumbnail(_ input: DescribeInputDeviceThumbnailRequest) -> EventLoopFuture<DescribeInputDeviceThumbnailResponse> {
+        return client.send(operation: "DescribeInputDeviceThumbnail", path: "/prod/inputDevices/{inputDeviceId}/thumbnailData", httpMethod: "GET", input: input)
+    }
+
     ///  Produces a summary of an Input Security Group
     public func describeInputSecurityGroup(_ input: DescribeInputSecurityGroupRequest) -> EventLoopFuture<DescribeInputSecurityGroupResponse> {
         return client.send(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: "GET", input: input)
@@ -162,6 +173,11 @@ public struct MediaLive {
     ///  Produces list of channels that have been created
     public func listChannels(_ input: ListChannelsRequest) -> EventLoopFuture<ListChannelsResponse> {
         return client.send(operation: "ListChannels", path: "/prod/channels", httpMethod: "GET", input: input)
+    }
+
+    ///  List input devices
+    public func listInputDevices(_ input: ListInputDevicesRequest) -> EventLoopFuture<ListInputDevicesResponse> {
+        return client.send(operation: "ListInputDevices", path: "/prod/inputDevices", httpMethod: "GET", input: input)
     }
 
     ///  Produces a list of Input Security Groups for an account
@@ -237,6 +253,11 @@ public struct MediaLive {
     ///  Updates an input.
     public func updateInput(_ input: UpdateInputRequest) -> EventLoopFuture<UpdateInputResponse> {
         return client.send(operation: "UpdateInput", path: "/prod/inputs/{inputId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the parameters for the input device.
+    public func updateInputDevice(_ input: UpdateInputDeviceRequest) -> EventLoopFuture<UpdateInputDeviceResponse> {
+        return client.send(operation: "UpdateInputDevice", path: "/prod/inputDevices/{inputDeviceId}", httpMethod: "PUT", input: input)
     }
 
     ///  Update an Input Security Group's Whilelists.

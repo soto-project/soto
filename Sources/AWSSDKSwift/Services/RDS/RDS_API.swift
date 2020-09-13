@@ -75,7 +75,7 @@ public struct RDS {
         return client.send(operation: "AuthorizeDBSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see  Backtracking an Aurora DB Cluster in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see  Backtracking an Aurora DB Cluster in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters. 
     public func backtrackDBCluster(_ input: BacktrackDBClusterMessage) -> EventLoopFuture<DBClusterBacktrack> {
         return client.send(operation: "BacktrackDBCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -150,7 +150,7 @@ public struct RDS {
         return client.send(operation: "CreateDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Creates a new DB proxy.
+    ///  Creates a new DB proxy.
     public func createDBProxy(_ input: CreateDBProxyRequest) -> EventLoopFuture<CreateDBProxyResponse> {
         return client.send(operation: "CreateDBProxy", path: "/", httpMethod: "POST", input: input)
     }
@@ -170,12 +170,12 @@ public struct RDS {
         return client.send(operation: "CreateDBSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an RDS event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) you want to be notified of, provide a list of RDS sources (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIdentifier = myDBInstance1, you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your RDS sources. If you don't specify either the SourceType or the SourceIdentifier, you are notified of events generated from all RDS sources belonging to your customer account.  RDS event notification is only available for unencrypted SNS topics. If you specify an encrypted SNS topic, event notifications aren't sent for the topic. 
+    ///  Creates an RDS event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) that you want to be notified of and provide a list of RDS sources (SourceIds) that triggers the events. You can also provide a list of event categories (EventCategories) for events that you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIdentifier = myDBInstance1, you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your RDS sources. If you don't specify either the SourceType or the SourceIdentifier, you are notified of events generated from all RDS sources belonging to your customer account.  RDS event notification is only available for unencrypted SNS topics. If you specify an encrypted SNS topic, event notifications aren't sent for the topic. 
     public func createEventSubscription(_ input: CreateEventSubscriptionMessage) -> EventLoopFuture<CreateEventSubscriptionResult> {
         return client.send(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///     Creates an Aurora global database spread across multiple regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem.   You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.   This action only applies to Aurora DB clusters. 
+    ///   Creates an Aurora global database spread across multiple regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem.   You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.   This action only applies to Aurora DB clusters. 
     public func createGlobalCluster(_ input: CreateGlobalClusterMessage) -> EventLoopFuture<CreateGlobalClusterResult> {
         return client.send(operation: "CreateGlobalCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -225,7 +225,7 @@ public struct RDS {
         return client.send(operation: "DeleteDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Deletes an existing proxy.
+    ///  Deletes an existing proxy.
     public func deleteDBProxy(_ input: DeleteDBProxyRequest) -> EventLoopFuture<DeleteDBProxyResponse> {
         return client.send(operation: "DeleteDBProxy", path: "/", httpMethod: "POST", input: input)
     }
@@ -265,7 +265,7 @@ public struct RDS {
         return client.send(operation: "DeleteOptionGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup.
+    ///  Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup.
     public func deregisterDBProxyTargets(_ input: DeregisterDBProxyTargetsRequest) -> EventLoopFuture<DeregisterDBProxyTargetsResponse> {
         return client.send(operation: "DeregisterDBProxyTargets", path: "/", httpMethod: "POST", input: input)
     }
@@ -285,7 +285,7 @@ public struct RDS {
         return client.send(operation: "DescribeCustomAvailabilityZones", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters. 
     public func describeDBClusterBacktracks(_ input: DescribeDBClusterBacktracksMessage) -> EventLoopFuture<DBClusterBacktrackMessage> {
         return client.send(operation: "DescribeDBClusterBacktracks", path: "/", httpMethod: "POST", input: input)
     }
@@ -350,17 +350,17 @@ public struct RDS {
         return client.send(operation: "DescribeDBParameters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxies.
+    ///  Returns information about DB proxies.
     public func describeDBProxies(_ input: DescribeDBProxiesRequest) -> EventLoopFuture<DescribeDBProxiesResponse> {
         return client.send(operation: "DescribeDBProxies", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
+    ///  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
     public func describeDBProxyTargetGroups(_ input: DescribeDBProxyTargetGroupsRequest) -> EventLoopFuture<DescribeDBProxyTargetGroupsResponse> {
         return client.send(operation: "DescribeDBProxyTargetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DBProxyTarget objects. This API supports pagination.
+    ///  Returns information about DBProxyTarget objects. This API supports pagination.
     public func describeDBProxyTargets(_ input: DescribeDBProxyTargetsRequest) -> EventLoopFuture<DescribeDBProxyTargetsResponse> {
         return client.send(operation: "DescribeDBProxyTargets", path: "/", httpMethod: "POST", input: input)
     }
@@ -395,7 +395,7 @@ public struct RDS {
         return client.send(operation: "DescribeEngineDefaultParameters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Displays a list of categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in the  Events topic in the Amazon RDS User Guide. 
+    ///  Displays a list of categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in  Events in the Amazon RDS User Guide. 
     public func describeEventCategories(_ input: DescribeEventCategoriesMessage) -> EventLoopFuture<EventCategoriesMessage> {
         return client.send(operation: "DescribeEventCategories", path: "/", httpMethod: "POST", input: input)
     }
@@ -405,7 +405,7 @@ public struct RDS {
         return client.send(operation: "DescribeEventSubscriptions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
+    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots for the past 14 days. Events specific to a particular DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     public func describeEvents(_ input: DescribeEventsMessage) -> EventLoopFuture<EventsMessage> {
         return client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
@@ -510,7 +510,7 @@ public struct RDS {
         return client.send(operation: "ModifyDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot public or private, use the DescribeDBClusterSnapshotAttributes API action.  This action only applies to Aurora DB clusters. 
+    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all AWS accounts.  Don't add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.  If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot is public or private, use the DescribeDBClusterSnapshotAttributes API action. The accounts are returned as values for the restore attribute.  This action only applies to Aurora DB clusters. 
     public func modifyDBClusterSnapshotAttribute(_ input: ModifyDBClusterSnapshotAttributeMessage) -> EventLoopFuture<ModifyDBClusterSnapshotAttributeResult> {
         return client.send(operation: "ModifyDBClusterSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
@@ -525,12 +525,12 @@ public struct RDS {
         return client.send(operation: "ModifyDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Changes the settings for an existing DB proxy.
+    ///  Changes the settings for an existing DB proxy.
     public func modifyDBProxy(_ input: ModifyDBProxyRequest) -> EventLoopFuture<ModifyDBProxyResponse> {
         return client.send(operation: "ModifyDBProxy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Modifies the properties of a DBProxyTargetGroup.
+    ///  Modifies the properties of a DBProxyTargetGroup.
     public func modifyDBProxyTargetGroup(_ input: ModifyDBProxyTargetGroupRequest) -> EventLoopFuture<ModifyDBProxyTargetGroupResponse> {
         return client.send(operation: "ModifyDBProxyTargetGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -540,7 +540,7 @@ public struct RDS {
         return client.send(operation: "ModifyDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all AWS accounts. If the manual DB snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB snapshot, or whether a manual DB snapshot public or private, use the DescribeDBSnapshotAttributes API action.
+    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all AWS accounts.  Don't add the all value for any manual DB snapshots that contain private information that you don't want available to all AWS accounts.  If the manual DB snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB snapshot, or whether a manual DB snapshot public or private, use the DescribeDBSnapshotAttributes API action. The accounts are returned as values for the restore attribute.
     public func modifyDBSnapshotAttribute(_ input: ModifyDBSnapshotAttributeMessage) -> EventLoopFuture<ModifyDBSnapshotAttributeResult> {
         return client.send(operation: "ModifyDBSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
@@ -550,7 +550,7 @@ public struct RDS {
         return client.send(operation: "ModifyDBSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies an existing RDS event notification subscription. You can't modify the source identifiers using this call. To change source identifiers for a subscription, use the AddSourceIdentifierToSubscription and RemoveSourceIdentifierFromSubscription calls. You can see a list of the event categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action.
+    ///  Modifies an existing RDS event notification subscription. You can't modify the source identifiers using this call. To change source identifiers for a subscription, use the AddSourceIdentifierToSubscription and RemoveSourceIdentifierFromSubscription calls. You can see a list of the event categories for a given source type (SourceType) in Events in the Amazon RDS User Guide or by using the DescribeEventCategories operation.
     public func modifyEventSubscription(_ input: ModifyEventSubscriptionMessage) -> EventLoopFuture<ModifyEventSubscriptionResult> {
         return client.send(operation: "ModifyEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
@@ -585,7 +585,7 @@ public struct RDS {
         return client.send(operation: "RebootDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Associate one or more DBProxyTarget data structures with a DBProxyTargetGroup.
+    ///  Associate one or more DBProxyTarget data structures with a DBProxyTargetGroup.
     public func registerDBProxyTargets(_ input: RegisterDBProxyTargetsRequest) -> EventLoopFuture<RegisterDBProxyTargetsResponse> {
         return client.send(operation: "RegisterDBProxyTargets", path: "/", httpMethod: "POST", input: input)
     }
@@ -625,7 +625,7 @@ public struct RDS {
         return client.send(operation: "ResetDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an Amazon Aurora DB cluster from data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in  Migrating Data to an Amazon Aurora MySQL DB Cluster in the Amazon Aurora User Guide.  This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromS3 action has completed and the DB cluster is available.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in  Migrating Data from MySQL by Using an Amazon S3 Bucket in the Amazon Aurora User Guide.  This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromS3 action has completed and the DB cluster is available.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. The source DB engine must be MySQL. 
     public func restoreDBClusterFromS3(_ input: RestoreDBClusterFromS3Message) -> EventLoopFuture<RestoreDBClusterFromS3Result> {
         return client.send(operation: "RestoreDBClusterFromS3", path: "/", httpMethod: "POST", input: input)
     }

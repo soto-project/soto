@@ -820,6 +820,51 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct HttpParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HeaderParameters", required: false, type: .map), 
+            AWSShapeMember(label: "PathParameterValues", required: false, type: .list), 
+            AWSShapeMember(label: "QueryStringParameters", required: false, type: .map)
+        ]
+
+        /// The headers that need to be sent as part of request invoking the API Gateway REST API.
+        public let headerParameters: [String: String]?
+        /// The path parameter values to be used to populate API Gateway REST API path wildcards ("*").
+        public let pathParameterValues: [String]?
+        /// The query string keys/values that need to be sent as part of request invoking the API Gateway REST API.
+        public let queryStringParameters: [String: String]?
+
+        public init(headerParameters: [String: String]? = nil, pathParameterValues: [String]? = nil, queryStringParameters: [String: String]? = nil) {
+            self.headerParameters = headerParameters
+            self.pathParameterValues = pathParameterValues
+            self.queryStringParameters = queryStringParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.headerParameters?.forEach {
+                try validate($0.key, name:"headerParameters.key", parent: name, max: 512)
+                try validate($0.key, name:"headerParameters.key", parent: name, pattern: "^[!#$%&'*+-.^_`|~0-9a-zA-Z]+$")
+                try validate($0.value, name:"headerParameters[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name:"headerParameters[\"\($0.key)\"]", parent: name, pattern: "^[ \\t]*[\\x20-\\x7E]+([ \\t]+[\\x20-\\x7E]+)*[ \\t]*$")
+            }
+            try self.pathParameterValues?.forEach {
+                try validate($0, name: "pathParameterValues[]", parent: name, pattern: "^(?!\\s*$).+")
+            }
+            try self.queryStringParameters?.forEach {
+                try validate($0.key, name:"queryStringParameters.key", parent: name, max: 512)
+                try validate($0.key, name:"queryStringParameters.key", parent: name, pattern: "[^\\x00-\\x1F\\x7F]+")
+                try validate($0.value, name:"queryStringParameters[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name:"queryStringParameters[\"\($0.key)\"]", parent: name, pattern: "[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]+")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headerParameters = "HeaderParameters"
+            case pathParameterValues = "PathParameterValues"
+            case queryStringParameters = "QueryStringParameters"
+        }
+    }
+
     public struct InputTransformer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputPathsMap", required: false, type: .map), 
@@ -2219,6 +2264,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "BatchParameters", required: false, type: .structure), 
             AWSShapeMember(label: "EcsParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "HttpParameters", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Input", required: false, type: .string), 
             AWSShapeMember(label: "InputPath", required: false, type: .string), 
@@ -2235,6 +2281,8 @@ extension CloudWatchEvents {
         public let batchParameters: BatchParameters?
         /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
         public let ecsParameters: EcsParameters?
+        /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint. If you specify an API Gateway REST API as a target, you can use this parameter to specify headers, path parameter, query string keys/values as part of your target invoking request.
+        public let httpParameters: HttpParameters?
         /// The ID of the target.
         public let id: String
         /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
@@ -2252,10 +2300,11 @@ extension CloudWatchEvents {
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public let sqsParameters: SqsParameters?
 
-        public init(arn: String, batchParameters: BatchParameters? = nil, ecsParameters: EcsParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sqsParameters: SqsParameters? = nil) {
+        public init(arn: String, batchParameters: BatchParameters? = nil, ecsParameters: EcsParameters? = nil, httpParameters: HttpParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sqsParameters: SqsParameters? = nil) {
             self.arn = arn
             self.batchParameters = batchParameters
             self.ecsParameters = ecsParameters
+            self.httpParameters = httpParameters
             self.id = id
             self.input = input
             self.inputPath = inputPath
@@ -2270,6 +2319,7 @@ extension CloudWatchEvents {
             try validate(self.arn, name:"arn", parent: name, max: 1600)
             try validate(self.arn, name:"arn", parent: name, min: 1)
             try self.ecsParameters?.validate(name: "\(name).ecsParameters")
+            try self.httpParameters?.validate(name: "\(name).httpParameters")
             try validate(self.id, name:"id", parent: name, max: 64)
             try validate(self.id, name:"id", parent: name, min: 1)
             try validate(self.id, name:"id", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -2286,6 +2336,7 @@ extension CloudWatchEvents {
             case arn = "Arn"
             case batchParameters = "BatchParameters"
             case ecsParameters = "EcsParameters"
+            case httpParameters = "HttpParameters"
             case id = "Id"
             case input = "Input"
             case inputPath = "InputPath"

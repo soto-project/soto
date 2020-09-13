@@ -16,6 +16,11 @@ extension MediaLive {
         return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, onPage: onPage)
     }
 
+    ///  List input devices
+    public func listInputDevicesPaginator(_ input: ListInputDevicesRequest, onPage: @escaping (ListInputDevicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listInputDevices, tokenKey: \ListInputDevicesResponse.nextToken, onPage: onPage)
+    }
+
     ///  Produces a list of Input Security Groups for an account
     public func listInputSecurityGroupsPaginator(_ input: ListInputSecurityGroupsRequest, onPage: @escaping (ListInputSecurityGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInputSecurityGroups, tokenKey: \ListInputSecurityGroupsResponse.nextToken, onPage: onPage)
@@ -61,6 +66,16 @@ extension MediaLive.DescribeScheduleRequest: AWSPaginateStringToken {
 
 extension MediaLive.ListChannelsRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListChannelsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension MediaLive.ListInputDevicesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListInputDevicesRequest {
         return .init(
             maxResults: self.maxResults, 
             nextToken: token

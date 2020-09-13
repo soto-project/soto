@@ -203,7 +203,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
 
-        /// The unique identifier of the master key for which deletion is canceled.
+        /// The Amazon Resource Name (key ARN) of the CMK whose deletion is canceled.
         public let keyId: String?
 
         public init(keyId: String? = nil) {
@@ -519,7 +519,7 @@ extension KMS {
 
         /// A unique identifier for the AWS CloudHSM cluster that is associated with the custom key store.
         public let cloudHsmClusterId: String?
-        /// Describes the connection error. This field appears in the response only when the ConnectionState is FAILED. For help resolving these errors, see How to Fix a Connection Failure in AWS Key Management Service Developer Guide. Valid values are:    CLUSTER_NOT_FOUND - AWS KMS cannot find the AWS CloudHSM cluster with the specified cluster ID.    INSUFFICIENT_CLOUDHSM_HSMS - The associated AWS CloudHSM cluster does not contain any active HSMs. To connect a custom key store to its AWS CloudHSM cluster, the cluster must contain at least one active HSM.    INTERNAL_ERROR - AWS KMS could not complete the request due to an internal error. Retry the request. For ConnectCustomKeyStore requests, disconnect the custom key store before trying to connect again.    INVALID_CREDENTIALS - AWS KMS does not have the correct password for the kmsuser crypto user in the AWS CloudHSM cluster. Before you can connect your custom key store to its AWS CloudHSM cluster, you must change the kmsuser account password and update the key store password value for the custom key store.    NETWORK_ERRORS - Network errors are preventing AWS KMS from connecting to the custom key store.    SUBNET_NOT_FOUND - A subnet in the AWS CloudHSM cluster configuration was deleted. If AWS KMS cannot find all of the subnets that were configured for the cluster when the custom key store was created, attempts to connect fail. To fix this error, create a cluster from a backup and associate it with your custom key store. This process includes selecting a VPC and subnets. For details, see How to Fix a Connection Failure in the AWS Key Management Service Developer Guide.    USER_LOCKED_OUT - The kmsuser CU account is locked out of the associated AWS CloudHSM cluster due to too many failed password attempts. Before you can connect your custom key store to its AWS CloudHSM cluster, you must change the kmsuser account password and update the key store password value for the custom key store.    USER_LOGGED_IN - The kmsuser CU account is logged into the the associated AWS CloudHSM cluster. This prevents AWS KMS from rotating the kmsuser account password and logging into the cluster. Before you can connect your custom key store to its AWS CloudHSM cluster, you must log the kmsuser CU out of the cluster. If you changed the kmsuser password to log into the cluster, you must also and update the key store password value for the custom key store. For help, see How to Log Out and Reconnect in the AWS Key Management Service Developer Guide.    USER_NOT_FOUND - AWS KMS cannot find a kmsuser CU account in the associated AWS CloudHSM cluster. Before you can connect your custom key store to its AWS CloudHSM cluster, you must create a kmsuser CU account in the cluster, and then update the key store password value for the custom key store.  
+        /// Describes the connection error. This field appears in the response only when the ConnectionState is FAILED. For help resolving these errors, see How to Fix a Connection Failure in AWS Key Management Service Developer Guide. Valid values are:    CLUSTER_NOT_FOUND - AWS KMS cannot find the AWS CloudHSM cluster with the specified cluster ID.    INSUFFICIENT_CLOUDHSM_HSMS - The associated AWS CloudHSM cluster does not contain any active HSMs. To connect a custom key store to its AWS CloudHSM cluster, the cluster must contain at least one active HSM.    INTERNAL_ERROR - AWS KMS could not complete the request due to an internal error. Retry the request. For ConnectCustomKeyStore requests, disconnect the custom key store before trying to connect again.    INVALID_CREDENTIALS - AWS KMS does not have the correct password for the kmsuser crypto user in the AWS CloudHSM cluster. Before you can connect your custom key store to its AWS CloudHSM cluster, you must change the kmsuser account password and update the key store password value for the custom key store.    NETWORK_ERRORS - Network errors are preventing AWS KMS from connecting to the custom key store.    SUBNET_NOT_FOUND - A subnet in the AWS CloudHSM cluster configuration was deleted. If AWS KMS cannot find all of the subnets in the cluster configuration, attempts to connect the custom key store to the AWS CloudHSM cluster fail. To fix this error, create a cluster from a recent backup and associate it with your custom key store. (This process creates a new cluster configuration with a VPC and private subnets.) For details, see How to Fix a Connection Failure in the AWS Key Management Service Developer Guide.    USER_LOCKED_OUT - The kmsuser CU account is locked out of the associated AWS CloudHSM cluster due to too many failed password attempts. Before you can connect your custom key store to its AWS CloudHSM cluster, you must change the kmsuser account password and update the key store password value for the custom key store.    USER_LOGGED_IN - The kmsuser CU account is logged into the the associated AWS CloudHSM cluster. This prevents AWS KMS from rotating the kmsuser account password and logging into the cluster. Before you can connect your custom key store to its AWS CloudHSM cluster, you must log the kmsuser CU out of the cluster. If you changed the kmsuser password to log into the cluster, you must also and update the key store password value for the custom key store. For help, see How to Log Out and Reconnect in the AWS Key Management Service Developer Guide.    USER_NOT_FOUND - AWS KMS cannot find a kmsuser CU account in the associated AWS CloudHSM cluster. Before you can connect your custom key store to its AWS CloudHSM cluster, you must create a kmsuser CU account in the cluster, and then update the key store password value for the custom key store.  
         public let connectionErrorCode: ConnectionErrorCodeType?
         /// Indicates whether the custom key store is connected to its AWS CloudHSM cluster. You can create and use CMKs in your custom key stores only when its connection state is CONNECTED. The value is DISCONNECTED if the key store has never been connected or you use the DisconnectCustomKeyStore operation to disconnect it. If the value is CONNECTED but you are having trouble using the custom key store, make sure that its associated AWS CloudHSM cluster is active and contains at least one active HSM. A value of FAILED indicates that an attempt to connect was unsuccessful. The ConnectionErrorCode field in the response indicates the cause of the failure. For help resolving a connection failure, see Troubleshooting a Custom Key Store in the AWS Key Management Service Developer Guide.
         public let connectionState: ConnectionStateType?
@@ -612,7 +612,7 @@ extension KMS {
 
         /// The encryption algorithm that was used to decrypt the ciphertext.
         public let encryptionAlgorithm: EncryptionAlgorithmSpec?
-        /// The ARN of the customer master key that was used to perform the decryption.
+        /// The Amazon Resource Name (key ARN) of the CMK that was used to decrypt the ciphertext.
         public let keyId: String?
         /// Decrypted plaintext data. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let plaintext: Data?
@@ -1005,7 +1005,7 @@ extension KMS {
         public let ciphertextBlob: Data?
         /// The encryption algorithm that was used to encrypt the plaintext.
         public let encryptionAlgorithm: EncryptionAlgorithmSpec?
-        /// The ID of the key used during encryption.
+        /// The Amazon Resource Name (key ARN) of the CMK that was used to encrypt the plaintext.
         public let keyId: String?
 
         public init(ciphertextBlob: Data? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, keyId: String? = nil) {
@@ -1033,7 +1033,7 @@ extension KMS {
         public let encryptionContext: [String: String]?
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Specifies the symmetric CMK that encrypts the private key in the data key pair. You cannot specify an asymmetric CMKs. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the symmetric CMK that encrypts the private key in the data key pair. You cannot specify an asymmetric CMK or a CMK in a custom key store. To get the type and origin of your CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Determines the type of data key pair that is generated.  The AWS KMS rule that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC CMKs only to sign and verify, are not effective outside of AWS KMS.
         public let keyPairSpec: DataKeyPairSpec
@@ -1073,7 +1073,7 @@ extension KMS {
             AWSShapeMember(label: "PublicKey", required: false, type: .blob)
         ]
 
-        /// The identifier of the CMK that encrypted the private key.
+        /// The Amazon Resource Name (key ARN) of the CMK that encrypted the private key.
         public let keyId: String?
         /// The type of data key pair that was generated.
         public let keyPairSpec: DataKeyPairSpec?
@@ -1113,7 +1113,7 @@ extension KMS {
         public let encryptionContext: [String: String]?
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Specifies the CMK that encrypts the private key in the data key pair. You must specify a symmetric CMK. You cannot use an asymmetric CMK. To get the type of your CMK, use the DescribeKey operation.  To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the CMK that encrypts the private key in the data key pair. You must specify a symmetric CMK. You cannot use an asymmetric CMK or a CMK in a custom key store. To get the type and origin of your CMK, use the DescribeKey operation.  To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Determines the type of data key pair that is generated. The AWS KMS rule that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC CMKs only to sign and verify, are not effective outside of AWS KMS.
         public let keyPairSpec: DataKeyPairSpec
@@ -1152,7 +1152,7 @@ extension KMS {
             AWSShapeMember(label: "PublicKey", required: false, type: .blob)
         ]
 
-        /// Specifies the CMK that encrypted the private key in the data key pair. You must specify a symmetric CMK. You cannot use an asymmetric CMK. To get the type of your CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// The Amazon Resource Name (key ARN) of the CMK that encrypted the private key.
         public let keyId: String?
         /// The type of data key pair that was generated.
         public let keyPairSpec: DataKeyPairSpec?
@@ -1235,7 +1235,7 @@ extension KMS {
 
         /// The encrypted copy of the data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let ciphertextBlob: Data?
-        /// The identifier of the CMK that encrypted the data key.
+        /// The Amazon Resource Name (key ARN) of the CMK that encrypted the data key.
         public let keyId: String?
         /// The plaintext data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. Use this data key to encrypt your data outside of KMS. Then, remove it from memory as soon as possible.
         public let plaintext: Data?
@@ -1311,7 +1311,7 @@ extension KMS {
 
         /// The encrypted data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let ciphertextBlob: Data?
-        /// The identifier of the CMK that encrypted the data key.
+        /// The Amazon Resource Name (key ARN) of the CMK that encrypted the data key.
         public let keyId: String?
 
         public init(ciphertextBlob: Data? = nil, keyId: String? = nil) {
@@ -1499,7 +1499,7 @@ extension KMS {
 
         /// The import token to send in a subsequent ImportKeyMaterial request.
         public let importToken: Data?
-        /// The identifier of the CMK to use in a subsequent ImportKeyMaterial request. This is the same CMK specified in the GetParametersForImport request.
+        /// The Amazon Resource Name (key ARN) of the CMK to use in a subsequent ImportKeyMaterial request. This is the same CMK specified in the GetParametersForImport request.
         public let keyId: String?
         /// The time at which the import token and public key are no longer valid. After this time, you cannot use them to make an ImportKeyMaterial request and you must send another GetParametersForImport request to get new ones.
         public let parametersValidTo: TimeStamp?
@@ -1568,7 +1568,7 @@ extension KMS {
         public let customerMasterKeySpec: CustomerMasterKeySpec?
         /// The encryption algorithms that AWS KMS supports for this key.  This information is critical. If a public key encrypts data outside of AWS KMS by using an unsupported encryption algorithm, the ciphertext cannot be decrypted.  This field appears in the response only when the KeyUsage of the public key is ENCRYPT_DECRYPT.
         public let encryptionAlgorithms: [EncryptionAlgorithmSpec]?
-        /// The identifier of the asymmetric CMK from which the public key was downloaded.
+        /// The Amazon Resource Name (key ARN) of the asymmetric CMK from which the public key was downloaded.
         public let keyId: String?
         /// The permitted use of the public key. Valid values are ENCRYPT_DECRYPT or SIGN_VERIFY.  This information is critical. If a public key with SIGN_VERIFY key usage encrypts data outside of AWS KMS, the ciphertext cannot be decrypted. 
         public let keyUsage: KeyUsageType?
@@ -1635,7 +1635,7 @@ extension KMS {
         public let constraints: GrantConstraints?
         /// The date and time when the grant was created.
         public let creationDate: TimeStamp?
-        /// The principal that receives the grant's permissions.
+        /// The identity that gets the permissions in the grant. The GranteePrincipal field in the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, when the grantee principal in the grant is an AWS service, the GranteePrincipal field contains the service principal, which might represent several different grantee principals.
         public let granteePrincipal: String?
         /// The unique identifier for the grant.
         public let grantId: String?
@@ -1791,7 +1791,7 @@ extension KMS {
         public let description: String?
         /// Specifies whether the CMK is enabled. When KeyState is Enabled this value is true, otherwise it is false.
         public let enabled: Bool?
-        /// A list of encryption algorithms that the CMK supports. You cannot use the CMK with other encryption algorithms within AWS KMS. This field appears only when the KeyUsage of the CMK is ENCRYPT_DECRYPT.
+        /// The encryption algorithms that the CMK supports. You cannot use the CMK with other encryption algorithms within AWS KMS. This field appears only when the KeyUsage of the CMK is ENCRYPT_DECRYPT.
         public let encryptionAlgorithms: [EncryptionAlgorithmSpec]?
         /// Specifies whether the CMK's key material expires. This value is present only when Origin is EXTERNAL, otherwise this value is omitted.
         public let expirationModel: ExpirationModelType?
@@ -1799,13 +1799,13 @@ extension KMS {
         public let keyId: String
         /// The manager of the CMK. CMKs in your AWS account are either customer managed or AWS managed. For more information about the difference, see Customer Master Keys in the AWS Key Management Service Developer Guide.
         public let keyManager: KeyManagerType?
-        /// The state of the CMK. For more information about how key state affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
+        /// The current status of the CMK. For more information about how key state affects the use of a CMK, see Key state: Effect on your CMK in the AWS Key Management Service Developer Guide.
         public let keyState: KeyState?
         /// The cryptographic operations for which you can use the CMK.
         public let keyUsage: KeyUsageType?
         /// The source of the CMK's key material. When this value is AWS_KMS, AWS KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the CMK lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the AWS CloudHSM cluster associated with a custom key store.
         public let origin: OriginType?
-        /// A list of signing algorithms that the CMK supports. You cannot use the CMK with other signing algorithms within AWS KMS. This field appears only when the KeyUsage of the CMK is SIGN_VERIFY.
+        /// The signing algorithms that the CMK supports. You cannot use the CMK with other signing algorithms within AWS KMS. This field appears only when the KeyUsage of the CMK is SIGN_VERIFY.
         public let signingAlgorithms: [SigningAlgorithmSpec]?
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. This value is present only for CMKs whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
         public let validTo: TimeStamp?
@@ -2327,7 +2327,7 @@ extension KMS {
         public let ciphertextBlob: Data?
         /// The encryption algorithm that was used to reencrypt the data.
         public let destinationEncryptionAlgorithm: EncryptionAlgorithmSpec?
-        /// Unique identifier of the CMK used to reencrypt the data.
+        /// The Amazon Resource Name (key ARN) of the CMK that was used to reencrypt the data.
         public let keyId: String?
         /// The encryption algorithm that was used to decrypt the ciphertext before it was reencrypted.
         public let sourceEncryptionAlgorithm: EncryptionAlgorithmSpec?
@@ -2453,7 +2453,7 @@ extension KMS {
 
         /// The date and time after which AWS KMS deletes the customer master key (CMK).
         public let deletionDate: TimeStamp?
-        /// The unique identifier of the customer master key (CMK) for which deletion is scheduled.
+        /// The Amazon Resource Name (key ARN) of the CMK whose deletion is scheduled.
         public let keyId: String?
 
         public init(deletionDate: TimeStamp? = nil, keyId: String? = nil) {
@@ -2524,7 +2524,7 @@ extension KMS {
             AWSShapeMember(label: "SigningAlgorithm", required: false, type: .enum)
         ]
 
-        /// The Amazon Resource Name (ARN) of the asymmetric CMK that was used to sign the message.
+        /// The Amazon Resource Name (key ARN) of the asymmetric CMK that was used to sign the message.
         public let keyId: String?
         /// The cryptographic signature that was generated for the message.    When used with the supported RSA signing algorithms, the encoding of this value is defined by PKCS #1 in RFC 8017.   When used with the ECDSA_SHA_256, ECDSA_SHA_384, or ECDSA_SHA_512 signing algorithms, this value is a DER-encoded object as defined by ANS X9.62–2005 and RFC 3279 Section 2.2.3. This is the most commonly used signature format and is appropriate for most uses.    When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let signature: Data?
@@ -2808,7 +2808,7 @@ extension KMS {
             AWSShapeMember(label: "SigningAlgorithm", required: false, type: .enum)
         ]
 
-        /// The unique identifier for the asymmetric CMK that was used to verify the signature.
+        /// The Amazon Resource Name (key ARN) of the asymmetric CMK that was used to verify the signature.
         public let keyId: String?
         /// A Boolean value that indicates whether the signature was verified. A value of True indicates that the Signature was produced by signing the Message with the specified KeyID and SigningAlgorithm. If the signature is not verified, the Verify operation fails with a KMSInvalidSignatureException exception. 
         public let signatureValid: Bool?

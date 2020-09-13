@@ -162,7 +162,92 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum WorldExportJobErrorCode: String, CustomStringConvertible, Codable {
+        case internalserviceerror = "InternalServiceError"
+        case limitexceeded = "LimitExceeded"
+        case resourcenotfound = "ResourceNotFound"
+        case requestthrottled = "RequestThrottled"
+        case invalidinput = "InvalidInput"
+        case accessdenied = "AccessDenied"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorldExportJobStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case running = "Running"
+        case completed = "Completed"
+        case failed = "Failed"
+        case canceling = "Canceling"
+        case canceled = "Canceled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorldGenerationJobErrorCode: String, CustomStringConvertible, Codable {
+        case internalserviceerror = "InternalServiceError"
+        case limitexceeded = "LimitExceeded"
+        case resourcenotfound = "ResourceNotFound"
+        case requestthrottled = "RequestThrottled"
+        case invalidinput = "InvalidInput"
+        case allworldgenerationfailed = "AllWorldGenerationFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorldGenerationJobStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case running = "Running"
+        case completed = "Completed"
+        case failed = "Failed"
+        case partialfailed = "PartialFailed"
+        case canceling = "Canceling"
+        case canceled = "Canceled"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
+
+    public struct BatchDeleteWorldsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "worlds", required: true, type: .list)
+        ]
+
+        /// A list of Amazon Resource Names (arns) that correspond to worlds to delete.
+        public let worlds: [String]
+
+        public init(worlds: [String]) {
+            self.worlds = worlds
+        }
+
+        public func validate(name: String) throws {
+            try self.worlds.forEach {
+                try validate($0, name: "worlds[]", parent: name, max: 1224)
+                try validate($0, name: "worlds[]", parent: name, min: 1)
+                try validate($0, name: "worlds[]", parent: name, pattern: "arn:.*")
+            }
+            try validate(self.worlds, name:"worlds", parent: name, max: 100)
+            try validate(self.worlds, name:"worlds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case worlds = "worlds"
+        }
+    }
+
+    public struct BatchDeleteWorldsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "unprocessedWorlds", required: false, type: .list)
+        ]
+
+        /// A list of unprocessed worlds associated with the call. These worlds were not deleted.
+        public let unprocessedWorlds: [String]?
+
+        public init(unprocessedWorlds: [String]? = nil) {
+            self.unprocessedWorlds = unprocessedWorlds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedWorlds = "unprocessedWorlds"
+        }
+    }
 
     public struct BatchDescribeSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -328,12 +413,74 @@ extension RoboMaker {
 
     }
 
+    public struct CancelWorldExportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world export job to cancel.
+        public let job: String
+
+        public init(job: String) {
+            self.job = job
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.job, name:"job", parent: name, max: 1224)
+            try validate(self.job, name:"job", parent: name, min: 1)
+            try validate(self.job, name:"job", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct CancelWorldExportJobResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct CancelWorldGenerationJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world generator job to cancel.
+        public let job: String
+
+        public init(job: String) {
+            self.job = job
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.job, name:"job", parent: name, max: 1224)
+            try validate(self.job, name:"job", parent: name, min: 1)
+            try validate(self.job, name:"job", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct CancelWorldGenerationJobResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct Compute: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "simulationUnitLimit", required: false, type: .integer)
         ]
 
-        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. 
+        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. The default is 15. 
         public let simulationUnitLimit: Int?
 
         public init(simulationUnitLimit: Int? = nil) {
@@ -355,7 +502,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationUnitLimit", required: false, type: .integer)
         ]
 
-        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. 
+        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. The default is 15. 
         public let simulationUnitLimit: Int?
 
         public init(simulationUnitLimit: Int? = nil) {
@@ -1242,6 +1389,314 @@ extension RoboMaker {
         }
     }
 
+    public struct CreateWorldExportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "iamRole", required: true, type: .string), 
+            AWSShapeMember(label: "outputLocation", required: true, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "worlds", required: true, type: .list)
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
+        public let iamRole: String
+        public let outputLocation: OutputLocation
+        /// A map that contains tag keys and tag values that are attached to the world export job.
+        public let tags: [String: String]?
+        /// A list of Amazon Resource Names (arns) that correspond to worlds to export.
+        public let worlds: [String]
+
+        public init(clientRequestToken: String? = CreateWorldExportJobRequest.idempotencyToken(), iamRole: String, outputLocation: OutputLocation, tags: [String: String]? = nil, worlds: [String]) {
+            self.clientRequestToken = clientRequestToken
+            self.iamRole = iamRole
+            self.outputLocation = outputLocation
+            self.tags = tags
+            self.worlds = worlds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try validate(self.iamRole, name:"iamRole", parent: name, max: 255)
+            try validate(self.iamRole, name:"iamRole", parent: name, min: 1)
+            try validate(self.iamRole, name:"iamRole", parent: name, pattern: "arn:aws:iam::\\w+:role/.*")
+            try self.outputLocation.validate(name: "\(name).outputLocation")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
+            try self.worlds.forEach {
+                try validate($0, name: "worlds[]", parent: name, max: 1224)
+                try validate($0, name: "worlds[]", parent: name, min: 1)
+                try validate($0, name: "worlds[]", parent: name, pattern: "arn:.*")
+            }
+            try validate(self.worlds, name:"worlds", parent: name, max: 100)
+            try validate(self.worlds, name:"worlds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case iamRole = "iamRole"
+            case outputLocation = "outputLocation"
+            case tags = "tags"
+            case worlds = "worlds"
+        }
+    }
+
+    public struct CreateWorldExportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "iamRole", required: false, type: .string), 
+            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the world export job.
+        public let arn: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The time, in milliseconds since the epoch, when the world export job was created.
+        public let createdAt: TimeStamp?
+        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
+        public let failureCode: WorldExportJobErrorCode?
+        /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export. 
+        public let iamRole: String?
+        public let outputLocation: OutputLocation?
+        /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.  
+        public let status: WorldExportJobStatus?
+        /// A map that contains tag keys and tag values that are attached to the world export job.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, failureCode: WorldExportJobErrorCode? = nil, iamRole: String? = nil, outputLocation: OutputLocation? = nil, status: WorldExportJobStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.createdAt = createdAt
+            self.failureCode = failureCode
+            self.iamRole = iamRole
+            self.outputLocation = outputLocation
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case iamRole = "iamRole"
+            case outputLocation = "outputLocation"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateWorldGenerationJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "template", required: true, type: .string), 
+            AWSShapeMember(label: "worldCount", required: true, type: .structure)
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// A map that contains tag keys and tag values that are attached to the world generator job.
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (arn) of the world template describing the worlds you want to create.
+        public let template: String
+        /// Information about the world count.
+        public let worldCount: WorldCount
+
+        public init(clientRequestToken: String? = CreateWorldGenerationJobRequest.idempotencyToken(), tags: [String: String]? = nil, template: String, worldCount: WorldCount) {
+            self.clientRequestToken = clientRequestToken
+            self.tags = tags
+            self.template = template
+            self.worldCount = worldCount
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
+            try validate(self.template, name:"template", parent: name, max: 1224)
+            try validate(self.template, name:"template", parent: name, min: 1)
+            try validate(self.template, name:"template", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case tags = "tags"
+            case template = "template"
+            case worldCount = "worldCount"
+        }
+    }
+
+    public struct CreateWorldGenerationJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "template", required: false, type: .string), 
+            AWSShapeMember(label: "worldCount", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the world generator job.
+        public let arn: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The time, in milliseconds since the epoch, when the world generator job was created.
+        public let createdAt: TimeStamp?
+        /// The failure code of the world generator job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
+        public let failureCode: WorldGenerationJobErrorCode?
+        /// The status of the world generator job.  Pending  The world generator job request is pending.  Running  The world generator job is running.   Completed  The world generator job completed.   Failed  The world generator job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generator job was cancelled.  Canceling  The world generator job is being cancelled.  
+        public let status: WorldGenerationJobStatus?
+        /// A map that contains tag keys and tag values that are attached to the world generator job.
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (arn) of the world template.
+        public let template: String?
+        /// Information about the world count. 
+        public let worldCount: WorldCount?
+
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, failureCode: WorldGenerationJobErrorCode? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.createdAt = createdAt
+            self.failureCode = failureCode
+            self.status = status
+            self.tags = tags
+            self.template = template
+            self.worldCount = worldCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case status = "status"
+            case tags = "tags"
+            case template = "template"
+            case worldCount = "worldCount"
+        }
+    }
+
+    public struct CreateWorldTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "templateBody", required: false, type: .string), 
+            AWSShapeMember(label: "templateLocation", required: false, type: .structure)
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the world template.
+        public let name: String?
+        /// A map that contains tag keys and tag values that are attached to the world template.
+        public let tags: [String: String]?
+        /// The world template body.
+        public let templateBody: String?
+        /// The location of the world template.
+        public let templateLocation: TemplateLocation?
+
+        public init(clientRequestToken: String? = nil, name: String? = nil, tags: [String: String]? = nil, templateBody: String? = nil, templateLocation: TemplateLocation? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.tags = tags
+            self.templateBody = templateBody
+            self.templateLocation = templateLocation
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: ".*")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
+            try validate(self.templateBody, name:"templateBody", parent: name, max: 262144)
+            try validate(self.templateBody, name:"templateBody", parent: name, min: 1)
+            try validate(self.templateBody, name:"templateBody", parent: name, pattern: "[\\S\\s]+")
+            try self.templateLocation?.validate(name: "\(name).templateLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case name = "name"
+            case tags = "tags"
+            case templateBody = "templateBody"
+            case templateLocation = "templateLocation"
+        }
+    }
+
+    public struct CreateWorldTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the world template.
+        public let arn: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The time, in milliseconds since the epoch, when the world template was created.
+        public let createdAt: TimeStamp?
+        /// The name of the world template.
+        public let name: String?
+        /// A map that contains tag keys and tag values that are attached to the world template.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.createdAt = createdAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
     public struct DataSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -1445,6 +1900,37 @@ extension RoboMaker {
     }
 
     public struct DeleteSimulationApplicationResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteWorldTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "template", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world template you want to delete.
+        public let template: String
+
+        public init(template: String) {
+            self.template = template
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.template, name:"template", parent: name, max: 1224)
+            try validate(self.template, name:"template", parent: name, min: 1)
+            try validate(self.template, name:"template", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case template = "template"
+        }
+    }
+
+    public struct DeleteWorldTemplateResponse: AWSShape {
 
 
         public init() {
@@ -2350,6 +2836,300 @@ extension RoboMaker {
         }
     }
 
+    public struct DescribeWorldExportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world export job to describe.
+        public let job: String
+
+        public init(job: String) {
+            self.job = job
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.job, name:"job", parent: name, max: 1224)
+            try validate(self.job, name:"job", parent: name, min: 1)
+            try validate(self.job, name:"job", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct DescribeWorldExportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "iamRole", required: false, type: .string), 
+            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "worlds", required: false, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the world export job.
+        public let arn: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The time, in milliseconds since the epoch, when the world export job was created.
+        public let createdAt: TimeStamp?
+        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
+        public let failureCode: WorldExportJobErrorCode?
+        /// The reason why the world export job failed.
+        public let failureReason: String?
+        /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
+        public let iamRole: String?
+        public let outputLocation: OutputLocation?
+        /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode and failureReason for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.  
+        public let status: WorldExportJobStatus?
+        /// A map that contains tag keys and tag values that are attached to the world export job.
+        public let tags: [String: String]?
+        /// A list of Amazon Resource Names (arns) that correspond to worlds to be exported.
+        public let worlds: [String]?
+
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, failureCode: WorldExportJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, outputLocation: OutputLocation? = nil, status: WorldExportJobStatus? = nil, tags: [String: String]? = nil, worlds: [String]? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.createdAt = createdAt
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.iamRole = iamRole
+            self.outputLocation = outputLocation
+            self.status = status
+            self.tags = tags
+            self.worlds = worlds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case iamRole = "iamRole"
+            case outputLocation = "outputLocation"
+            case status = "status"
+            case tags = "tags"
+            case worlds = "worlds"
+        }
+    }
+
+    public struct DescribeWorldGenerationJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world generation job to describe.
+        public let job: String
+
+        public init(job: String) {
+            self.job = job
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.job, name:"job", parent: name, max: 1224)
+            try validate(self.job, name:"job", parent: name, min: 1)
+            try validate(self.job, name:"job", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct DescribeWorldGenerationJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "finishedWorldsSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "template", required: false, type: .string), 
+            AWSShapeMember(label: "worldCount", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the world generation job.
+        public let arn: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The time, in milliseconds since the epoch, when the world generation job was created.
+        public let createdAt: TimeStamp?
+        /// The failure code of the world generation job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
+        public let failureCode: WorldGenerationJobErrorCode?
+        /// The reason why the world generation job failed.
+        public let failureReason: String?
+        /// Summary information about finished worlds.
+        public let finishedWorldsSummary: FinishedWorldsSummary?
+        /// The status of the world generation job:  Pending  The world generation job request is pending.  Running  The world generation job is running.   Completed  The world generation job completed.   Failed  The world generation job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generation job was cancelled.  Canceling  The world generation job is being cancelled.  
+        public let status: WorldGenerationJobStatus?
+        /// A map that contains tag keys and tag values that are attached to the world generation job.
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (arn) of the world template.
+        public let template: String?
+        /// Information about the world count.
+        public let worldCount: WorldCount?
+
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, failureCode: WorldGenerationJobErrorCode? = nil, failureReason: String? = nil, finishedWorldsSummary: FinishedWorldsSummary? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.createdAt = createdAt
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.finishedWorldsSummary = finishedWorldsSummary
+            self.status = status
+            self.tags = tags
+            self.template = template
+            self.worldCount = worldCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case finishedWorldsSummary = "finishedWorldsSummary"
+            case status = "status"
+            case tags = "tags"
+            case template = "template"
+            case worldCount = "worldCount"
+        }
+    }
+
+    public struct DescribeWorldRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "world", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world you want to describe.
+        public let world: String
+
+        public init(world: String) {
+            self.world = world
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.world, name:"world", parent: name, max: 1224)
+            try validate(self.world, name:"world", parent: name, min: 1)
+            try validate(self.world, name:"world", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case world = "world"
+        }
+    }
+
+    public struct DescribeWorldResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "generationJob", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "template", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the world was created.
+        public let createdAt: TimeStamp?
+        /// The Amazon Resource Name (arn) of the world generation job that generated the world.
+        public let generationJob: String?
+        /// A map that contains tag keys and tag values that are attached to the world.
+        public let tags: [String: String]?
+        /// The world template.
+        public let template: String?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, generationJob: String? = nil, tags: [String: String]? = nil, template: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.generationJob = generationJob
+            self.tags = tags
+            self.template = template
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case generationJob = "generationJob"
+            case tags = "tags"
+            case template = "template"
+        }
+    }
+
+    public struct DescribeWorldTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "template", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world template you want to describe.
+        public let template: String
+
+        public init(template: String) {
+            self.template = template
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.template, name:"template", parent: name, max: 1224)
+            try validate(self.template, name:"template", parent: name, min: 1)
+            try validate(self.template, name:"template", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case template = "template"
+        }
+    }
+
+    public struct DescribeWorldTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the world template.
+        public let arn: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The time, in milliseconds since the epoch, when the world template was created.
+        public let createdAt: TimeStamp?
+        /// The time, in milliseconds since the epoch, when the world template was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the world template.
+        public let name: String?
+        /// A map that contains tag keys and tag values that are attached to the world template.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
     public struct FailedCreateSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failedAt", required: false, type: .timestamp), 
@@ -2379,6 +3159,28 @@ extension RoboMaker {
             case failureCode = "failureCode"
             case failureReason = "failureReason"
             case request = "request"
+        }
+    }
+
+    public struct FailureSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failures", required: false, type: .list), 
+            AWSShapeMember(label: "totalFailureCount", required: false, type: .integer)
+        ]
+
+        /// The worlds that failed.
+        public let failures: [WorldFailure]?
+        /// The total number of failures.
+        public let totalFailureCount: Int?
+
+        public init(failures: [WorldFailure]? = nil, totalFailureCount: Int? = nil) {
+            self.failures = failures
+            self.totalFailureCount = totalFailureCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case totalFailureCount = "totalFailureCount"
         }
     }
 
@@ -2414,6 +3216,33 @@ extension RoboMaker {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case values = "values"
+        }
+    }
+
+    public struct FinishedWorldsSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failureSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "finishedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "succeededWorlds", required: false, type: .list)
+        ]
+
+        /// Information about worlds that failed.
+        public let failureSummary: FailureSummary?
+        /// The total number of finished worlds.
+        public let finishedCount: Int?
+        /// A list of worlds that succeeded.
+        public let succeededWorlds: [String]?
+
+        public init(failureSummary: FailureSummary? = nil, finishedCount: Int? = nil, succeededWorlds: [String]? = nil) {
+            self.failureSummary = failureSummary
+            self.finishedCount = finishedCount
+            self.succeededWorlds = succeededWorlds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureSummary = "failureSummary"
+            case finishedCount = "finishedCount"
+            case succeededWorlds = "succeededWorlds"
         }
     }
 
@@ -2456,6 +3285,54 @@ extension RoboMaker {
             case lastDeploymentStatus = "lastDeploymentStatus"
             case lastDeploymentTime = "lastDeploymentTime"
             case name = "name"
+        }
+    }
+
+    public struct GetWorldTemplateBodyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "generationJob", required: false, type: .string), 
+            AWSShapeMember(label: "template", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world generator job.
+        public let generationJob: String?
+        /// The Amazon Resource Name (arn) of the world template.
+        public let template: String?
+
+        public init(generationJob: String? = nil, template: String? = nil) {
+            self.generationJob = generationJob
+            self.template = template
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.generationJob, name:"generationJob", parent: name, max: 1224)
+            try validate(self.generationJob, name:"generationJob", parent: name, min: 1)
+            try validate(self.generationJob, name:"generationJob", parent: name, pattern: "arn:.*")
+            try validate(self.template, name:"template", parent: name, max: 1224)
+            try validate(self.template, name:"template", parent: name, min: 1)
+            try validate(self.template, name:"template", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generationJob = "generationJob"
+            case template = "template"
+        }
+    }
+
+    public struct GetWorldTemplateBodyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "templateBody", required: false, type: .string)
+        ]
+
+        /// The world template body.
+        public let templateBody: String?
+
+        public init(templateBody: String? = nil) {
+            self.templateBody = templateBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateBody = "templateBody"
         }
     }
 
@@ -2525,7 +3402,7 @@ extension RoboMaker {
         public let filters: [Filter]?
         /// When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListDeploymentJobs returns up to 200 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListDeploymentJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2560,7 +3437,7 @@ extension RoboMaker {
 
         /// A list of deployment jobs that meet the criteria of the request.
         public let deploymentJobs: [DeploymentJob]?
-        /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListDeploymentJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(deploymentJobs: [DeploymentJob]? = nil, nextToken: String? = nil) {
@@ -2585,7 +3462,7 @@ extension RoboMaker {
         public let filters: [Filter]?
         /// When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListFleets returns up to 200 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListFleets request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2620,7 +3497,7 @@ extension RoboMaker {
 
         /// A list of fleet details meeting the request criteria.
         public let fleetDetails: [Fleet]?
-        /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListFleets request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(fleetDetails: [Fleet]? = nil, nextToken: String? = nil) {
@@ -2646,7 +3523,7 @@ extension RoboMaker {
         public let filters: [Filter]?
         /// When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListRobotApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// The version qualifier of the robot application.
         public let versionQualifier: String?
@@ -2686,7 +3563,7 @@ extension RoboMaker {
             AWSShapeMember(label: "robotApplicationSummaries", required: false, type: .list)
         ]
 
-        /// The nextToken value to include in a future ListRobotApplications request. When the results of a ListRobotApplications request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of robot application summaries that meet the criteria of the request.
         public let robotApplicationSummaries: [RobotApplicationSummary]?
@@ -2713,7 +3590,7 @@ extension RoboMaker {
         public let filters: [Filter]?
         /// When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListRobots returns up to 200 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2746,7 +3623,7 @@ extension RoboMaker {
             AWSShapeMember(label: "robots", required: false, type: .list)
         ]
 
-        /// The nextToken value to include in a future ListRobots request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of robots that meet the criteria of the request.
         public let robots: [Robot]?
@@ -2774,7 +3651,7 @@ extension RoboMaker {
         public let filters: [Filter]?
         /// When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListSimulationApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// The version qualifier of the simulation application.
         public let versionQualifier: String?
@@ -2814,7 +3691,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationApplicationSummaries", required: false, type: .list)
         ]
 
-        /// The nextToken value to include in a future ListSimulationApplications request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of simulation application summaries that meet the criteria of the request.
         public let simulationApplicationSummaries: [SimulationApplicationSummary]?
@@ -2841,7 +3718,7 @@ extension RoboMaker {
         public let filters: [Filter]?
         /// When this parameter is used, ListSimulationJobBatches only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobBatches request with the returned nextToken value. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListSimulationJobBatches request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2874,7 +3751,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationJobBatchSummaries", required: false, type: .list)
         ]
 
-        /// The nextToken value to include in a future ListSimulationJobBatches request. When the results of a ListSimulationJobBatches request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of simulation job batch summaries.
         public let simulationJobBatchSummaries: [SimulationJobBatchSummary]?
@@ -2901,7 +3778,7 @@ extension RoboMaker {
         public let filters: [Filter]?
         /// When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListSimulationJobs returns up to 1000 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListSimulationJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2934,7 +3811,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationJobSummaries", required: true, type: .list)
         ]
 
-        /// The nextToken value to include in a future ListSimulationJobs request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of simulation job summaries that meet the criteria of the request.
         public let simulationJobSummaries: [SimulationJobSummary]
@@ -2987,6 +3864,236 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct ListWorldExportJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// Optional filters to limit results. You can use generationJobId and templateId.
+        public let filters: [Filter]?
+        /// When this parameter is used, ListWorldExportJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldExportJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldExportJobs returns up to 100 results and a nextToken value if applicable. 
+        public let maxResults: Int?
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.filters, name:"filters", parent: name, max: 1)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListWorldExportJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "worldExportJobSummaries", required: true, type: .list)
+        ]
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+        public let nextToken: String?
+        /// Summary information for world export jobs.
+        public let worldExportJobSummaries: [WorldExportJobSummary]
+
+        public init(nextToken: String? = nil, worldExportJobSummaries: [WorldExportJobSummary]) {
+            self.nextToken = nextToken
+            self.worldExportJobSummaries = worldExportJobSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case worldExportJobSummaries = "worldExportJobSummaries"
+        }
+    }
+
+    public struct ListWorldGenerationJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// Optional filters to limit results. You can use status and templateId.
+        public let filters: [Filter]?
+        /// When this parameter is used, ListWorldGeneratorJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldGeneratorJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldGeneratorJobs returns up to 100 results and a nextToken value if applicable. 
+        public let maxResults: Int?
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGenerationJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.filters, name:"filters", parent: name, max: 1)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListWorldGenerationJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "worldGenerationJobSummaries", required: true, type: .list)
+        ]
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGeneratorJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+        public let nextToken: String?
+        /// Summary information for world generator jobs.
+        public let worldGenerationJobSummaries: [WorldGenerationJobSummary]
+
+        public init(nextToken: String? = nil, worldGenerationJobSummaries: [WorldGenerationJobSummary]) {
+            self.nextToken = nextToken
+            self.worldGenerationJobSummaries = worldGenerationJobSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case worldGenerationJobSummaries = "worldGenerationJobSummaries"
+        }
+    }
+
+    public struct ListWorldTemplatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// When this parameter is used, ListWorldTemplates only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldTemplates request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldTemplates returns up to 100 results and a nextToken value if applicable. 
+        public let maxResults: Int?
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListWorldTemplatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "templateSummaries", required: false, type: .list)
+        ]
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+        public let nextToken: String?
+        /// Summary information for templates.
+        public let templateSummaries: [TemplateSummary]?
+
+        public init(nextToken: String? = nil, templateSummaries: [TemplateSummary]? = nil) {
+            self.nextToken = nextToken
+            self.templateSummaries = templateSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case templateSummaries = "templateSummaries"
+        }
+    }
+
+    public struct ListWorldsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// Optional filters to limit results. You can use status.
+        public let filters: [Filter]?
+        /// When this parameter is used, ListWorlds only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorlds request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorlds returns up to 100 results and a nextToken value if applicable. 
+        public let maxResults: Int?
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.filters, name:"filters", parent: name, max: 1)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListWorldsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "worldSummaries", required: false, type: .list)
+        ]
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+        public let nextToken: String?
+        /// Summary information for worlds.
+        public let worldSummaries: [WorldSummary]?
+
+        public init(nextToken: String? = nil, worldSummaries: [WorldSummary]? = nil) {
+            self.nextToken = nextToken
+            self.worldSummaries = worldSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case worldSummaries = "worldSummaries"
         }
     }
 
@@ -3530,7 +4637,8 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "application", required: true, type: .string), 
             AWSShapeMember(label: "applicationVersion", required: false, type: .string), 
-            AWSShapeMember(label: "launchConfig", required: true, type: .structure)
+            AWSShapeMember(label: "launchConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "worldConfigs", required: false, type: .list)
         ]
 
         /// The application information for the simulation application.
@@ -3539,11 +4647,14 @@ extension RoboMaker {
         public let applicationVersion: String?
         /// The launch configuration for the simulation application.
         public let launchConfig: LaunchConfig
+        /// A list of world configurations.
+        public let worldConfigs: [WorldConfig]?
 
-        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig) {
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, worldConfigs: [WorldConfig]? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
+            self.worldConfigs = worldConfigs
         }
 
         public func validate(name: String) throws {
@@ -3554,12 +4665,18 @@ extension RoboMaker {
             try validate(self.applicationVersion, name:"applicationVersion", parent: name, min: 1)
             try validate(self.applicationVersion, name:"applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
             try self.launchConfig.validate(name: "\(name).launchConfig")
+            try self.worldConfigs?.forEach {
+                try $0.validate(name: "\(name).worldConfigs[]")
+            }
+            try validate(self.worldConfigs, name:"worldConfigs", parent: name, max: 1)
+            try validate(self.worldConfigs, name:"worldConfigs", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case application = "application"
             case applicationVersion = "applicationVersion"
             case launchConfig = "launchConfig"
+            case worldConfigs = "worldConfigs"
         }
     }
 
@@ -4044,6 +5161,7 @@ extension RoboMaker {
             try self.createSimulationJobRequests.forEach {
                 try $0.validate(name: "\(name).createSimulationJobRequests[]")
             }
+            try validate(self.createSimulationJobRequests, name:"createSimulationJobRequests", parent: name, max: 1000)
             try validate(self.createSimulationJobRequests, name:"createSimulationJobRequests", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
@@ -4255,6 +5373,69 @@ extension RoboMaker {
         public init() {
         }
 
+    }
+
+    public struct TemplateLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "s3Key", required: true, type: .string)
+        ]
+
+        /// The Amazon S3 bucket name.
+        public let s3Bucket: String
+        /// The list of S3 keys identifying the data source files.
+        public let s3Key: String
+
+        public init(s3Bucket: String, s3Key: String) {
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 63)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, min: 3)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "[a-z0-9][a-z0-9.\\-]*[a-z0-9]")
+            try validate(self.s3Key, name:"s3Key", parent: name, max: 1024)
+            try validate(self.s3Key, name:"s3Key", parent: name, min: 1)
+            try validate(self.s3Key, name:"s3Key", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3Key = "s3Key"
+        }
+    }
+
+    public struct TemplateSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the template.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the template was created.
+        public let createdAt: TimeStamp?
+        /// The time, in milliseconds since the epoch, when the template was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the template.
+        public let name: String?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+        }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -4502,6 +5683,83 @@ extension RoboMaker {
         }
     }
 
+    public struct UpdateWorldTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "template", required: true, type: .string), 
+            AWSShapeMember(label: "templateBody", required: false, type: .string), 
+            AWSShapeMember(label: "templateLocation", required: false, type: .structure)
+        ]
+
+        /// The name of the template.
+        public let name: String?
+        /// The Amazon Resource Name (arn) of the world template to update.
+        public let template: String
+        /// The world template body.
+        public let templateBody: String?
+        /// The location of the world template.
+        public let templateLocation: TemplateLocation?
+
+        public init(name: String? = nil, template: String, templateBody: String? = nil, templateLocation: TemplateLocation? = nil) {
+            self.name = name
+            self.template = template
+            self.templateBody = templateBody
+            self.templateLocation = templateLocation
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: ".*")
+            try validate(self.template, name:"template", parent: name, max: 1224)
+            try validate(self.template, name:"template", parent: name, min: 1)
+            try validate(self.template, name:"template", parent: name, pattern: "arn:.*")
+            try validate(self.templateBody, name:"templateBody", parent: name, max: 262144)
+            try validate(self.templateBody, name:"templateBody", parent: name, min: 1)
+            try validate(self.templateBody, name:"templateBody", parent: name, pattern: "[\\S\\s]+")
+            try self.templateLocation?.validate(name: "\(name).templateLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case template = "template"
+            case templateBody = "templateBody"
+            case templateLocation = "templateLocation"
+        }
+    }
+
+    public struct UpdateWorldTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (arn) of the world template.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the world template was created.
+        public let createdAt: TimeStamp?
+        /// The time, in milliseconds since the epoch, when the world template was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the world template.
+        public let name: String?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+        }
+    }
+
     public struct VPCConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assignPublicIp", required: false, type: .boolean), 
@@ -4575,6 +5833,189 @@ extension RoboMaker {
             case securityGroups = "securityGroups"
             case subnets = "subnets"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct WorldConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "world", required: false, type: .string)
+        ]
+
+        /// The world generated by Simulation WorldForge.
+        public let world: String?
+
+        public init(world: String? = nil) {
+            self.world = world
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.world, name:"world", parent: name, max: 1224)
+            try validate(self.world, name:"world", parent: name, min: 1)
+            try validate(self.world, name:"world", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case world = "world"
+        }
+    }
+
+    public struct WorldCount: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "floorplanCount", required: false, type: .integer), 
+            AWSShapeMember(label: "interiorCountPerFloorplan", required: false, type: .integer)
+        ]
+
+        /// The number of unique floorplans.
+        public let floorplanCount: Int?
+        /// The number of unique interiors per floorplan.
+        public let interiorCountPerFloorplan: Int?
+
+        public init(floorplanCount: Int? = nil, interiorCountPerFloorplan: Int? = nil) {
+            self.floorplanCount = floorplanCount
+            self.interiorCountPerFloorplan = interiorCountPerFloorplan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case floorplanCount = "floorplanCount"
+            case interiorCountPerFloorplan = "interiorCountPerFloorplan"
+        }
+    }
+
+    public struct WorldExportJobSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "worlds", required: false, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the world export job.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the world export job was created.
+        public let createdAt: TimeStamp?
+        /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.  
+        public let status: WorldExportJobStatus?
+        /// A list of worlds.
+        public let worlds: [String]?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, status: WorldExportJobStatus? = nil, worlds: [String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.status = status
+            self.worlds = worlds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case status = "status"
+            case worlds = "worlds"
+        }
+    }
+
+    public struct WorldFailure: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureCount", required: false, type: .integer), 
+            AWSShapeMember(label: "sampleFailureReason", required: false, type: .string)
+        ]
+
+        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
+        public let failureCode: WorldGenerationJobErrorCode?
+        /// The number of failed worlds.
+        public let failureCount: Int?
+        /// The sample reason why the world failed. World errors are aggregated. A sample is used as the sampleFailureReason. 
+        public let sampleFailureReason: String?
+
+        public init(failureCode: WorldGenerationJobErrorCode? = nil, failureCount: Int? = nil, sampleFailureReason: String? = nil) {
+            self.failureCode = failureCode
+            self.failureCount = failureCount
+            self.sampleFailureReason = sampleFailureReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCode = "failureCode"
+            case failureCount = "failureCount"
+            case sampleFailureReason = "sampleFailureReason"
+        }
+    }
+
+    public struct WorldGenerationJobSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "failedWorldCount", required: false, type: .integer), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "succeededWorldCount", required: false, type: .integer), 
+            AWSShapeMember(label: "template", required: false, type: .string), 
+            AWSShapeMember(label: "worldCount", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the world generator job.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the world generator job was created.
+        public let createdAt: TimeStamp?
+        /// The number of worlds that failed.
+        public let failedWorldCount: Int?
+        /// The status of the world generator job:  Pending  The world generator job request is pending.  Running  The world generator job is running.   Completed  The world generator job completed.   Failed  The world generator job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generator job was cancelled.  Canceling  The world generator job is being cancelled.  
+        public let status: WorldGenerationJobStatus?
+        /// The number of worlds that were generated.
+        public let succeededWorldCount: Int?
+        /// The Amazon Resource Name (arn) of the world template.
+        public let template: String?
+        /// Information about the world count.
+        public let worldCount: WorldCount?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, failedWorldCount: Int? = nil, status: WorldGenerationJobStatus? = nil, succeededWorldCount: Int? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.failedWorldCount = failedWorldCount
+            self.status = status
+            self.succeededWorldCount = succeededWorldCount
+            self.template = template
+            self.worldCount = worldCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case failedWorldCount = "failedWorldCount"
+            case status = "status"
+            case succeededWorldCount = "succeededWorldCount"
+            case template = "template"
+            case worldCount = "worldCount"
+        }
+    }
+
+    public struct WorldSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "generationJob", required: false, type: .string), 
+            AWSShapeMember(label: "template", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the world.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the world was created.
+        public let createdAt: TimeStamp?
+        /// The Amazon Resource Name (arn) of the world generation job.
+        public let generationJob: String?
+        /// The Amazon Resource Name (arn) of the world template.
+        public let template: String?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, generationJob: String? = nil, template: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.generationJob = generationJob
+            self.template = template
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case generationJob = "generationJob"
+            case template = "template"
         }
     }
 }

@@ -45,6 +45,11 @@ public struct ElasticsearchService {
     
     //MARK: API Calls
 
+    ///  Allows the destination domain owner to accept an inbound cross-cluster search connection request.
+    public func acceptInboundCrossClusterSearchConnection(_ input: AcceptInboundCrossClusterSearchConnectionRequest) -> EventLoopFuture<AcceptInboundCrossClusterSearchConnectionResponse> {
+        return client.send(operation: "AcceptInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{ConnectionId}/accept", httpMethod: "PUT", input: input)
+    }
+
     ///  Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See  Tagging Amazon Elasticsearch Service Domains for more information.
     @discardableResult public func addTags(_ input: AddTagsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: "POST", input: input)
@@ -65,6 +70,11 @@ public struct ElasticsearchService {
         return client.send(operation: "CreateElasticsearchDomain", path: "/2015-01-01/es/domain", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a new cross-cluster search connection from a source domain to a destination domain.
+    public func createOutboundCrossClusterSearchConnection(_ input: CreateOutboundCrossClusterSearchConnectionRequest) -> EventLoopFuture<CreateOutboundCrossClusterSearchConnectionResponse> {
+        return client.send(operation: "CreateOutboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/outboundConnection", httpMethod: "POST", input: input)
+    }
+
     ///  Create a package for use with Amazon ES domains.
     public func createPackage(_ input: CreatePackageRequest) -> EventLoopFuture<CreatePackageResponse> {
         return client.send(operation: "CreatePackage", path: "/2015-01-01/packages", httpMethod: "POST", input: input)
@@ -78,6 +88,16 @@ public struct ElasticsearchService {
     ///  Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
     @discardableResult public func deleteElasticsearchServiceRole() -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: "DELETE")
+    }
+
+    ///  Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
+    public func deleteInboundCrossClusterSearchConnection(_ input: DeleteInboundCrossClusterSearchConnectionRequest) -> EventLoopFuture<DeleteInboundCrossClusterSearchConnectionResponse> {
+        return client.send(operation: "DeleteInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{ConnectionId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Allows the source domain owner to delete an existing outbound cross-cluster search connection.
+    public func deleteOutboundCrossClusterSearchConnection(_ input: DeleteOutboundCrossClusterSearchConnectionRequest) -> EventLoopFuture<DeleteOutboundCrossClusterSearchConnectionResponse> {
+        return client.send(operation: "DeleteOutboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/outboundConnection/{ConnectionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete the package.
@@ -103,6 +123,16 @@ public struct ElasticsearchService {
     ///   Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the  DomainName  to know what Limits are supported for modifying. 
     public func describeElasticsearchInstanceTypeLimits(_ input: DescribeElasticsearchInstanceTypeLimitsRequest) -> EventLoopFuture<DescribeElasticsearchInstanceTypeLimitsResponse> {
         return client.send(operation: "DescribeElasticsearchInstanceTypeLimits", path: "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists all the inbound cross-cluster search connections for a destination domain.
+    public func describeInboundCrossClusterSearchConnections(_ input: DescribeInboundCrossClusterSearchConnectionsRequest) -> EventLoopFuture<DescribeInboundCrossClusterSearchConnectionsResponse> {
+        return client.send(operation: "DescribeInboundCrossClusterSearchConnections", path: "/2015-01-01/es/ccs/inboundConnection/search", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all the outbound cross-cluster search connections for a source domain.
+    public func describeOutboundCrossClusterSearchConnections(_ input: DescribeOutboundCrossClusterSearchConnectionsRequest) -> EventLoopFuture<DescribeOutboundCrossClusterSearchConnectionsResponse> {
+        return client.send(operation: "DescribeOutboundCrossClusterSearchConnections", path: "/2015-01-01/es/ccs/outboundConnection/search", httpMethod: "POST", input: input)
     }
 
     ///  Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
@@ -173,6 +203,11 @@ public struct ElasticsearchService {
     ///  Allows you to purchase reserved Elasticsearch instances.
     public func purchaseReservedElasticsearchInstanceOffering(_ input: PurchaseReservedElasticsearchInstanceOfferingRequest) -> EventLoopFuture<PurchaseReservedElasticsearchInstanceOfferingResponse> {
         return client.send(operation: "PurchaseReservedElasticsearchInstanceOffering", path: "/2015-01-01/es/purchaseReservedInstanceOffering", httpMethod: "POST", input: input)
+    }
+
+    ///  Allows the destination domain owner to reject an inbound cross-cluster search connection request.
+    public func rejectInboundCrossClusterSearchConnection(_ input: RejectInboundCrossClusterSearchConnectionRequest) -> EventLoopFuture<RejectInboundCrossClusterSearchConnectionResponse> {
+        return client.send(operation: "RejectInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{ConnectionId}/reject", httpMethod: "PUT", input: input)
     }
 
     ///  Removes the specified set of tags from the specified Elasticsearch domain.

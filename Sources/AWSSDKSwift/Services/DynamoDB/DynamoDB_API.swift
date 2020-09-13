@@ -61,7 +61,7 @@ public struct DynamoDB {
         return client.send(operation: "CreateBackup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions.   This method only applies to Version 2017.11.29 of global tables.  If you want to add a new replica table to a global table, each of the following conditions must be true:   The table must have the same primary key as all of the other replicas.   The table must have the same name as all of the other replicas.   The table must have DynamoDB Streams enabled, with the stream containing both the new and the old images of the item.   None of the replica tables in the global table can contain any data.    If global secondary indexes are specified, then the following conditions must also be met:     The global secondary indexes must have the same name.     The global secondary indexes must have the same hash key and sort key (if present).      Write capacity settings should be set consistently across your replica tables and secondary indexes. DynamoDB strongly recommends enabling auto scaling to manage the write capacity settings for all of your global tables replicas and indexes.   If you prefer to manage write capacity settings manually, you should provision equal replicated write capacity units to your replica tables. You should also provision equal replicated write capacity units to matching secondary indexes across your global table.  
+    ///  Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions.   This operation only applies to Version 2017.11.29 of global tables.  If you want to add a new replica table to a global table, each of the following conditions must be true:   The table must have the same primary key as all of the other replicas.   The table must have the same name as all of the other replicas.   The table must have DynamoDB Streams enabled, with the stream containing both the new and the old images of the item.   None of the replica tables in the global table can contain any data.    If global secondary indexes are specified, then the following conditions must also be met:     The global secondary indexes must have the same name.     The global secondary indexes must have the same hash key and sort key (if present).     If local secondary indexes are specified, then the following conditions must also be met:     The local secondary indexes must have the same name.     The local secondary indexes must have the same hash key and sort key (if present).      Write capacity settings should be set consistently across your replica tables and secondary indexes. DynamoDB strongly recommends enabling auto scaling to manage the write capacity settings for all of your global tables replicas and indexes.   If you prefer to manage write capacity settings manually, you should provision equal replicated write capacity units to your replica tables. You should also provision equal replicated write capacity units to matching secondary indexes across your global table.  
     public func createGlobalTable(_ input: CreateGlobalTableInput) -> EventLoopFuture<CreateGlobalTableOutput> {
         return client.send(operation: "CreateGlobalTable", path: "/", httpMethod: "POST", input: input)
     }
@@ -106,12 +106,12 @@ public struct DynamoDB {
         return client.send(operation: "DescribeEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the specified global table.  This method only applies to Version 2017.11.29 of global tables. 
+    ///  Returns information about the specified global table.  This operation only applies to Version 2017.11.29 of global tables. If you are using global tables Version 2019.11.21 you can use DescribeTable instead. 
     public func describeGlobalTable(_ input: DescribeGlobalTableInput) -> EventLoopFuture<DescribeGlobalTableOutput> {
         return client.send(operation: "DescribeGlobalTable", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes Region-specific settings for a global table.  This method only applies to Version 2017.11.29 of global tables. 
+    ///  Describes Region-specific settings for a global table.  This operation only applies to Version 2017.11.29 of global tables. 
     public func describeGlobalTableSettings(_ input: DescribeGlobalTableSettingsInput) -> EventLoopFuture<DescribeGlobalTableSettingsOutput> {
         return client.send(operation: "DescribeGlobalTableSettings", path: "/", httpMethod: "POST", input: input)
     }
@@ -126,7 +126,7 @@ public struct DynamoDB {
         return client.send(operation: "DescribeTable", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes auto scaling settings across replicas of the global table at once.  This method only applies to Version 2019.11.21 of global tables. 
+    ///  Describes auto scaling settings across replicas of the global table at once.  This operation only applies to Version 2019.11.21 of global tables. 
     public func describeTableReplicaAutoScaling(_ input: DescribeTableReplicaAutoScalingInput) -> EventLoopFuture<DescribeTableReplicaAutoScalingOutput> {
         return client.send(operation: "DescribeTableReplicaAutoScaling", path: "/", httpMethod: "POST", input: input)
     }
@@ -151,7 +151,7 @@ public struct DynamoDB {
         return client.send(operation: "ListContributorInsights", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all global tables that have a replica in the specified Region.  This method only applies to Version 2017.11.29 of global tables. 
+    ///  Lists all global tables that have a replica in the specified Region.  This operation only applies to Version 2017.11.29 of global tables. 
     public func listGlobalTables(_ input: ListGlobalTablesInput) -> EventLoopFuture<ListGlobalTablesOutput> {
         return client.send(operation: "ListGlobalTables", path: "/", httpMethod: "POST", input: input)
     }
@@ -166,7 +166,7 @@ public struct DynamoDB {
         return client.send(operation: "ListTagsOfResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter.  This topic provides general information about the PutItem API. For information on how to call the PutItem API using the AWS SDK in specific languages, see the following:     PutItem in the AWS Command Line Interface      PutItem in the AWS SDK for .NET      PutItem in the AWS SDK for C++      PutItem in the AWS SDK for Go      PutItem in the AWS SDK for Java      PutItem in the AWS SDK for JavaScript      PutItem in the AWS SDK for PHP V3      PutItem in the AWS SDK for Python      PutItem in the AWS SDK for Ruby V2     When you add an item, the primary key attributes are the only required attributes. Attribute values cannot be null. String and Binary type attributes must have lengths greater than zero. Set type attributes cannot be empty. Requests with empty values will be rejected with a ValidationException exception.  To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists.  For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer Guide.
+    ///  Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter.  This topic provides general information about the PutItem API. For information on how to call the PutItem API using the AWS SDK in specific languages, see the following:     PutItem in the AWS Command Line Interface      PutItem in the AWS SDK for .NET      PutItem in the AWS SDK for C++      PutItem in the AWS SDK for Go      PutItem in the AWS SDK for Java      PutItem in the AWS SDK for JavaScript      PutItem in the AWS SDK for PHP V3      PutItem in the AWS SDK for Python      PutItem in the AWS SDK for Ruby V2     When you add an item, the primary key attributes are the only required attributes. Attribute values cannot be null. Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty.  Invalid Requests with empty values will be rejected with a ValidationException exception.  To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists.  For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer Guide.
     public func putItem(_ input: PutItemInput) -> EventLoopFuture<PutItemOutput> {
         return client.send(operation: "PutItem", path: "/", httpMethod: "POST", input: input)
     }
@@ -241,7 +241,7 @@ public struct DynamoDB {
         return client.send(operation: "UpdateTable", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates auto scaling settings on your global tables at once.  This method only applies to Version 2019.11.21 of global tables. 
+    ///  Updates auto scaling settings on your global tables at once.  This operation only applies to Version 2019.11.21 of global tables. 
     public func updateTableReplicaAutoScaling(_ input: UpdateTableReplicaAutoScalingInput) -> EventLoopFuture<UpdateTableReplicaAutoScalingOutput> {
         return client.send(operation: "UpdateTableReplicaAutoScaling", path: "/", httpMethod: "POST", input: input)
     }

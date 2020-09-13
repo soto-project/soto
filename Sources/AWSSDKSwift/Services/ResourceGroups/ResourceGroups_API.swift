@@ -45,24 +45,29 @@ public struct ResourceGroups {
     
     //MARK: API Calls
 
-    ///  Creates a group with a specified name, description, and resource query.
+    ///  Creates a resource group with the specified name and description. You can optionally include a resource query, or a service configuration.
     public func createGroup(_ input: CreateGroupInput) -> EventLoopFuture<CreateGroupOutput> {
         return client.send(operation: "CreateGroup", path: "/groups", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specified resource group. Deleting a resource group does not delete resources that are members of the group; it only deletes the group structure.
+    ///  Deletes the specified resource group. Deleting a resource group does not delete any resources that are members of the group; it only deletes the group structure.
     public func deleteGroup(_ input: DeleteGroupInput) -> EventLoopFuture<DeleteGroupOutput> {
-        return client.send(operation: "DeleteGroup", path: "/groups/{GroupName}", httpMethod: "DELETE", input: input)
+        return client.send(operation: "DeleteGroup", path: "/delete-group", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a specified resource group.
     public func getGroup(_ input: GetGroupInput) -> EventLoopFuture<GetGroupOutput> {
-        return client.send(operation: "GetGroup", path: "/groups/{GroupName}", httpMethod: "GET", input: input)
+        return client.send(operation: "GetGroup", path: "/get-group", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the resource query associated with the specified resource group.
+    ///  Returns the service configuration associated with the specified resource group. AWS Resource Groups supports configurations for the following resource group types:    AWS::EC2::CapacityReservationPool - Amazon EC2 capacity reservation pools. For more information, see Working with capacity reservation groups in the EC2 Users Guide.  
+    public func getGroupConfiguration(_ input: GetGroupConfigurationInput) -> EventLoopFuture<GetGroupConfigurationOutput> {
+        return client.send(operation: "GetGroupConfiguration", path: "/get-group-configuration", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the resource query associated with the specified resource group.
     public func getGroupQuery(_ input: GetGroupQueryInput) -> EventLoopFuture<GetGroupQueryOutput> {
-        return client.send(operation: "GetGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "GET", input: input)
+        return client.send(operation: "GetGroupQuery", path: "/get-group-query", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of tags that are associated with a resource group, specified by an ARN.
@@ -70,9 +75,14 @@ public struct ResourceGroups {
         return client.send(operation: "GetTags", path: "/resources/{Arn}/tags", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of ARNs of resources that are members of a specified resource group.
+    ///  Adds the specified resources to the specified group.
+    public func groupResources(_ input: GroupResourcesInput) -> EventLoopFuture<GroupResourcesOutput> {
+        return client.send(operation: "GroupResources", path: "/group-resources", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of ARNs of the resources that are members of a specified resource group.
     public func listGroupResources(_ input: ListGroupResourcesInput) -> EventLoopFuture<ListGroupResourcesOutput> {
-        return client.send(operation: "ListGroupResources", path: "/groups/{GroupName}/resource-identifiers-list", httpMethod: "POST", input: input)
+        return client.send(operation: "ListGroupResources", path: "/list-group-resources", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of existing resource groups in your account.
@@ -80,28 +90,33 @@ public struct ResourceGroups {
         return client.send(operation: "ListGroups", path: "/groups-list", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
+    ///  Returns a list of AWS resource identifiers that matches tne specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
     public func searchResources(_ input: SearchResourcesInput) -> EventLoopFuture<SearchResourcesOutput> {
         return client.send(operation: "SearchResources", path: "/resources/search", httpMethod: "POST", input: input)
     }
 
-    ///  Adds tags to a resource group with the specified ARN. Existing tags on a resource group are not changed if they are not specified in the request parameters.
+    ///  Adds tags to a resource group with the specified ARN. Existing tags on a resource group are not changed if they are not specified in the request parameters.  Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be used for private or sensitive data. 
     public func tag(_ input: TagInput) -> EventLoopFuture<TagOutput> {
         return client.send(operation: "Tag", path: "/resources/{Arn}/tags", httpMethod: "PUT", input: input)
     }
 
-    ///  Deletes specified tags from a specified resource.
+    ///  Removes the specified resources from the specified group.
+    public func ungroupResources(_ input: UngroupResourcesInput) -> EventLoopFuture<UngroupResourcesOutput> {
+        return client.send(operation: "UngroupResources", path: "/ungroup-resources", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes tags from a specified resource group.
     public func untag(_ input: UntagInput) -> EventLoopFuture<UntagOutput> {
         return client.send(operation: "Untag", path: "/resources/{Arn}/tags", httpMethod: "PATCH", input: input)
     }
 
-    ///  Updates an existing group with a new or changed description. You cannot update the name of a resource group.
+    ///  Updates the description for an existing group. You cannot update the name of a resource group.
     public func updateGroup(_ input: UpdateGroupInput) -> EventLoopFuture<UpdateGroupOutput> {
-        return client.send(operation: "UpdateGroup", path: "/groups/{GroupName}", httpMethod: "PUT", input: input)
+        return client.send(operation: "UpdateGroup", path: "/update-group", httpMethod: "POST", input: input)
     }
 
     ///  Updates the resource query of a group.
     public func updateGroupQuery(_ input: UpdateGroupQueryInput) -> EventLoopFuture<UpdateGroupQueryOutput> {
-        return client.send(operation: "UpdateGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "PUT", input: input)
+        return client.send(operation: "UpdateGroupQuery", path: "/update-group-query", httpMethod: "POST", input: input)
     }
 }

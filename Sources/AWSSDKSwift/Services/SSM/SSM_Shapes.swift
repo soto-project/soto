@@ -368,6 +368,8 @@ extension SSM {
         case redhatEnterpriseLinux = "REDHAT_ENTERPRISE_LINUX"
         case suse = "SUSE"
         case centos = "CENTOS"
+        case oracleLinux = "ORACLE_LINUX"
+        case debian = "DEBIAN"
         public var description: String { return self.rawValue }
     }
 
@@ -795,6 +797,7 @@ extension SSM {
 
     public struct AssociationDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyOnlyAtCronInterval", required: false, type: .boolean), 
             AWSShapeMember(label: "AssociationId", required: false, type: .string), 
             AWSShapeMember(label: "AssociationName", required: false, type: .string), 
             AWSShapeMember(label: "AssociationVersion", required: false, type: .string), 
@@ -818,6 +821,8 @@ extension SSM {
             AWSShapeMember(label: "Targets", required: false, type: .list)
         ]
 
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        public let applyOnlyAtCronInterval: Bool?
         /// The association ID.
         public let associationId: String?
         /// The association name.
@@ -861,7 +866,8 @@ extension SSM {
         /// The instances targeted by the request. 
         public let targets: [Target]?
 
-        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: TimeStamp? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: TimeStamp? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -886,6 +892,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
@@ -1169,6 +1176,7 @@ extension SSM {
 
     public struct AssociationVersionInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyOnlyAtCronInterval", required: false, type: .boolean), 
             AWSShapeMember(label: "AssociationId", required: false, type: .string), 
             AWSShapeMember(label: "AssociationName", required: false, type: .string), 
             AWSShapeMember(label: "AssociationVersion", required: false, type: .string), 
@@ -1185,6 +1193,8 @@ extension SSM {
             AWSShapeMember(label: "Targets", required: false, type: .list)
         ]
 
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        public let applyOnlyAtCronInterval: Bool?
         /// The ID created by the system when the association was created.
         public let associationId: String?
         /// The name specified for the association version when the association version was created.
@@ -1214,7 +1224,8 @@ extension SSM {
         /// The targets specified for the association when the association version was created. 
         public let targets: [Target]?
 
-        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: TimeStamp? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: TimeStamp? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -1232,6 +1243,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
@@ -1761,7 +1773,8 @@ extension SSM {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusDetails", required: false, type: .string), 
             AWSShapeMember(label: "TargetCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "TimeoutSeconds", required: false, type: .integer)
         ]
 
         /// CloudWatch Logs information where you want Systems Manager to send the command output.
@@ -1810,8 +1823,10 @@ extension SSM {
         public let targetCount: Int?
         /// An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
         public let targets: [Target]?
+        /// The TimeoutSeconds value specified for a command.
+        public let timeoutSeconds: Int?
 
-        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, completedCount: Int? = nil, deliveryTimedOutCount: Int? = nil, documentName: String? = nil, documentVersion: String? = nil, errorCount: Int? = nil, expiresAfter: TimeStamp? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, requestedDateTime: TimeStamp? = nil, serviceRole: String? = nil, status: CommandStatus? = nil, statusDetails: String? = nil, targetCount: Int? = nil, targets: [Target]? = nil) {
+        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, completedCount: Int? = nil, deliveryTimedOutCount: Int? = nil, documentName: String? = nil, documentVersion: String? = nil, errorCount: Int? = nil, expiresAfter: TimeStamp? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, requestedDateTime: TimeStamp? = nil, serviceRole: String? = nil, status: CommandStatus? = nil, statusDetails: String? = nil, targetCount: Int? = nil, targets: [Target]? = nil, timeoutSeconds: Int? = nil) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
             self.comment = comment
@@ -1835,6 +1850,7 @@ extension SSM {
             self.statusDetails = statusDetails
             self.targetCount = targetCount
             self.targets = targets
+            self.timeoutSeconds = timeoutSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1861,6 +1877,7 @@ extension SSM {
             case statusDetails = "StatusDetails"
             case targetCount = "TargetCount"
             case targets = "Targets"
+            case timeoutSeconds = "TimeoutSeconds"
         }
     }
 
@@ -2378,6 +2395,7 @@ extension SSM {
 
     public struct CreateAssociationBatchRequestEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyOnlyAtCronInterval", required: false, type: .boolean), 
             AWSShapeMember(label: "AssociationName", required: false, type: .string), 
             AWSShapeMember(label: "AutomationTargetParameterName", required: false, type: .string), 
             AWSShapeMember(label: "ComplianceSeverity", required: false, type: .enum), 
@@ -2393,6 +2411,8 @@ extension SSM {
             AWSShapeMember(label: "Targets", required: false, type: .list)
         ]
 
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
         /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
@@ -2420,7 +2440,8 @@ extension SSM {
         /// The instances targeted by the request.
         public let targets: [Target]?
 
-        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
@@ -2460,6 +2481,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationName = "AssociationName"
             case automationTargetParameterName = "AutomationTargetParameterName"
             case complianceSeverity = "ComplianceSeverity"
@@ -2500,6 +2522,7 @@ extension SSM {
 
     public struct CreateAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyOnlyAtCronInterval", required: false, type: .boolean), 
             AWSShapeMember(label: "AssociationName", required: false, type: .string), 
             AWSShapeMember(label: "AutomationTargetParameterName", required: false, type: .string), 
             AWSShapeMember(label: "ComplianceSeverity", required: false, type: .enum), 
@@ -2515,6 +2538,8 @@ extension SSM {
             AWSShapeMember(label: "Targets", required: false, type: .list)
         ]
 
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
         /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
@@ -2542,7 +2567,8 @@ extension SSM {
         /// The targets for the association. You can target instances by using tags, AWS Resource Groups, all instances in an AWS account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the AWS Systems Manager User Guide.
         public let targets: [Target]?
 
-        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
@@ -2582,6 +2608,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationName = "AssociationName"
             case automationTargetParameterName = "AutomationTargetParameterName"
             case complianceSeverity = "ComplianceSeverity"
@@ -2630,13 +2657,13 @@ extension SSM {
 
         /// A list of key and value pairs that describe attachments to a version of a document.
         public let attachments: [AttachmentsSource]?
-        /// The content for the new SSM document in JSON or YAML format. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the AWS Systems Manager User Guide.    Create an SSM document (console)     Create an SSM document (AWS CLI)     Create an SSM document (API)   
+        /// The content for the new SSM document in JSON or YAML format. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the AWS Systems Manager User Guide.    Create an SSM document (AWS API)     Create an SSM document (AWS CLI)     Create an SSM document (API)   
         public let content: String
         /// Specify the document format for the request. The document format can be JSON, YAML, or TEXT. JSON is the default format.
         public let documentFormat: DocumentFormat?
         /// The type of document to create.
         public let documentType: DocumentType?
-        /// A name for the Systems Manager document.  You can't use the following strings as document name prefixes. These are reserved by AWS for use as document name prefixes:    aws     amazon     amzn    
+        /// A name for the Systems Manager document.  You can't use the following strings as document name prefixes. These are reserved by AWS for use as document name prefixes:    aws-     amazon     amzn    
         public let name: String
         /// A list of SSM documents required by a document. This parameter is used exclusively by AWS AppConfig. When a user creates an AppConfig configuration in an SSM document, the user must also specify a required document for validation purposes. In this case, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document for validation purposes. For more information, see AWS AppConfig in the AWS Systems Manager User Guide.
         public let requires: [DocumentRequires]?
@@ -2720,6 +2747,7 @@ extension SSM {
             AWSShapeMember(label: "EndDate", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Schedule", required: true, type: .string), 
+            AWSShapeMember(label: "ScheduleOffset", required: false, type: .integer), 
             AWSShapeMember(label: "ScheduleTimezone", required: false, type: .string), 
             AWSShapeMember(label: "StartDate", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
@@ -2741,6 +2769,8 @@ extension SSM {
         public let name: String
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String
+        /// The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run on the third Tuesday of every month at 11:30 PM.  cron(0 30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
@@ -2748,7 +2778,7 @@ extension SSM {
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key name/value pairs:    Key=TaskType,Value=AgentUpdate     Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing maintenance window, use the AddTagsToResource action. 
         public let tags: [Tag]?
 
-        public init(allowUnassociatedTargets: Bool, clientToken: String? = CreateMaintenanceWindowRequest.idempotencyToken(), cutoff: Int, description: String? = nil, duration: Int, endDate: String? = nil, name: String, schedule: String, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
+        public init(allowUnassociatedTargets: Bool, clientToken: String? = CreateMaintenanceWindowRequest.idempotencyToken(), cutoff: Int, description: String? = nil, duration: Int, endDate: String? = nil, name: String, schedule: String, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.clientToken = clientToken
             self.cutoff = cutoff
@@ -2757,6 +2787,7 @@ extension SSM {
             self.endDate = endDate
             self.name = name
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.tags = tags
@@ -2776,6 +2807,8 @@ extension SSM {
             try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(self.schedule, name:"schedule", parent: name, max: 256)
             try validate(self.schedule, name:"schedule", parent: name, min: 1)
+            try validate(self.scheduleOffset, name:"scheduleOffset", parent: name, max: 6)
+            try validate(self.scheduleOffset, name:"scheduleOffset", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2791,6 +2824,7 @@ extension SSM {
             case endDate = "EndDate"
             case name = "Name"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case tags = "Tags"
@@ -3222,7 +3256,7 @@ extension SSM {
         public let dryRun: Bool?
         /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all inventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory action for a version greater than the disabled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want.
         public let schemaDeleteOption: InventorySchemaDeleteOption?
-        /// The name of the custom inventory type for which you want to delete either all previously collected data, or the inventory type itself. 
+        /// The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself. 
         public let typeName: String
 
         public init(clientToken: String? = DeleteInventoryRequest.idempotencyToken(), dryRun: Bool? = nil, schemaDeleteOption: InventorySchemaDeleteOption? = nil, typeName: String) {
@@ -3233,8 +3267,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(self.clientToken, name:"clientToken", parent: name, max: 64)
-            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
             try validate(self.typeName, name:"typeName", parent: name, max: 100)
             try validate(self.typeName, name:"typeName", parent: name, min: 1)
             try validate(self.typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
@@ -4662,6 +4695,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try validate(self.deletionId, name:"deletionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
@@ -5506,7 +5540,7 @@ extension SSM {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// One or more filters. Use a filter to return a more specific list of results.
+        /// One or more filters. Use a filter to return a more specific list of results. For DescribePatchGroups,valid filter keys include the following:    NAME_PREFIX: The name of the patch group. Wildcards (*) are accepted.    OPERATING_SYSTEM: The supported operating system type to return results for. For valid operating system values, see GetDefaultPatchBaselineRequest$OperatingSystem in CreatePatchBaseline. Examples:    --filters Key=NAME_PREFIX,Values=MyPatchGroup*     --filters Key=OPERATING_SYSTEM,Values=AMAZON_LINUX_2     
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of patch groups to return (per page).
         public let maxResults: Int?
@@ -6245,7 +6279,7 @@ extension SSM {
         public let commandId: String
         /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String
-        /// (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned.
+        /// (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned. Plugin names are also referred to as step names in Systems Manager documents.
         public let pluginName: String?
 
         public init(commandId: String, instanceId: String, pluginName: String? = nil) {
@@ -7074,6 +7108,7 @@ extension SSM {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "NextExecutionTime", required: false, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleOffset", required: false, type: .integer), 
             AWSShapeMember(label: "ScheduleTimezone", required: false, type: .string), 
             AWSShapeMember(label: "StartDate", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: false, type: .string)
@@ -7101,6 +7136,8 @@ extension SSM {
         public let nextExecutionTime: String?
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
+        /// The number of days to wait to run a maintenance window after the scheduled CRON expression date and time.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active. The maintenance window will not run before this specified time.
@@ -7108,7 +7145,7 @@ extension SSM {
         /// The ID of the created maintenance window.
         public let windowId: String?
 
-        public init(allowUnassociatedTargets: Bool? = nil, createdDate: TimeStamp? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
+        public init(allowUnassociatedTargets: Bool? = nil, createdDate: TimeStamp? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.createdDate = createdDate
             self.cutoff = cutoff
@@ -7120,6 +7157,7 @@ extension SSM {
             self.name = name
             self.nextExecutionTime = nextExecutionTime
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.windowId = windowId
@@ -7137,6 +7175,7 @@ extension SSM {
             case name = "Name"
             case nextExecutionTime = "NextExecutionTime"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case windowId = "WindowId"
@@ -7342,7 +7381,6 @@ extension SSM {
             try self.resultAttributes?.forEach {
                 try $0.validate(name: "\(name).resultAttributes[]")
             }
-            try validate(self.resultAttributes, name:"resultAttributes", parent: name, max: 1)
             try validate(self.resultAttributes, name:"resultAttributes", parent: name, min: 1)
             try validate(self.syncName, name:"syncName", parent: name, max: 64)
             try validate(self.syncName, name:"syncName", parent: name, min: 1)
@@ -7499,7 +7537,7 @@ extension SSM {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        /// Filters to limit the request results.
+        /// Filters to limit the request results.  For GetParametersByPath, the following filter Key names are supported: Type, KeyId, Label, and DataType. The following Key values are not supported for GetParametersByPath: tag, Name, Path, and Tier. 
         public let parameterFilters: [ParameterStringFilter]?
         /// The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end with the parameter name. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33 
         public let path: String
@@ -8013,7 +8051,7 @@ extension SSM {
         public let associationStatus: String?
         /// The fully qualified host name of the managed instance.
         public let computerName: String?
-        /// The Amazon Identity and Access Management (IAM) role assigned to the on-premises Systems Manager managed instances. This call does not return the IAM role for EC2 instances. 
+        /// The Amazon Identity and Access Management (IAM) role assigned to the on-premises Systems Manager managed instance. This call does not return the IAM role for EC2 instances. To retrieve the IAM role for an EC2 instance, use the Amazon EC2 DescribeInstances action. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the AWS CLI Command Reference.
         public let iamRole: String?
         /// The instance ID. 
         public let instanceId: String?
@@ -8027,7 +8065,7 @@ extension SSM {
         public let lastPingDateTime: TimeStamp?
         /// The last date the association was successfully run.
         public let lastSuccessfulAssociationExecutionDate: TimeStamp?
-        /// The name of the managed instance.
+        /// The name assigned to an on-premises server or virtual machine (VM) when it is activated as a Systems Manager managed instance. The name is specified as the DefaultInstanceName property using the CreateActivation command. It is applied to the managed instance by specifying the Activation Code and Activation ID when you install SSM Agent on the instance, as explained in Install SSM Agent for a hybrid environment (Linux) and Install SSM Agent for a hybrid environment (Windows). To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances action. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the AWS CLI Command Reference.
         public let name: String?
         /// Connection status of SSM Agent. 
         public let pingStatus: PingStatus?
@@ -8181,7 +8219,7 @@ extension SSM {
         public let installedOtherCount: Int?
         /// The number of patches installed by Patch Manager since the last time the instance was rebooted.
         public let installedPendingRebootCount: Int?
-        /// The number of instances with patches installed that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero). 
+        /// The number of patches installed on an instance that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero). 
         public let installedRejectedCount: Int?
         /// An https URL or an Amazon S3 path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see About the SSM document AWS-RunPatchBaseline in the AWS Systems Manager User Guide.
         public let installOverrideList: String?
@@ -8857,7 +8895,7 @@ extension SSM {
         public let commandId: String?
         /// (Optional) If set this returns the response of the command executions and any command output. By default this is set to False. 
         public let details: Bool?
-        /// (Optional) One or more filters. Use a filter to return a more specific list of results. Note that the DocumentName filter is not supported for ListCommandInvocations.
+        /// (Optional) One or more filters. Use a filter to return a more specific list of results.
         public let filters: [CommandFilter]?
         /// (Optional) The command execution details for a specific instance ID.
         public let instanceId: String?
@@ -8933,7 +8971,7 @@ extension SSM {
         public let commandId: String?
         /// (Optional) One or more filters. Use a filter to return a more specific list of results. 
         public let filters: [CommandFilter]?
-        /// (Optional) Lists commands issued against this instance ID.
+        /// (Optional) Lists commands issued against this instance ID.  You can't specify an instance ID in the same command that you specify Status = Pending. This is because the command has not reached the instance yet. 
         public let instanceId: String?
         /// (Optional) The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -9191,7 +9229,7 @@ extension SSM {
 
         /// This data type is deprecated. Instead, use Filters.
         public let documentFilterList: [DocumentFilter]?
-        /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, and DocumentType. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName.
+        /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, DocumentType, and TargetType. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName.
         public let filters: [DocumentKeyValuesFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -9768,6 +9806,7 @@ extension SSM {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "NextExecutionTime", required: false, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleOffset", required: false, type: .integer), 
             AWSShapeMember(label: "ScheduleTimezone", required: false, type: .string), 
             AWSShapeMember(label: "StartDate", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: false, type: .string)
@@ -9789,6 +9828,8 @@ extension SSM {
         public let nextExecutionTime: String?
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
+        /// The number of days to wait to run a maintenance window after the scheduled CRON expression date and time.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active.
@@ -9796,7 +9837,7 @@ extension SSM {
         /// The ID of the maintenance window.
         public let windowId: String?
 
-        public init(cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
+        public init(cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.cutoff = cutoff
             self.description = description
             self.duration = duration
@@ -9805,6 +9846,7 @@ extension SSM {
             self.name = name
             self.nextExecutionTime = nextExecutionTime
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.windowId = windowId
@@ -9819,6 +9861,7 @@ extension SSM {
             case name = "Name"
             case nextExecutionTime = "NextExecutionTime"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case windowId = "WindowId"
@@ -10324,6 +10367,8 @@ extension SSM {
             try validate(self.aggregatorType, name:"aggregatorType", parent: name, max: 20)
             try validate(self.aggregatorType, name:"aggregatorType", parent: name, min: 1)
             try validate(self.aggregatorType, name:"aggregatorType", parent: name, pattern: "^(range|count|sum)")
+            try validate(self.attributeName, name:"attributeName", parent: name, max: 128)
+            try validate(self.attributeName, name:"attributeName", parent: name, min: 1)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
@@ -10417,6 +10462,10 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(self.key, name:"key", parent: name, max: 200)
             try validate(self.key, name:"key", parent: name, min: 1)
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 256)
+                try validate($0, name: "values[]", parent: name, min: 0)
+            }
             try validate(self.values, name:"values", parent: name, max: 40)
             try validate(self.values, name:"values", parent: name, min: 1)
         }
@@ -10706,6 +10755,7 @@ extension SSM {
     public struct Parameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Selector", required: false, type: .string), 
@@ -10717,6 +10767,8 @@ extension SSM {
 
         /// The Amazon Resource Name (ARN) of the parameter.
         public let arn: String?
+        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        public let dataType: String?
         /// Date the parameter was last changed or updated and the parameter version was created.
         public let lastModifiedDate: TimeStamp?
         /// The name of the parameter.
@@ -10732,8 +10784,9 @@ extension SSM {
         /// The parameter version.
         public let version: Int64?
 
-        public init(arn: String? = nil, lastModifiedDate: TimeStamp? = nil, name: String? = nil, selector: String? = nil, sourceResult: String? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
+        public init(arn: String? = nil, dataType: String? = nil, lastModifiedDate: TimeStamp? = nil, name: String? = nil, selector: String? = nil, sourceResult: String? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
             self.arn = arn
+            self.dataType = dataType
             self.lastModifiedDate = lastModifiedDate
             self.name = name
             self.selector = selector
@@ -10745,6 +10798,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
+            case dataType = "DataType"
             case lastModifiedDate = "LastModifiedDate"
             case name = "Name"
             case selector = "Selector"
@@ -10758,6 +10812,7 @@ extension SSM {
     public struct ParameterHistory: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedPattern", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "Labels", required: false, type: .list), 
@@ -10773,6 +10828,8 @@ extension SSM {
 
         /// Parameter names can include the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
+        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        public let dataType: String?
         /// Information about the parameter.
         public let description: String?
         /// The ID of the query key used for this parameter.
@@ -10796,8 +10853,9 @@ extension SSM {
         /// The parameter version.
         public let version: Int64?
 
-        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, labels: [String]? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
+        public init(allowedPattern: String? = nil, dataType: String? = nil, description: String? = nil, keyId: String? = nil, labels: [String]? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
             self.allowedPattern = allowedPattern
+            self.dataType = dataType
             self.description = description
             self.keyId = keyId
             self.labels = labels
@@ -10813,6 +10871,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case allowedPattern = "AllowedPattern"
+            case dataType = "DataType"
             case description = "Description"
             case keyId = "KeyId"
             case labels = "Labels"
@@ -10857,6 +10916,7 @@ extension SSM {
     public struct ParameterMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedPattern", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
@@ -10870,6 +10930,8 @@ extension SSM {
 
         /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
+        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        public let dataType: String?
         /// Description of the parameter actions.
         public let description: String?
         /// The ID of the query key used for this parameter.
@@ -10889,8 +10951,9 @@ extension SSM {
         /// The parameter version.
         public let version: Int64?
 
-        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, version: Int64? = nil) {
+        public init(allowedPattern: String? = nil, dataType: String? = nil, description: String? = nil, keyId: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, version: Int64? = nil) {
             self.allowedPattern = allowedPattern
+            self.dataType = dataType
             self.description = description
             self.keyId = keyId
             self.lastModifiedDate = lastModifiedDate
@@ -10904,6 +10967,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case allowedPattern = "AllowedPattern"
+            case dataType = "DataType"
             case description = "Description"
             case keyId = "KeyId"
             case lastModifiedDate = "LastModifiedDate"
@@ -10923,9 +10987,9 @@ extension SSM {
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
 
-        /// The name of the filter.
+        /// The name of the filter.  The ParameterStringFilter object is used by the DescribeParameters and GetParametersByPath API actions. However, not all of the pattern values listed for Key can be used with both actions. For DescribeActions, all of the listed patterns are valid, with the exception of Label. For GetParametersByPath, the following patterns listed for Key are not valid: tag, Name, Path, and Tier. For examples of CLI commands demonstrating valid parameter filter constructions, see Searching for Systems Manager parameters in the AWS Systems Manager User Guide. 
         public let key: String
-        /// For all filters used with DescribeParameters, valid options include Equals and BeginsWith. The Name filter additionally supports the Contains option. (Exception: For filters using the key Path, valid options include Recursive and OneLevel.) For filters used with GetParametersByPath, valid options include Equals and BeginsWith. (Exception: For filters using the key Label, the only valid option is Equals.)
+        /// For all filters used with DescribeParameters, valid options include Equals and BeginsWith. The Name filter additionally supports the Contains option. (Exception: For filters using the key Path, valid options include Recursive and OneLevel.) For filters used with GetParametersByPath, valid options include Equals and BeginsWith. (Exception: For filters using Label as the Key name, the only valid option is Equals.)
         public let option: String?
         /// The value you want to search for.
         public let values: [String]?
@@ -10939,7 +11003,7 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(self.key, name:"key", parent: name, max: 132)
             try validate(self.key, name:"key", parent: name, min: 1)
-            try validate(self.key, name:"key", parent: name, pattern: "tag:.+|Name|Type|KeyId|Path|Label|Tier")
+            try validate(self.key, name:"key", parent: name, pattern: "tag:.+|Name|Type|KeyId|Path|Label|Tier|DataType")
             try validate(self.option, name:"option", parent: name, max: 10)
             try validate(self.option, name:"option", parent: name, min: 1)
             try self.values?.forEach {
@@ -11549,6 +11613,7 @@ extension SSM {
     public struct PutParameterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedPattern", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -11556,12 +11621,14 @@ extension SSM {
             AWSShapeMember(label: "Policies", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Tier", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
         /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$ 
         public let allowedPattern: String?
+        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image IDs.  The following data type values are supported.     text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image, Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your AWS account. For more information, see Native parameter support for Amazon Machine Image IDs in the AWS Systems Manager User Guide.
+        public let dataType: String?
         /// Information about the parameter that you want to add to the system. Optional but recommended.  Do not enter personally identifiable information in this field. 
         public let description: String?
         /// The KMS Key ID that you want to use to encrypt a parameter. Either the default AWS Key Management Service (AWS KMS) key automatically assigned to your AWS account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your AWS account.   To use your default AWS KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.  
@@ -11576,13 +11643,14 @@ extension SSM {
         public let tags: [Tag]?
         /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an AWS account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an AWS account. Advanced parameters incur a charge. For more information, see Standard and advanced parameter tiers in the AWS Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you do not specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your AWS account in the current Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the AWS Systems Manager User Guide.
         public let tier: ParameterTier?
-        /// The type of parameter that you want to add to the system. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions. 
-        public let `type`: ParameterType
-        /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
+        /// The type of parameter that you want to add to the system.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions.  Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.  Specifying a parameter type is not required when updating a parameter. You must specify a parameter type when creating a parameter. 
+        public let `type`: ParameterType?
+        /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.  Parameters can't be referenced or nested in the values of other parameters. You can't include {{}} or {{ssm:parameter-name}} in a parameter value. 
         public let value: String
 
-        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, name: String, overwrite: Bool? = nil, policies: String? = nil, tags: [Tag]? = nil, tier: ParameterTier? = nil, type: ParameterType, value: String) {
+        public init(allowedPattern: String? = nil, dataType: String? = nil, description: String? = nil, keyId: String? = nil, name: String, overwrite: Bool? = nil, policies: String? = nil, tags: [Tag]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, value: String) {
             self.allowedPattern = allowedPattern
+            self.dataType = dataType
             self.description = description
             self.keyId = keyId
             self.name = name
@@ -11597,6 +11665,8 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(self.allowedPattern, name:"allowedPattern", parent: name, max: 1024)
             try validate(self.allowedPattern, name:"allowedPattern", parent: name, min: 0)
+            try validate(self.dataType, name:"dataType", parent: name, max: 128)
+            try validate(self.dataType, name:"dataType", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, max: 1024)
             try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.keyId, name:"keyId", parent: name, max: 256)
@@ -11614,6 +11684,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case allowedPattern = "AllowedPattern"
+            case dataType = "DataType"
             case description = "Description"
             case keyId = "KeyId"
             case name = "Name"
@@ -12634,7 +12705,7 @@ extension SSM {
         public let documentName: String
         /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the AWS CLI, then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
         public let documentVersion: String?
-        /// The instance IDs where the command should run. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags. For more information about how to use targets, see Using targets and rate controls to send commands to a fleet in the AWS Systems Manager User Guide.
+        /// The IDs of the instances where the command should run. Specifying instance IDs is most useful when you are targeting a limited number of instances, though you can specify up to 50 IDs. To target a larger number of instances, or if you prefer not to list individual instance IDs, we recommend using the Targets option instead. Using Targets, which accepts tag key-value pairs to identify the instances to send commands to, you can a send command to tens, hundreds, or thousands of instances at once. For more information about how to use targets, see Using targets and rate controls to send commands to a fleet in the AWS Systems Manager User Guide.
         public let instanceIds: [String]?
         /// (Optional) The maximum number of instances that are allowed to run the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Using concurrency controls in the AWS Systems Manager User Guide.
         public let maxConcurrency: String?
@@ -12652,7 +12723,7 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run Command commands.
         public let serviceRoleArn: String?
-        /// (Optional) An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use targets, see Sending commands to a fleet in the AWS Systems Manager User Guide.
+        /// An array of search criteria that targets instances using a Key,Value combination that you specify. Specifying targets is most useful when you want to send a command to a large number of instances at once. Using Targets, which accepts tag key-value pairs to identify instances, you can send a command to tens, hundreds, or thousands of instances at once. To send a command to a smaller number of instances, you can use the InstanceIds option instead. For more information about how to use targets, see Sending commands to a fleet in the AWS Systems Manager User Guide.
         public let targets: [Target]?
         /// If this time is reached and the command has not already started running, it will not run.
         public let timeoutSeconds: Int?
@@ -13103,7 +13174,7 @@ extension SSM {
             AWSShapeMember(label: "Target", required: true, type: .string)
         ]
 
-        /// The name of the SSM document to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell. If no document name is provided, a shell to the instance is launched by default.
+        /// The name of the SSM document to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell. You can call the GetDocument API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the instance is launched by default.
         public let documentName: String?
         /// Reserved for future use.
         public let parameters: [String: [String]]?
@@ -13502,6 +13573,7 @@ extension SSM {
 
     public struct UpdateAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyOnlyAtCronInterval", required: false, type: .boolean), 
             AWSShapeMember(label: "AssociationId", required: true, type: .string), 
             AWSShapeMember(label: "AssociationName", required: false, type: .string), 
             AWSShapeMember(label: "AssociationVersion", required: false, type: .string), 
@@ -13518,6 +13590,8 @@ extension SSM {
             AWSShapeMember(label: "Targets", required: false, type: .list)
         ]
 
+        /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+        public let applyOnlyAtCronInterval: Bool?
         /// The ID of the association you want to update. 
         public let associationId: String
         /// The name of the association that you want to update.
@@ -13547,7 +13621,8 @@ extension SSM {
         /// The targets of the association.
         public let targets: [Target]?
 
-        public init(associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+            self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -13589,6 +13664,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
@@ -13806,6 +13882,7 @@ extension SSM {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Replace", required: false, type: .boolean), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleOffset", required: false, type: .integer), 
             AWSShapeMember(label: "ScheduleTimezone", required: false, type: .string), 
             AWSShapeMember(label: "StartDate", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: true, type: .string)
@@ -13829,6 +13906,8 @@ extension SSM {
         public let replace: Bool?
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
+        /// The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run the third Tuesday of every month at 11:30 PM.  cron(0 30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
@@ -13836,7 +13915,7 @@ extension SSM {
         /// The ID of the maintenance window to update.
         public let windowId: String
 
-        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, replace: Bool? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String) {
+        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, replace: Bool? = nil, schedule: String? = nil, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.cutoff = cutoff
             self.description = description
@@ -13846,6 +13925,7 @@ extension SSM {
             self.name = name
             self.replace = replace
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.windowId = windowId
@@ -13863,6 +13943,8 @@ extension SSM {
             try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(self.schedule, name:"schedule", parent: name, max: 256)
             try validate(self.schedule, name:"schedule", parent: name, min: 1)
+            try validate(self.scheduleOffset, name:"scheduleOffset", parent: name, max: 6)
+            try validate(self.scheduleOffset, name:"scheduleOffset", parent: name, min: 1)
             try validate(self.windowId, name:"windowId", parent: name, max: 20)
             try validate(self.windowId, name:"windowId", parent: name, min: 20)
             try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -13878,6 +13960,7 @@ extension SSM {
             case name = "Name"
             case replace = "Replace"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case windowId = "WindowId"
@@ -13894,6 +13977,7 @@ extension SSM {
             AWSShapeMember(label: "EndDate", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleOffset", required: false, type: .integer), 
             AWSShapeMember(label: "ScheduleTimezone", required: false, type: .string), 
             AWSShapeMember(label: "StartDate", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: false, type: .string)
@@ -13915,6 +13999,8 @@ extension SSM {
         public let name: String?
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
+        /// The number of days to wait to run a maintenance window after the scheduled CRON expression date and time.
+        public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active. The maintenance window will not run before this specified time.
@@ -13922,7 +14008,7 @@ extension SSM {
         /// The ID of the created maintenance window.
         public let windowId: String?
 
-        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
+        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, schedule: String? = nil, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.cutoff = cutoff
             self.description = description
@@ -13931,6 +14017,7 @@ extension SSM {
             self.endDate = endDate
             self.name = name
             self.schedule = schedule
+            self.scheduleOffset = scheduleOffset
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.windowId = windowId
@@ -13945,6 +14032,7 @@ extension SSM {
             case endDate = "EndDate"
             case name = "Name"
             case schedule = "Schedule"
+            case scheduleOffset = "ScheduleOffset"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
             case windowId = "WindowId"
@@ -14091,7 +14179,7 @@ extension SSM {
         public let name: String?
         /// The new task priority to specify. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
         public let priority: Int?
-        /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWndow action are also required for this API request. Optional fields that are not specified are set to null.
+        /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWindow action are also required for this API request. Optional fields that are not specified are set to null.
         public let replace: Bool?
         /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?    
         public let serviceRoleArn: String?
@@ -14099,7 +14187,7 @@ extension SSM {
         public let targets: [Target]?
         /// The task ARN to modify.
         public let taskArn: String?
-        /// The parameters that the task should use during execution. Populate only the fields that match the task type. All other fields should be empty.
+        /// The parameters that the task should use during execution. Populate only the fields that match the task type. All other fields should be empty.  When you update a maintenance window task that has options specified in TaskInvocationParameters, you must provide again all the TaskInvocationParameters values that you want to retain. The values you do not specify again are removed. For example, suppose that when you registered a Run Command task, you specified TaskInvocationParameters values for Comment, NotificationConfig, and OutputS3BucketName. If you update the maintenance window task and specify only a different OutputS3BucketName value, the values for Comment and NotificationConfig are removed. 
         public let taskInvocationParameters: MaintenanceWindowTaskInvocationParameters?
         /// The parameters to modify.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?

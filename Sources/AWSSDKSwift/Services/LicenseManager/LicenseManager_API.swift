@@ -46,7 +46,7 @@ public struct LicenseManager {
     
     //MARK: API Calls
 
-    ///  Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), host affinity (how long a VM must be associated with a host), and the number of licenses purchased and used.
+    ///  Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
     public func createLicenseConfiguration(_ input: CreateLicenseConfigurationRequest) -> EventLoopFuture<CreateLicenseConfigurationResponse> {
         return client.send(operation: "CreateLicenseConfiguration", path: "/", httpMethod: "POST", input: input)
     }
@@ -111,7 +111,7 @@ public struct LicenseManager {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the attributes of an existing license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), host affinity (how long a VM must be associated with a host), and the number of licenses purchased and used.
+    ///  Modifies the attributes of an existing license configuration.
     public func updateLicenseConfiguration(_ input: UpdateLicenseConfigurationRequest) -> EventLoopFuture<UpdateLicenseConfigurationResponse> {
         return client.send(operation: "UpdateLicenseConfiguration", path: "/", httpMethod: "POST", input: input)
     }

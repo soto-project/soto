@@ -26,7 +26,7 @@ extension WorkMail {
         return client.paginate(input: input, command: listMailboxPermissions, tokenKey: \ListMailboxPermissionsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Returns summaries of the customer's non-deleted organizations.
+    ///  Returns summaries of the customer's organizations.
     public func listOrganizationsPaginator(_ input: ListOrganizationsRequest, onPage: @escaping (ListOrganizationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOrganizations, tokenKey: \ListOrganizationsResponse.nextToken, onPage: onPage)
     }

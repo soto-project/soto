@@ -6,7 +6,7 @@ import NIO
 
 extension FMS {
 
-    ///  Returns an array of PolicyComplianceStatus objects in the response. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
+    ///  Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
     public func listComplianceStatusPaginator(_ input: ListComplianceStatusRequest, onPage: @escaping (ListComplianceStatusResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listComplianceStatus, tokenKey: \ListComplianceStatusResponse.nextToken, onPage: onPage)
     }
@@ -16,7 +16,7 @@ extension FMS {
         return client.paginate(input: input, command: listMemberAccounts, tokenKey: \ListMemberAccountsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Returns an array of PolicySummary objects in the response.
+    ///  Returns an array of PolicySummary objects.
     public func listPoliciesPaginator(_ input: ListPoliciesRequest, onPage: @escaping (ListPoliciesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPolicies, tokenKey: \ListPoliciesResponse.nextToken, onPage: onPage)
     }

@@ -6,6 +6,12 @@ import AWSSDKSwiftCore
 extension ECR {
     //MARK: Enums
 
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case aes256 = "AES256"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FindingSeverity: String, CustomStringConvertible, Codable {
         case informational = "INFORMATIONAL"
         case low = "LOW"
@@ -28,6 +34,7 @@ extension ECR {
         case imagenotfound = "ImageNotFound"
         case missingdigestandtag = "MissingDigestAndTag"
         case imagereferencedbymanifestlist = "ImageReferencedByManifestList"
+        case kmserror = "KmsError"
         public var description: String { return self.rawValue }
     }
 
@@ -392,13 +399,16 @@ extension ECR {
 
     public struct CreateRepositoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "encryptionConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "imageScanningConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
-        /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.
+        /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository.
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
@@ -407,7 +417,8 @@ extension ECR {
         /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
-        public init(imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, repositoryName: String, tags: [Tag]? = nil) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, repositoryName: String, tags: [Tag]? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTagMutability = imageTagMutability
             self.repositoryName = repositoryName
@@ -415,12 +426,14 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
             try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
             try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
             case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTagMutability = "imageTagMutability"
             case repositoryName = "repositoryName"
@@ -862,6 +875,33 @@ extension ECR {
         }
     }
 
+    public struct EncryptionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "encryptionType", required: true, type: .enum), 
+            AWSShapeMember(label: "kmsKey", required: false, type: .string)
+        ]
+
+        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with customer master keys (CMKs) stored in AWS KMS. When you use AWS KMS to encrypt your data, you can either use the default AWS managed CMK for Amazon ECR, or specify your own CMK, which you already created. For more information, see Protecting Data Using Server-Side Encryption with CMKs Stored in AWS Key Management Service (SSE-KMS) in the Amazon Simple Storage Service Console Developer Guide.. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES-256 encryption algorithm. For more information, see Protecting Data Using Server-Side Encryption with Amazon S3-Managed Encryption Keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide..
+        public let encryptionType: EncryptionType
+        /// If you use the KMS encryption type, specify the CMK to use for encryption. The alias, key ID, or full ARN of the CMK can be specified. The key must exist in the same Region as the repository. If no key is specified, the default AWS managed CMK for Amazon ECR will be used.
+        public let kmsKey: String?
+
+        public init(encryptionType: EncryptionType, kmsKey: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsKey = kmsKey
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kmsKey, name:"kmsKey", parent: name, max: 2048)
+            try validate(self.kmsKey, name:"kmsKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case kmsKey = "kmsKey"
+        }
+    }
+
     public struct GetAuthorizationTokenRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "registryIds", required: false, type: .list)
@@ -1185,6 +1225,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "imageId", required: false, type: .structure), 
             AWSShapeMember(label: "imageManifest", required: false, type: .string), 
+            AWSShapeMember(label: "imageManifestMediaType", required: false, type: .string), 
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
@@ -1193,14 +1234,17 @@ extension ECR {
         public let imageId: ImageIdentifier?
         /// The image manifest associated with the image.
         public let imageManifest: String?
+        /// The manifest media type of the image.
+        public let imageManifestMediaType: String?
         /// The AWS account ID associated with the registry containing the image.
         public let registryId: String?
         /// The name of the repository associated with the image.
         public let repositoryName: String?
 
-        public init(imageId: ImageIdentifier? = nil, imageManifest: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(imageId: ImageIdentifier? = nil, imageManifest: String? = nil, imageManifestMediaType: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageId = imageId
             self.imageManifest = imageManifest
+            self.imageManifestMediaType = imageManifestMediaType
             self.registryId = registryId
             self.repositoryName = repositoryName
         }
@@ -1208,6 +1252,7 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case imageId = "imageId"
             case imageManifest = "imageManifest"
+            case imageManifestMediaType = "imageManifestMediaType"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
         }
@@ -1215,7 +1260,9 @@ extension ECR {
 
     public struct ImageDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifactMediaType", required: false, type: .string), 
             AWSShapeMember(label: "imageDigest", required: false, type: .string), 
+            AWSShapeMember(label: "imageManifestMediaType", required: false, type: .string), 
             AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "imageScanFindingsSummary", required: false, type: .structure), 
             AWSShapeMember(label: "imageScanStatus", required: false, type: .structure), 
@@ -1225,8 +1272,12 @@ extension ECR {
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
 
+        /// The artifact media type of the image.
+        public let artifactMediaType: String?
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
+        /// The media type of the image manifest.
+        public let imageManifestMediaType: String?
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository. 
         public let imagePushedAt: TimeStamp?
         /// A summary of the last completed image scan.
@@ -1242,8 +1293,10 @@ extension ECR {
         /// The name of the repository to which this image belongs.
         public let repositoryName: String?
 
-        public init(imageDigest: String? = nil, imagePushedAt: TimeStamp? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: TimeStamp? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+            self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
+            self.imageManifestMediaType = imageManifestMediaType
             self.imagePushedAt = imagePushedAt
             self.imageScanFindingsSummary = imageScanFindingsSummary
             self.imageScanStatus = imageScanStatus
@@ -1254,7 +1307,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case artifactMediaType = "artifactMediaType"
             case imageDigest = "imageDigest"
+            case imageManifestMediaType = "imageManifestMediaType"
             case imagePushedAt = "imagePushedAt"
             case imageScanFindingsSummary = "imageScanFindingsSummary"
             case imageScanStatus = "imageScanStatus"
@@ -1773,23 +1828,31 @@ extension ECR {
 
     public struct PutImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
             AWSShapeMember(label: "imageManifest", required: true, type: .string), 
+            AWSShapeMember(label: "imageManifestMediaType", required: false, type: .string), 
             AWSShapeMember(label: "imageTag", required: false, type: .string), 
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
 
+        /// The image digest of the image manifest corresponding to the image.
+        public let imageDigest: String?
         /// The image manifest corresponding to the image to be uploaded.
         public let imageManifest: String
-        /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
+        /// The media type of the image manifest. If you push an image manifest that does not contain the mediaType field, you must specify the imageManifestMediaType in the request.
+        public let imageManifestMediaType: String?
+        /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
         public let imageTag: String?
         /// The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository in which to put the image.
         public let repositoryName: String
 
-        public init(imageManifest: String, imageTag: String? = nil, registryId: String? = nil, repositoryName: String) {
+        public init(imageDigest: String? = nil, imageManifest: String, imageManifestMediaType: String? = nil, imageTag: String? = nil, registryId: String? = nil, repositoryName: String) {
+            self.imageDigest = imageDigest
             self.imageManifest = imageManifest
+            self.imageManifestMediaType = imageManifestMediaType
             self.imageTag = imageTag
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -1807,7 +1870,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageDigest = "imageDigest"
             case imageManifest = "imageManifest"
+            case imageManifestMediaType = "imageManifestMediaType"
             case imageTag = "imageTag"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
@@ -2019,6 +2084,7 @@ extension ECR {
     public struct Repository: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "encryptionConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "imageScanningConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
             AWSShapeMember(label: "registryId", required: false, type: .string), 
@@ -2029,6 +2095,8 @@ extension ECR {
 
         /// The date and time, in JavaScript date format, when the repository was created.
         public let createdAt: TimeStamp?
+        /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
+        public let encryptionConfiguration: EncryptionConfiguration?
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository.
         public let imageTagMutability: ImageTagMutability?
@@ -2038,11 +2106,12 @@ extension ECR {
         public let repositoryArn: String?
         /// The name of the repository.
         public let repositoryName: String?
-        /// The URI for the repository. You can use this URI for Docker push or pull operations.
+        /// The URI for the repository. You can use this URI for container image push and pull operations.
         public let repositoryUri: String?
 
-        public init(createdAt: TimeStamp? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
+        public init(createdAt: TimeStamp? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
             self.createdAt = createdAt
+            self.encryptionConfiguration = encryptionConfiguration
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTagMutability = imageTagMutability
             self.registryId = registryId
@@ -2053,6 +2122,7 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case encryptionConfiguration = "encryptionConfiguration"
             case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTagMutability = "imageTagMutability"
             case registryId = "registryId"
@@ -2072,7 +2142,7 @@ extension ECR {
 
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
         public let force: Bool?
-        /// The JSON repository policy text to apply to the repository. For more information, see Amazon ECR Repository Policy Examples in the Amazon Elastic Container Registry User Guide.
+        /// The JSON repository policy text to apply to the repository. For more information, see Amazon ECR Repository Policies in the Amazon Elastic Container Registry User Guide.
         public let policyText: String
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -2357,9 +2427,9 @@ extension ECR {
 
         /// The base64-encoded layer part payload.
         public let layerPartBlob: Data
-        /// The integer value of the first byte of the layer part.
+        /// The position of the first byte of the layer part witin the overall image layer.
         public let partFirstByte: Int64
-        /// The integer value of the last byte of the layer part.
+        /// The position of the last byte of the layer part within the overall image layer.
         public let partLastByte: Int64
         /// The AWS account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?

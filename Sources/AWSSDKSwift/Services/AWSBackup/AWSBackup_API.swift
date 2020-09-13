@@ -49,7 +49,7 @@ public struct AWSBackup {
         return client.send(operation: "CreateBackupPlan", path: "/backup/plans/", httpMethod: "PUT", input: input)
     }
 
-    ///  Creates a JSON document that specifies a set of resources to assign to a backup plan. Resources can be included by specifying patterns for a ListOfTags and selected Resources.  For example, consider the following patterns:    Resources: "arn:aws:ec2:region:account-id:volume/volume-id"     ConditionKey:"department"   ConditionValue:"finance"   ConditionType:"STRINGEQUALS"     ConditionKey:"importance"   ConditionValue:"critical"   ConditionType:"STRINGEQUALS"    Using these patterns would back up all Amazon Elastic Block Store (Amazon EBS) volumes that are tagged as "department=finance", "importance=critical", in addition to an EBS volume with the specified volume Id. Resources and conditions are additive in that all resources that match the pattern are selected. This shouldn't be confused with a logical AND, where all conditions must match. The matching patterns are logically 'put together using the OR operator. In other words, all patterns that match are selected for backup.
+    ///  Creates a JSON document that specifies a set of resources to assign to a backup plan. Resources can be included by specifying patterns for a ListOfTags and selected Resources.  For example, consider the following patterns:    Resources: "arn:aws:ec2:region:account-id:volume/volume-id"     ConditionKey:"department"   ConditionValue:"finance"   ConditionType:"StringEquals"     ConditionKey:"importance"   ConditionValue:"critical"   ConditionType:"StringEquals"    Using these patterns would back up all Amazon Elastic Block Store (Amazon EBS) volumes that are tagged as "department=finance", "importance=critical", in addition to an EBS volume with the specified volume Id. Resources and conditions are additive in that all resources that match the pattern are selected. This shouldn't be confused with a logical AND, where all conditions must match. The matching patterns are logically 'put together using the OR operator. In other words, all patterns that match are selected for backup.
     public func createBackupSelection(_ input: CreateBackupSelectionInput) -> EventLoopFuture<CreateBackupSelectionOutput> {
         return client.send(operation: "CreateBackupSelection", path: "/backup/plans/{backupPlanId}/selections/", httpMethod: "PUT", input: input)
     }
@@ -104,7 +104,7 @@ public struct AWSBackup {
         return client.send(operation: "DescribeCopyJob", path: "/copy-jobs/{copyJobId}", httpMethod: "GET", input: input)
     }
 
-    ///  Returns information about a saved resource, including the last time it was backed-up, its Amazon Resource Name (ARN), and the AWS service type of the saved resource.
+    ///  Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the AWS service type of the saved resource.
     public func describeProtectedResource(_ input: DescribeProtectedResourceInput) -> EventLoopFuture<DescribeProtectedResourceOutput> {
         return client.send(operation: "DescribeProtectedResource", path: "/resources/{resourceArn}", httpMethod: "GET", input: input)
     }
@@ -112,6 +112,11 @@ public struct AWSBackup {
     ///  Returns metadata associated with a recovery point, including ID, status, encryption, and lifecycle.
     public func describeRecoveryPoint(_ input: DescribeRecoveryPointInput) -> EventLoopFuture<DescribeRecoveryPointOutput> {
         return client.send(operation: "DescribeRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup attempts to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not attempt to protect that service's resources in this Region.
+    public func describeRegionSettings(_ input: DescribeRegionSettingsInput) -> EventLoopFuture<DescribeRegionSettingsOutput> {
+        return client.send(operation: "DescribeRegionSettings", path: "/account-settings", httpMethod: "GET", input: input)
     }
 
     ///  Returns metadata associated with a restore job that is specified by a job ID.
@@ -219,7 +224,7 @@ public struct AWSBackup {
         return client.send(operation: "ListRestoreJobs", path: "/restore-jobs/", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.
+    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.   ListTags are currently only supported with Amazon EFS backups. 
     public func listTags(_ input: ListTagsInput) -> EventLoopFuture<ListTagsOutput> {
         return client.send(operation: "ListTags", path: "/tags/{resourceArn}/", httpMethod: "GET", input: input)
     }
@@ -272,5 +277,10 @@ public struct AWSBackup {
     ///  Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
     public func updateRecoveryPointLifecycle(_ input: UpdateRecoveryPointLifecycleInput) -> EventLoopFuture<UpdateRecoveryPointLifecycleOutput> {
         return client.send(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup attempts to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not attempt to protect that service's resources in this Region.
+    @discardableResult public func updateRegionSettings(_ input: UpdateRegionSettingsInput) -> EventLoopFuture<Void> {
+        return client.send(operation: "UpdateRegionSettings", path: "/account-settings", httpMethod: "PUT", input: input)
     }
 }

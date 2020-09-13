@@ -9,12 +9,14 @@ public enum GlueErrorType: AWSErrorType {
     case concurrentModificationException(message: String?)
     case concurrentRunsExceededException(message: String?)
     case conditionCheckFailureException(message: String?)
+    case conflictException(message: String?)
     case crawlerNotRunningException(message: String?)
     case crawlerRunningException(message: String?)
     case crawlerStoppingException(message: String?)
     case entityNotFoundException(message: String?)
     case glueEncryptionException(message: String?)
     case idempotentParameterMismatchException(message: String?)
+    case illegalWorkflowStateException(message: String?)
     case internalServiceException(message: String?)
     case invalidInputException(message: String?)
     case mLTransformNotReadyException(message: String?)
@@ -45,6 +47,8 @@ extension GlueErrorType {
             self = .concurrentRunsExceededException(message: message)
         case "ConditionCheckFailureException":
             self = .conditionCheckFailureException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "CrawlerNotRunningException":
             self = .crawlerNotRunningException(message: message)
         case "CrawlerRunningException":
@@ -57,6 +61,8 @@ extension GlueErrorType {
             self = .glueEncryptionException(message: message)
         case "IdempotentParameterMismatchException":
             self = .idempotentParameterMismatchException(message: message)
+        case "IllegalWorkflowStateException":
+            self = .illegalWorkflowStateException(message: message)
         case "InternalServiceException":
             self = .internalServiceException(message: message)
         case "InvalidInputException":
@@ -98,6 +104,8 @@ extension GlueErrorType : CustomStringConvertible {
             return "ConcurrentRunsExceededException: \(message ?? "")"
         case .conditionCheckFailureException(let message):
             return "ConditionCheckFailureException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .crawlerNotRunningException(let message):
             return "CrawlerNotRunningException: \(message ?? "")"
         case .crawlerRunningException(let message):
@@ -110,6 +118,8 @@ extension GlueErrorType : CustomStringConvertible {
             return "GlueEncryptionException: \(message ?? "")"
         case .idempotentParameterMismatchException(let message):
             return "IdempotentParameterMismatchException: \(message ?? "")"
+        case .illegalWorkflowStateException(let message):
+            return "IllegalWorkflowStateException: \(message ?? "")"
         case .internalServiceException(let message):
             return "InternalServiceException: \(message ?? "")"
         case .invalidInputException(let message):

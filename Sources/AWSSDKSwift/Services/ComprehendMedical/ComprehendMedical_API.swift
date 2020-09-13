@@ -51,9 +51,19 @@ public struct ComprehendMedical {
         return client.send(operation: "DescribeEntitiesDetectionV2Job", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets the properties associated with an InferICD10CM job. Use this operation to get the status of an inference job.
+    public func describeICD10CMInferenceJob(_ input: DescribeICD10CMInferenceJobRequest) -> EventLoopFuture<DescribeICD10CMInferenceJobResponse> {
+        return client.send(operation: "DescribeICD10CMInferenceJob", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detection job.
     public func describePHIDetectionJob(_ input: DescribePHIDetectionJobRequest) -> EventLoopFuture<DescribePHIDetectionJobResponse> {
         return client.send(operation: "DescribePHIDetectionJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the properties associated with an InferRxNorm job. Use this operation to get the status of an inference job.
+    public func describeRxNormInferenceJob(_ input: DescribeRxNormInferenceJobRequest) -> EventLoopFuture<DescribeRxNormInferenceJobResponse> {
+        return client.send(operation: "DescribeRxNormInferenceJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The DetectEntities operation is deprecated. You should use the DetectEntitiesV2 operation instead.  Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information .
@@ -87,9 +97,19 @@ public struct ComprehendMedical {
         return client.send(operation: "ListEntitiesDetectionV2Jobs", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets a list of InferICD10CM jobs that you have submitted.
+    public func listICD10CMInferenceJobs(_ input: ListICD10CMInferenceJobsRequest) -> EventLoopFuture<ListICD10CMInferenceJobsResponse> {
+        return client.send(operation: "ListICD10CMInferenceJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets a list of protected health information (PHI) detection jobs that you have submitted.
     public func listPHIDetectionJobs(_ input: ListPHIDetectionJobsRequest) -> EventLoopFuture<ListPHIDetectionJobsResponse> {
         return client.send(operation: "ListPHIDetectionJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a list of InferRxNorm jobs that you have submitted.
+    public func listRxNormInferenceJobs(_ input: ListRxNormInferenceJobsRequest) -> EventLoopFuture<ListRxNormInferenceJobsResponse> {
+        return client.send(operation: "ListRxNormInferenceJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts an asynchronous medical entity detection job for a collection of documents. Use the DescribeEntitiesDetectionV2Job operation to track the status of a job.
@@ -97,9 +117,19 @@ public struct ComprehendMedical {
         return client.send(operation: "StartEntitiesDetectionV2Job", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a job.
+    public func startICD10CMInferenceJob(_ input: StartICD10CMInferenceJobRequest) -> EventLoopFuture<StartICD10CMInferenceJobResponse> {
+        return client.send(operation: "StartICD10CMInferenceJob", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Starts an asynchronous job to detect protected health information (PHI). Use the DescribePHIDetectionJob operation to track the status of a job.
     public func startPHIDetectionJob(_ input: StartPHIDetectionJobRequest) -> EventLoopFuture<StartPHIDetectionJobResponse> {
         return client.send(operation: "StartPHIDetectionJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts an asynchronous job to detect medication entities and link them to the RxNorm ontology. Use the DescribeRxNormInferenceJob operation to track the status of a job.
+    public func startRxNormInferenceJob(_ input: StartRxNormInferenceJobRequest) -> EventLoopFuture<StartRxNormInferenceJobResponse> {
+        return client.send(operation: "StartRxNormInferenceJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a medical entities detection job in progress.
@@ -107,8 +137,18 @@ public struct ComprehendMedical {
         return client.send(operation: "StopEntitiesDetectionV2Job", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Stops an InferICD10CM inference job in progress.
+    public func stopICD10CMInferenceJob(_ input: StopICD10CMInferenceJobRequest) -> EventLoopFuture<StopICD10CMInferenceJobResponse> {
+        return client.send(operation: "StopICD10CMInferenceJob", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Stops a protected health information (PHI) detection job in progress.
     public func stopPHIDetectionJob(_ input: StopPHIDetectionJobRequest) -> EventLoopFuture<StopPHIDetectionJobResponse> {
         return client.send(operation: "StopPHIDetectionJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops an InferRxNorm inference job in progress.
+    public func stopRxNormInferenceJob(_ input: StopRxNormInferenceJobRequest) -> EventLoopFuture<StopRxNormInferenceJobResponse> {
+        return client.send(operation: "StopRxNormInferenceJob", path: "/", httpMethod: "POST", input: input)
     }
 }

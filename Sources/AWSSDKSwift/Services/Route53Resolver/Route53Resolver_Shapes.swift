@@ -36,6 +36,31 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResolverQueryLogConfigAssociationError: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case destinationNotFound = "DESTINATION_NOT_FOUND"
+        case accessDenied = "ACCESS_DENIED"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverQueryLogConfigAssociationStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case actionNeeded = "ACTION_NEEDED"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverQueryLogConfigStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResolverRuleAssociationStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case complete = "COMPLETE"
@@ -67,6 +92,12 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
     //MARK: Shapes
 
     public struct AssociateResolverEndpointIpAddressRequest: AWSShape {
@@ -75,9 +106,9 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
         ]
 
-        /// Either the IPv4 address that you want to add to a resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
+        /// Either the IPv4 address that you want to add to a Resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
         public let ipAddress: IpAddressUpdate
-        /// The ID of the resolver endpoint that you want to associate IP addresses with.
+        /// The ID of the Resolver endpoint that you want to associate IP addresses with.
         public let resolverEndpointId: String
 
         public init(ipAddress: IpAddressUpdate, resolverEndpointId: String) {
@@ -114,6 +145,52 @@ extension Route53Resolver {
         }
     }
 
+    public struct AssociateResolverQueryLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfigId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+
+        /// The ID of the query logging configuration that you want to associate a VPC with.
+        public let resolverQueryLogConfigId: String
+        /// The ID of an Amazon VPC that you want this query logging configuration to log queries for.  The VPCs and the query logging configuration must be in the same Region. 
+        public let resourceId: String
+
+        public init(resolverQueryLogConfigId: String, resourceId: String) {
+            self.resolverQueryLogConfigId = resolverQueryLogConfigId
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resolverQueryLogConfigId, name:"resolverQueryLogConfigId", parent: name, max: 64)
+            try validate(self.resolverQueryLogConfigId, name:"resolverQueryLogConfigId", parent: name, min: 1)
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 64)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfigId = "ResolverQueryLogConfigId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct AssociateResolverQueryLogConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfigAssociation", required: false, type: .structure)
+        ]
+
+        /// A complex type that contains settings for a specified association between an Amazon VPC and a query logging configuration.
+        public let resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation?
+
+        public init(resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation? = nil) {
+            self.resolverQueryLogConfigAssociation = resolverQueryLogConfigAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfigAssociation = "ResolverQueryLogConfigAssociation"
+        }
+    }
+
     public struct AssociateResolverRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -121,11 +198,11 @@ extension Route53Resolver {
             AWSShapeMember(label: "VPCId", required: true, type: .string)
         ]
 
-        /// A name for the association that you're creating between a resolver rule and a VPC.
+        /// A name for the association that you're creating between a Resolver rule and a VPC.
         public let name: String?
-        /// The ID of the resolver rule that you want to associate with the VPC. To list the existing resolver rules, use ListResolverRules.
+        /// The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use ListResolverRules.
         public let resolverRuleId: String
-        /// The ID of the VPC that you want to associate the resolver rule with.
+        /// The ID of the VPC that you want to associate the Resolver rule with.
         public let vPCId: String
 
         public init(name: String? = nil, resolverRuleId: String, vPCId: String) {
@@ -136,7 +213,7 @@ extension Route53Resolver {
 
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 64)
-            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
             try validate(self.resolverRuleId, name:"resolverRuleId", parent: name, max: 64)
             try validate(self.resolverRuleId, name:"resolverRuleId", parent: name, min: 1)
             try validate(self.vPCId, name:"vPCId", parent: name, max: 64)
@@ -179,13 +256,13 @@ extension Route53Resolver {
 
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
         public let creatorRequestId: String
-        /// Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network or another VPC    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network or another VPC  
+        /// Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network  
         public let direction: ResolverEndpointDirection
-        /// The subnets and IP addresses in your VPC that you want DNS queries to pass through on the way from your VPCs to your network (for outbound endpoints) or on the way from your network to your VPCs (for inbound resolver endpoints). 
+        /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. 
         public let ipAddresses: [IpAddressRequest]
         /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
         public let name: String?
-        /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound resolver endpoints) or outbound rules (for outbound resolver endpoints).
+        /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
         public let securityGroupIds: [String]
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
@@ -208,11 +285,15 @@ extension Route53Resolver {
             try validate(self.ipAddresses, name:"ipAddresses", parent: name, max: 10)
             try validate(self.ipAddresses, name:"ipAddresses", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 64)
-            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 64)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -242,6 +323,69 @@ extension Route53Resolver {
         }
     }
 
+    public struct CreateResolverQueryLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatorRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationArn", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
+        public let creatorRequestId: String
+        /// The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following:    S3 bucket:   arn:aws:s3:::examplebucket  You can optionally append a file prefix to the end of the ARN.  arn:aws:s3:::examplebucket/development/     CloudWatch Logs log group:   arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*     Kinesis Data Firehose delivery stream:  arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name   
+        public let destinationArn: String
+        /// The name that you want to give the query logging configuration
+        public let name: String
+        /// A list of the tag keys and values that you want to associate with the query logging configuration.
+        public let tags: [Tag]?
+
+        public init(creatorRequestId: String = CreateResolverQueryLogConfigRequest.idempotencyToken(), destinationArn: String, name: String, tags: [Tag]? = nil) {
+            self.creatorRequestId = creatorRequestId
+            self.destinationArn = destinationArn
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.creatorRequestId, name:"creatorRequestId", parent: name, max: 255)
+            try validate(self.creatorRequestId, name:"creatorRequestId", parent: name, min: 1)
+            try validate(self.destinationArn, name:"destinationArn", parent: name, max: 600)
+            try validate(self.destinationArn, name:"destinationArn", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creatorRequestId = "CreatorRequestId"
+            case destinationArn = "DestinationArn"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateResolverQueryLogConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfig", required: false, type: .structure)
+        ]
+
+        /// Information about the CreateResolverQueryLogConfig request, including the status of the request.
+        public let resolverQueryLogConfig: ResolverQueryLogConfig?
+
+        public init(resolverQueryLogConfig: ResolverQueryLogConfig? = nil) {
+            self.resolverQueryLogConfig = resolverQueryLogConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfig = "ResolverQueryLogConfig"
+        }
+    }
+
     public struct CreateResolverRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatorRequestId", required: true, type: .string), 
@@ -255,17 +399,17 @@ extension Route53Resolver {
 
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
         public let creatorRequestId: String
-        /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple resolver rules (example.com and www.example.com), outbound DNS queries are routed using the resolver rule that contains the most specific domain name (www.example.com).
+        /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific domain name (www.example.com).
         public let domainName: String
         /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
         public let name: String?
-        /// The ID of the outbound resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
+        /// The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
         public let resolverEndpointId: String?
-        /// Specify FORWARD. Other resolver rule types aren't supported.
+        /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
         public let ruleType: RuleTypeOption
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
-        /// The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a comma.
+        /// The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a comma.  TargetIps is available only when the value of Rule type is FORWARD.
         public let targetIps: [TargetAddress]?
 
         public init(creatorRequestId: String, domainName: String, name: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption, tags: [Tag]? = nil, targetIps: [TargetAddress]? = nil) {
@@ -284,9 +428,13 @@ extension Route53Resolver {
             try validate(self.domainName, name:"domainName", parent: name, max: 256)
             try validate(self.domainName, name:"domainName", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 64)
-            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
             try validate(self.resolverEndpointId, name:"resolverEndpointId", parent: name, max: 64)
             try validate(self.resolverEndpointId, name:"resolverEndpointId", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
             try self.targetIps?.forEach {
                 try $0.validate(name: "\(name).targetIps[]")
             }
@@ -326,7 +474,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
         ]
 
-        /// The ID of the resolver endpoint that you want to delete.
+        /// The ID of the Resolver endpoint that you want to delete.
         public let resolverEndpointId: String
 
         public init(resolverEndpointId: String) {
@@ -360,12 +508,51 @@ extension Route53Resolver {
         }
     }
 
+    public struct DeleteResolverQueryLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfigId", required: true, type: .string)
+        ]
+
+        /// The ID of the query logging configuration that you want to delete.
+        public let resolverQueryLogConfigId: String
+
+        public init(resolverQueryLogConfigId: String) {
+            self.resolverQueryLogConfigId = resolverQueryLogConfigId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resolverQueryLogConfigId, name:"resolverQueryLogConfigId", parent: name, max: 64)
+            try validate(self.resolverQueryLogConfigId, name:"resolverQueryLogConfigId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfigId = "ResolverQueryLogConfigId"
+        }
+    }
+
+    public struct DeleteResolverQueryLogConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfig", required: false, type: .structure)
+        ]
+
+        /// Information about the query logging configuration that you deleted, including the status of the request.
+        public let resolverQueryLogConfig: ResolverQueryLogConfig?
+
+        public init(resolverQueryLogConfig: ResolverQueryLogConfig? = nil) {
+            self.resolverQueryLogConfig = resolverQueryLogConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfig = "ResolverQueryLogConfig"
+        }
+    }
+
     public struct DeleteResolverRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
         ]
 
-        /// The ID of the resolver rule that you want to delete.
+        /// The ID of the Resolver rule that you want to delete.
         public let resolverRuleId: String
 
         public init(resolverRuleId: String) {
@@ -405,9 +592,9 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
         ]
 
-        /// The IPv4 address that you want to remove from a resolver endpoint.
+        /// The IPv4 address that you want to remove from a Resolver endpoint.
         public let ipAddress: IpAddressUpdate
-        /// The ID of the resolver endpoint that you want to disassociate an IP address from.
+        /// The ID of the Resolver endpoint that you want to disassociate an IP address from.
         public let resolverEndpointId: String
 
         public init(ipAddress: IpAddressUpdate, resolverEndpointId: String) {
@@ -444,15 +631,61 @@ extension Route53Resolver {
         }
     }
 
+    public struct DisassociateResolverQueryLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfigId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+
+        /// The ID of the query logging configuration that you want to disassociate a specified VPC from.
+        public let resolverQueryLogConfigId: String
+        /// The ID of the Amazon VPC that you want to disassociate from a specified query logging configuration.
+        public let resourceId: String
+
+        public init(resolverQueryLogConfigId: String, resourceId: String) {
+            self.resolverQueryLogConfigId = resolverQueryLogConfigId
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resolverQueryLogConfigId, name:"resolverQueryLogConfigId", parent: name, max: 64)
+            try validate(self.resolverQueryLogConfigId, name:"resolverQueryLogConfigId", parent: name, min: 1)
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 64)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfigId = "ResolverQueryLogConfigId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DisassociateResolverQueryLogConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfigAssociation", required: false, type: .structure)
+        ]
+
+        /// A complex type that contains settings for the association that you deleted between an Amazon VPC and a query logging configuration.
+        public let resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation?
+
+        public init(resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation? = nil) {
+            self.resolverQueryLogConfigAssociation = resolverQueryLogConfigAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfigAssociation = "ResolverQueryLogConfigAssociation"
+        }
+    }
+
     public struct DisassociateResolverRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResolverRuleId", required: true, type: .string), 
             AWSShapeMember(label: "VPCId", required: true, type: .string)
         ]
 
-        /// The ID of the resolver rule that you want to disassociate from the specified VPC.
+        /// The ID of the Resolver rule that you want to disassociate from the specified VPC.
         public let resolverRuleId: String
-        /// The ID of the VPC that you want to disassociate the resolver rule from.
+        /// The ID of the VPC that you want to disassociate the Resolver rule from.
         public let vPCId: String
 
         public init(resolverRuleId: String, vPCId: String) {
@@ -496,9 +729,9 @@ extension Route53Resolver {
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
 
-        /// When you're using a List operation and you want the operation to return a subset of objects, such as resolver endpoints or resolver rules, the name of the parameter that you want to use to filter objects. For example, to list only inbound resolver endpoints, specify Direction for the value of Name.
+        /// The name of the parameter that you want to use to filter objects. The valid values for Name depend on the action that you're including the filter in, ListResolverEndpoints, ListResolverRules, ListResolverRuleAssociations, ListResolverQueryLogConfigs, or ListResolverQueryLogConfigAssociations.  In early versions of Resolver, values for Name were listed as uppercase, with underscore (_) delimiters. For example, CreatorRequestId was originally listed as CREATOR_REQUEST_ID. Uppercase values for Name are still supported.   ListResolverEndpoints  Valid values for Name include the following:    CreatorRequestId: The value that you specified when you created the Resolver endpoint.    Direction: Whether you want to return inbound or outbound Resolver endpoints. If you specify DIRECTION for Name, specify INBOUND or OUTBOUND for Values.    HostVpcId: The ID of the VPC that inbound DNS queries pass through on the way from your network to your VPCs in a region, or the VPC that outbound queries pass through on the way from your VPCs to your network. In a CreateResolverEndpoint request, SubnetId indirectly identifies the VPC. In a GetResolverEndpoint request, the VPC ID for a Resolver endpoint is returned in the HostVPCId element.     IpAddressCount: The number of IP addresses that you have associated with the Resolver endpoint.    Name: The name of the Resolver endpoint.    SecurityGroupIds: The IDs of the VPC security groups that you specified when you created the Resolver endpoint.    Status: The status of the Resolver endpoint. If you specify Status for Name, specify one of the following status codes for Values: CREATING, OPERATIONAL, UPDATING, AUTO_RECOVERING, ACTION_NEEDED, or DELETING. For more information, see Status in ResolverEndpoint.    ListResolverRules  Valid values for Name include the following:    CreatorRequestId: The value that you specified when you created the Resolver rule.    DomainName: The domain name for which Resolver is forwarding DNS queries to your network. In the value that you specify for Values, include a trailing dot (.) after the domain name. For example, if the domain name is example.com, specify the following value. Note the "." after com:  example.com.     Name: The name of the Resolver rule.    ResolverEndpointId: The ID of the Resolver endpoint that the Resolver rule is associated with.  You can filter on the Resolver endpoint only for rules that have a value of FORWARD for RuleType.     Status: The status of the Resolver rule. If you specify Status for Name, specify one of the following status codes for Values: COMPLETE, DELETING, UPDATING, or FAILED.    Type: The type of the Resolver rule. If you specify TYPE for Name, specify FORWARD or SYSTEM for Values.    ListResolverRuleAssociations  Valid values for Name include the following:    Name: The name of the Resolver rule association.    ResolverRuleId: The ID of the Resolver rule that is associated with one or more VPCs.    Status: The status of the Resolver rule association. If you specify Status for Name, specify one of the following status codes for Values: CREATING, COMPLETE, DELETING, or FAILED.    VPCId: The ID of the VPC that the Resolver rule is associated with.    ListResolverQueryLogConfigs  Valid values for Name include the following:    Arn: The ARN for the query logging configuration.    AssociationCount: The number of VPCs that are associated with the query logging configuration.    CreationTime: The date and time that the query logging configuration was created, in Unix time format and Coordinated Universal Time (UTC).     CreatorRequestId: A unique string that identifies the request that created the query logging configuration.    Destination: The AWS service that you want to forward query logs to. Valid values include the following:    S3     CloudWatchLogs     KinesisFirehose       DestinationArn: The ARN of the location that Resolver is sending query logs to. This value can be the ARN for an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream.    Id: The ID of the query logging configuration    Name: The name of the query logging configuration    OwnerId: The AWS account ID for the account that created the query logging configuration.    ShareStatus: An indication of whether the query logging configuration is shared with other AWS accounts, or was shared with the current account by another AWS account. Valid values include: NOT_SHARED, SHARED_WITH_ME, or SHARED_BY_ME.    Status: The status of the query logging configuration. If you specify Status for Name, specify the applicable status code for Values: CREATING, CREATED, DELETING, or FAILED. For more information, see Status.     ListResolverQueryLogConfigAssociations  Valid values for Name include the following:    CreationTime: The date and time that the VPC was associated with the query logging configuration, in Unix time format and Coordinated Universal Time (UTC).    Error: If the value of Status is FAILED, specify the cause: DESTINATION_NOT_FOUND or ACCESS_DENIED.    Id: The ID of the query logging association.    ResolverQueryLogConfigId: The ID of the query logging configuration that a VPC is associated with.    ResourceId: The ID of the Amazon VPC that is associated with the query logging configuration.    Status: The status of the query logging association. If you specify Status for Name, specify the applicable status code for Values: CREATING, CREATED, DELETING, or FAILED. For more information, see Status.   
         public let name: String?
-        /// When you're using a List operation and you want the operation to return a subset of objects, such as resolver endpoints or resolver rules, the value of the parameter that you want to use to filter objects. For example, to list only inbound resolver endpoints, specify INBOUND for the value of Values.
+        /// When you're using a List operation and you want the operation to return a subset of objects, such as Resolver endpoints or Resolver rules, the value of the parameter that you want to use to filter objects. For example, to list only inbound Resolver endpoints, specify Direction for Name and specify INBOUND for Values.
         public let values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
@@ -510,7 +743,7 @@ extension Route53Resolver {
             try validate(self.name, name:"name", parent: name, max: 64)
             try validate(self.name, name:"name", parent: name, min: 1)
             try self.values?.forEach {
-                try validate($0, name: "values[]", parent: name, max: 64)
+                try validate($0, name: "values[]", parent: name, max: 600)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
         }
@@ -526,7 +759,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
         ]
 
-        /// The ID of the resolver endpoint that you want to get information about.
+        /// The ID of the Resolver endpoint that you want to get information about.
         public let resolverEndpointId: String
 
         public init(resolverEndpointId: String) {
@@ -548,7 +781,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
         ]
 
-        /// Information about the resolver endpoint that you specified in a GetResolverEndpoint request.
+        /// Information about the Resolver endpoint that you specified in a GetResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
 
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
@@ -560,12 +793,129 @@ extension Route53Resolver {
         }
     }
 
+    public struct GetResolverQueryLogConfigAssociationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfigAssociationId", required: true, type: .string)
+        ]
+
+        /// The ID of the Resolver query logging configuration association that you want to get information about.
+        public let resolverQueryLogConfigAssociationId: String
+
+        public init(resolverQueryLogConfigAssociationId: String) {
+            self.resolverQueryLogConfigAssociationId = resolverQueryLogConfigAssociationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resolverQueryLogConfigAssociationId, name:"resolverQueryLogConfigAssociationId", parent: name, max: 64)
+            try validate(self.resolverQueryLogConfigAssociationId, name:"resolverQueryLogConfigAssociationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfigAssociationId = "ResolverQueryLogConfigAssociationId"
+        }
+    }
+
+    public struct GetResolverQueryLogConfigAssociationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfigAssociation", required: false, type: .structure)
+        ]
+
+        /// Information about the Resolver query logging configuration association that you specified in a GetQueryLogConfigAssociation request.
+        public let resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation?
+
+        public init(resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation? = nil) {
+            self.resolverQueryLogConfigAssociation = resolverQueryLogConfigAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfigAssociation = "ResolverQueryLogConfigAssociation"
+        }
+    }
+
+    public struct GetResolverQueryLogConfigPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string)
+        ]
+
+        /// The ARN of the query logging configuration that you want to get the query logging policy for.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, max: 255)
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct GetResolverQueryLogConfigPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfigPolicy", required: false, type: .string)
+        ]
+
+        /// Information about the query logging policy for the query logging configuration that you specified in a GetResolverQueryLogConfigPolicy request.
+        public let resolverQueryLogConfigPolicy: String?
+
+        public init(resolverQueryLogConfigPolicy: String? = nil) {
+            self.resolverQueryLogConfigPolicy = resolverQueryLogConfigPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfigPolicy = "ResolverQueryLogConfigPolicy"
+        }
+    }
+
+    public struct GetResolverQueryLogConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfigId", required: true, type: .string)
+        ]
+
+        /// The ID of the Resolver query logging configuration that you want to get information about.
+        public let resolverQueryLogConfigId: String
+
+        public init(resolverQueryLogConfigId: String) {
+            self.resolverQueryLogConfigId = resolverQueryLogConfigId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resolverQueryLogConfigId, name:"resolverQueryLogConfigId", parent: name, max: 64)
+            try validate(self.resolverQueryLogConfigId, name:"resolverQueryLogConfigId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfigId = "ResolverQueryLogConfigId"
+        }
+    }
+
+    public struct GetResolverQueryLogConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverQueryLogConfig", required: false, type: .structure)
+        ]
+
+        /// Information about the Resolver query logging configuration that you specified in a GetQueryLogConfig request.
+        public let resolverQueryLogConfig: ResolverQueryLogConfig?
+
+        public init(resolverQueryLogConfig: ResolverQueryLogConfig? = nil) {
+            self.resolverQueryLogConfig = resolverQueryLogConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverQueryLogConfig = "ResolverQueryLogConfig"
+        }
+    }
+
     public struct GetResolverRuleAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResolverRuleAssociationId", required: true, type: .string)
         ]
 
-        /// The ID of the resolver rule association that you want to get information about.
+        /// The ID of the Resolver rule association that you want to get information about.
         public let resolverRuleAssociationId: String
 
         public init(resolverRuleAssociationId: String) {
@@ -587,7 +937,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverRuleAssociation", required: false, type: .structure)
         ]
 
-        /// Information about the resolver rule association that you specified in a GetResolverRuleAssociation request.
+        /// Information about the Resolver rule association that you specified in a GetResolverRuleAssociation request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
 
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
@@ -604,7 +954,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "Arn", required: true, type: .string)
         ]
 
-        /// The ID of the resolver rule policy that you want to get information about.
+        /// The ID of the Resolver rule policy that you want to get information about.
         public let arn: String
 
         public init(arn: String) {
@@ -626,7 +976,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverRulePolicy", required: false, type: .string)
         ]
 
-        /// Information about the resolver rule policy that you specified in a GetResolverRulePolicy request.
+        /// Information about the Resolver rule policy that you specified in a GetResolverRulePolicy request.
         public let resolverRulePolicy: String?
 
         public init(resolverRulePolicy: String? = nil) {
@@ -643,7 +993,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
         ]
 
-        /// The ID of the resolver rule that you want to get information about.
+        /// The ID of the Resolver rule that you want to get information about.
         public let resolverRuleId: String
 
         public init(resolverRuleId: String) {
@@ -665,7 +1015,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
         ]
 
-        /// Information about the resolver rule that you specified in a GetResolverRule request.
+        /// Information about the Resolver rule that you specified in a GetResolverRule request.
         public let resolverRule: ResolverRule?
 
         public init(resolverRule: ResolverRule? = nil) {
@@ -685,7 +1035,7 @@ extension Route53Resolver {
 
         /// The IP address that you want to use for DNS queries.
         public let ip: String?
-        /// The subnet that contains the IP address.
+        /// The ID of the subnet that contains the IP address. 
         public let subnetId: String
 
         public init(ip: String? = nil, subnetId: String) {
@@ -719,7 +1069,7 @@ extension Route53Resolver {
 
         /// The date and time that the IP address was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
-        /// One IP address that the resolver endpoint uses for DNS queries.
+        /// One IP address that the Resolver endpoint uses for DNS queries.
         public let ip: String?
         /// The ID of one IP address.
         public let ipId: String?
@@ -762,7 +1112,7 @@ extension Route53Resolver {
 
         /// The new IP address.
         public let ip: String?
-        ///  Only when removing an IP address from a resolver endpoint: The ID of the IP address that you want to remove. To get this ID, use GetResolverEndpoint.
+        ///  Only when removing an IP address from a Resolver endpoint: The ID of the IP address that you want to remove. To get this ID, use GetResolverEndpoint.
         public let ipId: String?
         /// The ID of the subnet that includes the IP address that you want to update. To get this ID, use GetResolverEndpoint.
         public let subnetId: String?
@@ -798,9 +1148,9 @@ extension Route53Resolver {
 
         /// The maximum number of IP addresses that you want to return in the response to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults, Resolver returns up to 100 IP addresses. 
         public let maxResults: Int?
-        /// For the first ListResolverEndpointIpAddresses request, omit this value. If the specified resolver endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
+        /// For the first ListResolverEndpointIpAddresses request, omit this value. If the specified Resolver endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
-        /// The ID of the resolver endpoint that you want to get IP addresses for.
+        /// The ID of the Resolver endpoint that you want to get IP addresses for.
         public let resolverEndpointId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resolverEndpointId: String) {
@@ -830,7 +1180,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The IP addresses that DNS queries pass through on their way to your network (outbound endpoint) or on the way to Resolver (inbound endpoint).
+        /// Information about the IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints).
         public let ipAddresses: [IpAddressResponse]?
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
@@ -857,11 +1207,11 @@ extension Route53Resolver {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// An optional specification to return a subset of resolver endpoints, such as all inbound resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
+        /// An optional specification to return a subset of Resolver endpoints, such as all inbound Resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
-        /// The maximum number of resolver endpoints that you want to return in the response to a ListResolverEndpoints request. If you don't specify a value for MaxResults, Resolver returns up to 100 resolver endpoints. 
+        /// The maximum number of Resolver endpoints that you want to return in the response to a ListResolverEndpoints request. If you don't specify a value for MaxResults, Resolver returns up to 100 Resolver endpoints. 
         public let maxResults: Int?
-        /// For the first ListResolverEndpoints request, omit this value. If you have more than MaxResults resolver endpoints, you can submit another ListResolverEndpoints request to get the next group of resolver endpoints. In the next request, specify the value of NextToken from the previous response. 
+        /// For the first ListResolverEndpoints request, omit this value. If you have more than MaxResults Resolver endpoints, you can submit another ListResolverEndpoints request to get the next group of Resolver endpoints. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -896,7 +1246,7 @@ extension Route53Resolver {
         public let maxResults: Int?
         /// If more than MaxResults IP addresses match the specified criteria, you can submit another ListResolverEndpoint request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
-        /// The resolver endpoints that were created by using the current AWS account, and that match the specified filters, if any.
+        /// The Resolver endpoints that were created by using the current AWS account, and that match the specified filters, if any.
         public let resolverEndpoints: [ResolverEndpoint]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resolverEndpoints: [ResolverEndpoint]? = nil) {
@@ -912,6 +1262,164 @@ extension Route53Resolver {
         }
     }
 
+    public struct ListResolverQueryLogConfigAssociationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+
+        /// An optional specification to return a subset of query logging associations.  If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
+        public let filters: [Filter]?
+        /// The maximum number of query logging associations that you want to return in the response to a ListResolverQueryLogConfigAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 query logging associations. 
+        public let maxResults: Int?
+        /// For the first ListResolverQueryLogConfigAssociations request, omit this value. If there are more than MaxResults query logging associations that match the values that you specify for Filters, you can submit another ListResolverQueryLogConfigAssociations request to get the next group of associations. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+        /// The element that you want Resolver to sort query logging associations by.   If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken parameter, you must use the same value for SortBy, if any, as in the previous request.  Valid values include the following elements:    CreationTime: The ID of the query logging association.    Error: If the value of Status is FAILED, the value of Error indicates the cause:     DESTINATION_NOT_FOUND: The specified destination (for example, an Amazon S3 bucket) was deleted.    ACCESS_DENIED: Permissions don't allow sending logs to the destination.   If Status is a value other than FAILED, ERROR is null.    Id: The ID of the query logging association    ResolverQueryLogConfigId: The ID of the query logging configuration    ResourceId: The ID of the VPC that is associated with the query logging configuration    Status: The current status of the configuration. Valid values include the following:    CREATING: Resolver is creating an association between an Amazon VPC and a query logging configuration.    CREATED: The association between an Amazon VPC and a query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.    DELETING: Resolver is deleting this query logging association.    FAILED: Resolver either couldn't create or couldn't delete the query logging association. Here are two common causes:   The specified destination (for example, an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the destination.      
+        public let sortBy: String?
+        /// If you specified a value for SortBy, the order that you want query logging associations to be listed in, ASCENDING or DESCENDING.  If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken parameter, you must use the same value for SortOrder, if any, as in the previous request. 
+        public let sortOrder: SortOrder?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.sortBy, name:"sortBy", parent: name, max: 64)
+            try validate(self.sortBy, name:"sortBy", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListResolverQueryLogConfigAssociationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResolverQueryLogConfigAssociations", required: false, type: .list), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TotalFilteredCount", required: false, type: .integer)
+        ]
+
+        /// If there are more than MaxResults query logging associations, you can submit another ListResolverQueryLogConfigAssociations request to get the next group of associations. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+        /// A list that contains one ResolverQueryLogConfigAssociations element for each query logging association that matches the values that you specified for Filter.
+        public let resolverQueryLogConfigAssociations: [ResolverQueryLogConfigAssociation]?
+        /// The total number of query logging associations that were created by the current account in the specified Region. This count can differ from the number of associations that are returned in a ListResolverQueryLogConfigAssociations response, depending on the values that you specify in the request.
+        public let totalCount: Int?
+        /// The total number of query logging associations that were created by the current account in the specified Region and that match the filters that were specified in the ListResolverQueryLogConfigAssociations request. For the total number of associations that were created by the current account in the specified Region, see TotalCount.
+        public let totalFilteredCount: Int?
+
+        public init(nextToken: String? = nil, resolverQueryLogConfigAssociations: [ResolverQueryLogConfigAssociation]? = nil, totalCount: Int? = nil, totalFilteredCount: Int? = nil) {
+            self.nextToken = nextToken
+            self.resolverQueryLogConfigAssociations = resolverQueryLogConfigAssociations
+            self.totalCount = totalCount
+            self.totalFilteredCount = totalFilteredCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resolverQueryLogConfigAssociations = "ResolverQueryLogConfigAssociations"
+            case totalCount = "TotalCount"
+            case totalFilteredCount = "TotalFilteredCount"
+        }
+    }
+
+    public struct ListResolverQueryLogConfigsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+
+        /// An optional specification to return a subset of query logging configurations.  If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
+        public let filters: [Filter]?
+        /// The maximum number of query logging configurations that you want to return in the response to a ListResolverQueryLogConfigs request. If you don't specify a value for MaxResults, Resolver returns up to 100 query logging configurations. 
+        public let maxResults: Int?
+        /// For the first ListResolverQueryLogConfigs request, omit this value. If there are more than MaxResults query logging configurations that match the values that you specify for Filters, you can submit another ListResolverQueryLogConfigs request to get the next group of configurations. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+        /// The element that you want Resolver to sort query logging configurations by.   If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you must use the same value for SortBy, if any, as in the previous request.  Valid values include the following elements:    Arn: The ARN of the query logging configuration    AssociationCount: The number of VPCs that are associated with the specified configuration     CreationTime: The date and time that Resolver returned when the configuration was created    CreatorRequestId: The value that was specified for CreatorRequestId when the configuration was created    DestinationArn: The location that logs are sent to    Id: The ID of the configuration    Name: The name of the configuration    OwnerId: The AWS account number of the account that created the configuration    ShareStatus: Whether the configuration is shared with other AWS accounts or shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM).    Status: The current status of the configuration. Valid values include the following:    CREATING: Resolver is creating the query logging configuration.    CREATED: The query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.    DELETING: Resolver is deleting this query logging configuration.    FAILED: Resolver either couldn't create or couldn't delete the query logging configuration. Here are two common causes:   The specified destination (for example, an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the destination.      
+        public let sortBy: String?
+        /// If you specified a value for SortBy, the order that you want query logging configurations to be listed in, ASCENDING or DESCENDING.  If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you must use the same value for SortOrder, if any, as in the previous request. 
+        public let sortOrder: SortOrder?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.sortBy, name:"sortBy", parent: name, max: 64)
+            try validate(self.sortBy, name:"sortBy", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListResolverQueryLogConfigsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResolverQueryLogConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TotalFilteredCount", required: false, type: .integer)
+        ]
+
+        /// If there are more than MaxResults query logging configurations, you can submit another ListResolverQueryLogConfigs request to get the next group of configurations. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+        /// A list that contains one ResolverQueryLogConfig element for each query logging configuration that matches the values that you specified for Filter.
+        public let resolverQueryLogConfigs: [ResolverQueryLogConfig]?
+        /// The total number of query logging configurations that were created by the current account in the specified Region. This count can differ from the number of query logging configurations that are returned in a ListResolverQueryLogConfigs response, depending on the values that you specify in the request.
+        public let totalCount: Int?
+        /// The total number of query logging configurations that were created by the current account in the specified Region and that match the filters that were specified in the ListResolverQueryLogConfigs request. For the total number of query logging configurations that were created by the current account in the specified Region, see TotalCount.
+        public let totalFilteredCount: Int?
+
+        public init(nextToken: String? = nil, resolverQueryLogConfigs: [ResolverQueryLogConfig]? = nil, totalCount: Int? = nil, totalFilteredCount: Int? = nil) {
+            self.nextToken = nextToken
+            self.resolverQueryLogConfigs = resolverQueryLogConfigs
+            self.totalCount = totalCount
+            self.totalFilteredCount = totalFilteredCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resolverQueryLogConfigs = "ResolverQueryLogConfigs"
+            case totalCount = "TotalCount"
+            case totalFilteredCount = "TotalFilteredCount"
+        }
+    }
+
     public struct ListResolverRuleAssociationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filters", required: false, type: .list), 
@@ -919,7 +1427,7 @@ extension Route53Resolver {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// An optional specification to return a subset of resolver rules, such as resolver rules that are associated with the same VPC ID.  If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
+        /// An optional specification to return a subset of Resolver rules, such as Resolver rules that are associated with the same VPC ID.  If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
         /// The maximum number of rule associations that you want to return in the response to a ListResolverRuleAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 rule associations. 
         public let maxResults: Int?
@@ -958,7 +1466,7 @@ extension Route53Resolver {
         public let maxResults: Int?
         /// If more than MaxResults rule associations match the specified criteria, you can submit another ListResolverRuleAssociation request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
-        /// The associations that were created between resolver rules and VPCs using the current AWS account, and that match the specified filters, if any.
+        /// The associations that were created between Resolver rules and VPCs using the current AWS account, and that match the specified filters, if any.
         public let resolverRuleAssociations: [ResolverRuleAssociation]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resolverRuleAssociations: [ResolverRuleAssociation]? = nil) {
@@ -981,11 +1489,11 @@ extension Route53Resolver {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// An optional specification to return a subset of resolver rules, such as all resolver rules that are associated with the same resolver endpoint.  If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
+        /// An optional specification to return a subset of Resolver rules, such as all Resolver rules that are associated with the same Resolver endpoint.  If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
-        /// The maximum number of resolver rules that you want to return in the response to a ListResolverRules request. If you don't specify a value for MaxResults, Resolver returns up to 100 resolver rules.
+        /// The maximum number of Resolver rules that you want to return in the response to a ListResolverRules request. If you don't specify a value for MaxResults, Resolver returns up to 100 Resolver rules.
         public let maxResults: Int?
-        /// For the first ListResolverRules request, omit this value. If you have more than MaxResults resolver rules, you can submit another ListResolverRules request to get the next group of resolver rules. In the next request, specify the value of NextToken from the previous response. 
+        /// For the first ListResolverRules request, omit this value. If you have more than MaxResults Resolver rules, you can submit another ListResolverRules request to get the next group of Resolver rules. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1018,9 +1526,9 @@ extension Route53Resolver {
 
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
-        /// If more than MaxResults resolver rules match the specified criteria, you can submit another ListResolverRules request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
+        /// If more than MaxResults Resolver rules match the specified criteria, you can submit another ListResolverRules request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
-        /// The resolver rules that were created using the current AWS account and that match the specified filters, if any.
+        /// The Resolver rules that were created using the current AWS account and that match the specified filters, if any.
         public let resolverRules: [ResolverRule]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resolverRules: [ResolverRule]? = nil) {
@@ -1092,15 +1600,60 @@ extension Route53Resolver {
         }
     }
 
+    public struct PutResolverQueryLogConfigPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "ResolverQueryLogConfigPolicy", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the account that you want to share rules with.
+        public let arn: String
+        /// An AWS Identity and Access Management policy statement that lists the query logging configurations that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Actions section of the statement:    route53resolver:AssociateResolverQueryLogConfig     route53resolver:DisassociateResolverQueryLogConfig     route53resolver:ListResolverQueryLogConfigAssociations     route53resolver:ListResolverQueryLogConfigs    In the Resource section of the statement, you specify the ARNs for the query logging configurations that you want to share with the account that you specified in Arn. 
+        public let resolverQueryLogConfigPolicy: String
+
+        public init(arn: String, resolverQueryLogConfigPolicy: String) {
+            self.arn = arn
+            self.resolverQueryLogConfigPolicy = resolverQueryLogConfigPolicy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, max: 255)
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+            try validate(self.resolverQueryLogConfigPolicy, name:"resolverQueryLogConfigPolicy", parent: name, max: 5000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case resolverQueryLogConfigPolicy = "ResolverQueryLogConfigPolicy"
+        }
+    }
+
+    public struct PutResolverQueryLogConfigPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnValue", required: false, type: .boolean)
+        ]
+
+        /// Whether the PutResolverQueryLogConfigPolicy request was successful.
+        public let returnValue: Bool?
+
+        public init(returnValue: Bool? = nil) {
+            self.returnValue = returnValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnValue = "ReturnValue"
+        }
+    }
+
     public struct PutResolverRulePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "ResolverRulePolicy", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the account that you want to grant permissions to.
+        /// The Amazon Resource Name (ARN) of the account that you want to share rules with.
         public let arn: String
-        /// An AWS Identity and Access Management policy statement that lists the permissions that you want to grant to another AWS account.
+        /// An AWS Identity and Access Management policy statement that lists the rules that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Actions section of the statement:    route53resolver:GetResolverRule     route53resolver:AssociateResolverRule     route53resolver:DisassociateResolverRule     route53resolver:ListResolverRules     route53resolver:ListResolverRuleAssociations    In the Resource section of the statement, you specify the ARNs for the rules that you want to share with the account that you specified in Arn. 
         public let resolverRulePolicy: String
 
         public init(arn: String, resolverRulePolicy: String) {
@@ -1153,29 +1706,29 @@ extension Route53Resolver {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string)
         ]
 
-        /// The ARN (Amazon Resource Name) for the resolver endpoint.
+        /// The ARN (Amazon Resource Name) for the Resolver endpoint.
         public let arn: String?
         /// The date and time that the endpoint was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
-        /// A unique string that identifies the request that created the resolver endpoint. The CreatorRequestId allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request that created the Resolver endpoint. The CreatorRequestId allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
-        /// Indicates whether the resolver endpoint allows inbound or outbound DNS queries:    INBOUND: allows DNS queries to your VPC from your network or another VPC    OUTBOUND: allows DNS queries from your VPC to your network or another VPC  
+        /// Indicates whether the Resolver endpoint allows inbound or outbound DNS queries:    INBOUND: allows DNS queries to your VPC from your network    OUTBOUND: allows DNS queries from your VPC to your network  
         public let direction: ResolverEndpointDirection?
-        /// The ID of the VPC that you want to create the resolver endpoint in.
+        /// The ID of the VPC that you want to create the Resolver endpoint in.
         public let hostVPCId: String?
-        /// The ID of the resolver endpoint.
+        /// The ID of the Resolver endpoint.
         public let id: String?
-        /// The number of IP addresses that the resolver endpoint can use for DNS queries.
+        /// The number of IP addresses that the Resolver endpoint can use for DNS queries.
         public let ipAddressCount: Int?
         /// The date and time that the endpoint was last modified, in Unix time format and Coordinated Universal Time (UTC).
         public let modificationTime: String?
-        /// The name that you assigned to the resolver endpoint when you submitted a CreateResolverEndpoint request.
+        /// The name that you assigned to the Resolver endpoint when you submitted a CreateResolverEndpoint request.
         public let name: String?
-        /// The ID of one or more security groups that control access to this VPC. The security group must include one or more inbound resolver rules.
+        /// The ID of one or more security groups that control access to this VPC. The security group must include one or more inbound rules (for inbound endpoints) or outbound rules (for outbound endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
         public let securityGroupIds: [String]?
-        /// A code that specifies the current status of the resolver endpoint.
+        /// A code that specifies the current status of the Resolver endpoint. Valid values include the following:    CREATING: Resolver is creating and configuring one or more Amazon VPC network interfaces for this endpoint.    OPERATIONAL: The Amazon VPC network interfaces for this endpoint are correctly configured and able to pass inbound or outbound DNS queries between your network and Resolver.    UPDATING: Resolver is associating or disassociating one or more network interfaces with this endpoint.    AUTO_RECOVERING: Resolver is trying to recover one or more of the network interfaces that are associated with this endpoint. During the recovery process, the endpoint functions with limited capacity because of the limit on the number of DNS queries per IP address (per network interface). For the current limit, see Limits on Route 53 Resolver.    ACTION_NEEDED: This endpoint is unhealthy, and Resolver can't automatically recover it. To resolve the problem, we recommend that you check each IP address that you associated with the endpoint. For each IP address that isn't available, add another IP address and then delete the IP address that isn't available. (An endpoint must always include at least two IP addresses.) A status of ACTION_NEEDED can have a variety of causes. Here are two common causes:   One or more of the network interfaces that are associated with the endpoint were deleted using Amazon VPC.   The network interface couldn't be created for some reason that's outside the control of Resolver.      DELETING: Resolver is deleting this endpoint and the associated network interfaces.  
         public let status: ResolverEndpointStatus?
-        /// A detailed description of the status of the resolver endpoint.
+        /// A detailed description of the status of the Resolver endpoint.
         public let statusMessage: String?
 
         public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil) {
@@ -1209,12 +1762,123 @@ extension Route53Resolver {
         }
     }
 
+    public struct ResolverQueryLogConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "AssociationCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .string), 
+            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationArn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "ShareStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The ARN for the query logging configuration.
+        public let arn: String?
+        /// The number of VPCs that are associated with the query logging configuration.
+        public let associationCount: Int?
+        /// The date and time that the query logging configuration was created, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
+        /// A unique string that identifies the request that created the query logging configuration. The CreatorRequestId allows failed requests to be retried without the risk of executing the operation twice.
+        public let creatorRequestId: String?
+        /// The ARN of the resource that you want Resolver to send query logs: an Amazon S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream.
+        public let destinationArn: String?
+        /// The ID for the query logging configuration.
+        public let id: String?
+        /// The name of the query logging configuration. 
+        public let name: String?
+        /// The AWS account ID for the account that created the query logging configuration. 
+        public let ownerId: String?
+        /// An indication of whether the query logging configuration is shared with other AWS accounts, or was shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM).
+        public let shareStatus: ShareStatus?
+        /// The status of the specified query logging configuration. Valid values include the following:    CREATING: Resolver is creating the query logging configuration.    CREATED: The query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.    DELETING: Resolver is deleting this query logging configuration.    FAILED: Resolver can't deliver logs to the location that is specified in the query logging configuration. Here are two common causes:   The specified destination (for example, an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the destination.    
+        public let status: ResolverQueryLogConfigStatus?
+
+        public init(arn: String? = nil, associationCount: Int? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, destinationArn: String? = nil, id: String? = nil, name: String? = nil, ownerId: String? = nil, shareStatus: ShareStatus? = nil, status: ResolverQueryLogConfigStatus? = nil) {
+            self.arn = arn
+            self.associationCount = associationCount
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.destinationArn = destinationArn
+            self.id = id
+            self.name = name
+            self.ownerId = ownerId
+            self.shareStatus = shareStatus
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case associationCount = "AssociationCount"
+            case creationTime = "CreationTime"
+            case creatorRequestId = "CreatorRequestId"
+            case destinationArn = "DestinationArn"
+            case id = "Id"
+            case name = "Name"
+            case ownerId = "OwnerId"
+            case shareStatus = "ShareStatus"
+            case status = "Status"
+        }
+    }
+
+    public struct ResolverQueryLogConfigAssociation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .string), 
+            AWSShapeMember(label: "Error", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "ResolverQueryLogConfigId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The date and time that the VPC was associated with the query logging configuration, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
+        /// If the value of Status is FAILED, the value of Error indicates the cause:    DESTINATION_NOT_FOUND: The specified destination (for example, an Amazon S3 bucket) was deleted.    ACCESS_DENIED: Permissions don't allow sending logs to the destination.   If the value of Status is a value other than FAILED, Error is null. 
+        public let error: ResolverQueryLogConfigAssociationError?
+        /// Contains additional information about the error. If the value or Error is null, the value of ErrorMessage also is null.
+        public let errorMessage: String?
+        /// The ID of the query logging association.
+        public let id: String?
+        /// The ID of the query logging configuration that a VPC is associated with.
+        public let resolverQueryLogConfigId: String?
+        /// The ID of the Amazon VPC that is associated with the query logging configuration.
+        public let resourceId: String?
+        /// The status of the specified query logging association. Valid values include the following:    CREATING: Resolver is creating an association between an Amazon VPC and a query logging configuration.    CREATED: The association between an Amazon VPC and a query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.    DELETING: Resolver is deleting this query logging association.    FAILED: Resolver either couldn't create or couldn't delete the query logging association.  
+        public let status: ResolverQueryLogConfigAssociationStatus?
+
+        public init(creationTime: String? = nil, error: ResolverQueryLogConfigAssociationError? = nil, errorMessage: String? = nil, id: String? = nil, resolverQueryLogConfigId: String? = nil, resourceId: String? = nil, status: ResolverQueryLogConfigAssociationStatus? = nil) {
+            self.creationTime = creationTime
+            self.error = error
+            self.errorMessage = errorMessage
+            self.id = id
+            self.resolverQueryLogConfigId = resolverQueryLogConfigId
+            self.resourceId = resourceId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case error = "Error"
+            case errorMessage = "ErrorMessage"
+            case id = "Id"
+            case resolverQueryLogConfigId = "ResolverQueryLogConfigId"
+            case resourceId = "ResourceId"
+            case status = "Status"
+        }
+    }
+
     public struct ResolverRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .string), 
             AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
             AWSShapeMember(label: "DomainName", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "ModificationTime", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "OwnerId", required: false, type: .string), 
             AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string), 
@@ -1225,36 +1889,42 @@ extension Route53Resolver {
             AWSShapeMember(label: "TargetIps", required: false, type: .list)
         ]
 
-        /// The ARN (Amazon Resource Name) for the resolver rule specified by Id.
+        /// The ARN (Amazon Resource Name) for the Resolver rule specified by Id.
         public let arn: String?
-        /// A unique string that you specified when you created the resolver rule. CreatorRequestIdidentifies the request and allows failed requests to be retried without the risk of executing the operation twice. 
+        /// The date and time that the Resolver rule was created, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
+        /// A unique string that you specified when you created the Resolver rule. CreatorRequestId identifies the request and allows failed requests to be retried without the risk of executing the operation twice. 
         public let creatorRequestId: String?
-        /// DNS queries for this domain name are forwarded to the IP addresses that are specified in TargetIps. If a query matches multiple resolver rules (example.com and www.example.com), the query is routed using the resolver rule that contains the most specific domain name (www.example.com).
+        /// DNS queries for this domain name are forwarded to the IP addresses that are specified in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), the query is routed using the Resolver rule that contains the most specific domain name (www.example.com).
         public let domainName: String?
-        /// The ID that Resolver assigned to the resolver rule when you created it.
+        /// The ID that Resolver assigned to the Resolver rule when you created it.
         public let id: String?
-        /// The name for the resolver rule, which you specified when you created the resolver rule.
+        /// The date and time that the Resolver rule was last updated, in Unix time format and Coordinated Universal Time (UTC).
+        public let modificationTime: String?
+        /// The name for the Resolver rule, which you specified when you created the Resolver rule.
         public let name: String?
         /// When a rule is shared with another AWS account, the account ID of the account that the rule is shared with.
         public let ownerId: String?
         /// The ID of the endpoint that the rule is associated with.
         public let resolverEndpointId: String?
-        /// This value is always FORWARD. Other resolver rule types aren't supported.
+        /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
         public let ruleType: RuleTypeOption?
         /// Whether the rules is shared and, if so, whether the current account is sharing the rule with another account, or another account is sharing the rule with the current account.
         public let shareStatus: ShareStatus?
-        /// A code that specifies the current status of the resolver rule.
+        /// A code that specifies the current status of the Resolver rule.
         public let status: ResolverRuleStatus?
-        /// A detailed description of the status of a resolver rule.
+        /// A detailed description of the status of a Resolver rule.
         public let statusMessage: String?
-        /// An array that contains the IP addresses and ports that you want to forward 
+        /// An array that contains the IP addresses and ports that an outbound endpoint forwards DNS queries to. Typically, these are the IP addresses of DNS resolvers on your network. Specify IPv4 addresses. IPv6 is not supported.
         public let targetIps: [TargetAddress]?
 
-        public init(arn: String? = nil, creatorRequestId: String? = nil, domainName: String? = nil, id: String? = nil, name: String? = nil, ownerId: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption? = nil, shareStatus: ShareStatus? = nil, status: ResolverRuleStatus? = nil, statusMessage: String? = nil, targetIps: [TargetAddress]? = nil) {
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, domainName: String? = nil, id: String? = nil, modificationTime: String? = nil, name: String? = nil, ownerId: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption? = nil, shareStatus: ShareStatus? = nil, status: ResolverRuleStatus? = nil, statusMessage: String? = nil, targetIps: [TargetAddress]? = nil) {
             self.arn = arn
+            self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
             self.domainName = domainName
             self.id = id
+            self.modificationTime = modificationTime
             self.name = name
             self.ownerId = ownerId
             self.resolverEndpointId = resolverEndpointId
@@ -1267,9 +1937,11 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case creationTime = "CreationTime"
             case creatorRequestId = "CreatorRequestId"
             case domainName = "DomainName"
             case id = "Id"
+            case modificationTime = "ModificationTime"
             case name = "Name"
             case ownerId = "OwnerId"
             case resolverEndpointId = "ResolverEndpointId"
@@ -1291,17 +1963,17 @@ extension Route53Resolver {
             AWSShapeMember(label: "VPCId", required: false, type: .string)
         ]
 
-        /// The ID of the association between a resolver rule and a VPC. Resolver assigns this value when you submit an AssociateResolverRule request.
+        /// The ID of the association between a Resolver rule and a VPC. Resolver assigns this value when you submit an AssociateResolverRule request.
         public let id: String?
-        /// The name of an association between a resolver rule and a VPC.
+        /// The name of an association between a Resolver rule and a VPC.
         public let name: String?
-        /// The ID of the resolver rule that you associated with the VPC that is specified by VPCId.
+        /// The ID of the Resolver rule that you associated with the VPC that is specified by VPCId.
         public let resolverRuleId: String?
-        /// A code that specifies the current status of the association between a resolver rule and a VPC.
+        /// A code that specifies the current status of the association between a Resolver rule and a VPC.
         public let status: ResolverRuleAssociationStatus?
-        /// A detailed description of the status of the association between a resolver rule and a VPC.
+        /// A detailed description of the status of the association between a Resolver rule and a VPC.
         public let statusMessage: String?
-        /// The ID of the VPC that you associated the resolver rule with.
+        /// The ID of the VPC that you associated the Resolver rule with.
         public let vPCId: String?
 
         public init(id: String? = nil, name: String? = nil, resolverRuleId: String? = nil, status: ResolverRuleAssociationStatus? = nil, statusMessage: String? = nil, vPCId: String? = nil) {
@@ -1330,9 +2002,9 @@ extension Route53Resolver {
             AWSShapeMember(label: "TargetIps", required: false, type: .list)
         ]
 
-        /// The new name for the resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console. 
+        /// The new name for the Resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console. 
         public let name: String?
-        /// The ID of the new outbound resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
+        /// The ID of the new outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
         public let resolverEndpointId: String?
         /// For DNS queries that originate in your VPC, the new IP addresses that you want to route outbound DNS queries to.
         public let targetIps: [TargetAddress]?
@@ -1345,7 +2017,7 @@ extension Route53Resolver {
 
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 64)
-            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
             try validate(self.resolverEndpointId, name:"resolverEndpointId", parent: name, max: 64)
             try validate(self.resolverEndpointId, name:"resolverEndpointId", parent: name, min: 1)
             try self.targetIps?.forEach {
@@ -1363,18 +2035,25 @@ extension Route53Resolver {
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
         /// The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id.
-        public let key: String?
+        public let key: String
         /// The value for the tag. For example, if Key is account-id, then Value might be the ID of the customer account that you're creating the resource for.
-        public let value: String?
+        public let value: String
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1402,6 +2081,10 @@ extension Route53Resolver {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 255)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1466,6 +2149,11 @@ extension Route53Resolver {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 255)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1488,9 +2176,9 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
         ]
 
-        /// The name of the resolver endpoint that you want to update.
+        /// The name of the Resolver endpoint that you want to update.
         public let name: String?
-        /// The ID of the resolver endpoint that you want to update.
+        /// The ID of the Resolver endpoint that you want to update.
         public let resolverEndpointId: String
 
         public init(name: String? = nil, resolverEndpointId: String) {
@@ -1500,7 +2188,7 @@ extension Route53Resolver {
 
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 64)
-            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
             try validate(self.resolverEndpointId, name:"resolverEndpointId", parent: name, max: 64)
             try validate(self.resolverEndpointId, name:"resolverEndpointId", parent: name, min: 1)
         }
@@ -1534,9 +2222,9 @@ extension Route53Resolver {
             AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
         ]
 
-        /// The new settings for the resolver rule.
+        /// The new settings for the Resolver rule.
         public let config: ResolverRuleConfig
-        /// The ID of the resolver rule that you want to update.
+        /// The ID of the Resolver rule that you want to update.
         public let resolverRuleId: String
 
         public init(config: ResolverRuleConfig, resolverRuleId: String) {

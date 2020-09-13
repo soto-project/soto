@@ -291,7 +291,7 @@ extension AppConfig {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "LocationUri", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RetrievalRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "RetrievalRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Validators", required: false, type: .list)
         ]
@@ -305,13 +305,13 @@ extension AppConfig {
         /// A name for the configuration profile.
         public let name: String
         /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.
-        public let retrievalRoleArn: String
+        public let retrievalRoleArn: String?
         /// Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
 
-        public init(applicationId: String, description: String? = nil, locationUri: String, name: String, retrievalRoleArn: String, tags: [String: String]? = nil, validators: [Validator]? = nil) {
+        public init(applicationId: String, description: String? = nil, locationUri: String, name: String, retrievalRoleArn: String? = nil, tags: [String: String]? = nil, validators: [Validator]? = nil) {
             self.applicationId = applicationId
             self.description = description
             self.locationUri = locationUri
@@ -331,7 +331,7 @@ extension AppConfig {
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.retrievalRoleArn, name:"retrievalRoleArn", parent: name, max: 2048)
             try validate(self.retrievalRoleArn, name:"retrievalRoleArn", parent: name, min: 20)
-            try validate(self.retrievalRoleArn, name:"retrievalRoleArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
+            try validate(self.retrievalRoleArn, name:"retrievalRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
             try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
@@ -480,6 +480,59 @@ extension AppConfig {
         }
     }
 
+    public struct CreateHostedConfigurationVersionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Content"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"), required: true, type: .string), 
+            AWSShapeMember(label: "Content", required: true, type: .blob), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", location: .header(locationName: "Description"), required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionNumber", location: .header(locationName: "Latest-Version-Number"), required: false, type: .integer)
+        ]
+
+        /// The application ID.
+        public let applicationId: String
+        /// The configuration profile ID.
+        public let configurationProfileId: String
+        /// The content of the configuration or the configuration data.
+        public let content: Data
+        /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
+        public let contentType: String
+        /// A description of the configuration.
+        public let description: String?
+        /// An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version of the latest hosted configuration version.
+        public let latestVersionNumber: Int?
+
+        public init(applicationId: String, configurationProfileId: String, content: Data, contentType: String, description: String? = nil, latestVersionNumber: Int? = nil) {
+            self.applicationId = applicationId
+            self.configurationProfileId = configurationProfileId
+            self.content = content
+            self.contentType = contentType
+            self.description = description
+            self.latestVersionNumber = latestVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.applicationId, name:"applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try validate(self.configurationProfileId, name:"configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try validate(self.contentType, name:"contentType", parent: name, max: 255)
+            try validate(self.contentType, name:"contentType", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case configurationProfileId = "ConfigurationProfileId"
+            case content = "Content"
+            case contentType = "Content-Type"
+            case description = "Description"
+            case latestVersionNumber = "Latest-Version-Number"
+        }
+    }
+
     public struct DeleteApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string)
@@ -541,7 +594,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "([a-z0-9]{4,7}|arn:aws.*)")
+            try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -573,6 +626,38 @@ extension AppConfig {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
             case environmentId = "EnvironmentId"
+        }
+    }
+
+    public struct DeleteHostedConfigurationVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionNumber", location: .uri(locationName: "VersionNumber"), required: true, type: .integer)
+        ]
+
+        /// The application ID.
+        public let applicationId: String
+        /// The configuration profile ID.
+        public let configurationProfileId: String
+        /// The versions number to delete.
+        public let versionNumber: Int
+
+        public init(applicationId: String, configurationProfileId: String, versionNumber: Int) {
+            self.applicationId = applicationId
+            self.configurationProfileId = configurationProfileId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.applicationId, name:"applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try validate(self.configurationProfileId, name:"configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case configurationProfileId = "ConfigurationProfileId"
+            case versionNumber = "VersionNumber"
         }
     }
 
@@ -996,7 +1081,7 @@ extension AppConfig {
 
         /// The application to get. Specify either the application name or the application ID.
         public let application: String
-        /// The configuration version returned in the most recent GetConfiguration response.
+        /// The configuration version returned in the most recent GetConfiguration response.  AWS AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. This value must be saved on your client. Subsequent calls to GetConfiguration must pass this value by using the ClientConfigurationVersion parameter.   For more information about working with configurations, see Retrieving the Configuration in the AWS AppConfig User Guide.
         public let clientConfigurationVersion: String?
         /// A unique ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
         public let clientId: String
@@ -1016,7 +1101,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try validate(self.application, name:"application", parent: name, max: 64)
             try validate(self.application, name:"application", parent: name, min: 1)
-            try validate(self.clientConfigurationVersion, name:"clientConfigurationVersion", parent: name, max: 128)
+            try validate(self.clientConfigurationVersion, name:"clientConfigurationVersion", parent: name, max: 1024)
             try validate(self.clientConfigurationVersion, name:"clientConfigurationVersion", parent: name, min: 1)
             try validate(self.clientId, name:"clientId", parent: name, max: 64)
             try validate(self.clientId, name:"clientId", parent: name, min: 1)
@@ -1080,7 +1165,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "([a-z0-9]{4,7}|arn:aws.*)")
+            try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1112,6 +1197,141 @@ extension AppConfig {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
             case environmentId = "EnvironmentId"
+        }
+    }
+
+    public struct GetHostedConfigurationVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionNumber", location: .uri(locationName: "VersionNumber"), required: true, type: .integer)
+        ]
+
+        /// The application ID.
+        public let applicationId: String
+        /// The configuration profile ID.
+        public let configurationProfileId: String
+        /// The version.
+        public let versionNumber: Int
+
+        public init(applicationId: String, configurationProfileId: String, versionNumber: Int) {
+            self.applicationId = applicationId
+            self.configurationProfileId = configurationProfileId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.applicationId, name:"applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try validate(self.configurationProfileId, name:"configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case configurationProfileId = "ConfigurationProfileId"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct HostedConfigurationVersion: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Content"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .header(locationName: "Application-Id"), required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationProfileId", location: .header(locationName: "Configuration-Profile-Id"), required: false, type: .string), 
+            AWSShapeMember(label: "Content", required: false, type: .blob), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .header(locationName: "Description"), required: false, type: .string), 
+            AWSShapeMember(label: "VersionNumber", location: .header(locationName: "Version-Number"), required: false, type: .integer)
+        ]
+
+        /// The application ID.
+        public let applicationId: String?
+        /// The configuration profile ID.
+        public let configurationProfileId: String?
+        /// The content of the configuration or the configuration data.
+        public let content: Data?
+        /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
+        public let contentType: String?
+        /// A description of the configuration.
+        public let description: String?
+        /// The configuration version.
+        public let versionNumber: Int?
+
+        public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: Data? = nil, contentType: String? = nil, description: String? = nil, versionNumber: Int? = nil) {
+            self.applicationId = applicationId
+            self.configurationProfileId = configurationProfileId
+            self.content = content
+            self.contentType = contentType
+            self.description = description
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "Application-Id"
+            case configurationProfileId = "Configuration-Profile-Id"
+            case content = "Content"
+            case contentType = "Content-Type"
+            case description = "Description"
+            case versionNumber = "Version-Number"
+        }
+    }
+
+    public struct HostedConfigurationVersionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationProfileId", required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "VersionNumber", required: false, type: .integer)
+        ]
+
+        /// The application ID.
+        public let applicationId: String?
+        /// The configuration profile ID.
+        public let configurationProfileId: String?
+        /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
+        public let contentType: String?
+        /// A description of the configuration.
+        public let description: String?
+        /// The configuration version.
+        public let versionNumber: Int?
+
+        public init(applicationId: String? = nil, configurationProfileId: String? = nil, contentType: String? = nil, description: String? = nil, versionNumber: Int? = nil) {
+            self.applicationId = applicationId
+            self.configurationProfileId = configurationProfileId
+            self.contentType = contentType
+            self.description = description
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case configurationProfileId = "ConfigurationProfileId"
+            case contentType = "ContentType"
+            case description = "Description"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct HostedConfigurationVersions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The elements from this collection.
+        public let items: [HostedConfigurationVersionSummary]?
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(items: [HostedConfigurationVersionSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1284,6 +1504,47 @@ extension AppConfig {
         }
     }
 
+    public struct ListHostedConfigurationVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+        ]
+
+        /// The application ID.
+        public let applicationId: String
+        /// The configuration profile ID.
+        public let configurationProfileId: String
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// A token to start the list. Use this token to get the next set of results. 
+        public let nextToken: String?
+
+        public init(applicationId: String, configurationProfileId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationId = applicationId
+            self.configurationProfileId = configurationProfileId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.applicationId, name:"applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try validate(self.configurationProfileId, name:"configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case configurationProfileId = "ConfigurationProfileId"
+            case maxResults = "max_results"
+            case nextToken = "next_token"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string)
@@ -1329,7 +1590,7 @@ extension AppConfig {
             try validate(self.alarmArn, name:"alarmArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
             try validate(self.alarmRoleArn, name:"alarmRoleArn", parent: name, max: 2048)
             try validate(self.alarmRoleArn, name:"alarmRoleArn", parent: name, min: 20)
-            try validate(self.alarmRoleArn, name:"alarmRoleArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
+            try validate(self.alarmRoleArn, name:"alarmRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1394,9 +1655,9 @@ extension AppConfig {
         public func validate(name: String) throws {
             try validate(self.applicationId, name:"applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
             try validate(self.configurationProfileId, name:"configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
-            try validate(self.configurationVersion, name:"configurationVersion", parent: name, max: 128)
+            try validate(self.configurationVersion, name:"configurationVersion", parent: name, max: 1024)
             try validate(self.configurationVersion, name:"configurationVersion", parent: name, min: 1)
-            try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "([a-z0-9]{4,7}|arn:aws.*)")
+            try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)")
             try validate(self.description, name:"description", parent: name, max: 1024)
             try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
@@ -1593,7 +1854,7 @@ extension AppConfig {
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.retrievalRoleArn, name:"retrievalRoleArn", parent: name, max: 2048)
             try validate(self.retrievalRoleArn, name:"retrievalRoleArn", parent: name, min: 20)
-            try validate(self.retrievalRoleArn, name:"retrievalRoleArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
+            try validate(self.retrievalRoleArn, name:"retrievalRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
             try self.validators?.forEach {
                 try $0.validate(name: "\(name).validators[]")
             }
@@ -1646,7 +1907,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try validate(self.deploymentDurationInMinutes, name:"deploymentDurationInMinutes", parent: name, max: 1440)
             try validate(self.deploymentDurationInMinutes, name:"deploymentDurationInMinutes", parent: name, min: 0)
-            try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "([a-z0-9]{4,7}|arn:aws.*)")
+            try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)")
             try validate(self.description, name:"description", parent: name, max: 1024)
             try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.finalBakeTimeInMinutes, name:"finalBakeTimeInMinutes", parent: name, max: 1440)
@@ -1739,7 +2000,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try validate(self.applicationId, name:"applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
             try validate(self.configurationProfileId, name:"configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
-            try validate(self.configurationVersion, name:"configurationVersion", parent: name, max: 128)
+            try validate(self.configurationVersion, name:"configurationVersion", parent: name, max: 1024)
             try validate(self.configurationVersion, name:"configurationVersion", parent: name, min: 1)
         }
 

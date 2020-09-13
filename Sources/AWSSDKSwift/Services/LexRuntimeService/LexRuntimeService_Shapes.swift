@@ -303,6 +303,23 @@ extension LexRuntimeService {
         }
     }
 
+    public struct IntentConfidence: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "score", required: false, type: .double)
+        ]
+
+        /// A score that indicates how confident Amazon Lex is that an intent satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate higher confidence.
+        public let score: Double?
+
+        public init(score: Double? = nil) {
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case score = "score"
+        }
+    }
+
     public struct IntentSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checkpointLabel", required: false, type: .string), 
@@ -420,13 +437,16 @@ extension LexRuntimeService {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "alternativeIntents", location: .header(locationName: "x-amz-lex-alternative-intents"), required: false, type: .string), 
             AWSShapeMember(label: "audioStream", required: false, type: .blob), 
+            AWSShapeMember(label: "botVersion", location: .header(locationName: "x-amz-lex-bot-version"), required: false, type: .string), 
             AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
             AWSShapeMember(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state"), required: false, type: .enum), 
             AWSShapeMember(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript"), required: false, type: .string), 
             AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name"), required: false, type: .string), 
             AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message"), required: false, type: .string), 
             AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format"), required: false, type: .enum), 
+            AWSShapeMember(label: "nluIntentConfidence", location: .header(locationName: "x-amz-lex-nlu-intent-confidence"), required: false, type: .string), 
             AWSShapeMember(label: "sentimentResponse", location: .header(locationName: "x-amz-lex-sentiment"), required: false, type: .string), 
             AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
             AWSShapeMember(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id"), required: false, type: .string), 
@@ -434,8 +454,12 @@ extension LexRuntimeService {
             AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string)
         ]
 
+        /// One to four alternative intents that may be applicable to the user's intent. Each alternative includes a score that indicates how confident Amazon Lex is that the intent matches the user's intent. The intents are sorted by the confidence score.
+        public let alternativeIntents: String?
         /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response. 
         public let audioStream: Data?
+        /// The version of the bot that responded to the conversation. You can use this information to help determine if one version of a bot is performing better than another version. If you have enabled the new natural language understanding (NLU) model, you can use this to determine if the improvement is due to changes to the bot or changes to the NLU. For more information about enabling the new NLU, see the enableModelImprovements parameter of the PutBot operation.
+        public let botVersion: String?
         /// Content type as specified in the Accept HTTP header in the request.
         public let contentType: String?
         /// Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit the user's intent. Consider the following examples:   For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialog state.     ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.  For example, Amazon Lex wants user confirmation before fulfilling an intent. Instead of a simple "yes" or "no" response, a user might respond with additional information. For example, "yes, but make it a thick crust pizza" or "no, I want to order a drink." Amazon Lex can process such additional information (in these examples, update the crust type slot or change the intent from OrderPizza to OrderDrink).     ElicitSlot - Amazon Lex is expecting the value of a slot for the current intent.   For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the request.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons, including that the user does not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or if the Lambda function fails to fulfill the intent.   
@@ -448,7 +472,9 @@ extension LexRuntimeService {
         public let message: String?
         /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format for the client.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.  
         public let messageFormat: MessageFormatType?
-        /// The sentiment expressed in and utterance. When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
+        /// Provides a score that indicates how confident Amazon Lex is that the returned intent is the one that matches the user's intent. The score is between 0.0 and 1.0. The score is a relative score, not an absolute score. The score may change based on improvements to the Amazon Lex NLU.
+        public let nluIntentConfidence: String?
+        /// The sentiment expressed in an utterance. When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
         public let sentimentResponse: String?
         ///  Map of key/value pairs representing the session-specific context information. 
         public let sessionAttributes: String?
@@ -459,14 +485,17 @@ extension LexRuntimeService {
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
 
-        public init(audioStream: Data? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(alternativeIntents: String? = nil, audioStream: Data? = nil, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+            self.alternativeIntents = alternativeIntents
             self.audioStream = audioStream
+            self.botVersion = botVersion
             self.contentType = contentType
             self.dialogState = dialogState
             self.inputTranscript = inputTranscript
             self.intentName = intentName
             self.message = message
             self.messageFormat = messageFormat
+            self.nluIntentConfidence = nluIntentConfidence
             self.sentimentResponse = sentimentResponse
             self.sessionAttributes = sessionAttributes
             self.sessionId = sessionId
@@ -475,13 +504,16 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alternativeIntents = "x-amz-lex-alternative-intents"
             case audioStream = "audioStream"
+            case botVersion = "x-amz-lex-bot-version"
             case contentType = "Content-Type"
             case dialogState = "x-amz-lex-dialog-state"
             case inputTranscript = "x-amz-lex-input-transcript"
             case intentName = "x-amz-lex-intent-name"
             case message = "x-amz-lex-message"
             case messageFormat = "x-amz-lex-message-format"
+            case nluIntentConfidence = "x-amz-lex-nlu-intent-confidence"
             case sentimentResponse = "x-amz-lex-sentiment"
             case sessionAttributes = "x-amz-lex-session-attributes"
             case sessionId = "x-amz-lex-session-id"
@@ -542,10 +574,13 @@ extension LexRuntimeService {
 
     public struct PostTextResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "alternativeIntents", required: false, type: .list), 
+            AWSShapeMember(label: "botVersion", required: false, type: .string), 
             AWSShapeMember(label: "dialogState", required: false, type: .enum), 
             AWSShapeMember(label: "intentName", required: false, type: .string), 
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "nluIntentConfidence", required: false, type: .structure), 
             AWSShapeMember(label: "responseCard", required: false, type: .structure), 
             AWSShapeMember(label: "sentimentResponse", required: false, type: .structure), 
             AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
@@ -554,6 +589,10 @@ extension LexRuntimeService {
             AWSShapeMember(label: "slotToElicit", required: false, type: .string)
         ]
 
+        /// One to four alternative intents that may be applicable to the user's intent. Each alternative includes a score that indicates how confident Amazon Lex is that the intent matches the user's intent. The intents are sorted by the confidence score.
+        public let alternativeIntents: [PredictedIntent]?
+        /// The version of the bot that responded to the conversation. You can use this information to help determine if one version of a bot is performing better than another version. If you have enabled the new natural language understanding (NLU) model, you can use this to determine if the improvement is due to changes to the bot or changes to the NLU. For more information about enabling the new NLU, see the enableModelImprovements parameter of the PutBot operation.
+        public let botVersion: String?
         ///  Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit user intent.  For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialogState.    ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.   For example, Amazon Lex wants user confirmation before fulfilling an intent.  Instead of a simple "yes" or "no," a user might respond with additional information. For example, "yes, but make it thick crust pizza" or "no, I want to order a drink". Amazon Lex can process such additional information (in these examples, update the crust type slot value, or change intent from OrderPizza to OrderDrink).    ElicitSlot - Amazon Lex is expecting a slot value for the current intent.  For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function configured for the intent has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the intent.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons including that the user did not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or the Lambda function failed to fulfill the intent.   
         public let dialogState: DialogState?
         /// The current user intent that Amazon Lex is aware of.
@@ -562,6 +601,8 @@ extension LexRuntimeService {
         public let message: String?
         /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format defined by the Lambda function.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.  
         public let messageFormat: MessageFormatType?
+        /// Provides a score that indicates how confident Amazon Lex is that the returned intent is the one that matches the user's intent. The score is between 0.0 and 1.0. For more information, see Confidence Scores. The score is a relative score, not an absolute score. The score may change based on improvements to the Amazon Lex natural language understanding (NLU) model.
+        public let nluIntentConfidence: IntentConfidence?
         /// Represents the options that the user has to respond to the current prompt. Response Card can come from the bot configuration (in the Amazon Lex console, choose the settings button next to a slot) or from a code hook (Lambda function). 
         public let responseCard: ResponseCard?
         /// The sentiment expressed in and utterance. When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
@@ -575,11 +616,14 @@ extension LexRuntimeService {
         /// If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
 
-        public init(dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, responseCard: ResponseCard? = nil, sentimentResponse: SentimentResponse? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
+        public init(alternativeIntents: [PredictedIntent]? = nil, botVersion: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: IntentConfidence? = nil, responseCard: ResponseCard? = nil, sentimentResponse: SentimentResponse? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
+            self.alternativeIntents = alternativeIntents
+            self.botVersion = botVersion
             self.dialogState = dialogState
             self.intentName = intentName
             self.message = message
             self.messageFormat = messageFormat
+            self.nluIntentConfidence = nluIntentConfidence
             self.responseCard = responseCard
             self.sentimentResponse = sentimentResponse
             self.sessionAttributes = sessionAttributes
@@ -589,16 +633,46 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alternativeIntents = "alternativeIntents"
+            case botVersion = "botVersion"
             case dialogState = "dialogState"
             case intentName = "intentName"
             case message = "message"
             case messageFormat = "messageFormat"
+            case nluIntentConfidence = "nluIntentConfidence"
             case responseCard = "responseCard"
             case sentimentResponse = "sentimentResponse"
             case sessionAttributes = "sessionAttributes"
             case sessionId = "sessionId"
             case slots = "slots"
             case slotToElicit = "slotToElicit"
+        }
+    }
+
+    public struct PredictedIntent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "intentName", required: false, type: .string), 
+            AWSShapeMember(label: "nluIntentConfidence", required: false, type: .structure), 
+            AWSShapeMember(label: "slots", required: false, type: .map)
+        ]
+
+        /// The name of the intent that Amazon Lex suggests satisfies the user's intent.
+        public let intentName: String?
+        /// Indicates how confident Amazon Lex is that an intent satisfies the user's intent.
+        public let nluIntentConfidence: IntentConfidence?
+        /// The slot and slot values associated with the predicted intent.
+        public let slots: [String: String]?
+
+        public init(intentName: String? = nil, nluIntentConfidence: IntentConfidence? = nil, slots: [String: String]? = nil) {
+            self.intentName = intentName
+            self.nluIntentConfidence = nluIntentConfidence
+            self.slots = slots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentName = "intentName"
+            case nluIntentConfidence = "nluIntentConfidence"
+            case slots = "slots"
         }
     }
 

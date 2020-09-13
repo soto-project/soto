@@ -31,6 +31,11 @@ extension AppConfig {
         return client.paginate(input: input, command: listEnvironments, tokenKey: \Environments.nextToken, onPage: onPage)
     }
 
+    ///  View a list of configurations stored in the AppConfig configuration store by version.
+    public func listHostedConfigurationVersionsPaginator(_ input: ListHostedConfigurationVersionsRequest, onPage: @escaping (HostedConfigurationVersions, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listHostedConfigurationVersions, tokenKey: \HostedConfigurationVersions.nextToken, onPage: onPage)
+    }
+
 }
 
 extension AppConfig.ListApplicationsRequest: AWSPaginateStringToken {
@@ -80,6 +85,18 @@ extension AppConfig.ListEnvironmentsRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListEnvironmentsRequest {
         return .init(
             applicationId: self.applicationId, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension AppConfig.ListHostedConfigurationVersionsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListHostedConfigurationVersionsRequest {
+        return .init(
+            applicationId: self.applicationId, 
+            configurationProfileId: self.configurationProfileId, 
             maxResults: self.maxResults, 
             nextToken: token
         )

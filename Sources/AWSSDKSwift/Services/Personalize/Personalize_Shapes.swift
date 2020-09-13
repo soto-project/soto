@@ -154,8 +154,10 @@ extension Personalize {
     public struct BatchInferenceJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "batchInferenceJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "batchInferenceJobConfig", required: false, type: .structure), 
             AWSShapeMember(label: "creationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "filterArn", required: false, type: .string), 
             AWSShapeMember(label: "jobInput", required: false, type: .structure), 
             AWSShapeMember(label: "jobName", required: false, type: .string), 
             AWSShapeMember(label: "jobOutput", required: false, type: .structure), 
@@ -168,10 +170,14 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public let batchInferenceJobArn: String?
+        /// A string to string map of the configuration details of a batch inference job.
+        public let batchInferenceJobConfig: BatchInferenceJobConfig?
         /// The time at which the batch inference job was created.
         public let creationDateTime: TimeStamp?
         /// If the batch inference job failed, the reason for the failure.
         public let failureReason: String?
+        /// The ARN of the filter used on the batch inference job.
+        public let filterArn: String?
         /// The Amazon S3 path that leads to the input data used to generate the batch inference job.
         public let jobInput: BatchInferenceJobInput?
         /// The name of the batch inference job.
@@ -189,10 +195,12 @@ extension Personalize {
         /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED  
         public let status: String?
 
-        public init(batchInferenceJobArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: TimeStamp? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(batchInferenceJobArn: String? = nil, batchInferenceJobConfig: BatchInferenceJobConfig? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: TimeStamp? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.batchInferenceJobArn = batchInferenceJobArn
+            self.batchInferenceJobConfig = batchInferenceJobConfig
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
+            self.filterArn = filterArn
             self.jobInput = jobInput
             self.jobName = jobName
             self.jobOutput = jobOutput
@@ -205,8 +213,10 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case batchInferenceJobArn = "batchInferenceJobArn"
+            case batchInferenceJobConfig = "batchInferenceJobConfig"
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
+            case filterArn = "filterArn"
             case jobInput = "jobInput"
             case jobName = "jobName"
             case jobOutput = "jobOutput"
@@ -215,6 +225,30 @@ extension Personalize {
             case roleArn = "roleArn"
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
+        }
+    }
+
+    public struct BatchInferenceJobConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "itemExplorationConfig", required: false, type: .map)
+        ]
+
+        /// A string to string map specifying the inference hyperparameters you wish to use for hyperparameter optimization. See customizing-solution-config-hpo.
+        public let itemExplorationConfig: [String: String]?
+
+        public init(itemExplorationConfig: [String: String]? = nil) {
+            self.itemExplorationConfig = itemExplorationConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.itemExplorationConfig?.forEach {
+                try validate($0.key, name:"itemExplorationConfig.key", parent: name, max: 256)
+                try validate($0.value, name:"itemExplorationConfig[\"\($0.key)\"]", parent: name, max: 1000)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemExplorationConfig = "itemExplorationConfig"
         }
     }
 
@@ -310,6 +344,7 @@ extension Personalize {
     public struct Campaign: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "campaignArn", required: false, type: .string), 
+            AWSShapeMember(label: "campaignConfig", required: false, type: .structure), 
             AWSShapeMember(label: "creationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedDateTime", required: false, type: .timestamp), 
@@ -322,6 +357,8 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the campaign. 
         public let campaignArn: String?
+        /// The configuration details of a campaign.
+        public let campaignConfig: CampaignConfig?
         /// The date and time (in Unix format) that the campaign was created.
         public let creationDateTime: TimeStamp?
         /// If a campaign fails, the reason behind the failure.
@@ -338,8 +375,9 @@ extension Personalize {
         /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
-        public init(campaignArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, latestCampaignUpdate: CampaignUpdateSummary? = nil, minProvisionedTPS: Int? = nil, name: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(campaignArn: String? = nil, campaignConfig: CampaignConfig? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, latestCampaignUpdate: CampaignUpdateSummary? = nil, minProvisionedTPS: Int? = nil, name: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.campaignArn = campaignArn
+            self.campaignConfig = campaignConfig
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -352,6 +390,7 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
+            case campaignConfig = "campaignConfig"
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
@@ -360,6 +399,30 @@ extension Personalize {
             case name = "name"
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
+        }
+    }
+
+    public struct CampaignConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "itemExplorationConfig", required: false, type: .map)
+        ]
+
+        /// A string to string map specifying the inference hyperparameters you wish to use for hyperparameter optimization. See customizing-solution-config-hpo.
+        public let itemExplorationConfig: [String: String]?
+
+        public init(itemExplorationConfig: [String: String]? = nil) {
+            self.itemExplorationConfig = itemExplorationConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.itemExplorationConfig?.forEach {
+                try validate($0.key, name:"itemExplorationConfig.key", parent: name, max: 256)
+                try validate($0.value, name:"itemExplorationConfig[\"\($0.key)\"]", parent: name, max: 1000)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemExplorationConfig = "itemExplorationConfig"
         }
     }
 
@@ -407,6 +470,7 @@ extension Personalize {
 
     public struct CampaignUpdateSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "campaignConfig", required: false, type: .structure), 
             AWSShapeMember(label: "creationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedDateTime", required: false, type: .timestamp), 
@@ -415,6 +479,7 @@ extension Personalize {
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
 
+        public let campaignConfig: CampaignConfig?
         /// The date and time (in Unix time) that the campaign update was created.
         public let creationDateTime: TimeStamp?
         /// If a campaign update fails, the reason behind the failure.
@@ -428,7 +493,8 @@ extension Personalize {
         /// The status of the campaign update. A campaign update can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
-        public init(creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(campaignConfig: CampaignConfig? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+            self.campaignConfig = campaignConfig
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -438,6 +504,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case campaignConfig = "campaignConfig"
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
@@ -512,6 +579,8 @@ extension Personalize {
 
     public struct CreateBatchInferenceJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "batchInferenceJobConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "filterArn", required: false, type: .string), 
             AWSShapeMember(label: "jobInput", required: true, type: .structure), 
             AWSShapeMember(label: "jobName", required: true, type: .string), 
             AWSShapeMember(label: "jobOutput", required: true, type: .structure), 
@@ -520,6 +589,10 @@ extension Personalize {
             AWSShapeMember(label: "solutionVersionArn", required: true, type: .string)
         ]
 
+        /// The configuration details of a batch inference job.
+        public let batchInferenceJobConfig: BatchInferenceJobConfig?
+        /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Using Filters with Amazon Personalize.
+        public let filterArn: String?
         /// The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format.
         public let jobInput: BatchInferenceJobInput
         /// The name of the batch inference job to create.
@@ -533,7 +606,9 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations.
         public let solutionVersionArn: String
 
-        public init(jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String) {
+        public init(batchInferenceJobConfig: BatchInferenceJobConfig? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String) {
+            self.batchInferenceJobConfig = batchInferenceJobConfig
+            self.filterArn = filterArn
             self.jobInput = jobInput
             self.jobName = jobName
             self.jobOutput = jobOutput
@@ -543,6 +618,9 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
+            try self.batchInferenceJobConfig?.validate(name: "\(name).batchInferenceJobConfig")
+            try validate(self.filterArn, name:"filterArn", parent: name, max: 256)
+            try validate(self.filterArn, name:"filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.jobInput.validate(name: "\(name).jobInput")
             try validate(self.jobName, name:"jobName", parent: name, max: 63)
             try validate(self.jobName, name:"jobName", parent: name, min: 1)
@@ -555,6 +633,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchInferenceJobConfig = "batchInferenceJobConfig"
+            case filterArn = "filterArn"
             case jobInput = "jobInput"
             case jobName = "jobName"
             case jobOutput = "jobOutput"
@@ -583,11 +663,14 @@ extension Personalize {
 
     public struct CreateCampaignRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "campaignConfig", required: false, type: .structure), 
             AWSShapeMember(label: "minProvisionedTPS", required: true, type: .integer), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "solutionVersionArn", required: true, type: .string)
         ]
 
+        /// The configuration details of a campaign.
+        public let campaignConfig: CampaignConfig?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
         public let minProvisionedTPS: Int
         /// A name for the new campaign. The campaign name must be unique within your account.
@@ -595,13 +678,15 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version to deploy.
         public let solutionVersionArn: String
 
-        public init(minProvisionedTPS: Int, name: String, solutionVersionArn: String) {
+        public init(campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int, name: String, solutionVersionArn: String) {
+            self.campaignConfig = campaignConfig
             self.minProvisionedTPS = minProvisionedTPS
             self.name = name
             self.solutionVersionArn = solutionVersionArn
         }
 
         public func validate(name: String) throws {
+            try self.campaignConfig?.validate(name: "\(name).campaignConfig")
             try validate(self.minProvisionedTPS, name:"minProvisionedTPS", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 63)
             try validate(self.name, name:"name", parent: name, min: 1)
@@ -611,6 +696,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case campaignConfig = "campaignConfig"
             case minProvisionedTPS = "minProvisionedTPS"
             case name = "name"
             case solutionVersionArn = "solutionVersionArn"
@@ -855,6 +941,60 @@ extension Personalize {
         private enum CodingKeys: String, CodingKey {
             case eventTrackerArn = "eventTrackerArn"
             case trackingId = "trackingId"
+        }
+    }
+
+    public struct CreateFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datasetGroupArn", required: true, type: .string), 
+            AWSShapeMember(label: "filterExpression", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+
+        /// The ARN of the dataset group that the filter will belong to.
+        public let datasetGroupArn: String
+        /// The filter expression that designates the interaction types that the filter will filter out. A filter expression must follow the following format:  EXCLUDE itemId WHERE INTERACTIONS.event_type in ("EVENT_TYPE")  Where "EVENT_TYPE" is the type of event to filter out. To filter out all items with any interactions history, set "*" as the EVENT_TYPE. For more information, see Using Filters with Amazon Personalize.
+        public let filterExpression: String
+        /// The name of the filter to create.
+        public let name: String
+
+        public init(datasetGroupArn: String, filterExpression: String, name: String) {
+            self.datasetGroupArn = datasetGroupArn
+            self.filterExpression = filterExpression
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(self.datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(self.filterExpression, name:"filterExpression", parent: name, max: 2500)
+            try validate(self.filterExpression, name:"filterExpression", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 63)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetGroupArn = "datasetGroupArn"
+            case filterExpression = "filterExpression"
+            case name = "name"
+        }
+    }
+
+    public struct CreateFilterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterArn", required: false, type: .string)
+        ]
+
+        /// The ARN of the new filter.
+        public let filterArn: String?
+
+        public init(filterArn: String? = nil) {
+            self.filterArn = filterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterArn = "filterArn"
         }
     }
 
@@ -1607,6 +1747,28 @@ extension Personalize {
         }
     }
 
+    public struct DeleteFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterArn", required: true, type: .string)
+        ]
+
+        /// The ARN of the filter to delete.
+        public let filterArn: String
+
+        public init(filterArn: String) {
+            self.filterArn = filterArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.filterArn, name:"filterArn", parent: name, max: 256)
+            try validate(self.filterArn, name:"filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterArn = "filterArn"
+        }
+    }
+
     public struct DeleteSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "schemaArn", required: true, type: .string)
@@ -1963,6 +2125,45 @@ extension Personalize {
         }
     }
 
+    public struct DescribeFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterArn", required: true, type: .string)
+        ]
+
+        /// The ARN of the filter to describe.
+        public let filterArn: String
+
+        public init(filterArn: String) {
+            self.filterArn = filterArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.filterArn, name:"filterArn", parent: name, max: 256)
+            try validate(self.filterArn, name:"filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterArn = "filterArn"
+        }
+    }
+
+    public struct DescribeFilterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filter", required: false, type: .structure)
+        ]
+
+        /// The filter's details.
+        public let filter: Filter?
+
+        public init(filter: Filter? = nil) {
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+        }
+    }
+
     public struct DescribeRecipeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "recipeArn", required: true, type: .string)
@@ -2244,6 +2445,105 @@ extension Personalize {
             case creationDateTime = "creationDateTime"
             case defaultParameters = "defaultParameters"
             case featureTransformationArn = "featureTransformationArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct Filter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "datasetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "filterArn", required: false, type: .string), 
+            AWSShapeMember(label: "filterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .string)
+        ]
+
+        /// The time at which the filter was created.
+        public let creationDateTime: TimeStamp?
+        /// The ARN of the dataset group to which the filter belongs.
+        public let datasetGroupArn: String?
+        /// If the filter failed, the reason for its failure.
+        public let failureReason: String?
+        /// The ARN of the filter.
+        public let filterArn: String?
+        /// Specifies the type of item interactions to filter out of recommendation results. The filter expression must follow the following format:  EXCLUDE itemId WHERE INTERACTIONS.event_type in ("EVENT_TYPE")  Where "EVENT_TYPE" is the type of event to filter out. For more information, see Using Filters with Amazon Personalize.
+        public let filterExpression: String?
+        /// The time at which the filter was last updated.
+        public let lastUpdatedDateTime: TimeStamp?
+        /// The name of the filter.
+        public let name: String?
+        /// The status of the filter.
+        public let status: String?
+
+        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, filterArn: String? = nil, filterExpression: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.datasetGroupArn = datasetGroupArn
+            self.failureReason = failureReason
+            self.filterArn = filterArn
+            self.filterExpression = filterExpression
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
+            case filterExpression = "filterExpression"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct FilterSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "datasetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "filterArn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .string)
+        ]
+
+        /// The time at which the filter was created.
+        public let creationDateTime: TimeStamp?
+        /// The ARN of the dataset group to which the filter belongs.
+        public let datasetGroupArn: String?
+        /// If the filter failed, the reason for the failure.
+        public let failureReason: String?
+        /// The ARN of the filter.
+        public let filterArn: String?
+        /// The time at which the filter was last updated.
+        public let lastUpdatedDateTime: TimeStamp?
+        /// The name of the filter.
+        public let name: String?
+        /// The status of the filter.
+        public let status: String?
+
+        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, filterArn: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.datasetGroupArn = datasetGroupArn
+            self.failureReason = failureReason
+            self.filterArn = filterArn
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case name = "name"
             case status = "status"
@@ -2793,6 +3093,63 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case eventTrackers = "eventTrackers"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFiltersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datasetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// The ARN of the dataset group that contains the filters.
+        public let datasetGroupArn: String?
+        /// The maximum number of filters to return.
+        public let maxResults: Int?
+        /// A token returned from the previous call to ListFilters for getting the next set of filters (if they exist).
+        public let nextToken: String?
+
+        public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.datasetGroupArn = datasetGroupArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(self.datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1300)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFiltersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// A list of returned filters.
+        public let filters: [FilterSummary]?
+        /// A token for getting the next set of filters (if they exist).
+        public let nextToken: String?
+
+        public init(filters: [FilterSummary]? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case nextToken = "nextToken"
         }
     }
@@ -3445,19 +3802,23 @@ extension Personalize {
     public struct UpdateCampaignRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "campaignArn", required: true, type: .string), 
+            AWSShapeMember(label: "campaignConfig", required: false, type: .structure), 
             AWSShapeMember(label: "minProvisionedTPS", required: false, type: .integer), 
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string)
         ]
 
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
+        /// The configuration details of a campaign.
+        public let campaignConfig: CampaignConfig?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
         public let minProvisionedTPS: Int?
         /// The ARN of a new solution version to deploy.
         public let solutionVersionArn: String?
 
-        public init(campaignArn: String, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil) {
+        public init(campaignArn: String, campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil) {
             self.campaignArn = campaignArn
+            self.campaignConfig = campaignConfig
             self.minProvisionedTPS = minProvisionedTPS
             self.solutionVersionArn = solutionVersionArn
         }
@@ -3465,6 +3826,7 @@ extension Personalize {
         public func validate(name: String) throws {
             try validate(self.campaignArn, name:"campaignArn", parent: name, max: 256)
             try validate(self.campaignArn, name:"campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.campaignConfig?.validate(name: "\(name).campaignConfig")
             try validate(self.minProvisionedTPS, name:"minProvisionedTPS", parent: name, min: 1)
             try validate(self.solutionVersionArn, name:"solutionVersionArn", parent: name, max: 256)
             try validate(self.solutionVersionArn, name:"solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
@@ -3472,6 +3834,7 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
+            case campaignConfig = "campaignConfig"
             case minProvisionedTPS = "minProvisionedTPS"
             case solutionVersionArn = "solutionVersionArn"
         }

@@ -64,6 +64,7 @@ extension Lambda {
         case nodejs10X = "nodejs10.x"
         case nodejs12X = "nodejs12.x"
         case java8 = "java8"
+        case java8Al2 = "java8.al2"
         case java11 = "java11"
         case python27 = "python2.7"
         case python36 = "python3.6"
@@ -78,6 +79,7 @@ extension Lambda {
         case ruby25 = "ruby2.5"
         case ruby27 = "ruby2.7"
         case provided = "provided"
+        case providedAl2 = "provided.al2"
         public var description: String { return self.rawValue }
     }
 
@@ -391,7 +393,7 @@ extension Lambda {
             AWSShapeMember(label: "AdditionalVersionWeights", required: false, type: .map)
         ]
 
-        /// The name of the second alias, and the percentage of traffic that's routed to it.
+        /// The second version, and the percentage of traffic that's routed to it.
         public let additionalVersionWeights: [String: Double]?
 
         public init(additionalVersionWeights: [String: Double]? = nil) {
@@ -495,35 +497,38 @@ extension Lambda {
             AWSShapeMember(label: "MaximumRetryAttempts", required: false, type: .integer), 
             AWSShapeMember(label: "ParallelizationFactor", required: false, type: .integer), 
             AWSShapeMember(label: "StartingPosition", required: false, type: .enum), 
-            AWSShapeMember(label: "StartingPositionTimestamp", required: false, type: .timestamp)
+            AWSShapeMember(label: "StartingPositionTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Topics", required: false, type: .list)
         ]
 
-        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.  
+        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.  
         public let batchSize: Int?
         /// (Streams) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
         /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
-        /// Disables the event source mapping to pause polling and invocation.
+        /// If true, the event source mapping is active. Set to false to pause polling and invocation.
         public let enabled: Bool?
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.  
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.  
         public let eventSourceArn: String
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
         /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        /// (Streams) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams) The maximum number of times to retry when the function returns an error.
+        /// (Streams) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records will be retried until the record expires.
         public let maximumRetryAttempts: Int?
         /// (Streams) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Streams sources. AT_TIMESTAMP is only supported for Amazon Kinesis streams.
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is only supported for Amazon Kinesis streams.
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
         public let startingPositionTimestamp: TimeStamp?
+        ///  (MSK) The name of the Kafka topic. 
+        public let topics: [String]?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil, topics: [String]? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -536,6 +541,7 @@ extension Lambda {
             self.parallelizationFactor = parallelizationFactor
             self.startingPosition = startingPosition
             self.startingPositionTimestamp = startingPositionTimestamp
+            self.topics = topics
         }
 
         public func validate(name: String) throws {
@@ -549,11 +555,18 @@ extension Lambda {
             try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, max: 300)
             try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, min: 0)
             try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, max: 604800)
-            try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, min: 60)
+            try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, min: -1)
             try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, max: 10000)
-            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, min: 0)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, min: -1)
             try validate(self.parallelizationFactor, name:"parallelizationFactor", parent: name, max: 10)
             try validate(self.parallelizationFactor, name:"parallelizationFactor", parent: name, min: 1)
+            try self.topics?.forEach {
+                try validate($0, name: "topics[]", parent: name, max: 249)
+                try validate($0, name: "topics[]", parent: name, min: 1)
+                try validate($0, name: "topics[]", parent: name, pattern: "^[^.]([a-zA-Z0-9\\-_.]+)")
+            }
+            try validate(self.topics, name:"topics", parent: name, max: 1)
+            try validate(self.topics, name:"topics", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -569,6 +582,7 @@ extension Lambda {
             case parallelizationFactor = "ParallelizationFactor"
             case startingPosition = "StartingPosition"
             case startingPositionTimestamp = "StartingPositionTimestamp"
+            case topics = "Topics"
         }
     }
 
@@ -578,6 +592,7 @@ extension Lambda {
             AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Environment", required: false, type: .structure), 
+            AWSShapeMember(label: "FileSystemConfigs", required: false, type: .list), 
             AWSShapeMember(label: "FunctionName", required: true, type: .string), 
             AWSShapeMember(label: "Handler", required: true, type: .string), 
             AWSShapeMember(label: "KMSKeyArn", required: false, type: .string), 
@@ -600,6 +615,8 @@ extension Lambda {
         public let description: String?
         /// Environment variables that are accessible from function code during execution.
         public let environment: Environment?
+        /// Connection settings for an Amazon EFS file system.
+        public let fileSystemConfigs: [FileSystemConfig]?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
@@ -625,11 +642,12 @@ extension Lambda {
         /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(code: FunctionCode, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, functionName: String, handler: String, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, publish: Bool? = nil, role: String, runtime: Runtime, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(code: FunctionCode, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, publish: Bool? = nil, role: String, runtime: Runtime, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.code = code
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
+            self.fileSystemConfigs = fileSystemConfigs
             self.functionName = functionName
             self.handler = handler
             self.kMSKeyArn = kMSKeyArn
@@ -650,6 +668,10 @@ extension Lambda {
             try validate(self.description, name:"description", parent: name, max: 256)
             try validate(self.description, name:"description", parent: name, min: 0)
             try self.environment?.validate(name: "\(name).environment")
+            try self.fileSystemConfigs?.forEach {
+                try $0.validate(name: "\(name).fileSystemConfigs[]")
+            }
+            try validate(self.fileSystemConfigs, name:"fileSystemConfigs", parent: name, max: 1)
             try validate(self.functionName, name:"functionName", parent: name, max: 140)
             try validate(self.functionName, name:"functionName", parent: name, min: 1)
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -673,6 +695,7 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
+            case fileSystemConfigs = "FileSystemConfigs"
             case functionName = "FunctionName"
             case handler = "Handler"
             case kMSKeyArn = "KMSKeyArn"
@@ -1010,6 +1033,7 @@ extension Lambda {
             AWSShapeMember(label: "ParallelizationFactor", required: false, type: .integer), 
             AWSShapeMember(label: "State", required: false, type: .string), 
             AWSShapeMember(label: "StateTransitionReason", required: false, type: .string), 
+            AWSShapeMember(label: "Topics", required: false, type: .list), 
             AWSShapeMember(label: "UUID", required: false, type: .string)
         ]
 
@@ -1039,10 +1063,12 @@ extension Lambda {
         public let state: String?
         /// Indicates whether the last change to the event source mapping was made by a user, or by the Lambda service.
         public let stateTransitionReason: String?
+        ///  (MSK) The name of the Kafka topic. 
+        public let topics: [String]?
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, state: String? = nil, stateTransitionReason: String? = nil, uuid: String? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, uuid: String? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -1056,6 +1082,7 @@ extension Lambda {
             self.parallelizationFactor = parallelizationFactor
             self.state = state
             self.stateTransitionReason = stateTransitionReason
+            self.topics = topics
             self.uuid = uuid
         }
 
@@ -1073,7 +1100,37 @@ extension Lambda {
             case parallelizationFactor = "ParallelizationFactor"
             case state = "State"
             case stateTransitionReason = "StateTransitionReason"
+            case topics = "Topics"
             case uuid = "UUID"
+        }
+    }
+
+    public struct FileSystemConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "LocalMountPath", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the Amazon EFS access point that provides access to the file system.
+        public let arn: String
+        /// The path where the function can access the file system, starting with /mnt/.
+        public let localMountPath: String
+
+        public init(arn: String, localMountPath: String) {
+            self.arn = arn
+            self.localMountPath = localMountPath
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, max: 200)
+            try validate(self.arn, name:"arn", parent: name, pattern: "arn:aws[a-zA-Z-]*:elasticfilesystem:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:access-point/fsap-[a-f0-9]{17}")
+            try validate(self.localMountPath, name:"localMountPath", parent: name, max: 160)
+            try validate(self.localMountPath, name:"localMountPath", parent: name, pattern: "^/mnt/[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case localMountPath = "LocalMountPath"
         }
     }
 
@@ -1148,6 +1205,7 @@ extension Lambda {
             AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Environment", required: false, type: .structure), 
+            AWSShapeMember(label: "FileSystemConfigs", required: false, type: .list), 
             AWSShapeMember(label: "FunctionArn", required: false, type: .string), 
             AWSShapeMember(label: "FunctionName", required: false, type: .string), 
             AWSShapeMember(label: "Handler", required: false, type: .string), 
@@ -1181,6 +1239,8 @@ extension Lambda {
         public let description: String?
         /// The function's environment variables.
         public let environment: EnvironmentResponse?
+        /// Connection settings for an Amazon EFS file system.
+        public let fileSystemConfigs: [FileSystemConfig]?
         /// The function's Amazon Resource Name (ARN).
         public let functionArn: String?
         /// The name of the function.
@@ -1224,12 +1284,13 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
+            self.fileSystemConfigs = fileSystemConfigs
             self.functionArn = functionArn
             self.functionName = functionName
             self.handler = handler
@@ -1259,6 +1320,7 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
+            case fileSystemConfigs = "FileSystemConfigs"
             case functionArn = "FunctionArn"
             case functionName = "FunctionName"
             case handler = "Handler"
@@ -2214,7 +2276,7 @@ extension Lambda {
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
 
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.  
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.  
         public let eventSourceArn: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
@@ -3288,21 +3350,21 @@ extension Lambda {
             AWSShapeMember(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
 
-        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.  
+        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.  
         public let batchSize: Int?
         /// (Streams) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
         /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
-        /// Disables the event source mapping to pause polling and invocation.
+        /// If true, the event source mapping is active. Set to false to pause polling and invocation.
         public let enabled: Bool?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
         /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        /// (Streams) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams) The maximum number of times to retry when the function returns an error.
+        /// (Streams) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records will be retried until the record expires.
         public let maximumRetryAttempts: Int?
         /// (Streams) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
@@ -3332,9 +3394,9 @@ extension Lambda {
             try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, max: 300)
             try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, min: 0)
             try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, max: 604800)
-            try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, min: 60)
+            try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, min: -1)
             try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, max: 10000)
-            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, min: 0)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, min: -1)
             try validate(self.parallelizationFactor, name:"parallelizationFactor", parent: name, max: 10)
             try validate(self.parallelizationFactor, name:"parallelizationFactor", parent: name, min: 1)
         }
@@ -3423,6 +3485,7 @@ extension Lambda {
             AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Environment", required: false, type: .structure), 
+            AWSShapeMember(label: "FileSystemConfigs", required: false, type: .list), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Handler", required: false, type: .string), 
             AWSShapeMember(label: "KMSKeyArn", required: false, type: .string), 
@@ -3442,6 +3505,8 @@ extension Lambda {
         public let description: String?
         /// Environment variables that are accessible from function code during execution.
         public let environment: Environment?
+        /// Connection settings for an Amazon EFS file system.
+        public let fileSystemConfigs: [FileSystemConfig]?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
@@ -3465,10 +3530,11 @@ extension Lambda {
         /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, functionName: String, handler: String? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
+            self.fileSystemConfigs = fileSystemConfigs
             self.functionName = functionName
             self.handler = handler
             self.kMSKeyArn = kMSKeyArn
@@ -3487,6 +3553,10 @@ extension Lambda {
             try validate(self.description, name:"description", parent: name, max: 256)
             try validate(self.description, name:"description", parent: name, min: 0)
             try self.environment?.validate(name: "\(name).environment")
+            try self.fileSystemConfigs?.forEach {
+                try $0.validate(name: "\(name).fileSystemConfigs[]")
+            }
+            try validate(self.fileSystemConfigs, name:"fileSystemConfigs", parent: name, max: 1)
             try validate(self.functionName, name:"functionName", parent: name, max: 140)
             try validate(self.functionName, name:"functionName", parent: name, min: 1)
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -3509,6 +3579,7 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
+            case fileSystemConfigs = "FileSystemConfigs"
             case functionName = "FunctionName"
             case handler = "Handler"
             case kMSKeyArn = "KMSKeyArn"

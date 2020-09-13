@@ -12,6 +12,21 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum Application: String, CustomStringConvertible, Codable {
+        case microsoftOffice2016 = "Microsoft_Office_2016"
+        case microsoftOffice2019 = "Microsoft_Office_2019"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationStatus: String, CustomStringConvertible, Codable {
+        case notAssociated = "NOT_ASSOCIATED"
+        case associatedWithOwnerAccount = "ASSOCIATED_WITH_OWNER_ACCOUNT"
+        case associatedWithSharedAccount = "ASSOCIATED_WITH_SHARED_ACCOUNT"
+        case pendingAssociation = "PENDING_ASSOCIATION"
+        case pendingDisassociation = "PENDING_DISASSOCIATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Compute: String, CustomStringConvertible, Codable {
         case value = "VALUE"
         case standard = "STANDARD"
@@ -20,6 +35,13 @@ extension WorkSpaces {
         case graphics = "GRAPHICS"
         case powerpro = "POWERPRO"
         case graphicspro = "GRAPHICSPRO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionAliasState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -45,6 +67,12 @@ extension WorkSpaces {
     public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageType: String, CustomStringConvertible, Codable {
+        case owned = "OWNED"
+        case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
@@ -191,6 +219,52 @@ extension WorkSpaces {
         }
     }
 
+    public struct AssociateConnectionAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+
+        /// The identifier of the connection alias.
+        public let aliasId: String
+        /// The identifier of the directory to associate the connection alias with.
+        public let resourceId: String
+
+        public init(aliasId: String, resourceId: String) {
+            self.aliasId = aliasId
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name:"aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name:"aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct AssociateConnectionAliasResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionIdentifier", required: false, type: .string)
+        ]
+
+        /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when you're configuring your DNS routing policies. 
+        public let connectionIdentifier: String?
+
+        public init(connectionIdentifier: String? = nil) {
+            self.connectionIdentifier = connectionIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionIdentifier = "ConnectionIdentifier"
+        }
+    }
+
     public struct AssociateIpGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
@@ -320,6 +394,101 @@ extension WorkSpaces {
         }
     }
 
+    public struct ConnectionAlias: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "Associations", required: false, type: .list), 
+            AWSShapeMember(label: "ConnectionString", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The identifier of the connection alias.
+        public let aliasId: String?
+        /// The association status of the connection alias.
+        public let associations: [ConnectionAliasAssociation]?
+        /// The connection string specified for the connection alias. The connection string must be in the form of a fully qualified domain name (FQDN), such as www.example.com.
+        public let connectionString: String?
+        /// The identifier of the AWS account that owns the connection alias.
+        public let ownerAccountId: String?
+        /// The current state of the connection alias.
+        public let state: ConnectionAliasState?
+
+        public init(aliasId: String? = nil, associations: [ConnectionAliasAssociation]? = nil, connectionString: String? = nil, ownerAccountId: String? = nil, state: ConnectionAliasState? = nil) {
+            self.aliasId = aliasId
+            self.associations = associations
+            self.connectionString = connectionString
+            self.ownerAccountId = ownerAccountId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case associations = "Associations"
+            case connectionString = "ConnectionString"
+            case ownerAccountId = "OwnerAccountId"
+            case state = "State"
+        }
+    }
+
+    public struct ConnectionAliasAssociation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociatedAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "AssociationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ConnectionIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
+        ]
+
+        /// The identifier of the AWS account that associated the connection alias with a directory.
+        public let associatedAccountId: String?
+        /// The association status of the connection alias.
+        public let associationStatus: AssociationStatus?
+        /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when you're configuring your DNS routing policies.
+        public let connectionIdentifier: String?
+        /// The identifier of the directory associated with a connection alias.
+        public let resourceId: String?
+
+        public init(associatedAccountId: String? = nil, associationStatus: AssociationStatus? = nil, connectionIdentifier: String? = nil, resourceId: String? = nil) {
+            self.associatedAccountId = associatedAccountId
+            self.associationStatus = associationStatus
+            self.connectionIdentifier = connectionIdentifier
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedAccountId = "AssociatedAccountId"
+            case associationStatus = "AssociationStatus"
+            case connectionIdentifier = "ConnectionIdentifier"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ConnectionAliasPermission: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowAssociation", required: true, type: .boolean), 
+            AWSShapeMember(label: "SharedAccountId", required: true, type: .string)
+        ]
+
+        /// Indicates whether the specified AWS account is allowed to associate the connection alias with a directory.
+        public let allowAssociation: Bool
+        /// The identifier of the AWS account that the connection alias is shared with.
+        public let sharedAccountId: String
+
+        public init(allowAssociation: Bool, sharedAccountId: String) {
+            self.allowAssociation = allowAssociation
+            self.sharedAccountId = sharedAccountId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.sharedAccountId, name:"sharedAccountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAssociation = "AllowAssociation"
+            case sharedAccountId = "SharedAccountId"
+        }
+    }
+
     public struct CopyWorkspaceImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -390,6 +559,54 @@ extension WorkSpaces {
         }
     }
 
+    public struct CreateConnectionAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionString", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com.  After you create a connection string, it is always associated to your AWS account. You cannot recreate the same connection string with a different account, even if you delete all instances of it from the original account. The connection string is globally reserved for your account. 
+        public let connectionString: String
+        /// The tags to associate with the connection alias.
+        public let tags: [Tag]?
+
+        public init(connectionString: String, tags: [Tag]? = nil) {
+            self.connectionString = connectionString
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.connectionString, name:"connectionString", parent: name, max: 255)
+            try validate(self.connectionString, name:"connectionString", parent: name, min: 1)
+            try validate(self.connectionString, name:"connectionString", parent: name, pattern: "^[.0-9a-zA-Z\\-]{1,255}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionString = "ConnectionString"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectionAliasResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: false, type: .string)
+        ]
+
+        /// The identifier of the connection alias.
+        public let aliasId: String?
+
+        public init(aliasId: String? = nil) {
+            self.aliasId = aliasId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+        }
+    }
+
     public struct CreateIpGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupDesc", required: false, type: .string), 
@@ -451,7 +668,7 @@ extension WorkSpaces {
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
 
-        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
         public let resourceId: String
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. If you want to add new tags to a set of existing tags, you must submit all of the existing tags along with the new ones.
         public let tags: [Tag]
@@ -539,7 +756,7 @@ extension WorkSpaces {
             AWSShapeMember(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean)
         ]
 
-        /// The identifier of any security groups to apply to WorkSpaces when they are created.
+        /// The identifier of the default security group to apply to WorkSpaces when they are created. For more information, see  Security Groups for Your WorkSpaces.
         public let customSecurityGroupId: String?
         /// The organizational unit (OU) in the directory for the WorkSpace machine accounts.
         public let defaultOu: String?
@@ -569,6 +786,37 @@ extension WorkSpaces {
             case enableWorkDocs = "EnableWorkDocs"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
+    }
+
+    public struct DeleteConnectionAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string)
+        ]
+
+        /// The identifier of the connection alias to delete.
+        public let aliasId: String
+
+        public init(aliasId: String) {
+            self.aliasId = aliasId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name:"aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name:"aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+        }
+    }
+
+    public struct DeleteConnectionAliasResult: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteIpGroupRequest: AWSShape {
@@ -606,7 +854,7 @@ extension WorkSpaces {
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
-        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
         public let resourceId: String
         /// The tag keys.
         public let tagKeys: [String]
@@ -710,7 +958,7 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
@@ -813,6 +1061,139 @@ extension WorkSpaces {
         }
     }
 
+    public struct DescribeConnectionAliasPermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The identifier of the connection alias.
+        public let aliasId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. 
+        public let nextToken: String?
+
+        public init(aliasId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.aliasId = aliasId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name:"aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name:"aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeConnectionAliasPermissionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectionAliasPermissions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The identifier of the connection alias.
+        public let aliasId: String?
+        /// The permissions associated with a connection alias.
+        public let connectionAliasPermissions: [ConnectionAliasPermission]?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+
+        public init(aliasId: String? = nil, connectionAliasPermissions: [ConnectionAliasPermission]? = nil, nextToken: String? = nil) {
+            self.aliasId = aliasId
+            self.connectionAliasPermissions = connectionAliasPermissions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case connectionAliasPermissions = "ConnectionAliasPermissions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeConnectionAliasesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasIds", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
+        ]
+
+        /// The identifiers of the connection aliases to describe.
+        public let aliasIds: [String]?
+        /// The maximum number of connection aliases to return.
+        public let limit: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. 
+        public let nextToken: String?
+        /// The identifier of the directory associated with the connection alias.
+        public let resourceId: String?
+
+        public init(aliasIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String? = nil) {
+            self.aliasIds = aliasIds
+            self.limit = limit
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.aliasIds?.forEach {
+                try validate($0, name: "aliasIds[]", parent: name, max: 68)
+                try validate($0, name: "aliasIds[]", parent: name, min: 13)
+                try validate($0, name: "aliasIds[]", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+            }
+            try validate(self.aliasIds, name:"aliasIds", parent: name, max: 25)
+            try validate(self.aliasIds, name:"aliasIds", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 25)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasIds = "AliasIds"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DescribeConnectionAliasesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionAliases", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Information about the specified connection aliases.
+        public let connectionAliases: [ConnectionAlias]?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+
+        public init(connectionAliases: [ConnectionAlias]? = nil, nextToken: String? = nil) {
+            self.connectionAliases = connectionAliases
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionAliases = "ConnectionAliases"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeIpGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupIds", required: false, type: .list), 
@@ -839,7 +1220,7 @@ extension WorkSpaces {
             }
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
@@ -877,7 +1258,7 @@ extension WorkSpaces {
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
 
-        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
         public let resourceId: String
 
         public init(resourceId: String) {
@@ -936,7 +1317,7 @@ extension WorkSpaces {
             }
             try validate(self.bundleIds, name:"bundleIds", parent: name, max: 25)
             try validate(self.bundleIds, name:"bundleIds", parent: name, min: 1)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
@@ -999,7 +1380,7 @@ extension WorkSpaces {
             try validate(self.directoryIds, name:"directoryIds", parent: name, min: 1)
             try validate(self.limit, name:"limit", parent: name, max: 25)
             try validate(self.limit, name:"limit", parent: name, min: 1)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
@@ -1032,22 +1413,88 @@ extension WorkSpaces {
         }
     }
 
+    public struct DescribeWorkspaceImagePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The identifier of the image.
+        public let imageId: String
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+
+        public init(imageId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.imageId = imageId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.imageId, name:"imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeWorkspaceImagePermissionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageId", required: false, type: .string), 
+            AWSShapeMember(label: "ImagePermissions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The identifier of the image.
+        public let imageId: String?
+        /// The identifiers of the AWS accounts that the image has been shared with.
+        public let imagePermissions: [ImagePermission]?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+
+        public init(imageId: String? = nil, imagePermissions: [ImagePermission]? = nil, nextToken: String? = nil) {
+            self.imageId = imageId
+            self.imagePermissions = imagePermissions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+            case imagePermissions = "ImagePermissions"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeWorkspaceImagesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ImageIds", required: false, type: .list), 
+            AWSShapeMember(label: "ImageType", required: false, type: .enum), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
         /// The identifier of the image.
         public let imageIds: [String]?
+        /// The type (owned or shared) of the image.
+        public let imageType: ImageType?
         /// The maximum number of items to return.
         public let maxResults: Int?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
-        public init(imageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(imageIds: [String]? = nil, imageType: ImageType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.imageIds = imageIds
+            self.imageType = imageType
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1060,12 +1507,13 @@ extension WorkSpaces {
             try validate(self.imageIds, name:"imageIds", parent: name, min: 1)
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case imageIds = "ImageIds"
+            case imageType = "ImageType"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -1153,7 +1601,7 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try self.workspaceIds?.forEach {
                 try validate($0, name: "workspaceIds[]", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
@@ -1229,7 +1677,7 @@ extension WorkSpaces {
             try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try validate(self.limit, name:"limit", parent: name, max: 25)
             try validate(self.limit, name:"limit", parent: name, min: 1)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.userName, name:"userName", parent: name, max: 63)
             try validate(self.userName, name:"userName", parent: name, min: 1)
@@ -1270,6 +1718,37 @@ extension WorkSpaces {
             case nextToken = "NextToken"
             case workspaces = "Workspaces"
         }
+    }
+
+    public struct DisassociateConnectionAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string)
+        ]
+
+        /// The identifier of the connection alias to disassociate.
+        public let aliasId: String
+
+        public init(aliasId: String) {
+            self.aliasId = aliasId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name:"aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name:"aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+        }
+    }
+
+    public struct DisassociateConnectionAliasResult: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateIpGroupsRequest: AWSShape {
@@ -1365,8 +1844,26 @@ extension WorkSpaces {
         }
     }
 
+    public struct ImagePermission: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SharedAccountId", required: false, type: .string)
+        ]
+
+        /// The identifier of the AWS account that an image has been shared with.
+        public let sharedAccountId: String?
+
+        public init(sharedAccountId: String? = nil) {
+            self.sharedAccountId = sharedAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedAccountId = "SharedAccountId"
+        }
+    }
+
     public struct ImportWorkspaceImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Applications", required: false, type: .list), 
             AWSShapeMember(label: "Ec2ImageId", required: true, type: .string), 
             AWSShapeMember(label: "ImageDescription", required: true, type: .string), 
             AWSShapeMember(label: "ImageName", required: true, type: .string), 
@@ -1374,18 +1871,21 @@ extension WorkSpaces {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
+        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.  Although this parameter is an array, only one item is allowed at this time. 
+        public let applications: [Application]?
         /// The identifier of the EC2 image.
         public let ec2ImageId: String
         /// The description of the WorkSpace image.
         public let imageDescription: String
         /// The name of the WorkSpace image.
         public let imageName: String
-        /// The ingestion process to be used when importing the image.
+        /// The ingestion process to be used when importing the image. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR.
         public let ingestionProcess: WorkspaceImageIngestionProcess
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]?
 
-        public init(ec2ImageId: String, imageDescription: String, imageName: String, ingestionProcess: WorkspaceImageIngestionProcess, tags: [Tag]? = nil) {
+        public init(applications: [Application]? = nil, ec2ImageId: String, imageDescription: String, imageName: String, ingestionProcess: WorkspaceImageIngestionProcess, tags: [Tag]? = nil) {
+            self.applications = applications
             self.ec2ImageId = ec2ImageId
             self.imageDescription = imageDescription
             self.imageName = imageName
@@ -1394,6 +1894,8 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
+            try validate(self.applications, name:"applications", parent: name, max: 5)
+            try validate(self.applications, name:"applications", parent: name, min: 1)
             try validate(self.ec2ImageId, name:"ec2ImageId", parent: name, pattern: "^ami\\-([a-f0-9]{8}|[a-f0-9]{17})$")
             try validate(self.imageDescription, name:"imageDescription", parent: name, max: 256)
             try validate(self.imageDescription, name:"imageDescription", parent: name, min: 1)
@@ -1407,6 +1909,7 @@ extension WorkSpaces {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
             case ec2ImageId = "Ec2ImageId"
             case imageDescription = "ImageDescription"
             case imageName = "ImageName"
@@ -1478,7 +1981,7 @@ extension WorkSpaces {
             try validate(self.managementCidrRangeConstraint, name:"managementCidrRangeConstraint", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 5)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
@@ -2386,6 +2889,43 @@ extension WorkSpaces {
         }
     }
 
+    public struct UpdateConnectionAliasPermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string), 
+            AWSShapeMember(label: "ConnectionAliasPermission", required: true, type: .structure)
+        ]
+
+        /// The identifier of the connection alias that you want to update permissions for.
+        public let aliasId: String
+        /// Indicates whether to share or unshare the connection alias with the specified AWS account.
+        public let connectionAliasPermission: ConnectionAliasPermission
+
+        public init(aliasId: String, connectionAliasPermission: ConnectionAliasPermission) {
+            self.aliasId = aliasId
+            self.connectionAliasPermission = connectionAliasPermission
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasId, name:"aliasId", parent: name, max: 68)
+            try validate(self.aliasId, name:"aliasId", parent: name, min: 13)
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
+            try self.connectionAliasPermission.validate(name: "\(name).connectionAliasPermission")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case connectionAliasPermission = "ConnectionAliasPermission"
+        }
+    }
+
+    public struct UpdateConnectionAliasPermissionResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct UpdateRulesOfIpGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", required: true, type: .string), 
@@ -2413,6 +2953,46 @@ extension WorkSpaces {
     }
 
     public struct UpdateRulesOfIpGroupResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateWorkspaceImagePermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowCopyImage", required: true, type: .boolean), 
+            AWSShapeMember(label: "ImageId", required: true, type: .string), 
+            AWSShapeMember(label: "SharedAccountId", required: true, type: .string)
+        ]
+
+        /// The permission to copy the image. This permission can be revoked only after an image has been shared.
+        public let allowCopyImage: Bool
+        /// The identifier of the image.
+        public let imageId: String
+        /// The identifier of the AWS account to share or unshare the image with.
+        public let sharedAccountId: String
+
+        public init(allowCopyImage: Bool, imageId: String, sharedAccountId: String) {
+            self.allowCopyImage = allowCopyImage
+            self.imageId = imageId
+            self.sharedAccountId = sharedAccountId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.imageId, name:"imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
+            try validate(self.sharedAccountId, name:"sharedAccountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowCopyImage = "AllowCopyImage"
+            case imageId = "ImageId"
+            case sharedAccountId = "SharedAccountId"
+        }
+    }
+
+    public struct UpdateWorkspaceImagePermissionResult: AWSShape {
 
 
         public init() {
@@ -2458,7 +3038,7 @@ extension WorkSpaces {
 
         /// The identifier of the bundle used to create the WorkSpace.
         public let bundleId: String?
-        /// The name of the WorkSpace, as seen by the operating system.
+        /// The name of the WorkSpace, as seen by the operating system. The format of this name varies. For more information, see  Launch a WorkSpace. 
         public let computerName: String?
         /// The identifier of the AWS Directory Service directory for the WorkSpace.
         public let directoryId: String?
@@ -2666,25 +3246,29 @@ extension WorkSpaces {
             AWSShapeMember(label: "DefaultOu", required: false, type: .string), 
             AWSShapeMember(label: "EnableInternetAccess", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableMaintenanceMode", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableWorkDocs", required: false, type: .boolean), 
             AWSShapeMember(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean)
         ]
 
         /// The identifier of your custom security group.
         public let customSecurityGroupId: String?
-        /// The default organizational unit (OU) for your WorkSpace directories.
+        /// The default organizational unit (OU) for your WorkSpaces directories. This string must be the full Lightweight Directory Access Protocol (LDAP) distinguished name for the target domain and OU. It must be in the form "OU=value,DC=value,DC=value", where value is any string of characters, and the number of domain components (DCs) is two or more. For example, OU=WorkSpaces_machines,DC=machines,DC=example,DC=com.     To avoid errors, certain characters in the distinguished name must be escaped. For more information, see  Distinguished Names in the Microsoft documentation.   The API doesn't validate whether the OU exists.   
         public let defaultOu: String?
         /// Indicates whether internet access is enabled for your WorkSpaces.
         public let enableInternetAccess: Bool?
         /// Indicates whether maintenance mode is enabled for your WorkSpaces. For more information, see WorkSpace Maintenance. 
         public let enableMaintenanceMode: Bool?
+        /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces.  If WorkDocs is already enabled for a WorkSpaces directory and you disable it, new WorkSpaces launched in the directory will not have WorkDocs enabled. However, WorkDocs remains enabled for any existing WorkSpaces, unless you either disable users' access to WorkDocs or you delete the WorkDocs site. To disable users' access to WorkDocs, see Disabling Users in the Amazon WorkDocs Administration Guide. To delete a WorkDocs site, see Deleting a Site in the Amazon WorkDocs Administration Guide. If you enable WorkDocs on a directory that already has existing WorkSpaces, the existing WorkSpaces and any new WorkSpaces that are launched in the directory will have WorkDocs enabled. 
+        public let enableWorkDocs: Bool?
         /// Indicates whether users are local administrators of their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
 
-        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
+        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
+            self.enableWorkDocs = enableWorkDocs
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
 
@@ -2699,6 +3283,7 @@ extension WorkSpaces {
             case defaultOu = "DefaultOu"
             case enableInternetAccess = "EnableInternetAccess"
             case enableMaintenanceMode = "EnableMaintenanceMode"
+            case enableWorkDocs = "EnableWorkDocs"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
     }
@@ -2797,16 +3382,20 @@ extension WorkSpaces {
 
     public struct WorkspaceImage: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Created", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ImageId", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "OperatingSystem", required: false, type: .structure), 
+            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
             AWSShapeMember(label: "RequiredTenancy", required: false, type: .enum), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
 
+        /// The date when the image was created. If the image has been shared, the AWS account that the image has been shared with sees the original creation date of the image.
+        public let created: TimeStamp?
         /// The description of the image.
         public let description: String?
         /// The error code that is returned for the image.
@@ -2819,29 +3408,35 @@ extension WorkSpaces {
         public let name: String?
         /// The operating system that the image is running. 
         public let operatingSystem: OperatingSystem?
+        /// The identifier of the AWS account that owns the image.
+        public let ownerAccountId: String?
         /// Specifies whether the image is running on dedicated hardware. When Bring Your Own License (BYOL) is enabled, this value is set to DEDICATED. For more information, see Bring Your Own Windows Desktop Images.
         public let requiredTenancy: WorkspaceImageRequiredTenancy?
         /// The status of the image.
         public let state: WorkspaceImageState?
 
-        public init(description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
+        public init(created: TimeStamp? = nil, description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
+            self.created = created
             self.description = description
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.imageId = imageId
             self.name = name
             self.operatingSystem = operatingSystem
+            self.ownerAccountId = ownerAccountId
             self.requiredTenancy = requiredTenancy
             self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
+            case created = "Created"
             case description = "Description"
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case imageId = "ImageId"
             case name = "Name"
             case operatingSystem = "OperatingSystem"
+            case ownerAccountId = "OwnerAccountId"
             case requiredTenancy = "RequiredTenancy"
             case state = "State"
         }
@@ -2858,13 +3453,13 @@ extension WorkSpaces {
 
         /// The compute type. For more information, see Amazon WorkSpaces Bundles.
         public let computeTypeName: Compute?
-        /// The size of the root volume.
+        /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?
         /// The running mode. For more information, see Manage the WorkSpace Running Mode.
         public let runningMode: RunningMode?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60-minute intervals.
         public let runningModeAutoStopTimeoutInMinutes: Int?
-        /// The size of the user storage.
+        /// The size of the user storage. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let userVolumeSizeGib: Int?
 
         public init(computeTypeName: Compute? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {

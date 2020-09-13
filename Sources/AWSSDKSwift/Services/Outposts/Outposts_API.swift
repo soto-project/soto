@@ -36,6 +36,7 @@ public struct Outposts {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2019-12-03",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-ca-central-1": "outposts-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "outposts-fips.us-east-1.amazonaws.com", "fips-us-east-2": "outposts-fips.us-east-2.amazonaws.com", "fips-us-west-1": "outposts-fips.us-west-1.amazonaws.com", "fips-us-west-2": "outposts-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [OutpostsErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

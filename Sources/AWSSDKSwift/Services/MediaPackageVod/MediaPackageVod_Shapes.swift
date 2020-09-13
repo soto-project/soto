@@ -103,6 +103,28 @@ extension MediaPackageVod {
         }
     }
 
+    public struct Authorization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CdnIdentifierSecret", location: .body(locationName: "cdnIdentifierSecret"), required: true, type: .string), 
+            AWSShapeMember(label: "SecretsRoleArn", location: .body(locationName: "secretsRoleArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the secret in AWS Secrets Manager that is used for CDN authorization.
+        public let cdnIdentifierSecret: String
+        /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to communicate with AWS Secrets Manager.
+        public let secretsRoleArn: String
+
+        public init(cdnIdentifierSecret: String, secretsRoleArn: String) {
+            self.cdnIdentifierSecret = cdnIdentifierSecret
+            self.secretsRoleArn = secretsRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdnIdentifierSecret = "cdnIdentifierSecret"
+            case secretsRoleArn = "secretsRoleArn"
+        }
+    }
+
     public struct CmafEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure)
@@ -316,19 +338,23 @@ extension MediaPackageVod {
 
     public struct CreatePackagingGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
+        public let authorization: Authorization?
         public let id: String
         public let tags: [String: String]?
 
-        public init(id: String, tags: [String: String]? = nil) {
+        public init(authorization: Authorization? = nil, id: String, tags: [String: String]? = nil) {
+            self.authorization = authorization
             self.id = id
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
             case id = "id"
             case tags = "tags"
         }
@@ -337,18 +363,21 @@ extension MediaPackageVod {
     public struct CreatePackagingGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
+        public let authorization: Authorization?
         public let domainName: String?
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.domainName = domainName
             self.id = id
             self.tags = tags
@@ -356,6 +385,7 @@ extension MediaPackageVod {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case domainName = "domainName"
             case id = "id"
             case tags = "tags"
@@ -669,18 +699,21 @@ extension MediaPackageVod {
     public struct DescribePackagingGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
+        public let authorization: Authorization?
         public let domainName: String?
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.domainName = domainName
             self.id = id
             self.tags = tags
@@ -688,6 +721,7 @@ extension MediaPackageVod {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case domainName = "domainName"
             case id = "id"
             case tags = "tags"
@@ -1117,6 +1151,7 @@ extension MediaPackageVod {
     public struct PackagingGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
@@ -1124,14 +1159,16 @@ extension MediaPackageVod {
 
         /// The ARN of the PackagingGroup.
         public let arn: String?
+        public let authorization: Authorization?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public let domainName: String?
         /// The ID of the PackagingGroup.
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.domainName = domainName
             self.id = id
             self.tags = tags
@@ -1139,6 +1176,7 @@ extension MediaPackageVod {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case domainName = "domainName"
             case id = "id"
             case tags = "tags"
@@ -1237,6 +1275,58 @@ extension MediaPackageVod {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resource-arn"
             case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UpdatePackagingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+
+        public let authorization: Authorization?
+        public let id: String
+
+        public init(authorization: Authorization? = nil, id: String) {
+            self.authorization = authorization
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
+            case id = "id"
+        }
+    }
+
+    public struct UpdatePackagingGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
+            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        public let arn: String?
+        public let authorization: Authorization?
+        public let domainName: String?
+        public let id: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.authorization = authorization
+            self.domainName = domainName
+            self.id = id
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case authorization = "authorization"
+            case domainName = "domainName"
+            case id = "id"
+            case tags = "tags"
         }
     }
 }

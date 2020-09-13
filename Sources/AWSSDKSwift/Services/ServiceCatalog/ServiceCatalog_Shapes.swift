@@ -1092,6 +1092,7 @@ extension ServiceCatalog {
             try validate(self.idempotencyToken, name:"idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
             try validate(self.name, name:"name", parent: name, max: 8191)
             try validate(self.owner, name:"owner", parent: name, max: 8191)
+            try self.provisioningArtifactParameters.validate(name: "\(name).provisioningArtifactParameters")
             try validate(self.supportDescription, name:"supportDescription", parent: name, max: 8191)
             try validate(self.supportEmail, name:"supportEmail", parent: name, max: 254)
             try validate(self.supportUrl, name:"supportUrl", parent: name, max: 2083)
@@ -1309,6 +1310,7 @@ extension ServiceCatalog {
             try validate(self.idempotencyToken, name:"idempotencyToken", parent: name, max: 128)
             try validate(self.idempotencyToken, name:"idempotencyToken", parent: name, min: 1)
             try validate(self.idempotencyToken, name:"idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.parameters.validate(name: "\(name).parameters")
             try validate(self.productId, name:"productId", parent: name, max: 100)
             try validate(self.productId, name:"productId", parent: name, min: 1)
             try validate(self.productId, name:"productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1361,7 +1363,7 @@ extension ServiceCatalog {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager Document. For example, AWS-RestartEC2Instance.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].  
+        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].  
         public let definition: [ServiceActionDefinitionKey: String]
         /// The service action definition type. For example, SSM_AUTOMATION.
         public let definitionType: ServiceActionDefinitionType
@@ -2030,17 +2032,21 @@ extension ServiceCatalog {
     public struct DescribeProductAsAdminInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
-        public let id: String
+        public let id: String?
+        /// The product name.
+        public let name: String?
 
-        public init(acceptLanguage: String? = nil, id: String) {
+        public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+            self.name = name
         }
 
         public func validate(name: String) throws {
@@ -2048,11 +2054,13 @@ extension ServiceCatalog {
             try validate(self.id, name:"id", parent: name, max: 100)
             try validate(self.id, name:"id", parent: name, min: 1)
             try validate(self.id, name:"id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.name, name:"name", parent: name, max: 8191)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -2096,17 +2104,21 @@ extension ServiceCatalog {
     public struct DescribeProductInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
-        public let id: String
+        public let id: String?
+        /// The product name.
+        public let name: String?
 
-        public init(acceptLanguage: String? = nil, id: String) {
+        public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+            self.name = name
         }
 
         public func validate(name: String) throws {
@@ -2114,36 +2126,43 @@ extension ServiceCatalog {
             try validate(self.id, name:"id", parent: name, max: 100)
             try validate(self.id, name:"id", parent: name, min: 1)
             try validate(self.id, name:"id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.name, name:"name", parent: name, max: 8191)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
+            case name = "Name"
         }
     }
 
     public struct DescribeProductOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Budgets", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchPaths", required: false, type: .list), 
             AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
             AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
 
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
+        /// Information about the associated launch paths.
+        public let launchPaths: [LaunchPath]?
         /// Summary information about the product view.
         public let productViewSummary: ProductViewSummary?
         /// Information about the provisioning artifacts for the specified product.
         public let provisioningArtifacts: [ProvisioningArtifact]?
 
-        public init(budgets: [BudgetDetail]? = nil, productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
+        public init(budgets: [BudgetDetail]? = nil, launchPaths: [LaunchPath]? = nil, productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
             self.budgets = budgets
+            self.launchPaths = launchPaths
             self.productViewSummary = productViewSummary
             self.provisioningArtifacts = provisioningArtifacts
         }
 
         private enum CodingKeys: String, CodingKey {
             case budgets = "Budgets"
+            case launchPaths = "LaunchPaths"
             case productViewSummary = "ProductViewSummary"
             case provisioningArtifacts = "ProvisioningArtifacts"
         }
@@ -2324,24 +2343,32 @@ extension ServiceCatalog {
     public struct DescribeProvisioningArtifactInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactName", required: false, type: .string), 
             AWSShapeMember(label: "Verbose", required: false, type: .boolean)
         ]
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
-        public let productId: String
+        public let productId: String?
+        /// The product name.
+        public let productName: String?
         /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
+        public let provisioningArtifactId: String?
+        /// The provisioning artifact name.
+        public let provisioningArtifactName: String?
         /// Indicates whether a verbose level of detail is enabled.
         public let verbose: Bool?
 
-        public init(acceptLanguage: String? = nil, productId: String, provisioningArtifactId: String, verbose: Bool? = nil) {
+        public init(acceptLanguage: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, verbose: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
             self.productId = productId
+            self.productName = productName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
             self.verbose = verbose
         }
 
@@ -2350,15 +2377,19 @@ extension ServiceCatalog {
             try validate(self.productId, name:"productId", parent: name, max: 100)
             try validate(self.productId, name:"productId", parent: name, min: 1)
             try validate(self.productId, name:"productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.productName, name:"productName", parent: name, max: 8191)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, max: 100)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, min: 1)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.provisioningArtifactName, name:"provisioningArtifactName", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
             case verbose = "Verbose"
         }
     }
@@ -2394,24 +2425,36 @@ extension ServiceCatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "PathId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string)
+            AWSShapeMember(label: "PathName", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactName", required: false, type: .string)
         ]
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths. You must provide the name or ID, but not both.
         public let pathId: String?
-        /// The product identifier.
-        public let productId: String
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
+        /// The name of the path. You must provide the name or ID, but not both.
+        public let pathName: String?
+        /// The product identifier. You must provide the product name or ID, but not both.
+        public let productId: String?
+        /// The name of the product. You must provide the name or ID, but not both.
+        public let productName: String?
+        /// The identifier of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactId: String?
+        /// The name of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactName: String?
 
-        public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String, provisioningArtifactId: String) {
+        public init(acceptLanguage: String? = nil, pathId: String? = nil, pathName: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
+            self.pathName = pathName
             self.productId = productId
+            self.productName = productName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
         }
 
         public func validate(name: String) throws {
@@ -2419,25 +2462,33 @@ extension ServiceCatalog {
             try validate(self.pathId, name:"pathId", parent: name, max: 100)
             try validate(self.pathId, name:"pathId", parent: name, min: 1)
             try validate(self.pathId, name:"pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.pathName, name:"pathName", parent: name, max: 100)
+            try validate(self.pathName, name:"pathName", parent: name, min: 1)
             try validate(self.productId, name:"productId", parent: name, max: 100)
             try validate(self.productId, name:"productId", parent: name, min: 1)
             try validate(self.productId, name:"productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.productName, name:"productName", parent: name, max: 8191)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, max: 100)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, min: 1)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.provisioningArtifactName, name:"provisioningArtifactName", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pathId = "PathId"
+            case pathName = "PathName"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
         }
     }
 
     public struct DescribeProvisioningParametersOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstraintSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisioningArtifactOutputs", required: false, type: .list), 
             AWSShapeMember(label: "ProvisioningArtifactParameters", required: false, type: .list), 
             AWSShapeMember(label: "ProvisioningArtifactPreferences", required: false, type: .structure), 
             AWSShapeMember(label: "TagOptions", required: false, type: .list), 
@@ -2446,6 +2497,8 @@ extension ServiceCatalog {
 
         /// Information about the constraints used to provision the product.
         public let constraintSummaries: [ConstraintSummary]?
+        /// The output of the provisioning artifact.
+        public let provisioningArtifactOutputs: [ProvisioningArtifactOutput]?
         /// Information about the parameters used to provision the product.
         public let provisioningArtifactParameters: [ProvisioningArtifactParameter]?
         /// An object that contains information about preferences, such as regions and accounts, for the provisioning artifact.
@@ -2455,8 +2508,9 @@ extension ServiceCatalog {
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
         public let usageInstructions: [UsageInstruction]?
 
-        public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
+        public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactOutputs: [ProvisioningArtifactOutput]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
             self.constraintSummaries = constraintSummaries
+            self.provisioningArtifactOutputs = provisioningArtifactOutputs
             self.provisioningArtifactParameters = provisioningArtifactParameters
             self.provisioningArtifactPreferences = provisioningArtifactPreferences
             self.tagOptions = tagOptions
@@ -2465,6 +2519,7 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case constraintSummaries = "ConstraintSummaries"
+            case provisioningArtifactOutputs = "ProvisioningArtifactOutputs"
             case provisioningArtifactParameters = "ProvisioningArtifactParameters"
             case provisioningArtifactPreferences = "ProvisioningArtifactPreferences"
             case tagOptions = "TagOptions"
@@ -3141,6 +3196,28 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case accessStatus = "AccessStatus"
+        }
+    }
+
+    public struct LaunchPath: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The identifier of the launch path.
+        public let id: String?
+        /// The name of the launch path.
+        public let name: String?
+
+        public init(id: String? = nil, name: String? = nil) {
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -4630,9 +4707,12 @@ extension ServiceCatalog {
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
             AWSShapeMember(label: "PathId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "PathName", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductName", required: false, type: .string), 
             AWSShapeMember(label: "ProvisionedProductName", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactName", required: false, type: .string), 
             AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
             AWSShapeMember(label: "ProvisioningPreferences", required: false, type: .structure), 
             AWSShapeMember(label: "ProvisionToken", required: true, type: .string), 
@@ -4643,14 +4723,20 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
         public let notificationArns: [String]?
-        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths. You must provide the name or ID, but not both.
         public let pathId: String?
-        /// The product identifier.
-        public let productId: String
+        /// The name of the path. You must provide the name or ID, but not both.
+        public let pathName: String?
+        /// The product identifier. You must provide the name or ID, but not both.
+        public let productId: String?
+        /// The name of the product. You must provide the name or ID, but not both.
+        public let productName: String?
         /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
         public let provisionedProductName: String
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
+        /// The identifier of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactId: String?
+        /// The name of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactName: String?
         /// Parameters specified by the administrator that are required for provisioning the product.
         public let provisioningParameters: [ProvisioningParameter]?
         /// An object that contains information about the provisioning preferences for a stack set.
@@ -4660,13 +4746,16 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
 
-        public init(acceptLanguage: String? = nil, notificationArns: [String]? = nil, pathId: String? = nil, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [ProvisioningParameter]? = nil, provisioningPreferences: ProvisioningPreferences? = nil, provisionToken: String = ProvisionProductInput.idempotencyToken(), tags: [Tag]? = nil) {
+        public init(acceptLanguage: String? = nil, notificationArns: [String]? = nil, pathId: String? = nil, pathName: String? = nil, productId: String? = nil, productName: String? = nil, provisionedProductName: String, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil, provisioningPreferences: ProvisioningPreferences? = nil, provisionToken: String = ProvisionProductInput.idempotencyToken(), tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.notificationArns = notificationArns
             self.pathId = pathId
+            self.pathName = pathName
             self.productId = productId
+            self.productName = productName
             self.provisionedProductName = provisionedProductName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
             self.provisioningParameters = provisioningParameters
             self.provisioningPreferences = provisioningPreferences
             self.provisionToken = provisionToken
@@ -4684,15 +4773,19 @@ extension ServiceCatalog {
             try validate(self.pathId, name:"pathId", parent: name, max: 100)
             try validate(self.pathId, name:"pathId", parent: name, min: 1)
             try validate(self.pathId, name:"pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.pathName, name:"pathName", parent: name, max: 100)
+            try validate(self.pathName, name:"pathName", parent: name, min: 1)
             try validate(self.productId, name:"productId", parent: name, max: 100)
             try validate(self.productId, name:"productId", parent: name, min: 1)
             try validate(self.productId, name:"productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.productName, name:"productName", parent: name, max: 8191)
             try validate(self.provisionedProductName, name:"provisionedProductName", parent: name, max: 128)
             try validate(self.provisionedProductName, name:"provisionedProductName", parent: name, min: 1)
             try validate(self.provisionedProductName, name:"provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, max: 100)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, min: 1)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.provisioningArtifactName, name:"provisioningArtifactName", parent: name, max: 8192)
             try self.provisioningParameters?.forEach {
                 try $0.validate(name: "\(name).provisioningParameters[]")
             }
@@ -4710,9 +4803,12 @@ extension ServiceCatalog {
             case acceptLanguage = "AcceptLanguage"
             case notificationArns = "NotificationArns"
             case pathId = "PathId"
+            case pathName = "PathName"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisionedProductName = "ProvisionedProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
             case provisioningParameters = "ProvisioningParameters"
             case provisioningPreferences = "ProvisioningPreferences"
             case provisionToken = "ProvisionToken"
@@ -4743,11 +4839,15 @@ extension ServiceCatalog {
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "LastProvisioningRecordId", required: false, type: .string), 
             AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
+            AWSShapeMember(label: "LastSuccessfulProvisioningRecordId", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "PhysicalId", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductName", required: false, type: .string), 
             AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
@@ -4764,16 +4864,24 @@ extension ServiceCatalog {
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
+        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
+        public let lastProvisioningRecordId: String?
         /// The record identifier of the last request performed on this provisioned product.
         public let lastRecordId: String?
+        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
+        public let lastSuccessfulProvisioningRecordId: String?
         /// The user-friendly name of the provisioned product.
         public let name: String?
         /// The assigned identifier for the resource, such as an EC2 instance ID or an S3 bucket name.
         public let physicalId: String?
         /// The product identifier.
         public let productId: String?
+        /// The name of the product.
+        public let productName: String?
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String?
+        /// The name of the provisioning artifact.
+        public let provisioningArtifactName: String?
         /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.  
         public let status: ProvisionedProductStatus?
         /// The current status message of the provisioned product.
@@ -4787,16 +4895,20 @@ extension ServiceCatalog {
         /// The ARN of the IAM user in the session. This ARN might contain a session ID.
         public let userArnSession: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastRecordId: String? = nil, name: String? = nil, physicalId: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, type: String? = nil, userArn: String? = nil, userArnSession: String? = nil) {
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, physicalId: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, type: String? = nil, userArn: String? = nil, userArnSession: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
             self.idempotencyToken = idempotencyToken
+            self.lastProvisioningRecordId = lastProvisioningRecordId
             self.lastRecordId = lastRecordId
+            self.lastSuccessfulProvisioningRecordId = lastSuccessfulProvisioningRecordId
             self.name = name
             self.physicalId = physicalId
             self.productId = productId
+            self.productName = productName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
             self.status = status
             self.statusMessage = statusMessage
             self.tags = tags
@@ -4810,11 +4922,15 @@ extension ServiceCatalog {
             case createdTime = "CreatedTime"
             case id = "Id"
             case idempotencyToken = "IdempotencyToken"
+            case lastProvisioningRecordId = "LastProvisioningRecordId"
             case lastRecordId = "LastRecordId"
+            case lastSuccessfulProvisioningRecordId = "LastSuccessfulProvisioningRecordId"
             case name = "Name"
             case physicalId = "PhysicalId"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
             case status = "Status"
             case statusMessage = "StatusMessage"
             case tags = "Tags"
@@ -4830,7 +4946,9 @@ extension ServiceCatalog {
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "LastProvisioningRecordId", required: false, type: .string), 
             AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
+            AWSShapeMember(label: "LastSuccessfulProvisioningRecordId", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
@@ -4847,8 +4965,12 @@ extension ServiceCatalog {
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
+        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
+        public let lastProvisioningRecordId: String?
         /// The record identifier of the last request performed on this provisioned product.
         public let lastRecordId: String?
+        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
+        public let lastSuccessfulProvisioningRecordId: String?
         /// The user-friendly name of the provisioned product.
         public let name: String?
         /// The product identifier. For example, prod-abcdzk7xy33qa.
@@ -4862,12 +4984,14 @@ extension ServiceCatalog {
         /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
         public let `type`: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastRecordId: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
             self.idempotencyToken = idempotencyToken
+            self.lastProvisioningRecordId = lastProvisioningRecordId
             self.lastRecordId = lastRecordId
+            self.lastSuccessfulProvisioningRecordId = lastSuccessfulProvisioningRecordId
             self.name = name
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
@@ -4881,7 +5005,9 @@ extension ServiceCatalog {
             case createdTime = "CreatedTime"
             case id = "Id"
             case idempotencyToken = "IdempotencyToken"
+            case lastProvisioningRecordId = "LastProvisioningRecordId"
             case lastRecordId = "LastRecordId"
+            case lastSuccessfulProvisioningRecordId = "LastSuccessfulProvisioningRecordId"
             case name = "Name"
             case productId = "ProductId"
             case provisioningArtifactId = "ProvisioningArtifactId"
@@ -5104,6 +5230,28 @@ extension ServiceCatalog {
         }
     }
 
+    public struct ProvisioningArtifactOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
+        ]
+
+        /// Description of the provisioning artifact output key.
+        public let description: String?
+        /// The provisioning artifact output key.
+        public let key: String?
+
+        public init(description: String? = nil, key: String? = nil) {
+            self.description = description
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case key = "Key"
+        }
+    }
+
     public struct ProvisioningArtifactParameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
@@ -5194,6 +5342,11 @@ extension ServiceCatalog {
             self.info = info
             self.name = name
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 8192)
+            try validate(self.name, name:"name", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5913,7 +6066,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
-        /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, and userArnSession. Example: "SearchQuery":["status:AVAILABLE"] 
+        /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"] 
         public let filters: [ProvisionedProductViewFilterBy: [String]]?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -6574,10 +6727,13 @@ extension ServiceCatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "PathName", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductName", required: false, type: .string), 
             AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
             AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactName", required: false, type: .string), 
             AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
             AWSShapeMember(label: "ProvisioningPreferences", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
@@ -6586,16 +6742,22 @@ extension ServiceCatalog {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The new path identifier. This value is optional if the product has a default path, and required if the product has more than one path.
+        /// The path identifier. This value is optional if the product has a default path, and required if the product has more than one path. You must provide the name or ID, but not both.
         public let pathId: String?
-        /// The identifier of the product.
+        /// The name of the path. You must provide the name or ID, but not both.
+        public let pathName: String?
+        /// The identifier of the product. You must provide the name or ID, but not both.
         public let productId: String?
-        /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
+        /// The name of the product. You must provide the name or ID, but not both.
+        public let productName: String?
+        /// The identifier of the provisioned product. You must provide the name or ID, but not both.
         public let provisionedProductId: String?
         /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductName: String?
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String?
+        /// The name of the provisioning artifact. You must provide the name or ID, but not both.
+        public let provisioningArtifactName: String?
         /// The new parameters.
         public let provisioningParameters: [UpdateProvisioningParameter]?
         /// An object that contains information about the provisioning preferences for a stack set.
@@ -6605,13 +6767,16 @@ extension ServiceCatalog {
         /// The idempotency token that uniquely identifies the provisioning update request.
         public let updateToken: String
 
-        public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, tags: [Tag]? = nil, updateToken: String = UpdateProvisionedProductInput.idempotencyToken()) {
+        public init(acceptLanguage: String? = nil, pathId: String? = nil, pathName: String? = nil, productId: String? = nil, productName: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, tags: [Tag]? = nil, updateToken: String = UpdateProvisionedProductInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
+            self.pathName = pathName
             self.productId = productId
+            self.productName = productName
             self.provisionedProductId = provisionedProductId
             self.provisionedProductName = provisionedProductName
             self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningArtifactName = provisioningArtifactName
             self.provisioningParameters = provisioningParameters
             self.provisioningPreferences = provisioningPreferences
             self.tags = tags
@@ -6623,9 +6788,12 @@ extension ServiceCatalog {
             try validate(self.pathId, name:"pathId", parent: name, max: 100)
             try validate(self.pathId, name:"pathId", parent: name, min: 1)
             try validate(self.pathId, name:"pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.pathName, name:"pathName", parent: name, max: 100)
+            try validate(self.pathName, name:"pathName", parent: name, min: 1)
             try validate(self.productId, name:"productId", parent: name, max: 100)
             try validate(self.productId, name:"productId", parent: name, min: 1)
             try validate(self.productId, name:"productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.productName, name:"productName", parent: name, max: 8191)
             try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, max: 100)
             try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, min: 1)
             try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -6635,6 +6803,7 @@ extension ServiceCatalog {
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, max: 100)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, min: 1)
             try validate(self.provisioningArtifactId, name:"provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.provisioningArtifactName, name:"provisioningArtifactName", parent: name, max: 8192)
             try self.provisioningParameters?.forEach {
                 try $0.validate(name: "\(name).provisioningParameters[]")
             }
@@ -6651,10 +6820,13 @@ extension ServiceCatalog {
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pathId = "PathId"
+            case pathName = "PathName"
             case productId = "ProductId"
+            case productName = "ProductName"
             case provisionedProductId = "ProvisionedProductId"
             case provisionedProductName = "ProvisionedProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningArtifactName = "ProvisioningArtifactName"
             case provisioningParameters = "ProvisioningParameters"
             case provisioningPreferences = "ProvisioningPreferences"
             case tags = "Tags"
@@ -6693,7 +6865,7 @@ extension ServiceCatalog {
         public let idempotencyToken: String
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
-        /// A map that contains the provisioned product properties to be updated. The OWNER key only accepts user ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
+        /// A map that contains the provisioned product properties to be updated. The OWNER key accepts user ARNs and role ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
         public let provisionedProductProperties: [PropertyKey: String]
 
         public init(acceptLanguage: String? = nil, idempotencyToken: String = UpdateProvisionedProductPropertiesInput.idempotencyToken(), provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
@@ -6795,6 +6967,8 @@ extension ServiceCatalog {
 
         public func validate(name: String) throws {
             try validate(self.acceptLanguage, name:"acceptLanguage", parent: name, max: 100)
+            try validate(self.description, name:"description", parent: name, max: 8192)
+            try validate(self.name, name:"name", parent: name, max: 8192)
             try validate(self.productId, name:"productId", parent: name, max: 100)
             try validate(self.productId, name:"productId", parent: name, min: 1)
             try validate(self.productId, name:"productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")

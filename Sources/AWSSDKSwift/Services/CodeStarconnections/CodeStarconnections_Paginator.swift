@@ -11,14 +11,30 @@ extension CodeStarconnections {
         return client.paginate(input: input, command: listConnections, tokenKey: \ListConnectionsOutput.nextToken, onPage: onPage)
     }
 
+    ///  Lists the hosts associated with your account.
+    public func listHostsPaginator(_ input: ListHostsInput, onPage: @escaping (ListHostsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listHosts, tokenKey: \ListHostsOutput.nextToken, onPage: onPage)
+    }
+
 }
 
 extension CodeStarconnections.ListConnectionsInput: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> CodeStarconnections.ListConnectionsInput {
         return .init(
+            hostArnFilter: self.hostArnFilter, 
             maxResults: self.maxResults, 
             nextToken: token, 
             providerTypeFilter: self.providerTypeFilter
+        )
+
+    }
+}
+
+extension CodeStarconnections.ListHostsInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> CodeStarconnections.ListHostsInput {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token
         )
 
     }

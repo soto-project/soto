@@ -4392,7 +4392,7 @@ extension Redshift {
         public let clusterVersion: String?
         /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
         public let elasticIp: String?
-        /// Indicates whether the cluster is encrypted. If the value is encrypted (true) and you provide a value for the KmsKeyId parameter, we encrypt the cluster with the provided KmsKeyId. If you don't provide a KmsKeyId, we encrypt with the default key. In the China region we use legacy encryption if you specify that the cluster is encrypted. If the value is not encrypted (false), then the cluster is decrypted. 
+        /// Indicates whether the cluster is encrypted. If the value is encrypted (true) and you provide a value for the KmsKeyId parameter, we encrypt the cluster with the provided KmsKeyId. If you don't provide a KmsKeyId, we encrypt with the default key.  If the value is not encrypted (false), then the cluster is decrypted. 
         public let encrypted: Bool?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
@@ -5078,7 +5078,7 @@ extension Redshift {
         public let clusterType: String?
         /// The pending or in-progress change of the service version.
         public let clusterVersion: String?
-        /// The encryption type for a cluster. Possible values are: KMS and None. For the China region the possible values are None, and Legacy. 
+        /// The encryption type for a cluster. Possible values are: KMS and None. 
         public let encryptionType: String?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
@@ -5435,7 +5435,7 @@ extension Redshift {
         public let clusterType: String?
         /// The new node type for the nodes you are adding. If not specified, the cluster's current node type is used.
         public let nodeType: String?
-        /// The new number of nodes for the cluster.
+        /// The new number of nodes for the cluster. If not specified, the cluster's current number of nodes is used.
         public let numberOfNodes: Int?
 
         public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil) {
@@ -5537,7 +5537,7 @@ extension Redshift {
         public let status: String?
         /// The cluster type after the resize operation is complete. Valid Values: multi-node | single-node 
         public let targetClusterType: String?
-        /// The type of encryption for the cluster after the resize is complete. Possible values are KMS and None. In the China region possible values are: Legacy and None.
+        /// The type of encryption for the cluster after the resize is complete. Possible values are KMS and None. 
         public let targetEncryptionType: String?
         /// The node type that the cluster will have after the resize operation is complete.
         public let targetNodeType: String?

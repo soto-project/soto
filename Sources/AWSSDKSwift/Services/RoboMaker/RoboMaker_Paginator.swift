@@ -41,6 +41,26 @@ extension RoboMaker {
         return client.paginate(input: input, command: listSimulationJobs, tokenKey: \ListSimulationJobsResponse.nextToken, onPage: onPage)
     }
 
+    ///  Lists world export jobs.
+    public func listWorldExportJobsPaginator(_ input: ListWorldExportJobsRequest, onPage: @escaping (ListWorldExportJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWorldExportJobs, tokenKey: \ListWorldExportJobsResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Lists world generator jobs.
+    public func listWorldGenerationJobsPaginator(_ input: ListWorldGenerationJobsRequest, onPage: @escaping (ListWorldGenerationJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWorldGenerationJobs, tokenKey: \ListWorldGenerationJobsResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Lists world templates.
+    public func listWorldTemplatesPaginator(_ input: ListWorldTemplatesRequest, onPage: @escaping (ListWorldTemplatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWorldTemplates, tokenKey: \ListWorldTemplatesResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Lists worlds.
+    public func listWorldsPaginator(_ input: ListWorldsRequest, onPage: @escaping (ListWorldsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWorlds, tokenKey: \ListWorldsResponse.nextToken, onPage: onPage)
+    }
+
 }
 
 extension RoboMaker.ListDeploymentJobsRequest: AWSPaginateStringToken {
@@ -113,6 +133,49 @@ extension RoboMaker.ListSimulationJobBatchesRequest: AWSPaginateStringToken {
 
 extension RoboMaker.ListSimulationJobsRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> RoboMaker.ListSimulationJobsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension RoboMaker.ListWorldExportJobsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListWorldExportJobsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension RoboMaker.ListWorldGenerationJobsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListWorldGenerationJobsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension RoboMaker.ListWorldTemplatesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListWorldTemplatesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension RoboMaker.ListWorldsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListWorldsRequest {
         return .init(
             filters: self.filters, 
             maxResults: self.maxResults, 

@@ -23,6 +23,14 @@ extension AppSync {
         case r42Xlarge = "R4_2XLARGE"
         case r44Xlarge = "R4_4XLARGE"
         case r48Xlarge = "R4_8XLARGE"
+        case small = "SMALL"
+        case medium = "MEDIUM"
+        case large = "LARGE"
+        case xlarge = "XLARGE"
+        case large2X = "LARGE_2X"
+        case large4X = "LARGE_4X"
+        case large8X = "LARGE_8X"
+        case large12X = "LARGE_12X"
         public var description: String { return self.rawValue }
     }
 
@@ -164,7 +172,7 @@ extension AppSync {
         public let transitEncryptionEnabled: Bool?
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64?
-        /// The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
         public let `type`: ApiCacheType?
 
         public init(apiCachingBehavior: ApiCachingBehavior? = nil, atRestEncryptionEnabled: Bool? = nil, status: ApiCacheStatus? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64? = nil, type: ApiCacheType? = nil) {
@@ -263,7 +271,7 @@ extension AppSync {
             AWSShapeMember(label: "ttl", required: false, type: .long)
         ]
 
-        /// The caching keys for a resolver that has caching enabled. Valid values are entries from the $context.identity and $context.arguments maps.
+        /// The caching keys for a resolver that has caching enabled. Valid values are entries from the $context.arguments, $context.source, and $context.identity maps.
         public let cachingKeys: [String]?
         /// The TTL in seconds for a resolver that has caching enabled. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64?
@@ -326,7 +334,7 @@ extension AppSync {
         public let transitEncryptionEnabled: Bool?
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64
-        /// The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
         public let `type`: ApiCacheType
 
         public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64, type: ApiCacheType) {
@@ -501,7 +509,7 @@ extension AppSync {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "functionVersion", required: true, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string)
         ]
 
@@ -516,11 +524,11 @@ extension AppSync {
         /// The Function name. The function name does not have to be unique.
         public let name: String
         /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
-        public let requestMappingTemplate: String
+        public let requestMappingTemplate: String?
         /// The Function response mapping template. 
         public let responseMappingTemplate: String?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, name: String, requestMappingTemplate: String, responseMappingTemplate: String? = nil) {
+        public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
             self.description = description
@@ -657,7 +665,7 @@ extension AppSync {
             AWSShapeMember(label: "fieldName", required: true, type: .string), 
             AWSShapeMember(label: "kind", required: false, type: .enum), 
             AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "syncConfig", required: false, type: .structure), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
@@ -675,8 +683,8 @@ extension AppSync {
         public let kind: ResolverKind?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
-        /// The mapping template to be used for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL).
-        public let requestMappingTemplate: String
+        /// The mapping template to be used for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using a Lambda data source. For all other data sources, VTL request and response mapping templates are required.
+        public let requestMappingTemplate: String?
         /// The mapping template to be used for responses from the data source.
         public let responseMappingTemplate: String?
         /// The SyncConfig for a resolver attached to a versioned datasource.
@@ -684,7 +692,7 @@ extension AppSync {
         /// The name of the Type.
         public let typeName: String
 
-        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
             self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName
@@ -2254,7 +2262,7 @@ extension AppSync {
         public let awsSecretStoreArn: String?
         /// Logical database name.
         public let databaseName: String?
-        /// Amazon RDS cluster identifier.
+        /// Amazon RDS cluster ARN.
         public let dbClusterIdentifier: String?
         /// Logical schema name.
         public let schema: String?
@@ -2562,7 +2570,7 @@ extension AppSync {
         public let apiId: String
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64
-        /// The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
         public let `type`: ApiCacheType
 
         public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, ttl: Int64, type: ApiCacheType) {
@@ -2739,7 +2747,7 @@ extension AppSync {
             AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string), 
             AWSShapeMember(label: "functionVersion", required: true, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string)
         ]
 
@@ -2756,11 +2764,11 @@ extension AppSync {
         /// The Function name.
         public let name: String
         /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
-        public let requestMappingTemplate: String
+        public let requestMappingTemplate: String?
         /// The Function request mapping template. 
         public let responseMappingTemplate: String?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, name: String, requestMappingTemplate: String, responseMappingTemplate: String? = nil) {
+        public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
             self.description = description
@@ -2893,7 +2901,7 @@ extension AppSync {
             AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName"), required: true, type: .string), 
             AWSShapeMember(label: "kind", required: false, type: .enum), 
             AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "syncConfig", required: false, type: .structure), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
@@ -2911,8 +2919,8 @@ extension AppSync {
         public let kind: ResolverKind?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
-        /// The new request mapping template.
-        public let requestMappingTemplate: String
+        /// The new request mapping template. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using a Lambda data source. For all other data sources, VTL request and response mapping templates are required.
+        public let requestMappingTemplate: String?
         /// The new response mapping template.
         public let responseMappingTemplate: String?
         /// The SyncConfig for a resolver attached to a versioned datasource.
@@ -2920,7 +2928,7 @@ extension AppSync {
         /// The new type name.
         public let typeName: String
 
-        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
             self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName

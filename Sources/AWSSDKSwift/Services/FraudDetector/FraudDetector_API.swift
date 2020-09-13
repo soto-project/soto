@@ -60,7 +60,12 @@ public struct FraudDetector {
         return client.send(operation: "CreateDetectorVersion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a version of the model using the specified model type. 
+    ///  Creates a model using the specified model type.
+    public func createModel(_ input: CreateModelRequest) -> EventLoopFuture<CreateModelResult> {
+        return client.send(operation: "CreateModel", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a version of the model using the specified model type and model id. 
     public func createModelVersion(_ input: CreateModelVersionRequest) -> EventLoopFuture<CreateModelVersionResult> {
         return client.send(operation: "CreateModelVersion", path: "/", httpMethod: "POST", input: input)
     }
@@ -90,9 +95,9 @@ public struct FraudDetector {
         return client.send(operation: "DeleteEvent", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the rule version. You cannot delete a rule version if it is used by an ACTIVE or INACTIVE detector version.
-    public func deleteRuleVersion(_ input: DeleteRuleVersionRequest) -> EventLoopFuture<DeleteRuleVersionResult> {
-        return client.send(operation: "DeleteRuleVersion", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version.
+    public func deleteRule(_ input: DeleteRuleRequest) -> EventLoopFuture<DeleteRuleResult> {
+        return client.send(operation: "DeleteRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets all versions for a specified detector.
@@ -110,37 +115,57 @@ public struct FraudDetector {
         return client.send(operation: "GetDetectorVersion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets all of detectors. This is a paginated API. If you provide a null maxSizePerPage, this actions retrieves a maximum of 10 records per page. If you provide a maxSizePerPage, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning. 
+    ///  Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the beginning. 
     public func getDetectors(_ input: GetDetectorsRequest) -> EventLoopFuture<GetDetectorsResult> {
         return client.send(operation: "GetDetectors", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxSizePerPage, this actions retrieves a maximum of 10 records per page. If you provide a maxSizePerPage, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning. 
+    ///  Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the beginning. 
+    public func getEntityTypes(_ input: GetEntityTypesRequest) -> EventLoopFuture<GetEntityTypesResult> {
+        return client.send(operation: "GetEntityTypes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Evaluates an event against a detector version. If a version ID is not provided, the detector’s (ACTIVE) version is used.
+    public func getEventPrediction(_ input: GetEventPredictionRequest) -> EventLoopFuture<GetEventPredictionResult> {
+        return client.send(operation: "GetEventPrediction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning. 
+    public func getEventTypes(_ input: GetEventTypesRequest) -> EventLoopFuture<GetEventTypesResult> {
+        return client.send(operation: "GetEventTypes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning. 
     public func getExternalModels(_ input: GetExternalModelsRequest) -> EventLoopFuture<GetExternalModelsResult> {
         return client.send(operation: "GetExternalModels", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets a model version. 
+    ///  Gets the encryption key if a Key Management Service (KMS) customer master key (CMK) has been specified to be used to encrypt content in Amazon Fraud Detector.
+    public func getKMSEncryptionKey() -> EventLoopFuture<GetKMSEncryptionKeyResult> {
+        return client.send(operation: "GetKMSEncryptionKey", path: "/", httpMethod: "POST")
+    }
+
+    ///  Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning. 
+    public func getLabels(_ input: GetLabelsRequest) -> EventLoopFuture<GetLabelsResult> {
+        return client.send(operation: "GetLabels", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the details of the specified model version.
     public func getModelVersion(_ input: GetModelVersionRequest) -> EventLoopFuture<GetModelVersionResult> {
         return client.send(operation: "GetModelVersion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets all of the models for the AWS account, or the specified model type, or gets a single model for the specified model type, model ID combination. 
+    ///  Gets one or more models. Gets all models for the AWS account if no model type and no model id provided. Gets all models for the AWS account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified.  This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 1 and 10. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     public func getModels(_ input: GetModelsRequest) -> EventLoopFuture<GetModelsResult> {
         return client.send(operation: "GetModels", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets one or more outcomes. This is a paginated API. If you provide a null maxSizePerPage, this actions retrieves a maximum of 10 records per page. If you provide a maxSizePerPage, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning. 
+    ///  Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning. 
     public func getOutcomes(_ input: GetOutcomesRequest) -> EventLoopFuture<GetOutcomesResult> {
         return client.send(operation: "GetOutcomes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Evaluates an event against a detector version. If a version ID is not provided, the detector’s (ACTIVE) version is used. 
-    public func getPrediction(_ input: GetPredictionRequest) -> EventLoopFuture<GetPredictionResult> {
-        return client.send(operation: "GetPrediction", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets all rules available for the specified detector.
+    ///  Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
     public func getRules(_ input: GetRulesRequest) -> EventLoopFuture<GetRulesResult> {
         return client.send(operation: "GetRules", path: "/", httpMethod: "POST", input: input)
     }
@@ -150,9 +175,24 @@ public struct FraudDetector {
         return client.send(operation: "GetVariables", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning. 
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates or updates a detector. 
     public func putDetector(_ input: PutDetectorRequest) -> EventLoopFuture<PutDetectorResult> {
         return client.send(operation: "PutDetector", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
+    public func putEntityType(_ input: PutEntityTypeRequest) -> EventLoopFuture<PutEntityTypeResult> {
+        return client.send(operation: "PutEntityType", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
+    public func putEventType(_ input: PutEventTypeRequest) -> EventLoopFuture<PutEventTypeResult> {
+        return client.send(operation: "PutEventType", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables. 
@@ -160,9 +200,14 @@ public struct FraudDetector {
         return client.send(operation: "PutExternalModel", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates or updates a model. 
-    public func putModel(_ input: PutModelRequest) -> EventLoopFuture<PutModelResult> {
-        return client.send(operation: "PutModel", path: "/", httpMethod: "POST", input: input)
+    ///  Specifies the Key Management Service (KMS) customer master key (CMK) to be used to encrypt content in Amazon Fraud Detector.
+    public func putKMSEncryptionKey(_ input: PutKMSEncryptionKeyRequest) -> EventLoopFuture<PutKMSEncryptionKeyResult> {
+        return client.send(operation: "PutKMSEncryptionKey", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector. 
+    public func putLabel(_ input: PutLabelRequest) -> EventLoopFuture<PutLabelResult> {
+        return client.send(operation: "PutLabel", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates an outcome. 
@@ -170,7 +215,17 @@ public struct FraudDetector {
         return client.send(operation: "PutOutcome", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, and description. You can only update a DRAFT detector version.
+    ///  Assigns tags to a resource.
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResult> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes tags from a resource.
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResult> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a DRAFT detector version.
     public func updateDetectorVersion(_ input: UpdateDetectorVersionRequest) -> EventLoopFuture<UpdateDetectorVersionResult> {
         return client.send(operation: "UpdateDetectorVersion", path: "/", httpMethod: "POST", input: input)
     }
@@ -185,17 +240,27 @@ public struct FraudDetector {
         return client.send(operation: "UpdateDetectorVersionStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a model version. You can update the description and status attributes using this action. You can perform the following status updates:    Change the TRAINING_COMPLETE status to ACTIVE    Change ACTIVE back to TRAINING_COMPLETE   
+    ///  Updates a model. You can update the description attribute using this action.
+    public func updateModel(_ input: UpdateModelRequest) -> EventLoopFuture<UpdateModelResult> {
+        return client.send(operation: "UpdateModel", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
     public func updateModelVersion(_ input: UpdateModelVersionRequest) -> EventLoopFuture<UpdateModelVersionResult> {
         return client.send(operation: "UpdateModelVersion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a rule's metadata. 
+    ///  Updates the status of a model version. You can perform the following status updates:   Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVEto INACTIVE.  
+    public func updateModelVersionStatus(_ input: UpdateModelVersionStatusRequest) -> EventLoopFuture<UpdateModelVersionStatusResult> {
+        return client.send(operation: "UpdateModelVersionStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a rule's metadata. The description attribute can be updated.
     public func updateRuleMetadata(_ input: UpdateRuleMetadataRequest) -> EventLoopFuture<UpdateRuleMetadataResult> {
         return client.send(operation: "UpdateRuleMetadata", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a rule version resulting in a new rule version. 
+    ///  Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...). 
     public func updateRuleVersion(_ input: UpdateRuleVersionRequest) -> EventLoopFuture<UpdateRuleVersionResult> {
         return client.send(operation: "UpdateRuleVersion", path: "/", httpMethod: "POST", input: input)
     }

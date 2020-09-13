@@ -35,6 +35,12 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
+    public enum RemediationActionType: String, CustomStringConvertible, Codable {
+        case remove = "REMOVE"
+        case modify = "MODIFY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SecurityServiceType: String, CustomStringConvertible, Codable {
         case waf = "WAF"
         case wafv2 = "WAFV2"
@@ -60,6 +66,143 @@ extension FMS {
 
     //MARK: Shapes
 
+    public struct App: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppName", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .long), 
+            AWSShapeMember(label: "Protocol", required: true, type: .string)
+        ]
+
+        /// The application's name.
+        public let appName: String
+        /// The application's port number, for example 80.
+        public let port: Int64
+        /// The IP protocol name or number. The name can be one of tcp, udp, or icmp. For information on possible numbers, see Protocol Numbers.
+        public let `protocol`: String
+
+        public init(appName: String, port: Int64, protocol: String) {
+            self.appName = appName
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appName, name:"appName", parent: name, max: 128)
+            try validate(self.appName, name:"appName", parent: name, min: 1)
+            try validate(self.appName, name:"appName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 0)
+            try validate(self.`protocol`, name:"`protocol`", parent: name, max: 20)
+            try validate(self.`protocol`, name:"`protocol`", parent: name, min: 1)
+            try validate(self.`protocol`, name:"`protocol`", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appName = "AppName"
+            case port = "Port"
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct AppsListData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppsList", required: true, type: .list), 
+            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ListId", required: false, type: .string), 
+            AWSShapeMember(label: "ListName", required: true, type: .string), 
+            AWSShapeMember(label: "ListUpdateToken", required: false, type: .string), 
+            AWSShapeMember(label: "PreviousAppsList", required: false, type: .map)
+        ]
+
+        /// An array of applications in the AWS Firewall Manager applications list.
+        public let appsList: [App]
+        /// The time that the AWS Firewall Manager applications list was created.
+        public let createTime: TimeStamp?
+        /// The time that the AWS Firewall Manager applications list was last updated.
+        public let lastUpdateTime: TimeStamp?
+        /// The ID of the AWS Firewall Manager applications list.
+        public let listId: String?
+        /// The name of the AWS Firewall Manager applications list.
+        public let listName: String
+        /// A unique identifier for each update to the list. When you update the list, the update token must match the token of the current version of the application list. You can retrieve the update token by getting the list. 
+        public let listUpdateToken: String?
+        /// A map of previous version numbers to their corresponding App object arrays.
+        public let previousAppsList: [String: [App]]?
+
+        public init(appsList: [App], createTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, listId: String? = nil, listName: String, listUpdateToken: String? = nil, previousAppsList: [String: [App]]? = nil) {
+            self.appsList = appsList
+            self.createTime = createTime
+            self.lastUpdateTime = lastUpdateTime
+            self.listId = listId
+            self.listName = listName
+            self.listUpdateToken = listUpdateToken
+            self.previousAppsList = previousAppsList
+        }
+
+        public func validate(name: String) throws {
+            try self.appsList.forEach {
+                try $0.validate(name: "\(name).appsList[]")
+            }
+            try validate(self.listId, name:"listId", parent: name, max: 36)
+            try validate(self.listId, name:"listId", parent: name, min: 36)
+            try validate(self.listId, name:"listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
+            try validate(self.listName, name:"listName", parent: name, max: 128)
+            try validate(self.listName, name:"listName", parent: name, min: 1)
+            try validate(self.listName, name:"listName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.listUpdateToken, name:"listUpdateToken", parent: name, max: 1024)
+            try validate(self.listUpdateToken, name:"listUpdateToken", parent: name, min: 1)
+            try validate(self.listUpdateToken, name:"listUpdateToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.previousAppsList?.forEach {
+                try validate($0.key, name:"previousAppsList.key", parent: name, max: 2)
+                try validate($0.key, name:"previousAppsList.key", parent: name, min: 1)
+                try validate($0.key, name:"previousAppsList.key", parent: name, pattern: "^\\d{1,2}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appsList = "AppsList"
+            case createTime = "CreateTime"
+            case lastUpdateTime = "LastUpdateTime"
+            case listId = "ListId"
+            case listName = "ListName"
+            case listUpdateToken = "ListUpdateToken"
+            case previousAppsList = "PreviousAppsList"
+        }
+    }
+
+    public struct AppsListDataSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppsList", required: false, type: .list), 
+            AWSShapeMember(label: "ListArn", required: false, type: .string), 
+            AWSShapeMember(label: "ListId", required: false, type: .string), 
+            AWSShapeMember(label: "ListName", required: false, type: .string)
+        ]
+
+        /// An array of App objects in the AWS Firewall Manager applications list.
+        public let appsList: [App]?
+        /// The Amazon Resource Name (ARN) of the applications list.
+        public let listArn: String?
+        /// The ID of the applications list.
+        public let listId: String?
+        /// The name of the applications list.
+        public let listName: String?
+
+        public init(appsList: [App]? = nil, listArn: String? = nil, listId: String? = nil, listName: String? = nil) {
+            self.appsList = appsList
+            self.listArn = listArn
+            self.listId = listId
+            self.listName = listName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appsList = "AppsList"
+            case listArn = "ListArn"
+            case listId = "ListId"
+            case listName = "ListName"
+        }
+    }
+
     public struct AssociateAdminAccountRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdminAccount", required: true, type: .string)
@@ -80,6 +223,82 @@ extension FMS {
 
         private enum CodingKeys: String, CodingKey {
             case adminAccount = "AdminAccount"
+        }
+    }
+
+    public struct AwsEc2InstanceViolation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsEc2NetworkInterfaceViolations", required: false, type: .list), 
+            AWSShapeMember(label: "ViolationTarget", required: false, type: .string)
+        ]
+
+        /// Violations for network interfaces associated with the EC2 instance.
+        public let awsEc2NetworkInterfaceViolations: [AwsEc2NetworkInterfaceViolation]?
+        /// The resource ID of the EC2 instance.
+        public let violationTarget: String?
+
+        public init(awsEc2NetworkInterfaceViolations: [AwsEc2NetworkInterfaceViolation]? = nil, violationTarget: String? = nil) {
+            self.awsEc2NetworkInterfaceViolations = awsEc2NetworkInterfaceViolations
+            self.violationTarget = violationTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsEc2NetworkInterfaceViolations = "AwsEc2NetworkInterfaceViolations"
+            case violationTarget = "ViolationTarget"
+        }
+    }
+
+    public struct AwsEc2NetworkInterfaceViolation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ViolatingSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ViolationTarget", required: false, type: .string)
+        ]
+
+        /// List of security groups that violate the rules specified in the master security group of the AWS Firewall Manager policy.
+        public let violatingSecurityGroups: [String]?
+        /// The resource ID of the network interface.
+        public let violationTarget: String?
+
+        public init(violatingSecurityGroups: [String]? = nil, violationTarget: String? = nil) {
+            self.violatingSecurityGroups = violatingSecurityGroups
+            self.violationTarget = violationTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case violatingSecurityGroups = "ViolatingSecurityGroups"
+            case violationTarget = "ViolationTarget"
+        }
+    }
+
+    public struct AwsVPCSecurityGroupViolation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PartialMatches", required: false, type: .list), 
+            AWSShapeMember(label: "PossibleSecurityGroupRemediationActions", required: false, type: .list), 
+            AWSShapeMember(label: "ViolationTarget", required: false, type: .string), 
+            AWSShapeMember(label: "ViolationTargetDescription", required: false, type: .string)
+        ]
+
+        /// List of rules specified in the security group of the AWS Firewall Manager policy that partially match the ViolationTarget rule.
+        public let partialMatches: [PartialMatch]?
+        /// Remediation options for the rule specified in the ViolationTarget.
+        public let possibleSecurityGroupRemediationActions: [SecurityGroupRemediationAction]?
+        /// The security group rule that is being evaluated.
+        public let violationTarget: String?
+        /// A description of the security group that violates the policy.
+        public let violationTargetDescription: String?
+
+        public init(partialMatches: [PartialMatch]? = nil, possibleSecurityGroupRemediationActions: [SecurityGroupRemediationAction]? = nil, violationTarget: String? = nil, violationTargetDescription: String? = nil) {
+            self.partialMatches = partialMatches
+            self.possibleSecurityGroupRemediationActions = possibleSecurityGroupRemediationActions
+            self.violationTarget = violationTarget
+            self.violationTargetDescription = violationTargetDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partialMatches = "PartialMatches"
+            case possibleSecurityGroupRemediationActions = "PossibleSecurityGroupRemediationActions"
+            case violationTarget = "ViolationTarget"
+            case violationTargetDescription = "ViolationTargetDescription"
         }
     }
 
@@ -110,6 +329,29 @@ extension FMS {
         }
     }
 
+    public struct DeleteAppsListRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListId", required: true, type: .string)
+        ]
+
+        /// The ID of the applications list that you want to delete. You can retrieve this ID from PutAppsList, ListAppsLists, and GetAppsList.
+        public let listId: String
+
+        public init(listId: String) {
+            self.listId = listId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.listId, name:"listId", parent: name, max: 36)
+            try validate(self.listId, name:"listId", parent: name, min: 36)
+            try validate(self.listId, name:"listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listId = "ListId"
+        }
+    }
+
     public struct DeleteNotificationChannelRequest: AWSShape {
 
 
@@ -126,7 +368,7 @@ extension FMS {
 
         /// If True, the request performs cleanup according to the policy type.  For AWS WAF and Shield Advanced policies, the cleanup does the following:   Deletes rule groups created by AWS Firewall Manager   Removes web ACLs from in-scope resources   Deletes web ACLs that contain no rules or rule groups   For security group policies, the cleanup does the following for each security group in the policy:   Disassociates the security group from in-scope resources    Deletes the security group if it was created through Firewall Manager and if it's no longer associated with any resources through another policy   After the cleanup, in-scope resources are no longer protected by web ACLs in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined by tags that you create and accounts that you associate with the policy. When creating the policy, if you specify that only resources in specific accounts or with specific tags are in scope of the policy, those accounts and resources are handled by the policy. All others are out of scope. If you don't specify tags or accounts, all resources are in scope. 
         public let deleteAllPolicyResources: Bool?
-        /// The ID of the policy that you want to delete. PolicyId is returned by PutPolicy and by ListPolicies.
+        /// The ID of the policy that you want to delete. You can retrieve this ID from PutPolicy and ListPolicies.
         public let policyId: String
 
         public init(deleteAllPolicyResources: Bool? = nil, policyId: String) {
@@ -143,6 +385,29 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case deleteAllPolicyResources = "DeleteAllPolicyResources"
             case policyId = "PolicyId"
+        }
+    }
+
+    public struct DeleteProtocolsListRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListId", required: true, type: .string)
+        ]
+
+        /// The ID of the protocols list that you want to delete. You can retrieve this ID from PutProtocolsList, ListProtocolsLists, and GetProtocolsLost.
+        public let listId: String
+
+        public init(listId: String) {
+            self.listId = listId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.listId, name:"listId", parent: name, max: 36)
+            try validate(self.listId, name:"listId", parent: name, min: 36)
+            try validate(self.listId, name:"listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listId = "ListId"
         }
     }
 
@@ -208,6 +473,56 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case adminAccount = "AdminAccount"
             case roleStatus = "RoleStatus"
+        }
+    }
+
+    public struct GetAppsListRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultList", required: false, type: .boolean), 
+            AWSShapeMember(label: "ListId", required: true, type: .string)
+        ]
+
+        /// Specifies whether the list to retrieve is a default list owned by AWS Firewall Manager.
+        public let defaultList: Bool?
+        /// The ID of the AWS Firewall Manager applications list that you want the details for.
+        public let listId: String
+
+        public init(defaultList: Bool? = nil, listId: String) {
+            self.defaultList = defaultList
+            self.listId = listId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.listId, name:"listId", parent: name, max: 36)
+            try validate(self.listId, name:"listId", parent: name, min: 36)
+            try validate(self.listId, name:"listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultList = "DefaultList"
+            case listId = "ListId"
+        }
+    }
+
+    public struct GetAppsListResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppsList", required: false, type: .structure), 
+            AWSShapeMember(label: "AppsListArn", required: false, type: .string)
+        ]
+
+        /// Information about the specified AWS Firewall Manager applications list.
+        public let appsList: AppsListData?
+        /// The Amazon Resource Name (ARN) of the applications list.
+        public let appsListArn: String?
+
+        public init(appsList: AppsListData? = nil, appsListArn: String? = nil) {
+            self.appsList = appsList
+            self.appsListArn = appsListArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appsList = "AppsList"
+            case appsListArn = "AppsListArn"
         }
     }
 
@@ -422,6 +737,177 @@ extension FMS {
         }
     }
 
+    public struct GetProtocolsListRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultList", required: false, type: .boolean), 
+            AWSShapeMember(label: "ListId", required: true, type: .string)
+        ]
+
+        /// Specifies whether the list to retrieve is a default list owned by AWS Firewall Manager.
+        public let defaultList: Bool?
+        /// The ID of the AWS Firewall Manager protocols list that you want the details for.
+        public let listId: String
+
+        public init(defaultList: Bool? = nil, listId: String) {
+            self.defaultList = defaultList
+            self.listId = listId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.listId, name:"listId", parent: name, max: 36)
+            try validate(self.listId, name:"listId", parent: name, min: 36)
+            try validate(self.listId, name:"listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultList = "DefaultList"
+            case listId = "ListId"
+        }
+    }
+
+    public struct GetProtocolsListResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProtocolsList", required: false, type: .structure), 
+            AWSShapeMember(label: "ProtocolsListArn", required: false, type: .string)
+        ]
+
+        /// Information about the specified AWS Firewall Manager protocols list.
+        public let protocolsList: ProtocolsListData?
+        /// The Amazon Resource Name (ARN) of the specified protocols list.
+        public let protocolsListArn: String?
+
+        public init(protocolsList: ProtocolsListData? = nil, protocolsListArn: String? = nil) {
+            self.protocolsList = protocolsList
+            self.protocolsListArn = protocolsListArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protocolsList = "ProtocolsList"
+            case protocolsListArn = "ProtocolsListArn"
+        }
+    }
+
+    public struct GetViolationDetailsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MemberAccount", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string)
+        ]
+
+        /// The AWS account ID that you want the details for.
+        public let memberAccount: String
+        /// The ID of the AWS Firewall Manager policy that you want the details for. This currently only supports security group content audit policies.
+        public let policyId: String
+        /// The ID of the resource that has violations.
+        public let resourceId: String
+        /// The resource type. This is in the format shown in the AWS Resource Types Reference. Supported resource types are: AWS::EC2::Instance, AWS::EC2::NetworkInterface, or AWS::EC2::SecurityGroup. 
+        public let resourceType: String
+
+        public init(memberAccount: String, policyId: String, resourceId: String, resourceType: String) {
+            self.memberAccount = memberAccount
+            self.policyId = policyId
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.memberAccount, name:"memberAccount", parent: name, max: 1024)
+            try validate(self.memberAccount, name:"memberAccount", parent: name, min: 1)
+            try validate(self.memberAccount, name:"memberAccount", parent: name, pattern: "^[0-9]+$")
+            try validate(self.policyId, name:"policyId", parent: name, max: 36)
+            try validate(self.policyId, name:"policyId", parent: name, min: 36)
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 1024)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.resourceType, name:"resourceType", parent: name, max: 128)
+            try validate(self.resourceType, name:"resourceType", parent: name, min: 1)
+            try validate(self.resourceType, name:"resourceType", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberAccount = "MemberAccount"
+            case policyId = "PolicyId"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct GetViolationDetailsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ViolationDetail", required: false, type: .structure)
+        ]
+
+        /// Violation detail for a resource.
+        public let violationDetail: ViolationDetail?
+
+        public init(violationDetail: ViolationDetail? = nil) {
+            self.violationDetail = violationDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case violationDetail = "ViolationDetail"
+        }
+    }
+
+    public struct ListAppsListsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultLists", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Specifies whether the lists to retrieve are default lists owned by AWS Firewall Manager.
+        public let defaultLists: Bool?
+        /// The maximum number of objects that you want AWS Firewall Manager to return for this request. If more objects are available, in the response, AWS Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify this, AWS Firewall Manager returns all available objects.
+        public let maxResults: Int
+        /// If you specify a value for MaxResults in your list request, and you have more objects than the maximum, AWS Firewall Manager returns this token in the response. For all but the first request, you provide the token returned by the prior request in the request parameters, to retrieve the next batch of objects.
+        public let nextToken: String?
+
+        public init(defaultLists: Bool? = nil, maxResults: Int, nextToken: String? = nil) {
+            self.defaultLists = defaultLists
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultLists = "DefaultLists"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAppsListsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppsLists", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// An array of AppsListDataSummary objects.
+        public let appsLists: [AppsListDataSummary]?
+        /// If you specify a value for MaxResults in your list request, and you have more objects than the maximum, AWS Firewall Manager returns this token in the response. You can use this token in subsequent requests to retrieve the next batch of objects.
+        public let nextToken: String?
+
+        public init(appsLists: [AppsListDataSummary]? = nil, nextToken: String? = nil) {
+            self.appsLists = appsLists
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appsLists = "AppsLists"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListComplianceStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
@@ -586,12 +1072,69 @@ extension FMS {
         }
     }
 
+    public struct ListProtocolsListsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultLists", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Specifies whether the lists to retrieve are default lists owned by AWS Firewall Manager.
+        public let defaultLists: Bool?
+        /// The maximum number of objects that you want AWS Firewall Manager to return for this request. If more objects are available, in the response, AWS Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify this, AWS Firewall Manager returns all available objects.
+        public let maxResults: Int
+        /// If you specify a value for MaxResults in your list request, and you have more objects than the maximum, AWS Firewall Manager returns this token in the response. For all but the first request, you provide the token returned by the prior request in the request parameters, to retrieve the next batch of objects.
+        public let nextToken: String?
+
+        public init(defaultLists: Bool? = nil, maxResults: Int, nextToken: String? = nil) {
+            self.defaultLists = defaultLists
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultLists = "DefaultLists"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListProtocolsListsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProtocolsLists", required: false, type: .list)
+        ]
+
+        /// If you specify a value for MaxResults in your list request, and you have more objects than the maximum, AWS Firewall Manager returns this token in the response. You can use this token in subsequent requests to retrieve the next batch of objects.
+        public let nextToken: String?
+        /// An array of ProtocolsListDataSummary objects.
+        public let protocolsLists: [ProtocolsListDataSummary]?
+
+        public init(nextToken: String? = nil, protocolsLists: [ProtocolsListDataSummary]? = nil) {
+            self.nextToken = nextToken
+            self.protocolsLists = protocolsLists
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case protocolsLists = "ProtocolsLists"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource to return tags for. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN..
+        /// The Amazon Resource Name (ARN) of the resource to return tags for. The AWS Firewall Manager resources that support tagging are policies, applications lists, and protocols lists. 
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -626,6 +1169,28 @@ extension FMS {
         }
     }
 
+    public struct PartialMatch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reference", required: false, type: .string), 
+            AWSShapeMember(label: "TargetViolationReasons", required: false, type: .list)
+        ]
+
+        /// The reference rule from the master security group of the AWS Firewall Manager policy.
+        public let reference: String?
+        /// The violation reason.
+        public let targetViolationReasons: [String]?
+
+        public init(reference: String? = nil, targetViolationReasons: [String]? = nil) {
+            self.reference = reference
+            self.targetViolationReasons = targetViolationReasons
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reference = "Reference"
+            case targetViolationReasons = "TargetViolationReasons"
+        }
+    }
+
     public struct Policy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExcludeMap", required: false, type: .map), 
@@ -649,7 +1214,7 @@ extension FMS {
         public let includeMap: [CustomerPolicyScopeIdType: [String]]?
         /// The ID of the AWS Firewall Manager policy.
         public let policyId: String?
-        /// The friendly name of the AWS Firewall Manager policy.
+        /// The name of the AWS Firewall Manager policy.
         public let policyName: String
         /// A unique identifier for each update to the policy. When issuing a PutPolicy request, the PolicyUpdateToken in the request must match the PolicyUpdateToken of the current policy version. To get the PolicyUpdateToken of the current policy version, use a GetPolicy request.
         public let policyUpdateToken: String?
@@ -787,7 +1352,7 @@ extension FMS {
         public let memberAccount: String?
         /// The ID of the AWS Firewall Manager policy.
         public let policyId: String?
-        /// The friendly name of the AWS Firewall Manager policy.
+        /// The name of the AWS Firewall Manager policy.
         public let policyName: String?
         /// The AWS account that created the AWS Firewall Manager policy.
         public let policyOwner: String?
@@ -827,7 +1392,7 @@ extension FMS {
         public let policyArn: String?
         /// The ID of the specified policy.
         public let policyId: String?
-        /// The friendly name of the specified policy.
+        /// The name of the specified policy.
         public let policyName: String?
         /// Indicates if the policy should be automatically applied to new resources.
         public let remediationEnabled: Bool?
@@ -852,6 +1417,160 @@ extension FMS {
             case remediationEnabled = "RemediationEnabled"
             case resourceType = "ResourceType"
             case securityServiceType = "SecurityServiceType"
+        }
+    }
+
+    public struct ProtocolsListData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ListId", required: false, type: .string), 
+            AWSShapeMember(label: "ListName", required: true, type: .string), 
+            AWSShapeMember(label: "ListUpdateToken", required: false, type: .string), 
+            AWSShapeMember(label: "PreviousProtocolsList", required: false, type: .map), 
+            AWSShapeMember(label: "ProtocolsList", required: true, type: .list)
+        ]
+
+        /// The time that the AWS Firewall Manager protocols list was created.
+        public let createTime: TimeStamp?
+        /// The time that the AWS Firewall Manager protocols list was last updated.
+        public let lastUpdateTime: TimeStamp?
+        /// The ID of the AWS Firewall Manager protocols list.
+        public let listId: String?
+        /// The name of the AWS Firewall Manager protocols list.
+        public let listName: String
+        /// A unique identifier for each update to the list. When you update the list, the update token must match the token of the current version of the application list. You can retrieve the update token by getting the list. 
+        public let listUpdateToken: String?
+        /// A map of previous version numbers to their corresponding protocol arrays.
+        public let previousProtocolsList: [String: [String]]?
+        /// An array of protocols in the AWS Firewall Manager protocols list.
+        public let protocolsList: [String]
+
+        public init(createTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, listId: String? = nil, listName: String, listUpdateToken: String? = nil, previousProtocolsList: [String: [String]]? = nil, protocolsList: [String]) {
+            self.createTime = createTime
+            self.lastUpdateTime = lastUpdateTime
+            self.listId = listId
+            self.listName = listName
+            self.listUpdateToken = listUpdateToken
+            self.previousProtocolsList = previousProtocolsList
+            self.protocolsList = protocolsList
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.listId, name:"listId", parent: name, max: 36)
+            try validate(self.listId, name:"listId", parent: name, min: 36)
+            try validate(self.listId, name:"listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
+            try validate(self.listName, name:"listName", parent: name, max: 128)
+            try validate(self.listName, name:"listName", parent: name, min: 1)
+            try validate(self.listName, name:"listName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.listUpdateToken, name:"listUpdateToken", parent: name, max: 1024)
+            try validate(self.listUpdateToken, name:"listUpdateToken", parent: name, min: 1)
+            try validate(self.listUpdateToken, name:"listUpdateToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.previousProtocolsList?.forEach {
+                try validate($0.key, name:"previousProtocolsList.key", parent: name, max: 2)
+                try validate($0.key, name:"previousProtocolsList.key", parent: name, min: 1)
+                try validate($0.key, name:"previousProtocolsList.key", parent: name, pattern: "^\\d{1,2}$")
+            }
+            try self.protocolsList.forEach {
+                try validate($0, name: "protocolsList[]", parent: name, max: 20)
+                try validate($0, name: "protocolsList[]", parent: name, min: 1)
+                try validate($0, name: "protocolsList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case lastUpdateTime = "LastUpdateTime"
+            case listId = "ListId"
+            case listName = "ListName"
+            case listUpdateToken = "ListUpdateToken"
+            case previousProtocolsList = "PreviousProtocolsList"
+            case protocolsList = "ProtocolsList"
+        }
+    }
+
+    public struct ProtocolsListDataSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListArn", required: false, type: .string), 
+            AWSShapeMember(label: "ListId", required: false, type: .string), 
+            AWSShapeMember(label: "ListName", required: false, type: .string), 
+            AWSShapeMember(label: "ProtocolsList", required: false, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the specified protocols list.
+        public let listArn: String?
+        /// The ID of the specified protocols list.
+        public let listId: String?
+        /// The name of the specified protocols list.
+        public let listName: String?
+        /// An array of protocols in the AWS Firewall Manager protocols list.
+        public let protocolsList: [String]?
+
+        public init(listArn: String? = nil, listId: String? = nil, listName: String? = nil, protocolsList: [String]? = nil) {
+            self.listArn = listArn
+            self.listId = listId
+            self.listName = listName
+            self.protocolsList = protocolsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listArn = "ListArn"
+            case listId = "ListId"
+            case listName = "ListName"
+            case protocolsList = "ProtocolsList"
+        }
+    }
+
+    public struct PutAppsListRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppsList", required: true, type: .structure), 
+            AWSShapeMember(label: "TagList", required: false, type: .list)
+        ]
+
+        /// The details of the AWS Firewall Manager applications list to be created.
+        public let appsList: AppsListData
+        /// The tags associated with the resource.
+        public let tagList: [Tag]?
+
+        public init(appsList: AppsListData, tagList: [Tag]? = nil) {
+            self.appsList = appsList
+            self.tagList = tagList
+        }
+
+        public func validate(name: String) throws {
+            try self.appsList.validate(name: "\(name).appsList")
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+            try validate(self.tagList, name:"tagList", parent: name, max: 200)
+            try validate(self.tagList, name:"tagList", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appsList = "AppsList"
+            case tagList = "TagList"
+        }
+    }
+
+    public struct PutAppsListResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppsList", required: false, type: .structure), 
+            AWSShapeMember(label: "AppsListArn", required: false, type: .string)
+        ]
+
+        /// The details of the AWS Firewall Manager applications list.
+        public let appsList: AppsListData?
+        /// The Amazon Resource Name (ARN) of the applications list.
+        public let appsListArn: String?
+
+        public init(appsList: AppsListData? = nil, appsListArn: String? = nil) {
+            self.appsList = appsList
+            self.appsListArn = appsListArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appsList = "AppsList"
+            case appsListArn = "AppsListArn"
         }
     }
 
@@ -923,9 +1642,9 @@ extension FMS {
             AWSShapeMember(label: "PolicyArn", required: false, type: .string)
         ]
 
-        /// The details of the AWS Firewall Manager policy that was created.
+        /// The details of the AWS Firewall Manager policy.
         public let policy: Policy?
-        /// The Amazon Resource Name (ARN) of the policy that was created.
+        /// The Amazon Resource Name (ARN) of the policy.
         public let policyArn: String?
 
         public init(policy: Policy? = nil, policyArn: String? = nil) {
@@ -936,6 +1655,59 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
             case policyArn = "PolicyArn"
+        }
+    }
+
+    public struct PutProtocolsListRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProtocolsList", required: true, type: .structure), 
+            AWSShapeMember(label: "TagList", required: false, type: .list)
+        ]
+
+        /// The details of the AWS Firewall Manager protocols list to be created.
+        public let protocolsList: ProtocolsListData
+        /// The tags associated with the resource.
+        public let tagList: [Tag]?
+
+        public init(protocolsList: ProtocolsListData, tagList: [Tag]? = nil) {
+            self.protocolsList = protocolsList
+            self.tagList = tagList
+        }
+
+        public func validate(name: String) throws {
+            try self.protocolsList.validate(name: "\(name).protocolsList")
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+            try validate(self.tagList, name:"tagList", parent: name, max: 200)
+            try validate(self.tagList, name:"tagList", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protocolsList = "ProtocolsList"
+            case tagList = "TagList"
+        }
+    }
+
+    public struct PutProtocolsListResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProtocolsList", required: false, type: .structure), 
+            AWSShapeMember(label: "ProtocolsListArn", required: false, type: .string)
+        ]
+
+        /// The details of the AWS Firewall Manager protocols list.
+        public let protocolsList: ProtocolsListData?
+        /// The Amazon Resource Name (ARN) of the protocols list.
+        public let protocolsListArn: String?
+
+        public init(protocolsList: ProtocolsListData? = nil, protocolsListArn: String? = nil) {
+            self.protocolsList = protocolsList
+            self.protocolsListArn = protocolsListArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protocolsList = "ProtocolsList"
+            case protocolsListArn = "ProtocolsListArn"
         }
     }
 
@@ -969,13 +1741,114 @@ extension FMS {
         }
     }
 
+    public struct ResourceViolation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsEc2InstanceViolation", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsEc2NetworkInterfaceViolation", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsVPCSecurityGroupViolation", required: false, type: .structure)
+        ]
+
+        /// Violation details for an EC2 instance.
+        public let awsEc2InstanceViolation: AwsEc2InstanceViolation?
+        /// Violation details for network interface.
+        public let awsEc2NetworkInterfaceViolation: AwsEc2NetworkInterfaceViolation?
+        /// Violation details for security groups.
+        public let awsVPCSecurityGroupViolation: AwsVPCSecurityGroupViolation?
+
+        public init(awsEc2InstanceViolation: AwsEc2InstanceViolation? = nil, awsEc2NetworkInterfaceViolation: AwsEc2NetworkInterfaceViolation? = nil, awsVPCSecurityGroupViolation: AwsVPCSecurityGroupViolation? = nil) {
+            self.awsEc2InstanceViolation = awsEc2InstanceViolation
+            self.awsEc2NetworkInterfaceViolation = awsEc2NetworkInterfaceViolation
+            self.awsVPCSecurityGroupViolation = awsVPCSecurityGroupViolation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsEc2InstanceViolation = "AwsEc2InstanceViolation"
+            case awsEc2NetworkInterfaceViolation = "AwsEc2NetworkInterfaceViolation"
+            case awsVPCSecurityGroupViolation = "AwsVPCSecurityGroupViolation"
+        }
+    }
+
+    public struct SecurityGroupRemediationAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "IsDefaultAction", required: false, type: .boolean), 
+            AWSShapeMember(label: "RemediationActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "RemediationResult", required: false, type: .structure)
+        ]
+
+        /// Brief description of the action that will be performed.
+        public let description: String?
+        /// Indicates if the current action is the default action.
+        public let isDefaultAction: Bool?
+        /// The remediation action that will be performed.
+        public let remediationActionType: RemediationActionType?
+        /// The final state of the rule specified in the ViolationTarget after it is remediated.
+        public let remediationResult: SecurityGroupRuleDescription?
+
+        public init(description: String? = nil, isDefaultAction: Bool? = nil, remediationActionType: RemediationActionType? = nil, remediationResult: SecurityGroupRuleDescription? = nil) {
+            self.description = description
+            self.isDefaultAction = isDefaultAction
+            self.remediationActionType = remediationActionType
+            self.remediationResult = remediationResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case isDefaultAction = "IsDefaultAction"
+            case remediationActionType = "RemediationActionType"
+            case remediationResult = "RemediationResult"
+        }
+    }
+
+    public struct SecurityGroupRuleDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FromPort", required: false, type: .long), 
+            AWSShapeMember(label: "IPV4Range", required: false, type: .string), 
+            AWSShapeMember(label: "IPV6Range", required: false, type: .string), 
+            AWSShapeMember(label: "PrefixListId", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string), 
+            AWSShapeMember(label: "ToPort", required: false, type: .long)
+        ]
+
+        /// The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. A value of -1 indicates all ICMP/ICMPv6 types.
+        public let fromPort: Int64?
+        /// The IPv4 ranges for the security group rule.
+        public let iPV4Range: String?
+        /// The IPv6 ranges for the security group rule.
+        public let iPV6Range: String?
+        /// The ID of the prefix list for the security group rule.
+        public let prefixListId: String?
+        /// The IP protocol name (tcp, udp, icmp, icmpv6) or number.
+        public let `protocol`: String?
+        /// The end of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code. A value of -1 indicates all ICMP/ICMPv6 codes.
+        public let toPort: Int64?
+
+        public init(fromPort: Int64? = nil, iPV4Range: String? = nil, iPV6Range: String? = nil, prefixListId: String? = nil, protocol: String? = nil, toPort: Int64? = nil) {
+            self.fromPort = fromPort
+            self.iPV4Range = iPV4Range
+            self.iPV6Range = iPV6Range
+            self.prefixListId = prefixListId
+            self.`protocol` = `protocol`
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case iPV4Range = "IPV4Range"
+            case iPV6Range = "IPV6Range"
+            case prefixListId = "PrefixListId"
+            case `protocol` = "Protocol"
+            case toPort = "ToPort"
+        }
+    }
+
     public struct SecurityServicePolicyData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ManagedServiceData", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
-        /// Details about the service that are specific to the service type, in JSON format. For service type SHIELD_ADVANCED, this is an empty string.   Example: WAFV2   "ManagedServiceData": "{\"type\":\"WAFV2\",\"defaultAction\":{\"type\":\"ALLOW\"},\"preProcessRuleGroups\":[{\"managedRuleGroupIdentifier\":null,\"ruleGroupArn\":\"rulegrouparn\",\"overrideAction\":{\"type\":\"COUNT\"},\"excludedRules\":[{\"name\":\"EntityName\"}],\"ruleGroupType\":\"RuleGroup\"}],\"postProcessRuleGroups\":[{\"managedRuleGroupIdentifier\":{\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\",\"vendor\":\"AWS\"},\"ruleGroupArn\":\"rulegrouparn\",\"overrideAction\":{\"type\":\"NONE\"},\"excludedRules\":[],\"ruleGroupType\":\"ManagedRuleGroup\"}],\"overrideCustomerWebACLAssociation\":false}"    Example: WAF Classic   "ManagedServiceData": "{\"type\": \"WAF\", \"ruleGroups\": [{\"id\": \"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}    Example: SECURITY_GROUPS_COMMON   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_COMMON","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false, \"applyToAllEC2InstanceENIs\":false,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}    Example: SECURITY_GROUPS_CONTENT_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_CONTENT_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd \"}],\"securityGroupAction\":{\"type\":\"ALLOW\"}}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}  The security group action for content audit can be ALLOW or DENY. For ALLOW, all in-scope security group rules must be within the allowed range of the policy's security group rules. For DENY, all in-scope security group rules must not contain a value or a range that matches a rule value or range in the policy security group.   Example: SECURITY_GROUPS_USAGE_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_USAGE_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"},"RemediationEnabled":false,"Resou rceType":"AWS::EC2::SecurityGroup"}   
+        /// Details about the service that are specific to the service type, in JSON format. For service type SHIELD_ADVANCED, this is an empty string.   Example: WAFV2   "ManagedServiceData": "{\"type\":\"WAFV2\",\"defaultAction\":{\"type\":\"ALLOW\"},\"preProcessRuleGroups\":[{\"managedRuleGroupIdentifier\":null,\"ruleGroupArn\":\"rulegrouparn\",\"overrideAction\":{\"type\":\"COUNT\"},\"excludeRules\":[{\"name\":\"EntityName\"}],\"ruleGroupType\":\"RuleGroup\"}],\"postProcessRuleGroups\":[{\"managedRuleGroupIdentifier\":{\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\",\"vendorName\":\"AWS\"},\"ruleGroupArn\":\"rulegrouparn\",\"overrideAction\":{\"type\":\"NONE\"},\"excludeRules\":[],\"ruleGroupType\":\"ManagedRuleGroup\"}],\"overrideCustomerWebACLAssociation\":false}"    Example: WAF Classic   "ManagedServiceData": "{\"type\": \"WAF\", \"ruleGroups\": [{\"id\": \"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}    Example: SECURITY_GROUPS_COMMON   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_COMMON","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false, \"applyToAllEC2InstanceENIs\":false,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}    Example: SECURITY_GROUPS_CONTENT_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_CONTENT_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd \"}],\"securityGroupAction\":{\"type\":\"ALLOW\"}}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}  The security group action for content audit can be ALLOW or DENY. For ALLOW, all in-scope security group rules must be within the allowed range of the policy's security group rules. For DENY, all in-scope security group rules must not contain a value or a range that matches a rule value or range in the policy security group.   Example: SECURITY_GROUPS_USAGE_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_USAGE_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"},"RemediationEnabled":false,"Resou rceType":"AWS::EC2::SecurityGroup"}   
         public let managedServiceData: String?
         /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either an AWS WAF policy, a Shield Advanced policy, or a security group policy. For security group policies, Firewall Manager supports one security group for each common policy and for each content audit policy. This is an adjustable limit that you can increase by contacting AWS Support.
         public let `type`: SecurityServiceType
@@ -1034,7 +1907,7 @@ extension FMS {
             AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN.
+        /// The Amazon Resource Name (ARN) of the resource to return tags for. The AWS Firewall Manager resources that support tagging are policies, applications lists, and protocols lists. 
         public let resourceArn: String
         /// The tags to add to the resource.
         public let tagList: [Tag]
@@ -1075,7 +1948,7 @@ extension FMS {
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN.
+        /// The Amazon Resource Name (ARN) of the resource to return tags for. The AWS Firewall Manager resources that support tagging are policies, applications lists, and protocols lists. 
         public let resourceArn: String
         /// The keys of the tags to remove from the resource. 
         public let tagKeys: [String]
@@ -1110,5 +1983,52 @@ extension FMS {
         public init() {
         }
 
+    }
+
+    public struct ViolationDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MemberAccount", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceTags", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceViolations", required: true, type: .list)
+        ]
+
+        /// The AWS account that the violation details were requested for.
+        public let memberAccount: String
+        /// The ID of the AWS Firewall Manager policy that the violation details were requested for.
+        public let policyId: String
+        /// Brief description for the requested resource.
+        public let resourceDescription: String?
+        /// The resource ID that the violation details were requested for.
+        public let resourceId: String
+        /// The ResourceTag objects associated with the resource.
+        public let resourceTags: [Tag]?
+        /// The resource type that the violation details were requested for.
+        public let resourceType: String
+        /// List of violations for the requested resource.
+        public let resourceViolations: [ResourceViolation]
+
+        public init(memberAccount: String, policyId: String, resourceDescription: String? = nil, resourceId: String, resourceTags: [Tag]? = nil, resourceType: String, resourceViolations: [ResourceViolation]) {
+            self.memberAccount = memberAccount
+            self.policyId = policyId
+            self.resourceDescription = resourceDescription
+            self.resourceId = resourceId
+            self.resourceTags = resourceTags
+            self.resourceType = resourceType
+            self.resourceViolations = resourceViolations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberAccount = "MemberAccount"
+            case policyId = "PolicyId"
+            case resourceDescription = "ResourceDescription"
+            case resourceId = "ResourceId"
+            case resourceTags = "ResourceTags"
+            case resourceType = "ResourceType"
+            case resourceViolations = "ResourceViolations"
+        }
     }
 }

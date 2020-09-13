@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum AthenaErrorType: AWSErrorType {
     case internalServerException(message: String?)
     case invalidRequestException(message: String?)
+    case metadataException(message: String?)
     case resourceNotFoundException(message: String?)
     case tooManyRequestsException(message: String?)
 }
@@ -21,6 +22,8 @@ extension AthenaErrorType {
             self = .internalServerException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
+        case "MetadataException":
+            self = .metadataException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         case "TooManyRequestsException":
@@ -38,6 +41,8 @@ extension AthenaErrorType : CustomStringConvertible {
             return "InternalServerException: \(message ?? "")"
         case .invalidRequestException(let message):
             return "InvalidRequestException: \(message ?? "")"
+        case .metadataException(let message):
+            return "MetadataException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
         case .tooManyRequestsException(let message):

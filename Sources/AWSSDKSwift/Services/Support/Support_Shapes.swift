@@ -14,7 +14,7 @@ extension Support {
             AWSShapeMember(label: "attachmentSetId", required: false, type: .string)
         ]
 
-        /// One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment.
+        /// One or more attachments to add to the set. You can add up to three attachments per set. The size limit is 5 MB per attachment. In the Attachment object, use the data parameter to specify the contents of the attachment file. In the previous request syntax, the value for data appear as blob, which is represented as a base64-encoded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png.
         public let attachments: [Attachment]
         /// The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
         public let attachmentSetId: String?
@@ -184,13 +184,13 @@ extension Support {
         public let serviceCode: String?
         /// The code for the severity level returned by the call to DescribeSeverityLevels.
         public let severityCode: String?
-        /// The status of the case. Valid values: resolved | pending-customer-action | opened | unassigned | work-in-progress.
+        /// The status of the case. Valid values:    opened     pending-customer-action     reopened     resolved     unassigned     work-in-progress   
         public let status: String?
         /// The subject line for the case in the AWS Support Center.
         public let subject: String?
         /// The email address of the account that submitted the case.
         public let submittedBy: String?
-        /// The time that the case was case created in the AWS Support Center.
+        /// The time that the case was created in the AWS Support Center.
         public let timeCreated: String?
 
         public init(caseId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, displayId: String? = nil, language: String? = nil, recentCommunications: RecentCaseCommunications? = nil, serviceCode: String? = nil, severityCode: String? = nil, status: String? = nil, subject: String? = nil, submittedBy: String? = nil, timeCreated: String? = nil) {
@@ -296,23 +296,23 @@ extension Support {
             AWSShapeMember(label: "subject", required: true, type: .string)
         ]
 
-        /// The ID of a set of one or more attachments for the case. Create the set by using AddAttachmentsToSet.
+        /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation.
         public let attachmentSetId: String?
-        /// The category of problem for the AWS Support case.
+        /// The category of problem for the AWS Support case. You also use the DescribeServices operation to get the category code for a service. Each AWS service defines its own set of category codes.
         public let categoryCode: String?
-        /// A list of email addresses that AWS Support copies on case correspondence.
+        /// A list of email addresses that AWS Support copies on case correspondence. AWS Support identifies the account that creates the case when you specify your AWS credentials in an HTTP POST method or use the AWS SDKs. 
         public let ccEmailAddresses: [String]?
-        /// The communication body text when you create an AWS Support case by calling CreateCase.
+        /// The communication body text that describes the issue. This text appears in the Description field on the AWS Support Center Create Case page.
         public let communicationBody: String
-        /// The type of issue for the case. You can specify either "customer-service" or "technical." If you do not indicate a value, the default is "technical."  Service limit increases are not supported by the Support API; you must submit service limit increase requests in Support Center. 
+        /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
         public let issueType: String?
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The language in which AWS Support handles the case. You must specify the ISO 639-1 code for the language parameter if you want support in that language. Currently, English ("en") and Japanese ("ja") are supported.
         public let language: String?
-        /// The code for the AWS service returned by the call to DescribeServices.
+        /// The code for the AWS service. You can use the DescribeServices operation to get the possible serviceCode values.
         public let serviceCode: String?
-        /// The code for the severity level returned by the call to DescribeSeverityLevels.  The availability of severity levels depends on the support plan for the account. 
+        /// A value that indicates the urgency of the case. This value determines the response time according to your service level agreement with AWS Support. You can use the DescribeSeverityLevels operation to get the possible values for severityCode.  For more information, see SeverityLevel and Choosing a Severity in the AWS Support User Guide.  The availability of severity levels depends on the support plan for the AWS account. 
         public let severityCode: String?
-        /// The title of the AWS Support case.
+        /// The title of the AWS Support case. The title appears in the Subject field on the AWS Support Center Create Case page.
         public let subject: String
 
         public init(attachmentSetId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String, issueType: String? = nil, language: String? = nil, serviceCode: String? = nil, severityCode: String? = nil, subject: String) {
@@ -352,7 +352,7 @@ extension Support {
             AWSShapeMember(label: "caseId", required: false, type: .string)
         ]
 
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
+        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
 
         public init(caseId: String? = nil) {
@@ -386,7 +386,7 @@ extension Support {
             AWSShapeMember(label: "attachment", required: false, type: .structure)
         ]
 
-        /// The attachment content and file name.
+        /// This object includes the attachment content and file name. In the previous response syntax, the value for the data parameter appears as blob, which is represented as a base64-encoded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png.
         public let attachment: Attachment?
 
         public init(attachment: Attachment? = nil) {
@@ -419,9 +419,9 @@ extension Support {
         public let caseIdList: [String]?
         /// The ID displayed for a case in the AWS Support Center user interface.
         public let displayId: String?
-        /// Specifies whether communications should be included in the DescribeCases results. The default is true.
+        /// Specifies whether to include communications in the DescribeCases response. By default, communications are incuded.
         public let includeCommunications: Bool?
-        /// Specifies whether resolved support cases should be included in the DescribeCases results. The default is false.
+        /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
         public let includeResolvedCases: Bool?
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
@@ -631,7 +631,7 @@ extension Support {
             AWSShapeMember(label: "checkIds", required: true, type: .list)
         ]
 
-        /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
+        /// The IDs of the Trusted Advisor checks to get the status of.   If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error. 
         public let checkIds: [String]
 
         public init(checkIds: [String]) {
@@ -897,7 +897,7 @@ extension Support {
 
         /// The code for case severity level. Valid values: low | normal | high | urgent | critical 
         public let code: String?
-        /// The name of the severity level that corresponds to the severity level code.  The values returned by the API differ from the values that are displayed in the AWS Support Center. For example, for the code "low", the API name is "Low", but the name in the Support Center is "General guidance". These are the Support Center code/name mappings:    low: General guidance    normal: System impaired    high: Production system impaired    urgent: Production system down    critical: Business-critical system down    For more information, see Choosing a Severity 
+        /// The name of the severity level that corresponds to the severity level code.  The values returned by the API differ from the values that are displayed in the AWS Support Center. For example, for the code "low", the API name is "Low", but the name in the Support Center is "General guidance". These are the Support Center code/name mappings:    low: General guidance    normal: System impaired    high: Production system impaired    urgent: Production system down    critical: Business-critical system down    For more information, see Choosing a severity in the AWS Support User Guide.
         public let name: String?
 
         public init(code: String? = nil, name: String? = nil) {
@@ -939,7 +939,7 @@ extension Support {
 
         /// The category of the Trusted Advisor check.
         public let category: String
-        /// The description of the Trusted Advisor check, which includes the alert criteria and recommended actions (contains HTML markup).
+        /// The description of the Trusted Advisor check, which includes the alert criteria and recommended operations (contains HTML markup).
         public let description: String
         /// The unique identifier for the Trusted Advisor check.
         public let id: String
@@ -1080,9 +1080,9 @@ extension Support {
             AWSShapeMember(label: "estimatedPercentMonthlySavings", required: true, type: .double)
         ]
 
-        /// The estimated monthly savings that might be realized if the recommended actions are taken.
+        /// The estimated monthly savings that might be realized if the recommended operations are taken.
         public let estimatedMonthlySavings: Double
-        /// The estimated percentage of savings that might be realized if the recommended actions are taken.
+        /// The estimated percentage of savings that might be realized if the recommended operations are taken.
         public let estimatedPercentMonthlySavings: Double
 
         public init(estimatedMonthlySavings: Double, estimatedPercentMonthlySavings: Double) {

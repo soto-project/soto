@@ -97,7 +97,7 @@ public struct CostExplorer {
         return client.send(operation: "GetReservationUtilization", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates recommendations that helps you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For details on calculation and function, see Optimizing Your Cost with Rightsizing Recommendations.
+    ///  Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For details on calculation and function, see Optimizing Your Cost with Rightsizing Recommendations in the AWS Billing and Cost Management User Guide.
     public func getRightsizingRecommendation(_ input: GetRightsizingRecommendationRequest) -> EventLoopFuture<GetRightsizingRecommendationResponse> {
         return client.send(operation: "GetRightsizingRecommendation", path: "/", httpMethod: "POST", input: input)
     }

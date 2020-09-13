@@ -16,12 +16,17 @@ extension CodeCommit {
         return client.paginate(input: input, command: describePullRequestEvents, tokenKey: \DescribePullRequestEventsOutput.nextToken, onPage: onPage)
     }
 
-    ///  Returns information about comments made on the comparison between two commits.
+    ///  Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
+    public func getCommentReactionsPaginator(_ input: GetCommentReactionsInput, onPage: @escaping (GetCommentReactionsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getCommentReactions, tokenKey: \GetCommentReactionsOutput.nextToken, onPage: onPage)
+    }
+
+    ///  Returns information about comments made on the comparison between two commits.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. 
     public func getCommentsForComparedCommitPaginator(_ input: GetCommentsForComparedCommitInput, onPage: @escaping (GetCommentsForComparedCommitOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCommentsForComparedCommit, tokenKey: \GetCommentsForComparedCommitOutput.nextToken, onPage: onPage)
     }
 
-    ///  Returns comments made on a pull request.
+    ///  Returns comments made on a pull request.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. 
     public func getCommentsForPullRequestPaginator(_ input: GetCommentsForPullRequestInput, onPage: @escaping (GetCommentsForPullRequestOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getCommentsForPullRequest, tokenKey: \GetCommentsForPullRequestOutput.nextToken, onPage: onPage)
     }
@@ -93,6 +98,18 @@ extension CodeCommit.DescribePullRequestEventsInput: AWSPaginateStringToken {
             nextToken: token, 
             pullRequestEventType: self.pullRequestEventType, 
             pullRequestId: self.pullRequestId
+        )
+
+    }
+}
+
+extension CodeCommit.GetCommentReactionsInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> CodeCommit.GetCommentReactionsInput {
+        return .init(
+            commentId: self.commentId, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            reactionUserArn: self.reactionUserArn
         )
 
     }

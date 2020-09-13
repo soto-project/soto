@@ -32,7 +32,7 @@ extension QLDBSession {
 
         /// Specifies the commit digest for the transaction to commit. For every active transaction, the commit digest must be passed. QLDB validates CommitDigest and rejects the commit with an error if the digest computed on the client does not match the digest computed by QLDB.
         public let commitDigest: Data
-        /// Specifies the transaction id of the transaction to commit.
+        /// Specifies the transaction ID of the transaction to commit.
         public let transactionId: String
 
         public init(commitDigest: Data, transactionId: String) {
@@ -60,7 +60,7 @@ extension QLDBSession {
 
         /// The commit digest of the committed transaction.
         public let commitDigest: Data?
-        /// The transaction id of the committed transaction.
+        /// The transaction ID of the committed transaction.
         public let transactionId: String?
 
         public init(commitDigest: Data? = nil, transactionId: String? = nil) {
@@ -101,7 +101,7 @@ extension QLDBSession {
         public let parameters: [ValueHolder]?
         /// Specifies the statement of the request.
         public let statement: String
-        /// Specifies the transaction id of the request.
+        /// Specifies the transaction ID of the request.
         public let transactionId: String
 
         public init(parameters: [ValueHolder]? = nil, statement: String, transactionId: String) {
@@ -153,7 +153,7 @@ extension QLDBSession {
 
         /// Specifies the next page token of the page to be fetched.
         public let nextPageToken: String
-        /// Specifies the transaction id of the page to be fetched.
+        /// Specifies the transaction ID of the page to be fetched.
         public let transactionId: String
 
         public init(nextPageToken: String, transactionId: String) {
@@ -377,7 +377,7 @@ extension QLDBSession {
             AWSShapeMember(label: "TransactionId", required: false, type: .string)
         ]
 
-        /// The transaction id of the started transaction.
+        /// The transaction ID of the started transaction.
         public let transactionId: String?
 
         public init(transactionId: String? = nil) {
@@ -395,9 +395,9 @@ extension QLDBSession {
             AWSShapeMember(label: "IonText", required: false, type: .string)
         ]
 
-        /// An Amazon Ion binary value contained in a ValueHolder structure. 
+        /// An Amazon Ion binary value contained in a ValueHolder structure.
         public let ionBinary: Data?
-        /// An Amazon Ion plaintext value contained in a ValueHolder structure. 
+        /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public let ionText: String?
 
         public init(ionBinary: Data? = nil, ionText: String? = nil) {

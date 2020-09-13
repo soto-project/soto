@@ -55,7 +55,7 @@ public struct GuardDuty {
         return client.send(operation: "ArchiveFindings", path: "/detector/{detectorId}/findings/archive", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region.
+    ///  Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.
     public func createDetector(_ input: CreateDetectorRequest) -> EventLoopFuture<CreateDetectorResponse> {
         return client.send(operation: "CreateDetector", path: "/detector", httpMethod: "POST", input: input)
     }
@@ -70,7 +70,7 @@ public struct GuardDuty {
         return client.send(operation: "CreateIPSet", path: "/detector/{detectorId}/ipset", httpMethod: "POST", input: input)
     }
 
-    ///  Creates member accounts of the current AWS account by specifying a list of AWS account IDs. The current AWS account can then invite these members to manage GuardDuty in their accounts.
+    ///  Creates member accounts of the current AWS account by specifying a list of AWS account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization master account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation use this action after GuardDuty has been enabled in potential member accounts and before using  Invite Members .
     public func createMembers(_ input: CreateMembersRequest) -> EventLoopFuture<CreateMembersResponse> {
         return client.send(operation: "CreateMembers", path: "/detector/{detectorId}/member", httpMethod: "POST", input: input)
     }
@@ -140,7 +140,7 @@ public struct GuardDuty {
         return client.send(operation: "DescribePublishingDestination", path: "/detector/{detectorId}/publishingDestination/{destinationId}", httpMethod: "GET", input: input)
     }
 
-    ///  Disables GuardDuty administrator permissions for an AWS account within the Organization.
+    ///  Disables an AWS account within the Organization as the GuardDuty delegated administrator.
     public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest) -> EventLoopFuture<DisableOrganizationAdminAccountResponse> {
         return client.send(operation: "DisableOrganizationAdminAccount", path: "/admin/disable", httpMethod: "POST", input: input)
     }
@@ -155,7 +155,7 @@ public struct GuardDuty {
         return client.send(operation: "DisassociateMembers", path: "/detector/{detectorId}/member/disassociate", httpMethod: "POST", input: input)
     }
 
-    ///  Enables GuardDuty administrator permissions for an AWS account within the organization.
+    ///  Enables an AWS account within the organization as the GuardDuty delegated administrator.
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest) -> EventLoopFuture<EnableOrganizationAdminAccountResponse> {
         return client.send(operation: "EnableOrganizationAdminAccount", path: "/admin/enable", httpMethod: "POST", input: input)
     }
@@ -195,6 +195,11 @@ public struct GuardDuty {
         return client.send(operation: "GetMasterAccount", path: "/detector/{detectorId}/master", httpMethod: "GET", input: input)
     }
 
+    ///  Describes which data sources are enabled for the member account's detector.
+    public func getMemberDetectors(_ input: GetMemberDetectorsRequest) -> EventLoopFuture<GetMemberDetectorsResponse> {
+        return client.send(operation: "GetMemberDetectors", path: "/detector/{detectorId}/member/detector/get", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves GuardDuty member accounts (to the current GuardDuty master account) specified by the account IDs.
     public func getMembers(_ input: GetMembersRequest) -> EventLoopFuture<GetMembersResponse> {
         return client.send(operation: "GetMembers", path: "/detector/{detectorId}/member/get", httpMethod: "POST", input: input)
@@ -203,6 +208,11 @@ public struct GuardDuty {
     ///  Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
     public func getThreatIntelSet(_ input: GetThreatIntelSetRequest) -> EventLoopFuture<GetThreatIntelSetResponse> {
         return client.send(operation: "GetThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources the cost returned will include only the usage so far under 30 days, this may differ from the cost metrics in the console, which projects usage over 30 days to provide a monthly cost estimate. For more information see Understanding How Usage Costs are Calculated.
+    public func getUsageStatistics(_ input: GetUsageStatisticsRequest) -> EventLoopFuture<GetUsageStatisticsResponse> {
+        return client.send(operation: "GetUsageStatistics", path: "/detector/{detectorId}/usage/statistics", httpMethod: "POST", input: input)
     }
 
     ///  Invites other AWS accounts (created as members of the current AWS account by CreateMembers) to enable GuardDuty, and allow the current AWS account to view and manage these accounts' GuardDuty findings on their behalf as the master account.
@@ -235,12 +245,12 @@ public struct GuardDuty {
         return client.send(operation: "ListInvitations", path: "/invitation", httpMethod: "GET", input: input)
     }
 
-    ///  Lists details about associated member accounts for the current GuardDuty master account.
+    ///  Lists details about all member accounts for the current GuardDuty master account.
     public func listMembers(_ input: ListMembersRequest) -> EventLoopFuture<ListMembersResponse> {
         return client.send(operation: "ListMembers", path: "/detector/{detectorId}/member", httpMethod: "GET", input: input)
     }
 
-    ///  Lists the accounts configured as AWS Organization delegated administrators.
+    ///  Lists the accounts configured as GuardDuty delegated administrators.
     public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest) -> EventLoopFuture<ListOrganizationAdminAccountsResponse> {
         return client.send(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: "GET", input: input)
     }
@@ -303,6 +313,11 @@ public struct GuardDuty {
     ///  Updates the IPSet specified by the IPSet ID.
     public func updateIPSet(_ input: UpdateIPSetRequest) -> EventLoopFuture<UpdateIPSetResponse> {
         return client.send(operation: "UpdateIPSet", path: "/detector/{detectorId}/ipset/{ipSetId}", httpMethod: "POST", input: input)
+    }
+
+    ///  Contains information on member accounts to be updated.
+    public func updateMemberDetectors(_ input: UpdateMemberDetectorsRequest) -> EventLoopFuture<UpdateMemberDetectorsResponse> {
+        return client.send(operation: "UpdateMemberDetectors", path: "/detector/{detectorId}/member/detector/update", httpMethod: "POST", input: input)
     }
 
     ///  Updates the delegated administrator account with the values provided.

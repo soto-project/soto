@@ -26,12 +26,12 @@ extension ServiceCatalog {
         return client.paginate(input: input, command: listLaunchPaths, tokenKey: \ListLaunchPathsOutput.nextPageToken, onPage: onPage)
     }
 
-    ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization.
+    ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
     public func listOrganizationPortfolioAccessPaginator(_ input: ListOrganizationPortfolioAccessInput, onPage: @escaping (ListOrganizationPortfolioAccessOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOrganizationPortfolioAccess, tokenKey: \ListOrganizationPortfolioAccessOutput.nextPageToken, onPage: onPage)
     }
 
-    ///  Lists the account IDs that have access to the specified portfolio.
+    ///  Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
     public func listPortfolioAccessPaginator(_ input: ListPortfolioAccessInput, onPage: @escaping (ListPortfolioAccessOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPortfolioAccess, tokenKey: \ListPortfolioAccessOutput.nextPageToken, onPage: onPage)
     }
