@@ -13,7 +13,7 @@ Table of Contents
 - [Swift Package Manager](#swift-package-manager)
 - [Compatibility](#compatibility)
 - [Configuring Credentials](#configuring-credentials)
-- [Using AWSSDKSwift](#using-awssdkswift)
+- [Using Soto](#using-soto)
 - [Documentation](#documentation)
     - [API Reference](#api-reference)
     - [User guides](#user-guides)
@@ -78,7 +78,7 @@ Each Soto command returns a [swift-nio](https://github.com/apple/swift-nio) `Eve
 The recommended manner to interact with `EventLoopFutures` is chaining. The following function returns an `EventLoopFuture` that creates an S3 bucket, puts a file in the bucket, reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next.
 
 ```swift
-import AWSS3 //ensure this module is specified as a dependency in your package.swift
+import SotoS3 //ensure this module is specified as a dependency in your package.swift
 
 let bucket = "my-bucket"
 
@@ -122,14 +122,14 @@ Visit the Soto [documentation](https://soto-project.github.io/soto/index.html) t
 
 ### User guides
 
-Additional user guides for specific elements of AWS SDK Swift are available
+Additional user guides for specific elements of Soto are available
 
 - [AWSClient and Service Objects](documentation/AWSClient%20and%20Services.md)
 - [Credential Providers](documentation/Credential%20Providers.md)
 - [Streaming Payloads](documentation/Streaming%20Payloads.md)
 - [DynamoDB and Codable](documentation/DynamoDB%20and%20Codable.md)
 - [S3 Multipart Upload](documentation/S3%20Multipart%20Upload.md)
-- [Using AWSSDKSwift with Vapor](documentation/Using%20AWSSDKSwift%20with%20Vapor%204.md)
+- [Using Soto with Vapor 4](documentation/Using%20Soto%20with%20Vapor.md)
 
 ## Contributing
 

@@ -1,10 +1,10 @@
 # Streaming Payloads
 
-When uploading or downloading large blocks of data it is preferable if you can stream this data instead of holding it all in memory. AWSSDKSwift supplies methods for streaming raw data payloads of both requests to AWS and responses from AWS. The most common use of this would be when uploading or downloading large objects to S3.
+When uploading or downloading large blocks of data it is preferable if you can stream this data instead of holding it all in memory. Soto supplies methods for streaming raw data payloads of both requests to AWS and responses from AWS. The most common use of this would be when uploading or downloading large objects to S3.
 
 ## Payload object
 
-All raw data payloads in AWSSDKSwift are represented by an `AWSPayload` object. This can be initialized with `Data`, `String`, `ByteBuffer` or a stream closure that provides chunks of a raw payload.
+All raw data payloads in Soto are represented by an `AWSPayload` object. This can be initialized with `Data`, `String`, `ByteBuffer` or a stream closure that provides chunks of a raw payload.
 
 ## Request streaming
 
@@ -23,7 +23,7 @@ If you provide too much data an error will be thrown. If no size is specified in
 
 ### File uploading
 
-Given that streaming files is probably the most common operation. AWSSDKSwift provides a wrapper for `AWSPayload.stream` that uploads a file. You need to provide it with `NIOFileHandle` and `NonBlockingFileIO`. Checkout Swift NIO documentation on these [here](https://apple.github.io/swift-nio/docs/current/NIO/Structs/NonBlockingFileIO.html). Again if the operation requires a `size`, as all S3 operations do, you will have to supply that. Assuming you have all of the above, you can upload a file to S3 with the following.
+Given that streaming files is probably the most common operation. Soto provides a wrapper for `AWSPayload.stream` that uploads a file. You need to provide it with `NIOFileHandle` and `NonBlockingFileIO`. Checkout Swift NIO documentation on these [here](https://apple.github.io/swift-nio/docs/current/NIO/Structs/NonBlockingFileIO.html). Again if the operation requires a `size`, as all S3 operations do, you will have to supply that. Assuming you have all of the above, you can upload a file to S3 with the following.
 
 ```swift
 let request = S3.PutObjectRequest(

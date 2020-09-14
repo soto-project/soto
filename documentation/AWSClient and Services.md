@@ -1,6 +1,6 @@
 # AWSClient
 
-The `AWSClient` is the core of AWSSDKSwift. This is the object that manages your communication with AWS. It manages credential acqusition, takes your request, encodes it, signs it, sends it to AWS and then decodes the response for you. In most situations your application should only require one `AWSClient` . Create this at startup and use it throughout.
+The `AWSClient` is the core of Soto. This is the object that manages your communication with AWS. It manages credential acqusition, takes your request, encodes it, signs it, sends it to AWS and then decodes the response for you. In most situations your application should only require one `AWSClient` . Create this at startup and use it throughout.
 
 The `init` for `AWSClient` is as follows. Below I provide some details on what each of parameter is.
 ```swift
@@ -55,13 +55,13 @@ The AWSClient requires you shut it down manually before it is deleted. The manua
 
 # AWS Service Objects
 
-In AWSSDKSwift each AWS Service has a service object. This object brings together an `AWSClient` and a service configuration `AWSServiceConfig` and provides methods for accessing all the operations available from that service.
+In Soto each AWS Service has a service object. This object brings together an `AWSClient` and a service configuration `AWSServiceConfig` and provides methods for accessing all the operations available from that service.
 
 The `init` for each service is as follows. Again details about each parameter are available below.
 ```swift
 public init(
     client: AWSClient,
-    region: AWSSDKSwiftCore.Region? = nil,
+    region: SotoCore.Region? = nil,
     partition: AWSPartition = .aws,
     endpoint: String? = nil,
     timeout: TimeAmount? = nil,
@@ -75,7 +75,7 @@ The client is the `AWSClient` this service object will use when communicating wi
 
 #### Region and Partition
 
-The `region` defines which AWS region servers you want to communicate with. The `partition` defines which set of AWS server regions you want to work with. Partitions include the standard `.aws`, US government `.awsusgov` and China `.awscn`. If you provide a `region` the `partition` parameter is ignored. If you don't supply a `region` then the `region` will be set as the default region for the specified `partition`, if that is not defined it will check the `AWS_DEFAULT_REGION` environment variable or default to `us-east-1`. 
+The `region` defines which AWS region servers you want to communicate with. The `partition` defines which set of AWS server regions you want to work with. Partitions include the standard `.aws`, US government `.awsusgov` and China `.awscn`. If you provide a `region` the `partition` parameter is ignored. If you don't supply a `region` then the `region` will be set as the default region for the specified `partition`, if that is not defined it will check the `AWS_DEFAULT_REGION` environment variable or default to `us-east-1`.
 
 Some services do not have a `region` parameter in their initializer eg IAM. These services require you to communicate with one global region which is defined by the service. You can still control which partition you connect to though.
 
