@@ -163,7 +163,7 @@ final class MyController {
 
                 let destination = SES.Destination(toAddresses: [emailData.address])
                 let message = SES.Message(body:SES.Body(text:SES.Content(data:emailData.message)), subject:SES.Content(data:emailData.subject))
-                let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"awssdkswift@me.com")
+                let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"soto@me.com")
 
                 return client.sendEmail(sendEmailRequest)
             }
