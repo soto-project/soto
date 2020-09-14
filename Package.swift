@@ -31,6 +31,7 @@ let package = Package(
         .library(name: "SotoAppMesh", targets: ["SotoAppMesh"]),
         .library(name: "SotoAppStream", targets: ["SotoAppStream"]),
         .library(name: "SotoAppSync", targets: ["SotoAppSync"]),
+        .library(name: "SotoAppflow", targets: ["SotoAppflow"]),
         .library(name: "SotoApplicationAutoScaling", targets: ["SotoApplicationAutoScaling"]),
         .library(name: "SotoApplicationDiscoveryService", targets: ["SotoApplicationDiscoveryService"]),
         .library(name: "SotoApplicationInsights", targets: ["SotoApplicationInsights"]),
@@ -122,6 +123,7 @@ let package = Package(
         .library(name: "SotoHoneycode", targets: ["SotoHoneycode"]),
         .library(name: "SotoIAM", targets: ["SotoIAM"]),
         .library(name: "SotoIVS", targets: ["SotoIVS"]),
+        .library(name: "SotoIdentityStore", targets: ["SotoIdentityStore"]),
         .library(name: "SotoImagebuilder", targets: ["SotoImagebuilder"]),
         .library(name: "SotoImportExport", targets: ["SotoImportExport"]),
         .library(name: "SotoInspector", targets: ["SotoInspector"]),
@@ -196,6 +198,7 @@ let package = Package(
         .library(name: "SotoRDS", targets: ["SotoRDS"]),
         .library(name: "SotoRDSDataService", targets: ["SotoRDSDataService"]),
         .library(name: "SotoRedshift", targets: ["SotoRedshift"]),
+        .library(name: "SotoRedshiftDataAPIService", targets: ["SotoRedshiftDataAPIService"]),
         .library(name: "SotoRekognition", targets: ["SotoRekognition"]),
         .library(name: "SotoResourceGroups", targets: ["SotoResourceGroups"]),
         .library(name: "SotoResourceGroupsTaggingAPI", targets: ["SotoResourceGroupsTaggingAPI"]),
@@ -213,6 +216,7 @@ let package = Package(
         .library(name: "SotoSQS", targets: ["SotoSQS"]),
         .library(name: "SotoSSM", targets: ["SotoSSM"]),
         .library(name: "SotoSSO", targets: ["SotoSSO"]),
+        .library(name: "SotoSSOAdmin", targets: ["SotoSSOAdmin"]),
         .library(name: "SotoSSOOIDC", targets: ["SotoSSOOIDC"]),
         .library(name: "SotoSTS", targets: ["SotoSTS"]),
         .library(name: "SotoSWF", targets: ["SotoSWF"]),
@@ -246,10 +250,10 @@ let package = Package(
         .library(name: "SotoWorkMail", targets: ["SotoWorkMail"]),
         .library(name: "SotoWorkMailMessageFlow", targets: ["SotoWorkMailMessageFlow"]),
         .library(name: "SotoWorkSpaces", targets: ["SotoWorkSpaces"]),
-        .library(name: "SotoXRay", targets: ["SotoXRay"]),
+        .library(name: "SotoXRay", targets: ["SotoXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", .branch("main")),
+        .package(url: "https://github.com/soto-project/soto-core.git", .branch("main"))
     ],
     targets: [
         .target(name: "SotoACM", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/ACM"),
@@ -264,6 +268,7 @@ let package = Package(
         .target(name: "SotoAppMesh", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/AppMesh"),
         .target(name: "SotoAppStream", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/AppStream"),
         .target(name: "SotoAppSync", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/AppSync"),
+        .target(name: "SotoAppflow", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Appflow"),
         .target(name: "SotoApplicationAutoScaling", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/ApplicationAutoScaling"),
         .target(name: "SotoApplicationDiscoveryService", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/ApplicationDiscoveryService"),
         .target(name: "SotoApplicationInsights", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/ApplicationInsights"),
@@ -355,6 +360,7 @@ let package = Package(
         .target(name: "SotoHoneycode", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Honeycode"),
         .target(name: "SotoIAM", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/IAM"),
         .target(name: "SotoIVS", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/IVS"),
+        .target(name: "SotoIdentityStore", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/IdentityStore"),
         .target(name: "SotoImagebuilder", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Imagebuilder"),
         .target(name: "SotoImportExport", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/ImportExport"),
         .target(name: "SotoInspector", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Inspector"),
@@ -429,6 +435,7 @@ let package = Package(
         .target(name: "SotoRDS", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/RDS"),
         .target(name: "SotoRDSDataService", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/RDSDataService"),
         .target(name: "SotoRedshift", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Redshift"),
+        .target(name: "SotoRedshiftDataAPIService", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/RedshiftDataAPIService"),
         .target(name: "SotoRekognition", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Rekognition"),
         .target(name: "SotoResourceGroups", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/ResourceGroups"),
         .target(name: "SotoResourceGroupsTaggingAPI", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/ResourceGroupsTaggingAPI"),
@@ -446,6 +453,7 @@ let package = Package(
         .target(name: "SotoSQS", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/SQS"),
         .target(name: "SotoSSM", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/SSM"),
         .target(name: "SotoSSO", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/SSO"),
+        .target(name: "SotoSSOAdmin", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/SSOAdmin"),
         .target(name: "SotoSSOOIDC", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/SSOOIDC"),
         .target(name: "SotoSTS", dependencies: ["SotoCore"], path: "./Sources/Soto/", sources: ["Services/STS", "Extensions/STS"]),
         .target(name: "SotoSWF", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/SWF"),
@@ -496,7 +504,7 @@ let package = Package(
             "SotoSNS",
             "SotoSQS",
             "SotoSSM",
-            "SotoSTS",
-        ]),
+            "SotoSTS"
+        ])
     ]
 )
