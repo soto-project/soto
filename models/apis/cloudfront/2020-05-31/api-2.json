@@ -231,6 +231,19 @@
         {"shape":"InconsistentQuantities"}
       ]
     },
+    "CreateMonitoringSubscription":{
+      "name":"CreateMonitoringSubscription2020_05_31",
+      "http":{
+        "method":"POST",
+        "requestUri":"/2020-05-31/distributions/{DistributionId}/monitoring-subscription"
+      },
+      "input":{"shape":"CreateMonitoringSubscriptionRequest"},
+      "output":{"shape":"CreateMonitoringSubscriptionResult"},
+      "errors":[
+        {"shape":"AccessDenied"},
+        {"shape":"NoSuchDistribution"}
+      ]
+    },
     "CreateOriginRequestPolicy":{
       "name":"CreateOriginRequestPolicy2020_05_31",
       "http":{
@@ -264,6 +277,25 @@
         {"shape":"PublicKeyAlreadyExists"},
         {"shape":"InvalidArgument"},
         {"shape":"TooManyPublicKeys"}
+      ]
+    },
+    "CreateRealtimeLogConfig":{
+      "name":"CreateRealtimeLogConfig2020_05_31",
+      "http":{
+        "method":"POST",
+        "requestUri":"/2020-05-31/realtime-log-config",
+        "responseCode":201
+      },
+      "input":{
+        "shape":"CreateRealtimeLogConfigRequest",
+        "locationName":"CreateRealtimeLogConfigRequest",
+        "xmlNamespace":{"uri":"http://cloudfront.amazonaws.com/doc/2020-05-31/"}
+      },
+      "output":{"shape":"CreateRealtimeLogConfigResult"},
+      "errors":[
+        {"shape":"RealtimeLogConfigAlreadyExists"},
+        {"shape":"TooManyRealtimeLogConfigs"},
+        {"shape":"InvalidArgument"}
       ]
     },
     "CreateStreamingDistribution":{
@@ -396,6 +428,19 @@
         {"shape":"FieldLevelEncryptionProfileInUse"}
       ]
     },
+    "DeleteMonitoringSubscription":{
+      "name":"DeleteMonitoringSubscription2020_05_31",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/2020-05-31/distributions/{DistributionId}/monitoring-subscription"
+      },
+      "input":{"shape":"DeleteMonitoringSubscriptionRequest"},
+      "output":{"shape":"DeleteMonitoringSubscriptionResult"},
+      "errors":[
+        {"shape":"AccessDenied"},
+        {"shape":"NoSuchDistribution"}
+      ]
+    },
     "DeleteOriginRequestPolicy":{
       "name":"DeleteOriginRequestPolicy2020_05_31",
       "http":{
@@ -427,6 +472,24 @@
         {"shape":"InvalidIfMatchVersion"},
         {"shape":"NoSuchPublicKey"},
         {"shape":"PreconditionFailed"}
+      ]
+    },
+    "DeleteRealtimeLogConfig":{
+      "name":"DeleteRealtimeLogConfig2020_05_31",
+      "http":{
+        "method":"POST",
+        "requestUri":"/2020-05-31/delete-realtime-log-config/",
+        "responseCode":204
+      },
+      "input":{
+        "shape":"DeleteRealtimeLogConfigRequest",
+        "locationName":"DeleteRealtimeLogConfigRequest",
+        "xmlNamespace":{"uri":"http://cloudfront.amazonaws.com/doc/2020-05-31/"}
+      },
+      "errors":[
+        {"shape":"NoSuchRealtimeLogConfig"},
+        {"shape":"RealtimeLogConfigInUse"},
+        {"shape":"InvalidArgument"}
       ]
     },
     "DeleteStreamingDistribution":{
@@ -589,6 +652,19 @@
         {"shape":"AccessDenied"}
       ]
     },
+    "GetMonitoringSubscription":{
+      "name":"GetMonitoringSubscription2020_05_31",
+      "http":{
+        "method":"GET",
+        "requestUri":"/2020-05-31/distributions/{DistributionId}/monitoring-subscription"
+      },
+      "input":{"shape":"GetMonitoringSubscriptionRequest"},
+      "output":{"shape":"GetMonitoringSubscriptionResult"},
+      "errors":[
+        {"shape":"AccessDenied"},
+        {"shape":"NoSuchDistribution"}
+      ]
+    },
     "GetOriginRequestPolicy":{
       "name":"GetOriginRequestPolicy2020_05_31",
       "http":{
@@ -639,6 +715,23 @@
       "errors":[
         {"shape":"AccessDenied"},
         {"shape":"NoSuchPublicKey"}
+      ]
+    },
+    "GetRealtimeLogConfig":{
+      "name":"GetRealtimeLogConfig2020_05_31",
+      "http":{
+        "method":"POST",
+        "requestUri":"/2020-05-31/get-realtime-log-config/"
+      },
+      "input":{
+        "shape":"GetRealtimeLogConfigRequest",
+        "locationName":"GetRealtimeLogConfigRequest",
+        "xmlNamespace":{"uri":"http://cloudfront.amazonaws.com/doc/2020-05-31/"}
+      },
+      "output":{"shape":"GetRealtimeLogConfigResult"},
+      "errors":[
+        {"shape":"NoSuchRealtimeLogConfig"},
+        {"shape":"InvalidArgument"}
       ]
     },
     "GetStreamingDistribution":{
@@ -733,6 +826,22 @@
         {"shape":"AccessDenied"}
       ]
     },
+    "ListDistributionsByRealtimeLogConfig":{
+      "name":"ListDistributionsByRealtimeLogConfig2020_05_31",
+      "http":{
+        "method":"POST",
+        "requestUri":"/2020-05-31/distributionsByRealtimeLogConfig/"
+      },
+      "input":{
+        "shape":"ListDistributionsByRealtimeLogConfigRequest",
+        "locationName":"ListDistributionsByRealtimeLogConfigRequest",
+        "xmlNamespace":{"uri":"http://cloudfront.amazonaws.com/doc/2020-05-31/"}
+      },
+      "output":{"shape":"ListDistributionsByRealtimeLogConfigResult"},
+      "errors":[
+        {"shape":"InvalidArgument"}
+      ]
+    },
     "ListDistributionsByWebACLId":{
       "name":"ListDistributionsByWebACLId2020_05_31",
       "http":{
@@ -809,6 +918,15 @@
       "errors":[
         {"shape":"InvalidArgument"}
       ]
+    },
+    "ListRealtimeLogConfigs":{
+      "name":"ListRealtimeLogConfigs2020_05_31",
+      "http":{
+        "method":"GET",
+        "requestUri":"/2020-05-31/realtime-log-config"
+      },
+      "input":{"shape":"ListRealtimeLogConfigsRequest"},
+      "output":{"shape":"ListRealtimeLogConfigsResult"}
     },
     "ListStreamingDistributions":{
       "name":"ListStreamingDistributions2020_05_31",
@@ -1053,6 +1171,23 @@
         {"shape":"PreconditionFailed"}
       ]
     },
+    "UpdateRealtimeLogConfig":{
+      "name":"UpdateRealtimeLogConfig2020_05_31",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/2020-05-31/realtime-log-config/"
+      },
+      "input":{
+        "shape":"UpdateRealtimeLogConfigRequest",
+        "locationName":"UpdateRealtimeLogConfigRequest",
+        "xmlNamespace":{"uri":"http://cloudfront.amazonaws.com/doc/2020-05-31/"}
+      },
+      "output":{"shape":"UpdateRealtimeLogConfigResult"},
+      "errors":[
+        {"shape":"NoSuchRealtimeLogConfig"},
+        {"shape":"InvalidArgument"}
+      ]
+    },
     "UpdateStreamingDistribution":{
       "name":"UpdateStreamingDistribution2020_05_31",
       "http":{
@@ -1181,6 +1316,7 @@
         "Compress":{"shape":"boolean"},
         "LambdaFunctionAssociations":{"shape":"LambdaFunctionAssociations"},
         "FieldLevelEncryptionId":{"shape":"string"},
+        "RealtimeLogConfigArn":{"shape":"string"},
         "CachePolicyId":{"shape":"string"},
         "OriginRequestPolicyId":{"shape":"string"},
         "ForwardedValues":{
@@ -1718,6 +1854,33 @@
       },
       "payload":"Invalidation"
     },
+    "CreateMonitoringSubscriptionRequest":{
+      "type":"structure",
+      "required":[
+        "MonitoringSubscription",
+        "DistributionId"
+      ],
+      "members":{
+        "DistributionId":{
+          "shape":"string",
+          "location":"uri",
+          "locationName":"DistributionId"
+        },
+        "MonitoringSubscription":{
+          "shape":"MonitoringSubscription",
+          "locationName":"MonitoringSubscription",
+          "xmlNamespace":{"uri":"http://cloudfront.amazonaws.com/doc/2020-05-31/"}
+        }
+      },
+      "payload":"MonitoringSubscription"
+    },
+    "CreateMonitoringSubscriptionResult":{
+      "type":"structure",
+      "members":{
+        "MonitoringSubscription":{"shape":"MonitoringSubscription"}
+      },
+      "payload":"MonitoringSubscription"
+    },
     "CreateOriginRequestPolicyRequest":{
       "type":"structure",
       "required":["OriginRequestPolicyConfig"],
@@ -1775,6 +1938,27 @@
         }
       },
       "payload":"PublicKey"
+    },
+    "CreateRealtimeLogConfigRequest":{
+      "type":"structure",
+      "required":[
+        "EndPoints",
+        "Fields",
+        "Name",
+        "SamplingRate"
+      ],
+      "members":{
+        "EndPoints":{"shape":"EndPointList"},
+        "Fields":{"shape":"FieldList"},
+        "Name":{"shape":"string"},
+        "SamplingRate":{"shape":"long"}
+      }
+    },
+    "CreateRealtimeLogConfigResult":{
+      "type":"structure",
+      "members":{
+        "RealtimeLogConfig":{"shape":"RealtimeLogConfig"}
+      }
     },
     "CreateStreamingDistributionRequest":{
       "type":"structure",
@@ -1899,6 +2083,7 @@
         "Compress":{"shape":"boolean"},
         "LambdaFunctionAssociations":{"shape":"LambdaFunctionAssociations"},
         "FieldLevelEncryptionId":{"shape":"string"},
+        "RealtimeLogConfigArn":{"shape":"string"},
         "CachePolicyId":{"shape":"string"},
         "OriginRequestPolicyId":{"shape":"string"},
         "ForwardedValues":{
@@ -1999,6 +2184,22 @@
         }
       }
     },
+    "DeleteMonitoringSubscriptionRequest":{
+      "type":"structure",
+      "required":["DistributionId"],
+      "members":{
+        "DistributionId":{
+          "shape":"string",
+          "location":"uri",
+          "locationName":"DistributionId"
+        }
+      }
+    },
+    "DeleteMonitoringSubscriptionResult":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "DeleteOriginRequestPolicyRequest":{
       "type":"structure",
       "required":["Id"],
@@ -2029,6 +2230,13 @@
           "location":"header",
           "locationName":"If-Match"
         }
+      }
+    },
+    "DeleteRealtimeLogConfigRequest":{
+      "type":"structure",
+      "members":{
+        "Name":{"shape":"string"},
+        "ARN":{"shape":"string"}
       }
     },
     "DeleteStreamingDistributionRequest":{
@@ -2248,6 +2456,18 @@
         "locationName":"EncryptionEntity"
       }
     },
+    "EndPoint":{
+      "type":"structure",
+      "required":["StreamType"],
+      "members":{
+        "StreamType":{"shape":"string"},
+        "KinesisStreamConfig":{"shape":"KinesisStreamConfig"}
+      }
+    },
+    "EndPointList":{
+      "type":"list",
+      "member":{"shape":"EndPoint"}
+    },
     "EventType":{
       "type":"string",
       "enum":[
@@ -2415,6 +2635,13 @@
       "member":{
         "shape":"FieldLevelEncryptionSummary",
         "locationName":"FieldLevelEncryptionSummary"
+      }
+    },
+    "FieldList":{
+      "type":"list",
+      "member":{
+        "shape":"string",
+        "locationName":"Field"
       }
     },
     "FieldPatternList":{
@@ -2725,6 +2952,24 @@
       },
       "payload":"Invalidation"
     },
+    "GetMonitoringSubscriptionRequest":{
+      "type":"structure",
+      "required":["DistributionId"],
+      "members":{
+        "DistributionId":{
+          "shape":"string",
+          "location":"uri",
+          "locationName":"DistributionId"
+        }
+      }
+    },
+    "GetMonitoringSubscriptionResult":{
+      "type":"structure",
+      "members":{
+        "MonitoringSubscription":{"shape":"MonitoringSubscription"}
+      },
+      "payload":"MonitoringSubscription"
+    },
     "GetOriginRequestPolicyConfigRequest":{
       "type":"structure",
       "required":["Id"],
@@ -2816,6 +3061,19 @@
         }
       },
       "payload":"PublicKey"
+    },
+    "GetRealtimeLogConfigRequest":{
+      "type":"structure",
+      "members":{
+        "Name":{"shape":"string"},
+        "ARN":{"shape":"string"}
+      }
+    },
+    "GetRealtimeLogConfigResult":{
+      "type":"structure",
+      "members":{
+        "RealtimeLogConfig":{"shape":"RealtimeLogConfig"}
+      }
     },
     "GetStreamingDistributionConfigRequest":{
       "type":"structure",
@@ -3195,6 +3453,17 @@
         "Items":{"shape":"KeyPairIdList"}
       }
     },
+    "KinesisStreamConfig":{
+      "type":"structure",
+      "required":[
+        "RoleARN",
+        "StreamARN"
+      ],
+      "members":{
+        "RoleARN":{"shape":"string"},
+        "StreamARN":{"shape":"string"}
+      }
+    },
     "LambdaFunctionARN":{"type":"string"},
     "LambdaFunctionAssociation":{
       "type":"structure",
@@ -3327,6 +3596,22 @@
         "DistributionIdList":{"shape":"DistributionIdList"}
       },
       "payload":"DistributionIdList"
+    },
+    "ListDistributionsByRealtimeLogConfigRequest":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"string"},
+        "MaxItems":{"shape":"string"},
+        "RealtimeLogConfigName":{"shape":"string"},
+        "RealtimeLogConfigArn":{"shape":"string"}
+      }
+    },
+    "ListDistributionsByRealtimeLogConfigResult":{
+      "type":"structure",
+      "members":{
+        "DistributionList":{"shape":"DistributionList"}
+      },
+      "payload":"DistributionList"
     },
     "ListDistributionsByWebACLIdRequest":{
       "type":"structure",
@@ -3499,6 +3784,28 @@
       },
       "payload":"PublicKeyList"
     },
+    "ListRealtimeLogConfigsRequest":{
+      "type":"structure",
+      "members":{
+        "MaxItems":{
+          "shape":"string",
+          "location":"querystring",
+          "locationName":"MaxItems"
+        },
+        "Marker":{
+          "shape":"string",
+          "location":"querystring",
+          "locationName":"Marker"
+        }
+      }
+    },
+    "ListRealtimeLogConfigsResult":{
+      "type":"structure",
+      "members":{
+        "RealtimeLogConfigs":{"shape":"RealtimeLogConfigs"}
+      },
+      "payload":"RealtimeLogConfigs"
+    },
     "ListStreamingDistributionsRequest":{
       "type":"structure",
       "members":{
@@ -3600,6 +3907,12 @@
       "error":{"httpStatusCode":400},
       "exception":true
     },
+    "MonitoringSubscription":{
+      "type":"structure",
+      "members":{
+        "RealtimeMetricsSubscriptionConfig":{"shape":"RealtimeMetricsSubscriptionConfig"}
+      }
+    },
     "NoSuchCachePolicy":{
       "type":"structure",
       "members":{
@@ -3665,6 +3978,14 @@
       "exception":true
     },
     "NoSuchPublicKey":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"string"}
+      },
+      "error":{"httpStatusCode":404},
+      "exception":true
+    },
+    "NoSuchRealtimeLogConfig":{
       "type":"structure",
       "members":{
         "Message":{"shape":"string"}
@@ -3965,6 +4286,7 @@
       ],
       "members":{
         "EnableAcceptEncodingGzip":{"shape":"boolean"},
+        "EnableAcceptEncodingBrotli":{"shape":"boolean"},
         "HeadersConfig":{"shape":"CachePolicyHeadersConfig"},
         "CookiesConfig":{"shape":"CachePolicyCookiesConfig"},
         "QueryStringsConfig":{"shape":"CachePolicyQueryStringsConfig"}
@@ -4152,6 +4474,72 @@
         "locationName":"Name"
       }
     },
+    "RealtimeLogConfig":{
+      "type":"structure",
+      "required":[
+        "ARN",
+        "Name",
+        "SamplingRate",
+        "EndPoints",
+        "Fields"
+      ],
+      "members":{
+        "ARN":{"shape":"string"},
+        "Name":{"shape":"string"},
+        "SamplingRate":{"shape":"long"},
+        "EndPoints":{"shape":"EndPointList"},
+        "Fields":{"shape":"FieldList"}
+      }
+    },
+    "RealtimeLogConfigAlreadyExists":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"string"}
+      },
+      "error":{"httpStatusCode":409},
+      "exception":true
+    },
+    "RealtimeLogConfigInUse":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"string"}
+      },
+      "error":{"httpStatusCode":400},
+      "exception":true
+    },
+    "RealtimeLogConfigList":{
+      "type":"list",
+      "member":{"shape":"RealtimeLogConfig"}
+    },
+    "RealtimeLogConfigs":{
+      "type":"structure",
+      "required":[
+        "MaxItems",
+        "IsTruncated",
+        "Marker"
+      ],
+      "members":{
+        "MaxItems":{"shape":"integer"},
+        "Items":{"shape":"RealtimeLogConfigList"},
+        "IsTruncated":{"shape":"boolean"},
+        "Marker":{"shape":"string"},
+        "NextMarker":{"shape":"string"}
+      }
+    },
+    "RealtimeMetricsSubscriptionConfig":{
+      "type":"structure",
+      "required":["RealtimeMetricsSubscriptionStatus"],
+      "members":{
+        "RealtimeMetricsSubscriptionStatus":{"shape":"RealtimeMetricsSubscriptionStatus"}
+      }
+    },
+    "RealtimeMetricsSubscriptionStatus":{
+      "type":"string",
+      "enum":[
+        "Enabled",
+        "Disabled"
+      ]
+    },
     "ResourceARN":{
       "type":"string",
       "pattern":"arn:aws(-cn)?:cloudfront::[0-9]+:.*"
@@ -4185,7 +4573,8 @@
       "type":"string",
       "enum":[
         "sni-only",
-        "vip"
+        "vip",
+        "static-ip"
       ]
     },
     "Signer":{
@@ -4700,6 +5089,14 @@
       "error":{"httpStatusCode":400},
       "exception":true
     },
+    "TooManyRealtimeLogConfigs":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"string"}
+      },
+      "error":{"httpStatusCode":400},
+      "exception":true
+    },
     "TooManyStreamingDistributionCNAMEs":{
       "type":"structure",
       "members":{
@@ -5022,6 +5419,22 @@
         }
       },
       "payload":"PublicKey"
+    },
+    "UpdateRealtimeLogConfigRequest":{
+      "type":"structure",
+      "members":{
+        "EndPoints":{"shape":"EndPointList"},
+        "Fields":{"shape":"FieldList"},
+        "Name":{"shape":"string"},
+        "ARN":{"shape":"string"},
+        "SamplingRate":{"shape":"long"}
+      }
+    },
+    "UpdateRealtimeLogConfigResult":{
+      "type":"structure",
+      "members":{
+        "RealtimeLogConfig":{"shape":"RealtimeLogConfig"}
+      }
     },
     "UpdateStreamingDistributionRequest":{
       "type":"structure",
