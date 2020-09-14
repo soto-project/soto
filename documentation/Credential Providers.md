@@ -1,6 +1,6 @@
 # Credential Providers
 
-Before using AWS SDK, you will need AWS credentials to sign all your requests. The main client object  `AWSClient` accepts a `credentialProvider` parameter in its `init`. With this you can specify how the client should find AWS credentials. The default if you don't set the `credentialProvider` parameter is to select a method from the four methods listed below. Each method is tested in the order they are listed below and the first that is successful is chosen. If you are running on a Mac it does not bother with the ECS or EC2 methods as they would obviously fail.
+Before using Soto, you will need AWS credentials to sign all your requests. The main client object  `AWSClient` accepts a `credentialProvider` parameter in its `init`. With this you can specify how the client should find AWS credentials. The default if you don't set the `credentialProvider` parameter is to select a method from the four methods listed below. Each method is tested in the order they are listed below and the first that is successful is chosen. If you are running on a Mac it does not bother with the ECS or EC2 methods as they would obviously fail.
 
 ### Load Credentials from Environment Variable
 
