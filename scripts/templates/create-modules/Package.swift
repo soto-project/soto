@@ -8,7 +8,7 @@ let package = Package(
         .library(name: "{{name}}", targets: ["{{name}}"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .upToNextMinor(from: "{{version}}"))
+        .package(url: "https://github.com/soto-project/soto-core.git", .upToNextMinor(from: "{{version}}"))
     ],
     targets: [
         .target(name: "{{name}}", dependencies: ["AWSSDKSwiftCore"{%if middleware %}, "{{middleware}}"{%endif %}], path: "./Sources/{{name}}"),

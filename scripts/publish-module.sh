@@ -37,21 +37,21 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
     fi
 
     if [ -z "$(git remote -v | grep origin)" ]; then
-        git remote add origin "https://github.com/swift-aws/$BASENAME.git"
+        git remote add origin "https://github.com/soto-project/soto-$BASENAME.git"
     else
-        git remote set-url origin "https://github.com/swift-aws/$BASENAME.git"
+        git remote set-url origin "https://github.com/soto-project/soto-$BASENAME.git"
     fi
 
     GIT_STATUS_R=$(git status --porcelain)
-    if [[ -z $GIT_STATUS_R ]]; then
-        # need to add commit to create master to reset later
+    if [[ -n $GIT_STATUS_R ]]; then
+        # need to add commit to create main to reset later
         git add .
         git commit -m "dummy commit"
     fi
 
     git fetch
-    git branch --set-upstream-to=origin/master master
-    git reset origin/master
+    git branch -u origin/main
+    git reset origin/main
 
     echo "Enter in $D"
 
@@ -68,13 +68,13 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
     fi
 
     echo "swift build start....."
-    swift build
+    #swift build
     echo "swift build done!"
     echo ""
 
     git add .
     git commit -am "$COMMENT"
-    git push origin master
+    git push origin HEAD:main
     if [ -n "${TAG}" ]; then
         git tag $TAG
         git push origin $TAG

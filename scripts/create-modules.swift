@@ -24,7 +24,7 @@ class GenerateProcess {
         let middlewaresSourceFolder = try? middlewaresFolder.subfolder(at: serviceName)
 
         // create folders
-        let serviceTargetFolder = try targetFolder.createSubfolder(at: serviceName)
+        let serviceTargetFolder = try targetFolder.createSubfolder(at: serviceName.lowercased())
         let workflowsTargetFolder = try serviceTargetFolder.createSubfolder(at: ".github/workflows")
         let sourceTargetFolder = try serviceTargetFolder.createSubfolder(at: "Sources")
         // delete folder if it already exists
