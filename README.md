@@ -19,7 +19,7 @@ Soto works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio](https:
 
 ## Documentation
 
-Visit the `Soto` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference.
+Visit the `Soto` [documentation](https://soto-project.github.io/soto-docs/4.x.x/index.html) to browse the api reference.
 
 ## Installation
 
