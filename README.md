@@ -1,16 +1,16 @@
-# AWS SDK Swift
+Soto is the new name for AWS SDK Swift. Amazon have asked that we don't use the name AWS SDK Swift. They are protecting their trademark and want to avoid confusing their customers who might think we are affiliated or are being sponsored by them, which we aren't.
 
-AWS SDK for the Swift programming language working on Linux, macOS and iOS.
+# Soto for AWS
+
+Soto is a Swift language SDK for AWS services working on Linux, macOS and iOS.
 
 [<img src="http://img.shields.io/badge/swift-5.0-brightgreen.svg" alt="Swift 5.0" />](https://swift.org)
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
-[<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/Swift/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions)
-
-⚠️ AWS SDK Swift 4 is deprecated and will no longer be maintained when 5.0.0 is released. Users should consider migrating to Soto 5.
+[<img src="https://github.com/soto-project/soto/workflows/Swift/badge.svg" />](https://github.com/soto-project/soto/actions)
 
 ## Compatibility
 
-AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio](https://github.com/apple/swift-nio) 2. Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
+Soto works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio](https://github.com/apple/swift-nio) 2. Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of Soto. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
 
 | Version | Swift | MacOS | iOS    | Linux              | Vapor  |
 |---------|-------|-------|--------|--------------------|--------|
@@ -25,20 +25,20 @@ Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-sw
 
 ### Swift Package Manager
 
-AWSSDKSwift uses the Swift Package Manager to manage its code dependencies. To use AWSSDKSwift in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
+Soto uses the Swift Package Manager to manage its code dependencies. To use Soto in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0")
+        .package(url: "https://github.com/soto-project/soto.git", from: "4.0.0")
     ],
 ```
-Then add target dependencies for each of the AWSSDKSwift targets you want to use.
+Then add target dependencies for each of the Soto targets you want to use.
 ```swift
     targets: [
       .target(name: "MyAWSApp", dependencies: ["S3", "SES", "CloudFront", "ELBV2", "IAM", "Kinesis"]),
     ]
 )
 ```
-Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to AWSSDKSwift through that.
+Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to Soto through that.
 
 ## Configuring Credentials
 
@@ -91,11 +91,11 @@ let ec2 = EC2(
 
 Some services like CognitoIdentityProvider don't require credentials to access some of their functions. Explicitly set `accessKeyId` and `secretAccessKey` to "". This will disable all other credential access functions and send requests unsigned.
 
-## Using `aws-sdk-swift`
+## Using Soto
 
 AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call aws services. See documentation for details on specific services.
 
-The underlying aws-sdk-swift httpclient returns a [swift-nio EventLoopFuture object](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html). An EventLoopFuture _is not_ the response, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread.
+The underlying Soto httpclient returns a [swift-nio EventLoopFuture object](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html). An EventLoopFuture _is not_ the response, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread.
 
 The recommended manner to interact with futures is chaining. The following function returns an EventLoopFuture that creates an S3 bucket, puts a file in the bucket, reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next. 
 
@@ -135,15 +135,15 @@ The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to cal
 
 ## EventLoopGroup management
 
-The AWS SDK has its own `EventLoopGroup` but it is recommended that you provide your own `EventLoopGroup` for the SDK to work off. You can do this when you construct your client.
+Soto has its own `EventLoopGroup` but it is recommended that you provide your own `EventLoopGroup` for the SDK to work off. You can do this when you construct your client.
 ```
 let s3 = S3(region:.uswest2, eventLoopGroupProvider: .shared(myEventLoopGroup)
 ```
 The EventLoopGroup types you can use depend on the platform you are running on. On Linux use `MultiThreadedEventLoopGroup`, on macOS use `MultiThreadedEventLoopGroup` or `NIOTSEventLoopGroup` and iOS use `NIOTSEventLoopGroup`. Using the `NIOTSEventLoopGroup` will mean you use [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework.
 
-## Using `aws-sdk-swift` with Vapor
+## Using Soto with Vapor
 
-Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the compatibility section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If your AWS SDK is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
+Integration with Vapor is pretty straight forward. Although be sure you use the correct version of Soto depending on which version of Vapor you are using. See the compatibility section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If your AWS SDK is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
 
 ```swift
 import Vapor
@@ -175,7 +175,7 @@ final class MyController {
 }
 ```
 <!--
-## Using the `aws-sdk-swift` with the swift REPL (macOS)
+## Using the Soto with the swift REPL (macOS)
 
 
 ```swift
@@ -204,4 +204,5 @@ By specifying only those modules necessary for your application, only those modu
 If you want to create a module for your service, you can try using the module-exporter to build a separate repo for any of the modules.
 
 ## License
-`aws-sdk-swift` is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). See LICENSE for details.
+
+Soto is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). See LICENSE for details.
