@@ -6,6 +6,7 @@ AWS SDK for the Swift programming language working on Linux, macOS and iOS.
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
 [<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/Swift/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions)
 
+⚠️ AWS SDK Swift 4 is deprecated and will no longer be maintained when 5.0.0 is released. Users should consider migrating to Soto 5.
 
 ## Compatibility
 
