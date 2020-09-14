@@ -1,5 +1,5 @@
 sourcekitten_sourcefile:
-  - sourcekitten/AWSSDKSwiftCore.json
+  - sourcekitten/SotoCore.json
 {%for service in services %}
   - sourcekitten/{{service}}.json
 {%endfor %}

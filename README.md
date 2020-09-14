@@ -130,7 +130,7 @@ Additional user guides for specific elements of Soto are available
 - [Streaming Payloads](documentation/Streaming%20Payloads.md)
 - [DynamoDB and Codable](documentation/DynamoDB%20and%20Codable.md)
 - [S3 Multipart Upload](documentation/S3%20Multipart%20Upload.md)
-- [Using Soto with Vapor](documentation/Using%20Soto%20with%20Vapor.md)
+- [Using Soto with Vapor 4](documentation/Using%20Soto%20with%20Vapor.md)
 
 ## Contributing
 

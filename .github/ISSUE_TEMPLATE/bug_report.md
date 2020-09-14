@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve the functionality of AWSSDKSwift!
+about: Create a report to help us improve the functionality of Soto!
 title: ''
 labels: ''
 assignees: ''

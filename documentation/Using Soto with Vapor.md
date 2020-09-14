@@ -1,6 +1,6 @@
-# Using AWS SDK Swift with Vapor 4
+# Using Soto with Vapor 4
 
-When using AWS SDK Swift with Vapor 4 it is best to have a global `AWSClient` that all routes use. You shouldn't be creating `AWSClient` on the fly. Initialisation of the client can take time and you have to shutdown the client before it is deleted. You best option is to store a single `AWSClient` in the Vapor `Application`. The code below shows how you can extend `Application` to provide a global `AWSClient`.
+When using Soto with Vapor 4 it is best to have a global `AWSClient` that all routes use. You shouldn't be creating `AWSClient` on the fly. Initialisation of the client can take time and you have to shutdown the client before it is deleted. You best option is to store a single `AWSClient` in the Vapor `Application`. The code below shows how you can extend `Application` to provide a global `AWSClient`.
 
 ```swift
 import Vapor
@@ -44,7 +44,7 @@ public extension Request {
         var client: AWSClient {
             return request.application.aws.client
         }
-        
+
         let request: Request
     }
 }
@@ -66,7 +66,7 @@ func myRoute(req: Request) -> EventLoopFuture<> {
 ```
 Alternatively you can also include your service structs in the `Application` as well.
 ```swift
-import AWSS3
+import SotoS3
 
 extension Application.AWS {
     struct S3Key: StorageKey {
@@ -108,7 +108,7 @@ final class MyController {
         let emailData = try req.content.decode(EmailData.self)
         let destination = SES.Destination(toAddresses: [emailData.address])
         let message = SES.Message(body: .init(text:SES.Content(data:emailData.message)), subject: .init(data:emailData.subject))
-        let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"awssdkswift@me.com")
+        let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"soto@me.com")
         return request.ses.sendEmail(sendEmailRequest, on: req.eventLoop)
             .map { response -> HTTPStatus in
                 return .ok
@@ -116,4 +116,3 @@ final class MyController {
     }
 }
 ```
-
