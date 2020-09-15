@@ -13,7 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import NIO
-@testable import SotoIAM
+import SotoIAM
 import XCTest
 
 // testing query service
