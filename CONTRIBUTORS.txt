@@ -27,6 +27,7 @@ needs to be listed here.
 - Kyle Ishie <kyle@kyleishie.com>
 - Oliver O'Neill <oliveroneill@users.noreply.github.com>
 - Roland Möller <moeller.rol@gmail.com>
+- Sébastien Stormacq <sebastien.stormacq@gmail.com>
 - Yifei Teng <tengyifei@users.noreply.github.com>
 - Yuki Takei <yuki@miketokyo.com>
 - giginet <giginet.net@gmail.com>
