@@ -42,7 +42,7 @@ class LambdaTests: XCTestCase {
     }
 
     // MARK: TESTS
-    
+
     func testInvoke() {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }

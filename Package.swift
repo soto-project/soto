@@ -494,6 +494,7 @@ let package = Package(
             "SotoACM",
             "SotoAPIGateway",
             "SotoCloudFront",
+            "SotoCloudTrail",
             "SotoDynamoDB",
             "SotoEC2",
             "SotoGlacier",
