@@ -50,9 +50,9 @@ struct TestEnvironment {
     }
 
     /// return endpoint
-    static func getEndPoint(environment: String, default: String) -> String? {
+    static func getEndPoint(environment: String) -> String? {
         guard self.isUsingLocalstack == true else { return nil }
-        return Environment[environment] ?? `default`
+        return Environment[environment] ?? "http://localhost:4566"
     }
 
     /// get name to use for AWS resource

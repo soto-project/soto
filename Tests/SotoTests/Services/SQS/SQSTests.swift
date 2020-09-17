@@ -32,7 +32,7 @@ class SQSTests: XCTestCase {
         Self.sqs = SQS(
             client: SQSTests.client,
             region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "SQS_ENDPOINT", default: "http://localhost:4566")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 

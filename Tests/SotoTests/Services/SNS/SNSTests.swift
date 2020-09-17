@@ -32,7 +32,7 @@ class SNSTests: XCTestCase {
         Self.sns = SNS(
             client: SNSTests.client,
             region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "SNS_ENDPOINT", default: "http://localhost:4566")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 

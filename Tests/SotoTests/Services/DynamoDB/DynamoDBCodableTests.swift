@@ -26,7 +26,7 @@ final class DynamoDBCodableTests: XCTestCase {
     static var dynamoDB = DynamoDB(
         client: client,
         region: .useast1,
-        endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4566")
+        endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
     )
 
     func createTable(name: String, attributeDefinitions: [DynamoDB.AttributeDefinition]? = nil, keySchema: [DynamoDB.KeySchemaElement]? = nil) -> EventLoopFuture<Void> {
@@ -61,7 +61,7 @@ final class DynamoDBCodableTests: XCTestCase {
             let scheduled = eventLoop.flatScheduleTask(in: waitTime) {
                 return Self.dynamoDB.describeTable(.init(tableName: name))
             }
-            _ = scheduled.futureResult.map { response in
+            scheduled.futureResult.map { response in
                 if response.table?.tableStatus == .active {
                     promise.succeed(())
                 } else {

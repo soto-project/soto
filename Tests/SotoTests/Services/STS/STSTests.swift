@@ -34,7 +34,7 @@ class STSTests: XCTestCase {
         Self.sts = STS(
             client: STSTests.client,
             region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "STS_ENDPOINT", default: "http://localhost:4566")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 

@@ -17,15 +17,7 @@ services:
     depends_on:
       - localstack
     environment:
-      - APIGATEWAY_ENDPOINT=http://localstack:4566
-      - DYNAMODB_ENDPOINT=http://localstack:4566
-      - EC2_ENDPOINT=http://localstack:4566
-      - IAM_ENDPOINT=http://localstack:4566
-      - S3_ENDPOINT=http://localstack:4566
-      - SNS_ENDPOINT=http://localstack:4566
-      - SQS_ENDPOINT=http://localstack:4566
-      - SSM_ENDPOINT=http://localstack:4566
-      - STS_ENDPOINT=http://localstack:4566
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
     command: /bin/bash -xcl "swift test --enable-test-discovery"
 
   localstack:

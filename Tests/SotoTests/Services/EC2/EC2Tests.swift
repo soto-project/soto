@@ -34,7 +34,7 @@ class EC2Tests: XCTestCase {
         Self.ec2 = EC2(
             client: EC2Tests.client,
             region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "EC2_ENDPOINT", default: "http://localhost:4566")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 

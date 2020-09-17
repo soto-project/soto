@@ -35,7 +35,7 @@ class S3ExtensionTests: XCTestCase {
         Self.s3 = S3(
             client: S3ExtensionTests.client,
             region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 
@@ -270,7 +270,7 @@ class S3ExtensionTests: XCTestCase {
         let s3 = S3(
             client: client,
             region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "S3_ENDPOINT", default: "http://localhost:4566")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
         defer {
             XCTAssertNoThrow(try client.syncShutdown())

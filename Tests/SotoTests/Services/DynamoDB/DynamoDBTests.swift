@@ -34,7 +34,7 @@ class DynamoDBTests: XCTestCase {
         Self.dynamoDB = DynamoDB(
             client: DynamoDBTests.client,
             region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "DYNAMODB_ENDPOINT", default: "http://localhost:4566")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 
@@ -74,7 +74,7 @@ class DynamoDBTests: XCTestCase {
             let scheduled = eventLoop.flatScheduleTask(in: waitTime) {
                 return Self.dynamoDB.describeTable(.init(tableName: name))
             }
-            _ = scheduled.futureResult.map { response in
+            scheduled.futureResult.map { response in
                 if response.table?.tableStatus == .active {
                     promise.succeed(())
                 } else {

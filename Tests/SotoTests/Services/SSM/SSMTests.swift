@@ -32,7 +32,7 @@ class SSMTests: XCTestCase {
         Self.ssm = SSM(
             client: SSMTests.client,
             region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "SSM_ENDPOINT", default: "http://localhost:4566")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 

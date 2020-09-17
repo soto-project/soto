@@ -30,7 +30,11 @@ class LambdaTests: XCTestCase {
         }
 
         Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
-        Self.lambda = Lambda(client: LambdaTests.client, region: .euwest1)
+        Self.lambda = Lambda(
+            client: LambdaTests.client,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+        )
     }
 
     override class func tearDown() {

@@ -33,7 +33,7 @@ class APIGatewayTests: XCTestCase {
         Self.apiGateway = APIGateway(
             client: APIGatewayTests.client,
             region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "APIGATEWAY_ENDPOINT", default: "http://localhost:4566")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
 
         if TestEnvironment.isUsingLocalstack {
