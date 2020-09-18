@@ -286,8 +286,7 @@ extension S3 {
     /// resume multipart upload of file to S3.
     ///
     /// - parameters:
-    ///     - input: The original CreateMultipartUploadRequest structure that contains the details about the upload
-    ///     - uploadId: The upload id rerturned when the previous multipart upload failed
+    ///     - input: The `ResumeMultipartUploadRequest` structure returned in upload fail error from previous upload call
     ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should be set to false
     ///     - on: an EventLoop to process each part to upload
     ///     - inputStream: The function supplying the data parts to the multipartUpload. Each parts must be at least 5MB in size expect the last one which has no size limit.
@@ -353,8 +352,7 @@ extension S3 {
     /// from the `abortedUpload` error thrown by the previous `multipartUpload`
     ///
     /// - parameters:
-    ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
-    ///     - uploadId: The upload id rerturned when the previous multipart upload failed
+    ///     - input: The `ResumeMultipartUploadRequest` structure returned in upload fail error from previous upload call
     ///     - partSize: Size of each part to upload. This has to be at least 5MB
     ///     - filename: Full path of file to upload
     ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should be set to false
