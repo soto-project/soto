@@ -49,6 +49,8 @@ class EC2Tests: XCTestCase {
     }
     
     func testError() {
+        // This doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let response = Self.ec2.getConsoleOutput(.init(instanceId: "not-an-instance"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {

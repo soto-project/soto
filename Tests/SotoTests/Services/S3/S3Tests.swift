@@ -406,10 +406,10 @@ class S3Tests: XCTestCase {
     }
     
     func testError() {
-        let response = Self.s3.abortMultipartUpload(.init(bucket: "not-my-bucket", key: "not-my-key", uploadId: "invalid-upload"))
+        let response = Self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case S3ErrorType.noSuchUpload:
+            case S3ErrorType.noSuchBucket:
                 return
             default:
                 XCTFail("Wrong error: \(error)")
