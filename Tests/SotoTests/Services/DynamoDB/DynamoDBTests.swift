@@ -178,6 +178,18 @@ class DynamoDBTests: XCTestCase {
             }
         XCTAssertNoThrow(try response.wait())
     }
+
+    func testError() {
+        let response = Self.dynamoDB.describeTable(.init(tableName: "non-existent-table"))
+        XCTAssertThrowsError(try response.wait()) { error in
+            switch error {
+            case DynamoDBErrorType.resourceNotFoundException:
+                return
+            default:
+                XCTFail("Wrong error: \(error)")
+            }
+        }
+    }
 }
 
 extension DynamoDB.AttributeValue {

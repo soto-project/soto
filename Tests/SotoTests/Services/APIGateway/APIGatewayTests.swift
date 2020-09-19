@@ -149,19 +149,17 @@ class APIGatewayTests: XCTestCase {
 
     func testError() {
         let response = Self.apiGateway.getModels(.init(restApiId: "invalid-rest-api-id"))
-            .map { _ in }
-            .flatMapErrorThrowing { error in
-                switch error {
-                case APIGatewayErrorType.notFoundException:
+        XCTAssertThrowsError(try response.wait()) { error in
+            switch error {
+            case APIGatewayErrorType.notFoundException:
+                return
+            default:
+                // local stack is returning a duff error at the moment
+                if TestEnvironment.isUsingLocalstack {
                     return
-                default:
-                    // local stack is returning a duff error at the moment
-                    if TestEnvironment.isUsingLocalstack {
-                        return
-                    }
-                    throw error
                 }
+                XCTFail("Wrong error: \(error)")
             }
-        XCTAssertNoThrow(try response.wait())
+        }
     }
 }

@@ -47,4 +47,16 @@ class EC2Tests: XCTestCase {
         let response = Self.ec2.describeImages(imageRequest)
         XCTAssertNoThrow(try response.wait())
     }
+    
+    func testError() {
+        let response = Self.ec2.getConsoleOutput(.init(instanceId: "not-an-instance"))
+        XCTAssertThrowsError(try response.wait()) { error in
+            switch error {
+            case let awsError as AWSResponseError:
+                XCTAssertEqual(awsError.errorCode, "InvalidInstanceID.Malformed")
+            default:
+                XCTFail("Wrong error: \(error)")
+            }
+        }
+    }
 }
