@@ -124,7 +124,7 @@ class SQSTests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testError() {
         let response = Self.sqs.addPermission(.init(actions: [], aWSAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
         XCTAssertThrowsError(try response.wait()) { error in

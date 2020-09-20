@@ -404,7 +404,7 @@ class S3Tests: XCTestCase {
             }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testError() {
         let response = Self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
         XCTAssertThrowsError(try response.wait()) { error in

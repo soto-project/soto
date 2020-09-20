@@ -214,7 +214,7 @@ class IAMTests: XCTestCase {
             }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testError() {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }

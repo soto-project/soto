@@ -47,7 +47,7 @@ class EC2Tests: XCTestCase {
         let response = Self.ec2.describeImages(imageRequest)
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testError() {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }

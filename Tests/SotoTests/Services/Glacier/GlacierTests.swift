@@ -74,7 +74,7 @@ class GlacierTests: XCTestCase {
             [210, 50, 5, 126, 16, 6, 59, 6, 21, 40, 186, 74, 192, 56, 39, 85, 210, 25, 238, 54, 4, 252, 221, 238, 107, 127, 76, 118, 245, 76, 22, 45]
         )
     }
-    
+
     func testError() {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }

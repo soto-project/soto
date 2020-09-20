@@ -56,7 +56,7 @@ class LambdaTests: XCTestCase {
         let response = Self.lambda.listFunctions(.init(maxItems: 10))
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testError() {
         let response = Self.lambda.invoke(.init(functionName: "non-existent-function"))
         XCTAssertThrowsError(try response.wait()) { error in
