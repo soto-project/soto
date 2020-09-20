@@ -47,21 +47,6 @@ class STSTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testErrorCodes() {
-        let request = STS.AssumeRoleWithWebIdentityRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "now", webIdentityToken: "webtoken")
-        let response = Self.sts.assumeRoleWithWebIdentity(request)
-            .map { _ in }
-            .flatMapErrorThrowing { error in
-                switch error {
-                case STSErrorType.invalidIdentityTokenException:
-                    return
-                default:
-                    throw error
-                }
-            }
-        XCTAssertNoThrow(try response.wait())
-    }
-
     func testSTSCredentialProviderShutdown() {
         let client = AWSClient(credentialProvider: .stsAssumeRole(request: .init(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session"), region: .euwest2), httpClientProvider: .createNew)
         XCTAssertNoThrow(try client.syncShutdown())
@@ -108,5 +93,20 @@ class STSTests: XCTestCase {
                 XCTFail("Wrong error \(error)")
             }
         }
+    }
+
+    func testError() {
+        let request = STS.AssumeRoleWithWebIdentityRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "now", webIdentityToken: "webtoken")
+        let response = Self.sts.assumeRoleWithWebIdentity(request)
+            .map { _ in }
+            .flatMapErrorThrowing { error in
+                switch error {
+                case STSErrorType.invalidIdentityTokenException:
+                    return
+                default:
+                    throw error
+                }
+            }
+        XCTAssertNoThrow(try response.wait())
     }
 }
