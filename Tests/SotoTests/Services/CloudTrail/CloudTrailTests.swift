@@ -52,4 +52,18 @@ class CloudTrailTests: XCTestCase {
             }
         XCTAssertNoThrow(try response.wait())
     }
+
+    func testError() {
+        // This doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
+        let response = Self.cloudTrail.getTrail(.init(name: "nonexistent-trail"))
+        XCTAssertThrowsError(try response.wait()) { error in
+            switch error {
+            case CloudTrailErrorType.trailNotFoundException(let message):
+                XCTAssertNotNil(message)
+            default:
+                XCTFail("Wrong error: \(error)")
+            }
+        }
+    }
 }

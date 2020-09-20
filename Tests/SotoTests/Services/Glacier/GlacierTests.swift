@@ -19,6 +19,28 @@ import XCTest
 @testable import SotoGlacier
 
 class GlacierTests: XCTestCase {
+    static var client: AWSClient!
+    static var glacier: Glacier!
+
+    override class func setUp() {
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.glacier = Glacier(
+            client: GlacierTests.client,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+        )
+
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+    }
+
+    override class func tearDown() {
+        XCTAssertNoThrow(try self.client.syncShutdown())
+    }
+
     // create a buffer of random values. Will always create the same given you supply the same z and w values
     // Random number generator from https://www.codeproject.com/Articles/25172/Simple-Random-Number-Generation
     func createRandomBuffer(_ w: UInt, _ z: UInt, size: Int) -> [UInt8] {
@@ -51,5 +73,21 @@ class GlacierTests: XCTestCase {
             treeHash,
             [210, 50, 5, 126, 16, 6, 59, 6, 21, 40, 186, 74, 192, 56, 39, 85, 210, 25, 238, 54, 4, 252, 221, 238, 107, 127, 76, 118, 245, 76, 22, 45]
         )
+    }
+
+    func testError() {
+        // This doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
+        let job = Glacier.JobParameters(description: "Inventory", format: "CSV", type: "inventory-retrieval")
+        let inventoryJobInput = Glacier.InitiateJobInput(accountId: "-", jobParameters: job, vaultName: "aws-test-vault-doesnt-exist")
+        let response = Self.glacier.initiateJob(inventoryJobInput)
+        XCTAssertThrowsError(try response.wait()) { error in
+            switch error {
+            case GlacierErrorType.resourceNotFoundException(let message):
+                XCTAssertNotNil(message)
+            default:
+                XCTFail("Wrong error: \(error)")
+            }
+        }
     }
 }

@@ -33,8 +33,6 @@ jobs:
     services:
       localstack:
         image: localstack/localstack
-        env:
-          SERVICES: 'apigateway,dynamodb,ec2,iam,s3,sns,sqs,ssm,sts'
     container:
       image: ${{ matrix.image }}
       env:

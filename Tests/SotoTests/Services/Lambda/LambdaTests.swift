@@ -53,9 +53,19 @@ class LambdaTests: XCTestCase {
     }
 
     func testListFunctions() {
-        // This doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
         let response = Self.lambda.listFunctions(.init(maxItems: 10))
         XCTAssertNoThrow(try response.wait())
+    }
+
+    func testError() {
+        let response = Self.lambda.invoke(.init(functionName: "non-existent-function"))
+        XCTAssertThrowsError(try response.wait()) { error in
+            switch error {
+            case LambdaErrorType.resourceNotFoundException(let message):
+                XCTAssertNotNil(message)
+            default:
+                XCTFail("Wrong error: \(error)")
+            }
+        }
     }
 }

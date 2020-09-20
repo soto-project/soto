@@ -404,4 +404,16 @@ class S3Tests: XCTestCase {
             }
         XCTAssertNoThrow(try response.wait())
     }
+
+    func testError() {
+        let response = Self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
+        XCTAssertThrowsError(try response.wait()) { error in
+            switch error {
+            case S3ErrorType.noSuchBucket(let message):
+                XCTAssertNotNil(message)
+            default:
+                XCTFail("Wrong error: \(error)")
+            }
+        }
+    }
 }
