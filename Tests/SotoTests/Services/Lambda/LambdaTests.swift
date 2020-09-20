@@ -61,8 +61,8 @@ class LambdaTests: XCTestCase {
         let response = Self.lambda.invoke(.init(functionName: "non-existent-function"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case LambdaErrorType.resourceNotFoundException:
-                return
+            case LambdaErrorType.resourceNotFoundException(let message):
+                XCTAssertNotNil(message)
             default:
                 XCTFail("Wrong error: \(error)")
             }

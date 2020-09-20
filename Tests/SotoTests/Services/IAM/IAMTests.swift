@@ -221,8 +221,8 @@ class IAMTests: XCTestCase {
         let response = Self.iam.getRole(.init(roleName: "_invalid-role-name"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case IAMErrorType.noSuchEntityException:
-                return
+            case IAMErrorType.noSuchEntityException(let message):
+                XCTAssertNotNil(message)
             default:
                 XCTFail("Wrong error: \(error)")
             }

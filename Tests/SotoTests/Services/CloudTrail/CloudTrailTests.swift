@@ -59,8 +59,8 @@ class CloudTrailTests: XCTestCase {
         let response = Self.cloudTrail.getTrail(.init(name: "nonexistent-trail"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case CloudTrailErrorType.trailNotFoundException:
-                return
+            case CloudTrailErrorType.trailNotFoundException(let message):
+                XCTAssertNotNil(message)
             default:
                 XCTFail("Wrong error: \(error)")
             }

@@ -129,8 +129,8 @@ class SQSTests: XCTestCase {
         let response = Self.sqs.addPermission(.init(actions: [], aWSAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case SQSErrorType.queueDoesNotExist:
-                return
+            case SQSErrorType.queueDoesNotExist(let message):
+                XCTAssertNotNil(message)
             default:
                 XCTFail("Wrong error: \(error)")
             }

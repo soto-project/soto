@@ -83,8 +83,8 @@ class GlacierTests: XCTestCase {
         let response = Self.glacier.initiateJob(inventoryJobInput)
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case GlacierErrorType.resourceNotFoundException:
-                return
+            case GlacierErrorType.resourceNotFoundException(let message):
+                XCTAssertNotNil(message)
             default:
                 XCTFail("Wrong error: \(error)")
             }

@@ -101,8 +101,8 @@ class STSTests: XCTestCase {
             .map { _ in }
             .flatMapErrorThrowing { error in
                 switch error {
-                case STSErrorType.invalidIdentityTokenException:
-                    return
+                case STSErrorType.invalidIdentityTokenException(let message):
+                    XCTAssertNotNil(message)
                 default:
                     throw error
                 }

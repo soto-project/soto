@@ -183,8 +183,8 @@ class DynamoDBTests: XCTestCase {
         let response = Self.dynamoDB.describeTable(.init(tableName: "non-existent-table"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case DynamoDBErrorType.resourceNotFoundException:
-                return
+            case DynamoDBErrorType.resourceNotFoundException(let message):
+                XCTAssertNotNil(message)
             default:
                 XCTFail("Wrong error: \(error)")
             }
