@@ -27,16 +27,6 @@ jobs:
     services:
       localstack:
         image: localstack/localstack
-        # ports:
-        # - 4567-4597:4567-4597
-        env:
-          SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm'
-        options: >-
-          --health-cmd "awslocal s3 ls"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --workdir /opt/code/localstack/
     container:
       image: ${{ matrix.tag }}
       env:

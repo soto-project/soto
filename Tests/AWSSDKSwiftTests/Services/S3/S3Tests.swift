@@ -23,7 +23,7 @@ class S3Tests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .euwest1,
-        endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572"/*,
+        endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4566"/*,
         middlewares: [AWSLoggingMiddleware()]*/
     )
 

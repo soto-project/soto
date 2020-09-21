@@ -19,7 +19,8 @@ class DynamoDBTests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["DYNAMODB_ENDPOINT"] ?? "http://localhost:4569"
+        endpoint: ProcessInfo.processInfo.environment["DYNAMODB_ENDPOINT"] ?? "http://localhost:4566",
+        middlewares: [AWSLoggingMiddleware()]
     )
 
     class TestData {
@@ -56,10 +57,10 @@ class DynamoDBTests: XCTestCase {
         }
         
         deinit {
-            attempt {
-                let input = DynamoDB.DeleteTableInput(tableName: self.tableName)
-                _ = try client.deleteTable(input).wait()
-            }
+//            attempt {
+//                let input = DynamoDB.DeleteTableInput(tableName: self.tableName)
+//                _ = try client.deleteTable(input).wait()
+//              }
         }
     }
 
