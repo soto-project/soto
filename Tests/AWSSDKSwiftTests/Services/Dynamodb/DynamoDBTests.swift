@@ -57,10 +57,10 @@ class DynamoDBTests: XCTestCase {
         }
         
         deinit {
-//            attempt {
-//                let input = DynamoDB.DeleteTableInput(tableName: self.tableName)
-//                _ = try client.deleteTable(input).wait()
-//              }
+            attempt {
+                let input = DynamoDB.DeleteTableInput(tableName: self.tableName)
+                _ = try client.deleteTable(input).wait()
+            }
         }
     }
 
