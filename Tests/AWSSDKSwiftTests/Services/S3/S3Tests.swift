@@ -61,8 +61,8 @@ class S3Tests: XCTestCase {
                         }
                     }
                 }
-                let deleteRequest = S3.DeleteBucketRequest(bucket: self.bucket)
-                _ = try client.deleteBucket(deleteRequest).wait()
+                //let deleteRequest = S3.DeleteBucketRequest(bucket: self.bucket)
+                //_ = try client.deleteBucket(deleteRequest).wait()
             }
         }
     }
