@@ -84,7 +84,6 @@ extension String {
         }
 
         return self.replacingOccurrences(of: "-", with: "_")
-            .replacingOccurrences(of: ".", with: "")
             .camelCased()
             .upperFirst()
     }

@@ -2055,11 +2055,11 @@ extension Lambda {
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
         /// For Lambda@Edge functions, the AWS Region of the master function. For example, us-east-1 filters the list of functions to only include Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
-        public let masterRegion: String?
+        public let masterRegion: SotoCore.Region?
         /// The maximum number of functions to return.
         public let maxItems: Int?
 
-        public init(functionVersion: FunctionVersion? = nil, marker: String? = nil, masterRegion: String? = nil, maxItems: Int? = nil) {
+        public init(functionVersion: FunctionVersion? = nil, marker: String? = nil, masterRegion: SotoCore.Region? = nil, maxItems: Int? = nil) {
             self.functionVersion = functionVersion
             self.marker = marker
             self.masterRegion = masterRegion
@@ -2067,7 +2067,6 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.masterRegion, name: "masterRegion", parent: name, pattern: "ALL|[a-z]{2}(-gov)?-[a-z]+-\\d{1}")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }

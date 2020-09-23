@@ -63,6 +63,10 @@ extension API {
         "IAM": [
             AddPatch(PatchKeyPath3(\.shapes["PolicySourceType"], \.type.enum, \.cases), value: "IAM Policy"),
         ],
+        "Lambda": [
+            AddDictionaryPatch(PatchKeyPath1(\.shapes), key: "SotoCore.Region", value: Shape(type: .stub, name: "SotoCore.Region")),
+            ReplacePatch(PatchKeyPath4(\.shapes["ListFunctionsRequest"], \.type.structure, \.members["MasterRegion"], \.shapeName), value: "SotoCore.Region", originalValue: "MasterRegion"),
+        ],
         "Route53": [
             RemovePatch(PatchKeyPath3(\.shapes["ListHealthChecksResponse"], \.type.structure, \.required), value: "Marker"),
             RemovePatch(PatchKeyPath3(\.shapes["ListHostedZonesResponse"], \.type.structure, \.required), value: "Marker"),
@@ -185,6 +189,8 @@ extension Shape.ShapeType: Equatable {
             if case .boolean = rhs { return true }
         case .enum:
             if case .enum = rhs { return true }
+        case .stub:
+            return false
         }
         return false
     }

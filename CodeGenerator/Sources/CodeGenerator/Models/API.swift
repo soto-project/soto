@@ -384,6 +384,7 @@ class Shape: Decodable {
         case boolean
         case timestamp(TimeStampFormat)
         case `enum`(EnumType)
+        case stub
 
         // added so we can access enum type through keypaths
         var `enum`: EnumType? {
