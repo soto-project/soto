@@ -238,7 +238,7 @@ extension Kafka {
         /// The name of the cluster.
         public let clusterName: String?
         /// The time when the cluster was created.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var creationTime: TimeStamp?
         /// Information about the version of software currently deployed on the Kafka brokers in the cluster.
         public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
@@ -307,10 +307,10 @@ extension Kafka {
         /// ARN of the cluster.
         public let clusterArn: String?
         /// The time at which operation was created.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var creationTime: TimeStamp?
         /// The time at which the operation finished.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var endTime: TimeStamp?
         /// Describes the error if the operation fails.
         public let errorInfo: ErrorInfo?
@@ -404,7 +404,7 @@ extension Kafka {
     public struct Configuration: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var creationTime: TimeStamp
         /// The description of the configuration.
         public let description: String
@@ -456,7 +456,7 @@ extension Kafka {
 
     public struct ConfigurationRevision: AWSDecodableShape {
         /// The time when the configuration revision was created.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var creationTime: TimeStamp
         /// The description of the configuration revision.
         public let description: String?
@@ -588,7 +588,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// The time when the configuration was created.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var creationTime: TimeStamp?
         /// Latest revision of the configuration.
         public let latestRevision: ConfigurationRevision?
@@ -752,7 +752,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// The time when the configuration was created.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var creationTime: TimeStamp?
         /// The description of the configuration.
         public let description: String?
@@ -807,7 +807,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// The time when the configuration was created.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var creationTime: TimeStamp?
         /// The description of the configuration.
         public let description: String?

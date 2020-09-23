@@ -137,7 +137,7 @@ extension ElastiCache {
         /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let resourceName: String
         /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
-        @Coding<ArrayCoder<_TagsEncoding, Tag>>
+        @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]
 
         public init(resourceName: String, tags: [Tag]) {
@@ -153,10 +153,10 @@ extension ElastiCache {
 
     public struct AllowedNodeTypeModificationsMessage: AWSDecodableShape {
         /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling down a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var scaleDownModifications: [String]?
         /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var scaleUpModifications: [String]?
 
         public init(scaleDownModifications: [String]? = nil, scaleUpModifications: [String]? = nil) {
@@ -218,10 +218,10 @@ extension ElastiCache {
 
     public struct BatchApplyUpdateActionMessage: AWSEncodableShape {
         /// The cache cluster IDs
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var cacheClusterIds: [String]?
         /// The replication group IDs
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
@@ -246,10 +246,10 @@ extension ElastiCache {
 
     public struct BatchStopUpdateActionMessage: AWSEncodableShape {
         /// The cache cluster IDs
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var cacheClusterIds: [String]?
         /// The replication group IDs
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
@@ -293,14 +293,14 @@ extension ElastiCache {
         /// The current state of this cluster, one of the following values: available, creating, deleted, deleting, incompatible-network, modifying, rebooting cluster nodes, restore-failed, or snapshotting.
         public let cacheClusterStatus: String?
         /// A list of cache nodes that are members of the cluster.
-        @OptionalCoding<ArrayCoder<_CacheNodesEncoding, CacheNode>>
+        @OptionalCustomCoding<ArrayCoder<_CacheNodesEncoding, CacheNode>>
         public var cacheNodes: [CacheNode]?
         /// The name of the compute and memory capacity node type for the cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public let cacheNodeType: String?
         /// Status of the cache parameter group.
         public let cacheParameterGroup: CacheParameterGroupStatus?
         /// A list of cache security group elements, composed of name and status sub-elements.
-        @OptionalCoding<ArrayCoder<_CacheSecurityGroupsEncoding, CacheSecurityGroupMembership>>
+        @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupsEncoding, CacheSecurityGroupMembership>>
         public var cacheSecurityGroups: [CacheSecurityGroupMembership]?
         /// The name of the cache subnet group associated with the cluster.
         public let cacheSubnetGroupName: String?
@@ -324,7 +324,7 @@ extension ElastiCache {
         /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
         public let replicationGroupId: String?
         /// A list of VPC Security Groups associated with the cluster.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var securityGroups: [SecurityGroupMembership]?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
@@ -398,7 +398,7 @@ extension ElastiCache {
         public struct _CacheClustersEncoding: ArrayCoderProperties { public static let member = "CacheCluster" }
 
         /// A list of clusters. Each item in the list contains detailed information about one cluster.
-        @OptionalCoding<ArrayCoder<_CacheClustersEncoding, CacheCluster>>
+        @OptionalCustomCoding<ArrayCoder<_CacheClustersEncoding, CacheCluster>>
         public var cacheClusters: [CacheCluster]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -447,7 +447,7 @@ extension ElastiCache {
         public struct _CacheEngineVersionsEncoding: ArrayCoderProperties { public static let member = "CacheEngineVersion" }
 
         /// A list of cache engine version details. Each element in the list contains detailed information about one cache engine version.
-        @OptionalCoding<ArrayCoder<_CacheEngineVersionsEncoding, CacheEngineVersion>>
+        @OptionalCustomCoding<ArrayCoder<_CacheEngineVersionsEncoding, CacheEngineVersion>>
         public var cacheEngineVersions: [CacheEngineVersion]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -506,7 +506,7 @@ extension ElastiCache {
         /// The valid range of values for the parameter.
         public let allowedValues: String?
         /// A list of cache node types and their corresponding values for this parameter.
-        @OptionalCoding<ArrayCoder<_CacheNodeTypeSpecificValuesEncoding, CacheNodeTypeSpecificValue>>
+        @OptionalCustomCoding<ArrayCoder<_CacheNodeTypeSpecificValuesEncoding, CacheNodeTypeSpecificValue>>
         public var cacheNodeTypeSpecificValues: [CacheNodeTypeSpecificValue]?
         /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
         public let changeType: ChangeType?
@@ -640,12 +640,12 @@ extension ElastiCache {
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
-        @OptionalCoding<ArrayCoder<_CacheNodeTypeSpecificParametersEncoding, CacheNodeTypeSpecificParameter>>
+        @OptionalCustomCoding<ArrayCoder<_CacheNodeTypeSpecificParametersEncoding, CacheNodeTypeSpecificParameter>>
         public var cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of Parameter instances.
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
         public init(cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
@@ -678,7 +678,7 @@ extension ElastiCache {
         public struct _CacheNodeIdsToRebootEncoding: ArrayCoderProperties { public static let member = "CacheNodeId" }
 
         /// A list of the cache node IDs which need to be rebooted for parameter changes to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
-        @OptionalCoding<ArrayCoder<_CacheNodeIdsToRebootEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_CacheNodeIdsToRebootEncoding, String>>
         public var cacheNodeIdsToReboot: [String]?
         /// The name of the cache parameter group.
         public let cacheParameterGroupName: String?
@@ -702,7 +702,7 @@ extension ElastiCache {
         public struct _CacheParameterGroupsEncoding: ArrayCoderProperties { public static let member = "CacheParameterGroup" }
 
         /// A list of cache parameter groups. Each element in the list contains detailed information about one cache parameter group.
-        @OptionalCoding<ArrayCoder<_CacheParameterGroupsEncoding, CacheParameterGroup>>
+        @OptionalCustomCoding<ArrayCoder<_CacheParameterGroupsEncoding, CacheParameterGroup>>
         public var cacheParameterGroups: [CacheParameterGroup]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -728,7 +728,7 @@ extension ElastiCache {
         /// The description of the cache security group.
         public let description: String?
         /// A list of Amazon EC2 security groups that are associated with this cache security group.
-        @OptionalCoding<ArrayCoder<_EC2SecurityGroupsEncoding, EC2SecurityGroup>>
+        @OptionalCustomCoding<ArrayCoder<_EC2SecurityGroupsEncoding, EC2SecurityGroup>>
         public var eC2SecurityGroups: [EC2SecurityGroup]?
         /// The AWS account ID of the cache security group owner.
         public let ownerId: String?
@@ -771,7 +771,7 @@ extension ElastiCache {
         public struct _CacheSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "CacheSecurityGroup" }
 
         /// A list of cache security groups. Each element in the list contains detailed information about one group.
-        @OptionalCoding<ArrayCoder<_CacheSecurityGroupsEncoding, CacheSecurityGroup>>
+        @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupsEncoding, CacheSecurityGroup>>
         public var cacheSecurityGroups: [CacheSecurityGroup]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -797,7 +797,7 @@ extension ElastiCache {
         /// The name of the cache subnet group.
         public let cacheSubnetGroupName: String?
         /// A list of subnets associated with the cache subnet group.
-        @OptionalCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
+        @OptionalCustomCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
         public let vpcId: String?
@@ -823,7 +823,7 @@ extension ElastiCache {
         public struct _CacheSubnetGroupsEncoding: ArrayCoderProperties { public static let member = "CacheSubnetGroup" }
 
         /// A list of cache subnet groups. Each element in the list contains detailed information about one group.
-        @OptionalCoding<ArrayCoder<_CacheSubnetGroupsEncoding, CacheSubnetGroup>>
+        @OptionalCustomCoding<ArrayCoder<_CacheSubnetGroupsEncoding, CacheSubnetGroup>>
         public var cacheSubnetGroups: [CacheSubnetGroup]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -876,7 +876,7 @@ extension ElastiCache {
         /// The 4-digit id for the node group you are configuring. For Redis (cluster mode disabled) replication groups, the node group id is always 0001. To find a Redis (cluster mode enabled)'s node group's (shard's) id, see Finding a Shard's Id.
         public let nodeGroupId: String
         /// A list of PreferredAvailabilityZone strings that specify which availability zones the replication group's nodes are to be in. The nummber of PreferredAvailabilityZone values must equal the value of NewReplicaCount plus 1 to account for the primary node. If this member of ReplicaConfiguration is omitted, ElastiCache for Redis selects the availability zone for each of the replicas.
-        @OptionalCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
         public var preferredAvailabilityZones: [String]?
 
         public init(newReplicaCount: Int, nodeGroupId: String, preferredAvailabilityZones: [String]? = nil) {
@@ -955,7 +955,7 @@ extension ElastiCache {
         /// The name of the parameter group to associate with this cluster. If this argument is omitted, the default parameter group for the specified engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
         public let cacheParameterGroupName: String?
         /// A list of security group names to associate with this cluster. Use this parameter only when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC).
-        @OptionalCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
         public var cacheSecurityGroupNames: [String]?
         /// The name of the subnet group to be used for the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups.
         public let cacheSubnetGroupName: String?
@@ -972,17 +972,17 @@ extension ElastiCache {
         /// The EC2 Availability Zone in which the cluster is created. All nodes belonging to this cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones. Default: System chosen Availability Zone.
         public let preferredAvailabilityZone: String?
         /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached.  If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes.  If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones.
-        @OptionalCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
         public var preferredAvailabilityZones: [String]?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let preferredMaintenanceWindow: String?
         /// The ID of the replication group to which this cluster should belong. If this parameter is specified, the cluster is added to the specified replication group as a read replica; otherwise, the cluster is a standalone primary that is not part of any replication group. If the specified replication group is Multi-AZ enabled and the Availability Zone is not specified, the cluster is created in Availability Zones that provide the best spread of read replicas across Availability Zones.  This parameter is only valid if the Engine parameter is redis.
         public let replicationGroupId: String?
         /// One or more VPC security groups associated with the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
-        @OptionalCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
         /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Redis RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot contain any commas.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
-        @OptionalCoding<ArrayCoder<_SnapshotArnsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_SnapshotArnsEncoding, String>>
         public var snapshotArns: [String]?
         /// The name of a Redis snapshot from which to restore data into the new node group (shard). The snapshot status changes to restoring while the new node group (shard) is being created.  This parameter is only valid if the Engine parameter is redis.
         public let snapshotName: String?
@@ -991,7 +991,7 @@ extension ElastiCache {
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis.
         public let snapshotWindow: String?
         /// A list of cost allocation tags to be added to this resource.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
         public init(authToken: String? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, numCacheNodes: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil) {
@@ -1129,7 +1129,7 @@ extension ElastiCache {
         /// A name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
         public let cacheSubnetGroupName: String
         /// A list of VPC subnet IDs for the cache subnet group.
-        @Coding<ArrayCoder<_SubnetIdsEncoding, String>>
+        @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]
 
         public init(cacheSubnetGroupDescription: String, cacheSubnetGroupName: String, subnetIds: [String]) {
@@ -1211,7 +1211,7 @@ extension ElastiCache {
         /// The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used.  If you are restoring to an engine version that is different than the original, you must specify the default version of that version. For example, CacheParameterGroupName=default.redis4.0.  If you are running Redis version 3.2.4 or later, only one node group (shard), and want to use a default parameter group, we recommend that you specify the parameter group by name.    To create a Redis (cluster mode disabled) replication group, use CacheParameterGroupName=default.redis3.2.   To create a Redis (cluster mode enabled) replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.
         public let cacheParameterGroupName: String?
         /// A list of cache security group names to associate with this replication group.
-        @OptionalCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
         public var cacheSecurityGroupNames: [String]?
         /// The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups.
         public let cacheSubnetGroupName: String?
@@ -1226,7 +1226,7 @@ extension ElastiCache {
         /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ.
         public let multiAZEnabled: Bool?
         /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
-        @OptionalCoding<ArrayCoder<_NodeGroupConfigurationEncoding, NodeGroupConfiguration>>
+        @OptionalCustomCoding<ArrayCoder<_NodeGroupConfigurationEncoding, NodeGroupConfiguration>>
         public var nodeGroupConfiguration: [NodeGroupConfiguration]?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
         public let notificationTopicArn: String?
@@ -1237,7 +1237,7 @@ extension ElastiCache {
         /// The port number on which each member of the replication group accepts connections.
         public let port: Int?
         /// A list of EC2 Availability Zones in which the replication group's clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead.  If you are creating your replication group in an Amazon VPC (recommended), you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
-        @OptionalCoding<ArrayCoder<_PreferredCacheClusterAZsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_PreferredCacheClusterAZsEncoding, String>>
         public var preferredCacheClusterAZs: [String]?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let preferredMaintenanceWindow: String?
@@ -1250,10 +1250,10 @@ extension ElastiCache {
         /// The replication group identifier. This parameter is stored as a lowercase string. Constraints:   A name must contain from 1 to 40 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.
         public let replicationGroupId: String
         /// One or more Amazon VPC security groups associated with this replication group. Use this parameter only when you are creating a replication group in an Amazon Virtual Private Cloud (Amazon VPC).
-        @OptionalCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
         /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
-        @OptionalCoding<ArrayCoder<_SnapshotArnsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_SnapshotArnsEncoding, String>>
         public var snapshotArns: [String]?
         /// The name of a snapshot from which to restore data into the new replication group. The snapshot status changes to restoring while the new replication group is being created.
         public let snapshotName: String?
@@ -1262,7 +1262,7 @@ extension ElastiCache {
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
         /// A list of cost allocation tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
         public let transitEncryptionEnabled: Bool?
@@ -1415,10 +1415,10 @@ extension ElastiCache {
         /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true.
         public let applyImmediately: Bool
         /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
-        @OptionalCoding<ArrayCoder<_GlobalNodeGroupsToRemoveEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_GlobalNodeGroupsToRemoveEncoding, String>>
         public var globalNodeGroupsToRemove: [String]?
         /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
-        @OptionalCoding<ArrayCoder<_GlobalNodeGroupsToRetainEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_GlobalNodeGroupsToRetainEncoding, String>>
         public var globalNodeGroupsToRetain: [String]?
         /// The name of the Global Datastore
         public let globalReplicationGroupId: String
@@ -1462,10 +1462,10 @@ extension ElastiCache {
         /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ is enabled: 1   If Multi-AZ is not enabled: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
         public let newReplicaCount: Int?
         /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
-        @OptionalCoding<ArrayCoder<_ReplicaConfigurationEncoding, ConfigureShard>>
+        @OptionalCustomCoding<ArrayCoder<_ReplicaConfigurationEncoding, ConfigureShard>>
         public var replicaConfiguration: [ConfigureShard]?
         /// A list of the node ids to remove from the replication group or node group (shard).
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var replicasToRemove: [String]?
         /// The id of the replication group from which you want to remove replica nodes.
         public let replicationGroupId: String
@@ -1909,7 +1909,7 @@ extension ElastiCache {
         public struct _GlobalReplicationGroupsEncoding: ArrayCoderProperties { public static let member = "GlobalReplicationGroup" }
 
         /// Indicates the slot configuration and global identifier for each slice group.
-        @OptionalCoding<ArrayCoder<_GlobalReplicationGroupsEncoding, GlobalReplicationGroup>>
+        @OptionalCustomCoding<ArrayCoder<_GlobalReplicationGroupsEncoding, GlobalReplicationGroup>>
         public var globalReplicationGroups: [GlobalReplicationGroup]?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. &gt;
         public let marker: String?
@@ -2032,7 +2032,7 @@ extension ElastiCache {
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The status of the service update
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var serviceUpdateStatus: [ServiceUpdateStatus]?
 
         public init(marker: String? = nil, maxRecords: Int? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil) {
@@ -2060,7 +2060,7 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
-        @OptionalCoding<ArrayCoder<_SnapshotsEncoding, Snapshot>>
+        @OptionalCustomCoding<ArrayCoder<_SnapshotsEncoding, Snapshot>>
         public var snapshots: [Snapshot]?
 
         public init(marker: String? = nil, snapshots: [Snapshot]? = nil) {
@@ -2113,7 +2113,7 @@ extension ElastiCache {
 
     public struct DescribeUpdateActionsMessage: AWSEncodableShape {
         /// The cache cluster IDs
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var cacheClusterIds: [String]?
         /// The Elasticache engine to which the update applies. Either Redis or Memcached
         public let engine: String?
@@ -2122,19 +2122,19 @@ extension ElastiCache {
         /// The maximum number of records to include in the response
         public let maxRecords: Int?
         /// The replication group IDs
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The status of the service update
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var serviceUpdateStatus: [ServiceUpdateStatus]?
         /// The range of time specified to search for service updates that are in available status
         public let serviceUpdateTimeRange: TimeRangeFilter?
         /// Dictates whether to include node level update status in the response
         public let showNodeLevelUpdateStatus: Bool?
         /// The status of the update action.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var updateActionStatus: [UpdateActionStatus]?
 
         public init(cacheClusterIds: [String]? = nil, engine: String? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil, serviceUpdateTimeRange: TimeRangeFilter? = nil, showNodeLevelUpdateStatus: Bool? = nil, updateActionStatus: [UpdateActionStatus]? = nil) {
@@ -2247,14 +2247,14 @@ extension ElastiCache {
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
-        @OptionalCoding<ArrayCoder<_CacheNodeTypeSpecificParametersEncoding, CacheNodeTypeSpecificParameter>>
+        @OptionalCustomCoding<ArrayCoder<_CacheNodeTypeSpecificParametersEncoding, CacheNodeTypeSpecificParameter>>
         public var cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]?
         /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 |
         public let cacheParameterGroupFamily: String?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// Contains a list of engine default parameters.
-        @OptionalCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
         public init(cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]? = nil, cacheParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
@@ -2301,7 +2301,7 @@ extension ElastiCache {
         public struct _EventsEncoding: ArrayCoderProperties { public static let member = "Event" }
 
         /// A list of events. Each element in the list contains detailed information about one event.
-        @OptionalCoding<ArrayCoder<_EventsEncoding, Event>>
+        @OptionalCustomCoding<ArrayCoder<_EventsEncoding, Event>>
         public var events: [Event]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -2386,14 +2386,14 @@ extension ElastiCache {
         /// The Elasticache Redis engine version. For preview, it is Redis version 5.0.5 only.
         public let engineVersion: String?
         /// Indicates the slot configuration and global identifier for each slice group.
-        @OptionalCoding<ArrayCoder<_GlobalNodeGroupsEncoding, GlobalNodeGroup>>
+        @OptionalCustomCoding<ArrayCoder<_GlobalNodeGroupsEncoding, GlobalNodeGroup>>
         public var globalNodeGroups: [GlobalNodeGroup]?
         /// The optional description of the Global Datastore
         public let globalReplicationGroupDescription: String?
         /// The name of the Global Datastore
         public let globalReplicationGroupId: String?
         /// The replication groups that comprise the Global Datastore.
-        @OptionalCoding<ArrayCoder<_MembersEncoding, GlobalReplicationGroupMember>>
+        @OptionalCustomCoding<ArrayCoder<_MembersEncoding, GlobalReplicationGroupMember>>
         public var members: [GlobalReplicationGroupMember]?
         /// The status of the Global Datastore
         public let status: String?
@@ -2489,7 +2489,7 @@ extension ElastiCache {
         /// The number of node groups you wish to add
         public let nodeGroupCount: Int
         /// Describes the replication group IDs, the AWS regions where they are stored and the shard configuration for each that comprise the Global Datastore
-        @OptionalCoding<ArrayCoder<_RegionalConfigurationsEncoding, RegionalConfiguration>>
+        @OptionalCustomCoding<ArrayCoder<_RegionalConfigurationsEncoding, RegionalConfiguration>>
         public var regionalConfigurations: [RegionalConfiguration]?
 
         public init(applyImmediately: Bool, globalReplicationGroupId: String, nodeGroupCount: Int, regionalConfigurations: [RegionalConfiguration]? = nil) {
@@ -2533,7 +2533,7 @@ extension ElastiCache {
         /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups.
         public let newReplicaCount: Int?
         /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
-        @OptionalCoding<ArrayCoder<_ReplicaConfigurationEncoding, ConfigureShard>>
+        @OptionalCustomCoding<ArrayCoder<_ReplicaConfigurationEncoding, ConfigureShard>>
         public var replicaConfiguration: [ConfigureShard]?
         /// The id of the replication group to which you want to add replica nodes.
         public let replicationGroupId: String
@@ -2620,19 +2620,19 @@ extension ElastiCache {
         /// The cluster identifier. This value is stored as a lowercase string.
         public let cacheClusterId: String
         /// A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to remove.
-        @OptionalCoding<ArrayCoder<_CacheNodeIdsToRemoveEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_CacheNodeIdsToRemoveEncoding, String>>
         public var cacheNodeIdsToRemove: [String]?
         /// A valid cache node type that you want to scale this cluster up to.
         public let cacheNodeType: String?
         /// The name of the cache parameter group to apply to this cluster. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
         public let cacheParameterGroupName: String?
         /// A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
-        @OptionalCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
         public var cacheSecurityGroupNames: [String]?
         /// The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
         public let engineVersion: String?
         /// The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The number of Availability Zones supplied in this list must match the cache nodes being added in this request. This option is only supported on Memcached clusters. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes, all creates are performed immediately. If the new create request is Apply Immediately - No, all creates are pending.
-        @OptionalCoding<ArrayCoder<_NewAvailabilityZonesEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_NewAvailabilityZonesEncoding, String>>
         public var newAvailabilityZones: [String]?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the cluster owner.
         public let notificationTopicArn: String?
@@ -2643,7 +2643,7 @@ extension ElastiCache {
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let preferredMaintenanceWindow: String?
         /// Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
-        @OptionalCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
@@ -2713,7 +2713,7 @@ extension ElastiCache {
         /// The name of the cache parameter group to modify.
         public let cacheParameterGroupName: String
         /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be modified per request.
-        @Coding<ArrayCoder<_ParameterNameValuesEncoding, ParameterNameValue>>
+        @CustomCoding<ArrayCoder<_ParameterNameValuesEncoding, ParameterNameValue>>
         public var parameterNameValues: [ParameterNameValue]
 
         public init(cacheParameterGroupName: String, parameterNameValues: [ParameterNameValue]) {
@@ -2735,7 +2735,7 @@ extension ElastiCache {
         /// The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
         public let cacheSubnetGroupName: String
         /// The EC2 subnet IDs for the cache subnet group.
-        @OptionalCoding<ArrayCoder<_SubnetIdsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
 
         public init(cacheSubnetGroupDescription: String? = nil, cacheSubnetGroupName: String, subnetIds: [String]? = nil) {
@@ -2827,7 +2827,7 @@ extension ElastiCache {
         /// The name of the cache parameter group to apply to all of the clusters in this replication group. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
         public let cacheParameterGroupName: String?
         /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
-        @OptionalCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
         public var cacheSecurityGroupNames: [String]?
         /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
@@ -2846,7 +2846,7 @@ extension ElastiCache {
         /// The identifier of the replication group to modify.
         public let replicationGroupId: String
         /// Specifies the VPC Security Groups associated with the clusters in the replication group. This parameter can be used only with replication group containing clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
-        @OptionalCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
         /// The number of days for which ElastiCache retains automatic node group (shard) snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
@@ -2924,15 +2924,15 @@ extension ElastiCache {
         /// The number of node groups (shards) that results from the modification of the shard configuration.
         public let nodeGroupCount: Int
         /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
-        @OptionalCoding<ArrayCoder<_NodeGroupsToRemoveEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_NodeGroupsToRemoveEncoding, String>>
         public var nodeGroupsToRemove: [String]?
         /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRetain is a list of NodeGroupIds to retain in the cluster. ElastiCache for Redis will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
-        @OptionalCoding<ArrayCoder<_NodeGroupsToRetainEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_NodeGroupsToRetainEncoding, String>>
         public var nodeGroupsToRetain: [String]?
         /// The name of the Redis (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
         public let replicationGroupId: String
         /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
-        @OptionalCoding<ArrayCoder<_ReshardingConfigurationEncoding, ReshardingConfiguration>>
+        @OptionalCustomCoding<ArrayCoder<_ReshardingConfigurationEncoding, ReshardingConfiguration>>
         public var reshardingConfiguration: [ReshardingConfiguration]?
 
         public init(applyImmediately: Bool, nodeGroupCount: Int, nodeGroupsToRemove: [String]? = nil, nodeGroupsToRetain: [String]? = nil, replicationGroupId: String, reshardingConfiguration: [ReshardingConfiguration]? = nil) {
@@ -2988,7 +2988,7 @@ extension ElastiCache {
         /// The identifier for the node group (shard). A Redis (cluster mode disabled) replication group contains only 1 node group; therefore, the node group ID is 0001. A Redis (cluster mode enabled) replication group contains 1 to 90 node groups numbered 0001 to 0090. Optionally, the user can provide the id for a node group.
         public let nodeGroupId: String?
         /// A list containing information about individual nodes within the node group (shard).
-        @OptionalCoding<ArrayCoder<_NodeGroupMembersEncoding, NodeGroupMember>>
+        @OptionalCustomCoding<ArrayCoder<_NodeGroupMembersEncoding, NodeGroupMember>>
         public var nodeGroupMembers: [NodeGroupMember]?
         /// The endpoint of the primary node in this node group (shard).
         public let primaryEndpoint: Endpoint?
@@ -3026,7 +3026,7 @@ extension ElastiCache {
         /// The Availability Zone where the primary node of this node group (shard) is launched.
         public let primaryAvailabilityZone: String?
         /// A list of Availability Zones to be used for the read replicas. The number of Availability Zones in this list must match the value of ReplicaCount or ReplicasPerNodeGroup if not specified.
-        @OptionalCoding<ArrayCoder<_ReplicaAvailabilityZonesEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ReplicaAvailabilityZonesEncoding, String>>
         public var replicaAvailabilityZones: [String]?
         /// The number of read replica nodes in this node group (shard).
         public let replicaCount: Int?
@@ -3136,7 +3136,7 @@ extension ElastiCache {
         /// The ID of the node group
         public let nodeGroupId: String?
         /// The status of the service update on the node group member
-        @OptionalCoding<ArrayCoder<_NodeGroupMemberUpdateStatusEncoding, NodeGroupMemberUpdateStatus>>
+        @OptionalCustomCoding<ArrayCoder<_NodeGroupMemberUpdateStatusEncoding, NodeGroupMemberUpdateStatus>>
         public var nodeGroupMemberUpdateStatus: [NodeGroupMemberUpdateStatus]?
 
         public init(nodeGroupId: String? = nil, nodeGroupMemberUpdateStatus: [NodeGroupMemberUpdateStatus]? = nil) {
@@ -3272,7 +3272,7 @@ extension ElastiCache {
         /// The auth token status
         public let authTokenStatus: AuthTokenUpdateStatus?
         /// A list of cache node IDs that are being removed (or will be removed) from the cluster. A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
-        @OptionalCoding<ArrayCoder<_CacheNodeIdsToRemoveEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_CacheNodeIdsToRemoveEncoding, String>>
         public var cacheNodeIdsToRemove: [String]?
         /// The cache node type that this cluster or replication group is scaled to.
         public let cacheNodeType: String?
@@ -3391,7 +3391,7 @@ extension ElastiCache {
         /// The cluster identifier. This parameter is stored as a lowercase string.
         public let cacheClusterId: String
         /// A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs.
-        @Coding<ArrayCoder<_CacheNodeIdsToRebootEncoding, String>>
+        @CustomCoding<ArrayCoder<_CacheNodeIdsToRebootEncoding, String>>
         public var cacheNodeIdsToReboot: [String]
 
         public init(cacheClusterId: String, cacheNodeIdsToReboot: [String]) {
@@ -3442,7 +3442,7 @@ extension ElastiCache {
         /// The AWS region where the cluster is stored
         public let replicationGroupRegion: String
         /// A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster.
-        @Coding<ArrayCoder<_ReshardingConfigurationEncoding, ReshardingConfiguration>>
+        @CustomCoding<ArrayCoder<_ReshardingConfigurationEncoding, ReshardingConfiguration>>
         public var reshardingConfiguration: [ReshardingConfiguration]
 
         public init(replicationGroupId: String, replicationGroupRegion: String, reshardingConfiguration: [ReshardingConfiguration]) {
@@ -3468,7 +3468,7 @@ extension ElastiCache {
         /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let resourceName: String
         /// A list of TagKeys identifying the tags you want removed from the named resource.
-        @Coding<DefaultArrayCoder>
+        @CustomCoding<DefaultArrayCoder>
         public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
@@ -3509,12 +3509,12 @@ extension ElastiCache {
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
         /// The names of all the cache clusters that are part of this replication group.
-        @OptionalCoding<ArrayCoder<_MemberClustersEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_MemberClustersEncoding, String>>
         public var memberClusters: [String]?
         /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ
         public let multiAZ: MultiAZStatus?
         /// A list of node groups in this replication group. For Redis (cluster mode disabled) replication groups, this is a single-element list. For Redis (cluster mode enabled) replication groups, the list contains an entry for each node group (shard).
-        @OptionalCoding<ArrayCoder<_NodeGroupsEncoding, NodeGroup>>
+        @OptionalCustomCoding<ArrayCoder<_NodeGroupsEncoding, NodeGroup>>
         public var nodeGroups: [NodeGroup]?
         /// A group of settings to be applied to the replication group, either immediately or during the next maintenance window.
         public let pendingModifiedValues: ReplicationGroupPendingModifiedValues?
@@ -3586,7 +3586,7 @@ extension ElastiCache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of replication groups. Each item in the list contains detailed information about one replication group.
-        @OptionalCoding<ArrayCoder<_ReplicationGroupsEncoding, ReplicationGroup>>
+        @OptionalCustomCoding<ArrayCoder<_ReplicationGroupsEncoding, ReplicationGroup>>
         public var replicationGroups: [ReplicationGroup]?
 
         public init(marker: String? = nil, replicationGroups: [ReplicationGroup]? = nil) {
@@ -3641,7 +3641,7 @@ extension ElastiCache {
         /// The description of the reserved cache node.
         public let productDescription: String?
         /// The recurring price charged to run this reserved cache node.
-        @OptionalCoding<ArrayCoder<_RecurringChargesEncoding, RecurringCharge>>
+        @OptionalCustomCoding<ArrayCoder<_RecurringChargesEncoding, RecurringCharge>>
         public var recurringCharges: [RecurringCharge]?
         /// The Amazon Resource Name (ARN) of the reserved cache node. Example: arn:aws:elasticache:us-east-1:123456789012:reserved-instance:ri-2017-03-27-08-33-25-582
         public let reservationARN: String?
@@ -3695,7 +3695,7 @@ extension ElastiCache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of reserved cache nodes. Each element in the list contains detailed information about one node.
-        @OptionalCoding<ArrayCoder<_ReservedCacheNodesEncoding, ReservedCacheNode>>
+        @OptionalCustomCoding<ArrayCoder<_ReservedCacheNodesEncoding, ReservedCacheNode>>
         public var reservedCacheNodes: [ReservedCacheNode]?
 
         public init(marker: String? = nil, reservedCacheNodes: [ReservedCacheNode]? = nil) {
@@ -3723,7 +3723,7 @@ extension ElastiCache {
         /// The cache engine used by the offering.
         public let productDescription: String?
         /// The recurring price charged to run this reserved cache node.
-        @OptionalCoding<ArrayCoder<_RecurringChargesEncoding, RecurringCharge>>
+        @OptionalCustomCoding<ArrayCoder<_RecurringChargesEncoding, RecurringCharge>>
         public var recurringCharges: [RecurringCharge]?
         /// A unique identifier for the reserved cache node offering.
         public let reservedCacheNodesOfferingId: String?
@@ -3759,7 +3759,7 @@ extension ElastiCache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of reserved cache node offerings. Each element in the list contains detailed information about one offering.
-        @OptionalCoding<ArrayCoder<_ReservedCacheNodesOfferingsEncoding, ReservedCacheNodesOffering>>
+        @OptionalCustomCoding<ArrayCoder<_ReservedCacheNodesOfferingsEncoding, ReservedCacheNodesOffering>>
         public var reservedCacheNodesOfferings: [ReservedCacheNodesOffering]?
 
         public init(marker: String? = nil, reservedCacheNodesOfferings: [ReservedCacheNodesOffering]? = nil) {
@@ -3779,7 +3779,7 @@ extension ElastiCache {
         /// The name of the cache parameter group to reset.
         public let cacheParameterGroupName: String
         /// An array of parameter names to reset to their default values. If ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is false, you must specify the name of at least one parameter to reset.
-        @OptionalCoding<ArrayCoder<_ParameterNameValuesEncoding, ParameterNameValue>>
+        @OptionalCustomCoding<ArrayCoder<_ParameterNameValuesEncoding, ParameterNameValue>>
         public var parameterNameValues: [ParameterNameValue]?
         /// If true, all parameters in the cache parameter group are reset to their default values. If false, only the parameters listed by ParameterNameValues are reset to their default values. Valid values: true | false
         public let resetAllParameters: Bool?
@@ -3803,7 +3803,7 @@ extension ElastiCache {
         /// Either the ElastiCache for Redis supplied 4-digit id or a user supplied id for the node group these configuration values apply to.
         public let nodeGroupId: String?
         /// A list of preferred availability zones for the nodes in this cluster.
-        @OptionalCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
         public var preferredAvailabilityZones: [String]?
 
         public init(nodeGroupId: String? = nil, preferredAvailabilityZones: [String]? = nil) {
@@ -3949,7 +3949,7 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of service updates
-        @OptionalCoding<ArrayCoder<_ServiceUpdatesEncoding, ServiceUpdate>>
+        @OptionalCustomCoding<ArrayCoder<_ServiceUpdatesEncoding, ServiceUpdate>>
         public var serviceUpdates: [ServiceUpdate]?
 
         public init(marker: String? = nil, serviceUpdates: [ServiceUpdate]? = nil) {
@@ -4002,7 +4002,7 @@ extension ElastiCache {
         /// The ID of the KMS key used to encrypt the snapshot.
         public let kmsKeyId: String?
         /// A list of the cache nodes in the source cluster.
-        @OptionalCoding<ArrayCoder<_NodeSnapshotsEncoding, NodeSnapshot>>
+        @OptionalCustomCoding<ArrayCoder<_NodeSnapshotsEncoding, NodeSnapshot>>
         public var nodeSnapshots: [NodeSnapshot]?
         /// The number of cache nodes in the source cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int?
@@ -4094,7 +4094,7 @@ extension ElastiCache {
 
     public struct StartMigrationMessage: AWSEncodableShape {
         /// List of endpoints from which data should be migrated. For Redis (cluster mode disabled), list should have only one element.
-        @Coding<DefaultArrayCoder>
+        @CustomCoding<DefaultArrayCoder>
         public var customerNodeEndpointList: [CustomerNodeEndpoint]
         /// The ID of the replication group to which data should be migrated.
         public let replicationGroupId: String
@@ -4160,7 +4160,7 @@ extension ElastiCache {
         public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// A list of cost allocation tags as key-value pairs.
-        @OptionalCoding<ArrayCoder<_TagListEncoding, Tag>>
+        @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
         public var tagList: [Tag]?
 
         public init(tagList: [Tag]? = nil) {
@@ -4260,14 +4260,14 @@ extension ElastiCache {
         /// The ID of the cache cluster
         public let cacheClusterId: String?
         /// The status of the service update on the cache node
-        @OptionalCoding<ArrayCoder<_CacheNodeUpdateStatusEncoding, CacheNodeUpdateStatus>>
+        @OptionalCustomCoding<ArrayCoder<_CacheNodeUpdateStatusEncoding, CacheNodeUpdateStatus>>
         public var cacheNodeUpdateStatus: [CacheNodeUpdateStatus]?
         /// The Elasticache engine to which the update applies. Either Redis or Memcached
         public let engine: String?
         /// The estimated length of time for the update to complete
         public let estimatedUpdateTime: String?
         /// The status of the service update on the node group
-        @OptionalCoding<ArrayCoder<_NodeGroupUpdateStatusEncoding, NodeGroupUpdateStatus>>
+        @OptionalCustomCoding<ArrayCoder<_NodeGroupUpdateStatusEncoding, NodeGroupUpdateStatus>>
         public var nodeGroupUpdateStatus: [NodeGroupUpdateStatus]?
         /// The progress of the service update on the replication group
         public let nodesUpdated: String?
@@ -4340,10 +4340,10 @@ extension ElastiCache {
         public struct _UnprocessedUpdateActionsEncoding: ArrayCoderProperties { public static let member = "UnprocessedUpdateAction" }
 
         /// Update actions that have been processed successfully
-        @OptionalCoding<ArrayCoder<_ProcessedUpdateActionsEncoding, ProcessedUpdateAction>>
+        @OptionalCustomCoding<ArrayCoder<_ProcessedUpdateActionsEncoding, ProcessedUpdateAction>>
         public var processedUpdateActions: [ProcessedUpdateAction]?
         /// Update actions that haven't been processed successfully
-        @OptionalCoding<ArrayCoder<_UnprocessedUpdateActionsEncoding, UnprocessedUpdateAction>>
+        @OptionalCustomCoding<ArrayCoder<_UnprocessedUpdateActionsEncoding, UnprocessedUpdateAction>>
         public var unprocessedUpdateActions: [UnprocessedUpdateAction]?
 
         public init(processedUpdateActions: [ProcessedUpdateAction]? = nil, unprocessedUpdateActions: [UnprocessedUpdateAction]? = nil) {
@@ -4363,7 +4363,7 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// Returns a list of update actions
-        @OptionalCoding<ArrayCoder<_UpdateActionsEncoding, UpdateAction>>
+        @OptionalCustomCoding<ArrayCoder<_UpdateActionsEncoding, UpdateAction>>
         public var updateActions: [UpdateAction]?
 
         public init(marker: String? = nil, updateActions: [UpdateAction]? = nil) {

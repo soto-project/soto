@@ -509,12 +509,12 @@ extension CloudTrail {
 
     public struct ListPublicKeysRequest: AWSEncodableShape {
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var endTime: TimeStamp?
         /// Reserved for future use.
         public let nextToken: String?
         /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var startTime: TimeStamp?
 
         public init(endTime: TimeStamp? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
@@ -630,7 +630,7 @@ extension CloudTrail {
 
     public struct LookupEventsRequest: AWSEncodableShape {
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var endTime: TimeStamp?
         /// Specifies the event category. If you do not specify an event category, events of the category are not returned in the response. For example, if you do not specify insight as the value of EventCategory, no Insights events are returned.
         public let eventCategory: EventCategory?
@@ -641,7 +641,7 @@ extension CloudTrail {
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var startTime: TimeStamp?
 
         public init(endTime: TimeStamp? = nil, eventCategory: EventCategory? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {

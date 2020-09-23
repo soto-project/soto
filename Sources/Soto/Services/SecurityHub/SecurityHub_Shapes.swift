@@ -6121,7 +6121,7 @@ extension SecurityHub {
         /// The ID of the invitation sent to the member account.
         public let invitationId: String?
         /// The timestamp of when the invitation was sent.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var invitedAt: TimeStamp?
         /// The current status of the association between the member and master accounts.
         public let memberStatus: String?
@@ -6477,14 +6477,14 @@ extension SecurityHub {
         /// The email address of the member account.
         public let email: String?
         /// A timestamp for the date and time when the invitation was sent to the member account.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var invitedAt: TimeStamp?
         /// The AWS account ID of the Security Hub master account associated with this member account.
         public let masterId: String?
         /// The status of the relationship between the member account and its master account.
         public let memberStatus: String?
         /// The timestamp for the date and time when the member account was updated.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var updatedAt: TimeStamp?
 
         public init(accountId: String? = nil, email: String? = nil, invitedAt: TimeStamp? = nil, masterId: String? = nil, memberStatus: String? = nil, updatedAt: TimeStamp? = nil) {
@@ -7325,7 +7325,7 @@ extension SecurityHub {
         /// The current status of the security standard control. Indicates whether the control is enabled or disabled. Security Hub does not check against disabled controls.
         public let controlStatus: ControlStatus?
         /// The date and time that the status of the security standard control was most recently updated.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var controlStatusUpdatedAt: TimeStamp?
         /// The longer description of the security standard control. Provides information about what the control is checking for.
         public let description: String?

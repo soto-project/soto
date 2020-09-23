@@ -273,14 +273,14 @@ extension Braket {
 
     public struct GetQuantumTaskResponse: AWSDecodableShape {
         /// The time at which the task was created.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var createdAt: TimeStamp
         /// The ARN of the device the task was run on.
         public let deviceArn: String
         /// The parameters for the device on which the task ran.
         public let deviceParameters: String
         /// The time at which the task ended.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var endedAt: TimeStamp?
         /// The reason that a task failed.
         public let failureReason: String?
@@ -324,12 +324,12 @@ extension Braket {
 
     public struct QuantumTaskSummary: AWSDecodableShape {
         /// The time at which the task was created.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var createdAt: TimeStamp
         /// The ARN of the device the task ran on.
         public let deviceArn: String
         /// The time at which the task finished.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var endedAt: TimeStamp?
         /// The S3 bucket where the task result file is stored..
         public let outputS3Bucket: String

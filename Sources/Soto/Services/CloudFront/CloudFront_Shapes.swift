@@ -180,7 +180,7 @@ extension CloudFront {
         /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this distribution have active CloudFront key pairs. If not, Enabled is false.
         public let enabled: Bool
         /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, Signer>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, Signer>>
         public var items: [Signer]?
         /// The number of trusted signers specified in the TrustedSigners complex type.
         public let quantity: Int
@@ -219,7 +219,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "CNAME" }
 
         /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// The number of CNAME aliases, if any, that you want to associate with this distribution.
         public let quantity: Int
@@ -240,7 +240,7 @@ extension CloudFront {
 
         public let cachedMethods: CachedMethods?
         /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
-        @Coding<ArrayCoder<_ItemsEncoding, Method>>
+        @CustomCoding<ArrayCoder<_ItemsEncoding, Method>>
         public var items: [Method]
         /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
         public let quantity: Int
@@ -318,7 +318,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "CacheBehavior" }
 
         /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, CacheBehavior>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, CacheBehavior>>
         public var items: [CacheBehavior]?
         /// The number of cache behaviors for this distribution.
         public let quantity: Int
@@ -426,7 +426,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "CachePolicySummary" }
 
         /// Contains the cache policies in the list.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, CachePolicySummary>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, CachePolicySummary>>
         public var items: [CachePolicySummary]?
         /// The maximum number of cache policies requested.
         public let maxItems: Int
@@ -488,7 +488,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Method" }
 
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
-        @Coding<ArrayCoder<_ItemsEncoding, Method>>
+        @CustomCoding<ArrayCoder<_ItemsEncoding, Method>>
         public var items: [Method]
         /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
         public let quantity: Int
@@ -550,7 +550,7 @@ extension CloudFront {
         /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
         public let isTruncated: Bool
         /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current AWS account.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, CloudFrontOriginAccessIdentitySummary>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, CloudFrontOriginAccessIdentitySummary>>
         public var items: [CloudFrontOriginAccessIdentitySummary]?
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
         public let marker: String
@@ -643,7 +643,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "ContentTypeProfile" }
 
         /// Items in a field-level encryption content type-profile mapping.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, ContentTypeProfile>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, ContentTypeProfile>>
         public var items: [ContentTypeProfile]?
         /// The number of field-level encryption content type-profile mappings.
         public let quantity: Int
@@ -663,7 +663,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Name" }
 
         /// A list of cookie names.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// The number of cookie names in the Items list.
         public let quantity: Int
@@ -1165,10 +1165,10 @@ extension CloudFront {
         public struct _FieldsEncoding: ArrayCoderProperties { public static let member = "Field" }
 
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
-        @Coding<DefaultArrayCoder>
+        @CustomCoding<DefaultArrayCoder>
         public var endPoints: [EndPoint]
         /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
-        @Coding<ArrayCoder<_FieldsEncoding, String>>
+        @CustomCoding<ArrayCoder<_FieldsEncoding, String>>
         public var fields: [String]
         /// A unique name to identify this real-time log configuration.
         public let name: String
@@ -1332,7 +1332,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "CustomErrorResponse" }
 
         /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, CustomErrorResponse>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, CustomErrorResponse>>
         public var items: [CustomErrorResponse]?
         /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
         public let quantity: Int
@@ -1352,7 +1352,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "OriginCustomHeader" }
 
         ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, OriginCustomHeader>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, OriginCustomHeader>>
         public var items: [OriginCustomHeader]?
         /// The number of custom headers, if any, for this distribution.
         public let quantity: Int
@@ -1649,7 +1649,7 @@ extension CloudFront {
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
         public let activeTrustedSigners: ActiveTrustedSigners
         /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
-        @OptionalCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
+        @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
         public let arn: String
@@ -1805,7 +1805,7 @@ extension CloudFront {
         /// A flag that indicates whether more distribution IDs remain to be listed. If your results were truncated, you can make a subsequent request using the Marker request field to retrieve more distribution IDs in the list.
         public let isTruncated: Bool
         /// Contains the distribution IDs in the list.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// The value provided in the Marker request field.
         public let marker: String
@@ -1841,7 +1841,7 @@ extension CloudFront {
         /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
         /// A complex type that contains one DistributionSummary element for each distribution that was created by the current AWS account.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, DistributionSummary>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, DistributionSummary>>
         public var items: [DistributionSummary]?
         /// The value you provided for the Marker request parameter.
         public let marker: String
@@ -1877,7 +1877,7 @@ extension CloudFront {
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public let aliases: Aliases
         /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
-        @OptionalCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
+        @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
         public let arn: String
@@ -1967,7 +1967,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "EncryptionEntity" }
 
         /// An array of field patterns in a field-level encryption content type-profile mapping.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, EncryptionEntity>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, EncryptionEntity>>
         public var items: [EncryptionEntity]?
         /// Number of field pattern items in a field-level encryption content type-profile mapping.
         public let quantity: Int
@@ -2073,7 +2073,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "FieldLevelEncryptionSummary" }
 
         /// An array of field-level encryption items.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, FieldLevelEncryptionSummary>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, FieldLevelEncryptionSummary>>
         public var items: [FieldLevelEncryptionSummary]?
         /// The maximum number of elements you want in the response body.
         public let maxItems: Int
@@ -2149,7 +2149,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "FieldLevelEncryptionProfileSummary" }
 
         /// The field-level encryption profile items.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, FieldLevelEncryptionProfileSummary>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, FieldLevelEncryptionProfileSummary>>
         public var items: [FieldLevelEncryptionProfileSummary]?
         /// The maximum number of field-level encryption profiles you want in the response body.
         public let maxItems: Int
@@ -2235,7 +2235,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "FieldPattern" }
 
         /// An array of the field-level encryption field patterns.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// The number of field-level encryption field patterns.
         public let quantity: Int
@@ -2255,7 +2255,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Location" }
 
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
         public let quantity: Int
@@ -3007,7 +3007,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Name" }
 
         /// A list of HTTP header names.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// The number of header names in the Items list.
         public let quantity: Int
@@ -3073,7 +3073,7 @@ extension CloudFront {
         /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
         public let isTruncated: Bool
         /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current AWS account.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, InvalidationSummary>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, InvalidationSummary>>
         public var items: [InvalidationSummary]?
         /// The value that you provided for the Marker request parameter.
         public let marker: String
@@ -3128,7 +3128,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "KeyPairId" }
 
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
         public let quantity: Int
@@ -3186,7 +3186,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "LambdaFunctionAssociation" }
 
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, LambdaFunctionAssociation>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, LambdaFunctionAssociation>>
         public var items: [LambdaFunctionAssociation]?
         /// The number of Lambda function associations for this cache behavior.
         public let quantity: Int
@@ -3961,7 +3961,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "OriginGroupMember" }
 
         /// Items (origins) in an origin group.
-        @Coding<ArrayCoder<_ItemsEncoding, OriginGroupMember>>
+        @CustomCoding<ArrayCoder<_ItemsEncoding, OriginGroupMember>>
         public var items: [OriginGroupMember]
         /// The number of origins in an origin group.
         public let quantity: Int
@@ -3986,7 +3986,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "OriginGroup" }
 
         /// The items (origin groups) in a distribution.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, OriginGroup>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, OriginGroup>>
         public var items: [OriginGroup]?
         /// The number of origin groups.
         public let quantity: Int
@@ -4096,7 +4096,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "OriginRequestPolicySummary" }
 
         /// Contains the origin request policies in the list.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, OriginRequestPolicySummary>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, OriginRequestPolicySummary>>
         public var items: [OriginRequestPolicySummary]?
         /// The maximum number of origin request policies requested.
         public let maxItems: Int
@@ -4158,7 +4158,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "SslProtocol" }
 
         /// A list that contains allowed SSL/TLS protocols for this distribution.
-        @Coding<ArrayCoder<_ItemsEncoding, SslProtocol>>
+        @CustomCoding<ArrayCoder<_ItemsEncoding, SslProtocol>>
         public var items: [SslProtocol]
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin.
         public let quantity: Int
@@ -4178,7 +4178,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Origin" }
 
         /// A complex type that contains origins or origin groups for this distribution.
-        @Coding<ArrayCoder<_ItemsEncoding, Origin>>
+        @CustomCoding<ArrayCoder<_ItemsEncoding, Origin>>
         public var items: [Origin]
         /// The number of origins or origin groups for this distribution.
         public let quantity: Int
@@ -4231,7 +4231,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Path" }
 
         /// A complex type that contains a list of the paths that you want to invalidate.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// The number of invalidation paths specified for the objects that you want to invalidate.
         public let quantity: Int
@@ -4299,7 +4299,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "PublicKeySummary" }
 
         /// An array of information about a public key you add to CloudFront to use with features like field-level encryption.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, PublicKeySummary>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, PublicKeySummary>>
         public var items: [PublicKeySummary]?
         /// The maximum number of public keys you want in the response body.
         public let maxItems: Int
@@ -4390,7 +4390,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "QueryArgProfile" }
 
         /// Number of items for query argument-profile mapping for field-level encryption.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, QueryArgProfile>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, QueryArgProfile>>
         public var items: [QueryArgProfile]?
         /// Number of profiles for query argument-profile mapping for field-level encryption.
         public let quantity: Int
@@ -4410,7 +4410,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Name" }
 
         /// A list of query string names.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// The number of query string names in the Items list.
         public let quantity: Int
@@ -4432,10 +4432,10 @@ extension CloudFront {
         /// The Amazon Resource Name (ARN) of this real-time log configuration.
         public let arn: String
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data for this real-time log configuration.
-        @Coding<DefaultArrayCoder>
+        @CustomCoding<DefaultArrayCoder>
         public var endPoints: [EndPoint]
         /// A list of fields that are included in each real-time log record. In an API response, the fields are provided in the same order in which they are sent to the Amazon Kinesis data stream. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
-        @Coding<ArrayCoder<_FieldsEncoding, String>>
+        @CustomCoding<ArrayCoder<_FieldsEncoding, String>>
         public var fields: [String]
         /// The unique name of this real-time log configuration.
         public let name: String
@@ -4463,7 +4463,7 @@ extension CloudFront {
         /// A flag that indicates whether there are more real-time log configurations than are contained in this list.
         public let isTruncated: Bool
         /// Contains the list of real-time log configurations.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var items: [RealtimeLogConfig]?
         /// This parameter indicates where this list of real-time log configurations begins. This list includes real-time log configurations that occur after the marker.
         public let marker: String
@@ -4566,7 +4566,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "StatusCode" }
 
         /// The items (status codes) for an origin group.
-        @Coding<ArrayCoder<_ItemsEncoding, Int>>
+        @CustomCoding<ArrayCoder<_ItemsEncoding, Int>>
         public var items: [Int]
         /// The number of status codes.
         public let quantity: Int
@@ -4695,7 +4695,7 @@ extension CloudFront {
         /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
         /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current AWS account.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, StreamingDistributionSummary>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, StreamingDistributionSummary>>
         public var items: [StreamingDistributionSummary]?
         /// The value you provided for the Marker request parameter.
         public let marker: String
@@ -4830,7 +4830,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Key" }
 
         ///  A complex type that contains Tag key elements.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
 
         public init(items: [String]? = nil) {
@@ -4883,7 +4883,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         ///  A complex type that contains Tag elements.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, Tag>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, Tag>>
         public var items: [Tag]?
 
         public init(items: [Tag]? = nil) {
@@ -4907,7 +4907,7 @@ extension CloudFront {
         /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
         public let enabled: Bool
         ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
-        @OptionalCoding<ArrayCoder<_ItemsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
         /// The number of trusted signers for this cache behavior.
         public let quantity: Int
@@ -5321,10 +5321,10 @@ extension CloudFront {
         /// The Amazon Resource Name (ARN) for this real-time log configuration.
         public let arn: String?
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var endPoints: [EndPoint]?
         /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
-        @OptionalCoding<ArrayCoder<_FieldsEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_FieldsEncoding, String>>
         public var fields: [String]?
         /// The name for this real-time log configuration.
         public let name: String?

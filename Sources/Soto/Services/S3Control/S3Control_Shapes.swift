@@ -251,7 +251,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role that Batch Operations will use to execute this job's operation on each object in the manifest.
         public let roleArn: String
         /// A set of tags to associate with the Amazon S3 Batch Operations job. This is an optional parameter.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var tags: [S3Tag]?
 
         public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
@@ -620,7 +620,7 @@ extension S3Control {
 
     public struct GetJobTaggingResult: AWSDecodableShape {
         /// The set of tags associated with the Amazon S3 Batch Operations job.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var tags: [S3Tag]?
 
         public init(tags: [S3Tag]? = nil) {
@@ -679,7 +679,7 @@ extension S3Control {
         /// The description for this job, if one was provided in this job's Create Job request.
         public let description: String?
         /// If the specified job failed, this field contains information describing the failure.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var failureReasons: [JobFailure]?
         /// The Amazon Resource Name (ARN) for this job.
         public let jobArn: String?
@@ -860,7 +860,7 @@ extension S3Control {
 
     public struct JobManifestSpec: AWSEncodableShape & AWSDecodableShape {
         /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var fields: [JobManifestFieldName]?
         /// Indicates which of the available formats the specified manifest uses.
         public let format: JobManifestFormat
@@ -1035,7 +1035,7 @@ extension S3Control {
         public struct _AccessPointListEncoding: ArrayCoderProperties { public static let member = "AccessPoint" }
 
         /// Contains identification and configuration information for one or more access points associated with the specified bucket.
-        @OptionalCoding<ArrayCoder<_AccessPointListEncoding, AccessPoint>>
+        @OptionalCustomCoding<ArrayCoder<_AccessPointListEncoding, AccessPoint>>
         public var accessPointList: [AccessPoint]?
         /// If the specified bucket has more access points than can be returned in one call to this API, then this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
@@ -1089,7 +1089,7 @@ extension S3Control {
 
     public struct ListJobsResult: AWSDecodableShape {
         /// The list of current jobs and jobs that have ended within the last 30 days.
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var jobs: [JobListDescriptor]?
         /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
         public let nextToken: String?
@@ -1188,7 +1188,7 @@ extension S3Control {
         /// The ID for the Amazon S3 Batch Operations job whose tags you want to replace.
         public let jobId: String
         /// The set of tags to associate with the Amazon S3 Batch Operations job.
-        @Coding<DefaultArrayCoder>
+        @CustomCoding<DefaultArrayCoder>
         public var tags: [S3Tag]
 
         public init(accountId: String, jobId: String, tags: [S3Tag]) {
@@ -1246,7 +1246,7 @@ extension S3Control {
     }
 
     public struct S3AccessControlList: AWSEncodableShape & AWSDecodableShape {
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var grants: [S3Grant]?
         public let owner: S3ObjectOwner
 
@@ -1288,13 +1288,13 @@ extension S3Control {
     }
 
     public struct S3CopyObjectOperation: AWSEncodableShape & AWSDecodableShape {
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var accessControlGrants: [S3Grant]?
         public let cannedAccessControlList: S3CannedAccessControlList?
         public let metadataDirective: S3MetadataDirective?
         public let modifiedSinceConstraint: TimeStamp?
         public let newObjectMetadata: S3ObjectMetadata?
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var newObjectTagging: [S3Tag]?
         /// The Legal Hold status to be applied to all objects in the Batch Operations job.
         public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
@@ -1455,7 +1455,7 @@ extension S3Control {
         public let httpExpiresDate: TimeStamp?
         public let requesterCharged: Bool?
         public let sSEAlgorithm: S3SSEAlgorithm?
-        @OptionalCoding<DefaultDictionaryCoder>
+        @OptionalCustomCoding<DefaultDictionaryCoder>
         public var userMetadata: [String: String]?
 
         public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: TimeStamp? = nil, requesterCharged: Bool? = nil, sSEAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
@@ -1594,7 +1594,7 @@ extension S3Control {
     }
 
     public struct S3SetObjectTaggingOperation: AWSEncodableShape & AWSDecodableShape {
-        @OptionalCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<DefaultArrayCoder>
         public var tagSet: [S3Tag]?
 
         public init(tagSet: [S3Tag]? = nil) {

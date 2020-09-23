@@ -173,7 +173,7 @@ extension MQ {
         /// The status of the broker.
         public let brokerState: BrokerState?
         /// The time when the broker was created.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         /// Required. The deployment mode of the broker.
         public let deploymentMode: DeploymentMode?
@@ -207,7 +207,7 @@ extension MQ {
         /// The authentication strategy associated with the configuration.
         public let authenticationStrategy: AuthenticationStrategy?
         /// Required. The date and time of the configuration revision.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         /// Required. The description of the configuration.
         public let description: String?
@@ -270,7 +270,7 @@ extension MQ {
 
     public struct ConfigurationRevision: AWSDecodableShape {
         /// Required. The date and time of the configuration revision.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         /// The description of the configuration revision.
         public let description: String?
@@ -419,7 +419,7 @@ extension MQ {
     public struct CreateConfigurationResponse: AWSDecodableShape {
         public let arn: String?
         public let authenticationStrategy: AuthenticationStrategy?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         public let id: String?
         public let latestRevision: ConfigurationRevision?
@@ -672,7 +672,7 @@ extension MQ {
         public let brokerName: String?
         public let brokerState: BrokerState?
         public let configurations: Configurations?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         public let deploymentMode: DeploymentMode?
         public let encryptionOptions: EncryptionOptions?
@@ -774,7 +774,7 @@ extension MQ {
     public struct DescribeConfigurationResponse: AWSDecodableShape {
         public let arn: String?
         public let authenticationStrategy: AuthenticationStrategy?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         public let description: String?
         public let engineType: EngineType?
@@ -830,7 +830,7 @@ extension MQ {
 
     public struct DescribeConfigurationRevisionResponse: AWSDecodableShape {
         public let configurationId: String?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         public let data: String?
         public let description: String?
@@ -1418,7 +1418,7 @@ extension MQ {
 
     public struct UpdateConfigurationResponse: AWSDecodableShape {
         public let arn: String?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var created: TimeStamp?
         public let id: String?
         public let latestRevision: ConfigurationRevision?

@@ -474,7 +474,7 @@ extension S3 {
         public struct _GrantsEncoding: ArrayCoderProperties { public static let member = "Grant" }
 
         /// A list of grants.
-        @OptionalCoding<ArrayCoder<_GrantsEncoding, Grant>>
+        @OptionalCustomCoding<ArrayCoder<_GrantsEncoding, Grant>>
         public var grants: [Grant]?
         /// Container for the bucket owner's display name and ID.
         public let owner: Owner?
@@ -2220,7 +2220,7 @@ extension S3 {
         public struct _GrantsEncoding: ArrayCoderProperties { public static let member = "Grant" }
 
         /// A list of grants.
-        @OptionalCoding<ArrayCoder<_GrantsEncoding, Grant>>
+        @OptionalCustomCoding<ArrayCoder<_GrantsEncoding, Grant>>
         public var grants: [Grant]?
         /// Container for the bucket owner's display name and ID.
         public let owner: Owner?
@@ -2745,7 +2745,7 @@ extension S3 {
         public struct _TagSetEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// Contains the tag set.
-        @Coding<ArrayCoder<_TagSetEncoding, Tag>>
+        @CustomCoding<ArrayCoder<_TagSetEncoding, Tag>>
         public var tagSet: [Tag]
 
         public init(tagSet: [Tag]) {
@@ -2822,7 +2822,7 @@ extension S3 {
         /// Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3 bucket.
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
         /// Rules that define when a redirect is applied and the redirect behavior.
-        @OptionalCoding<ArrayCoder<_RoutingRulesEncoding, RoutingRule>>
+        @OptionalCustomCoding<ArrayCoder<_RoutingRulesEncoding, RoutingRule>>
         public var routingRules: [RoutingRule]?
 
         public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: [RoutingRule]? = nil) {
@@ -2866,7 +2866,7 @@ extension S3 {
         public struct _GrantsEncoding: ArrayCoderProperties { public static let member = "Grant" }
 
         /// A list of grants.
-        @OptionalCoding<ArrayCoder<_GrantsEncoding, Grant>>
+        @OptionalCustomCoding<ArrayCoder<_GrantsEncoding, Grant>>
         public var grants: [Grant]?
         ///  Container for the bucket owner's display name and ID.
         public let owner: Owner?
@@ -3333,7 +3333,7 @@ extension S3 {
         public struct _TagSetEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// Contains the tag set.
-        @Coding<ArrayCoder<_TagSetEncoding, Tag>>
+        @CustomCoding<ArrayCoder<_TagSetEncoding, Tag>>
         public var tagSet: [Tag]
         /// The versionId of the object for which you got the tagging information.
         public let versionId: String?
@@ -3843,7 +3843,7 @@ extension S3 {
         /// Specifies whether the inventory is enabled or disabled. If set to True, an inventory list is generated. If set to False, no inventory list is generated.
         public let isEnabled: Bool
         /// Contains the optional fields that are included in the inventory results.
-        @OptionalCoding<ArrayCoder<_OptionalFieldsEncoding, InventoryOptionalField>>
+        @OptionalCustomCoding<ArrayCoder<_OptionalFieldsEncoding, InventoryOptionalField>>
         public var optionalFields: [InventoryOptionalField]?
         /// Specifies the schedule for generating inventory results.
         public let schedule: InventorySchedule
@@ -4020,7 +4020,7 @@ extension S3 {
 
     public struct LifecycleExpiration: AWSEncodableShape & AWSDecodableShape {
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var date: TimeStamp?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
         public let days: Int?
@@ -4278,7 +4278,7 @@ extension S3 {
         public struct _BucketsEncoding: ArrayCoderProperties { public static let member = "Bucket" }
 
         /// The list of buckets owned by the requestor.
-        @OptionalCoding<ArrayCoder<_BucketsEncoding, Bucket>>
+        @OptionalCustomCoding<ArrayCoder<_BucketsEncoding, Bucket>>
         public var buckets: [Bucket]?
         /// The owner of the buckets listed.
         public let owner: Owner?
@@ -4813,7 +4813,7 @@ extension S3 {
         /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case, you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
         public let targetBucket: String
         /// Container for granting information.
-        @OptionalCoding<ArrayCoder<_TargetGrantsEncoding, TargetGrant>>
+        @OptionalCustomCoding<ArrayCoder<_TargetGrantsEncoding, TargetGrant>>
         public var targetGrants: [TargetGrant]?
         /// A prefix for all log object keys. If you store log files from multiple Amazon S3 buckets in a single bucket, you can use a prefix to distinguish which log files came from which bucket.
         public let targetPrefix: String
@@ -5152,7 +5152,7 @@ extension S3 {
         /// Indicates the Retention mode for the specified object.
         public let mode: ObjectLockRetentionMode?
         /// The date on which this Object Lock Retention will expire.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var retainUntilDate: TimeStamp?
 
         public init(mode: ObjectLockRetentionMode? = nil, retainUntilDate: TimeStamp? = nil) {
@@ -6913,7 +6913,7 @@ extension S3 {
         public struct _UserMetadataEncoding: ArrayCoderProperties { public static let member = "MetadataEntry" }
 
         /// A list of grants that control access to the staged results.
-        @OptionalCoding<ArrayCoder<_AccessControlListEncoding, Grant>>
+        @OptionalCustomCoding<ArrayCoder<_AccessControlListEncoding, Grant>>
         public var accessControlList: [Grant]?
         /// The name of the bucket where the restore results will be placed.
         public let bucketName: String
@@ -6927,7 +6927,7 @@ extension S3 {
         /// The tag-set that is applied to the restore results.
         public let tagging: Tagging?
         /// A list of metadata to store with the restore results in S3.
-        @OptionalCoding<ArrayCoder<_UserMetadataEncoding, MetadataEntry>>
+        @OptionalCustomCoding<ArrayCoder<_UserMetadataEncoding, MetadataEntry>>
         public var userMetadata: [MetadataEntry]?
 
         public init(accessControlList: [Grant]? = nil, bucketName: String, cannedACL: ObjectCannedACL? = nil, encryption: Encryption? = nil, prefix: String, storageClass: StorageClass? = nil, tagging: Tagging? = nil, userMetadata: [MetadataEntry]? = nil) {
@@ -7290,7 +7290,7 @@ extension S3 {
         public struct _TagSetEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// A collection for a set of tags
-        @Coding<ArrayCoder<_TagSetEncoding, Tag>>
+        @CustomCoding<ArrayCoder<_TagSetEncoding, Tag>>
         public var tagSet: [Tag]
 
         public init(tagSet: [Tag]) {
@@ -7370,7 +7370,7 @@ extension S3 {
 
     public struct Transition: AWSEncodableShape & AWSDecodableShape {
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var date: TimeStamp?
         /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
         public let days: Int?
@@ -7665,7 +7665,7 @@ extension S3 {
         /// The redirect behavior for every request to this bucket's website endpoint.  If you specify this property, you can't specify any other property.
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
         /// Rules that define when a redirect is applied and the redirect behavior.
-        @OptionalCoding<ArrayCoder<_RoutingRulesEncoding, RoutingRule>>
+        @OptionalCustomCoding<ArrayCoder<_RoutingRulesEncoding, RoutingRule>>
         public var routingRules: [RoutingRule]?
 
         public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: [RoutingRule]? = nil) {

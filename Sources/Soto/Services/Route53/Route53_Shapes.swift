@@ -359,7 +359,7 @@ extension Route53 {
         public struct _ChangesEncoding: ArrayCoderProperties { public static let member = "Change" }
 
         /// Information about the changes to make to the record sets.
-        @Coding<ArrayCoder<_ChangesEncoding, Change>>
+        @CustomCoding<ArrayCoder<_ChangesEncoding, Change>>
         public var changes: [Change]
         ///  Optional: Any comments you want to include about a change batch request.
         public let comment: String?
@@ -457,10 +457,10 @@ extension Route53 {
         public struct _RemoveTagKeysEncoding: ArrayCoderProperties { public static let member = "Key" }
 
         /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone.
-        @OptionalCoding<ArrayCoder<_AddTagsEncoding, Tag>>
+        @OptionalCustomCoding<ArrayCoder<_AddTagsEncoding, Tag>>
         public var addTags: [Tag]?
         /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
-        @OptionalCoding<ArrayCoder<_RemoveTagKeysEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_RemoveTagKeysEncoding, String>>
         public var removeTagKeys: [String]?
         /// The ID of the resource for which you want to add, change, or delete tags.
         public let resourceId: String
@@ -504,7 +504,7 @@ extension Route53 {
         /// For the metric that the CloudWatch alarm is associated with, the arithmetic operation that is used for the comparison.
         public let comparisonOperator: ComparisonOperator
         /// For the metric that the CloudWatch alarm is associated with, a complex type that contains information about the dimensions for the metric. For information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>>
+        @OptionalCustomCoding<ArrayCoder<_DimensionsEncoding, Dimension>>
         public var dimensions: [Dimension]?
         /// For the metric that the CloudWatch alarm is associated with, the number of periods that the metric is compared to the threshold.
         public let evaluationPeriods: Int
@@ -968,7 +968,7 @@ extension Route53 {
         /// The ID that Amazon Route 53 assigns to a reusable delegation set.
         public let id: String?
         /// A complex type that contains a list of the authoritative name servers for a hosted zone or for a reusable delegation set.
-        @Coding<ArrayCoder<_NameServersEncoding, String>>
+        @CustomCoding<ArrayCoder<_NameServersEncoding, String>>
         public var nameServers: [String]
 
         public init(callerReference: String? = nil, id: String? = nil, nameServers: [String]) {
@@ -1363,7 +1363,7 @@ extension Route53 {
 
     public struct GetCheckerIpRangesResponse: AWSDecodableShape {
         /// A complex type that contains sorted list of IP ranges in CIDR format for Amazon Route 53 health checkers.
-        @Coding<DefaultArrayCoder>
+        @CustomCoding<DefaultArrayCoder>
         public var checkerIpRanges: [String]
 
         public init(checkerIpRanges: [String]) {
@@ -1460,7 +1460,7 @@ extension Route53 {
         public struct _HealthCheckObservationsEncoding: ArrayCoderProperties { public static let member = "HealthCheckObservation" }
 
         /// A list that contains one Observation element for each Amazon Route 53 health checker that is reporting a last failure reason.
-        @Coding<ArrayCoder<_HealthCheckObservationsEncoding, HealthCheckObservation>>
+        @CustomCoding<ArrayCoder<_HealthCheckObservationsEncoding, HealthCheckObservation>>
         public var healthCheckObservations: [HealthCheckObservation]
 
         public init(healthCheckObservations: [HealthCheckObservation]) {
@@ -1527,7 +1527,7 @@ extension Route53 {
         public struct _HealthCheckObservationsEncoding: ArrayCoderProperties { public static let member = "HealthCheckObservation" }
 
         /// A list that contains one HealthCheckObservation element for each Amazon Route 53 health checker that is reporting a status about the health check endpoint.
-        @Coding<ArrayCoder<_HealthCheckObservationsEncoding, HealthCheckObservation>>
+        @CustomCoding<ArrayCoder<_HealthCheckObservationsEncoding, HealthCheckObservation>>
         public var healthCheckObservations: [HealthCheckObservation]
 
         public init(healthCheckObservations: [HealthCheckObservation]) {
@@ -1623,7 +1623,7 @@ extension Route53 {
         /// A complex type that contains general information about the specified hosted zone.
         public let hostedZone: HostedZone
         /// A complex type that contains information about the VPCs that are associated with the specified hosted zone.
-        @OptionalCoding<ArrayCoder<_VPCsEncoding, VPC>>
+        @OptionalCustomCoding<ArrayCoder<_VPCsEncoding, VPC>>
         public var vPCs: [VPC]?
 
         public init(delegationSet: DelegationSet? = nil, hostedZone: HostedZone, vPCs: [VPC]? = nil) {
@@ -1873,7 +1873,7 @@ extension Route53 {
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
         public let alarmIdentifier: AlarmIdentifier?
         /// (CALCULATED Health Checks Only) A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
-        @OptionalCoding<ArrayCoder<_ChildHealthChecksEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ChildHealthChecksEncoding, String>>
         public var childHealthChecks: [String]?
         /// Stops Route 53 from performing health checks. When you disable a health check, here's what happens:    Health checks that check the health of endpoints: Route 53 stops submitting requests to your application, server, or other resource.    Calculated health checks: Route 53 stops aggregating the status of the referenced health checks.    Health checks that monitor CloudWatch alarms: Route 53 stops monitoring the corresponding CloudWatch metrics.   After you disable a health check, Route 53 considers the status of the health check to always be healthy. If you configured DNS failover, Route 53 continues to route traffic to the corresponding resources. If you want to stop routing traffic to a resource, change the value of Inverted.  Charges for a health check still apply when the health check is disabled. For more information, see Amazon Route 53 Pricing.
         public let disabled: Bool?
@@ -1896,7 +1896,7 @@ extension Route53 {
         /// The port on the endpoint that you want Amazon Route 53 to perform health checks on.  Don't specify a value for Port when you specify a value for Type of CLOUDWATCH_METRIC or CALCULATED.
         public let port: Int?
         /// A complex type that contains one Region element for each region from which you want Amazon Route 53 health checkers to check the specified endpoint. If you don't specify any regions, Route 53 health checkers automatically performs checks from all of the regions that are listed under Valid Values. If you update a health check to remove a region that has been performing health checks, Route 53 will briefly continue to perform checks from that region to ensure that some health checkers are always checking the endpoint (for example, if you replace three regions with four different regions).
-        @OptionalCoding<ArrayCoder<_RegionsEncoding, HealthCheckRegion>>
+        @OptionalCustomCoding<ArrayCoder<_RegionsEncoding, HealthCheckRegion>>
         public var regions: [HealthCheckRegion]?
         /// The number of seconds between the time that Amazon Route 53 gets a response from your endpoint and the time that it sends the next health check request. Each Route 53 health checker makes requests at this interval.  You can't change the value of RequestInterval after you create a health check.  If you don't specify a value for RequestInterval, the default value is 30 seconds.
         public let requestInterval: Int?
@@ -2158,7 +2158,7 @@ extension Route53 {
         public struct _GeoLocationDetailsListEncoding: ArrayCoderProperties { public static let member = "GeoLocationDetails" }
 
         /// A complex type that contains one GeoLocationDetails element for each location that Amazon Route 53 supports for geolocation.
-        @Coding<ArrayCoder<_GeoLocationDetailsListEncoding, GeoLocationDetails>>
+        @CustomCoding<ArrayCoder<_GeoLocationDetailsListEncoding, GeoLocationDetails>>
         public var geoLocationDetailsList: [GeoLocationDetails]
         /// A value that indicates whether more locations remain to be listed after the last location in this response. If so, the value of IsTruncated is true. To get more values, submit another request and include the values of NextContinentCode, NextCountryCode, and NextSubdivisionCode in the startcontinentcode, startcountrycode, and startsubdivisioncode, as applicable.
         public let isTruncated: Bool
@@ -2217,7 +2217,7 @@ extension Route53 {
         public struct _HealthChecksEncoding: ArrayCoderProperties { public static let member = "HealthCheck" }
 
         /// A complex type that contains one HealthCheck element for each health check that is associated with the current AWS account.
-        @Coding<ArrayCoder<_HealthChecksEncoding, HealthCheck>>
+        @CustomCoding<ArrayCoder<_HealthChecksEncoding, HealthCheck>>
         public var healthChecks: [HealthCheck]
         /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of health checks by submitting another ListHealthChecks request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
@@ -2281,7 +2281,7 @@ extension Route53 {
         /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
         public let hostedZoneId: String?
         /// A complex type that contains general information about the hosted zone.
-        @Coding<ArrayCoder<_HostedZonesEncoding, HostedZone>>
+        @CustomCoding<ArrayCoder<_HostedZonesEncoding, HostedZone>>
         public var hostedZones: [HostedZone]
         /// A flag that indicates whether there are more hosted zones to be listed. If the response was truncated, you can get the next group of maxitems hosted zones by calling ListHostedZonesByName again and specifying the values of NextDNSName and NextHostedZoneId elements in the dnsname and hostedzoneid parameters.
         public let isTruncated: Bool
@@ -2349,7 +2349,7 @@ extension Route53 {
         public struct _HostedZoneSummariesEncoding: ArrayCoderProperties { public static let member = "HostedZoneSummary" }
 
         /// A list that contains one HostedZoneSummary element for each hosted zone that the specified Amazon VPC is associated with. Each HostedZoneSummary element contains the hosted zone name and ID, and information about who owns the hosted zone.
-        @Coding<ArrayCoder<_HostedZoneSummariesEncoding, HostedZoneSummary>>
+        @CustomCoding<ArrayCoder<_HostedZoneSummariesEncoding, HostedZoneSummary>>
         public var hostedZoneSummaries: [HostedZoneSummary]
         /// The value that you specified for MaxItems in the most recent ListHostedZonesByVPC request.
         public let maxItems: String
@@ -2401,7 +2401,7 @@ extension Route53 {
         public struct _HostedZonesEncoding: ArrayCoderProperties { public static let member = "HostedZone" }
 
         /// A complex type that contains general information about the hosted zone.
-        @Coding<ArrayCoder<_HostedZonesEncoding, HostedZone>>
+        @CustomCoding<ArrayCoder<_HostedZonesEncoding, HostedZone>>
         public var hostedZones: [HostedZone]
         /// A flag indicating whether there are more hosted zones to be listed. If the response was truncated, you can get more hosted zones by submitting another ListHostedZones request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
@@ -2463,7 +2463,7 @@ extension Route53 {
         /// If a response includes the last of the query logging configurations that are associated with the current AWS account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another ListQueryLoggingConfigs request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
         public let nextToken: String?
         /// An array that contains one QueryLoggingConfig element for each configuration for DNS query logging that is associated with the current AWS account.
-        @Coding<ArrayCoder<_QueryLoggingConfigsEncoding, QueryLoggingConfig>>
+        @CustomCoding<ArrayCoder<_QueryLoggingConfigsEncoding, QueryLoggingConfig>>
         public var queryLoggingConfigs: [QueryLoggingConfig]
 
         public init(nextToken: String? = nil, queryLoggingConfigs: [QueryLoggingConfig]) {
@@ -2529,7 +2529,7 @@ extension Route53 {
         /// If the results were truncated, the type of the next record in the list. This element is present only if IsTruncated is true.
         public let nextRecordType: RRType?
         /// Information about multiple resource record sets.
-        @Coding<ArrayCoder<_ResourceRecordSetsEncoding, ResourceRecordSet>>
+        @CustomCoding<ArrayCoder<_ResourceRecordSetsEncoding, ResourceRecordSet>>
         public var resourceRecordSets: [ResourceRecordSet]
 
         public init(isTruncated: Bool, maxItems: String, nextRecordIdentifier: String? = nil, nextRecordName: String? = nil, nextRecordType: RRType? = nil, resourceRecordSets: [ResourceRecordSet]) {
@@ -2578,7 +2578,7 @@ extension Route53 {
         public struct _DelegationSetsEncoding: ArrayCoderProperties { public static let member = "DelegationSet" }
 
         /// A complex type that contains one DelegationSet element for each reusable delegation set that was created by the current AWS account.
-        @Coding<ArrayCoder<_DelegationSetsEncoding, DelegationSet>>
+        @CustomCoding<ArrayCoder<_DelegationSetsEncoding, DelegationSet>>
         public var delegationSets: [DelegationSet]
         /// A flag that indicates whether there are more reusable delegation sets to be listed.
         public let isTruncated: Bool
@@ -2650,7 +2650,7 @@ extension Route53 {
         public struct _ResourceIdsEncoding: ArrayCoderProperties { public static let member = "ResourceId" }
 
         /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
-        @Coding<ArrayCoder<_ResourceIdsEncoding, String>>
+        @CustomCoding<ArrayCoder<_ResourceIdsEncoding, String>>
         public var resourceIds: [String]
         /// The type of the resources.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.
         public let resourceType: TagResourceType
@@ -2677,7 +2677,7 @@ extension Route53 {
         public struct _ResourceTagSetsEncoding: ArrayCoderProperties { public static let member = "ResourceTagSet" }
 
         /// A list of ResourceTagSets containing tags associated with the specified resources.
-        @Coding<ArrayCoder<_ResourceTagSetsEncoding, ResourceTagSet>>
+        @CustomCoding<ArrayCoder<_ResourceTagSetsEncoding, ResourceTagSet>>
         public var resourceTagSets: [ResourceTagSet]
 
         public init(resourceTagSets: [ResourceTagSet]) {
@@ -2723,7 +2723,7 @@ extension Route53 {
         /// If the value of IsTruncated is true, TrafficPolicyIdMarker is the ID of the first traffic policy in the next group of MaxItems traffic policies.
         public let trafficPolicyIdMarker: String
         /// A list that contains one TrafficPolicySummary element for each traffic policy that was created by the current AWS account.
-        @Coding<ArrayCoder<_TrafficPolicySummariesEncoding, TrafficPolicySummary>>
+        @CustomCoding<ArrayCoder<_TrafficPolicySummariesEncoding, TrafficPolicySummary>>
         public var trafficPolicySummaries: [TrafficPolicySummary]
 
         public init(isTruncated: Bool, maxItems: String, trafficPolicyIdMarker: String, trafficPolicySummaries: [TrafficPolicySummary]) {
@@ -2783,7 +2783,7 @@ extension Route53 {
         /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of traffic policy instances.
         public let trafficPolicyInstanceNameMarker: String?
         /// A list that contains one TrafficPolicyInstance element for each traffic policy instance that matches the elements in the request.
-        @Coding<ArrayCoder<_TrafficPolicyInstancesEncoding, TrafficPolicyInstance>>
+        @CustomCoding<ArrayCoder<_TrafficPolicyInstancesEncoding, TrafficPolicyInstance>>
         public var trafficPolicyInstances: [TrafficPolicyInstance]
         /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance in the next group of traffic policy instances.
         public let trafficPolicyInstanceTypeMarker: RRType?
@@ -2861,7 +2861,7 @@ extension Route53 {
         /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let trafficPolicyInstanceNameMarker: String?
         /// A list that contains one TrafficPolicyInstance element for each traffic policy instance that matches the elements in the request.
-        @Coding<ArrayCoder<_TrafficPolicyInstancesEncoding, TrafficPolicyInstance>>
+        @CustomCoding<ArrayCoder<_TrafficPolicyInstancesEncoding, TrafficPolicyInstance>>
         public var trafficPolicyInstances: [TrafficPolicyInstance]
         /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let trafficPolicyInstanceTypeMarker: RRType?
@@ -2929,7 +2929,7 @@ extension Route53 {
         /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance that Route 53 will return if you submit another ListTrafficPolicyInstances request.
         public let trafficPolicyInstanceNameMarker: String?
         /// A list that contains one TrafficPolicyInstance element for each traffic policy instance that matches the elements in the request.
-        @Coding<ArrayCoder<_TrafficPolicyInstancesEncoding, TrafficPolicyInstance>>
+        @CustomCoding<ArrayCoder<_TrafficPolicyInstancesEncoding, TrafficPolicyInstance>>
         public var trafficPolicyInstances: [TrafficPolicyInstance]
         /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance that Amazon Route 53 will return if you submit another ListTrafficPolicyInstances request.
         public let trafficPolicyInstanceTypeMarker: RRType?
@@ -2990,7 +2990,7 @@ extension Route53 {
         /// The value that you specified for the maxitems parameter in the ListTrafficPolicyVersions request that produced the current response.
         public let maxItems: String
         /// A list that contains one TrafficPolicy element for each traffic policy version that is associated with the specified traffic policy.
-        @Coding<ArrayCoder<_TrafficPoliciesEncoding, TrafficPolicy>>
+        @CustomCoding<ArrayCoder<_TrafficPoliciesEncoding, TrafficPolicy>>
         public var trafficPolicies: [TrafficPolicy]
         /// If IsTruncated is true, the value of TrafficPolicyVersionMarker identifies the first traffic policy that Amazon Route 53 will return if you submit another request. Call ListTrafficPolicyVersions again and specify the value of TrafficPolicyVersionMarker in the TrafficPolicyVersionMarker request parameter. This element is present only if IsTruncated is true.
         public let trafficPolicyVersionMarker: String
@@ -3046,7 +3046,7 @@ extension Route53 {
         /// When the response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of VPCs, submit another ListVPCAssociationAuthorizations request, and include the value of the NextToken element from the response in the nexttoken request parameter.
         public let nextToken: String?
         /// The list of VPCs that are authorized to be associated with the specified hosted zone.
-        @Coding<ArrayCoder<_VPCsEncoding, VPC>>
+        @CustomCoding<ArrayCoder<_VPCsEncoding, VPC>>
         public var vPCs: [VPC]
 
         public init(hostedZoneId: String, nextToken: String? = nil, vPCs: [VPC]) {
@@ -3118,7 +3118,7 @@ extension Route53 {
         ///  Latency-based resource record sets only: The Amazon EC2 Region where you created the resource that this resource record set refers to. The resource typically is an AWS resource, such as an EC2 instance or an ELB load balancer, and is referred to by an IP address or a DNS domain name, depending on the record type.  Although creating latency and latency alias resource record sets in a private hosted zone is allowed, it's not supported.  When Amazon Route 53 receives a DNS query for a domain name and type for which you have created latency resource record sets, Route 53 selects the latency resource record set that has the lowest latency between the end user and the associated Amazon EC2 Region. Route 53 then returns the value that is associated with the selected resource record set. Note the following:   You can only specify one ResourceRecord per latency resource record set.   You can only create one latency resource record set for each Amazon EC2 Region.   You aren't required to create latency resource record sets for all Amazon EC2 Regions. Route 53 will choose the region with the best latency from among the regions that you create latency resource record sets for.   You can't create non-latency resource record sets that have the same values for the Name and Type elements as latency resource record sets.
         public let region: ResourceRecordSetRegion?
         /// Information about the resource records to act upon.  If you're creating an alias resource record set, omit ResourceRecords.
-        @OptionalCoding<ArrayCoder<_ResourceRecordsEncoding, ResourceRecord>>
+        @OptionalCustomCoding<ArrayCoder<_ResourceRecordsEncoding, ResourceRecord>>
         public var resourceRecords: [ResourceRecord]?
         ///  Resource record sets that have a routing policy other than simple: An identifier that differentiates among multiple resource record sets that have the same combination of name and type, such as multiple weighted resource record sets named acme.example.com that have a type of A. In a group of resource record sets that have the same name and type, the value of SetIdentifier must be unique for each resource record set.  For information about routing policies, see Choosing a Routing Policy in the Amazon Route 53 Developer Guide.
         public let setIdentifier: String?
@@ -3191,7 +3191,7 @@ extension Route53 {
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.
         public let resourceType: TagResourceType?
         /// The tags associated with the specified resource.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>>
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
         public init(resourceId: String? = nil, resourceType: TagResourceType? = nil, tags: [Tag]? = nil) {
@@ -3317,7 +3317,7 @@ extension Route53 {
         /// The protocol that Amazon Route 53 used to respond to the request, either UDP or TCP.
         public let `protocol`: String
         /// A list that contains values that Amazon Route 53 returned for this resource record set.
-        @Coding<ArrayCoder<_RecordDataEncoding, String>>
+        @CustomCoding<ArrayCoder<_RecordDataEncoding, String>>
         public var recordData: [String]
         /// The name of the resource record set that you submitted a request for.
         public let recordName: String
@@ -3464,7 +3464,7 @@ extension Route53 {
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
         public let alarmIdentifier: AlarmIdentifier?
         /// A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
-        @OptionalCoding<ArrayCoder<_ChildHealthChecksEncoding, String>>
+        @OptionalCustomCoding<ArrayCoder<_ChildHealthChecksEncoding, String>>
         public var childHealthChecks: [String]?
         /// Stops Route 53 from performing health checks. When you disable a health check, here's what happens:    Health checks that check the health of endpoints: Route 53 stops submitting requests to your application, server, or other resource.    Calculated health checks: Route 53 stops aggregating the status of the referenced health checks.    Health checks that monitor CloudWatch alarms: Route 53 stops monitoring the corresponding CloudWatch metrics.   After you disable a health check, Route 53 considers the status of the health check to always be healthy. If you configured DNS failover, Route 53 continues to route traffic to the corresponding resources. If you want to stop routing traffic to a resource, change the value of Inverted.  Charges for a health check still apply when the health check is disabled. For more information, see Amazon Route 53 Pricing.
         public let disabled: Bool?
@@ -3489,10 +3489,10 @@ extension Route53 {
         /// The port on the endpoint that you want Amazon Route 53 to perform health checks on.  Don't specify a value for Port when you specify a value for Type of CLOUDWATCH_METRIC or CALCULATED.
         public let port: Int?
         /// A complex type that contains one Region element for each region that you want Amazon Route 53 health checkers to check the specified endpoint from.
-        @OptionalCoding<ArrayCoder<_RegionsEncoding, HealthCheckRegion>>
+        @OptionalCustomCoding<ArrayCoder<_RegionsEncoding, HealthCheckRegion>>
         public var regions: [HealthCheckRegion]?
         /// A complex type that contains one ResettableElementName element for each element that you want to reset to the default value. Valid values for ResettableElementName include the following:    ChildHealthChecks: Amazon Route 53 resets ChildHealthChecks to null.    FullyQualifiedDomainName: Route 53 resets FullyQualifiedDomainName. to null.    Regions: Route 53 resets the Regions list to the default set of regions.     ResourcePath: Route 53 resets ResourcePath to null.
-        @OptionalCoding<ArrayCoder<_ResetElementsEncoding, ResettableElementName>>
+        @OptionalCustomCoding<ArrayCoder<_ResetElementsEncoding, ResettableElementName>>
         public var resetElements: [ResettableElementName]?
         /// The path that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example the file /docs/route53-health-check.html. You can also include query string parameters, for example, /welcome.html?language=jp&amp;login=y.  Specify this value only if you want to change it.
         public let resourcePath: String?
