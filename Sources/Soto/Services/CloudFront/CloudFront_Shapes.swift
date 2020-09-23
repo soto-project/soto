@@ -1165,7 +1165,7 @@ extension CloudFront {
         public struct _FieldsEncoding: ArrayCoderProperties { public static let member = "Field" }
 
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var endPoints: [EndPoint]
         /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
         @CustomCoding<ArrayCoder<_FieldsEncoding, String>>
@@ -4432,7 +4432,7 @@ extension CloudFront {
         /// The Amazon Resource Name (ARN) of this real-time log configuration.
         public let arn: String
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data for this real-time log configuration.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var endPoints: [EndPoint]
         /// A list of fields that are included in each real-time log record. In an API response, the fields are provided in the same order in which they are sent to the Amazon Kinesis data stream. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
         @CustomCoding<ArrayCoder<_FieldsEncoding, String>>
@@ -4463,7 +4463,7 @@ extension CloudFront {
         /// A flag that indicates whether there are more real-time log configurations than are contained in this list.
         public let isTruncated: Bool
         /// Contains the list of real-time log configurations.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var items: [RealtimeLogConfig]?
         /// This parameter indicates where this list of real-time log configurations begins. This list includes real-time log configurations that occur after the marker.
         public let marker: String
@@ -5321,7 +5321,7 @@ extension CloudFront {
         /// The Amazon Resource Name (ARN) for this real-time log configuration.
         public let arn: String?
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var endPoints: [EndPoint]?
         /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
         @OptionalCustomCoding<ArrayCoder<_FieldsEncoding, String>>

@@ -5080,7 +5080,7 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Information about the authentication method to be used to authenticate clients.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var authenticationOptions: [ClientVpnAuthenticationRequest]
         /// The IPv4 address range, in CIDR notation, from which to assign client IP addresses. The address range cannot overlap with the local CIDR of the VPC in which the associated subnet is located, or the routes that you add manually. The address range cannot be changed after the Client VPN endpoint has been created. The CIDR block should be /22 or greater.
         public let clientCidrBlock: String
@@ -6071,7 +6071,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more entries for the prefix list.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var entries: [AddPrefixListEntry]?
         /// The maximum number of entries for the prefix list.
         public let maxEntries: Int
@@ -6800,7 +6800,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var resources: [String]
         /// The tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string.
         @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -8170,7 +8170,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the EC2 Fleets.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var fleetIds: [String]
         /// Indicates whether to terminate instances for an EC2 Fleet if it is deleted successfully.
         public let terminateInstances: Bool
@@ -8874,7 +8874,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var resources: [String]
         /// The tags to delete. Specify a tag key and an optional tag value to delete specific tags. If you specify a tag key without a tag value, we delete any tag with this key regardless of its value. If you specify a tag key with an empty string as the tag value, we delete the tag only if its value is an empty string. If you omit this parameter, we delete all user-defined tags for the specified resources. We do not delete AWS-generated tags (tags that have the aws: prefix).
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -9953,7 +9953,7 @@ extension EC2 {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// One or more carrier gateway IDs.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var carrierGatewayIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -11067,7 +11067,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The ID of the EC2 Fleets.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var fleetIds: [String]?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -11955,7 +11955,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The instance types. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var instanceTypes: [InstanceType]?
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the next token value.
         public let maxResults: Int?
@@ -13023,7 +13023,7 @@ extension EC2 {
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. If this parameter is not specified, up to 50 results are returned by default.
         public let maxResults: Int?
         /// One or more network interface permission IDs.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var networkInterfacePermissionIds: [String]?
         /// The token to request the next page of results.
         public let nextToken: String?
@@ -13140,7 +13140,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_GroupIdsEncoding, String>>
         public var groupIds: [String]?
         /// The names of the placement groups. Default: Describes all your placement groups, or only those otherwise specified.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var groupNames: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, groupIds: [String]? = nil, groupNames: [String]? = nil) {
@@ -13501,7 +13501,7 @@ extension EC2 {
         /// The Reserved Instance product platform description. Instances that include (Amazon VPC) in the description are for use with Amazon VPC.
         public let productDescription: RIProductDescription?
         /// One or more Reserved Instances offering IDs.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var reservedInstancesOfferingIds: [String]?
 
         public init(availabilityZone: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, includeMarketplace: Bool? = nil, instanceTenancy: Tenancy? = nil, instanceType: InstanceType? = nil, maxDuration: Int64? = nil, maxInstanceCount: Int? = nil, maxResults: Int? = nil, minDuration: Int64? = nil, nextToken: String? = nil, offeringClass: OfferingClassType? = nil, offeringType: OfferingTypeValues? = nil, productDescription: RIProductDescription? = nil, reservedInstancesOfferingIds: [String]? = nil) {
@@ -13963,7 +13963,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_OwnerIdsEncoding, String>>
         public var ownerIds: [String]?
         /// The IDs of the AWS accounts that can create volumes from the snapshot.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var restorableByUserIds: [String]?
         /// The snapshot IDs. Default: Describes the snapshots for which you have create volume permissions.
         @OptionalCustomCoding<ArrayCoder<_SnapshotIdsEncoding, String>>
@@ -14275,14 +14275,14 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// Filters the results by the specified instance types.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var instanceTypes: [InstanceType]?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// Filters the results by the specified basic product descriptions.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var productDescriptions: [String]?
         /// The date and time, up to the past 90 days, from which to start retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: TimeStamp?
@@ -14681,7 +14681,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The IDs of the attachments.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
@@ -14798,7 +14798,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// One or more IDs of the transit gateway peering attachments.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
@@ -14915,7 +14915,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The IDs of the attachments.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
@@ -20387,7 +20387,7 @@ extension EC2 {
         /// A description for the instance being imported.
         public let description: String?
         /// The disk image.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var diskImages: [DiskImage]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -20724,7 +20724,7 @@ extension EC2 {
 
     public struct InferenceAcceleratorInfo: AWSDecodableShape {
         /// Describes the Inference accelerators for the instance type.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var accelerators: [InferenceDeviceInfo]?
 
         public init(accelerators: [InferenceDeviceInfo]? = nil) {
@@ -24410,7 +24410,7 @@ extension EC2 {
 
     public struct ModifyManagedPrefixListRequest: AWSEncodableShape {
         /// One or more entries to add to the prefix list.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var addEntries: [AddPrefixListEntry]?
         /// The current version of the prefix list.
         public let currentVersion: Int64?
@@ -24421,7 +24421,7 @@ extension EC2 {
         /// A name for the prefix list.
         public let prefixListName: String?
         /// One or more entries to remove from the prefix list.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var removeEntries: [RemovePrefixListEntry]?
 
         public init(addEntries: [AddPrefixListEntry]? = nil, currentVersion: Int64? = nil, dryRun: Bool? = nil, prefixListId: String, prefixListName: String? = nil, removeEntries: [RemovePrefixListEntry]? = nil) {
@@ -24715,7 +24715,7 @@ extension EC2 {
         /// The protocol, for example TCP, to assign to the Traffic Mirror rule.
         public let `protocol`: Int?
         /// The properties that you want to remove from the Traffic Mirror filter rule. When you remove a property from a Traffic Mirror filter rule, the property is set to the default.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var removeFields: [TrafficMirrorFilterRuleField]?
         /// The action to assign to the rule.
         public let ruleAction: TrafficMirrorRuleAction?
@@ -24782,7 +24782,7 @@ extension EC2 {
         /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. To mirror a subset, set this to the length (in bytes) to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. Do not specify this parameter when you want to mirror the entire packet.
         public let packetLength: Int?
         /// The properties that you want to remove from the Traffic Mirror session. When you remove a property from a Traffic Mirror session, the property is set to the default.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var removeFields: [TrafficMirrorSessionField]?
         /// The session number determines the order in which sessions are evaluated when an interface is used by multiple sessions. The first session with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
         public let sessionNumber: Int?
@@ -34712,7 +34712,7 @@ extension EC2 {
         /// Indicate whether the VPN tunnels process IPv4 or IPv6 traffic. Default: ipv4
         public let tunnelInsideIpVersion: TunnelInsideIpVersion?
         /// The tunnel options for the VPN connection.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var tunnelOptions: [VpnTunnelOptionsSpecification]?
 
         public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {

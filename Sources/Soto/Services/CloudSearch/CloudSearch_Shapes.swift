@@ -235,7 +235,7 @@ extension CloudSearch {
     }
 
     public struct BuildSuggestersResponse: AWSDecodableShape {
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var fieldNames: [String]?
 
         public init(fieldNames: [String]? = nil) {
@@ -675,7 +675,7 @@ extension CloudSearch {
 
     public struct DescribeAnalysisSchemesRequest: AWSEncodableShape {
         /// The analysis schemes you want to describe.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var analysisSchemeNames: [String]?
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -708,7 +708,7 @@ extension CloudSearch {
 
     public struct DescribeAnalysisSchemesResponse: AWSDecodableShape {
         /// The analysis scheme descriptions.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var analysisSchemes: [AnalysisSchemeStatus]
 
         public init(analysisSchemes: [AnalysisSchemeStatus]) {
@@ -794,7 +794,7 @@ extension CloudSearch {
 
     public struct DescribeDomainsRequest: AWSEncodableShape {
         /// The names of the domains you want to include in the response.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var domainNames: [String]?
 
         public init(domainNames: [String]? = nil) {
@@ -815,7 +815,7 @@ extension CloudSearch {
     }
 
     public struct DescribeDomainsResponse: AWSDecodableShape {
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var domainStatusList: [DomainStatus]
 
         public init(domainStatusList: [DomainStatus]) {
@@ -833,7 +833,7 @@ extension CloudSearch {
         /// The name of the domain you want to describe.
         public let domainName: String
         /// Limits the DescribeExpressions response to the specified expressions. If not specified, all expressions are shown.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var expressionNames: [String]?
 
         public init(deployed: Bool? = nil, domainName: String, expressionNames: [String]? = nil) {
@@ -862,7 +862,7 @@ extension CloudSearch {
 
     public struct DescribeExpressionsResponse: AWSDecodableShape {
         /// The expressions configured for the domain.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var expressions: [ExpressionStatus]
 
         public init(expressions: [ExpressionStatus]) {
@@ -880,7 +880,7 @@ extension CloudSearch {
         /// The name of the domain you want to describe.
         public let domainName: String
         /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var fieldNames: [String]?
 
         public init(deployed: Bool? = nil, domainName: String, fieldNames: [String]? = nil) {
@@ -909,7 +909,7 @@ extension CloudSearch {
 
     public struct DescribeIndexFieldsResponse: AWSDecodableShape {
         /// The index fields configured for the domain.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var indexFields: [IndexFieldStatus]
 
         public init(indexFields: [IndexFieldStatus]) {
@@ -993,7 +993,7 @@ extension CloudSearch {
         /// The name of the domain you want to describe.
         public let domainName: String
         /// The suggesters you want to describe.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var suggesterNames: [String]?
 
         public init(deployed: Bool? = nil, domainName: String, suggesterNames: [String]? = nil) {
@@ -1022,7 +1022,7 @@ extension CloudSearch {
 
     public struct DescribeSuggestersResponse: AWSDecodableShape {
         /// The suggesters configured for the domain specified in the request.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var suggesters: [SuggesterStatus]
 
         public init(suggesters: [SuggesterStatus]) {
@@ -1283,7 +1283,7 @@ extension CloudSearch {
 
     public struct IndexDocumentsResponse: AWSDecodableShape {
         /// The names of the fields that are currently being indexed.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var fieldNames: [String]?
 
         public init(fieldNames: [String]? = nil) {
@@ -1505,7 +1505,7 @@ extension CloudSearch {
 
     public struct ListDomainNamesResponse: AWSDecodableShape {
         /// The names of the search domains owned by an account.
-        @OptionalCustomCoding<DefaultDictionaryCoder>
+        @OptionalCustomCoding<StandardDictionaryCoder>
         public var domainNames: [String: String]?
 
         public init(domainNames: [String: String]? = nil) {

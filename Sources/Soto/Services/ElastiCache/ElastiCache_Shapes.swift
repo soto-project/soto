@@ -153,10 +153,10 @@ extension ElastiCache {
 
     public struct AllowedNodeTypeModificationsMessage: AWSDecodableShape {
         /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling down a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var scaleDownModifications: [String]?
         /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var scaleUpModifications: [String]?
 
         public init(scaleDownModifications: [String]? = nil, scaleUpModifications: [String]? = nil) {
@@ -218,10 +218,10 @@ extension ElastiCache {
 
     public struct BatchApplyUpdateActionMessage: AWSEncodableShape {
         /// The cache cluster IDs
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var cacheClusterIds: [String]?
         /// The replication group IDs
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
@@ -246,10 +246,10 @@ extension ElastiCache {
 
     public struct BatchStopUpdateActionMessage: AWSEncodableShape {
         /// The cache cluster IDs
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var cacheClusterIds: [String]?
         /// The replication group IDs
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
@@ -324,7 +324,7 @@ extension ElastiCache {
         /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
         public let replicationGroupId: String?
         /// A list of VPC Security Groups associated with the cluster.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var securityGroups: [SecurityGroupMembership]?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
@@ -1465,7 +1465,7 @@ extension ElastiCache {
         @OptionalCustomCoding<ArrayCoder<_ReplicaConfigurationEncoding, ConfigureShard>>
         public var replicaConfiguration: [ConfigureShard]?
         /// A list of the node ids to remove from the replication group or node group (shard).
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var replicasToRemove: [String]?
         /// The id of the replication group from which you want to remove replica nodes.
         public let replicationGroupId: String
@@ -2032,7 +2032,7 @@ extension ElastiCache {
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The status of the service update
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var serviceUpdateStatus: [ServiceUpdateStatus]?
 
         public init(marker: String? = nil, maxRecords: Int? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil) {
@@ -2113,7 +2113,7 @@ extension ElastiCache {
 
     public struct DescribeUpdateActionsMessage: AWSEncodableShape {
         /// The cache cluster IDs
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var cacheClusterIds: [String]?
         /// The Elasticache engine to which the update applies. Either Redis or Memcached
         public let engine: String?
@@ -2122,19 +2122,19 @@ extension ElastiCache {
         /// The maximum number of records to include in the response
         public let maxRecords: Int?
         /// The replication group IDs
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The status of the service update
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var serviceUpdateStatus: [ServiceUpdateStatus]?
         /// The range of time specified to search for service updates that are in available status
         public let serviceUpdateTimeRange: TimeRangeFilter?
         /// Dictates whether to include node level update status in the response
         public let showNodeLevelUpdateStatus: Bool?
         /// The status of the update action.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var updateActionStatus: [UpdateActionStatus]?
 
         public init(cacheClusterIds: [String]? = nil, engine: String? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil, serviceUpdateTimeRange: TimeRangeFilter? = nil, showNodeLevelUpdateStatus: Bool? = nil, updateActionStatus: [UpdateActionStatus]? = nil) {
@@ -3468,7 +3468,7 @@ extension ElastiCache {
         /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let resourceName: String
         /// A list of TagKeys identifying the tags you want removed from the named resource.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
@@ -4094,7 +4094,7 @@ extension ElastiCache {
 
     public struct StartMigrationMessage: AWSEncodableShape {
         /// List of endpoints from which data should be migrated. For Redis (cluster mode disabled), list should have only one element.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var customerNodeEndpointList: [CustomerNodeEndpoint]
         /// The ID of the replication group to which data should be migrated.
         public let replicationGroupId: String

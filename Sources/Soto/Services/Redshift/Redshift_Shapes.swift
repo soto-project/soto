@@ -451,7 +451,7 @@ extension Redshift {
         /// The unique identifier of the cluster.
         public let clusterIdentifier: String?
         /// The nodes in the cluster.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var clusterNodes: [ClusterNode]?
         /// The list of cluster parameter groups that are associated with this cluster. Each parameter group in the list is returned with its status.
         @OptionalCustomCoding<ArrayCoder<_ClusterParameterGroupsEncoding, ClusterParameterGroupStatus>>
@@ -513,7 +513,7 @@ extension Redshift {
         /// The number of compute nodes in the cluster.
         public let numberOfNodes: Int?
         /// Cluster operations that are waiting to be started.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var pendingActions: [String]?
         /// A value that, if present, indicates that changes to the cluster are pending. Specific pending changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
@@ -826,7 +826,7 @@ extension Redshift {
 
     public struct ClusterParameterGroupStatus: AWSDecodableShape {
         /// The list of parameter statuses.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var clusterParameterStatusList: [ClusterParameterStatus]?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
@@ -4642,13 +4642,13 @@ extension Redshift {
         /// The estimated time remaining, in seconds, until the resize operation is complete. This value is calculated based on the average resize rate and the estimated amount of data remaining to be processed. Once the resize operation is complete, this value will be 0.
         public let estimatedTimeToCompletionInSeconds: Int64?
         /// The names of tables that have been completely imported . Valid Values: List of table names.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var importTablesCompleted: [String]?
         /// The names of tables that are being currently imported. Valid Values: List of table names.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var importTablesInProgress: [String]?
         /// The names of tables that have not been yet imported. Valid Values: List of table names
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var importTablesNotStarted: [String]?
         /// An optional string to provide additional details about the resize action.
         public let message: String?
@@ -5755,7 +5755,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
         /// Contains the output from the DescribeUsageLimits action.
-        @OptionalCustomCoding<DefaultArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder>
         public var usageLimits: [UsageLimit]?
 
         public init(marker: String? = nil, usageLimits: [UsageLimit]? = nil) {

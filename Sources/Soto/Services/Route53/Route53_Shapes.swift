@@ -1363,7 +1363,7 @@ extension Route53 {
 
     public struct GetCheckerIpRangesResponse: AWSDecodableShape {
         /// A complex type that contains sorted list of IP ranges in CIDR format for Amazon Route 53 health checkers.
-        @CustomCoding<DefaultArrayCoder>
+        @CustomCoding<StandardArrayCoder>
         public var checkerIpRanges: [String]
 
         public init(checkerIpRanges: [String]) {

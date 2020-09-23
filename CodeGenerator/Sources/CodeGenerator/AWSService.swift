@@ -514,7 +514,7 @@ extension AWSService {
             guard list.flattened != true, member.flattened != true else { return nil }
             let entryName = self.getArrayEntryName(list)
             if entryName == "member" {
-                return "\(codingWrapper)<DefaultArrayCoder>"
+                return "\(codingWrapper)<StandardArrayCoder>"
             } else {
                 return "\(codingWrapper)<ArrayCoder<\(self.encodingName(name)), \(list.member.shape.swiftTypeName)>>"
             }
@@ -522,7 +522,7 @@ extension AWSService {
             guard self.api.metadata.protocol != .json, self.api.metadata.protocol != .restjson else { return nil }
             let names = self.getDictionaryEntryNames(map, member: member)
             if names.entry == "entry", names.key == "key", names.value == "value" {
-                return "\(codingWrapper)<DefaultDictionaryCoder>"
+                return "\(codingWrapper)<StandardDictionaryCoder>"
             } else {
                 return "\(codingWrapper)<DictionaryCoder<\(self.encodingName(name)), \(map.key.shape.swiftTypeName), \(map.value.shape.swiftTypeName)>>"
             }
