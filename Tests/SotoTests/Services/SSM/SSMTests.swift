@@ -72,18 +72,19 @@ class SSMTests: XCTestCase {
     }
 
     func testGetParametersByPath() {
-        let name = "/test/" + TestEnvironment.generateResourceName()
-        let response = self.putParameter(name: name, value: "testdata2")
+        let name = TestEnvironment.generateResourceName()
+        let fullname = "/\(name)/\(name)"
+        let response = self.putParameter(name: fullname, value: "testdata2")
             .flatMap { (_) -> EventLoopFuture<SSM.GetParametersByPathResult> in
-                let request = SSM.GetParametersByPathRequest(path: "/test/")
+                let request = SSM.GetParametersByPathRequest(path: "/\(name)/")
                 return Self.ssm.getParametersByPath(request)
             }
             .flatMapThrowing { response in
-                let parameter = try XCTUnwrap(response.parameters?.first { $0.name == name })
+                let parameter = try XCTUnwrap(response.parameters?.first { $0.name == fullname })
                 XCTAssertEqual(parameter.value, "testdata2")
             }
             .flatAlways { _ in
-                return self.deleteParameter(name: name)
+                return self.deleteParameter(name: fullname)
             }
         XCTAssertNoThrow(try response.wait())
     }
