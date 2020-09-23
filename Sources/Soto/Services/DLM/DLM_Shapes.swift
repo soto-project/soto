@@ -383,10 +383,10 @@ extension DLM {
 
     public struct LifecyclePolicy: AWSDecodableShape {
         /// The local date and time when the lifecycle policy was created.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var dateCreated: TimeStamp?
         /// The local date and time when the lifecycle policy was last modified.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var dateModified: TimeStamp?
         /// The description of the lifecycle policy.
         public let description: String?

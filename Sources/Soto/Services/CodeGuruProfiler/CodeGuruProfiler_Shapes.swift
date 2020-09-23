@@ -166,7 +166,7 @@ extension CodeGuruProfiler {
         ///  The aggregation period. This indicates the period during which an aggregation profile collects posted agent profiles for a profiling group. Use one of three valid durations that are specified using the ISO 8601 format.     P1D — 1 day     PT1H — 1 hour     PT5M — 5 minutes
         public let period: AggregationPeriod?
         ///  The time that aggregation of posted agent profiles for a profiling group starts. The aggregation profile contains profiles posted by the agent starting at this time for an aggregation period specified by the period property of the AggregatedProfileTime object.   Specify start using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var start: TimeStamp?
 
         public init(period: AggregationPeriod? = nil, start: TimeStamp? = nil) {
@@ -203,12 +203,12 @@ extension CodeGuruProfiler {
 
     public struct AnomalyInstance: AWSDecodableShape {
         ///  The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var endTime: TimeStamp?
         ///  The universally unique identifier (UUID) of an instance of an anomaly in a metric.
         public let id: String
         ///  The start time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var startTime: TimeStamp
         /// Feedback type on a specific instance of anomaly submitted by the user.
         public let userFeedback: UserFeedback?
@@ -274,7 +274,7 @@ extension CodeGuruProfiler {
 
     public struct BatchGetFrameMetricDataResponse: AWSDecodableShape {
         ///  The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var endTime: TimeStamp
         ///  List of instances, or time steps, in the time series. For example, if the period is one day (PT24H)), and the resolution is five minutes (PT5M), then there are 288 endTimes in the list that are each five minutes appart.
         public let endTimes: [TimestampStructure]
@@ -283,7 +283,7 @@ extension CodeGuruProfiler {
         /// Resolution or granularity of the profile data used to generate the time series. This is the value used to jump through time steps in a time series. There are 3 valid values.     P1D — 1 day     PT1H — 1 hour     PT5M — 5 minutes
         public let resolution: AggregationPeriod
         ///  The start time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var startTime: TimeStamp
         /// List of instances which remained unprocessed. This will create a missing time step in the list of end times.
         public let unprocessedEndTimes: [String: [TimestampStructure]]
@@ -505,10 +505,10 @@ extension CodeGuruProfiler {
         /// The universally unique identifier (UUID) of the recommendation report.
         public let id: String?
         ///  The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var profileEndTime: TimeStamp?
         /// The start time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var profileStartTime: TimeStamp?
         /// The name of the profiling group that is associated with the analysis data.
         public let profilingGroupName: String?
@@ -800,10 +800,10 @@ extension CodeGuruProfiler {
         ///  The list of anomalies that the analysis has found for this profile.
         public let anomalies: [Anomaly]
         ///  The end time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var profileEndTime: TimeStamp
         ///  The start time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var profileStartTime: TimeStamp
         /// The name of the profiling group the analysis data is about.
         public let profilingGroupName: String
@@ -1173,7 +1173,7 @@ extension CodeGuruProfiler {
 
     public struct ProfileTime: AWSDecodableShape {
         /// The start time of a profile. It is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var start: TimeStamp?
 
         public init(start: TimeStamp? = nil) {
@@ -1193,7 +1193,7 @@ extension CodeGuruProfiler {
         ///  The compute platform of the profiling group. If it is set to AWSLambda, then the profiled application runs on AWS Lambda. If it is set to Default, then the profiled application runs on a compute platform that is not AWS Lambda, such an Amazon EC2 instance, an on-premises server, or a different platform. The default is Default.
         public let computePlatform: ComputePlatform?
         /// The time when the profiling group was created. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var createdAt: TimeStamp?
         /// The name of the profiling group.
         public let name: String?
@@ -1202,7 +1202,7 @@ extension CodeGuruProfiler {
         ///  A list of the tags that belong to this profiling group.
         public let tags: [String: String]?
         ///  The date and time when the profiling group was last updated. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var updatedAt: TimeStamp?
 
         public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, arn: String? = nil, computePlatform: ComputePlatform? = nil, createdAt: TimeStamp? = nil, name: String? = nil, profilingStatus: ProfilingStatus? = nil, tags: [String: String]? = nil, updatedAt: TimeStamp? = nil) {
@@ -1230,10 +1230,10 @@ extension CodeGuruProfiler {
 
     public struct ProfilingStatus: AWSDecodableShape {
         /// The date and time when the profiling agent most recently pinged back. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var latestAgentOrchestratedAt: TimeStamp?
         /// The date and time when the most recent profile was received. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var latestAgentProfileReportedAt: TimeStamp?
         ///  An  AggregatedProfileTime  object that contains the aggregation period and start time for an aggregated profile.
         public let latestAggregatedProfile: AggregatedProfileTime?
@@ -1311,12 +1311,12 @@ extension CodeGuruProfiler {
         /// How much of the total sample count is potentially affected.
         public let allMatchesSum: Double
         /// End time of the profile that was used by this analysis. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var endTime: TimeStamp
         /// The pattern that analysis recognized in the profile to make this recommendation.
         public let pattern: Pattern
         /// The start time of the profile that was used by this analysis. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var startTime: TimeStamp
         /// List of the matches with most impact.
         public let topMatches: [Match]
@@ -1491,7 +1491,7 @@ extension CodeGuruProfiler {
 
     public struct TimestampStructure: AWSDecodableShape {
         ///  A Timestamp. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        @Coding<ISO8601TimeStampCoder>
+        @CustomCoding<ISO8601TimeStampCoder>
         public var value: TimeStamp
 
         public init(value: TimeStamp) {

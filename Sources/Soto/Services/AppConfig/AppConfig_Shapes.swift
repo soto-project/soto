@@ -597,7 +597,7 @@ extension AppConfig {
         /// The ID of the application that was deployed.
         public let applicationId: String?
         /// The time the deployment completed.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var completedAt: TimeStamp?
         /// Information about the source location of the configuration.
         public let configurationLocationUri: String?
@@ -628,7 +628,7 @@ extension AppConfig {
         /// The percentage of targets for which the deployment is available.
         public let percentageComplete: Float?
         /// The time the deployment started.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var startedAt: TimeStamp?
         /// The state of the deployment.
         public let state: DeploymentState?
@@ -682,7 +682,7 @@ extension AppConfig {
         /// The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; the start or completion of a rollback.
         public let eventType: DeploymentEventType?
         /// The date and time the event occurred.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var occurredAt: TimeStamp?
         /// The entity that triggered the deployment event. Events can be triggered by a user, AWS AppConfig, an Amazon CloudWatch alarm, or an internal error.
         public let triggeredBy: TriggeredBy?
@@ -762,7 +762,7 @@ extension AppConfig {
 
     public struct DeploymentSummary: AWSDecodableShape {
         /// Time the deployment completed.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var completedAt: TimeStamp?
         /// The name of the configuration.
         public let configurationName: String?
@@ -781,7 +781,7 @@ extension AppConfig {
         /// The percentage of targets for which the deployment is available.
         public let percentageComplete: Float?
         /// Time the deployment started.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var startedAt: TimeStamp?
         /// The state of the deployment.
         public let state: DeploymentState?

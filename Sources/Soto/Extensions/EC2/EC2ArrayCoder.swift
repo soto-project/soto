@@ -25,7 +25,7 @@ extension EC2 {
         public typealias CodableValue = [Element]
     }
 
-    public typealias DefaultArrayCoder<Element> = ArrayCoder<DefaultArrayCoderProperties, Element>
+    public typealias StandardArrayCoder<Element> = ArrayCoder<StandardArrayCoderProperties, Element>
 
     /// CodingKey used by Encoder property wrappers
     internal struct _EncodingWrapperKey: CodingKey {

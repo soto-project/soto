@@ -178,14 +178,14 @@ extension Schemas {
 
     public struct CreateSchemaResponse: AWSDecodableShape {
         public let description: String?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var lastModified: TimeStamp?
         public let schemaArn: String?
         public let schemaName: String?
         public let schemaVersion: String?
         public let tags: [String: String]?
         public let `type`: String?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var versionCreatedDate: TimeStamp?
 
         public init(description: String? = nil, lastModified: TimeStamp? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: TimeStamp? = nil) {
@@ -314,9 +314,9 @@ extension Schemas {
     }
 
     public struct DescribeCodeBindingResponse: AWSDecodableShape {
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var creationDate: TimeStamp?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var lastModified: TimeStamp?
         public let schemaVersion: String?
         public let status: CodeGenerationStatus?
@@ -435,14 +435,14 @@ extension Schemas {
     public struct DescribeSchemaResponse: AWSDecodableShape {
         public let content: String?
         public let description: String?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var lastModified: TimeStamp?
         public let schemaArn: String?
         public let schemaName: String?
         public let schemaVersion: String?
         public let tags: [String: String]?
         public let `type`: String?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var versionCreatedDate: TimeStamp?
 
         public init(content: String? = nil, description: String? = nil, lastModified: TimeStamp? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: TimeStamp? = nil) {
@@ -808,9 +808,9 @@ extension Schemas {
     }
 
     public struct PutCodeBindingResponse: AWSDecodableShape {
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var creationDate: TimeStamp?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var lastModified: TimeStamp?
         public let schemaVersion: String?
         public let status: CodeGenerationStatus?
@@ -889,7 +889,7 @@ extension Schemas {
 
     public struct SchemaSummary: AWSDecodableShape {
         /// The date and time that schema was modified.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var lastModified: TimeStamp?
         /// The ARN of the schema.
         public let schemaArn: String?
@@ -965,7 +965,7 @@ extension Schemas {
 
     public struct SearchSchemaVersionSummary: AWSDecodableShape {
         /// The date the schema version was created.
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var createdDate: TimeStamp?
         /// The version number of the schema
         public let schemaVersion: String?
@@ -1247,14 +1247,14 @@ extension Schemas {
 
     public struct UpdateSchemaResponse: AWSDecodableShape {
         public let description: String?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var lastModified: TimeStamp?
         public let schemaArn: String?
         public let schemaName: String?
         public let schemaVersion: String?
         public let tags: [String: String]?
         public let `type`: String?
-        @OptionalCoding<ISO8601TimeStampCoder>
+        @OptionalCustomCoding<ISO8601TimeStampCoder>
         public var versionCreatedDate: TimeStamp?
 
         public init(description: String? = nil, lastModified: TimeStamp? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: TimeStamp? = nil) {

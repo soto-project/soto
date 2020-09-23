@@ -5943,7 +5943,7 @@ extension MediaConvert {
         /// The tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up.
         public let billingTagsSource: BillingTagsSource?
         /// The time, in Unix epoch format in seconds, when the job got created.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var createdAt: TimeStamp?
         /// A job's phase can be PROBING, TRANSCODING OR UPLOADING
         public let currentPhase: JobPhase?
@@ -6130,14 +6130,14 @@ extension MediaConvert {
         /// An optional category you create to organize your job templates.
         public let category: String?
         /// The timestamp in epoch seconds for Job template creation.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var createdAt: TimeStamp?
         /// An optional description you create for each job template.
         public let description: String?
         /// Optional list of hop destinations.
         public let hopDestinations: [HopDestination]?
         /// The timestamp in epoch seconds when the Job template was last updated.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var lastUpdated: TimeStamp?
         /// A name you create for each job template. Each name must be unique within your account.
         public let name: String
@@ -7723,12 +7723,12 @@ extension MediaConvert {
         /// An optional category you create to organize your presets.
         public let category: String?
         /// The timestamp in epoch seconds for preset creation.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var createdAt: TimeStamp?
         /// An optional description you create for each preset.
         public let description: String?
         /// The timestamp in epoch seconds when the preset was last updated.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var lastUpdated: TimeStamp?
         /// A name you create for each preset. Each name must be unique within your account.
         public let name: String
@@ -7866,12 +7866,12 @@ extension MediaConvert {
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
         /// The timestamp in epoch seconds for when you created the queue.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var createdAt: TimeStamp?
         /// An optional description that you create for each queue.
         public let description: String?
         /// The timestamp in epoch seconds for when you most recently updated the queue.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var lastUpdated: TimeStamp?
         /// A name that you create for each queue. Each name must be unique within your account.
         public let name: String
@@ -7923,7 +7923,7 @@ extension MediaConvert {
         /// The queue that the job was on before the transition.
         public let sourceQueue: String?
         /// The time, in Unix epoch format, that the job moved from the source queue to the destination queue.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var timestamp: TimeStamp?
 
         public init(destinationQueue: String? = nil, sourceQueue: String? = nil, timestamp: TimeStamp? = nil) {
@@ -8008,10 +8008,10 @@ extension MediaConvert {
         /// The length of the term of your reserved queue pricing plan commitment.
         public let commitment: Commitment?
         /// The timestamp in epoch seconds for when the current pricing plan term for this reserved queue expires.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var expiresAt: TimeStamp?
         /// The timestamp in epoch seconds for when you set up the current pricing plan for this reserved queue.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var purchasedAt: TimeStamp?
         /// Specifies whether the term of your reserved queue pricing plan is automatically extended (AUTO_RENEW) or expires (EXPIRE) at the end of the term.
         public let renewalType: RenewalType?
@@ -8397,13 +8397,13 @@ extension MediaConvert {
 
     public struct Timing: AWSDecodableShape {
         /// The time, in Unix epoch format, that the transcoding job finished
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var finishTime: TimeStamp?
         /// The time, in Unix epoch format, that transcoding for the job began.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var startTime: TimeStamp?
         /// The time, in Unix epoch format, that you submitted the job.
-        @OptionalCoding<UnixEpochTimeStampCoder>
+        @OptionalCustomCoding<UnixEpochTimeStampCoder>
         public var submitTime: TimeStamp?
 
         public init(finishTime: TimeStamp? = nil, startTime: TimeStamp? = nil, submitTime: TimeStamp? = nil) {
