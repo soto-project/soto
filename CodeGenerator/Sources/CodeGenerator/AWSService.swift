@@ -498,9 +498,9 @@ extension AWSService {
     func generatePropertyWrapper(_ member: Shape.Member, name: String) -> String? {
         let codingWrapper: String
         if member.required {
-            codingWrapper = "@Coding"
+            codingWrapper = "@CustomCoding"
         } else {
-            codingWrapper = "@OptionalCoding"
+            codingWrapper = "@OptionalCustomCoding"
         }
 
         // if not located in body don't generate collection encoding property wrapper
