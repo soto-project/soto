@@ -56,7 +56,7 @@ let input = DynamoDB.PutItemCodableInput(item: person, tableName: "my-table")
 let output = try dynamoDB.putItem(input).wait()
 ```
 
-Similarly when using `DynamoDB.GetItemInput(key:tableName:)`, the code below which parses an `AttributeValue` dictionary returned
+Similarly when using `DynamoDB.getItem(_:)`, the code below which parses an `AttributeValue` dictionary returned
 
 ```swift
         let input = DynamoDB.GetItemInput(key: ["id": .n("1")], tableName: "my-table")

@@ -51,7 +51,7 @@ public extension Request {
 }
 ```
 
-Once you have this you can then initalise your client in the `configure(_ app: Application)` function found in `configure.swift`. The code below initialises an `AWSClient` to use the shared `HTTPClient` that Vapor uses.
+Once you have this you can then initialize your client in the `configure(_ app: Application)` function found in `configure.swift`. The code below initializes an `AWSClient` to use the shared `HTTPClient` that Vapor uses.
 
 ```swift
 app.aws.client = AWSClient(httpClientProvider: .shared(app.http.client.shared))
