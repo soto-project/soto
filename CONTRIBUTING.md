@@ -12,7 +12,7 @@ If you find a security vulnerability, please contact <swift-aws-maintainers@goog
 
 The Soto shape, api and error service files are generated from the json files in the [`models`](https://github.com/soto-project/soto/tree/master/models) folder. We get these from Amazon via the [`aws-sdk-go`](https://github.com/aws/aws-sdk-go) GitHub repository.
 
-The application to do this conversion from model file to Soto services files can be found in the [`CodeGenerator` folder](https://github.com/soto-project/soto/tree/master/CodeGenerator) of the soto repository. Go into this folder and type `open Package.swift` to load the project into Xcode.
+The application to do this conversion from model file to Soto services files can be found in the [`CodeGenerator`](https://github.com/soto-project/soto/tree/master/CodeGenerator) folder of the soto repository. Go into this folder and type `open Package.swift` to load the project into Xcode.
 
 The model files are not always correct, so we have to patch them before generating the Soto service files. This patch process is part of the `CodeGenerator` and is run prior to parsing the dictionaries that have been loaded from the model json. The code for this can be found in [`patch.swift`](https://github.com/soto-project/soto/blob/master/CodeGenerator/Sources/CodeGenerator/patch.swift).
 
