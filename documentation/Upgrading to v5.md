@@ -10,7 +10,7 @@ If we first look at the `Package.swift` you will notice
 - All the library names are prefixed with "Soto". 
 
 Because of this your `Package.swift` dependencies will need to be in the following format
-```
+```swift
     dependencies: [
         .package(url: "https://github.com/soto-project/soto.git", from: "5.0.0")
     ],
@@ -28,7 +28,7 @@ Also the core package libraries are now prefixed with Soto. If you are importing
 
 Previously each service had its own `AWSClient` which it created and managed. In version 5 the `AWSClient` is created separately from the services and can be shared among multiple services. As long as you don't require `AWSClient`'s with different settings it is now recommended you have one `AWSClient` in your application that is used by all the service objects. When you create a service you need to provide the client
 
-```
+```swift
 let awsClient = AWSClient(httpClientProvider: .createNew)
 let s3 = S3(client: awsClient, region: .useast1)
 let dynamoDB = DynamoDB(client: awsClient, region: .useast1)
@@ -47,11 +47,11 @@ The `AWSClient` needs shutdown before it is deinitialized. You can do this async
 ## Providing static credentials
 
 Previously to supply static AWS credentials for use by the library you would do the following
-```
+```swift
 let iam = IAM(accessKeyId: "MYACCESSKEYID", secretAccessKey: "MYSECRETACCESSKEY")
 ```
 Now the credentials are attached to the `AWSClient` and you supply them using a `CredentialProvider` as follows
-```
+```swift
 let awsClient = AWSClient(credentialProvider: .static(accessKeyId: "MYACCESSKEYID", secretAccessKey: "MYSECRETACCESSKEY"))
 ```
 If you don't supply credentials, the `AWSClient` will attempt to acquire them through the same methods that were used in v4 and before with one minor exception. The order of methods it uses to acquire credentials has changed slightly. Before it was environment variables, `~/.aws/credential` file, ecs credentials, ec2 metadata. This has now changed to environment variables, ecs credentials, ec2 metadata, `~/.aws/credential` file. `CredentialProvider`'s provide more flexibility in supplying credentials to Soto. Please read the article [here](CredentialProviders.md) for more information on them.
