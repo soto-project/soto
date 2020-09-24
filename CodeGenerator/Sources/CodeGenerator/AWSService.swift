@@ -951,6 +951,8 @@ extension Shape {
             return "TimeStamp"
         case .enum:
             return name.toSwiftClassCase()
+        case .stub:
+            return name.toSwiftClassCase()
         }
     }
 
