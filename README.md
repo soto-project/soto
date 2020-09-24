@@ -124,6 +124,7 @@ Visit the Soto [documentation](https://soto-project.github.io/soto/index.html) t
 
 Additional user guides for specific elements of Soto are available
 
+- [Upgrading to Soto v5](documentation/Upgrading%20to%20v5.md)
 - [AWSClient and Service Objects](documentation/AWSClient%20and%20Services.md)
 - [Credential Providers](documentation/Credential%20Providers.md)
 - [Streaming Payloads](documentation/Streaming%20Payloads.md)
