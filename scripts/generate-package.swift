@@ -43,9 +43,9 @@ struct GeneratePackage {
             let hasExtension = extensionSubfolders.first { $0.name == folder.name } != nil
             let dependencies: [String]
             if folder.name == "S3" {
-                dependencies = ["SotoCore", "CSotoZlib"]
+                dependencies = [#".product(name:"SotoCore", package: "soto-core")"#, #".byName(name: "CSotoZlib")"#]
             } else {
-                dependencies = ["SotoCore"]
+                dependencies = [#".product(name:"SotoCore", package: "soto-core")"#]
             }
             return Target(name: folder.name, hasExtension: hasExtension, dependencies: dependencies)
         }
