@@ -1,6 +1,6 @@
 # Using Soto with Vapor 4
 
-When using Soto with Vapor 4 it is best to have a global `AWSClient` that all routes use. You shouldn't be creating `AWSClient` on the fly. Initialisation of the client can take time and you have to shutdown the client before it is deleted. You best option is to store a single `AWSClient` in the Vapor `Application`. The code below shows how you can extend `Application` to provide a global `AWSClient`.
+When using Soto with Vapor 4 it is best to have a global `AWSClient` that all routes use. You shouldn't be creating an `AWSClient` on the fly. Initialization of the client can take time and you have to shutdown the client before it is deleted. You best option is to store a single `AWSClient` in the Vapor `Application`. The code below shows how you can extend `Application` to provide a global `AWSClient`.
 
 ```swift
 import Vapor
@@ -34,6 +34,7 @@ public extension Application {
 }
 ```
 And extend `Request` to provide access to this `AWSClient`.
+
 ```swift
 public extension Request {
     var aws: AWS {
@@ -48,10 +49,9 @@ public extension Request {
         let request: Request
     }
 }
-
 ```
 
-Once you have this you can then initalise your client in the `configure(_ app: Application)` function found in `configure.swift`. The code below initialises an `AWSClient` to use the shared `HTTPClient` that Vapor uses.
+Once you have this you can then initialize your client in the `configure(_ app: Application)` function found in `configure.swift`. The code below initializes an `AWSClient` to use the shared `HTTPClient` that Vapor uses.
 
 ```swift
 app.aws.client = AWSClient(httpClientProvider: .shared(app.http.client.shared))
@@ -86,7 +86,9 @@ extension Application.AWS {
     }
 }
 ```
-And provide access to them through `Request`
+
+And provide access to them through `Request`:
+
 ```swift
 public extension Request.AWS {
     var s3: S3 {
@@ -94,9 +96,11 @@ public extension Request.AWS {
     }
 }
 ```
+
 ## Example
 
-If you have extended your Vapor `Application` as above and also included an `SES` (Simple Email Service) service object in the `Application` in a similar way to the example above with `S3` you could write a route to send an email as follows
+If you have extended your Vapor `Application` as above and also included an `SES` (Simple Email Service) service object in the `Application` in a similar way to the example above with `S3` you could write a route to send an email as follows:
+
 ```swift
 final class MyController {
     struct EmailData: Content {
@@ -107,9 +111,9 @@ final class MyController {
     func sendUserEmailFromJSON(_ req: Request) throws -> EventLoopFuture<HTTPStatus> {
         let emailData = try req.content.decode(EmailData.self)
         let destination = SES.Destination(toAddresses: [emailData.address])
-        let message = SES.Message(body: .init(text:SES.Content(data:emailData.message)), subject: .init(data:emailData.subject))
-        let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"soto@me.com")
-        return request.ses.sendEmail(sendEmailRequest, on: req.eventLoop)
+        let message = SES.Message(body: .init(text: SES.Content(data: emailData.message)), subject: .init(data: emailData.subject))
+        let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source: "soto@me.com")
+        return req.ses.sendEmail(sendEmailRequest, on: req.eventLoop)
             .map { response -> HTTPStatus in
                 return .ok
             }
