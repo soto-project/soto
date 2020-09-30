@@ -5,7 +5,6 @@ import SotoCore
 // MARK: Paginators
 
 extension {{name}} {
-
 {%for page in paginators %}
 {%for comment in page.operation.comment %}
     ///  {{comment}}
@@ -28,7 +27,8 @@ extension {{name}} {
             onPage: onPage
         )
     }
-
+{%if not forloop.last +%}
+{%endif %}
 {%endfor %}
 }
 
@@ -40,8 +40,8 @@ extension {{name}}.{{page.operation.inputShape}}: {{page.paginatorProtocol}} {
             {{param}}{%if not forloop.last %},{%endif +%}
 {%endfor %}
         )
-
     }
 }
-
+{%if not forloop.last +%}
+{%endif %}
 {%endfor %}

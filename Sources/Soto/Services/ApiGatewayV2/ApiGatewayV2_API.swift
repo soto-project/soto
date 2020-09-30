@@ -422,3 +422,12 @@ public struct ApiGatewayV2: AWSService {
         return self.client.execute(operation: "UpdateVpcLink", path: "/v2/vpclinks/{vpcLinkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension ApiGatewayV2 {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: ApiGatewayV2, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

@@ -236,3 +236,12 @@ public struct Glacier: AWSService {
         return self.client.execute(operation: "GetJobOutput", path: "/{accountId}/vaults/{vaultName}/jobs/{jobId}/output", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger, stream: stream)
     }
 }
+
+extension Glacier {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: Glacier, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

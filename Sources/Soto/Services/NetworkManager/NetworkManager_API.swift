@@ -202,3 +202,12 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "UpdateSite", path: "/global-networks/{globalNetworkId}/sites/{siteId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension NetworkManager {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: NetworkManager, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}
