@@ -183,21 +183,7 @@ class S3Tests: XCTestCase {
     }
 
     func testStreamPutObject() {
-        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-        let client = AWSClient(
-            credentialProvider: TestEnvironment.credentialProvider,
-            middlewares: TestEnvironment.middlewares,
-            httpClientProvider: .shared(httpClient)
-        )
-        let s3 = S3(
-            client: client,
-            region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-        defer {
-            XCTAssertNoThrow(try client.syncShutdown())
-            XCTAssertNoThrow(try httpClient.syncShutdown())
-        }
+        let s3 = Self.s3.with(timeout: .minutes(2))
         let name = TestEnvironment.generateResourceName()
         let dataSize = 240 * 1024
         let blockSize = 64 * 1024
@@ -352,6 +338,7 @@ class S3Tests: XCTestCase {
     }
 
     func testStreamObject() {
+        // testing eventLoop so need to use MultiThreadedEventLoopGroup
         let elg = MultiThreadedEventLoopGroup(numberOfThreads: 3)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(elg))
         let client = AWSClient(
