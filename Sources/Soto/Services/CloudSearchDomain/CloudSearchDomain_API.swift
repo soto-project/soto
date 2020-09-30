@@ -78,3 +78,12 @@ public struct CloudSearchDomain: AWSService {
         return self.client.execute(operation: "UploadDocuments", path: "/2013-01-01/documents/batch?format=sdk", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension CloudSearchDomain {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: CloudSearchDomain, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

@@ -160,3 +160,12 @@ public struct S3Control: AWSService {
         return self.client.execute(operation: "UpdateJobStatus", path: "/v20180820/jobs/{id}/status", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension S3Control {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: S3Control, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

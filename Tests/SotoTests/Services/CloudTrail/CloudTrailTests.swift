@@ -46,7 +46,7 @@ class CloudTrailTests: XCTestCase {
         let request = CloudTrail.LookupEventsRequest(endTime: TimeStamp(to), lookupAttributes: nil, startTime: TimeStamp(from))
         let response = Self.cloudTrail.lookupEvents(request)
             .flatMapThrowing { response in
-                if let event = response.events?[0] {
+                if let event = response.events?.first {
                     XCTAssertNotNil(event.eventTime)
                 }
             }

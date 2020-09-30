@@ -82,7 +82,7 @@
 {%endif %}
 {# validate min,max,pattern #}
 {%for req,var in v.reqs %}
-            try validate(self.{{v.name}}, name: "{{v.name}}", parent: name, {{req}}: {{var}})
+            try self.validate(self.{{v.name}}, name: "{{v.name}}", parent: name, {{req}}: {{var}})
 {%endfor %}
 {%endfor %}
         }

@@ -392,3 +392,12 @@ public struct CloudDirectory: AWSService {
         return self.client.execute(operation: "UpgradePublishedSchema", path: "/amazonclouddirectory/2017-01-11/schema/upgradepublished", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension CloudDirectory {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: CloudDirectory, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

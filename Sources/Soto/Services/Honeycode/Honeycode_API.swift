@@ -72,3 +72,12 @@ public struct Honeycode: AWSService {
         return self.client.execute(operation: "InvokeScreenAutomation", path: "/workbooks/{workbookId}/apps/{appId}/screens/{screenId}/automations/{automationId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension Honeycode {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: Honeycode, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

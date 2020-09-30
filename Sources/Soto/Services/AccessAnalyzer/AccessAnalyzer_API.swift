@@ -153,3 +153,12 @@ public struct AccessAnalyzer: AWSService {
         return self.client.execute(operation: "UpdateFindings", path: "/finding", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension AccessAnalyzer {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: AccessAnalyzer, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

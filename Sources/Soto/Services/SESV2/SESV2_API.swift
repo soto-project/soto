@@ -412,3 +412,12 @@ public struct SESV2: AWSService {
         return self.client.execute(operation: "UpdateEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension SESV2 {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: SESV2, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

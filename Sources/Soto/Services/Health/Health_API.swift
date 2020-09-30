@@ -128,3 +128,12 @@ public struct Health: AWSService {
         return self.client.execute(operation: "EnableHealthServiceAccessForOrganization", path: "/", httpMethod: .POST, serviceConfig: self.config, on: eventLoop, logger: logger)
     }
 }
+
+extension Health {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: Health, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

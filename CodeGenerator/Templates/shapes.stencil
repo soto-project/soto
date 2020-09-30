@@ -1,7 +1,7 @@
 {%include "header.stencil" %}
 
-import SotoCore
 import Foundation
+import SotoCore
 
 extension {{name}} {
     // MARK: Enums

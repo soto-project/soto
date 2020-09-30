@@ -84,7 +84,7 @@ public struct {{ name }}: AWSService {
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
     {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil, logger: {{logger}} = AWSClient.loggingDisabled) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: config{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger)
+        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger)
     }
 {%endfor %}
 {%if streamingOperations.count > 0 %}
@@ -99,8 +99,17 @@ public struct {{ name }}: AWSService {
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
     {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil, logger: {{logger}} = AWSClient.loggingDisabled{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: config{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger{% if op.streaming %}, stream: stream{% endif %})
+        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger{% if op.streaming %}, stream: stream{% endif %})
     }
 {%endfor %}
 {%endif %}
+}
+
+extension {{ name }} {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: {{ name }}, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
 }

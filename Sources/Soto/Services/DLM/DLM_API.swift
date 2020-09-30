@@ -102,3 +102,12 @@ public struct DLM: AWSService {
         return self.client.execute(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension DLM {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: DLM, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}

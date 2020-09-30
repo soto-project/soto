@@ -212,3 +212,12 @@ public struct Schemas: AWSService {
         return self.client.execute(operation: "UpdateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
+
+extension Schemas {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: Schemas, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}
