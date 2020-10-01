@@ -1,16 +1,10 @@
 ## Contributing
 
-All developers should feel welcome and encouraged to contribute to Soto.
-
-As contributors and maintainers of this project, and in the interest of fostering an open and
-welcoming community, we pledge to respect all people who contribute through reporting issues,
-posting feature requests, updating documentation, submitting pull requests or patches, and other activities.
-
-To contribute a feature or idea to `Soto`, submit an issue and fill in the template. If the request is approved, you or one of the members of the community can start working on it.
+To contribute a feature or idea to `Soto`, submit an issue and fill in the template. If the request is approved, you or one of the members of the team can start working on it.
 
 If you find a bug, please submit a pull request with a failing test case displaying the bug or create an issue.
 
-If you find a security vulnerability, please contact <soto-project-maintainers@googlegroups.com> and reach out on the [**#aws** channel on the Vapor Discord](https://discordapp.com/channels/431917998102675485/472522745067077632) as soon as possible. We take these matters seriously.
+If you find a security vulnerability, please contact <swift-aws-maintainers@googlegroups.com> and reach out on the [**#aws** channel on the Vapor Discord](https://discordapp.com/channels/431917998102675485/472522745067077632) as soon as possible. We take these matters seriously.
 
 ### Creating, Updating, and Patching Service Modules
 
