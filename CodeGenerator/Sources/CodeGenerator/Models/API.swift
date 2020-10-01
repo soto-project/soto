@@ -140,6 +140,21 @@ extension API {
         for shape in self.shapes {
             shape.value.postProcess(api: self)
         }
+
+        // if query check if GET operation includes body elements
+        if metadata.protocol == .query {
+            for op in operations.values {
+                guard op.http.method == "GET" else { continue }
+                guard let input = op.input else { continue }
+                let shape = try getShape(named: input.shapeName)
+                guard case .structure(let structure) = shape.type else { continue }
+                for member in structure.members {
+                    if member.value.location == .body || member.value.location == nil {
+                        fatalError("GET operation \(self.serviceName).\(input.shapeName) has members in body")
+                    }
+                }
+            }
+        }
     }
 
     mutating func setShapeUsedIn(shape: Shape, input: Bool, output: Bool) {

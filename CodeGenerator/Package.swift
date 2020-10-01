@@ -18,7 +18,7 @@ import PackageDescription
 let package = Package(
     name: "CodeGenerator",
     products: [
-        .executable(name: "aws-sdk-swift-codegenerator", targets: ["CodeGenerator"]),
+        .executable(name: "soto-codegenerator", targets: ["CodeGenerator"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "0.0.1")),
