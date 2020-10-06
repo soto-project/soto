@@ -57,7 +57,7 @@ extension SSOAdmin {
         public let accountId: String?
         /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let permissionSetArn: String?
-        /// The identifier of the principal.
+        /// An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
         public let principalId: String?
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType?
@@ -84,7 +84,7 @@ extension SSOAdmin {
         public let failureReason: String?
         /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let permissionSetArn: String?
-        /// The identifier of the principal.
+        /// An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
         public let principalId: String?
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType?
@@ -92,7 +92,7 @@ extension SSOAdmin {
         public let requestId: String?
         /// The status of the permission set provisioning process.
         public let status: StatusValues?
-        /// The identifier for the chosen target.
+        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
         public let targetId: String?
         /// The entity type for which the assignment will be created.
         public let targetType: TargetType?
@@ -201,11 +201,11 @@ extension SSOAdmin {
         public let instanceArn: String
         /// The ARN of the permission set that the admin wants to grant the principal access to.
         public let permissionSetArn: String
-        /// The identifier of the principal.
+        /// An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
         public let principalId: String
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType
-        /// The identifier for the chosen target.
+        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
         public let targetId: String
         /// The entity type for which the assignment will be created.
         public let targetType: TargetType
@@ -329,11 +329,11 @@ extension SSOAdmin {
         public let instanceArn: String
         /// The ARN of the permission set that will be used to remove access.
         public let permissionSetArn: String
-        /// The identifier of the principal.
+        /// An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
         public let principalId: String
         /// The entity type for which the assignment will be deleted.
         public let principalType: PrincipalType
-        /// The identifier for the chosen target.
+        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
         public let targetId: String
         /// The entity type for which the assignment will be deleted.
         public let targetType: TargetType
@@ -1315,7 +1315,7 @@ extension SSOAdmin {
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
-        /// The identifier for the chosen target.
+        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
         public let targetId: String?
         /// The entity type for which the assignment will be created.
         public let targetType: ProvisionTargetType

@@ -249,6 +249,12 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ObjectOwnership: String, CustomStringConvertible, Codable {
+        case bucketownerpreferred = "BucketOwnerPreferred"
+        case objectwriter = "ObjectWriter"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ObjectStorageClass: String, CustomStringConvertible, Codable {
         case standard = "STANDARD"
         case reducedRedundancy = "REDUCED_REDUNDANCY"
@@ -257,6 +263,7 @@ extension S3 {
         case onezoneIa = "ONEZONE_IA"
         case intelligentTiering = "INTELLIGENT_TIERING"
         case deepArchive = "DEEP_ARCHIVE"
+        case outposts = "OUTPOSTS"
         public var description: String { return self.rawValue }
     }
 
@@ -352,6 +359,7 @@ extension S3 {
         case intelligentTiering = "INTELLIGENT_TIERING"
         case glacier = "GLACIER"
         case deepArchive = "DEEP_ARCHIVE"
+        case outposts = "OUTPOSTS"
         public var description: String { return self.rawValue }
     }
 
@@ -429,7 +437,7 @@ extension S3 {
             AWSMemberEncoding(label: "uploadId", location: .querystring(locationName: "uploadId"))
         ]
 
-        /// The bucket name to which the upload was taking place.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name to which the upload was taking place.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -825,7 +833,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
 
-        /// The name of the bucket that contains the newly created object.
+        /// The name of the bucket that contains the newly created object. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String?
         /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits.
         public let eTag: String?
@@ -1069,9 +1077,9 @@ extension S3 {
             AWSMemberEncoding(label: "websiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"))
         ]
 
-        /// The canned ACL to apply to the object.
+        /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
-        /// The name of the destination bucket.
+        /// The name of the destination bucket. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
@@ -1083,7 +1091,7 @@ extension S3 {
         public let contentLanguage: String?
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
-        /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point:   For objects not accessed through an access point, specify the name of the source bucket and the key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL encoded.   For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:accesspoint/&lt;access-point-name&gt;/object/&lt;key&gt;. For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded.  Amazon S3 supports copy operations using access points only when the source and destination buckets are in the same AWS Region.    To copy a specific version of an object, append ?versionId=&lt;version-id&gt; to the value (for example, awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you don't specify a version ID, Amazon S3 copies the latest version of the source object.
+        /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point:   For objects not accessed through an access point, specify the name of the source bucket and the key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL encoded.   For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:accesspoint/&lt;access-point-name&gt;/object/&lt;key&gt;. For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded.  Amazon S3 supports copy operations using access points only when the source and destination buckets are in the same AWS Region.  Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/object/&lt;key&gt;. For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf. The value must be URL encoded.    To copy a specific version of an object, append ?versionId=&lt;version-id&gt; to the value (for example, awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you don't specify a version ID, Amazon S3 copies the latest version of the source object.
         public let copySource: String
         /// Copies the object if its entity tag (ETag) matches the specified tag.
         public let copySourceIfMatch: String?
@@ -1105,13 +1113,13 @@ extension S3 {
         public let expectedSourceBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
         public let expires: Date?
-        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
+        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
         public let grantFullControl: String?
-        /// Allows grantee to read the object data and its metadata.
+        /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
         public let grantRead: String?
-        /// Allows grantee to read the object ACL.
+        /// Allows grantee to read the object ACL. This action is not supported by Amazon S3 on Outposts.
         public let grantReadACP: String?
-        /// Allows grantee to write the ACL for the applicable object.
+        /// Allows grantee to write the ACL for the applicable object. This action is not supported by Amazon S3 on Outposts.
         public let grantWriteACP: String?
         /// The key of the destination object.
         public let key: String
@@ -1138,7 +1146,7 @@ extension S3 {
         public let sSEKMSEncryptionContext: String?
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. For information about configuring using any of the officially supported AWS SDKs and AWS CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 Developer Guide.
         public let sSEKMSKeyId: String?
-        /// The type of storage to use for the object. Defaults to 'STANDARD'.
+        /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in the Amazon S3 Service Developer Guide.
         public let storageClass: StorageClass?
         /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters.
         public let tagging: String?
@@ -1330,7 +1338,7 @@ extension S3 {
         public let abortDate: Date?
         /// This header is returned along with the x-amz-abort-date header. It identifies the applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
         public let abortRuleId: String?
-        /// Name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String?
         /// Object key for which the multipart upload was initiated.
         public let key: String?
@@ -1409,9 +1417,9 @@ extension S3 {
             AWSMemberEncoding(label: "websiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"))
         ]
 
-        /// The canned ACL to apply to the object.
+        /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
-        /// The name of the bucket to which to initiate the upload
+        /// The name of the bucket to which to initiate the upload When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
@@ -1427,13 +1435,13 @@ extension S3 {
         public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
         public let expires: Date?
-        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
+        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
         public let grantFullControl: String?
-        /// Allows grantee to read the object data and its metadata.
+        /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
         public let grantRead: String?
-        /// Allows grantee to read the object ACL.
+        /// Allows grantee to read the object ACL. This action is not supported by Amazon S3 on Outposts.
         public let grantReadACP: String?
-        /// Allows grantee to write the ACL for the applicable object.
+        /// Allows grantee to write the ACL for the applicable object. This action is not supported by Amazon S3 on Outposts.
         public let grantWriteACP: String?
         /// Object key for which the multipart upload is to be initiated.
         public let key: String
@@ -1458,7 +1466,7 @@ extension S3 {
         public let sSEKMSEncryptionContext: String?
         /// Specifies the ID of the symmetric customer managed AWS KMS CMK to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. For information about configuring using any of the officially supported AWS SDKs and AWS CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 Developer Guide.
         public let sSEKMSKeyId: String?
-        /// The type of storage to use for the object. Defaults to 'STANDARD'.
+        /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in the Amazon S3 Service Developer Guide.
         public let storageClass: StorageClass?
         /// The tag-set for the object. The tag-set must be encoded as URL Query parameters.
         public let tagging: String?
@@ -1675,6 +1683,24 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteBucketOwnershipControlsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
+        ]
+
+        /// The Amazon S3 bucket whose OwnershipControls you want to delete.
+        public let bucket: String
+        public let expectedBucketOwner: String?
+
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
+            self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteBucketPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
@@ -1849,7 +1875,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name of the bucket containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name of the bucket containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation.
         public let bypassGovernanceRetention: Bool?
@@ -1905,7 +1931,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name containing the objects from which to remove the tags.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name containing the objects from which to remove the tags.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -1964,7 +1990,7 @@ extension S3 {
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer"))
         ]
 
-        /// The bucket name containing the objects to delete.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name containing the objects to delete.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. You must have sufficient permissions to perform this operation.
         public let bypassGovernanceRetention: Bool?
@@ -2203,7 +2229,7 @@ extension S3 {
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        /// Name of the bucket for which the accelerate configuration is retrieved.
+        /// The name of the bucket for which the accelerate configuration is retrieved.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -2583,9 +2609,46 @@ extension S3 {
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        /// Name of the bucket for which to get the notification configuration.
+        /// The name of the bucket for which to get the notification configuration.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
+
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
+            self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBucketOwnershipControlsOutput: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "ownershipControls"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ownershipControls", location: .body(locationName: "OwnershipControls"))
+        ]
+
+        /// The OwnershipControls (BucketOwnerPreferred or ObjectWriter) currently in effect for this Amazon S3 bucket.
+        public let ownershipControls: OwnershipControls?
+
+        public init(ownershipControls: OwnershipControls? = nil) {
+            self.ownershipControls = ownershipControls
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownershipControls = "OwnershipControls"
+        }
+    }
+
+    public struct GetBucketOwnershipControlsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
+        ]
+
+        /// The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve.
+        public let bucket: String
         public let expectedBucketOwner: String?
 
         public init(bucket: String, expectedBucketOwner: String? = nil) {
@@ -2894,7 +2957,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name that contains the object for which to get the ACL information.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name that contains the object for which to get the ACL information.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -2947,7 +3010,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name containing the object whose Legal Hold status you want to retrieve.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name containing the object whose Legal Hold status you want to retrieve.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -2997,7 +3060,7 @@ extension S3 {
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        /// The bucket whose Object Lock configuration you want to retrieve.
+        /// The bucket whose Object Lock configuration you want to retrieve. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -3203,7 +3266,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -3301,7 +3364,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name containing the object whose retention settings you want to retrieve.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name containing the object whose retention settings you want to retrieve.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -3357,7 +3420,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name containing the object for which to get the tagging information.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name containing the object for which to get the tagging information.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -3539,7 +3602,7 @@ extension S3 {
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        /// The bucket name.
+        /// The bucket name. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -3721,7 +3784,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The name of the bucket containing the object.
+        /// The name of the bucket containing the object. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -4295,7 +4358,7 @@ extension S3 {
     }
 
     public struct ListMultipartUploadsOutput: AWSDecodableShape {
-        /// Name of the bucket to which the multipart upload was initiated.
+        /// The name of the bucket to which the multipart upload was initiated.
         public let bucket: String?
         /// If you specify a delimiter in the request, then the result returns each distinct key prefix containing the delimiter in a CommonPrefixes element. The distinct key prefixes are returned in the Prefix child element.
         public let commonPrefixes: [CommonPrefix]?
@@ -4363,7 +4426,7 @@ extension S3 {
             AWSMemberEncoding(label: "uploadIdMarker", location: .querystring(locationName: "upload-id-marker"))
         ]
 
-        /// Name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response.
         public let delimiter: String?
@@ -4408,7 +4471,7 @@ extension S3 {
         public let keyMarker: String?
         /// Specifies the maximum number of objects to return.
         public let maxKeys: Int?
-        /// Bucket name.
+        /// The bucket name.
         public let name: String?
         /// When the number of responses exceeds the value of MaxKeys, NextKeyMarker specifies the first key not returned that satisfies the search criteria. Use this value for the key-marker request parameter in a subsequent request.
         public let nextKeyMarker: String?
@@ -4466,7 +4529,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionIdMarker", location: .querystring(locationName: "version-id-marker"))
         ]
 
-        /// The bucket name that contains the objects.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name that contains the objects.
         public let bucket: String
         /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
         public let delimiter: String?
@@ -4511,7 +4574,7 @@ extension S3 {
         public let marker: String?
         /// The maximum number of keys returned in the response body.
         public let maxKeys: Int?
-        /// Bucket name.
+        /// The bucket name.
         public let name: String?
         /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMarker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
         public let nextMarker: String?
@@ -4557,7 +4620,7 @@ extension S3 {
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer"))
         ]
 
-        /// The name of the bucket containing the objects.
+        /// The name of the bucket containing the objects. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// A delimiter is a character you use to group keys.
         public let delimiter: String?
@@ -4604,7 +4667,7 @@ extension S3 {
         public let keyCount: Int?
         /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
         public let maxKeys: Int?
-        /// Bucket name.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let name: String?
         ///  NextContinuationToken is sent when isTruncated is true, which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
         public let nextContinuationToken: String?
@@ -4658,7 +4721,7 @@ extension S3 {
             AWSMemberEncoding(label: "startAfter", location: .querystring(locationName: "start-after"))
         ]
 
-        /// Bucket name to list.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// Bucket name to list.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key.
         public let continuationToken: String?
@@ -4706,7 +4769,7 @@ extension S3 {
         public let abortDate: Date?
         /// This header is returned along with the x-amz-abort-date header. It identifies applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
         public let abortRuleId: String?
-        /// Name of the bucket to which the multipart upload was initiated.
+        /// The name of the bucket to which the multipart upload was initiated.
         public let bucket: String?
         /// Container element that identifies who initiated the multipart upload. If the initiator is an AWS account, this element provides the same information as the Owner element. If the initiator is an IAM User, this element provides the user ARN and display name.
         public let initiator: Initiator?
@@ -4776,7 +4839,7 @@ extension S3 {
             AWSMemberEncoding(label: "uploadId", location: .querystring(locationName: "uploadId"))
         ]
 
-        /// Name of the bucket to which the parts are being uploaded.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The name of the bucket to which the parts are being uploaded.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -5271,6 +5334,33 @@ extension S3 {
         }
     }
 
+    public struct OwnershipControls: AWSEncodableShape & AWSDecodableShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
+
+        /// The container element for an ownership control rule.
+        public let rules: [OwnershipControlsRule]
+
+        public init(rules: [OwnershipControlsRule]) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rule"
+        }
+    }
+
+    public struct OwnershipControlsRule: AWSEncodableShape & AWSDecodableShape {
+        public let objectOwnership: ObjectOwnership
+
+        public init(objectOwnership: ObjectOwnership) {
+            self.objectOwnership = objectOwnership
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectOwnership = "ObjectOwnership"
+        }
+    }
+
     public struct ParquetInput: AWSEncodableShape {
         public init() {}
     }
@@ -5385,7 +5475,7 @@ extension S3 {
 
         /// Container for setting the transfer acceleration state.
         public let accelerateConfiguration: AccelerateConfiguration
-        /// Name of the bucket for which the accelerate configuration is set.
+        /// The name of the bucket for which the accelerate configuration is set.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -5742,6 +5832,36 @@ extension S3 {
         }
     }
 
+    public struct PutBucketOwnershipControlsRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "ownershipControls"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")),
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "ownershipControls", location: .body(locationName: "OwnershipControls"))
+        ]
+
+        /// The name of the Amazon S3 bucket whose OwnershipControls you want to set.
+        public let bucket: String
+        /// The MD5 hash of the OwnershipControls request body.
+        public let contentMD5: String?
+        public let expectedBucketOwner: String?
+        /// The OwnershipControls (BucketOwnerPreferred or ObjectWriter) that you want to apply to this Amazon S3 bucket.
+        public let ownershipControls: OwnershipControls
+
+        public init(bucket: String, contentMD5: String? = nil, expectedBucketOwner: String? = nil, ownershipControls: OwnershipControls) {
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.expectedBucketOwner = expectedBucketOwner
+            self.ownershipControls = ownershipControls
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownershipControls = "OwnershipControls"
+        }
+    }
+
     public struct PutBucketPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "policy"
@@ -5964,21 +6084,21 @@ extension S3 {
         public let accessControlPolicy: AccessControlPolicy?
         /// The canned ACL to apply to the object. For more information, see Canned ACL.
         public let acl: ObjectCannedACL?
-        /// The bucket name that contains the object to which you want to attach the ACL.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name that contains the object to which you want to attach the ACL.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
-        /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
+        /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket. This action is not supported by Amazon S3 on Outposts.
         public let grantFullControl: String?
-        /// Allows grantee to list the objects in the bucket.
+        /// Allows grantee to list the objects in the bucket. This action is not supported by Amazon S3 on Outposts.
         public let grantRead: String?
-        /// Allows grantee to read the bucket ACL.
+        /// Allows grantee to read the bucket ACL. This action is not supported by Amazon S3 on Outposts.
         public let grantReadACP: String?
         /// Allows grantee to create, overwrite, and delete any object in the bucket.
         public let grantWrite: String?
-        /// Allows grantee to write the ACL for the applicable bucket.
+        /// Allows grantee to write the ACL for the applicable bucket. This action is not supported by Amazon S3 on Outposts.
         public let grantWriteACP: String?
-        /// Key for which the PUT operation was initiated.
+        /// Key for which the PUT operation was initiated. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let key: String
         public let requestPayer: RequestPayer?
         /// VersionId used to reference a specific version of the object.
@@ -6036,7 +6156,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name containing the object that you want to place a Legal Hold on.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name containing the object that you want to place a Legal Hold on.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -6210,11 +6330,11 @@ extension S3 {
             AWSMemberEncoding(label: "websiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"))
         ]
 
-        /// The canned ACL to apply to the object. For more information, see Canned ACL.
+        /// The canned ACL to apply to the object. For more information, see Canned ACL. This action is not supported by Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
         /// Object data.
         public let body: AWSPayload?
-        /// Bucket name to which the PUT operation was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name to which the PUT operation was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         ///  Can be used to specify caching behavior along the request/reply chain. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
         public let cacheControl: String?
@@ -6234,13 +6354,13 @@ extension S3 {
         public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21.
         public let expires: Date?
-        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
+        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
         public let grantFullControl: String?
-        /// Allows grantee to read the object data and its metadata.
+        /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
         public let grantRead: String?
-        /// Allows grantee to read the object ACL.
+        /// Allows grantee to read the object ACL. This action is not supported by Amazon S3 on Outposts.
         public let grantReadACP: String?
-        /// Allows grantee to write the ACL for the applicable object.
+        /// Allows grantee to write the ACL for the applicable object. This action is not supported by Amazon S3 on Outposts.
         public let grantWriteACP: String?
         /// Object key for which the PUT operation was initiated.
         public let key: String
@@ -6265,7 +6385,7 @@ extension S3 {
         public let sSEKMSEncryptionContext: String?
         /// If x-amz-server-side-encryption is present and has the value of aws:kms, this header specifies the ID of the AWS Key Management Service (AWS KMS) symmetrical customer managed customer master key (CMK) that was used for the object.  If the value of x-amz-server-side-encryption is aws:kms, this header specifies the ID of the symmetric customer managed AWS KMS CMK that will be used for the object. If you specify x-amz-server-side-encryption:aws:kms, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the AWS managed CMK in AWS to protect the data.
         public let sSEKMSKeyId: String?
-        /// If you don't specify, S3 Standard is the default storage class. Amazon S3 supports other storage classes.
+        /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in the Amazon S3 Service Developer Guide.
         public let storageClass: StorageClass?
         /// The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, "Key1=Value1")
         public let tagging: String?
@@ -6342,7 +6462,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name that contains the object you want to apply this Object Retention configuration to.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name that contains the object you want to apply this Object Retention configuration to.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// Indicates whether this operation should bypass Governance-mode restrictions.
         public let bypassGovernanceRetention: Bool?
@@ -6403,7 +6523,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -6768,7 +6888,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The bucket name or containing the object to restore.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The bucket name or containing the object to restore.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -7311,7 +7431,7 @@ extension S3 {
     public struct TargetGrant: AWSEncodableShape & AWSDecodableShape {
         /// Container for the person being granted permissions.
         public let grantee: Grantee?
-        /// Logging permissions assigned to the Grantee for the bucket.
+        /// Logging permissions assigned to the grantee for the bucket.
         public let permission: BucketLogsPermission?
 
         public init(grantee: Grantee? = nil, permission: BucketLogsPermission? = nil) {
@@ -7461,9 +7581,9 @@ extension S3 {
             AWSMemberEncoding(label: "uploadId", location: .querystring(locationName: "uploadId"))
         ]
 
-        /// The bucket name.
+        /// The bucket name. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point:   For objects not accessed through an access point, specify the name of the source bucket and key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL encoded.   For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:accesspoint/&lt;access-point-name&gt;/object/&lt;key&gt;. For example, to copy the object reports/january.pdf through the access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded.  Amazon S3 supports copy operations using access points only when the source and destination buckets are in the same AWS Region.    To copy a specific version of an object, append ?versionId=&lt;version-id&gt; to the value (for example, awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you don't specify a version ID, Amazon S3 copies the latest version of the source object.
+        /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point:   For objects not accessed through an access point, specify the name of the source bucket and key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL encoded.   For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:accesspoint/&lt;access-point-name&gt;/object/&lt;key&gt;. For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded.  Amazon S3 supports copy operations using access points only when the source and destination buckets are in the same AWS Region.  Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/object/&lt;key&gt;. For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf. The value must be URL encoded.    To copy a specific version of an object, append ?versionId=&lt;version-id&gt; to the value (for example, awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you don't specify a version ID, Amazon S3 copies the latest version of the source object.
         public let copySource: String
         /// Copies the object if its entity tag (ETag) matches the specified tag.
         public let copySourceIfMatch: String?
@@ -7591,7 +7711,7 @@ extension S3 {
 
         /// Object data.
         public let body: AWSPayload?
-        /// Name of the bucket to which the multipart upload was initiated.
+        /// The name of the bucket to which the multipart upload was initiated. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
         public let contentLength: Int64?

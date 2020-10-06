@@ -25,7 +25,7 @@ extension PersonalizeEvents {
     public struct Event: AWSEncodableShape {
         /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinquish unique events. Any subsequent events after the first with the same event ID are not used in model training.
         public let eventId: String?
-        /// The type of event. This property corresponds to the EVENT_TYPE field of the Interactions schema.
+        /// The type of event, such as click or download. This property corresponds to the EVENT_TYPE field of your Interactions schema and depends on the types of events you are tracking.
         public let eventType: String
         /// The event value that corresponds to the EVENT_VALUE field of the Interactions schema.
         public let eventValue: Float?
@@ -82,6 +82,30 @@ extension PersonalizeEvents {
         }
     }
 
+    public struct Item: AWSEncodableShape {
+        /// The ID associated with the item.
+        public let itemId: String
+        /// A string map of item-specific metadata. Each element in the map consists of a key-value pair. For example,   {"numberOfRatings": "12"}  The keys use camel case names that match the fields in the Items schema. In the above example, the numberOfRatings would match the 'NUMBER_OF_RATINGS' field defined in the Items schema.
+        public let properties: String?
+
+        public init(itemId: String, properties: String? = nil) {
+            self.itemId = itemId
+            self.properties = properties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
+            try self.validate(self.itemId, name: "itemId", parent: name, min: 1)
+            try self.validate(self.properties, name: "properties", parent: name, max: 1024)
+            try self.validate(self.properties, name: "properties", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemId
+            case properties
+        }
+    }
+
     public struct PutEventsRequest: AWSEncodableShape {
         /// A list of event data from the session.
         public let eventList: [Event]
@@ -117,6 +141,84 @@ extension PersonalizeEvents {
             case eventList
             case sessionId
             case trackingId
+            case userId
+        }
+    }
+
+    public struct PutItemsRequest: AWSEncodableShape {
+        /// The Amazon Resource Number (ARN) of the Items dataset you are adding the item or items to.
+        public let datasetArn: String
+        /// A list of item data.
+        public let items: [Item]
+
+        public init(datasetArn: String, items: [Item]) {
+            self.datasetArn = datasetArn
+            self.items = items
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.items.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+            try self.validate(self.items, name: "items", parent: name, max: 10)
+            try self.validate(self.items, name: "items", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn
+            case items
+        }
+    }
+
+    public struct PutUsersRequest: AWSEncodableShape {
+        /// The Amazon Resource Number (ARN) of the Users dataset you are adding the user or users to.
+        public let datasetArn: String
+        /// A list of user data.
+        public let users: [User]
+
+        public init(datasetArn: String, users: [User]) {
+            self.datasetArn = datasetArn
+            self.users = users
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.users.forEach {
+                try $0.validate(name: "\(name).users[]")
+            }
+            try self.validate(self.users, name: "users", parent: name, max: 10)
+            try self.validate(self.users, name: "users", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn
+            case users
+        }
+    }
+
+    public struct User: AWSEncodableShape {
+        /// A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example,   {"numberOfVideosWatched": "45"}  The keys use camel case names that match the fields in the Users schema. In the above example, the numberOfVideosWatched would match the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema.
+        public let properties: String?
+        /// The ID associated with the user.
+        public let userId: String
+
+        public init(properties: String? = nil, userId: String) {
+            self.properties = properties
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.properties, name: "properties", parent: name, max: 1024)
+            try self.validate(self.properties, name: "properties", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case properties
             case userId
         }
     }

@@ -19,6 +19,8 @@ import SotoCore
 /// Error enum for S3Control
 public enum S3ControlErrorType: AWSErrorType {
     case badRequestException(message: String?)
+    case bucketAlreadyExists(message: String?)
+    case bucketAlreadyOwnedByYou(message: String?)
     case idempotencyException(message: String?)
     case internalServiceException(message: String?)
     case invalidNextTokenException(message: String?)
@@ -39,6 +41,10 @@ extension S3ControlErrorType {
         switch errorCode {
         case "BadRequestException":
             self = .badRequestException(message: message)
+        case "BucketAlreadyExists":
+            self = .bucketAlreadyExists(message: message)
+        case "BucketAlreadyOwnedByYou":
+            self = .bucketAlreadyOwnedByYou(message: message)
         case "IdempotencyException":
             self = .idempotencyException(message: message)
         case "InternalServiceException":
@@ -68,6 +74,10 @@ extension S3ControlErrorType: CustomStringConvertible {
         switch self {
         case .badRequestException(let message):
             return "BadRequestException: \(message ?? "")"
+        case .bucketAlreadyExists(let message):
+            return "BucketAlreadyExists: \(message ?? "")"
+        case .bucketAlreadyOwnedByYou(let message):
+            return "BucketAlreadyOwnedByYou: \(message ?? "")"
         case .idempotencyException(let message):
             return "IdempotencyException: \(message ?? "")"
         case .internalServiceException(let message):

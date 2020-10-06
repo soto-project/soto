@@ -208,6 +208,7 @@ let package = Package(
         .library(name: "SotoRoute53Resolver", targets: ["SotoRoute53Resolver"]),
         .library(name: "SotoS3", targets: ["SotoS3"]),
         .library(name: "SotoS3Control", targets: ["SotoS3Control"]),
+        .library(name: "SotoS3Outposts", targets: ["SotoS3Outposts"]),
         .library(name: "SotoSES", targets: ["SotoSES"]),
         .library(name: "SotoSESV2", targets: ["SotoSESV2"]),
         .library(name: "SotoSFN", targets: ["SotoSFN"]),
@@ -238,6 +239,8 @@ let package = Package(
         .library(name: "SotoSupport", targets: ["SotoSupport"]),
         .library(name: "SotoSynthetics", targets: ["SotoSynthetics"]),
         .library(name: "SotoTextract", targets: ["SotoTextract"]),
+        .library(name: "SotoTimestreamQuery", targets: ["SotoTimestreamQuery"]),
+        .library(name: "SotoTimestreamWrite", targets: ["SotoTimestreamWrite"]),
         .library(name: "SotoTranscribeService", targets: ["SotoTranscribeService"]),
         .library(name: "SotoTranscribeStreamingService", targets: ["SotoTranscribeStreamingService"]),
         .library(name: "SotoTransfer", targets: ["SotoTransfer"]),
@@ -445,6 +448,7 @@ let package = Package(
         .target(name: "SotoRoute53Resolver", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Route53Resolver"),
         .target(name: "SotoS3", dependencies: ["SotoCore", "CSotoZlib"], path: "./Sources/Soto/", sources: ["Services/S3", "Extensions/S3"]),
         .target(name: "SotoS3Control", dependencies: ["SotoCore"], path: "./Sources/Soto/", sources: ["Services/S3Control", "Extensions/S3Control"]),
+        .target(name: "SotoS3Outposts", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/S3Outposts"),
         .target(name: "SotoSES", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/SES"),
         .target(name: "SotoSESV2", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/SESV2"),
         .target(name: "SotoSFN", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/SFN"),
@@ -475,6 +479,8 @@ let package = Package(
         .target(name: "SotoSupport", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Support"),
         .target(name: "SotoSynthetics", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Synthetics"),
         .target(name: "SotoTextract", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Textract"),
+        .target(name: "SotoTimestreamQuery", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/TimestreamQuery"),
+        .target(name: "SotoTimestreamWrite", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/TimestreamWrite"),
         .target(name: "SotoTranscribeService", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/TranscribeService"),
         .target(name: "SotoTranscribeStreamingService", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/TranscribeStreamingService"),
         .target(name: "SotoTransfer", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/Transfer"),
@@ -500,14 +506,14 @@ let package = Package(
             "SotoEC2",
             "SotoGlacier",
             "SotoIAM",
+            "SotoLambda",
             "SotoRoute53",
             "SotoS3",
             "SotoSES",
             "SotoSNS",
             "SotoSQS",
             "SotoSSM",
-            "SotoSTS",
-            "SotoLambda"
+            "SotoSTS"
         ])
     ]
 )

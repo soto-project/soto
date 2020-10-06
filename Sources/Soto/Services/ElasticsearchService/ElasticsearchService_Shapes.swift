@@ -127,6 +127,7 @@ extension ElasticsearchService {
         case indexSlowLogs = "INDEX_SLOW_LOGS"
         case searchSlowLogs = "SEARCH_SLOW_LOGS"
         case esApplicationLogs = "ES_APPLICATION_LOGS"
+        case auditLogs = "AUDIT_LOGS"
         public var description: String { return self.rawValue }
     }
 

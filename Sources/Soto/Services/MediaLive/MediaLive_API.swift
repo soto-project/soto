@@ -62,6 +62,21 @@ public struct MediaLive: AWSService {
 
     // MARK: API Calls
 
+    ///  Starts delete of resources.
+    public func batchDelete(_ input: BatchDeleteRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDeleteResponse> {
+        return self.client.execute(operation: "BatchDelete", path: "/prod/batch/delete", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Starts existing resources
+    public func batchStart(_ input: BatchStartRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchStartResponse> {
+        return self.client.execute(operation: "BatchStart", path: "/prod/batch/start", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Stops running resources
+    public func batchStop(_ input: BatchStopRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchStopResponse> {
+        return self.client.execute(operation: "BatchStop", path: "/prod/batch/stop", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Update a channel schedule
     public func batchUpdateSchedule(_ input: BatchUpdateScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchUpdateScheduleResponse> {
         return self.client.execute(operation: "BatchUpdateSchedule", path: "/prod/channels/{channelId}/schedule", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)

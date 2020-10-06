@@ -194,6 +194,8 @@ extension AppSync {
     }
 
     public struct ApiKey: AWSDecodableShape {
+        /// The time after which the API key is deleted. The date is represented as seconds since the epoch, rounded down to the nearest hour.
+        public let deletes: Int64?
         /// A description of the purpose of the API key.
         public let description: String?
         /// The time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour.
@@ -201,13 +203,15 @@ extension AppSync {
         /// The API key ID.
         public let id: String?
 
-        public init(description: String? = nil, expires: Int64? = nil, id: String? = nil) {
+        public init(deletes: Int64? = nil, description: String? = nil, expires: Int64? = nil, id: String? = nil) {
+            self.deletes = deletes
             self.description = description
             self.expires = expires
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deletes
             case description
             case expires
             case id
@@ -1362,10 +1366,12 @@ extension AppSync {
         public let uris: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
+        /// The ARN of the AWS WAF ACL associated with this GraphqlApi if one exists.
+        public let wafWebAclArn: String?
         /// A flag representing whether X-Ray tracing is enabled for this GraphqlApi.
         public let xrayEnabled: Bool?
 
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, wafWebAclArn: String? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.arn = arn
@@ -1376,6 +1382,7 @@ extension AppSync {
             self.tags = tags
             self.uris = uris
             self.userPoolConfig = userPoolConfig
+            self.wafWebAclArn = wafWebAclArn
             self.xrayEnabled = xrayEnabled
         }
 
@@ -1390,6 +1397,7 @@ extension AppSync {
             case tags
             case uris
             case userPoolConfig
+            case wafWebAclArn
             case xrayEnabled
         }
     }

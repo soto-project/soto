@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Backup {
-    ///  Returns metadata about your backup jobs.
+    ///  Returns a list of existing backup jobs for an authenticated account.
     public func listBackupJobsPaginator(
         _ input: ListBackupJobsInput,
         on eventLoop: EventLoop? = nil,
@@ -67,7 +67,7 @@ extension Backup {
         )
     }
 
-    ///  Returns metadata of your saved backup plans, including Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
+    ///  Returns a list of existing backup plans for an authenticated account. The list is populated only if the advanced option is set for the backup plan. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
     public func listBackupPlansPaginator(
         _ input: ListBackupPlansInput,
         on eventLoop: EventLoop? = nil,

@@ -51,7 +51,7 @@ extension IoTSiteWise {
         )
     }
 
-    ///  Retrieves a paginated list of access policies for an AWS SSO identity (a user or group) or an AWS IoT SiteWise Monitor resource (a portal or project).
+    ///  Retrieves a paginated list of access policies for an identity (an AWS SSO user, an AWS SSO group, or an IAM user) or an AWS IoT SiteWise Monitor resource (a portal or project).
     public func listAccessPoliciesPaginator(
         _ input: ListAccessPoliciesRequest,
         on eventLoop: EventLoop? = nil,
@@ -233,6 +233,7 @@ extension IoTSiteWise.GetAssetPropertyValueHistoryRequest: AWSPaginateToken {
 extension IoTSiteWise.ListAccessPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAccessPoliciesRequest {
         return .init(
+            iamArn: self.iamArn,
             identityId: self.identityId,
             identityType: self.identityType,
             maxResults: self.maxResults,

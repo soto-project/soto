@@ -30,6 +30,12 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationSyncStatus: String, CustomStringConvertible, Codable {
+        case insync = "InSync"
+        case outofsync = "OutOfSync"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentType: String, CustomStringConvertible, Codable {
         case newdeployment = "NewDeployment"
         case redeployment = "Redeployment"
@@ -80,6 +86,12 @@ extension Greengrass {
     public enum SoftwareToUpdate: String, CustomStringConvertible, Codable {
         case core
         case otaAgent = "ota_agent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Telemetry: String, CustomStringConvertible, Codable {
+        case on = "On"
+        case off = "Off"
         public var description: String { return self.rawValue }
     }
 
@@ -2767,6 +2779,33 @@ extension Greengrass {
         }
     }
 
+    public struct GetThingRuntimeConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "ThingName"))
+        ]
+
+        public let thingName: String
+
+        public init(thingName: String) {
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetThingRuntimeConfigurationResponse: AWSDecodableShape {
+        /// Runtime configuration for a thing.
+        public let runtimeConfiguration: RuntimeConfiguration?
+
+        public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
+            self.runtimeConfiguration = runtimeConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeConfiguration = "RuntimeConfiguration"
+        }
+    }
+
     public struct GroupCertificateAuthorityProperties: AWSDecodableShape {
         /// The ARN of the certificate authority for the group.
         public let groupCertificateAuthorityArn: String?
@@ -3790,6 +3829,19 @@ extension Greengrass {
         }
     }
 
+    public struct RuntimeConfiguration: AWSDecodableShape {
+        /// Configuration for telemetry service.
+        public let telemetryConfiguration: TelemetryConfiguration?
+
+        public init(telemetryConfiguration: TelemetryConfiguration? = nil) {
+            self.telemetryConfiguration = telemetryConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case telemetryConfiguration = "TelemetryConfiguration"
+        }
+    }
+
     public struct S3MachineLearningModelResourceData: AWSEncodableShape & AWSDecodableShape {
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
@@ -3961,6 +4013,36 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case tags
+        }
+    }
+
+    public struct TelemetryConfiguration: AWSDecodableShape {
+        /// Synchronization status of the device reported configuration with the desired configuration.
+        public let configurationSyncStatus: ConfigurationSyncStatus?
+        /// Configure telemetry to be on or off.
+        public let telemetry: Telemetry
+
+        public init(configurationSyncStatus: ConfigurationSyncStatus? = nil, telemetry: Telemetry) {
+            self.configurationSyncStatus = configurationSyncStatus
+            self.telemetry = telemetry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSyncStatus = "ConfigurationSyncStatus"
+            case telemetry = "Telemetry"
+        }
+    }
+
+    public struct TelemetryConfigurationUpdate: AWSEncodableShape {
+        /// Configure telemetry to be on or off.
+        public let telemetry: Telemetry
+
+        public init(telemetry: Telemetry) {
+            self.telemetry = telemetry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case telemetry = "Telemetry"
         }
     }
 
@@ -4227,6 +4309,28 @@ extension Greengrass {
     }
 
     public struct UpdateSubscriptionDefinitionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateThingRuntimeConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "ThingName"))
+        ]
+
+        public let telemetryConfiguration: TelemetryConfigurationUpdate?
+        public let thingName: String
+
+        public init(telemetryConfiguration: TelemetryConfigurationUpdate? = nil, thingName: String) {
+            self.telemetryConfiguration = telemetryConfiguration
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case telemetryConfiguration = "TelemetryConfiguration"
+        }
+    }
+
+    public struct UpdateThingRuntimeConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 

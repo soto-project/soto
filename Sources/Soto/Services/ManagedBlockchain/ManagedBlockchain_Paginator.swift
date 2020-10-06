@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension ManagedBlockchain {
-    ///  Returns a listing of all invitations made on the specified network.
+    ///  Returns a listing of all invitations for the current AWS account.
     public func listInvitationsPaginator(
         _ input: ListInvitationsInput,
         on eventLoop: EventLoop? = nil,

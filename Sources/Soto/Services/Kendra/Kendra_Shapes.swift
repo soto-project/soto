@@ -86,6 +86,13 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum FaqFileFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case csvWithHeader = "CSV_WITH_HEADER"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FaqStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case updating = "UPDATING"
@@ -186,6 +193,7 @@ extension Kendra {
         case veryHigh = "VERY_HIGH"
         case high = "HIGH"
         case medium = "MEDIUM"
+        case low = "LOW"
         public var description: String { return self.rawValue }
     }
 
@@ -624,7 +632,7 @@ extension Kendra {
     }
 
     public struct CreateDataSourceRequest: AWSEncodableShape {
-        /// The connector configuration information that is required to access the repository.
+        /// The data source connector configuration information that is required to access the repository.
         public let configuration: DataSourceConfiguration
         /// A description for the data source.
         public let description: String?
@@ -701,6 +709,8 @@ extension Kendra {
     public struct CreateFaqRequest: AWSEncodableShape {
         /// A description of the FAQ.
         public let description: String?
+        /// The format of the input file. You can choose between a basic CSV format, a CSV format that includes customs attributes in a header, and a JSON format that includes custom attributes. The format must match the format of the file stored in the S3 bucket identified in the S3Path parameter. For more information, see Adding questions and answers.
+        public let fileFormat: FaqFileFormat?
         /// The identifier of the index that contains the FAQ.
         public let indexId: String
         /// The name that should be associated with the FAQ.
@@ -712,8 +722,9 @@ extension Kendra {
         /// A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, indexId: String, name: String, roleArn: String, s3Path: S3Path, tags: [Tag]? = nil) {
+        public init(description: String? = nil, fileFormat: FaqFileFormat? = nil, indexId: String, name: String, roleArn: String, s3Path: S3Path, tags: [Tag]? = nil) {
             self.description = description
+            self.fileFormat = fileFormat
             self.indexId = indexId
             self.name = name
             self.roleArn = roleArn
@@ -744,6 +755,7 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case fileFormat = "FileFormat"
             case indexId = "IndexId"
             case name = "Name"
             case roleArn = "RoleArn"
@@ -770,7 +782,7 @@ extension Kendra {
         public let clientToken: String?
         /// A description for the index.
         public let description: String?
-        /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed.
+        /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed.  The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION.
         public let edition: IndexEdition?
         /// The name for the new index.
         public let name: String
@@ -836,17 +848,17 @@ extension Kendra {
     }
 
     public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Provides information necessary to create a connector for a database.
+        /// Provides information necessary to create a data source connector for a database.
         public let databaseConfiguration: DatabaseConfiguration?
         /// Provided configuration for data sources that connect to Microsoft OneDrive.
         public let oneDriveConfiguration: OneDriveConfiguration?
-        /// Provides information to create a connector for a document repository in an Amazon S3 bucket.
+        /// Provides information to create a data source connector for a document repository in an Amazon S3 bucket.
         public let s3Configuration: S3DataSourceConfiguration?
         /// Provides configuration information for data sources that connect to a Salesforce site.
         public let salesforceConfiguration: SalesforceConfiguration?
         /// Provides configuration for data sources that connect to ServiceNow instances.
         public let serviceNowConfiguration: ServiceNowConfiguration?
-        /// Provides information necessary to create a connector for a Microsoft SharePoint site.
+        /// Provides information necessary to create a data source connector for a Microsoft SharePoint site.
         public let sharePointConfiguration: SharePointConfiguration?
 
         public init(databaseConfiguration: DatabaseConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
@@ -921,7 +933,7 @@ extension Kendra {
         public let errorMessage: String?
         /// A unique identifier for the synchronization job.
         public let executionId: String?
-        /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a connector.
+        /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a data source connector.
         public let metrics: DataSourceSyncJobMetrics?
         /// The UNIX datetime that the synchronization job was started.
         public let startTime: Date?
@@ -1299,6 +1311,8 @@ extension Kendra {
         public let description: String?
         /// If the Status field is FAILED, the ErrorMessage field contains the reason why the FAQ failed.
         public let errorMessage: String?
+        /// The file format used by the input files for the FAQ.
+        public let fileFormat: FaqFileFormat?
         /// The identifier of the FAQ.
         public let id: String?
         /// The identifier of the index that contains the FAQ.
@@ -1313,10 +1327,11 @@ extension Kendra {
         /// The date and time that the FAQ was last updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, s3Path: S3Path? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, s3Path: S3Path? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.errorMessage = errorMessage
+            self.fileFormat = fileFormat
             self.id = id
             self.indexId = indexId
             self.name = name
@@ -1330,6 +1345,7 @@ extension Kendra {
             case createdAt = "CreatedAt"
             case description = "Description"
             case errorMessage = "ErrorMessage"
+            case fileFormat = "FileFormat"
             case id = "Id"
             case indexId = "IndexId"
             case name = "Name"
@@ -1616,15 +1632,19 @@ extension Kendra {
         public let documentAttributeKey: String?
         /// An array of key/value pairs, where the key is the value of the attribute and the count is the number of documents that share the key value.
         public let documentAttributeValueCountPairs: [DocumentAttributeValueCountPair]?
+        /// The data type of the facet value. This is the same as the type defined for the index field when it was created.
+        public let documentAttributeValueType: DocumentAttributeValueType?
 
-        public init(documentAttributeKey: String? = nil, documentAttributeValueCountPairs: [DocumentAttributeValueCountPair]? = nil) {
+        public init(documentAttributeKey: String? = nil, documentAttributeValueCountPairs: [DocumentAttributeValueCountPair]? = nil, documentAttributeValueType: DocumentAttributeValueType? = nil) {
             self.documentAttributeKey = documentAttributeKey
             self.documentAttributeValueCountPairs = documentAttributeValueCountPairs
+            self.documentAttributeValueType = documentAttributeValueType
         }
 
         private enum CodingKeys: String, CodingKey {
             case documentAttributeKey = "DocumentAttributeKey"
             case documentAttributeValueCountPairs = "DocumentAttributeValueCountPairs"
+            case documentAttributeValueType = "DocumentAttributeValueType"
         }
     }
 
@@ -1644,6 +1664,8 @@ extension Kendra {
     public struct FaqSummary: AWSDecodableShape {
         /// The UNIX datetime that the FAQ was added to the index.
         public let createdAt: Date?
+        /// The file type used to create the FAQ.
+        public let fileFormat: FaqFileFormat?
         /// The unique identifier of the FAQ.
         public let id: String?
         /// The name that you assigned the FAQ when you created or updated the FAQ.
@@ -1653,8 +1675,9 @@ extension Kendra {
         /// The UNIX datetime that the FAQ was last updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, id: String? = nil, name: String? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, name: String? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
+            self.fileFormat = fileFormat
             self.id = id
             self.name = name
             self.status = status
@@ -1663,6 +1686,7 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case fileFormat = "FileFormat"
             case id = "Id"
             case name = "Name"
             case status = "Status"
@@ -2160,7 +2184,7 @@ extension Kendra {
         public let queryId: String?
         /// The results of the search.
         public let resultItems: [QueryResultItem]?
-        /// The number of items returned by the search. Use this to determine when you have requested the last set of results.
+        /// The total number of items found by the search; however, you can only retrieve up to 100 items. For example, if the search found 192 items, you can only retrieve the first 100 of the items.
         public let totalNumberOfResults: Int?
 
         public init(facetResults: [FacetResult]? = nil, queryId: String? = nil, resultItems: [QueryResultItem]? = nil, totalNumberOfResults: Int? = nil) {
@@ -2193,7 +2217,7 @@ extension Kendra {
         public let documentURI: String?
         /// The unique identifier for the query result.
         public let id: String?
-        /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, and MEDIUM. You can use the score to determine if a response meets the confidence needed for your application. Confidence scores are only returned for results with the Type field set to QUESTION_ANSWER or ANSWER. This field is not returned if the Type field is set to DOCUMENT.
+        /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW. You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result matches the query.
         public let scoreAttributes: ScoreAttributes?
         /// The type of document.
         public let `type`: QueryResultType?

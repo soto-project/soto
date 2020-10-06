@@ -499,6 +499,53 @@ extension Schemas {
         }
     }
 
+    public struct ExportSchemaRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")),
+            AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion")),
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
+        ]
+
+        public let registryName: String
+        public let schemaName: String
+        public let schemaVersion: String?
+        public let `type`: String
+
+        public init(registryName: String, schemaName: String, schemaVersion: String? = nil, type: String) {
+            self.registryName = registryName
+            self.schemaName = schemaName
+            self.schemaVersion = schemaVersion
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ExportSchemaResponse: AWSDecodableShape {
+        public let content: String?
+        public let schemaArn: String?
+        public let schemaName: String?
+        public let schemaVersion: String?
+        public let `type`: String?
+
+        public init(content: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, type: String? = nil) {
+            self.content = content
+            self.schemaArn = schemaArn
+            self.schemaName = schemaName
+            self.schemaVersion = schemaVersion
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case schemaArn = "SchemaArn"
+            case schemaName = "SchemaName"
+            case schemaVersion = "SchemaVersion"
+            case `type` = "Type"
+        }
+    }
+
     public struct GetCodeBindingSourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "language", location: .uri(locationName: "language")),
@@ -924,17 +971,20 @@ extension Schemas {
         public let schemaName: String?
         /// The version number of the schema.
         public let schemaVersion: String?
+        public let `type`: String?
 
-        public init(schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil) {
+        public init(schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, type: String? = nil) {
             self.schemaArn = schemaArn
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
+            case `type` = "Type"
         }
     }
 
@@ -969,15 +1019,18 @@ extension Schemas {
         public var createdDate: Date?
         /// The version number of the schema
         public let schemaVersion: String?
+        public let `type`: String?
 
-        public init(createdDate: Date? = nil, schemaVersion: String? = nil) {
+        public init(createdDate: Date? = nil, schemaVersion: String? = nil, type: String? = nil) {
             self.createdDate = createdDate
             self.schemaVersion = schemaVersion
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
             case schemaVersion = "SchemaVersion"
+            case `type` = "Type"
         }
     }
 

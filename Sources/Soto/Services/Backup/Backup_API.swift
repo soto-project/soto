@@ -62,12 +62,12 @@ public struct Backup: AWSService {
 
     // MARK: API Calls
 
-    ///  Backup plans are documents that contain information that AWS Backup uses to schedule tasks that create recovery points of resources. If you call CreateBackupPlan with a plan that already exists, an AlreadyExistsException is returned.
+    ///  Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that AWS Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, an AlreadyExistsException is returned.
     public func createBackupPlan(_ input: CreateBackupPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBackupPlanOutput> {
         return self.client.execute(operation: "CreateBackupPlan", path: "/backup/plans/", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a JSON document that specifies a set of resources to assign to a backup plan. Resources can be included by specifying patterns for a ListOfTags and selected Resources.  For example, consider the following patterns:    Resources: "arn:aws:ec2:region:account-id:volume/volume-id"     ConditionKey:"department"   ConditionValue:"finance"   ConditionType:"StringEquals"     ConditionKey:"importance"   ConditionValue:"critical"   ConditionType:"StringEquals"    Using these patterns would back up all Amazon Elastic Block Store (Amazon EBS) volumes that are tagged as "department=finance", "importance=critical", in addition to an EBS volume with the specified volume Id. Resources and conditions are additive in that all resources that match the pattern are selected. This shouldn't be confused with a logical AND, where all conditions must match. The matching patterns are logically 'put together using the OR operator. In other words, all patterns that match are selected for backup.
+    ///  Creates a JSON document that specifies a set of resources to assign to a backup plan. Resources can be included by specifying patterns for a ListOfTags and selected Resources.  For example, consider the following patterns:    Resources: "arn:aws:ec2:region:account-id:volume/volume-id"     ConditionKey:"department"   ConditionValue:"finance"   ConditionType:"StringEquals"     ConditionKey:"importance"   ConditionValue:"critical"   ConditionType:"StringEquals"    Using these patterns would back up all Amazon Elastic Block Store (Amazon EBS) volumes that are tagged as "department=finance", "importance=critical", in addition to an EBS volume with the specified volume ID. Resources and conditions are additive in that all resources that match the pattern are selected. This shouldn't be confused with a logical AND, where all conditions must match. The matching patterns are logically put together using the OR operator. In other words, all patterns that match are selected for backup.
     public func createBackupSelection(_ input: CreateBackupSelectionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBackupSelectionOutput> {
         return self.client.execute(operation: "CreateBackupSelection", path: "/backup/plans/{backupPlanId}/selections/", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -107,7 +107,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "DeleteRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns metadata associated with creating a backup of a resource.
+    ///  Returns backup job details for the specified BackupJobId.
     public func describeBackupJob(_ input: DescribeBackupJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeBackupJobOutput> {
         return self.client.execute(operation: "DescribeBackupJob", path: "/backup-jobs/{backupJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -132,7 +132,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "DescribeRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup attempts to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not attempt to protect that service's resources in this Region.
+    ///  Returns the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup tries to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not try to protect that service's resources in this Region.
     public func describeRegionSettings(_ input: DescribeRegionSettingsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRegionSettingsOutput> {
         return self.client.execute(operation: "DescribeRegionSettings", path: "/account-settings", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -147,7 +147,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "ExportBackupPlanTemplate", path: "/backup/plans/{backupPlanId}/toTemplate/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns the body of a backup plan in JSON format, in addition to plan metadata.
+    ///  Returns BackupPlan details for the specified BackupPlanId. Returns the body of a backup plan in JSON format, in addition to plan metadata.
     public func getBackupPlan(_ input: GetBackupPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBackupPlanOutput> {
         return self.client.execute(operation: "GetBackupPlan", path: "/backup/plans/{backupPlanId}/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -187,7 +187,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "GetSupportedResourceTypes", path: "/supported-resource-types", httpMethod: .GET, serviceConfig: self.config, on: eventLoop, logger: logger)
     }
 
-    ///  Returns metadata about your backup jobs.
+    ///  Returns a list of existing backup jobs for an authenticated account.
     public func listBackupJobs(_ input: ListBackupJobsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBackupJobsOutput> {
         return self.client.execute(operation: "ListBackupJobs", path: "/backup-jobs/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -202,7 +202,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "ListBackupPlanVersions", path: "/backup/plans/{backupPlanId}/versions/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns metadata of your saved backup plans, including Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
+    ///  Returns a list of existing backup plans for an authenticated account. The list is populated only if the advanced option is set for the backup plan. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
     public func listBackupPlans(_ input: ListBackupPlansInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBackupPlansOutput> {
         return self.client.execute(operation: "ListBackupPlans", path: "/backup/plans/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -257,7 +257,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "PutBackupVaultNotifications", path: "/backup-vaults/{backupVaultName}/notification-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Starts a job to create a one-time backup of the specified resource.
+    ///  Starts an on-demand backup job for the specified resource.
     public func startBackupJob(_ input: StartBackupJobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartBackupJobOutput> {
         return self.client.execute(operation: "StartBackupJob", path: "/backup-jobs", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -287,7 +287,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/untag/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Replaces the body of a saved backup plan identified by its backupPlanId with the input document in JSON format. The new version is uniquely identified by a VersionId.
+    ///  Updates an existing backup plan identified by its backupPlanId with the input document in JSON format. The new version is uniquely identified by a VersionId.
     public func updateBackupPlan(_ input: UpdateBackupPlanInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateBackupPlanOutput> {
         return self.client.execute(operation: "UpdateBackupPlan", path: "/backup/plans/{backupPlanId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -297,7 +297,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Updates the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup attempts to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not attempt to protect that service's resources in this Region.
+    ///  Updates the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup tries to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not try to protect that service's resources in this Region.
     @discardableResult public func updateRegionSettings(_ input: UpdateRegionSettingsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateRegionSettings", path: "/account-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

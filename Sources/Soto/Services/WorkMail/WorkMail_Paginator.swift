@@ -67,6 +67,22 @@ extension WorkMail {
         )
     }
 
+    ///  Lists the mailbox export jobs started for the specified organization within the last seven days.
+    public func listMailboxExportJobsPaginator(
+        _ input: ListMailboxExportJobsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListMailboxExportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMailboxExportJobs,
+            tokenKey: \ListMailboxExportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the mailbox permissions associated with a user, group, or resource mailbox.
     public func listMailboxPermissionsPaginator(
         _ input: ListMailboxPermissionsRequest,
@@ -172,6 +188,16 @@ extension WorkMail.ListGroupMembersRequest: AWSPaginateToken {
 
 extension WorkMail.ListGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationId: self.organizationId
+        )
+    }
+}
+
+extension WorkMail.ListMailboxExportJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListMailboxExportJobsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,

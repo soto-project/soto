@@ -20,6 +20,35 @@ import SotoCore
 extension S3Control {
     // MARK: Enums
 
+    public enum BucketCannedACL: String, CustomStringConvertible, Codable {
+        case `private`
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case authenticatedRead = "authenticated-read"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
+        case eu = "EU"
+        case euWest1 = "eu-west-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        case saEast1 = "sa-east-1"
+        case cnNorth1 = "cn-north-1"
+        case euCentral1 = "eu-central-1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpirationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobManifestFieldName: String, CustomStringConvertible, Codable {
         case ignore = "Ignore"
         case bucket = "Bucket"
@@ -158,9 +187,33 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransitionStorageClass: String, CustomStringConvertible, Codable {
+        case glacier = "GLACIER"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case deepArchive = "DEEP_ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
+    public struct AbortIncompleteMultipartUpload: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the number of days after which Amazon S3 aborts an incomplete multipart upload to the Outposts bucket.
+        public let daysAfterInitiation: Int?
+
+        public init(daysAfterInitiation: Int? = nil) {
+            self.daysAfterInitiation = daysAfterInitiation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daysAfterInitiation = "DaysAfterInitiation"
+        }
+    }
+
     public struct AccessPoint: AWSDecodableShape {
+        /// The ARN for the access point.
+        public let accessPointArn: String?
         /// The name of the bucket associated with this access point.
         public let bucket: String
         /// The name of this access point.
@@ -170,7 +223,8 @@ extension S3Control {
         /// The virtual private cloud (VPC) configuration for this access point, if one exists.
         public let vpcConfiguration: VpcConfiguration?
 
-        public init(bucket: String, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(accessPointArn: String? = nil, bucket: String, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
+            self.accessPointArn = accessPointArn
             self.bucket = bucket
             self.name = name
             self.networkOrigin = networkOrigin
@@ -178,6 +232,7 @@ extension S3Control {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "AccessPointArn"
             case bucket = "Bucket"
             case name = "Name"
             case networkOrigin = "NetworkOrigin"
@@ -194,12 +249,12 @@ extension S3Control {
 
         /// The AWS account ID for the owner of the bucket for which you want to create an access point.
         public let accountId: String
-        /// The name of the bucket that you want to associate this access point with.
+        /// The name of the bucket that you want to associate this access point with. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
         /// The name you want to assign to this access point.
         public let name: String
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
-        /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).
+        /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
         public let vpcConfiguration: VpcConfiguration?
 
         public init(accountId: String, bucket: String, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
@@ -227,12 +282,124 @@ extension S3Control {
         }
     }
 
+    public struct CreateAccessPointResult: AWSDecodableShape {
+        /// The ARN of the access point.
+        public let accessPointArn: String?
+
+        public init(accessPointArn: String? = nil) {
+            self.accessPointArn = accessPointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "AccessPointArn"
+        }
+    }
+
+    public struct CreateBucketConfiguration: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+
+        /// Specifies the Region where the bucket will be created. If you are creating a bucket on the US East (N. Virginia) Region (us-east-1), you do not need to specify the location.   This is not supported by Amazon S3 on Outposts buckets.
+        public let locationConstraint: BucketLocationConstraint?
+
+        public init(locationConstraint: BucketLocationConstraint? = nil) {
+            self.locationConstraint = locationConstraint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationConstraint = "LocationConstraint"
+        }
+    }
+
+    public struct CreateBucketRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "createBucketConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "createBucketConfiguration", location: .body(locationName: "CreateBucketConfiguration")),
+            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")),
+            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")),
+            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")),
+            AWSMemberEncoding(label: "grantWrite", location: .header(locationName: "x-amz-grant-write")),
+            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")),
+            AWSMemberEncoding(label: "objectLockEnabledForBucket", location: .header(locationName: "x-amz-bucket-object-lock-enabled")),
+            AWSMemberEncoding(label: "outpostId", location: .header(locationName: "x-amz-outpost-id"))
+        ]
+
+        /// The canned ACL to apply to the bucket.  This is not supported by Amazon S3 on Outposts buckets.
+        public let acl: BucketCannedACL?
+        /// The name of the bucket.
+        public let bucket: String
+        /// The configuration information for the bucket.  This is not supported by Amazon S3 on Outposts buckets.
+        public let createBucketConfiguration: CreateBucketConfiguration?
+        /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.  This is not supported by Amazon S3 on Outposts buckets.
+        public let grantFullControl: String?
+        /// Allows grantee to list the objects in the bucket.  This is not supported by Amazon S3 on Outposts buckets.
+        public let grantRead: String?
+        /// Allows grantee to read the bucket ACL.  This is not supported by Amazon S3 on Outposts buckets.
+        public let grantReadACP: String?
+        /// Allows grantee to create, overwrite, and delete any object in the bucket.  This is not supported by Amazon S3 on Outposts buckets.
+        public let grantWrite: String?
+        /// Allows grantee to write the ACL for the applicable bucket.  This is not supported by Amazon S3 on Outposts buckets.
+        public let grantWriteACP: String?
+        /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.  This is not supported by Amazon S3 on Outposts buckets.
+        public let objectLockEnabledForBucket: Bool?
+        /// The ID of the Outposts where the bucket is being created.  This is required by Amazon S3 on Outposts buckets.
+        public let outpostId: String?
+
+        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil, outpostId: String? = nil) {
+            self.acl = acl
+            self.bucket = bucket
+            self.createBucketConfiguration = createBucketConfiguration
+            self.grantFullControl = grantFullControl
+            self.grantRead = grantRead
+            self.grantReadACP = grantReadACP
+            self.grantWrite = grantWrite
+            self.grantWriteACP = grantWriteACP
+            self.objectLockEnabledForBucket = objectLockEnabledForBucket
+            self.outpostId = outpostId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, max: 64)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createBucketConfiguration = "CreateBucketConfiguration"
+        }
+    }
+
+    public struct CreateBucketResult: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the bucket. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucketArn: String?
+        /// The location of the bucket.
+        public let location: String?
+
+        public init(bucketArn: String? = nil, location: String? = nil) {
+            self.bucketArn = bucketArn
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketArn = "BucketArn"
+            case location = "Location"
+        }
+    }
+
     public struct CreateJobRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id"))
         ]
 
+        /// The AWS account ID that creates the job.
         public let accountId: String
         /// An idempotency token to ensure that you don't accidentally submit the same request twice. You can use any string up to the maximum length.
         public let clientRequestToken: String
@@ -242,15 +409,15 @@ extension S3Control {
         public let description: String?
         /// Configuration parameters for the manifest.
         public let manifest: JobManifest
-        /// The operation that you want this job to perform on each object listed in the manifest. For more information about the available operations, see Available Operations in the Amazon Simple Storage Service Developer Guide.
+        /// The operation that you want this job to perform on each object listed in the manifest. For more information about the available operations, see Operations in the Amazon Simple Storage Service Developer Guide.
         public let operation: JobOperation
         /// The numerical priority for this job. Higher numbers indicate higher priority.
         public let priority: Int
         /// Configuration parameters for the optional job-completion report.
         public let report: JobReport
-        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role that Batch Operations will use to execute this job's operation on each object in the manifest.
+        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role that Batch Operations will use to run this job's operation on each object in the manifest.
         public let roleArn: String
-        /// A set of tags to associate with the Amazon S3 Batch Operations job. This is an optional parameter.
+        /// A set of tags to associate with the S3 Batch Operations job. This is an optional parameter.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [S3Tag]?
 
@@ -321,7 +488,7 @@ extension S3Control {
 
         /// The account ID for the account that owns the specified access point.
         public let accountId: String
-        /// The name of the access point whose policy you want to delete.
+        /// The name of the access point whose policy you want to delete. For Amazon S3 on Outposts specify the ARN of the access point accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
 
         public init(accountId: String, name: String) {
@@ -347,7 +514,7 @@ extension S3Control {
 
         /// The account ID for the account that owns the specified access point.
         public let accountId: String
-        /// The name of the access point you want to delete.
+        /// The name of the access point you want to delete. For Amazon S3 on Outposts specify the ARN of the access point accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
 
         public init(accountId: String, name: String) {
@@ -365,15 +532,119 @@ extension S3Control {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteBucketLifecycleConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID of the lifecycle configuration to delete.
+        public let accountId: String
+        /// The bucket ARN of the bucket. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+
+        public init(accountId: String, bucket: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteBucketPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID of the Outposts bucket.
+        public let accountId: String
+        /// The ARN of the bucket. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+
+        public init(accountId: String, bucket: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteBucketRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID that owns the Outposts bucket.
+        public let accountId: String
+        /// Specifies the bucket being deleted. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+
+        public init(accountId: String, bucket: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteBucketTaggingRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
+        ]
+
+        /// The AWS account ID of the Outposts bucket tag set to be removed.
+        public let accountId: String
+        /// The bucket ARN that has the tag set to be removed. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+
+        public init(accountId: String, bucket: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteJobTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The AWS account ID associated with the Amazon S3 Batch Operations job.
+        /// The AWS account ID associated with the S3 Batch Operations job.
         public let accountId: String
-        /// The ID for the Amazon S3 Batch Operations job whose tags you want to delete.
+        /// The ID for the S3 Batch Operations job whose tags you want to delete.
         public let jobId: String
 
         public init(accountId: String, jobId: String) {
@@ -401,7 +672,7 @@ extension S3Control {
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id"))
         ]
 
-        /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove.
+        /// The account ID for the AWS account whose PublicAccessBlock configuration you want to remove.
         public let accountId: String
 
         public init(accountId: String) {
@@ -463,7 +734,7 @@ extension S3Control {
 
         /// The account ID for the account that owns the specified access point.
         public let accountId: String
-        /// The name of the access point whose policy you want to retrieve.
+        /// The name of the access point whose policy you want to retrieve. For Amazon S3 on Outposts specify the ARN of the access point accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
 
         public init(accountId: String, name: String) {
@@ -541,7 +812,7 @@ extension S3Control {
 
         /// The account ID for the account that owns the specified access point.
         public let accountId: String
-        /// The name of the access point whose configuration information you want to retrieve.
+        /// The name of the access point whose configuration information you want to retrieve. For Amazon S3 on Outposts specify the ARN of the access point accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
 
         public init(accountId: String, name: String) {
@@ -566,7 +837,7 @@ extension S3Control {
         public let creationDate: Date?
         /// The name of the specified access point.
         public let name: String?
-        /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies.
+        /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies. This will always be true for an Amazon S3 on Outposts access point
         public let networkOrigin: NetworkOrigin?
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
         /// Contains the virtual private cloud (VPC) configuration for the specified access point.
@@ -591,15 +862,182 @@ extension S3Control {
         }
     }
 
+    public struct GetBucketLifecycleConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
+        ]
+
+        /// The AWS account ID of the Outposts bucket.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of the bucket. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+
+        public init(accountId: String, bucket: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBucketLifecycleConfigurationResult: AWSDecodableShape {
+        public struct _RulesEncoding: ArrayCoderProperties { public static let member = "Rule" }
+
+        /// Container for the lifecycle rule of the Outposts bucket.
+        @OptionalCustomCoding<ArrayCoder<_RulesEncoding, LifecycleRule>>
+        public var rules: [LifecycleRule]?
+
+        public init(rules: [LifecycleRule]? = nil) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+        }
+    }
+
+    public struct GetBucketPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
+        ]
+
+        /// The AWS account ID of the Outposts bucket.
+        public let accountId: String
+        /// The ARN of the bucket. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+
+        public init(accountId: String, bucket: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBucketPolicyResult: AWSDecodableShape {
+        /// The policy of the Outposts bucket.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct GetBucketRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
+        ]
+
+        /// The AWS account ID of the Outposts bucket.
+        public let accountId: String
+        /// The ARN of the bucket. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+
+        public init(accountId: String, bucket: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBucketResult: AWSDecodableShape {
+        /// The Outposts bucket requested.
+        public let bucket: String?
+        /// The creation date of the Outposts bucket.
+        public let creationDate: Date?
+        public let publicAccessBlockEnabled: Bool?
+
+        public init(bucket: String? = nil, creationDate: Date? = nil, publicAccessBlockEnabled: Bool? = nil) {
+            self.bucket = bucket
+            self.creationDate = creationDate
+            self.publicAccessBlockEnabled = publicAccessBlockEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case creationDate = "CreationDate"
+            case publicAccessBlockEnabled = "PublicAccessBlockEnabled"
+        }
+    }
+
+    public struct GetBucketTaggingRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
+        ]
+
+        /// The AWS account ID of the Outposts bucket.
+        public let accountId: String
+        /// The ARN of the bucket. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+
+        public init(accountId: String, bucket: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBucketTaggingResult: AWSDecodableShape {
+        /// The tags set of the Outposts bucket.
+        @CustomCoding<StandardArrayCoder>
+        public var tagSet: [S3Tag]
+
+        public init(tagSet: [S3Tag]) {
+            self.tagSet = tagSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagSet = "TagSet"
+        }
+    }
+
     public struct GetJobTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The AWS account ID associated with the Amazon S3 Batch Operations job.
+        /// The AWS account ID associated with the S3 Batch Operations job.
         public let accountId: String
-        /// The ID for the Amazon S3 Batch Operations job whose tags you want to retrieve.
+        /// The ID for the S3 Batch Operations job whose tags you want to retrieve.
         public let jobId: String
 
         public init(accountId: String, jobId: String) {
@@ -619,7 +1057,7 @@ extension S3Control {
     }
 
     public struct GetJobTaggingResult: AWSDecodableShape {
-        /// The set of tags associated with the Amazon S3 Batch Operations job.
+        /// The set of tags associated with the S3 Batch Operations job.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [S3Tag]?
 
@@ -639,7 +1077,7 @@ extension S3Control {
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
         ]
 
-        /// The PublicAccessBlock configuration currently in effect for this Amazon Web Services account.
+        /// The PublicAccessBlock configuration currently in effect for this AWS account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
 
         public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
@@ -656,7 +1094,7 @@ extension S3Control {
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id"))
         ]
 
-        /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve.
+        /// The account ID for the AWS account whose PublicAccessBlock configuration you want to retrieve.
         public let accountId: String
 
         public init(accountId: String) {
@@ -687,18 +1125,19 @@ extension S3Control {
         public let jobId: String?
         /// The configuration information for the specified job's manifest object.
         public let manifest: JobManifest?
-        /// The operation that the specified job is configured to execute on the objects listed in the manifest.
+        /// The operation that the specified job is configured to run on the objects listed in the manifest.
         public let operation: JobOperation?
         /// The priority of the specified job.
         public let priority: Int?
-        /// Describes the total number of tasks that the specified job has executed, the number of tasks that succeeded, and the number of tasks that failed.
+        /// Describes the total number of tasks that the specified job has run, the number of tasks that succeeded, and the number of tasks that failed.
         public let progressSummary: JobProgressSummary?
         /// Contains the configuration information for the job-completion report if you requested one in the Create Job request.
         public let report: JobReport?
-        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role assigned to execute the tasks for this job.
+        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role assigned to run the tasks for this job.
         public let roleArn: String?
         /// The current status of the specified job.
         public let status: JobStatus?
+        /// The reason for updating the job.
         public let statusUpdateReason: String?
         /// The reason why the specified job was suspended. A job is only suspended if you create it through the Amazon S3 console. When you create the job, it enters the Suspended state to await confirmation before running. After you confirm the job, it automatically exits the Suspended state.
         public let suspendedCause: String?
@@ -776,7 +1215,7 @@ extension S3Control {
         public let operation: OperationName?
         /// The current priority for the specified job.
         public let priority: Int?
-        /// Describes the total number of tasks that the specified job has executed, the number of tasks that succeeded, and the number of tasks that failed.
+        /// Describes the total number of tasks that the specified job has run, the number of tasks that succeeded, and the number of tasks that failed.
         public let progressSummary: JobProgressSummary?
         /// The specified job's current status.
         public let status: JobStatus?
@@ -879,15 +1318,15 @@ extension S3Control {
     public struct JobOperation: AWSEncodableShape & AWSDecodableShape {
         /// Directs the specified job to invoke an AWS Lambda function on each object in the manifest.
         public let lambdaInvoke: LambdaInvokeOperation?
-        /// Directs the specified job to execute an Initiate Glacier Restore call on each object in the manifest.
+        /// Directs the specified job to run an Initiate Glacier Restore call on each object in the manifest.
         public let s3InitiateRestoreObject: S3InitiateRestoreObjectOperation?
-        /// Directs the specified job to execute a PUT Object acl call on each object in the manifest.
+        /// Directs the specified job to run a PUT Object acl call on each object in the manifest.
         public let s3PutObjectAcl: S3SetObjectAclOperation?
-        /// Directs the specified job to execute a PUT Copy object call on each object in the manifest.
+        /// Directs the specified job to run a PUT Copy object call on each object in the manifest.
         public let s3PutObjectCopy: S3CopyObjectOperation?
         public let s3PutObjectLegalHold: S3SetObjectLegalHoldOperation?
         public let s3PutObjectRetention: S3SetObjectRetentionOperation?
-        /// Directs the specified job to execute a PUT Object tagging call on each object in the manifest.
+        /// Directs the specified job to run a PUT Object tagging call on each object in the manifest.
         public let s3PutObjectTagging: S3SetObjectTaggingOperation?
 
         public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil) {
@@ -944,7 +1383,7 @@ extension S3Control {
         public let enabled: Bool
         /// The format of the specified job-completion report.
         public let format: JobReportFormat?
-        /// An optional prefix to describe where in the specified bucket the job-completion report will be stored. Amazon S3 will store the job-completion report at &lt;prefix&gt;/job-&lt;job-id&gt;/report.json.
+        /// An optional prefix to describe where in the specified bucket the job-completion report will be stored. Amazon S3 stores the job-completion report at &lt;prefix&gt;/job-&lt;job-id&gt;/report.json.
         public let prefix: String?
         /// Indicates whether the job-completion report will include details of all tasks or only failed tasks.
         public let reportScope: JobReportScope?
@@ -993,6 +1432,149 @@ extension S3Control {
         }
     }
 
+    public struct LifecycleConfiguration: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+        public struct _RulesEncoding: ArrayCoderProperties { public static let member = "Rule" }
+
+        /// A lifecycle rule for individual objects in an Outposts bucket.
+        @OptionalCustomCoding<ArrayCoder<_RulesEncoding, LifecycleRule>>
+        public var rules: [LifecycleRule]?
+
+        public init(rules: [LifecycleRule]? = nil) {
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+        }
+    }
+
+    public struct LifecycleExpiration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates at what date the object is to be deleted. Should be in GMT ISO 8601 format.
+        public let date: Date?
+        /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
+        public let days: Int?
+        /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired. If set to false, the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
+        public let expiredObjectDeleteMarker: Bool?
+
+        public init(date: Date? = nil, days: Int? = nil, expiredObjectDeleteMarker: Bool? = nil) {
+            self.date = date
+            self.days = days
+            self.expiredObjectDeleteMarker = expiredObjectDeleteMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "Date"
+            case days = "Days"
+            case expiredObjectDeleteMarker = "ExpiredObjectDeleteMarker"
+        }
+    }
+
+    public struct LifecycleRule: AWSEncodableShape & AWSDecodableShape {
+        public struct _NoncurrentVersionTransitionsEncoding: ArrayCoderProperties { public static let member = "NoncurrentVersionTransition" }
+        public struct _TransitionsEncoding: ArrayCoderProperties { public static let member = "Transition" }
+
+        /// Specifies the days since the initiation of an incomplete multipart upload that Amazon S3 waits before permanently removing all parts of the upload. For more information, see  Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy in the Amazon Simple Storage Service Developer Guide.
+        public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
+        /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
+        public let expiration: LifecycleExpiration?
+        /// The container for the filter of lifecycle rule.
+        public let filter: LifecycleRuleFilter?
+        /// Unique identifier for the rule. The value cannot be longer than 255 characters.
+        public let id: String?
+        /// The noncurrent version expiration of the lifecycle rule.  This is not supported by Amazon S3 on Outposts buckets.
+        public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
+        ///  Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime.   This is not supported by Amazon S3 on Outposts buckets.
+        @OptionalCustomCoding<ArrayCoder<_NoncurrentVersionTransitionsEncoding, NoncurrentVersionTransition>>
+        public var noncurrentVersionTransitions: [NoncurrentVersionTransition]?
+        /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
+        public let status: ExpirationStatus
+        /// Specifies when an Amazon S3 object transitions to a specified storage class.  This is not supported by Amazon S3 on Outposts buckets.
+        @OptionalCustomCoding<ArrayCoder<_TransitionsEncoding, Transition>>
+        public var transitions: [Transition]?
+
+        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
+            self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
+            self.expiration = expiration
+            self.filter = filter
+            self.id = id
+            self.noncurrentVersionExpiration = noncurrentVersionExpiration
+            self.noncurrentVersionTransitions = noncurrentVersionTransitions
+            self.status = status
+            self.transitions = transitions
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abortIncompleteMultipartUpload = "AbortIncompleteMultipartUpload"
+            case expiration = "Expiration"
+            case filter = "Filter"
+            case id = "ID"
+            case noncurrentVersionExpiration = "NoncurrentVersionExpiration"
+            case noncurrentVersionTransitions = "NoncurrentVersionTransitions"
+            case status = "Status"
+            case transitions = "Transitions"
+        }
+    }
+
+    public struct LifecycleRuleAndOperator: AWSEncodableShape & AWSDecodableShape {
+        /// Prefix identifying one or more objects to which the rule applies.
+        public let prefix: String?
+        /// All of these tags must exist in the object's tag set in order for the rule to apply.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var tags: [S3Tag]?
+
+        public init(prefix: String? = nil, tags: [S3Tag]? = nil) {
+            self.prefix = prefix
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "Prefix"
+            case tags = "Tags"
+        }
+    }
+
+    public struct LifecycleRuleFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The container for the AND condition for the lifecycle rule.
+        public let and: LifecycleRuleAndOperator?
+        /// Prefix identifying one or more objects to which the rule applies.
+        public let prefix: String?
+        public let tag: S3Tag?
+
+        public init(and: LifecycleRuleAndOperator? = nil, prefix: String? = nil, tag: S3Tag? = nil) {
+            self.and = and
+            self.prefix = prefix
+            self.tag = tag
+        }
+
+        public func validate(name: String) throws {
+            try self.and?.validate(name: "\(name).and")
+            try self.tag?.validate(name: "\(name).tag")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "And"
+            case prefix = "Prefix"
+            case tag = "Tag"
+        }
+    }
+
     public struct ListAccessPointsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
@@ -1003,7 +1585,7 @@ extension S3Control {
 
         /// The AWS account ID for owner of the bucket whose access points you want to list.
         public let accountId: String
-        /// The name of the bucket whose associated access points you want to list.
+        /// The name of the bucket whose associated access points you want to list. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String?
         /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
         public let maxResults: Int?
@@ -1023,7 +1605,7 @@ extension S3Control {
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1037,7 +1619,7 @@ extension S3Control {
         /// Contains identification and configuration information for one or more access points associated with the specified bucket.
         @OptionalCustomCoding<ArrayCoder<_AccessPointListEncoding, AccessPoint>>
         public var accessPointList: [AccessPoint]?
-        /// If the specified bucket has more access points than can be returned in one call to this API, then this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
+        /// If the specified bucket has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
 
         public init(accessPointList: [AccessPoint]? = nil, nextToken: String? = nil) {
@@ -1078,7 +1660,7 @@ extension S3Control {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9\\+\\:\\/\\=\\?\\#-_]+$")
@@ -1105,6 +1687,91 @@ extension S3Control {
         }
     }
 
+    public struct ListRegionalBucketsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "outpostId", location: .header(locationName: "x-amz-outpost-id"))
+        ]
+
+        /// The AWS account ID of the Outposts bucket.
+        public let accountId: String
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ID of the AWS Outposts.  This is required by Amazon S3 on Outposts buckets.
+        public let outpostId: String?
+
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, outpostId: String? = nil) {
+            self.accountId = accountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.outpostId = outpostId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, max: 64)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRegionalBucketsResult: AWSDecodableShape {
+        public struct _RegionalBucketListEncoding: ArrayCoderProperties { public static let member = "RegionalBucket" }
+
+        ///  NextToken is sent when isTruncated is true, which means there are more buckets that can be listed. The next list requests to Amazon S3 can be continued with this NextToken. NextToken is obfuscated and is not a real key.
+        public let nextToken: String?
+        @OptionalCustomCoding<ArrayCoder<_RegionalBucketListEncoding, RegionalBucket>>
+        public var regionalBucketList: [RegionalBucket]?
+
+        public init(nextToken: String? = nil, regionalBucketList: [RegionalBucket]? = nil) {
+            self.nextToken = nextToken
+            self.regionalBucketList = regionalBucketList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case regionalBucketList = "RegionalBucketList"
+        }
+    }
+
+    public struct NoncurrentVersionExpiration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
+        public let noncurrentDays: Int?
+
+        public init(noncurrentDays: Int? = nil) {
+            self.noncurrentDays = noncurrentDays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noncurrentDays = "NoncurrentDays"
+        }
+    }
+
+    public struct NoncurrentVersionTransition: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see  How Amazon S3 Calculates How Long an Object Has Been Noncurrent in the Amazon Simple Storage Service Developer Guide.
+        public let noncurrentDays: Int?
+        /// The class of storage used to store the object.
+        public let storageClass: TransitionStorageClass?
+
+        public init(noncurrentDays: Int? = nil, storageClass: TransitionStorageClass? = nil) {
+            self.noncurrentDays = noncurrentDays
+            self.storageClass = storageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noncurrentDays = "NoncurrentDays"
+            case storageClass = "StorageClass"
+        }
+    }
+
     public struct PolicyStatus: AWSDecodableShape {
         public let isPublic: Bool?
 
@@ -1120,13 +1787,13 @@ extension S3Control {
     public struct PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
 
-        /// Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   PUT Bucket calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs.
+        /// Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   PUT Bucket calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs. This is not supported for Amazon S3 on Outposts.
         public let blockPublicAcls: Bool?
-        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Enabling this setting doesn't affect existing bucket policies.
+        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Enabling this setting doesn't affect existing bucket policies. This is not supported for Amazon S3 on Outposts.
         public let blockPublicPolicy: Bool?
-        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
+        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set. This is not supported for Amazon S3 on Outposts.
         public let ignorePublicAcls: Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only AWS services and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
+        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only AWS services and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This is not supported for Amazon S3 on Outposts.
         public let restrictPublicBuckets: Bool?
 
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
@@ -1153,7 +1820,7 @@ extension S3Control {
 
         /// The AWS account ID for owner of the bucket associated with the specified access point.
         public let accountId: String
-        /// The name of the access point that you want to associate with the specified policy.
+        /// The name of the access point that you want to associate with the specified policy. For Amazon S3 on Outposts specify the ARN of the access point accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
         /// The policy that you want to apply to the specified access point. For more information about access point policies, see Managing Data Access with Amazon S3 Access Points in the Amazon Simple Storage Service Developer Guide.
         public let policy: String
@@ -1176,6 +1843,111 @@ extension S3Control {
         }
     }
 
+    public struct PutBucketLifecycleConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "lifecycleConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
+        ]
+
+        /// The AWS account ID of the Outposts bucket.
+        public let accountId: String
+        /// The name of the bucket for which to set the configuration.
+        public let bucket: String
+        /// Container for lifecycle rules. You can add as many as 1,000 rules.
+        public let lifecycleConfiguration: LifecycleConfiguration?
+
+        public init(accountId: String, bucket: String, lifecycleConfiguration: LifecycleConfiguration? = nil) {
+            self.accountId = accountId
+            self.bucket = bucket
+            self.lifecycleConfiguration = lifecycleConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.lifecycleConfiguration?.validate(name: "\(name).lifecycleConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleConfiguration = "LifecycleConfiguration"
+        }
+    }
+
+    public struct PutBucketPolicyRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access"))
+        ]
+
+        /// The AWS account ID of the Outposts bucket.
+        public let accountId: String
+        /// The ARN of the bucket. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+        /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.  This is not supported by Amazon S3 on Outposts buckets.
+        public let confirmRemoveSelfBucketAccess: Bool?
+        /// The bucket policy as a JSON document.
+        public let policy: String
+
+        public init(accountId: String, bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, policy: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+            self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
+            self.policy = policy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct PutBucketTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "tagging"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging"))
+        ]
+
+        /// The AWS account ID of the Outposts bucket.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of the bucket. For Amazon S3 on Outposts specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+        public let bucket: String
+        public let tagging: Tagging
+
+        public init(accountId: String, bucket: String, tagging: Tagging) {
+            self.accountId = accountId
+            self.bucket = bucket
+            self.tagging = tagging
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.tagging.validate(name: "\(name).tagging")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagging = "Tagging"
+        }
+    }
+
     public struct PutJobTaggingRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
@@ -1183,11 +1955,11 @@ extension S3Control {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The AWS account ID associated with the Amazon S3 Batch Operations job.
+        /// The AWS account ID associated with the S3 Batch Operations job.
         public let accountId: String
-        /// The ID for the Amazon S3 Batch Operations job whose tags you want to replace.
+        /// The ID for the S3 Batch Operations job whose tags you want to replace.
         public let jobId: String
-        /// The set of tags to associate with the Amazon S3 Batch Operations job.
+        /// The set of tags to associate with the S3 Batch Operations job.
         @CustomCoding<StandardArrayCoder>
         public var tags: [S3Tag]
 
@@ -1225,9 +1997,9 @@ extension S3Control {
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
         ]
 
-        /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to set.
+        /// The account ID for the AWS account whose PublicAccessBlock configuration you want to set.
         public let accountId: String
-        /// The PublicAccessBlock configuration that you want to apply to the specified Amazon Web Services account.
+        /// The PublicAccessBlock configuration that you want to apply to the specified AWS account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
         public init(accountId: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
@@ -1242,6 +2014,33 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+        }
+    }
+
+    public struct RegionalBucket: AWSDecodableShape {
+        public let bucket: String
+        /// The Amazon Resource Name (ARN) for the regional bucket.
+        public let bucketArn: String?
+        /// The creation date of the regional bucket
+        public let creationDate: Date
+        /// The AWS Outposts ID of the regional bucket.
+        public let outpostId: String?
+        public let publicAccessBlockEnabled: Bool
+
+        public init(bucket: String, bucketArn: String? = nil, creationDate: Date, outpostId: String? = nil, publicAccessBlockEnabled: Bool) {
+            self.bucket = bucket
+            self.bucketArn = bucketArn
+            self.creationDate = creationDate
+            self.outpostId = outpostId
+            self.publicAccessBlockEnabled = publicAccessBlockEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case bucketArn = "BucketArn"
+            case creationDate = "CreationDate"
+            case outpostId = "OutpostId"
+            case publicAccessBlockEnabled = "PublicAccessBlockEnabled"
         }
     }
 
@@ -1296,11 +2095,11 @@ extension S3Control {
         public let newObjectMetadata: S3ObjectMetadata?
         @OptionalCustomCoding<StandardArrayCoder>
         public var newObjectTagging: [S3Tag]?
-        /// The Legal Hold status to be applied to all objects in the Batch Operations job.
+        /// The legal hold status to be applied to all objects in the Batch Operations job.
         public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
-        /// The Retention mode to be applied to all objects in the Batch Operations job.
+        /// The retention mode to be applied to all objects in the Batch Operations job.
         public let objectLockMode: S3ObjectLockMode?
-        /// The date when the applied Object Retention configuration will expire on all objects in the Batch Operations job.
+        /// The date when the applied object retention configuration expires on all objects in the Batch Operations job.
         public let objectLockRetainUntilDate: Date?
         public let redirectLocation: String?
         public let requesterPays: Bool?
@@ -1432,7 +2231,7 @@ extension S3Control {
     }
 
     public struct S3ObjectLockLegalHold: AWSEncodableShape & AWSDecodableShape {
-        /// The Legal Hold status to be applied to all objects in the Batch Operations job.
+        /// The Object Lock legal hold status to be applied to all objects in the Batch Operations job.
         public let status: S3ObjectLockLegalHoldStatus
 
         public init(status: S3ObjectLockLegalHoldStatus) {
@@ -1531,9 +2330,9 @@ extension S3Control {
     }
 
     public struct S3Retention: AWSEncodableShape & AWSDecodableShape {
-        /// The Retention mode to be applied to all objects in the Batch Operations job.
+        /// The Object Lock retention mode to be applied to all objects in the Batch Operations job.
         public let mode: S3ObjectLockRetentionMode?
-        /// The date when the applied Object Retention will expire on all objects in the Batch Operations job.
+        /// The date when the applied Object Lock retention will expire on all objects set by the Batch Operations job.
         public let retainUntilDate: Date?
 
         public init(mode: S3ObjectLockRetentionMode? = nil, retainUntilDate: Date? = nil) {
@@ -1564,7 +2363,7 @@ extension S3Control {
     }
 
     public struct S3SetObjectLegalHoldOperation: AWSEncodableShape & AWSDecodableShape {
-        /// The Legal Hold contains the status to be applied to all objects in the Batch Operations job.
+        /// Contains the Object Lock legal hold status to be applied to all objects in the Batch Operations job.
         public let legalHold: S3ObjectLockLegalHold
 
         public init(legalHold: S3ObjectLockLegalHold) {
@@ -1577,9 +2376,9 @@ extension S3Control {
     }
 
     public struct S3SetObjectRetentionOperation: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates if the operation should be applied to objects in the Batch Operations job even if they have Governance-type Object Lock in place.
+        /// Indicates if the action should be applied to objects in the Batch Operations job even if they have Object Lock  GOVERNANCE type in place.
         public let bypassGovernanceRetention: Bool?
-        /// Amazon S3 object lock Retention contains the retention mode to be applied to all objects in the Batch Operations job.
+        /// Contains the Object Lock retention mode to be applied to all objects in the Batch Operations job. For more information, see Using S3 Object Lock retention with S3 Batch Operations in the Amazon Simple Storage Service Developer Guide.
         public let retention: S3Retention
 
         public init(bypassGovernanceRetention: Bool? = nil, retention: S3Retention) {
@@ -1632,6 +2431,49 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct Tagging: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+
+        /// A collection for a set of tags.
+        @CustomCoding<StandardArrayCoder>
+        public var tagSet: [S3Tag]
+
+        public init(tagSet: [S3Tag]) {
+            self.tagSet = tagSet
+        }
+
+        public func validate(name: String) throws {
+            try self.tagSet.forEach {
+                try $0.validate(name: "\(name).tagSet[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagSet = "TagSet"
+        }
+    }
+
+    public struct Transition: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
+        public let date: Date?
+        /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
+        public let days: Int?
+        /// The storage class to which you want the object to transition.
+        public let storageClass: TransitionStorageClass?
+
+        public init(date: Date? = nil, days: Int? = nil, storageClass: TransitionStorageClass? = nil) {
+            self.date = date
+            self.days = days
+            self.storageClass = storageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "Date"
+            case days = "Days"
+            case storageClass = "StorageClass"
         }
     }
 

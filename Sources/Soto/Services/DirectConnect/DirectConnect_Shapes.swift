@@ -891,15 +891,15 @@ extension DirectConnect {
     public struct CreateLagRequest: AWSEncodableShape {
         /// The tags to associate with the automtically created LAGs.
         public let childConnectionTags: [Tag]?
-        /// The ID of an existing connection to migrate to the LAG.
+        /// The ID of an existing dedicated connection to migrate to the LAG.
         public let connectionId: String?
-        /// The bandwidth of the individual physical connections bundled by the LAG. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps.
+        /// The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
         public let connectionsBandwidth: String
         /// The name of the LAG.
         public let lagName: String
         /// The location for the LAG.
         public let location: String
-        /// The number of physical connections initially provisioned and bundled by the LAG.
+        /// The number of physical dedicated connections initially provisioned and bundled by the LAG.
         public let numberOfConnections: Int
         /// The name of the service provider associated with the LAG.
         public let providerName: String?
@@ -1864,9 +1864,9 @@ extension DirectConnect {
         public let lagState: LagState?
         /// The location of the LAG.
         public let location: String?
-        /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
+        /// The minimum number of physical dedicated connections that must be operational for the LAG itself to be operational.
         public let minimumLinks: Int?
-        /// The number of physical connections bundled by the LAG, up to a maximum of 10.
+        /// The number of physical dedicated connections bundled by the LAG, up to a maximum of 10.
         public let numberOfConnections: Int?
         /// The ID of the AWS account that owns the LAG.
         public let ownerAccount: String?

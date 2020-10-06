@@ -75,10 +75,11 @@ extension LexModelBuildingService {
     }
 
     public enum Locale: String, CustomStringConvertible, Codable {
-        case enUs = "en-US"
-        case enGb = "en-GB"
         case deDe = "de-DE"
         case enAu = "en-AU"
+        case enGb = "en-GB"
+        case enUs = "en-US"
+        case esUs = "es-US"
         public var description: String { return self.rawValue }
     }
 
@@ -417,7 +418,7 @@ extension LexModelBuildingService {
         public let description: String?
         /// Indicates whether utterances entered by the user should be sent to Amazon Comprehend for sentiment analysis.
         public let detectSentiment: Bool?
-        /// Indicates whether the bot uses accuracy improvements. true indicates that the bot is using the imoprovements, otherwise, false.
+        /// Indicates whether the bot uses accuracy improvements. true indicates that the bot is using the improvements, otherwise, false.
         public let enableModelImprovements: Bool?
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
@@ -522,7 +523,7 @@ extension LexModelBuildingService {
         public let followUpPrompt: FollowUpPrompt?
         ///  Describes how the intent is fulfilled.
         public let fulfillmentActivity: FulfillmentActivity?
-        /// Configuration information, if any, for connectin an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
+        /// Configuration information, if any, for connecting an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
         public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated.
         public let lastUpdatedDate: Date?
@@ -1265,7 +1266,7 @@ extension LexModelBuildingService {
         public let description: String?
         /// Indicates whether user utterances should be sent to Amazon Comprehend for sentiment analysis.
         public let detectSentiment: Bool?
-        /// Indicates whether the bot uses accuracy improvements. true indicates that the bot is using the imoprovements, otherwise, false.
+        /// Indicates whether the bot uses accuracy improvements. true indicates that the bot is using the improvements, otherwise, false.
         public let enableModelImprovements: Bool?
         /// If status is FAILED, Amazon Lex explains why it failed to build the bot.
         public let failureReason: String?
@@ -2572,7 +2573,7 @@ extension LexModelBuildingService {
         public let description: String?
         ///  true if the bot is configured to send user utterances to Amazon Comprehend for sentiment analysis. If the detectSentiment field was not specified in the request, the detectSentiment field is false in the response.
         public let detectSentiment: Bool?
-        /// Indicates whether the bot uses accuracy improvements. true indicates that the bot is using the imoprovements, otherwise, false.
+        /// Indicates whether the bot uses accuracy improvements. true indicates that the bot is using the improvements, otherwise, false.
         public let enableModelImprovements: Bool?
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?

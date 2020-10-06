@@ -696,6 +696,13 @@ extension EC2 {
         case t3aLarge = "t3a.large"
         case t3aXlarge = "t3a.xlarge"
         case t3a2Xlarge = "t3a.2xlarge"
+        case t4gNano = "t4g.nano"
+        case t4gMicro = "t4g.micro"
+        case t4gSmall = "t4g.small"
+        case t4gMedium = "t4g.medium"
+        case t4gLarge = "t4g.large"
+        case t4gXlarge = "t4g.xlarge"
+        case t4g2Xlarge = "t4g.2xlarge"
         case m1Small = "m1.small"
         case m1Medium = "m1.medium"
         case m1Large = "m1.large"
@@ -1725,6 +1732,7 @@ extension EC2 {
         case t2
         case t3
         case t3a
+        case t4g
         public var description: String { return self.rawValue }
     }
 
@@ -5175,11 +5183,11 @@ extension EC2 {
         public let clientVpnEndpointId: String
         /// A brief description of the route.
         public let description: String?
-        /// The IPv4 address range, in CIDR notation, of the route destination. For example:   To add a route for Internet access, enter 0.0.0.0/0    To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range   To add a route for an on-premises network, enter the AWS Site-to-Site VPN connection's IPv4 CIDR range   Route address ranges cannot overlap with the CIDR range specified for client allocation.
+        /// The IPv4 address range, in CIDR notation, of the route destination. For example:   To add a route for Internet access, enter 0.0.0.0/0    To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range   To add a route for an on-premises network, enter the AWS Site-to-Site VPN connection's IPv4 CIDR range   To add a route for the local network, enter the client CIDR range
         public let destinationCidrBlock: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The ID of the subnet through which you want to route traffic. The specified subnet must be an existing target network of the Client VPN endpoint.
+        /// The ID of the subnet through which you want to route traffic. The specified subnet must be an existing target network of the Client VPN endpoint. Alternatively, if you're adding a route for the local network, specify local.
         public let targetVpcSubnetId: String
 
         public init(clientToken: String? = CreateClientVpnRouteRequest.idempotencyToken(), clientVpnEndpointId: String, description: String? = nil, destinationCidrBlock: String, dryRun: Bool? = nil, targetVpcSubnetId: String) {
@@ -23298,7 +23306,7 @@ extension EC2 {
         public let localGatewayId: String?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
-        /// The ID of the AWS account ID that owns the local gateway.
+        /// The AWS account ID that owns the local gateway.
         public let ownerId: String?
         /// The state of the local gateway.
         public let state: String?
@@ -23326,27 +23334,35 @@ extension EC2 {
     public struct LocalGatewayRoute: AWSDecodableShape {
         /// The CIDR block used for destination matches.
         public let destinationCidrBlock: String?
+        /// The Amazon Resource Name (ARN) of the local gateway route table.
+        public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
         /// The ID of the virtual interface group.
         public let localGatewayVirtualInterfaceGroupId: String?
+        /// The AWS account ID that owns the local gateway route.
+        public let ownerId: String?
         /// The state of the route.
         public let state: LocalGatewayRouteState?
         /// The route type.
         public let `type`: LocalGatewayRouteType?
 
-        public init(destinationCidrBlock: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, state: LocalGatewayRouteState? = nil, type: LocalGatewayRouteType? = nil) {
+        public init(destinationCidrBlock: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, ownerId: String? = nil, state: LocalGatewayRouteState? = nil, type: LocalGatewayRouteType? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
+            self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
+            self.ownerId = ownerId
             self.state = state
             self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationCidrBlock
+            case localGatewayRouteTableArn
             case localGatewayRouteTableId
             case localGatewayVirtualInterfaceGroupId
+            case ownerId
             case state
             case `type`
         }
@@ -23357,28 +23373,36 @@ extension EC2 {
 
         /// The ID of the local gateway.
         public let localGatewayId: String?
+        /// The Amazon Resource Name (ARN) of the local gateway route table.
+        public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
+        /// The AWS account ID that owns the local gateway route table.
+        public let ownerId: String?
         /// The state of the local gateway route table.
         public let state: String?
         /// The tags assigned to the local gateway route table.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(localGatewayId: String? = nil, localGatewayRouteTableId: String? = nil, outpostArn: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
+        public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
+            self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.outpostArn = outpostArn
+            self.ownerId = ownerId
             self.state = state
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case localGatewayId
+            case localGatewayRouteTableArn
             case localGatewayRouteTableId
             case outpostArn
+            case ownerId
             case state
             case tags = "tagSet"
         }
@@ -23389,32 +23413,40 @@ extension EC2 {
 
         /// The ID of the local gateway.
         public let localGatewayId: String?
+        /// The Amazon Resource Name (ARN) of the local gateway route table for the virtual interface group.
+        public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
         /// The ID of the association.
         public let localGatewayRouteTableVirtualInterfaceGroupAssociationId: String?
         /// The ID of the virtual interface group.
         public let localGatewayVirtualInterfaceGroupId: String?
+        /// The AWS account ID that owns the local gateway virtual interface group association.
+        public let ownerId: String?
         /// The state of the association.
         public let state: String?
         /// The tags assigned to the association.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(localGatewayId: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVirtualInterfaceGroupAssociationId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
+        public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVirtualInterfaceGroupAssociationId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
+            self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayRouteTableVirtualInterfaceGroupAssociationId = localGatewayRouteTableVirtualInterfaceGroupAssociationId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
+            self.ownerId = ownerId
             self.state = state
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case localGatewayId
+            case localGatewayRouteTableArn
             case localGatewayRouteTableId
             case localGatewayRouteTableVirtualInterfaceGroupAssociationId
             case localGatewayVirtualInterfaceGroupId
+            case ownerId
             case state
             case tags = "tagSet"
         }
@@ -23425,10 +23457,14 @@ extension EC2 {
 
         /// The ID of the local gateway.
         public let localGatewayId: String?
+        /// The Amazon Resource Name (ARN) of the local gateway route table for the association.
+        public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
         /// The ID of the association.
         public let localGatewayRouteTableVpcAssociationId: String?
+        /// The AWS account ID that owns the local gateway route table for the association.
+        public let ownerId: String?
         /// The state of the association.
         public let state: String?
         /// The tags assigned to the association.
@@ -23437,10 +23473,12 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
-        public init(localGatewayId: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVpcAssociationId: String? = nil, state: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVpcAssociationId: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.localGatewayId = localGatewayId
+            self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayRouteTableVpcAssociationId = localGatewayRouteTableVpcAssociationId
+            self.ownerId = ownerId
             self.state = state
             self.tags = tags
             self.vpcId = vpcId
@@ -23448,8 +23486,10 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case localGatewayId
+            case localGatewayRouteTableArn
             case localGatewayRouteTableId
             case localGatewayRouteTableVpcAssociationId
+            case ownerId
             case state
             case tags = "tagSet"
             case vpcId
@@ -25402,7 +25442,7 @@ extension EC2 {
         public let remoteIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the AWS side of the VPN connection. Default: ::/0
         public let remoteIpv6NetworkCidr: String?
-        /// The ID of the Site-to-Site VPN VPN connection.
+        /// The ID of the Site-to-Site VPN connection.
         public let vpnConnectionId: String
 
         public init(dryRun: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, vpnConnectionId: String) {

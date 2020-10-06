@@ -92,6 +92,16 @@ public struct MediaConnect: AWSService {
         return self.client.execute(operation: "DescribeFlow", path: "/v1/flows/{flowArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
+    public func describeOffering(_ input: DescribeOfferingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeOfferingResponse> {
+        return self.client.execute(operation: "DescribeOffering", path: "/v1/offerings/{offeringArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
+    public func describeReservation(_ input: DescribeReservationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeReservationResponse> {
+        return self.client.execute(operation: "DescribeReservation", path: "/v1/reservations/{reservationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Grants entitlements to an existing flow.
     public func grantFlowEntitlements(_ input: GrantFlowEntitlementsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GrantFlowEntitlementsResponse> {
         return self.client.execute(operation: "GrantFlowEntitlements", path: "/v1/flows/{flowArn}/entitlements", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -107,9 +117,24 @@ public struct MediaConnect: AWSService {
         return self.client.execute(operation: "ListFlows", path: "/v1/flows", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Displays a list of all offerings that are available to this account in the current AWS Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
+    public func listOfferings(_ input: ListOfferingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListOfferingsResponse> {
+        return self.client.execute(operation: "ListOfferings", path: "/v1/offerings", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Displays a list of all reservations that have been purchased by this account in the current AWS Region. This list includes all reservations in all states (such as active and expired).
+    public func listReservations(_ input: ListReservationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListReservationsResponse> {
+        return self.client.execute(operation: "ListReservations", path: "/v1/reservations", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  List all tags on an AWS Elemental MediaConnect resource
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
+    public func purchaseOffering(_ input: PurchaseOfferingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PurchaseOfferingResponse> {
+        return self.client.execute(operation: "PurchaseOffering", path: "/v1/offerings/{offeringArn}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.

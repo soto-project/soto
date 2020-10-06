@@ -177,6 +177,8 @@ extension TranscribeStreamingService {
     public struct Result: AWSDecodableShape {
         /// A list of possible transcriptions for the audio. Each alternative typically contains one item that contains the result of the transcription.
         public let alternatives: [Alternative]?
+        /// When channel identification is enabled, Amazon Transcribe transcribes the speech from each audio channel separately. You can use ChannelId to retrieve the transcription results for a single channel in your audio stream.
+        public let channelId: String?
         /// The offset in seconds from the beginning of the audio stream to the end of the result.
         public let endTime: Double?
         /// Amazon Transcribe divides the incoming audio stream into segments at natural points in the audio. Transcription results are returned based on these segments.  The IsPartial field is true to indicate that Amazon Transcribe has additional transcription data to send, false to indicate that this is the last transcription result for the segment.
@@ -186,8 +188,9 @@ extension TranscribeStreamingService {
         /// The offset in seconds from the beginning of the audio stream to the beginning of the result.
         public let startTime: Double?
 
-        public init(alternatives: [Alternative]? = nil, endTime: Double? = nil, isPartial: Bool? = nil, resultId: String? = nil, startTime: Double? = nil) {
+        public init(alternatives: [Alternative]? = nil, channelId: String? = nil, endTime: Double? = nil, isPartial: Bool? = nil, resultId: String? = nil, startTime: Double? = nil) {
             self.alternatives = alternatives
+            self.channelId = channelId
             self.endTime = endTime
             self.isPartial = isPartial
             self.resultId = resultId
@@ -196,6 +199,7 @@ extension TranscribeStreamingService {
 
         private enum CodingKeys: String, CodingKey {
             case alternatives = "Alternatives"
+            case channelId = "ChannelId"
             case endTime = "EndTime"
             case isPartial = "IsPartial"
             case resultId = "ResultId"
@@ -220,9 +224,11 @@ extension TranscribeStreamingService {
         public static let _payloadPath: String = "audioStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")),
+            AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
             AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
             AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")),
+            AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")),
             AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")),
             AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")),
             AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-method")),
@@ -232,12 +238,16 @@ extension TranscribeStreamingService {
 
         /// PCM-encoded stream of audio blobs. The audio stream is encoded as an HTTP2 data frame.
         public let audioStream: AudioStream
+        /// When true, instructs Amazon Transcribe to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions. You can't set both ShowSpeakerLabel and EnableChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
+        public let enableChannelIdentification: Bool?
         /// Indicates the source language used in the input audio stream.
         public let languageCode: LanguageCode
         /// The encoding used for the input audio. pcm is the only valid value.
         public let mediaEncoding: MediaEncoding
         /// The sample rate, in Hertz, of the input audio. We suggest that you use 8000 Hz for low quality audio and 16000 Hz for high quality audio.
         public let mediaSampleRateHertz: Int
+        /// The number of channels that are in your audio stream.
+        public let numberOfChannels: Int?
         /// A identifier for the transcription session. Use this parameter when you want to retry a session. If you don't provide a session ID, Amazon Transcribe will generate one for you and return it in the response.
         public let sessionId: String?
         /// When true, enables speaker identification in your real-time stream.
@@ -249,11 +259,13 @@ extension TranscribeStreamingService {
         /// The name of the vocabulary to use when processing the transcription job.
         public let vocabularyName: String?
 
-        public init(audioStream: AudioStream, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(audioStream: AudioStream, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.audioStream = audioStream
+            self.enableChannelIdentification = enableChannelIdentification
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.numberOfChannels = numberOfChannels
             self.sessionId = sessionId
             self.showSpeakerLabel = showSpeakerLabel
             self.vocabularyFilterMethod = vocabularyFilterMethod
@@ -264,6 +276,9 @@ extension TranscribeStreamingService {
         public func validate(name: String) throws {
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
+            try self.validate(self.numberOfChannels, name: "numberOfChannels", parent: name, min: 2)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
@@ -282,9 +297,11 @@ extension TranscribeStreamingService {
         /// The key for the payload
         public static let _payloadPath: String = "transcriptResultStream"
         public static var _encoding = [
+            AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
             AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
             AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")),
+            AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")),
             AWSMemberEncoding(label: "requestId", location: .header(locationName: "x-amzn-request-id")),
             AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")),
             AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")),
@@ -294,12 +311,16 @@ extension TranscribeStreamingService {
             AWSMemberEncoding(label: "vocabularyName", location: .header(locationName: "x-amzn-transcribe-vocabulary-name"))
         ]
 
+        /// Shows whether channel identification has been enabled in the stream.
+        public let enableChannelIdentification: Bool?
         /// The language code for the input audio stream.
         public let languageCode: LanguageCode?
         /// The encoding used for the input audio stream.
         public let mediaEncoding: MediaEncoding?
         /// The sample rate for the input audio stream. Use 8000 Hz for low quality audio and 16000 Hz for high quality audio.
         public let mediaSampleRateHertz: Int?
+        /// The number of channels identified in the stream.
+        public let numberOfChannels: Int?
         /// An identifier for the streaming transcription.
         public let requestId: String?
         /// An identifier for a specific transcription session.
@@ -315,10 +336,12 @@ extension TranscribeStreamingService {
         /// The name of the vocabulary used when processing the stream.
         public let vocabularyName: String?
 
-        public init(languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(enableChannelIdentification: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+            self.enableChannelIdentification = enableChannelIdentification
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.numberOfChannels = numberOfChannels
             self.requestId = requestId
             self.sessionId = sessionId
             self.showSpeakerLabel = showSpeakerLabel
@@ -329,9 +352,11 @@ extension TranscribeStreamingService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableChannelIdentification = "x-amzn-transcribe-enable-channel-identification"
             case languageCode = "x-amzn-transcribe-language-code"
             case mediaEncoding = "x-amzn-transcribe-media-encoding"
             case mediaSampleRateHertz = "x-amzn-transcribe-sample-rate"
+            case numberOfChannels = "x-amzn-transcribe-number-of-channels"
             case requestId = "x-amzn-request-id"
             case sessionId = "x-amzn-transcribe-session-id"
             case showSpeakerLabel = "x-amzn-transcribe-show-speaker-label"

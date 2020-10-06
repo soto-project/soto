@@ -50,6 +50,38 @@ extension MediaConnect {
             onPage: onPage
         )
     }
+
+    ///  Displays a list of all offerings that are available to this account in the current AWS Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
+    public func listOfferingsPaginator(
+        _ input: ListOfferingsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListOfferingsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listOfferings,
+            tokenKey: \ListOfferingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Displays a list of all reservations that have been purchased by this account in the current AWS Region. This list includes all reservations in all states (such as active and expired).
+    public func listReservationsPaginator(
+        _ input: ListReservationsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListReservationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listReservations,
+            tokenKey: \ListReservationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension MediaConnect.ListEntitlementsRequest: AWSPaginateToken {
@@ -63,6 +95,24 @@ extension MediaConnect.ListEntitlementsRequest: AWSPaginateToken {
 
 extension MediaConnect.ListFlowsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConnect.ListFlowsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MediaConnect.ListOfferingsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaConnect.ListOfferingsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MediaConnect.ListReservationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaConnect.ListReservationsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

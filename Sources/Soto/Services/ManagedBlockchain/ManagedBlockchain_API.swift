@@ -112,7 +112,7 @@ public struct ManagedBlockchain: AWSService {
         return self.client.execute(operation: "GetProposal", path: "/networks/{networkId}/proposals/{proposalId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a listing of all invitations made on the specified network.
+    ///  Returns a listing of all invitations for the current AWS account.
     public func listInvitations(_ input: ListInvitationsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInvitationsOutput> {
         return self.client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

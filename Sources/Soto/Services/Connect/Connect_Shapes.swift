@@ -378,6 +378,40 @@ extension Connect {
 
     // MARK: Shapes
 
+    public struct AssociateRoutingProfileQueuesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The queues to associate with this routing profile.
+        public let queueConfigs: [RoutingProfileQueueConfig]
+        /// The identifier of the routing profile.
+        public let routingProfileId: String
+
+        public init(instanceId: String, queueConfigs: [RoutingProfileQueueConfig], routingProfileId: String) {
+            self.instanceId = instanceId
+            self.queueConfigs = queueConfigs
+            self.routingProfileId = routingProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.queueConfigs.forEach {
+                try $0.validate(name: "\(name).queueConfigs[]")
+            }
+            try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, max: 10)
+            try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queueConfigs = "QueueConfigs"
+        }
+    }
+
     public struct ChatMessage: AWSEncodableShape {
         /// The content of the chat message.
         public let content: String
@@ -399,6 +433,43 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case contentType = "ContentType"
+        }
+    }
+
+    public struct ContactFlow: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the contact flow.
+        public let arn: String?
+        /// The content of the contact flow.
+        public let content: String?
+        /// The description of the contact flow.
+        public let description: String?
+        /// The identifier of the contact flow.
+        public let id: String?
+        /// The name of the contact flow.
+        public let name: String?
+        /// One or more tags.
+        public let tags: [String: String]?
+        /// The type of the contact flow. For descriptions of the available types, see Choose a Contact Flow Type in the Amazon Connect Administrator Guide.
+        public let `type`: ContactFlowType?
+
+        public init(arn: String? = nil, content: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil, type: ContactFlowType? = nil) {
+            self.arn = arn
+            self.content = content
+            self.description = description
+            self.id = id
+            self.name = name
+            self.tags = tags
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case content = "Content"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case tags = "Tags"
+            case `type` = "Type"
         }
     }
 
@@ -424,6 +495,151 @@ extension Connect {
             case contactFlowType = "ContactFlowType"
             case id = "Id"
             case name = "Name"
+        }
+    }
+
+    public struct CreateContactFlowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The content of the contact flow.
+        public let content: String
+        /// The description of the contact flow.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the contact flow.
+        public let name: String
+        /// One or more tags.
+        public let tags: [String: String]?
+        /// The type of the contact flow. For descriptions of the available types, see Choose a Contact Flow Type in the Amazon Connect Administrator Guide.
+        public let `type`: ContactFlowType
+
+        public init(content: String, description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil, type: ContactFlowType) {
+            self.content = content
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.tags = tags
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+            case `type` = "Type"
+        }
+    }
+
+    public struct CreateContactFlowResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the contact flow.
+        public let contactFlowArn: String?
+        /// The identifier of the contact flow.
+        public let contactFlowId: String?
+
+        public init(contactFlowArn: String? = nil, contactFlowId: String? = nil) {
+            self.contactFlowArn = contactFlowArn
+            self.contactFlowId = contactFlowId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowArn = "ContactFlowArn"
+            case contactFlowId = "ContactFlowId"
+        }
+    }
+
+    public struct CreateRoutingProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The default outbound queue for the routing profile.
+        public let defaultOutboundQueueId: String
+        /// Description of the routing profile. Must not be more than 250 characters.
+        public let description: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
+        public let mediaConcurrencies: [MediaConcurrency]
+        /// The name of the routing profile. Must not be more than 127 characters.
+        public let name: String
+        /// The inbound queues associated with the routing profile. If no queue is added, the agent can only make outbound calls.
+        public let queueConfigs: [RoutingProfileQueueConfig]?
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(defaultOutboundQueueId: String, description: String, instanceId: String, mediaConcurrencies: [MediaConcurrency], name: String, queueConfigs: [RoutingProfileQueueConfig]? = nil, tags: [String: String]? = nil) {
+            self.defaultOutboundQueueId = defaultOutboundQueueId
+            self.description = description
+            self.instanceId = instanceId
+            self.mediaConcurrencies = mediaConcurrencies
+            self.name = name
+            self.queueConfigs = queueConfigs
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.mediaConcurrencies.forEach {
+                try $0.validate(name: "\(name).mediaConcurrencies[]")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.queueConfigs?.forEach {
+                try $0.validate(name: "\(name).queueConfigs[]")
+            }
+            try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, max: 10)
+            try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultOutboundQueueId = "DefaultOutboundQueueId"
+            case description = "Description"
+            case mediaConcurrencies = "MediaConcurrencies"
+            case name = "Name"
+            case queueConfigs = "QueueConfigs"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRoutingProfileResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the routing profile.
+        public let routingProfileArn: String?
+        /// The identifier of the routing profile.
+        public let routingProfileId: String?
+
+        public init(routingProfileArn: String? = nil, routingProfileId: String? = nil) {
+            self.routingProfileArn = routingProfileArn
+            self.routingProfileId = routingProfileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routingProfileArn = "RoutingProfileArn"
+            case routingProfileId = "RoutingProfileId"
         }
     }
 
@@ -614,6 +830,81 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DescribeContactFlowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact flow.
+        public let contactFlowId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(contactFlowId: String, instanceId: String) {
+            self.contactFlowId = contactFlowId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeContactFlowResponse: AWSDecodableShape {
+        /// Information about the contact flow.
+        public let contactFlow: ContactFlow?
+
+        public init(contactFlow: ContactFlow? = nil) {
+            self.contactFlow = contactFlow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlow = "ContactFlow"
+        }
+    }
+
+    public struct DescribeRoutingProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier of the routing profile.
+        public let routingProfileId: String
+
+        public init(instanceId: String, routingProfileId: String) {
+            self.instanceId = instanceId
+            self.routingProfileId = routingProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeRoutingProfileResponse: AWSDecodableShape {
+        /// The routing profile.
+        public let routingProfile: RoutingProfile?
+
+        public init(routingProfile: RoutingProfile? = nil) {
+            self.routingProfile = routingProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routingProfile = "RoutingProfile"
+        }
+    }
+
     public struct DescribeUserHierarchyGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")),
@@ -738,6 +1029,35 @@ extension Connect {
         }
     }
 
+    public struct DisassociateRoutingProfileQueuesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The queues to disassociate from this routing profile.
+        public let queueReferences: [RoutingProfileQueueReference]
+        /// The identifier of the routing profile.
+        public let routingProfileId: String
+
+        public init(instanceId: String, queueReferences: [RoutingProfileQueueReference], routingProfileId: String) {
+            self.instanceId = instanceId
+            self.queueReferences = queueReferences
+            self.routingProfileId = routingProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queueReferences = "QueueReferences"
+        }
+    }
+
     public struct Filters: AWSEncodableShape {
         /// The channel to use to filter the metrics.
         public let channels: [Channel]?
@@ -805,11 +1125,11 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of each metric, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_ON_CONTACT  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  CONTACTS_SCHEDULED  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  SLOTS_ACTIVE  Unit: COUNT  SLOTS_AVAILABLE  Unit: COUNT
+        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
         public let currentMetrics: [CurrentMetric]
-        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. The only supported channel is VOICE.
+        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. Both VOICE and CHAT channels are supported.
         public let filters: Filters
-        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If you group by CHANNEL, you should include a Channels filter. The only supported channel is VOICE. If no Grouping is included in the request, a summary of metrics is returned.
+        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If you group by CHANNEL, you should include a Channels filter. Both VOICE and CHAT channels are supported. If no Grouping is included in the request, a summary of metrics is returned.
         public let groupings: [Grouping]?
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
@@ -906,7 +1226,7 @@ extension Connect {
 
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
         public let endTime: Date
-        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. The only supported channel is VOICE.
+        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. Both VOICE and CHAT channels are supported.
         public let filters: Filters
         /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. The only supported grouping is QUEUE. If no grouping is specified, a summary of metrics for all queues is returned.
         public let groupings: [Grouping]?
@@ -1334,6 +1654,53 @@ extension Connect {
         }
     }
 
+    public struct ListPromptsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPromptsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the prompts.
+        public let promptSummaryList: [PromptSummary]?
+
+        public init(nextToken: String? = nil, promptSummaryList: [PromptSummary]? = nil) {
+            self.nextToken = nextToken
+            self.promptSummaryList = promptSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case promptSummaryList = "PromptSummaryList"
+        }
+    }
+
     public struct ListQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -1383,6 +1750,57 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case queueSummaryList = "QueueSummaryList"
+        }
+    }
+
+    public struct ListRoutingProfileQueuesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The identifier of the routing profile.
+        public let routingProfileId: String
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, routingProfileId: String) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.routingProfileId = routingProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRoutingProfileQueuesResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the routing profiles.
+        public let routingProfileQueueConfigSummaryList: [RoutingProfileQueueConfigSummary]?
+
+        public init(nextToken: String? = nil, routingProfileQueueConfigSummaryList: [RoutingProfileQueueConfigSummary]? = nil) {
+            self.nextToken = nextToken
+            self.routingProfileQueueConfigSummaryList = routingProfileQueueConfigSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case routingProfileQueueConfigSummaryList = "RoutingProfileQueueConfigSummaryList"
         }
     }
 
@@ -1602,6 +2020,28 @@ extension Connect {
         }
     }
 
+    public struct MediaConcurrency: AWSEncodableShape & AWSDecodableShape {
+        /// The channels that agents can handle in the Contact Control Panel (CCP).
+        public let channel: Channel
+        /// The number of contacts an agent can have on a channel simultaneously.
+        public let concurrency: Int
+
+        public init(channel: Channel, concurrency: Int) {
+            self.channel = channel
+            self.concurrency = concurrency
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.concurrency, name: "concurrency", parent: name, max: 5)
+            try self.validate(self.concurrency, name: "concurrency", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channel = "Channel"
+            case concurrency = "Concurrency"
+        }
+    }
+
     public struct ParticipantDetails: AWSEncodableShape {
         /// Display name of the participant.
         public let displayName: String
@@ -1646,6 +2086,27 @@ extension Connect {
             case phoneNumber = "PhoneNumber"
             case phoneNumberCountryCode = "PhoneNumberCountryCode"
             case phoneNumberType = "PhoneNumberType"
+        }
+    }
+
+    public struct PromptSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the prompt.
+        public let arn: String?
+        /// The identifier of the prompt.
+        public let id: String?
+        /// The name of the prompt.
+        public let name: String?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -1725,6 +2186,125 @@ extension Connect {
         public init() {}
     }
 
+    public struct RoutingProfile: AWSDecodableShape {
+        /// The identifier of the default outbound queue for this routing profile.
+        public let defaultOutboundQueueId: String?
+        /// The description of the routing profile.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String?
+        /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
+        public let mediaConcurrencies: [MediaConcurrency]?
+        /// The name of the routing profile.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the routing profile.
+        public let routingProfileArn: String?
+        /// The identifier of the routing profile.
+        public let routingProfileId: String?
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(defaultOutboundQueueId: String? = nil, description: String? = nil, instanceId: String? = nil, mediaConcurrencies: [MediaConcurrency]? = nil, name: String? = nil, routingProfileArn: String? = nil, routingProfileId: String? = nil, tags: [String: String]? = nil) {
+            self.defaultOutboundQueueId = defaultOutboundQueueId
+            self.description = description
+            self.instanceId = instanceId
+            self.mediaConcurrencies = mediaConcurrencies
+            self.name = name
+            self.routingProfileArn = routingProfileArn
+            self.routingProfileId = routingProfileId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultOutboundQueueId = "DefaultOutboundQueueId"
+            case description = "Description"
+            case instanceId = "InstanceId"
+            case mediaConcurrencies = "MediaConcurrencies"
+            case name = "Name"
+            case routingProfileArn = "RoutingProfileArn"
+            case routingProfileId = "RoutingProfileId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct RoutingProfileQueueConfig: AWSEncodableShape {
+        /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Amazon Connect Administrator Guide.
+        public let delay: Int
+        /// The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay.
+        public let priority: Int
+        /// Contains information about a queue resource.
+        public let queueReference: RoutingProfileQueueReference
+
+        public init(delay: Int, priority: Int, queueReference: RoutingProfileQueueReference) {
+            self.delay = delay
+            self.priority = priority
+            self.queueReference = queueReference
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delay, name: "delay", parent: name, max: 9999)
+            try self.validate(self.delay, name: "delay", parent: name, min: 0)
+            try self.validate(self.priority, name: "priority", parent: name, max: 99)
+            try self.validate(self.priority, name: "priority", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delay = "Delay"
+            case priority = "Priority"
+            case queueReference = "QueueReference"
+        }
+    }
+
+    public struct RoutingProfileQueueConfigSummary: AWSDecodableShape {
+        /// The channels this queue supports.
+        public let channel: Channel
+        /// The delay, in seconds, that a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Amazon Connect Administrator Guide.
+        public let delay: Int
+        /// The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay.
+        public let priority: Int
+        /// The Amazon Resource Name (ARN) of the queue.
+        public let queueArn: String
+        /// The identifier of the queue.
+        public let queueId: String
+        /// The name of the queue.
+        public let queueName: String
+
+        public init(channel: Channel, delay: Int, priority: Int, queueArn: String, queueId: String, queueName: String) {
+            self.channel = channel
+            self.delay = delay
+            self.priority = priority
+            self.queueArn = queueArn
+            self.queueId = queueId
+            self.queueName = queueName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channel = "Channel"
+            case delay = "Delay"
+            case priority = "Priority"
+            case queueArn = "QueueArn"
+            case queueId = "QueueId"
+            case queueName = "QueueName"
+        }
+    }
+
+    public struct RoutingProfileQueueReference: AWSEncodableShape {
+        /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
+        public let channel: Channel
+        /// The identifier of the queue.
+        public let queueId: String
+
+        public init(channel: Channel, queueId: String) {
+            self.channel = channel
+            self.queueId = queueId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channel = "Channel"
+            case queueId = "QueueId"
+        }
+    }
+
     public struct RoutingProfileSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the routing profile.
         public let arn: String?
@@ -1772,7 +2352,7 @@ extension Connect {
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The identifier of the contact flow for the chat.
+        /// The identifier of the contact flow for initiating the chat. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String
         /// The initial message to be sent to the newly created chat.
         public let initialMessage: ChatMessage?
@@ -1879,7 +2459,7 @@ extension Connect {
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned. If the contact is disconnected, a new contact is started.
         public let clientToken: String?
-        /// The identifier of the contact flow for the outbound call.
+        /// The identifier of the contact flow for the outbound call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String
         /// The phone number of the customer, in E.164 format.
         public let destinationPhoneNumber: String
@@ -2101,7 +2681,7 @@ extension Connect {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
 
@@ -2144,6 +2724,203 @@ extension Connect {
 
     public struct UpdateContactAttributesResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateContactFlowContentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact flow.
+        public let contactFlowId: String
+        /// The JSON string that represents contact flow’s content. For an example, see Example contact flow in Amazon Connect Flow language in the Amazon Connect Administrator Guide.
+        public let content: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(contactFlowId: String, content: String, instanceId: String) {
+            self.contactFlowId = contactFlowId
+            self.content = content
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+        }
+    }
+
+    public struct UpdateContactFlowNameRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact flow.
+        public let contactFlowId: String
+        /// The description of the contact flow.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the contact flow.
+        public let name: String?
+
+        public init(contactFlowId: String, description: String? = nil, instanceId: String, name: String? = nil) {
+            self.contactFlowId = contactFlowId
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateRoutingProfileConcurrencyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The channels agents can handle in the Contact Control Panel (CCP).
+        public let mediaConcurrencies: [MediaConcurrency]
+        /// The identifier of the routing profile.
+        public let routingProfileId: String
+
+        public init(instanceId: String, mediaConcurrencies: [MediaConcurrency], routingProfileId: String) {
+            self.instanceId = instanceId
+            self.mediaConcurrencies = mediaConcurrencies
+            self.routingProfileId = routingProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.mediaConcurrencies.forEach {
+                try $0.validate(name: "\(name).mediaConcurrencies[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaConcurrencies = "MediaConcurrencies"
+        }
+    }
+
+    public struct UpdateRoutingProfileDefaultOutboundQueueRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+        ]
+
+        /// The identifier for the default outbound queue.
+        public let defaultOutboundQueueId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier of the routing profile.
+        public let routingProfileId: String
+
+        public init(defaultOutboundQueueId: String, instanceId: String, routingProfileId: String) {
+            self.defaultOutboundQueueId = defaultOutboundQueueId
+            self.instanceId = instanceId
+            self.routingProfileId = routingProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultOutboundQueueId = "DefaultOutboundQueueId"
+        }
+    }
+
+    public struct UpdateRoutingProfileNameRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+        ]
+
+        /// The description of the routing profile. Must not be more than 250 characters.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the routing profile. Must not be more than 127 characters.
+        public let name: String?
+        /// The identifier of the routing profile.
+        public let routingProfileId: String
+
+        public init(description: String? = nil, instanceId: String, name: String? = nil, routingProfileId: String) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.routingProfileId = routingProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateRoutingProfileQueuesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The queues to be updated for this routing profile.
+        public let queueConfigs: [RoutingProfileQueueConfig]
+        /// The identifier of the routing profile.
+        public let routingProfileId: String
+
+        public init(instanceId: String, queueConfigs: [RoutingProfileQueueConfig], routingProfileId: String) {
+            self.instanceId = instanceId
+            self.queueConfigs = queueConfigs
+            self.routingProfileId = routingProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.queueConfigs.forEach {
+                try $0.validate(name: "\(name).queueConfigs[]")
+            }
+            try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, max: 10)
+            try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queueConfigs = "QueueConfigs"
+        }
     }
 
     public struct UpdateUserHierarchyRequest: AWSEncodableShape {

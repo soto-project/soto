@@ -242,7 +242,7 @@ extension SFN {
     }
 
     public struct CloudWatchEventsExecutionDataDetails: AWSDecodableShape {
-        /// Indicates whether input or output was included in the response. Always true for API calls, but may be false for CloudWatch Events.
+        /// Indicates whether input or output was included in the response. Always true for API calls.
         public let included: Bool?
 
         public init(included: Bool? = nil) {
@@ -325,15 +325,18 @@ extension SFN {
         public let roleArn: String
         /// Tags to be added when creating a state machine. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
+        /// Selects whether AWS X-Ray tracing is enabled.
+        public let tracingConfiguration: TracingConfiguration?
         /// Determines whether a Standard or Express state machine is created. The default is STANDARD. You cannot update the type of a state machine once it has been created.
         public let `type`: StateMachineType?
 
-        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, tags: [Tag]? = nil, type: StateMachineType? = nil) {
+        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, tags: [Tag]? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType? = nil) {
             self.definition = definition
             self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.roleArn = roleArn
             self.tags = tags
+            self.tracingConfiguration = tracingConfiguration
             self.`type` = `type`
         }
 
@@ -356,6 +359,7 @@ extension SFN {
             case name
             case roleArn
             case tags
+            case tracingConfiguration
             case `type`
         }
     }
@@ -497,8 +501,10 @@ extension SFN {
         public let status: ExecutionStatus
         /// If the execution has already ended, the date the execution stopped.
         public let stopDate: Date?
+        /// The AWS X-Ray trace header which was passed to the execution.
+        public let traceHeader: String?
 
-        public init(executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil) {
+        public init(executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil, traceHeader: String? = nil) {
             self.executionArn = executionArn
             self.input = input
             self.inputDetails = inputDetails
@@ -509,6 +515,7 @@ extension SFN {
             self.stateMachineArn = stateMachineArn
             self.status = status
             self.stopDate = stopDate
+            self.traceHeader = traceHeader
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -522,6 +529,7 @@ extension SFN {
             case stateMachineArn
             case status
             case stopDate
+            case traceHeader
         }
     }
 
@@ -553,15 +561,18 @@ extension SFN {
         public let roleArn: String
         /// The Amazon Resource Name (ARN) of the state machine associated with the execution.
         public let stateMachineArn: String
+        /// Selects whether AWS X-Ray tracing is enabled.
+        public let tracingConfiguration: TracingConfiguration?
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
         public let updateDate: Date
 
-        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, updateDate: Date) {
+        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date) {
             self.definition = definition
             self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
+            self.tracingConfiguration = tracingConfiguration
             self.updateDate = updateDate
         }
 
@@ -571,6 +582,7 @@ extension SFN {
             case name
             case roleArn
             case stateMachineArn
+            case tracingConfiguration
             case updateDate
         }
     }
@@ -607,10 +619,12 @@ extension SFN {
         public let stateMachineArn: String
         /// The current status of the state machine.
         public let status: StateMachineStatus?
+        /// Selects whether AWS X-Ray tracing is enabled.
+        public let tracingConfiguration: TracingConfiguration?
         /// The type of the state machine (STANDARD or EXPRESS).
         public let `type`: StateMachineType
 
-        public init(creationDate: Date, definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, type: StateMachineType) {
+        public init(creationDate: Date, definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
             self.creationDate = creationDate
             self.definition = definition
             self.loggingConfiguration = loggingConfiguration
@@ -618,6 +632,7 @@ extension SFN {
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
             self.status = status
+            self.tracingConfiguration = tracingConfiguration
             self.`type` = `type`
         }
 
@@ -629,6 +644,7 @@ extension SFN {
             case roleArn
             case stateMachineArn
             case status
+            case tracingConfiguration
             case `type`
         }
     }
@@ -989,7 +1005,7 @@ extension SFN {
     }
 
     public struct HistoryEventExecutionDataDetails: AWSDecodableShape {
-        /// Indicates whether input or output was truncated in the response. Always false.
+        /// Indicates whether input or output was truncated in the response. Always false for API calls.
         public let truncated: Bool?
 
         public init(truncated: Bool? = nil) {
@@ -1438,11 +1454,14 @@ extension SFN {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute.
         public let stateMachineArn: String
+        /// Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
+        public let traceHeader: String?
 
-        public init(input: String? = nil, name: String? = nil, stateMachineArn: String) {
+        public init(input: String? = nil, name: String? = nil, stateMachineArn: String, traceHeader: String? = nil) {
             self.input = input
             self.name = name
             self.stateMachineArn = stateMachineArn
+            self.traceHeader = traceHeader
         }
 
         public func validate(name: String) throws {
@@ -1451,12 +1470,16 @@ extension SFN {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, max: 256)
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, min: 0)
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, pattern: "\\p{ASCII}*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case input
             case name
             case stateMachineArn
+            case traceHeader
         }
     }
 
@@ -1839,6 +1862,19 @@ extension SFN {
         }
     }
 
+    public struct TracingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// When set to true, AWS X-Ray tracing is enabled.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
@@ -1878,12 +1914,15 @@ extension SFN {
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the state machine.
         public let stateMachineArn: String
+        /// Selects whether AWS X-Ray tracing is enabled.
+        public let tracingConfiguration: TracingConfiguration?
 
-        public init(definition: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, roleArn: String? = nil, stateMachineArn: String) {
+        public init(definition: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, roleArn: String? = nil, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil) {
             self.definition = definition
             self.loggingConfiguration = loggingConfiguration
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
+            self.tracingConfiguration = tracingConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1901,6 +1940,7 @@ extension SFN {
             case loggingConfiguration
             case roleArn
             case stateMachineArn
+            case tracingConfiguration
         }
     }
 

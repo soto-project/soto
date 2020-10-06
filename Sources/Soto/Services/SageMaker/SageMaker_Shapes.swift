@@ -71,6 +71,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum AppNetworkAccessType: String, CustomStringConvertible, Codable {
+        case publicinternetonly = "PublicInternetOnly"
+        case vpconly = "VpcOnly"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AppSortKey: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
         public var description: String { return self.rawValue }
@@ -1548,7 +1554,7 @@ extension SageMaker {
     }
 
     public struct AutoMLDataSource: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon S3 location of the input data.  The input data must be in CSV format and contain at least 1000 rows.
+        /// The Amazon S3 location of the input data.  The input data must be in CSV format and contain at least 500 rows.
         public let s3DataSource: AutoMLS3DataSource
 
         public init(s3DataSource: AutoMLS3DataSource) {
@@ -2143,13 +2149,13 @@ extension SageMaker {
         public let containerHostname: String?
         /// The environment variables to set in the Docker container. Each key and value in the Environment string to string map can have length of up to 1024. We support up to 16 entries in the map.
         public let environment: [String: String]?
-        /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by Amazon SageMaker, the inference code must meet Amazon SageMaker requirements. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker
+        /// The path where inference code is stored. This can be either in Amazon EC2 Container Registry or in a Docker registry that is accessible from the same VPC that you configure for your endpoint. If you are using your own custom algorithm instead of an algorithm provided by Amazon SageMaker, the inference code must meet Amazon SageMaker requirements. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker
         public let image: String?
-        /// Specifies whether the model container is in Amazon ECR or a private Docker registry in your Amazon Virtual Private Cloud (VPC). For information about storing containers in a private Docker registry, see Use a Private Docker Registry for Real-Time Inference Containers
+        /// Specifies whether the model container is in Amazon ECR or a private Docker registry accessible from your Amazon Virtual Private Cloud (VPC). For information about storing containers in a private Docker registry, see Use a Private Docker Registry for Real-Time Inference Containers
         public let imageConfig: ImageConfig?
         /// Whether the container hosts a single model or multiple models.
         public let mode: ContainerMode?
-        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for Amazon SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.  If you provide a value for this parameter, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provide. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, Amazon SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl.
+        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for Amazon SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.   The model artifacts must be in an S3 bucket that is in the same region as the model or endpoint you are creating.  If you provide a value for this parameter, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provide. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, Amazon SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl.
         public let modelDataUrl: String?
         /// The name or Amazon Resource Name (ARN) of the model package to use to create the model.
         public let modelPackageName: String?
@@ -2377,7 +2383,7 @@ extension SageMaker {
         public let autoMLJobObjective: AutoMLJobObjective?
         /// Generates possible candidates without training a model. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
         public let generateCandidateDefinitionsOnly: Bool?
-        /// Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV. Minimum of 1000 rows.
+        /// Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV. Minimum of 500 rows.
         public let inputDataConfig: [AutoMLChannel]
         /// Similar to OutputDataConfig supported by Tuning. Format(s) supported: CSV.
         public let outputDataConfig: AutoMLOutputDataConfig
@@ -2539,6 +2545,8 @@ extension SageMaker {
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
+        /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is through the specified VPC and subnets
+        public let appNetworkAccessType: AppNetworkAccessType?
         /// The mode of authentication that members use to access the domain.
         public let authMode: AuthMode
         /// The default user settings.
@@ -2547,14 +2555,15 @@ extension SageMaker {
         public let domainName: String
         /// The AWS Key Management Service (KMS) encryption key ID. Encryption with a customer master key (CMK) is not supported.
         public let homeEfsFileSystemKmsKeyId: String?
-        /// The VPC subnets to use for communication with the EFS volume.
+        /// The VPC subnets that Studio uses for communication.
         public let subnetIds: [String]
         /// Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
         public let tags: [Tag]?
-        /// The ID of the Amazon Virtual Private Cloud (VPC) to use for communication with the EFS volume.
+        /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String
 
-        public init(authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, homeEfsFileSystemKmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, homeEfsFileSystemKmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
+            self.appNetworkAccessType = appNetworkAccessType
             self.authMode = authMode
             self.defaultUserSettings = defaultUserSettings
             self.domainName = domainName
@@ -2586,6 +2595,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appNetworkAccessType = "AppNetworkAccessType"
             case authMode = "AuthMode"
             case defaultUserSettings = "DefaultUserSettings"
             case domainName = "DomainName"
@@ -5240,6 +5250,8 @@ extension SageMaker {
     }
 
     public struct DescribeDomainResponse: AWSDecodableShape {
+        /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is through the specified VPC and subnets
+        public let appNetworkAccessType: AppNetworkAccessType?
         /// The domain's authentication mode.
         public let authMode: AuthMode?
         /// The creation time.
@@ -5264,14 +5276,15 @@ extension SageMaker {
         public let singleSignOnManagedApplicationInstanceId: String?
         /// The status.
         public let status: DomainStatus?
-        /// Security setting to limit to a set of subnets.
+        /// The VPC subnets that Studio uses for communication.
         public let subnetIds: [String]?
         /// The domain's URL.
         public let url: String?
-        /// The ID of the Amazon Virtual Private Cloud.
+        /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String?
 
-        public init(authMode: AuthMode? = nil, creationTime: Date? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, lastModifiedTime: Date? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, lastModifiedTime: Date? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+            self.appNetworkAccessType = appNetworkAccessType
             self.authMode = authMode
             self.creationTime = creationTime
             self.defaultUserSettings = defaultUserSettings
@@ -5290,6 +5303,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appNetworkAccessType = "AppNetworkAccessType"
             case authMode = "AuthMode"
             case creationTime = "CreationTime"
             case defaultUserSettings = "DefaultUserSettings"
@@ -7434,7 +7448,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the human task user interface.
         public let humanTaskUiArn: String
         public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
-        /// The length of time that a task remains available for labeling by human workers.
+        /// The length of time that a task remains available for review by human workers.
         public let taskAvailabilityLifetimeInSeconds: Int?
         /// The number of distinct workers who will perform the same task on each object. For example, if TaskCount is set to 3 for an image classification labeling job, three workers will classify each input image. Increasing TaskCount can improve label accuracy.
         public let taskCount: Int
@@ -7442,7 +7456,7 @@ extension SageMaker {
         public let taskDescription: String
         /// Keywords used to describe the task so that workers can discover the task.
         public let taskKeywords: [String]?
-        /// The amount of time that a worker has to complete a task.
+        /// The amount of time that a worker has to complete a task. The default value is 3,600 seconds (1 hour)
         public let taskTimeLimitInSeconds: Int?
         /// A title for the human worker task.
         public let taskTitle: String
@@ -7996,7 +8010,7 @@ extension SageMaker {
     }
 
     public struct ImageConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Set this to one of the following values:    Platform - The model image is hosted in Amazon ECR.    VPC - The model image is hosted in a private Docker registry in your VPC.
+        /// Set this to one of the following values:    Platform - The model image is hosted in Amazon ECR.    Vpc - The model image is hosted in a private Docker registry in your VPC.
         public let repositoryAccessMode: RepositoryAccessMode
 
         public init(repositoryAccessMode: RepositoryAccessMode) {
@@ -8226,7 +8240,7 @@ extension SageMaker {
     }
 
     public struct LabelingJobAlgorithmsConfig: AWSEncodableShape & AWSDecodableShape {
-        /// At the end of an auto-label job Amazon SageMaker Ground Truth sends the Amazon Resource Nam (ARN) of the final model used for auto-labeling. You can use this model as the starting point for subsequent similar jobs by providing the ARN of the model here.
+        /// At the end of an auto-label job Ground Truth sends the Amazon Resource Name (ARN) of the final model used for auto-labeling. You can use this model as the starting point for subsequent similar jobs by providing the ARN of the model here.
         public let initialActiveLearningModelArn: String?
         /// Specifies the Amazon Resource Name (ARN) of the algorithm used for auto-labeling. You must select one of the following ARNs:    Image classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/image-classification     Text classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/text-classification     Object detection   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/object-detection     Semantic Segmentation   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/semantic-segmentation
         public let labelingJobAlgorithmSpecificationArn: String
@@ -8275,17 +8289,22 @@ extension SageMaker {
     public struct LabelingJobDataSource: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 location of the input data objects.
         public let s3DataSource: LabelingJobS3DataSource?
+        /// An Amazon SNS data source used for streaming labeling jobs.
+        public let snsDataSource: LabelingJobSnsDataSource?
 
-        public init(s3DataSource: LabelingJobS3DataSource? = nil) {
+        public init(s3DataSource: LabelingJobS3DataSource? = nil, snsDataSource: LabelingJobSnsDataSource? = nil) {
             self.s3DataSource = s3DataSource
+            self.snsDataSource = snsDataSource
         }
 
         public func validate(name: String) throws {
             try self.s3DataSource?.validate(name: "\(name).s3DataSource")
+            try self.snsDataSource?.validate(name: "\(name).snsDataSource")
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3DataSource = "S3DataSource"
+            case snsDataSource = "SnsDataSource"
         }
     }
 
@@ -8365,10 +8384,13 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// The Amazon S3 location to write output data.
         public let s3OutputPath: String
+        /// An Amazon Simple Notification Service (Amazon SNS) output topic ARN. When workers complete labeling tasks, Ground Truth will send labeling task output data to the SNS output topic you specify here. You must provide a value for this parameter if you provide an Amazon SNS input topic in SnsDataSource in InputConfig.
+        public let snsTopicArn: String?
 
-        public init(kmsKeyId: String? = nil, s3OutputPath: String) {
+        public init(kmsKeyId: String? = nil, s3OutputPath: String, snsTopicArn: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
+            self.snsTopicArn = snsTopicArn
         }
 
         public func validate(name: String) throws {
@@ -8376,11 +8398,14 @@ extension SageMaker {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
             try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, max: 1024)
             try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, max: 2048)
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "arn:aws[a-z\\-]*:sns:[a-z0-9\\-]*:[0-9]{12}:[a-zA-Z0-9_.-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case s3OutputPath = "S3OutputPath"
+            case snsTopicArn = "SnsTopicArn"
         }
     }
 
@@ -8417,6 +8442,24 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case manifestS3Uri = "ManifestS3Uri"
+        }
+    }
+
+    public struct LabelingJobSnsDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon SNS input topic Amazon Resource Name (ARN). Specify the ARN of the input topic you will use to send new data objects to a streaming labeling job. If you specify an input topic for SnsTopicArn in InputConfig, you must specify a value for SnsTopicArn in OutputConfig.
+        public let snsTopicArn: String
+
+        public init(snsTopicArn: String) {
+            self.snsTopicArn = snsTopicArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, max: 2048)
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "arn:aws[a-z\\-]*:sns:[a-z0-9\\-]*:[0-9]{12}:[a-zA-Z0-9_.-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "SnsTopicArn"
         }
     }
 
@@ -10743,7 +10786,7 @@ extension SageMaker {
         public let image: String
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public let imageDigest: String?
-        /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
+        /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  The model artifacts must be in an S3 bucket that is in the same region as the model package.
         public let modelDataUrl: String?
         /// The AWS Marketplace product ID of the model package.
         public let productId: String?
@@ -12683,7 +12726,7 @@ extension SageMaker {
         public let notebookOutputOption: NotebookOutputOption?
         /// When NotebookOutputOption is Allowed, the AWS Key Management Service (KMS) encryption key ID used to encrypt the notebook cell output in the Amazon S3 bucket.
         public let s3KmsKeyId: String?
-        /// When NotebookOutputOption is Allowed, the Amazon S3 bucket used to save the notebook cell output. If S3OutputPath isn't specified, a default bucket is used.
+        /// When NotebookOutputOption is Allowed, the Amazon S3 bucket used to save the notebook cell output.
         public let s3OutputPath: String?
 
         public init(notebookOutputOption: NotebookOutputOption? = nil, s3KmsKeyId: String? = nil, s3OutputPath: String? = nil) {
@@ -12722,7 +12765,7 @@ extension SageMaker {
     public struct SourceAlgorithm: AWSEncodableShape & AWSDecodableShape {
         /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your Amazon SageMaker account or an algorithm in AWS Marketplace that you are subscribed to.
         public let algorithmName: String
-        /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
+        /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  The model artifacts must be in an S3 bucket that is in the same region as the algorithm.
         public let modelDataUrl: String?
 
         public init(algorithmName: String, modelDataUrl: String? = nil) {
@@ -14048,7 +14091,7 @@ extension SageMaker {
         public let sourceArn: String?
         /// Information about a training job that's the source of a trial component.
         public let trainingJob: TrainingJob?
-        /// Information about a transform job that's the source of the trial component.
+        /// Information about a transform job that's the source of a trial component.
         public let transformJob: TransformJob?
 
         public init(processingJob: ProcessingJob? = nil, sourceArn: String? = nil, trainingJob: TrainingJob? = nil, transformJob: TransformJob? = nil) {

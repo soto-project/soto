@@ -51,7 +51,7 @@ extension ResourceGroups {
         )
     }
 
-    ///  Returns a list of AWS resource identifiers that matches tne specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
+    ///  Returns a list of AWS resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
     public func searchResourcesPaginator(
         _ input: SearchResourcesInput,
         on eventLoop: EventLoop? = nil,

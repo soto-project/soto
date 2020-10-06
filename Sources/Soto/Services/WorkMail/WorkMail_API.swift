@@ -73,6 +73,11 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "AssociateMemberToGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Cancels a mailbox export job.  If the mailbox export job is near completion, it might not be possible to cancel it.
+    public func cancelMailboxExportJob(_ input: CancelMailboxExportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelMailboxExportJobResponse> {
+        return self.client.execute(operation: "CancelMailboxExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Adds an alias to the set of a given member (user or group) of Amazon WorkMail.
     public func createAlias(_ input: CreateAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAliasResponse> {
         return self.client.execute(operation: "CreateAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -138,6 +143,11 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "DescribeGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Describes the current status of a mailbox export job.
+    public func describeMailboxExportJob(_ input: DescribeMailboxExportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMailboxExportJobResponse> {
+        return self.client.execute(operation: "DescribeMailboxExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Provides more information regarding a given organization based on its identifier.
     public func describeOrganization(_ input: DescribeOrganizationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeOrganizationResponse> {
         return self.client.execute(operation: "DescribeOrganization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -198,6 +208,11 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "ListGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Lists the mailbox export jobs started for the specified organization within the last seven days.
+    public func listMailboxExportJobs(_ input: ListMailboxExportJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMailboxExportJobsResponse> {
+        return self.client.execute(operation: "ListMailboxExportJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Lists the mailbox permissions associated with a user, group, or resource mailbox.
     public func listMailboxPermissions(_ input: ListMailboxPermissionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMailboxPermissionsResponse> {
         return self.client.execute(operation: "ListMailboxPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -251,6 +266,11 @@ public struct WorkMail: AWSService {
     ///  Allows the administrator to reset the password for a user.
     public func resetPassword(_ input: ResetPasswordRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ResetPasswordResponse> {
         return self.client.execute(operation: "ResetPassword", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Starts a mailbox export job to export MIME-format email messages and calendar items from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Exporting mailbox content in the Amazon WorkMail Administrator Guide.
+    public func startMailboxExportJob(_ input: StartMailboxExportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartMailboxExportJobResponse> {
+        return self.client.execute(operation: "StartMailboxExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Applies the specified tags to the specified Amazon WorkMail organization resource.
