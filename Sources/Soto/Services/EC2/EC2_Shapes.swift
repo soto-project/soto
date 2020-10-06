@@ -23507,6 +23507,8 @@ extension EC2 {
         public let localGatewayId: String?
         /// The ID of the virtual interface.
         public let localGatewayVirtualInterfaceId: String?
+        /// The AWS account ID that owns the local gateway virtual interface.
+        public let ownerId: String?
         /// The peer address.
         public let peerAddress: String?
         /// The peer BGP ASN.
@@ -23517,11 +23519,12 @@ extension EC2 {
         /// The ID of the VLAN.
         public let vlan: Int?
 
-        public init(localAddress: String? = nil, localBgpAsn: Int? = nil, localGatewayId: String? = nil, localGatewayVirtualInterfaceId: String? = nil, peerAddress: String? = nil, peerBgpAsn: Int? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
+        public init(localAddress: String? = nil, localBgpAsn: Int? = nil, localGatewayId: String? = nil, localGatewayVirtualInterfaceId: String? = nil, ownerId: String? = nil, peerAddress: String? = nil, peerBgpAsn: Int? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.localAddress = localAddress
             self.localBgpAsn = localBgpAsn
             self.localGatewayId = localGatewayId
             self.localGatewayVirtualInterfaceId = localGatewayVirtualInterfaceId
+            self.ownerId = ownerId
             self.peerAddress = peerAddress
             self.peerBgpAsn = peerBgpAsn
             self.tags = tags
@@ -23533,6 +23536,7 @@ extension EC2 {
             case localBgpAsn
             case localGatewayId
             case localGatewayVirtualInterfaceId
+            case ownerId
             case peerAddress
             case peerBgpAsn
             case tags = "tagSet"
@@ -23551,14 +23555,17 @@ extension EC2 {
         /// The IDs of the virtual interfaces.
         @OptionalCustomCoding<ArrayCoder<_LocalGatewayVirtualInterfaceIdsEncoding, String>>
         public var localGatewayVirtualInterfaceIds: [String]?
+        /// The AWS account ID that owns the local gateway virtual interface group.
+        public let ownerId: String?
         /// The tags assigned to the virtual interface group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(localGatewayId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, localGatewayVirtualInterfaceIds: [String]? = nil, tags: [Tag]? = nil) {
+        public init(localGatewayId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, localGatewayVirtualInterfaceIds: [String]? = nil, ownerId: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
             self.localGatewayVirtualInterfaceIds = localGatewayVirtualInterfaceIds
+            self.ownerId = ownerId
             self.tags = tags
         }
 
@@ -23566,6 +23573,7 @@ extension EC2 {
             case localGatewayId
             case localGatewayVirtualInterfaceGroupId
             case localGatewayVirtualInterfaceIds = "localGatewayVirtualInterfaceIdSet"
+            case ownerId
             case tags = "tagSet"
         }
     }

@@ -35,6 +35,7 @@ extension KinesisAnalyticsV2 {
         case running = "RUNNING"
         case updating = "UPDATING"
         case autoscaling = "AUTOSCALING"
+        case forceStopping = "FORCE_STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -189,7 +190,7 @@ extension KinesisAnalyticsV2 {
         public let applicationARN: String?
         /// Provides the current application version.
         public let applicationVersionId: Int64?
-        /// The input ID that is associated with the application input. This is the ID that Amazon Kinesis Data Analytics assigns to each input configuration that you add to your application.
+        /// The input ID that is associated with the application input. This is the ID that Kinesis Data Analytics assigns to each input configuration that you add to your application.
         public let inputId: String?
         /// The description of the preprocessor that executes on records in this input before the application's code is run.
         public let inputProcessingConfigurationDescription: InputProcessingConfigurationDescription?
@@ -344,7 +345,7 @@ extension KinesisAnalyticsV2 {
     public struct AddApplicationReferenceDataSourceResponse: AWSDecodableShape {
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
-        /// The updated application version ID. Amazon Kinesis Data Analytics increments this ID when the application is updated.
+        /// The updated application version ID. Kinesis Data Analytics increments this ID when the application is updated.
         public let applicationVersionId: Int64?
         /// Describes reference data sources configured for the application.
         public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
@@ -365,7 +366,7 @@ extension KinesisAnalyticsV2 {
     public struct AddApplicationVpcConfigurationRequest: AWSEncodableShape {
         /// The name of an existing application.
         public let applicationName: String
-        /// The version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
+        /// The version of the application to which you want to add the VPC configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
         public let currentApplicationVersionId: Int64
         /// Description of the VPC to add to the application.
         public let vpcConfiguration: VpcConfiguration
@@ -473,15 +474,15 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationConfiguration: AWSEncodableShape {
-        /// The code location and type parameters for a Java-based Kinesis Data Analytics application.
+        /// The code location and type parameters for a Flink-based Kinesis Data Analytics application.
         public let applicationCodeConfiguration: ApplicationCodeConfiguration
-        /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let applicationSnapshotConfiguration: ApplicationSnapshotConfiguration?
-        /// Describes execution properties for a Java-based Kinesis Data Analytics application.
+        /// Describes execution properties for a Flink-based Kinesis Data Analytics application.
         public let environmentProperties: EnvironmentProperties?
-        /// The creation and update parameters for a Java-based Kinesis Data Analytics application.
+        /// The creation and update parameters for a Flink-based Kinesis Data Analytics application.
         public let flinkApplicationConfiguration: FlinkApplicationConfiguration?
-        /// The creation and update parameters for an SQL-based Kinesis Data Analytics application.
+        /// The creation and update parameters for a SQL-based Kinesis Data Analytics application.
         public let sqlApplicationConfiguration: SqlApplicationConfiguration?
         /// The array of descriptions of VPC configurations available to the application.
         public let vpcConfigurations: [VpcConfiguration]?
@@ -516,17 +517,17 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationConfigurationDescription: AWSDecodableShape {
-        /// The details about the application code for a Java-based Kinesis Data Analytics application.
+        /// The details about the application code for a Flink-based Kinesis Data Analytics application.
         public let applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription?
-        /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription?
-        /// Describes execution properties for a Java-based Kinesis Data Analytics application.
+        /// Describes execution properties for a Flink-based Kinesis Data Analytics application.
         public let environmentPropertyDescriptions: EnvironmentPropertyDescriptions?
-        /// The details about a Java-based Kinesis Data Analytics application.
+        /// The details about a Flink-based Kinesis Data Analytics application.
         public let flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription?
         /// The details about the starting properties for a Kinesis Data Analytics application.
         public let runConfigurationDescription: RunConfigurationDescription?
-        /// The details about inputs, outputs, and reference data sources for an SQL-based Kinesis Data Analytics application.
+        /// The details about inputs, outputs, and reference data sources for a SQL-based Kinesis Data Analytics application.
         public let sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription?
         /// The array of descriptions of VPC configurations available to the application.
         public let vpcConfigurationDescriptions: [VpcConfigurationDescription]?
@@ -553,15 +554,15 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationConfigurationUpdate: AWSEncodableShape {
-        /// Describes updates to a Java-based Kinesis Data Analytics application's code configuration.
+        /// Describes updates to a Flink-based Kinesis Data Analytics application's code configuration.
         public let applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate?
-        /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate?
-        /// Describes updates to the environment properties for a Java-based Kinesis Data Analytics application.
+        /// Describes updates to the environment properties for a Flink-based Kinesis Data Analytics application.
         public let environmentPropertyUpdates: EnvironmentPropertyUpdates?
-        /// Describes updates to a Java-based Kinesis Data Analytics application's configuration.
+        /// Describes updates to a Flink-based Kinesis Data Analytics application's configuration.
         public let flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate?
-        /// Describes updates to an SQL-based Kinesis Data Analytics application's configuration.
+        /// Describes updates to a SQL-based Kinesis Data Analytics application's configuration.
         public let sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate?
         /// Updates to the array of descriptions of VPC configurations available to the application.
         public let vpcConfigurationUpdates: [VpcConfigurationUpdate]?
@@ -598,7 +599,7 @@ extension KinesisAnalyticsV2 {
     public struct ApplicationDetail: AWSDecodableShape {
         /// The ARN of the application.
         public let applicationARN: String
-        /// Provides details about the application's SQL or Java code and starting parameters.
+        /// Provides details about the application's Java, SQL, or Scala code and starting parameters.
         public let applicationConfigurationDescription: ApplicationConfigurationDescription?
         /// The description of the application.
         public let applicationDescription: String?
@@ -614,7 +615,7 @@ extension KinesisAnalyticsV2 {
         public let createTimestamp: Date?
         /// The current timestamp when the application was last updated.
         public let lastUpdateTimestamp: Date?
-        /// The runtime environment for the application (SQL-1.0 or FLINK-1_6).
+        /// The runtime environment for the application (SQL-1.0, FLINK-1_6, or FLINK-1_8).
         public let runtimeEnvironment: RuntimeEnvironment
         /// Specifies the IAM role that the application uses to access external resources.
         public let serviceExecutionRole: String?
@@ -672,7 +673,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSnapshotConfiguration: AWSEncodableShape {
-        /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let snapshotsEnabled: Bool
 
         public init(snapshotsEnabled: Bool) {
@@ -685,7 +686,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSnapshotConfigurationDescription: AWSDecodableShape {
-        /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let snapshotsEnabled: Bool
 
         public init(snapshotsEnabled: Bool) {
@@ -698,7 +699,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSnapshotConfigurationUpdate: AWSEncodableShape {
-        /// Describes updates to whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
+        /// Describes updates to whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let snapshotsEnabledUpdate: Bool
 
         public init(snapshotsEnabledUpdate: Bool) {
@@ -719,7 +720,7 @@ extension KinesisAnalyticsV2 {
         public let applicationStatus: ApplicationStatus
         /// Provides the current application version.
         public let applicationVersionId: Int64
-        /// The runtime environment for the application (SQL-1.0 or FLINK-1_6).
+        /// The runtime environment for the application (SQL-1.0, FLINK-1_6, or FLINK-1_8).
         public let runtimeEnvironment: RuntimeEnvironment
 
         public init(applicationARN: String, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, runtimeEnvironment: RuntimeEnvironment) {
@@ -764,11 +765,11 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CheckpointConfiguration: AWSEncodableShape {
-        /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
+        /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public let checkpointingEnabled: Bool?
         /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval vaue of 60000, even if this value is set to another value using this API or in application code.
         public let checkpointInterval: Int64?
-        /// Describes whether the application uses Amazon Kinesis Data Analytics' default checkpointing behavior. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters.  If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:    CheckpointingEnabled: true    CheckpointInterval: 60000    MinPauseBetweenCheckpoints: 5000
+        /// Describes whether the application uses Kinesis Data Analytics' default checkpointing behavior. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters.  If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:    CheckpointingEnabled: true    CheckpointInterval: 60000    MinPauseBetweenCheckpoints: 5000
         public let configurationType: ConfigurationType
         /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If a checkpoint operation takes longer than the CheckpointInterval, the application otherwise performs continual checkpoint operations. For more information, see  Tuning Checkpointing in the Apache Flink Documentation.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code.
         public let minPauseBetweenCheckpoints: Int64?
@@ -794,7 +795,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CheckpointConfigurationDescription: AWSDecodableShape {
-        /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
+        /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public let checkpointingEnabled: Bool?
         /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval vaue of 60000, even if this value is set to another value using this API or in application code.
         public let checkpointInterval: Int64?
@@ -917,9 +918,9 @@ extension KinesisAnalyticsV2 {
     public struct CodeContent: AWSEncodableShape {
         /// Information about the Amazon S3 bucket containing the application code.
         public let s3ContentLocation: S3ContentLocation?
-        /// The text-format code for a Java-based Kinesis Data Analytics application.
+        /// The text-format code for a Flink-based Kinesis Data Analytics application.
         public let textContent: String?
-        /// The zip-format code for a Java-based Kinesis Data Analytics application.
+        /// The zip-format code for a Flink-based Kinesis Data Analytics application.
         public let zipFileContent: Data?
 
         public init(s3ContentLocation: S3ContentLocation? = nil, textContent: String? = nil, zipFileContent: Data? = nil) {
@@ -1006,7 +1007,7 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         /// Use this parameter to configure an Amazon CloudWatch log stream to monitor application configuration errors.
         public let cloudWatchLoggingOptions: [CloudWatchLoggingOption]?
-        /// The runtime environment for the application (SQL-1.0 or FLINK-1_6).
+        /// The runtime environment for the application (SQL-1.0, FLINK-1_6, or FLINK-1_8).
         public let runtimeEnvironment: RuntimeEnvironment
         /// The IAM role used by the application to access Kinesis data streams, Kinesis Data Firehose delivery streams, Amazon S3 objects, and other external resources.
         public let serviceExecutionRole: String
@@ -1691,7 +1692,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct FlinkRunConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// When restoring from a savepoint, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between savepoints to remove stateful parameters, and state data in the savepoint no longer corresponds to valid application data. For more information, see  Allowing Non-Restored State in the Apache Flink documentation.
+        /// When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see  Allowing Non-Restored State in the Apache Flink documentation.  This value defaults to false. If you update your application without specifying this parameter, AllowNonRestoredState will be set to false, even if it was previously set to true.
         public let allowNonRestoredState: Bool?
 
         public init(allowNonRestoredState: Bool? = nil) {
@@ -2470,7 +2471,7 @@ extension KinesisAnalyticsV2 {
         public let configurationType: ConfigurationType
         /// Describes the verbosity of the CloudWatch Logs for an application.
         public let logLevel: LogLevel?
-        /// Describes the granularity of the CloudWatch Logs for an application.
+        /// Describes the granularity of the CloudWatch Logs for an application. The Parallelism level is not recommended for applications with a Parallelism over 64 due to excessive costs.
         public let metricsLevel: MetricsLevel?
 
         public init(configurationType: ConfigurationType, logLevel: LogLevel? = nil, metricsLevel: MetricsLevel? = nil) {
@@ -2512,7 +2513,7 @@ extension KinesisAnalyticsV2 {
         public let configurationTypeUpdate: ConfigurationType?
         /// Describes updates to the verbosity of the CloudWatch Logs for an application.
         public let logLevelUpdate: LogLevel?
-        /// Describes updates to the granularity of the CloudWatch Logs for an application.
+        /// Describes updates to the granularity of the CloudWatch Logs for an application. The Parallelism level is not recommended for applications with a Parallelism over 64 due to excessive costs.
         public let metricsLevelUpdate: MetricsLevel?
 
         public init(configurationTypeUpdate: ConfigurationType? = nil, logLevelUpdate: LogLevel? = nil, metricsLevelUpdate: MetricsLevel? = nil) {
@@ -2531,9 +2532,9 @@ extension KinesisAnalyticsV2 {
     public struct Output: AWSEncodableShape {
         /// Describes the data format when records are written to the destination.
         public let destinationSchema: DestinationSchema
-        /// Identifies an Amazon Kinesis Data Firehose delivery stream as the destination.
+        /// Identifies a Kinesis Data Firehose delivery stream as the destination.
         public let kinesisFirehoseOutput: KinesisFirehoseOutput?
-        /// Identifies an Amazon Kinesis data stream as the destination.
+        /// Identifies a Kinesis data stream as the destination.
         public let kinesisStreamsOutput: KinesisStreamsOutput?
         /// Identifies an AWS Lambda function as the destination.
         public let lambdaOutput: LambdaOutput?
@@ -2649,9 +2650,9 @@ extension KinesisAnalyticsV2 {
         public let autoScalingEnabled: Bool?
         /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
         public let configurationType: ConfigurationType
-        /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, Kinesis Data Analytics increases the CurrentParallelism value in response to application load. The service can increase the CurrentParallelism value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the initial number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, Kinesis Data Analytics increases the CurrentParallelism value in response to application load. The service can increase the CurrentParallelism value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public let parallelism: Int?
-        /// Describes the number of parallel tasks that a Java-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application. For more information about KPUs, see Amazon Kinesis Data Analytics Pricing.
+        /// Describes the number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application. For more information about KPUs, see Amazon Kinesis Data Analytics Pricing.
         public let parallelismPerKPU: Int?
 
         public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType, parallelism: Int? = nil, parallelismPerKPU: Int? = nil) {
@@ -2679,11 +2680,11 @@ extension KinesisAnalyticsV2 {
         public let autoScalingEnabled: Bool?
         /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service.
         public let configurationType: ConfigurationType?
-        /// Describes the current number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, Kinesis Data Analytics can increase this value in response to application load. The service can increase this value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the current number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, Kinesis Data Analytics can increase this value in response to application load. The service can increase this value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public let currentParallelism: Int?
-        /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, then Kinesis Data Analytics can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the initial number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, then Kinesis Data Analytics can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public let parallelism: Int?
-        /// Describes the number of parallel tasks that a Java-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application.
+        /// Describes the number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application.
         public let parallelismPerKPU: Int?
 
         public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType? = nil, currentParallelism: Int? = nil, parallelism: Int? = nil, parallelismPerKPU: Int? = nil) {
@@ -2905,9 +2906,9 @@ extension KinesisAnalyticsV2 {
     public struct RunConfiguration: AWSEncodableShape {
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
-        /// Describes the starting parameters for an Apache Flink-based Kinesis Data Analytics application.
+        /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
         public let flinkRunConfiguration: FlinkRunConfiguration?
-        /// Describes the starting parameters for an SQL-based Kinesis Data Analytics application.
+        /// Describes the starting parameters for a SQL-based Kinesis Data Analytics application application.
         public let sqlRunConfigurations: [SqlRunConfiguration]?
 
         public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil, flinkRunConfiguration: FlinkRunConfiguration? = nil, sqlRunConfigurations: [SqlRunConfiguration]? = nil) {
@@ -2949,7 +2950,7 @@ extension KinesisAnalyticsV2 {
     public struct RunConfigurationUpdate: AWSEncodableShape {
         /// Describes updates to the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
-        /// Describes the starting parameters for an Apache Flink-based Kinesis Data Analytics application.
+        /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
         public let flinkRunConfiguration: FlinkRunConfiguration?
 
         public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil, flinkRunConfiguration: FlinkRunConfiguration? = nil) {
@@ -3345,9 +3346,12 @@ extension KinesisAnalyticsV2 {
     public struct StopApplicationRequest: AWSEncodableShape {
         /// The name of the running application to stop.
         public let applicationName: String
+        /// Set to true to force the application to stop. If you set Force to true, Kinesis Data Analytics stops the application without taking a snapshot. You can only force stop a Flink-based Kinesis Data Analytics application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING state.
+        public let force: Bool?
 
-        public init(applicationName: String) {
+        public init(applicationName: String, force: Bool? = nil) {
             self.applicationName = applicationName
+            self.force = force
         }
 
         public func validate(name: String) throws {
@@ -3358,6 +3362,7 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
+            case force = "Force"
         }
     }
 
@@ -3422,7 +3427,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ARN of the Kinesis Analytics application from which to remove the tags.
+        /// The ARN of the Kinesis Data Analytics application from which to remove the tags.
         public let resourceARN: String
         /// A list of keys of tags to remove from the specified application.
         public let tagKeys: [String]
