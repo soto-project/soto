@@ -22,8 +22,9 @@ jobs:
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v3
-      commit-message: 'Update models from aws-sdk-go'
-      committer: GitHub <noreply@github.com>
-      author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-      branch: aws-sdk-go-update-models
-      title: 'Update models from aws-sdk-go'
+      with:
+        commit-message: 'Update models from aws-sdk-go'
+        committer: GitHub <noreply@github.com>
+        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        branch: aws-sdk-go-update-models
+        title: 'Update models from aws-sdk-go'
