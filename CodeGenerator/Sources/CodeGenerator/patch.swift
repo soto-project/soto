@@ -29,13 +29,6 @@ extension API {
             ReplacePatch(PatchKeyPath3(\.shapes["HttpVersion"], \.type.enum, \.cases[0]), value: "HTTP1_1", originalValue: "http1.1"),
             ReplacePatch(PatchKeyPath3(\.shapes["HttpVersion"], \.type.enum, \.cases[1]), value: "HTTP2", originalValue: "http2"),
         ],
-        "CloudTrail": [
-            AddDictionaryPatch(PatchKeyPath1(\.shapes), key: "_UnixDate", value: Shape(type: .timestamp(.unixTimestamp), name: "_UnixDate")),
-            ReplacePatch(PatchKeyPath4(\.shapes["LookupEventsRequest"], \.type.structure, \.members["EndTime"], \.shapeName), value: "_UnixDate", originalValue: "Date"),
-            ReplacePatch(PatchKeyPath4(\.shapes["LookupEventsRequest"], \.type.structure, \.members["StartTime"], \.shapeName), value: "_UnixDate", originalValue: "Date"),
-            ReplacePatch(PatchKeyPath4(\.shapes["ListPublicKeysRequest"], \.type.structure, \.members["EndTime"], \.shapeName), value: "_UnixDate", originalValue: "Date"),
-            ReplacePatch(PatchKeyPath4(\.shapes["ListPublicKeysRequest"], \.type.structure, \.members["StartTime"], \.shapeName), value: "_UnixDate", originalValue: "Date"),
-        ],
         "CloudWatch": [
             // Patch error shape to avoid warning in generated code. Both errors have the same code "ResourceNotFound"
             ReplacePatch(PatchKeyPath2(\.operations["GetDashboard"], \.errors[1].shapeName), value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),

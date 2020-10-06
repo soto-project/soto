@@ -173,14 +173,14 @@ extension MQ {
         /// The status of the broker.
         public let brokerState: BrokerState?
         /// The time when the broker was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var created: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         /// Required. The deployment mode of the broker.
         public let deploymentMode: DeploymentMode?
         /// The broker's instance type.
         public let hostInstanceType: String?
 
-        public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, hostInstanceType: String? = nil) {
+        public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: Date? = nil, deploymentMode: DeploymentMode? = nil, hostInstanceType: String? = nil) {
             self.brokerArn = brokerArn
             self.brokerId = brokerId
             self.brokerName = brokerName
@@ -207,8 +207,8 @@ extension MQ {
         /// The authentication strategy associated with the configuration.
         public let authenticationStrategy: AuthenticationStrategy?
         /// Required. The date and time of the configuration revision.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var created: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         /// Required. The description of the configuration.
         public let description: String?
         /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
@@ -224,7 +224,7 @@ extension MQ {
         /// The list of all tags associated with this configuration.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: Date? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authenticationStrategy = authenticationStrategy
             self.created = created
@@ -270,14 +270,14 @@ extension MQ {
 
     public struct ConfigurationRevision: AWSDecodableShape {
         /// Required. The date and time of the configuration revision.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var created: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         /// The description of the configuration revision.
         public let description: String?
         /// Required. The revision number of the configuration.
         public let revision: Int?
 
-        public init(created: TimeStamp? = nil, description: String? = nil, revision: Int? = nil) {
+        public init(created: Date? = nil, description: String? = nil, revision: Int? = nil) {
             self.created = created
             self.description = description
             self.revision = revision
@@ -419,13 +419,13 @@ extension MQ {
     public struct CreateConfigurationResponse: AWSDecodableShape {
         public let arn: String?
         public let authenticationStrategy: AuthenticationStrategy?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var created: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         public let id: String?
         public let latestRevision: ConfigurationRevision?
         public let name: String?
 
-        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: Date? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
             self.arn = arn
             self.authenticationStrategy = authenticationStrategy
             self.created = created
@@ -672,8 +672,8 @@ extension MQ {
         public let brokerName: String?
         public let brokerState: BrokerState?
         public let configurations: Configurations?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var created: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         public let deploymentMode: DeploymentMode?
         public let encryptionOptions: EncryptionOptions?
         public let engineType: EngineType?
@@ -694,7 +694,7 @@ extension MQ {
         public let tags: [String: String]?
         public let users: [UserSummary]?
 
-        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: Date? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
@@ -774,8 +774,8 @@ extension MQ {
     public struct DescribeConfigurationResponse: AWSDecodableShape {
         public let arn: String?
         public let authenticationStrategy: AuthenticationStrategy?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var created: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         public let description: String?
         public let engineType: EngineType?
         public let engineVersion: String?
@@ -784,7 +784,7 @@ extension MQ {
         public let name: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: Date? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authenticationStrategy = authenticationStrategy
             self.created = created
@@ -830,12 +830,12 @@ extension MQ {
 
     public struct DescribeConfigurationRevisionResponse: AWSDecodableShape {
         public let configurationId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var created: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         public let data: String?
         public let description: String?
 
-        public init(configurationId: String? = nil, created: TimeStamp? = nil, data: String? = nil, description: String? = nil) {
+        public init(configurationId: String? = nil, created: Date? = nil, data: String? = nil, description: String? = nil) {
             self.configurationId = configurationId
             self.created = created
             self.data = data
@@ -1418,14 +1418,14 @@ extension MQ {
 
     public struct UpdateConfigurationResponse: AWSDecodableShape {
         public let arn: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var created: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         public let id: String?
         public let latestRevision: ConfigurationRevision?
         public let name: String?
         public let warnings: [SanitizationWarning]?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, warnings: [SanitizationWarning]? = nil) {
+        public init(arn: String? = nil, created: Date? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, warnings: [SanitizationWarning]? = nil) {
             self.arn = arn
             self.created = created
             self.id = id

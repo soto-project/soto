@@ -57,9 +57,9 @@ extension MigrationHub {
         /// The current status of an application.
         public let applicationStatus: ApplicationStatus?
         /// The timestamp when the application status was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
 
-        public init(applicationId: String? = nil, applicationStatus: ApplicationStatus? = nil, lastUpdatedTime: TimeStamp? = nil) {
+        public init(applicationId: String? = nil, applicationStatus: ApplicationStatus? = nil, lastUpdatedTime: Date? = nil) {
             self.applicationId = applicationId
             self.applicationStatus = applicationStatus
             self.lastUpdatedTime = lastUpdatedTime
@@ -253,9 +253,9 @@ extension MigrationHub {
         /// Status of the application - Not Started, In-Progress, Complete.
         public let applicationStatus: ApplicationStatus?
         /// The timestamp when the application status was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
 
-        public init(applicationStatus: ApplicationStatus? = nil, lastUpdatedTime: TimeStamp? = nil) {
+        public init(applicationStatus: ApplicationStatus? = nil, lastUpdatedTime: Date? = nil) {
             self.applicationStatus = applicationStatus
             self.lastUpdatedTime = lastUpdatedTime
         }
@@ -713,9 +713,9 @@ extension MigrationHub {
         /// Task object encapsulating task information.
         public let task: Task?
         /// The timestamp when the task was gathered.
-        public let updateDateTime: TimeStamp?
+        public let updateDateTime: Date?
 
-        public init(migrationTaskName: String? = nil, progressUpdateStream: String? = nil, resourceAttributeList: [ResourceAttribute]? = nil, task: Task? = nil, updateDateTime: TimeStamp? = nil) {
+        public init(migrationTaskName: String? = nil, progressUpdateStream: String? = nil, resourceAttributeList: [ResourceAttribute]? = nil, task: Task? = nil, updateDateTime: Date? = nil) {
             self.migrationTaskName = migrationTaskName
             self.progressUpdateStream = progressUpdateStream
             self.resourceAttributeList = resourceAttributeList
@@ -744,9 +744,9 @@ extension MigrationHub {
         /// Detail information of what is being done within the overall status state.
         public let statusDetail: String?
         /// The timestamp when the task was gathered.
-        public let updateDateTime: TimeStamp?
+        public let updateDateTime: Date?
 
-        public init(migrationTaskName: String? = nil, progressPercent: Int? = nil, progressUpdateStream: String? = nil, status: Status? = nil, statusDetail: String? = nil, updateDateTime: TimeStamp? = nil) {
+        public init(migrationTaskName: String? = nil, progressPercent: Int? = nil, progressUpdateStream: String? = nil, status: Status? = nil, statusDetail: String? = nil, updateDateTime: Date? = nil) {
             self.migrationTaskName = migrationTaskName
             self.progressPercent = progressPercent
             self.progressUpdateStream = progressUpdateStream
@@ -773,9 +773,9 @@ extension MigrationHub {
         /// Status of the application - Not Started, In-Progress, Complete.
         public let status: ApplicationStatus
         /// The timestamp when the application state changed.
-        public let updateDateTime: TimeStamp?
+        public let updateDateTime: Date?
 
-        public init(applicationId: String, dryRun: Bool? = nil, status: ApplicationStatus, updateDateTime: TimeStamp? = nil) {
+        public init(applicationId: String, dryRun: Bool? = nil, status: ApplicationStatus, updateDateTime: Date? = nil) {
             self.applicationId = applicationId
             self.dryRun = dryRun
             self.status = status
@@ -812,9 +812,9 @@ extension MigrationHub {
         /// Information about the task's progress and status.
         public let task: Task
         /// The timestamp when the task was gathered.
-        public let updateDateTime: TimeStamp
+        public let updateDateTime: Date
 
-        public init(dryRun: Bool? = nil, migrationTaskName: String, nextUpdateSeconds: Int, progressUpdateStream: String, task: Task, updateDateTime: TimeStamp) {
+        public init(dryRun: Bool? = nil, migrationTaskName: String, nextUpdateSeconds: Int, progressUpdateStream: String, task: Task, updateDateTime: Date) {
             self.dryRun = dryRun
             self.migrationTaskName = migrationTaskName
             self.nextUpdateSeconds = nextUpdateSeconds

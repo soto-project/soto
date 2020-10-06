@@ -123,6 +123,7 @@ class S3Tests: XCTestCase {
             }
             .map { response -> Void in
                 XCTAssertEqual(response.body?.asString(), contents)
+                XCTAssertNotNil(response.lastModified)
             }
             .flatAlways { _ in
                 return Self.deleteBucket(name: name, s3: Self.s3)
@@ -175,6 +176,7 @@ class S3Tests: XCTestCase {
                 XCTAssertEqual(response.contents?.first?.key, name)
                 XCTAssertEqual(response.contents?.first?.size, Int64(contents.utf8.count))
                 XCTAssertEqual(response.contents?.first?.eTag, eTag)
+                XCTAssertNotNil(response.contents?.first?.lastModified)
             }
             .flatAlways { _ in
                 return Self.deleteBucket(name: name, s3: Self.s3)

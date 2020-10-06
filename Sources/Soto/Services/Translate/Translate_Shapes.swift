@@ -562,13 +562,13 @@ extension Translate {
         ///  The Amazon Resource Name (ARN) of the custom terminology.
         public let arn: String?
         /// The time at which the custom terminology was created, based on the timestamp.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the custom terminology properties.
         public let description: String?
         /// The encryption key for the custom terminology.
         public let encryptionKey: EncryptionKey?
         /// The time at which the custom terminology was last update, based on the timestamp.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the custom terminology.
         public let name: String?
         /// The size of the file used when importing a custom terminology.
@@ -580,7 +580,7 @@ extension Translate {
         /// The number of terms included in the custom terminology.
         public let termCount: Int?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, encryptionKey: EncryptionKey? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, sizeBytes: Int? = nil, sourceLanguageCode: String? = nil, targetLanguageCodes: [String]? = nil, termCount: Int? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, encryptionKey: EncryptionKey? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, sizeBytes: Int? = nil, sourceLanguageCode: String? = nil, targetLanguageCodes: [String]? = nil, termCount: Int? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -613,11 +613,11 @@ extension Translate {
         /// Filters the list of jobs based by job status.
         public let jobStatus: JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing and returns only the jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submittedAfterTime: TimeStamp?
+        public let submittedAfterTime: Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing and returns only the jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submittedBeforeTime: TimeStamp?
+        public let submittedBeforeTime: Date?
 
-        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submittedAfterTime: TimeStamp? = nil, submittedBeforeTime: TimeStamp? = nil) {
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submittedAfterTime: Date? = nil, submittedBeforeTime: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submittedAfterTime = submittedAfterTime
@@ -642,7 +642,7 @@ extension Translate {
         /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that granted Amazon Translate read access to the job's input data.
         public let dataAccessRoleArn: String?
         /// The time at which the translation job ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input configuration properties that were specified when the job was requested.
         public let inputDataConfig: InputDataConfig?
         /// The number of documents successfully and unsuccessfully processed during the translation job.
@@ -660,13 +660,13 @@ extension Translate {
         /// The language code of the language of the source text. The language must be a language supported by Amazon Translate.
         public let sourceLanguageCode: String?
         /// The time at which the translation job was submitted.
-        public let submittedTime: TimeStamp?
+        public let submittedTime: Date?
         /// The language code of the language of the target text. The language must be a language supported by Amazon Translate.
         public let targetLanguageCodes: [String]?
         /// A list containing the names of the terminologies applied to a translation job. Only one terminology can be applied per StartTextTranslationJob request at this time.
         public let terminologyNames: [String]?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobDetails: JobDetails? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, sourceLanguageCode: String? = nil, submittedTime: TimeStamp? = nil, targetLanguageCodes: [String]? = nil, terminologyNames: [String]? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobDetails: JobDetails? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, sourceLanguageCode: String? = nil, submittedTime: Date? = nil, targetLanguageCodes: [String]? = nil, terminologyNames: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig

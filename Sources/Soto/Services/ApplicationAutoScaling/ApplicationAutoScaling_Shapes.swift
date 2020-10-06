@@ -605,7 +605,7 @@ extension ApplicationAutoScaling {
 
     public struct PutScheduledActionRequest: AWSEncodableShape {
         /// The date and time for the recurring schedule to end.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the table name. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the index name. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variant - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.   Amazon Comprehend document classification endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE.   Lambda provisioned concurrency - The resource type is function and the unique identifier is the function name with a function version or alias name suffix that is not $LATEST. Example: function:my-function:prod or function:my-function:1.   Amazon Keyspaces table - The resource type is table and the unique identifier is the table name. Example: keyspace/mykeyspace/table/mytable.
         public let resourceId: String
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.    comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference units for an Amazon Comprehend document classification endpoint.    lambda:function:ProvisionedConcurrency - The provisioned concurrency for a Lambda function.    cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
@@ -619,9 +619,9 @@ extension ApplicationAutoScaling {
         /// The namespace of the AWS service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
         public let serviceNamespace: ServiceNamespace
         /// The date and time for this scheduled action to start.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, resourceId: String, scalableDimension: ScalableDimension, scalableTargetAction: ScalableTargetAction? = nil, schedule: String? = nil, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, resourceId: String, scalableDimension: ScalableDimension, scalableTargetAction: ScalableTargetAction? = nil, schedule: String? = nil, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: Date? = nil) {
             self.endTime = endTime
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
@@ -712,7 +712,7 @@ extension ApplicationAutoScaling {
 
     public struct ScalableTarget: AWSDecodableShape {
         /// The Unix timestamp for when the scalable target was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The maximum value to scale to in response to a scale-out activity.
         public let maxCapacity: Int
         /// The minimum value to scale to in response to a scale-in activity.
@@ -727,7 +727,7 @@ extension ApplicationAutoScaling {
         public let serviceNamespace: ServiceNamespace
         public let suspendedState: SuspendedState?
 
-        public init(creationTime: TimeStamp, maxCapacity: Int, minCapacity: Int, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil) {
+        public init(creationTime: Date, maxCapacity: Int, minCapacity: Int, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil) {
             self.creationTime = creationTime
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -777,7 +777,7 @@ extension ApplicationAutoScaling {
         /// The details about the scaling activity.
         public let details: String?
         /// The Unix timestamp for when the scaling activity ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the table name. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the index name. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variant - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.   Amazon Comprehend document classification endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE.   Lambda provisioned concurrency - The resource type is function and the unique identifier is the function name with a function version or alias name suffix that is not $LATEST. Example: function:my-function:prod or function:my-function:1.   Amazon Keyspaces table - The resource type is table and the unique identifier is the table name. Example: keyspace/mykeyspace/table/mytable.
         public let resourceId: String
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.    comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference units for an Amazon Comprehend document classification endpoint.    lambda:function:ProvisionedConcurrency - The provisioned concurrency for a Lambda function.    cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
@@ -785,13 +785,13 @@ extension ApplicationAutoScaling {
         /// The namespace of the AWS service that provides the resource, or a custom-resource.
         public let serviceNamespace: ServiceNamespace
         /// The Unix timestamp for when the scaling activity began.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// Indicates the status of the scaling activity.
         public let statusCode: ScalingActivityStatusCode
         /// A simple message about the current status of the scaling activity.
         public let statusMessage: String?
 
-        public init(activityId: String, cause: String, description: String, details: String? = nil, endTime: TimeStamp? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, startTime: TimeStamp, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
+        public init(activityId: String, cause: String, description: String, details: String? = nil, endTime: Date? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, startTime: Date, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
             self.activityId = activityId
             self.cause = cause
             self.description = description
@@ -824,7 +824,7 @@ extension ApplicationAutoScaling {
         /// The CloudWatch alarms associated with the scaling policy.
         public let alarms: [Alarm]?
         /// The Unix timestamp for when the scaling policy was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the scaling policy.
         public let policyARN: String
         /// The name of the scaling policy.
@@ -842,7 +842,7 @@ extension ApplicationAutoScaling {
         /// A target tracking scaling policy.
         public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
 
-        public init(alarms: [Alarm]? = nil, creationTime: TimeStamp, policyARN: String, policyName: String, policyType: PolicyType, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
+        public init(alarms: [Alarm]? = nil, creationTime: Date, policyARN: String, policyName: String, policyType: PolicyType, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.alarms = alarms
             self.creationTime = creationTime
             self.policyARN = policyARN
@@ -871,9 +871,9 @@ extension ApplicationAutoScaling {
 
     public struct ScheduledAction: AWSDecodableShape {
         /// The date and time that the scheduled action was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The date and time that the action is scheduled to end.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the table name. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the index name. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variant - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.   Amazon Comprehend document classification endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE.   Lambda provisioned concurrency - The resource type is function and the unique identifier is the function name with a function version or alias name suffix that is not $LATEST. Example: function:my-function:prod or function:my-function:1.   Amazon Keyspaces table - The resource type is table and the unique identifier is the table name. Example: keyspace/mykeyspace/table/mytable.
         public let resourceId: String
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.    comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference units for an Amazon Comprehend document classification endpoint.    lambda:function:ProvisionedConcurrency - The provisioned concurrency for a Lambda function.    cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
@@ -889,9 +889,9 @@ extension ApplicationAutoScaling {
         /// The namespace of the AWS service that provides the resource, or a custom-resource.
         public let serviceNamespace: ServiceNamespace
         /// The date and time that the action is scheduled to begin.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(creationTime: TimeStamp, endTime: TimeStamp? = nil, resourceId: String, scalableDimension: ScalableDimension? = nil, scalableTargetAction: ScalableTargetAction? = nil, schedule: String, scheduledActionARN: String, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: TimeStamp? = nil) {
+        public init(creationTime: Date, endTime: Date? = nil, resourceId: String, scalableDimension: ScalableDimension? = nil, scalableTargetAction: ScalableTargetAction? = nil, schedule: String, scheduledActionARN: String, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: Date? = nil) {
             self.creationTime = creationTime
             self.endTime = endTime
             self.resourceId = resourceId

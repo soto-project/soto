@@ -1378,7 +1378,7 @@ extension ELBV2 {
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
         public let canonicalHostedZoneId: String?
         /// The date and time the load balancer was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool.
         public let customerOwnedIpv4Pool: String?
         /// The public DNS name of the load balancer.
@@ -1401,7 +1401,7 @@ extension ELBV2 {
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: TimeStamp? = nil, customerOwnedIpv4Pool: String? = nil, dNSName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, dNSName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
             self.createdTime = createdTime

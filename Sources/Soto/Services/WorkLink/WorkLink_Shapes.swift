@@ -384,9 +384,9 @@ extension WorkLink {
 
     public struct DescribeDeviceResponse: AWSDecodableShape {
         /// The date that the device first signed in to Amazon WorkLink.
-        public let firstAccessedTime: TimeStamp?
+        public let firstAccessedTime: Date?
         /// The date that the device last accessed Amazon WorkLink.
-        public let lastAccessedTime: TimeStamp?
+        public let lastAccessedTime: Date?
         /// The manufacturer of the device.
         public let manufacturer: String?
         /// The model of the device.
@@ -402,7 +402,7 @@ extension WorkLink {
         /// The user name associated with the device.
         public let username: String?
 
-        public init(firstAccessedTime: TimeStamp? = nil, lastAccessedTime: TimeStamp? = nil, manufacturer: String? = nil, model: String? = nil, operatingSystem: String? = nil, operatingSystemVersion: String? = nil, patchLevel: String? = nil, status: DeviceStatus? = nil, username: String? = nil) {
+        public init(firstAccessedTime: Date? = nil, lastAccessedTime: Date? = nil, manufacturer: String? = nil, model: String? = nil, operatingSystem: String? = nil, operatingSystemVersion: String? = nil, patchLevel: String? = nil, status: DeviceStatus? = nil, username: String? = nil) {
             self.firstAccessedTime = firstAccessedTime
             self.lastAccessedTime = lastAccessedTime
             self.manufacturer = manufacturer
@@ -456,7 +456,7 @@ extension WorkLink {
         /// The ARN of an issued ACM certificate that is valid for the domain being associated.
         public let acmCertificateArn: String?
         /// The time that the domain was added.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The name to display.
         public let displayName: String?
         /// The name of the domain.
@@ -464,7 +464,7 @@ extension WorkLink {
         /// The current state for the domain.
         public let domainStatus: DomainStatus?
 
-        public init(acmCertificateArn: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, domainName: String? = nil, domainStatus: DomainStatus? = nil) {
+        public init(acmCertificateArn: String? = nil, createdTime: Date? = nil, displayName: String? = nil, domainName: String? = nil, domainStatus: DomainStatus? = nil) {
             self.acmCertificateArn = acmCertificateArn
             self.createdTime = createdTime
             self.displayName = displayName
@@ -503,7 +503,7 @@ extension WorkLink {
         /// The identifier used by users to sign in to the Amazon WorkLink app.
         public let companyCode: String?
         /// The time that the fleet was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The name to display.
         public let displayName: String?
         /// The name of the fleet.
@@ -511,13 +511,13 @@ extension WorkLink {
         /// The current state of the fleet.
         public let fleetStatus: FleetStatus?
         /// The time that the fleet was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region.
         public let optimizeForEndUserLocation: Bool?
         /// The tags attached to the resource. A tag is a key-value pair.
         public let tags: [String: String]?
 
-        public init(companyCode: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: TimeStamp? = nil, optimizeForEndUserLocation: Bool? = nil, tags: [String: String]? = nil) {
+        public init(companyCode: String? = nil, createdTime: Date? = nil, displayName: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: Date? = nil, optimizeForEndUserLocation: Bool? = nil, tags: [String: String]? = nil) {
             self.companyCode = companyCode
             self.createdTime = createdTime
             self.displayName = displayName
@@ -607,11 +607,11 @@ extension WorkLink {
         /// The root certificate of the certificate authority.
         public let certificate: String?
         /// The time that the certificate authority was added.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The certificate name to display.
         public let displayName: String?
 
-        public init(certificate: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil) {
+        public init(certificate: String? = nil, createdTime: Date? = nil, displayName: String? = nil) {
             self.certificate = certificate
             self.createdTime = createdTime
             self.displayName = displayName
@@ -728,7 +728,7 @@ extension WorkLink {
 
     public struct DomainSummary: AWSDecodableShape {
         /// The time that the domain was created.
-        public let createdTime: TimeStamp
+        public let createdTime: Date
         /// The name to display.
         public let displayName: String?
         /// The name of the domain.
@@ -736,7 +736,7 @@ extension WorkLink {
         /// The status of the domain.
         public let domainStatus: DomainStatus
 
-        public init(createdTime: TimeStamp, displayName: String? = nil, domainName: String, domainStatus: DomainStatus) {
+        public init(createdTime: Date, displayName: String? = nil, domainName: String, domainStatus: DomainStatus) {
             self.createdTime = createdTime
             self.displayName = displayName
             self.domainName = domainName
@@ -755,7 +755,7 @@ extension WorkLink {
         /// The identifier used by users to sign into the Amazon WorkLink app.
         public let companyCode: String?
         /// The time when the fleet was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The name of the fleet to display.
         public let displayName: String?
         /// The Amazon Resource Name (ARN) of the fleet.
@@ -765,11 +765,11 @@ extension WorkLink {
         /// The status of the fleet.
         public let fleetStatus: FleetStatus?
         /// The time when the fleet was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The tags attached to the resource. A tag is a key-value pair.
         public let tags: [String: String]?
 
-        public init(companyCode: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, fleetArn: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: TimeStamp? = nil, tags: [String: String]? = nil) {
+        public init(companyCode: String? = nil, createdTime: Date? = nil, displayName: String? = nil, fleetArn: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: Date? = nil, tags: [String: String]? = nil) {
             self.companyCode = companyCode
             self.createdTime = createdTime
             self.displayName = displayName
@@ -1411,11 +1411,11 @@ extension WorkLink {
         /// The authorization provider type.
         public let authorizationProviderType: AuthorizationProviderType
         /// The time of creation.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The domain name of the authorization provider. This applies only to SAML-based authorization providers.
         public let domainName: String?
 
-        public init(authorizationProviderId: String? = nil, authorizationProviderType: AuthorizationProviderType, createdTime: TimeStamp? = nil, domainName: String? = nil) {
+        public init(authorizationProviderId: String? = nil, authorizationProviderType: AuthorizationProviderType, createdTime: Date? = nil, domainName: String? = nil) {
             self.authorizationProviderId = authorizationProviderId
             self.authorizationProviderType = authorizationProviderType
             self.createdTime = createdTime
@@ -1432,13 +1432,13 @@ extension WorkLink {
 
     public struct WebsiteCaSummary: AWSDecodableShape {
         /// The time when the CA was added.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The name to display.
         public let displayName: String?
         /// A unique identifier for the CA.
         public let websiteCaId: String?
 
-        public init(createdTime: TimeStamp? = nil, displayName: String? = nil, websiteCaId: String? = nil) {
+        public init(createdTime: Date? = nil, displayName: String? = nil, websiteCaId: String? = nil) {
             self.createdTime = createdTime
             self.displayName = displayName
             self.websiteCaId = websiteCaId

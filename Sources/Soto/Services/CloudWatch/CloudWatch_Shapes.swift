@@ -130,9 +130,9 @@ extension CloudWatch {
         /// A summary of the alarm history, in text format.
         public let historySummary: String?
         /// The time stamp for the alarm history item.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(alarmName: String? = nil, alarmType: AlarmType? = nil, historyData: String? = nil, historyItemType: HistoryItemType? = nil, historySummary: String? = nil, timestamp: TimeStamp? = nil) {
+        public init(alarmName: String? = nil, alarmType: AlarmType? = nil, historyData: String? = nil, historyItemType: HistoryItemType? = nil, historySummary: String? = nil, timestamp: Date? = nil) {
             self.alarmName = alarmName
             self.alarmType = alarmType
             self.historyData = historyData
@@ -217,7 +217,7 @@ extension CloudWatch {
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmArn: String?
         /// The time stamp of the last update to the alarm configuration.
-        public let alarmConfigurationUpdatedTimestamp: TimeStamp?
+        public let alarmConfigurationUpdatedTimestamp: Date?
         /// The description of the alarm.
         public let alarmDescription: String?
         /// The name of the alarm.
@@ -235,11 +235,11 @@ extension CloudWatch {
         /// An explanation for the alarm state, in JSON format.
         public let stateReasonData: String?
         /// The time stamp of the last update to the alarm state.
-        public let stateUpdatedTimestamp: TimeStamp?
+        public let stateUpdatedTimestamp: Date?
         /// The state value for the alarm.
         public let stateValue: StateValue?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: TimeStamp? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, oKActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: TimeStamp? = nil, stateValue: StateValue? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, oKActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -278,11 +278,11 @@ extension CloudWatch {
         /// The name of the dashboard.
         public let dashboardName: String?
         /// The time stamp of when the dashboard was last modified, either by an API call or through the console. This number is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The size of the dashboard, in bytes.
         public let size: Int64?
 
-        public init(dashboardArn: String? = nil, dashboardName: String? = nil, lastModified: TimeStamp? = nil, size: Int64? = nil) {
+        public init(dashboardArn: String? = nil, dashboardName: String? = nil, lastModified: Date? = nil, size: Int64? = nil) {
             self.dashboardArn = dashboardArn
             self.dashboardName = dashboardName
             self.lastModified = lastModified
@@ -329,11 +329,11 @@ extension CloudWatch {
         /// The sum of the metric values for the data point.
         public let sum: Double?
         /// The time stamp used for the data point.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         /// The standard unit for the data point.
         public let unit: StandardUnit?
 
-        public init(average: Double? = nil, extendedStatistics: [String: Double]? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: TimeStamp? = nil, unit: StandardUnit? = nil) {
+        public init(average: Double? = nil, extendedStatistics: [String: Double]? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: Date? = nil, unit: StandardUnit? = nil) {
             self.average = average
             self.extendedStatistics = extendedStatistics
             self.maximum = maximum
@@ -482,7 +482,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder>
         public var alarmTypes: [AlarmType]?
         /// The ending date to retrieve alarm history.
-        public let endDate: TimeStamp?
+        public let endDate: Date?
         /// The type of alarm histories to retrieve.
         public let historyItemType: HistoryItemType?
         /// The maximum number of alarm history records to retrieve.
@@ -492,9 +492,9 @@ extension CloudWatch {
         /// Specified whether to return the newest or oldest alarm history first. Specify TimestampDescending to have the newest event history returned first, and specify TimestampAscending to have the oldest history returned first.
         public let scanBy: ScanBy?
         /// The starting date to retrieve alarm history.
-        public let startDate: TimeStamp?
+        public let startDate: Date?
 
-        public init(alarmName: String? = nil, alarmTypes: [AlarmType]? = nil, endDate: TimeStamp? = nil, historyItemType: HistoryItemType? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scanBy: ScanBy? = nil, startDate: TimeStamp? = nil) {
+        public init(alarmName: String? = nil, alarmTypes: [AlarmType]? = nil, endDate: Date? = nil, historyItemType: HistoryItemType? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scanBy: ScanBy? = nil, startDate: Date? = nil) {
             self.alarmName = alarmName
             self.alarmTypes = alarmTypes
             self.endDate = endDate
@@ -997,7 +997,7 @@ extension CloudWatch {
 
     public struct GetInsightRuleReportInput: AWSEncodableShape {
         /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The maximum number of contributors to include in the report. The range is 1 to 100. If you omit this, the default of 10 is used.
         public let maxContributorCount: Int?
         /// Specifies which metrics to use for aggregation of contributor values for the report. You can specify one or more of the following metrics:    UniqueContributors -- the number of unique contributors for each data point.    MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.
@@ -1010,9 +1010,9 @@ extension CloudWatch {
         /// The name of the rule that you want to see data from.
         public let ruleName: String
         /// The start time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, maxContributorCount: Int? = nil, metrics: [String]? = nil, orderBy: String? = nil, period: Int, ruleName: String, startTime: TimeStamp) {
+        public init(endTime: Date, maxContributorCount: Int? = nil, metrics: [String]? = nil, orderBy: String? = nil, period: Int, ruleName: String, startTime: Date) {
             self.endTime = endTime
             self.maxContributorCount = maxContributorCount
             self.metrics = metrics
@@ -1086,7 +1086,7 @@ extension CloudWatch {
 
     public struct GetMetricDataInput: AWSEncodableShape {
         /// The time stamp indicating the latest data to be returned. The value specified is exclusive; results include data points up to the specified time stamp. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the EndTime.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The maximum number of data points the request should return before paginating. If you omit this, the default of 100,800 is used.
         public let maxDatapoints: Int?
         /// The metric queries to be returned. A single GetMetricData call can include as many as 500 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, or a math expression to perform on retrieved data.
@@ -1097,9 +1097,9 @@ extension CloudWatch {
         /// The order in which data points should be returned. TimestampDescending returns the newest data first and paginates when the MaxDatapoints limit is reached. TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit is reached.
         public let scanBy: ScanBy?
         /// The time stamp indicating the earliest data to be returned. The value specified is inclusive; results include data points with the specified time stamp.  CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.  For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as StartTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the StartTime.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, maxDatapoints: Int? = nil, metricDataQueries: [MetricDataQuery], nextToken: String? = nil, scanBy: ScanBy? = nil, startTime: TimeStamp) {
+        public init(endTime: Date, maxDatapoints: Int? = nil, metricDataQueries: [MetricDataQuery], nextToken: String? = nil, scanBy: ScanBy? = nil, startTime: Date) {
             self.endTime = endTime
             self.maxDatapoints = maxDatapoints
             self.metricDataQueries = metricDataQueries
@@ -1152,7 +1152,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder>
         public var dimensions: [Dimension]?
         /// The time stamp that determines the last data point to return. The value specified is exclusive; results include data points up to the specified time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The percentile statistics. Specify values between p0.0 and p100. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both. Percentile statistics are not available for metrics when any of the metric values are negative numbers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var extendedStatistics: [String]?
@@ -1163,14 +1163,14 @@ extension CloudWatch {
         /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
         public let period: Int
         /// The time stamp that determines the first data point to return. Start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistics. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both.
         @OptionalCustomCoding<StandardArrayCoder>
         public var statistics: [Statistic]?
         /// The unit for a given metric. If you omit Unit, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
         public let unit: StandardUnit?
 
-        public init(dimensions: [Dimension]? = nil, endTime: TimeStamp, extendedStatistics: [String]? = nil, metricName: String, namespace: String, period: Int, startTime: TimeStamp, statistics: [Statistic]? = nil, unit: StandardUnit? = nil) {
+        public init(dimensions: [Dimension]? = nil, endTime: Date, extendedStatistics: [String]? = nil, metricName: String, namespace: String, period: Int, startTime: Date, statistics: [Statistic]? = nil, unit: StandardUnit? = nil) {
             self.dimensions = dimensions
             self.endTime = endTime
             self.extendedStatistics = extendedStatistics
@@ -1315,9 +1315,9 @@ extension CloudWatch {
         /// The approximate value that this contributor added during this timestamp.
         public let approximateValue: Double
         /// The timestamp of the data point.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
 
-        public init(approximateValue: Double, timestamp: TimeStamp) {
+        public init(approximateValue: Double, timestamp: Date) {
             self.approximateValue = approximateValue
             self.timestamp = timestamp
         }
@@ -1342,11 +1342,11 @@ extension CloudWatch {
         /// The sum of the values from all contributors during the time period represented by that data point. This statistic is returned only if you included it in the Metrics array in your request.
         public let sum: Double?
         /// The timestamp of the data point.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
         /// The number of unique contributors who published data during this timestamp. This statistic is returned only if you included it in the Metrics array in your request.
         public let uniqueContributors: Double?
 
-        public init(average: Double? = nil, maxContributorValue: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: TimeStamp, uniqueContributors: Double? = nil) {
+        public init(average: Double? = nil, maxContributorValue: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: Date, uniqueContributors: Double? = nil) {
             self.average = average
             self.maxContributorValue = maxContributorValue
             self.maximum = maximum
@@ -1556,7 +1556,7 @@ extension CloudWatch {
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmArn: String?
         /// The time stamp of the last update to the alarm configuration.
-        public let alarmConfigurationUpdatedTimestamp: TimeStamp?
+        public let alarmConfigurationUpdatedTimestamp: Date?
         /// The description of the alarm.
         public let alarmDescription: String?
         /// The name of the alarm.
@@ -1594,7 +1594,7 @@ extension CloudWatch {
         /// An explanation for the alarm state, in JSON format.
         public let stateReasonData: String?
         /// The time stamp of the last update to the alarm state.
-        public let stateUpdatedTimestamp: TimeStamp?
+        public let stateUpdatedTimestamp: Date?
         /// The state value for the alarm.
         public let stateValue: StateValue?
         /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic.
@@ -1608,7 +1608,7 @@ extension CloudWatch {
         /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: TimeStamp? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: TimeStamp? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -1723,12 +1723,12 @@ extension CloudWatch {
         public let statusCode: StatusCode?
         /// The timestamps for the data points, formatted in Unix timestamp format. The number of timestamps always matches the number of values and the value for Timestamps[x] is Values[x].
         @OptionalCustomCoding<StandardArrayCoder>
-        public var timestamps: [TimeStamp]?
+        public var timestamps: [Date]?
         /// The data points for the metric corresponding to Timestamps. The number of values always matches the number of timestamps and the timestamp for Values[x] is Timestamps[x].
         @OptionalCustomCoding<StandardArrayCoder>
         public var values: [Double]?
 
-        public init(id: String? = nil, label: String? = nil, messages: [MessageData]? = nil, statusCode: StatusCode? = nil, timestamps: [TimeStamp]? = nil, values: [Double]? = nil) {
+        public init(id: String? = nil, label: String? = nil, messages: [MessageData]? = nil, statusCode: StatusCode? = nil, timestamps: [Date]? = nil, values: [Double]? = nil) {
             self.id = id
             self.label = label
             self.messages = messages
@@ -1761,7 +1761,7 @@ extension CloudWatch {
         /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a high-resolution metric, so that CloudWatch stores the metric with sub-minute resolution down to one second. Setting this to 60 specifies this metric as a regular-resolution metric, which CloudWatch stores at 1-minute resolution. Currently, high resolution is available only for custom metrics. For more information about high-resolution metrics, see High-Resolution Metrics in the Amazon CloudWatch User Guide.  This field is optional, if you do not specify it the default of 60 is used.
         public let storageResolution: Int?
         /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric.
         public let unit: StandardUnit?
         /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
@@ -1770,7 +1770,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder>
         public var values: [Double]?
 
-        public init(counts: [Double]? = nil, dimensions: [Dimension]? = nil, metricName: String, statisticValues: StatisticSet? = nil, storageResolution: Int? = nil, timestamp: TimeStamp? = nil, unit: StandardUnit? = nil, value: Double? = nil, values: [Double]? = nil) {
+        public init(counts: [Double]? = nil, dimensions: [Dimension]? = nil, metricName: String, statisticValues: StatisticSet? = nil, storageResolution: Int? = nil, timestamp: Date? = nil, unit: StandardUnit? = nil, value: Double? = nil, values: [Double]? = nil) {
             self.counts = counts
             self.dimensions = dimensions
             self.metricName = metricName
@@ -2235,11 +2235,11 @@ extension CloudWatch {
 
     public struct Range: AWSEncodableShape & AWSDecodableShape {
         /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The start time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, startTime: TimeStamp) {
+        public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
         }

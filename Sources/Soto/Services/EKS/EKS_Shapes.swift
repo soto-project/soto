@@ -169,7 +169,7 @@ extension EKS {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The Unix epoch timestamp in seconds for when the cluster was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The encryption configuration for the cluster.
         public let encryptionConfig: [EncryptionConfig]?
         /// The endpoint for your Kubernetes API server.
@@ -193,7 +193,7 @@ extension EKS {
         /// The Kubernetes server version for the cluster.
         public let version: String?
 
-        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, identity: Identity? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, identity: Identity? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
@@ -719,7 +719,7 @@ extension EKS {
         /// The name of the Amazon EKS cluster that the Fargate profile belongs to.
         public let clusterName: String?
         /// The Unix epoch timestamp in seconds for when the Fargate profile was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The full Amazon Resource Name (ARN) of the Fargate profile.
         public let fargateProfileArn: String?
         /// The name of the Fargate profile.
@@ -735,7 +735,7 @@ extension EKS {
         /// The metadata applied to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
         public let tags: [String: String]?
 
-        public init(clusterName: String? = nil, createdAt: TimeStamp? = nil, fargateProfileArn: String? = nil, fargateProfileName: String? = nil, podExecutionRoleArn: String? = nil, selectors: [FargateProfileSelector]? = nil, status: FargateProfileStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
+        public init(clusterName: String? = nil, createdAt: Date? = nil, fargateProfileArn: String? = nil, fargateProfileName: String? = nil, podExecutionRoleArn: String? = nil, selectors: [FargateProfileSelector]? = nil, status: FargateProfileStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
             self.clusterName = clusterName
             self.createdAt = createdAt
             self.fargateProfileArn = fargateProfileArn
@@ -1076,7 +1076,7 @@ extension EKS {
         /// The name of the cluster that the managed node group resides in.
         public let clusterName: String?
         /// The Unix epoch timestamp in seconds for when the managed node group was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// If the node group wasn't deployed with a launch template, then this is the disk size in the node group configuration. If the node group was deployed with a launch template, then diskSize is null.
         public let diskSize: Int?
         /// The health status of the node group. If there are issues with your node group's health, they are listed here.
@@ -1088,7 +1088,7 @@ extension EKS {
         /// If a launch template was used to create the node group, then this is the launch template that was used.
         public let launchTemplate: LaunchTemplateSpecification?
         /// The Unix epoch timestamp in seconds for when the managed node group was last modified.
-        public let modifiedAt: TimeStamp?
+        public let modifiedAt: Date?
         /// The Amazon Resource Name (ARN) associated with the managed node group.
         public let nodegroupArn: String?
         /// The name associated with an Amazon EKS managed node group.
@@ -1112,7 +1112,7 @@ extension EKS {
         /// The Kubernetes version of the managed node group.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, clusterName: String? = nil, createdAt: TimeStamp? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: TimeStamp? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.amiType = amiType
             self.clusterName = clusterName
             self.createdAt = createdAt
@@ -1325,7 +1325,7 @@ extension EKS {
 
     public struct Update: AWSDecodableShape {
         /// The Unix epoch timestamp in seconds for when the update was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// Any errors associated with a Failed update.
         public let errors: [ErrorDetail]?
         /// A UUID that is used to track the update.
@@ -1337,7 +1337,7 @@ extension EKS {
         /// The type of the update.
         public let `type`: UpdateType?
 
-        public init(createdAt: TimeStamp? = nil, errors: [ErrorDetail]? = nil, id: String? = nil, params: [UpdateParam]? = nil, status: UpdateStatus? = nil, type: UpdateType? = nil) {
+        public init(createdAt: Date? = nil, errors: [ErrorDetail]? = nil, id: String? = nil, params: [UpdateParam]? = nil, status: UpdateStatus? = nil, type: UpdateType? = nil) {
             self.createdAt = createdAt
             self.errors = errors
             self.id = id

@@ -285,19 +285,19 @@ extension CodeStar {
 
     public struct CreateUserProfileResult: AWSDecodableShape {
         /// The date the user profile was created, in timestamp format.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The name that is displayed as the friendly name for the user in AWS CodeStar.
         public let displayName: String?
         /// The email address that is displayed as part of the user's profile in AWS CodeStar.
         public let emailAddress: String?
         /// The date the user profile was last modified, in timestamp format.
-        public let lastModifiedTimestamp: TimeStamp?
+        public let lastModifiedTimestamp: Date?
         /// The SSH public key associated with the user in AWS CodeStar. This is the public portion of the public/private keypair the user can use to access project resources if a project owner allows the user remote access to those resources.
         public let sshPublicKey: String?
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String
 
-        public init(createdTimestamp: TimeStamp? = nil, displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, sshPublicKey: String? = nil, userArn: String) {
+        public init(createdTimestamp: Date? = nil, displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: Date? = nil, sshPublicKey: String? = nil, userArn: String) {
             self.createdTimestamp = createdTimestamp
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -420,7 +420,7 @@ extension CodeStar {
         /// A user- or system-generated token that identifies the entity that requested project creation.
         public let clientRequestToken: String?
         /// The date and time the project was created, in timestamp format.
-        public let createdTimeStamp: TimeStamp?
+        public let createdTimeStamp: Date?
         /// The description of the project, if any.
         public let description: String?
         /// The ID of the project.
@@ -434,7 +434,7 @@ extension CodeStar {
         /// The project creation or deletion status.
         public let status: ProjectStatus?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, createdTimeStamp: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, projectTemplateId: String? = nil, stackId: String? = nil, status: ProjectStatus? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdTimeStamp: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, projectTemplateId: String? = nil, stackId: String? = nil, status: ProjectStatus? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.createdTimeStamp = createdTimeStamp
@@ -480,19 +480,19 @@ extension CodeStar {
 
     public struct DescribeUserProfileResult: AWSDecodableShape {
         /// The date and time when the user profile was created in AWS CodeStar, in timestamp format.
-        public let createdTimestamp: TimeStamp
+        public let createdTimestamp: Date
         /// The display name shown for the user in AWS CodeStar projects. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
         public let displayName: String?
         /// The email address for the user. Optional.
         public let emailAddress: String?
         /// The date and time when the user profile was last modified, in timestamp format.
-        public let lastModifiedTimestamp: TimeStamp
+        public let lastModifiedTimestamp: Date
         /// The SSH public key associated with the user. This SSH public key is associated with the user profile, and can be used in conjunction with the associated private key for access to project resources, such as Amazon EC2 instances, if a project owner grants remote access to those resources.
         public let sshPublicKey: String?
         /// The Amazon Resource Name (ARN) of the user.
         public let userArn: String
 
-        public init(createdTimestamp: TimeStamp, displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp, sshPublicKey: String? = nil, userArn: String) {
+        public init(createdTimestamp: Date, displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: Date, sshPublicKey: String? = nil, userArn: String) {
             self.createdTimestamp = createdTimestamp
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -1173,19 +1173,19 @@ extension CodeStar {
 
     public struct UpdateUserProfileResult: AWSDecodableShape {
         /// The date the user profile was created, in timestamp format.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The name that is displayed as the friendly name for the user in AWS CodeStar.
         public let displayName: String?
         /// The email address that is displayed as part of the user's profile in AWS CodeStar.
         public let emailAddress: String?
         /// The date the user profile was last modified, in timestamp format.
-        public let lastModifiedTimestamp: TimeStamp?
+        public let lastModifiedTimestamp: Date?
         /// The SSH public key associated with the user in AWS CodeStar. This is the public portion of the public/private keypair the user can use to access project resources if a project owner allows the user remote access to those resources.
         public let sshPublicKey: String?
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String
 
-        public init(createdTimestamp: TimeStamp? = nil, displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, sshPublicKey: String? = nil, userArn: String) {
+        public init(createdTimestamp: Date? = nil, displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: Date? = nil, sshPublicKey: String? = nil, userArn: String) {
             self.createdTimestamp = createdTimestamp
             self.displayName = displayName
             self.emailAddress = emailAddress

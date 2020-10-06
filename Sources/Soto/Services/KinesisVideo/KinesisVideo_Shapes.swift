@@ -79,13 +79,13 @@ extension KinesisVideo {
         /// The type of the signaling channel.
         public let channelType: ChannelType?
         /// The time at which the signaling channel was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// A structure that contains the configuration for the SINGLE_MASTER channel type.
         public let singleMasterConfiguration: SingleMasterConfiguration?
         /// The current version of the signaling channel.
         public let version: String?
 
-        public init(channelARN: String? = nil, channelName: String? = nil, channelStatus: Status? = nil, channelType: ChannelType? = nil, creationTime: TimeStamp? = nil, singleMasterConfiguration: SingleMasterConfiguration? = nil, version: String? = nil) {
+        public init(channelARN: String? = nil, channelName: String? = nil, channelStatus: Status? = nil, channelType: ChannelType? = nil, creationTime: Date? = nil, singleMasterConfiguration: SingleMasterConfiguration? = nil, version: String? = nil) {
             self.channelARN = channelARN
             self.channelName = channelName
             self.channelStatus = channelStatus
@@ -713,7 +713,7 @@ extension KinesisVideo {
 
     public struct StreamInfo: AWSDecodableShape {
         /// A time stamp that indicates when the stream was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// How long the stream retains data, in hours.
         public let dataRetentionInHours: Int?
         /// The name of the device that is associated with the stream.
@@ -731,7 +731,7 @@ extension KinesisVideo {
         /// The version of the stream.
         public let version: String?
 
-        public init(creationTime: TimeStamp? = nil, dataRetentionInHours: Int? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, status: Status? = nil, streamARN: String? = nil, streamName: String? = nil, version: String? = nil) {
+        public init(creationTime: Date? = nil, dataRetentionInHours: Int? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, status: Status? = nil, streamARN: String? = nil, streamName: String? = nil, version: String? = nil) {
             self.creationTime = creationTime
             self.dataRetentionInHours = dataRetentionInHours
             self.deviceName = deviceName

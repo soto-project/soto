@@ -883,11 +883,11 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the agent.
         public let agentArn: String?
         /// The time that the agent was activated (that is, created in your account).
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The type of endpoint that your agent is connected to. If the endpoint is a VPC endpoint, the agent is not accessible over the public internet.
         public let endpointType: EndpointType?
         /// The time that the agent last connected to DataSyc.
-        public let lastConnectionTime: TimeStamp?
+        public let lastConnectionTime: Date?
         /// The name of the agent.
         public let name: String?
         /// The subnet and the security group that DataSync used to access a VPC endpoint.
@@ -895,7 +895,7 @@ extension DataSync {
         /// The status of the agent. If the status is ONLINE, then the agent is configured properly and is available to use. The Running status is the normal running status for an agent. If the status is OFFLINE, the agent's VM is turned off or the agent is in an unhealthy state. When the issue that caused the unhealthy state is resolved, the agent returns to ONLINE status.
         public let status: AgentStatus?
 
-        public init(agentArn: String? = nil, creationTime: TimeStamp? = nil, endpointType: EndpointType? = nil, lastConnectionTime: TimeStamp? = nil, name: String? = nil, privateLinkConfig: PrivateLinkConfig? = nil, status: AgentStatus? = nil) {
+        public init(agentArn: String? = nil, creationTime: Date? = nil, endpointType: EndpointType? = nil, lastConnectionTime: Date? = nil, name: String? = nil, privateLinkConfig: PrivateLinkConfig? = nil, status: AgentStatus? = nil) {
             self.agentArn = agentArn
             self.creationTime = creationTime
             self.endpointType = endpointType
@@ -936,14 +936,14 @@ extension DataSync {
 
     public struct DescribeLocationEfsResponse: AWSDecodableShape {
         /// The time that the EFS location was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         public let ec2Config: Ec2Config?
         /// The Amazon Resource Name (ARN) of the EFS location that was described.
         public let locationArn: String?
         /// The URL of the EFS location that was described.
         public let locationUri: String?
 
-        public init(creationTime: TimeStamp? = nil, ec2Config: Ec2Config? = nil, locationArn: String? = nil, locationUri: String? = nil) {
+        public init(creationTime: Date? = nil, ec2Config: Ec2Config? = nil, locationArn: String? = nil, locationUri: String? = nil) {
             self.creationTime = creationTime
             self.ec2Config = ec2Config
             self.locationArn = locationArn
@@ -978,7 +978,7 @@ extension DataSync {
 
     public struct DescribeLocationFsxWindowsResponse: AWSDecodableShape {
         /// The time that the FSx for Windows location was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the Windows domain that the FSx for Windows server belongs to.
         public let domain: String?
         /// The Amazon Resource Name (ARN) of the FSx for Windows location that was described.
@@ -990,7 +990,7 @@ extension DataSync {
         /// The user who has the permissions to access files and folders in the FSx for Windows file system.
         public let user: String?
 
-        public init(creationTime: TimeStamp? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, securityGroupArns: [String]? = nil, user: String? = nil) {
+        public init(creationTime: Date? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, securityGroupArns: [String]? = nil, user: String? = nil) {
             self.creationTime = creationTime
             self.domain = domain
             self.locationArn = locationArn
@@ -1029,7 +1029,7 @@ extension DataSync {
 
     public struct DescribeLocationNfsResponse: AWSDecodableShape {
         /// The time that the NFS location was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the NFS location that was described.
         public let locationArn: String?
         /// The URL of the source NFS location that was described.
@@ -1038,7 +1038,7 @@ extension DataSync {
         public let mountOptions: NfsMountOptions?
         public let onPremConfig: OnPremConfig?
 
-        public init(creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil) {
+        public init(creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil) {
             self.creationTime = creationTime
             self.locationArn = locationArn
             self.locationUri = locationUri
@@ -1079,7 +1079,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the agents associated with the self-managed object storage server location.
         public let agentArns: [String]?
         /// The time that the self-managed object storage server agent was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the self-managed object storage server location to describe.
         public let locationArn: String?
         /// The URL of the source self-managed object storage server location that was described.
@@ -1089,7 +1089,7 @@ extension DataSync {
         /// The protocol that the object storage server uses to communicate. Valid values are HTTP or HTTPS.
         public let serverProtocol: ObjectStorageServerProtocol?
 
-        public init(accessKey: String? = nil, agentArns: [String]? = nil, creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil) {
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
             self.creationTime = creationTime
@@ -1130,7 +1130,7 @@ extension DataSync {
 
     public struct DescribeLocationS3Response: AWSDecodableShape {
         /// The time that the Amazon S3 bucket location was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location.
         public let locationArn: String?
         /// The URL of the Amazon S3 location that was described.
@@ -1139,7 +1139,7 @@ extension DataSync {
         /// The Amazon S3 storage class that you chose to store your files in when this location is used as a task destination. For more information about S3 storage classes, see Amazon S3 Storage Classes in the Amazon Simple Storage Service Developer Guide. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
         public let s3StorageClass: S3StorageClass?
 
-        public init(creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil, s3StorageClass: S3StorageClass? = nil) {
+        public init(creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil, s3StorageClass: S3StorageClass? = nil) {
             self.creationTime = creationTime
             self.locationArn = locationArn
             self.locationUri = locationUri
@@ -1178,7 +1178,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the source SMB file system location that is created.
         public let agentArns: [String]?
         /// The time that the SMB location was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the Windows domain that the SMB server belongs to.
         public let domain: String?
         /// The Amazon Resource Name (ARN) of the SMB location that was described.
@@ -1190,7 +1190,7 @@ extension DataSync {
         /// The user who can mount the share, has the permissions to access files and folders in the SMB share.
         public let user: String?
 
-        public init(agentArns: [String]? = nil, creationTime: TimeStamp? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: SmbMountOptions? = nil, user: String? = nil) {
+        public init(agentArns: [String]? = nil, creationTime: Date? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: SmbMountOptions? = nil, user: String? = nil) {
             self.agentArns = agentArns
             self.creationTime = creationTime
             self.domain = domain
@@ -1248,13 +1248,13 @@ extension DataSync {
         /// The result of the task execution.
         public let result: TaskExecutionResultDetail?
         /// The time that the task execution was started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the task execution.  For detailed information about task execution statuses, see Understanding Task Statuses in the AWS DataSync User Guide.
         public let status: TaskExecutionStatus?
         /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
         public let taskExecutionArn: String?
 
-        public init(bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesTransferred: Int64? = nil, includes: [FilterRule]? = nil, options: Options? = nil, result: TaskExecutionResultDetail? = nil, startTime: TimeStamp? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
+        public init(bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesTransferred: Int64? = nil, includes: [FilterRule]? = nil, options: Options? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
             self.bytesTransferred = bytesTransferred
             self.bytesWritten = bytesWritten
             self.estimatedBytesToTransfer = estimatedBytesToTransfer
@@ -1307,7 +1307,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.
         public let cloudWatchLogGroupArn: String?
         /// The time that the task was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the task execution that is syncing files.
         public let currentTaskExecutionArn: String?
         /// The Amazon Resource Name (ARN) of the AWS storage resource's location.
@@ -1335,7 +1335,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the task that was described.
         public let taskArn: String?
 
-        public init(cloudWatchLogGroupArn: String? = nil, creationTime: TimeStamp? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, creationTime: Date? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.creationTime = creationTime
             self.currentTaskExecutionArn = currentTaskExecutionArn

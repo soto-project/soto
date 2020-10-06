@@ -1302,11 +1302,11 @@ extension Comprehend {
         /// Filters the list based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
+        public let submitTimeAfter: Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
+        public let submitTimeBefore: Date?
 
-        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -1333,7 +1333,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public let documentClassifierArn: String?
         /// The time that the document classification job completed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input data configuration that you supplied when you created the document classification job.
         public let inputDataConfig: InputDataConfig?
         /// The identifier assigned to the document classification job.
@@ -1347,13 +1347,13 @@ extension Comprehend {
         /// The output data configuration that you supplied when you created the document classification job.
         public let outputDataConfig: OutputDataConfig?
         /// The time that the document classification job was submitted for processing.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
             self.endTime = endTime
@@ -1388,11 +1388,11 @@ extension Comprehend {
         /// Filters the list of classifiers based on status.
         public let status: ModelStatus?
         /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted after the specified time. Classifiers are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
+        public let submitTimeAfter: Date?
         /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted before the specified time. Classifiers are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
+        public let submitTimeBefore: Date?
 
-        public init(status: ModelStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+        public init(status: ModelStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.status = status
             self.submitTimeAfter = submitTimeAfter
             self.submitTimeBefore = submitTimeBefore
@@ -1461,7 +1461,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public let documentClassifierArn: String?
         /// The time that training the document classifier completed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input data configuration that you supplied when you created the document classifier for training.
         public let inputDataConfig: DocumentClassifierInputDataConfig?
         /// The language code for the language of the documents that the classifier was trained on.
@@ -1475,17 +1475,17 @@ extension Comprehend {
         /// The status of the document classifier. If the status is TRAINED the classifier is ready to use. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
         public let status: ModelStatus?
         /// The time that the document classifier was submitted for training.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         /// The time that training of the document classifier was completed. Indicates the time when the training completes on documentation classifiers. You are billed for the time interval between this time and the value of TrainingStartTime.
-        public let trainingEndTime: TimeStamp?
+        public let trainingEndTime: Date?
         /// Indicates the time when the training starts on documentation classifiers. You are billed for the time interval between this time and the value of TrainingEndTime.
-        public let trainingStartTime: TimeStamp?
+        public let trainingStartTime: Date?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: DocumentClassifierMode? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, status: ModelStatus? = nil, submitTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingStartTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: DocumentClassifierMode? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.classifierMetadata = classifierMetadata
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
@@ -1562,11 +1562,11 @@ extension Comprehend {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
+        public let submitTimeAfter: Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
+        public let submitTimeBefore: Date?
 
-        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -1591,7 +1591,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the dominant language detection job completed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input data configuration that you supplied when you created the dominant language detection job.
         public let inputDataConfig: InputDataConfig?
         /// The identifier assigned to the dominant language detection job.
@@ -1605,13 +1605,13 @@ extension Comprehend {
         /// The output data configuration that you supplied when you created the dominant language detection job.
         public let outputDataConfig: OutputDataConfig?
         /// The time that the dominant language detection job was submitted for processing.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -1642,15 +1642,15 @@ extension Comprehend {
 
     public struct EndpointFilter: AWSEncodableShape {
         /// Specifies a date after which the returned endpoint or endpoints were created.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// Specifies a date before which the returned endpoint or endpoints were created.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// The Amazon Resource Number (ARN) of the model to which the endpoint is attached.
         public let modelArn: String?
         /// Specifies the status of the endpoint being returned. Possible values are: Creating, Ready, Updating, Deleting, Failed.
         public let status: EndpointStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.modelArn = modelArn
@@ -1672,7 +1672,7 @@ extension Comprehend {
 
     public struct EndpointProperties: AWSDecodableShape {
         /// The creation date and time of the endpoint.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The number of inference units currently used by the model using this endpoint.
         public let currentInferenceUnits: Int?
         /// The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
@@ -1680,7 +1680,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the endpoint.
         public let endpointArn: String?
         /// The date and time that the endpoint was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// Specifies a reason for failure in cases of Failed status.
         public let message: String?
         /// The Amazon Resource Number (ARN) of the model to which the endpoint is attached.
@@ -1688,7 +1688,7 @@ extension Comprehend {
         /// Specifies the status of the endpoint. Because the endpoint updates and creation are asynchronous, so customers will need to wait for the endpoint to be Ready status before making inference requests.
         public let status: EndpointStatus?
 
-        public init(creationTime: TimeStamp? = nil, currentInferenceUnits: Int? = nil, desiredInferenceUnits: Int? = nil, endpointArn: String? = nil, lastModifiedTime: TimeStamp? = nil, message: String? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
+        public init(creationTime: Date? = nil, currentInferenceUnits: Int? = nil, desiredInferenceUnits: Int? = nil, endpointArn: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
             self.creationTime = creationTime
             self.currentInferenceUnits = currentInferenceUnits
             self.desiredInferenceUnits = desiredInferenceUnits
@@ -1717,11 +1717,11 @@ extension Comprehend {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
+        public let submitTimeAfter: Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
+        public let submitTimeBefore: Date?
 
-        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -1746,7 +1746,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the entities detection job completed
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String?
         /// The input data configuration that you supplied when you created the entities detection job.
@@ -1764,13 +1764,13 @@ extension Comprehend {
         /// The output data configuration that you supplied when you created the entities detection job.
         public let outputDataConfig: OutputDataConfig?
         /// The time that the entities detection job was submitted for processing.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
@@ -1911,11 +1911,11 @@ extension Comprehend {
         /// The status of an entity recognizer.
         public let status: ModelStatus?
         /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeAfter: TimeStamp?
+        public let submitTimeAfter: Date?
         /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeBefore: TimeStamp?
+        public let submitTimeBefore: Date?
 
-        public init(status: ModelStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+        public init(status: ModelStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.status = status
             self.submitTimeAfter = submitTimeAfter
             self.submitTimeBefore = submitTimeBefore
@@ -2012,7 +2012,7 @@ extension Comprehend {
         ///  The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the recognizer creation completed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String?
         /// The input data properties of an entity recognizer.
@@ -2026,17 +2026,17 @@ extension Comprehend {
         /// Provides the status of the entity recognizer.
         public let status: ModelStatus?
         /// The time that the recognizer was submitted for processing.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         /// The time that training of the entity recognizer was completed.
-        public let trainingEndTime: TimeStamp?
+        public let trainingEndTime: Date?
         /// The time that training of the entity recognizer started.
-        public let trainingStartTime: TimeStamp?
+        public let trainingStartTime: Date?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, status: ModelStatus? = nil, submitTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingStartTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
@@ -2161,11 +2161,11 @@ extension Comprehend {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
+        public let submitTimeAfter: Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
+        public let submitTimeBefore: Date?
 
-        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -2190,7 +2190,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the key phrases detection job completed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input data configuration that you supplied when you created the key phrases detection job.
         public let inputDataConfig: InputDataConfig?
         /// The identifier assigned to the key phrases detection job.
@@ -2206,13 +2206,13 @@ extension Comprehend {
         /// The output data configuration that you supplied when you created the key phrases detection job.
         public let outputDataConfig: OutputDataConfig?
         /// The time that the key phrases detection job was submitted for processing.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -2727,11 +2727,11 @@ extension Comprehend {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
+        public let submitTimeAfter: Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
+        public let submitTimeBefore: Date?
 
-        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -2756,7 +2756,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the sentiment detection job ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input data configuration that you supplied when you created the sentiment detection job.
         public let inputDataConfig: InputDataConfig?
         /// The identifier assigned to the sentiment detection job.
@@ -2772,13 +2772,13 @@ extension Comprehend {
         /// The output data configuration that you supplied when you created the sentiment detection job.
         public let outputDataConfig: OutputDataConfig?
         /// The time that the sentiment detection job was submitted for processing.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -3559,11 +3559,11 @@ extension Comprehend {
         /// Filters the list of topic detection jobs based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Only returns jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeAfter: TimeStamp?
+        public let submitTimeAfter: Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Only returns jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeBefore: TimeStamp?
+        public let submitTimeBefore: Date?
 
-        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -3588,7 +3588,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your job data.
         public let dataAccessRoleArn: String?
         /// The time that the topic detection job was completed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input data configuration supplied when you created the topic detection job.
         public let inputDataConfig: InputDataConfig?
         /// The identifier assigned to the topic detection job.
@@ -3604,13 +3604,13 @@ extension Comprehend {
         /// The output data configuration supplied when you created the topic detection job.
         public let outputDataConfig: OutputDataConfig?
         /// The time that the topic detection job was submitted for processing.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig

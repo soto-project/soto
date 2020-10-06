@@ -911,17 +911,17 @@ extension RAM {
 
     public struct Principal: AWSDecodableShape {
         /// The time when the principal was associated with the resource share.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Indicates whether the principal belongs to the same AWS organization as the AWS account that owns the resource share.
         public let external: Bool?
         /// The ID of the principal.
         public let id: String?
         /// The time when the association was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
 
-        public init(creationTime: TimeStamp? = nil, external: Bool? = nil, id: String? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil) {
+        public init(creationTime: Date? = nil, external: Bool? = nil, id: String? = nil, lastUpdatedTime: Date? = nil, resourceShareArn: String? = nil) {
             self.creationTime = creationTime
             self.external = external
             self.id = id
@@ -1004,9 +1004,9 @@ extension RAM {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The time when the resource was associated with the resource share.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The time when the association was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The ARN of the resource group. This value is returned only if the resource is a resource group.
         public let resourceGroupArn: String?
         /// The Amazon Resource Name (ARN) of the resource share.
@@ -1018,7 +1018,7 @@ extension RAM {
         /// The resource type.
         public let `type`: String?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, resourceGroupArn: String? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, lastUpdatedTime: Date? = nil, resourceGroupArn: String? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -1045,11 +1045,11 @@ extension RAM {
         /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
         /// The time when the resource share was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Indicates how the resource share was created. Possible values include:    CREATED_FROM_POLICY - Indicates that the resource share was created from an AWS Identity and Access Management (AWS IAM) policy attached to a resource. These resource shares are visible only to the AWS account that created it. They cannot be modified in AWS RAM.    PROMOTING_TO_STANDARD - The resource share is in the process of being promoted. For more information, see PromoteResourceShareCreatedFromPolicy.    STANDARD - Indicates that the resource share was created in AWS RAM using the console or APIs. These resource shares are visible to all principals. They can be modified in AWS RAM.
         public let featureSet: ResourceShareFeatureSet?
         /// The time when the resource share was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The name of the resource share.
         public let name: String?
         /// The ID of the AWS account that owns the resource share.
@@ -1063,7 +1063,7 @@ extension RAM {
         /// The tags for the resource share.
         public let tags: [Tag]?
 
-        public init(allowExternalPrincipals: Bool? = nil, creationTime: TimeStamp? = nil, featureSet: ResourceShareFeatureSet? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
+        public init(allowExternalPrincipals: Bool? = nil, creationTime: Date? = nil, featureSet: ResourceShareFeatureSet? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.creationTime = creationTime
             self.featureSet = featureSet
@@ -1096,11 +1096,11 @@ extension RAM {
         /// The association type.
         public let associationType: ResourceShareAssociationType?
         /// The time when the association was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Indicates whether the principal belongs to the same AWS organization as the AWS account that owns the resource share.
         public let external: Bool?
         /// The time when the association was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
         /// The name of the resource share.
@@ -1110,7 +1110,7 @@ extension RAM {
         /// A message about the status of the association.
         public let statusMessage: String?
 
-        public init(associatedEntity: String? = nil, associationType: ResourceShareAssociationType? = nil, creationTime: TimeStamp? = nil, external: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil, resourceShareName: String? = nil, status: ResourceShareAssociationStatus? = nil, statusMessage: String? = nil) {
+        public init(associatedEntity: String? = nil, associationType: ResourceShareAssociationType? = nil, creationTime: Date? = nil, external: Bool? = nil, lastUpdatedTime: Date? = nil, resourceShareArn: String? = nil, resourceShareName: String? = nil, status: ResourceShareAssociationStatus? = nil, statusMessage: String? = nil) {
             self.associatedEntity = associatedEntity
             self.associationType = associationType
             self.creationTime = creationTime
@@ -1137,7 +1137,7 @@ extension RAM {
 
     public struct ResourceShareInvitation: AWSDecodableShape {
         /// The date and time when the invitation was sent.
-        public let invitationTimestamp: TimeStamp?
+        public let invitationTimestamp: Date?
         /// The ID of the AWS account that received the invitation.
         public let receiverAccountId: String?
         /// The Amazon Resource Name (ARN) of the resource share.
@@ -1151,7 +1151,7 @@ extension RAM {
         /// The status of the invitation.
         public let status: ResourceShareInvitationStatus?
 
-        public init(invitationTimestamp: TimeStamp? = nil, receiverAccountId: String? = nil, resourceShareArn: String? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
+        public init(invitationTimestamp: Date? = nil, receiverAccountId: String? = nil, resourceShareArn: String? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
             self.invitationTimestamp = invitationTimestamp
             self.receiverAccountId = receiverAccountId
             self.resourceShareArn = resourceShareArn
@@ -1176,11 +1176,11 @@ extension RAM {
         /// The ARN of the permission.
         public let arn: String?
         /// The date and time when the permission was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The identifier for the version of the permission that is set as the default version.
         public let defaultVersion: Bool?
         /// The date and time when the permission was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The name of the permission.
         public let name: String?
         /// The permission's effect and actions in JSON format. The effect indicates whether the actions are allowed or denied. The actions list the API actions to which the principal is granted or denied access.
@@ -1190,7 +1190,7 @@ extension RAM {
         /// The identifier for the version of the permission.
         public let version: String?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, defaultVersion: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, permission: String? = nil, resourceType: String? = nil, version: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permission: String? = nil, resourceType: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion
@@ -1217,11 +1217,11 @@ extension RAM {
         /// The ARN of the permission.
         public let arn: String?
         /// The date and time when the permission was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The identifier for the version of the permission that is set as the default version.
         public let defaultVersion: Bool?
         /// The date and time when the permission was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The name of the permission.
         public let name: String?
         /// The type of resource to which the permission applies.
@@ -1231,7 +1231,7 @@ extension RAM {
         /// The identifier for the version of the permission.
         public let version: String?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, defaultVersion: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, resourceType: String? = nil, status: String? = nil, version: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, resourceType: String? = nil, status: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion

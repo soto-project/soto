@@ -373,13 +373,13 @@ extension CodeDeploy {
         /// The destination platform type for deployment of the application (Lambda or Server).
         public let computePlatform: ComputePlatform?
         /// The time at which the application was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The name for a connection to a GitHub account.
         public let gitHubAccountName: String?
         /// True if the user has authenticated with GitHub for the specified application. Otherwise, false.
         public let linkedToGitHub: Bool?
 
-        public init(applicationId: String? = nil, applicationName: String? = nil, computePlatform: ComputePlatform? = nil, createTime: TimeStamp? = nil, gitHubAccountName: String? = nil, linkedToGitHub: Bool? = nil) {
+        public init(applicationId: String? = nil, applicationName: String? = nil, computePlatform: ComputePlatform? = nil, createTime: Date? = nil, gitHubAccountName: String? = nil, linkedToGitHub: Bool? = nil) {
             self.applicationId = applicationId
             self.applicationName = applicationName
             self.computePlatform = computePlatform
@@ -709,7 +709,7 @@ extension CodeDeploy {
         /// The unique ID of an AWS CloudFormation blue/green deployment.
         public let deploymentId: String?
         ///  The date and time when the target application was updated by an AWS CloudFormation blue/green deployment.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         ///  The lifecycle events of the AWS CloudFormation blue/green deployment to this target application.
         public let lifecycleEvents: [LifecycleEvent]?
         /// The resource type for the AWS CloudFormation blue/green deployment.
@@ -721,7 +721,7 @@ extension CodeDeploy {
         /// The percentage of production traffic that the target version of an AWS CloudFormation blue/green deployment receives.
         public let targetVersionWeight: Double?
 
-        public init(deploymentId: String? = nil, lastUpdatedAt: TimeStamp? = nil, lifecycleEvents: [LifecycleEvent]? = nil, resourceType: String? = nil, status: TargetStatus? = nil, targetId: String? = nil, targetVersionWeight: Double? = nil) {
+        public init(deploymentId: String? = nil, lastUpdatedAt: Date? = nil, lifecycleEvents: [LifecycleEvent]? = nil, resourceType: String? = nil, status: TargetStatus? = nil, targetId: String? = nil, targetVersionWeight: Double? = nil) {
             self.deploymentId = deploymentId
             self.lastUpdatedAt = lastUpdatedAt
             self.lifecycleEvents = lifecycleEvents
@@ -1131,7 +1131,7 @@ extension CodeDeploy {
         /// The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
         /// The time at which the deployment configuration was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The deployment configuration ID.
         public let deploymentConfigId: String?
         /// The deployment configuration name.
@@ -1141,7 +1141,7 @@ extension CodeDeploy {
         /// The configuration that specifies how the deployment traffic is routed. Used for deployments with a Lambda or ECS compute platform only.
         public let trafficRoutingConfig: TrafficRoutingConfig?
 
-        public init(computePlatform: ComputePlatform? = nil, createTime: TimeStamp? = nil, deploymentConfigId: String? = nil, deploymentConfigName: String? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, trafficRoutingConfig: TrafficRoutingConfig? = nil) {
+        public init(computePlatform: ComputePlatform? = nil, createTime: Date? = nil, deploymentConfigId: String? = nil, deploymentConfigName: String? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, trafficRoutingConfig: TrafficRoutingConfig? = nil) {
             self.computePlatform = computePlatform
             self.createTime = createTime
             self.deploymentConfigId = deploymentConfigId
@@ -1263,11 +1263,11 @@ extension CodeDeploy {
         /// Information about blue/green deployment options for this deployment.
         public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
         /// A timestamp that indicates when the deployment was complete.
-        public let completeTime: TimeStamp?
+        public let completeTime: Date?
         /// The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
         /// A timestamp that indicates when the deployment was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The means by which the deployment was created:    user: A user created the deployment.    autoscaling: Amazon EC2 Auto Scaling created the deployment.    codeDeployRollback: A rollback process created the deployment.
         public let creator: DeploymentCreator?
         ///  The deployment configuration name.
@@ -1303,7 +1303,7 @@ extension CodeDeploy {
         /// Information about a deployment rollback.
         public let rollbackInfo: RollbackInfo?
         /// A timestamp that indicates when the deployment was deployed to the deployment group. In some cases, the reported value of the start time might be later than the complete time. This is due to differences in the clock settings of backend servers that participate in the deployment process.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The current state of the deployment as a whole.
         public let status: DeploymentStatus?
         /// Information about the instances that belong to the replacement environment in a blue/green deployment.
@@ -1311,7 +1311,7 @@ extension CodeDeploy {
         /// Indicates whether only instances that are not running the latest application revision are to be deployed to.
         public let updateOutdatedInstancesOnly: Bool?
 
-        public init(additionalDeploymentStatusInfo: String? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, completeTime: TimeStamp? = nil, computePlatform: ComputePlatform? = nil, createTime: TimeStamp? = nil, creator: DeploymentCreator? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentId: String? = nil, deploymentOverview: DeploymentOverview? = nil, deploymentStatusMessages: [String]? = nil, deploymentStyle: DeploymentStyle? = nil, description: String? = nil, errorInformation: ErrorInformation? = nil, externalId: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, previousRevision: RevisionLocation? = nil, revision: RevisionLocation? = nil, rollbackInfo: RollbackInfo? = nil, startTime: TimeStamp? = nil, status: DeploymentStatus? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
+        public init(additionalDeploymentStatusInfo: String? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, completeTime: Date? = nil, computePlatform: ComputePlatform? = nil, createTime: Date? = nil, creator: DeploymentCreator? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentId: String? = nil, deploymentOverview: DeploymentOverview? = nil, deploymentStatusMessages: [String]? = nil, deploymentStyle: DeploymentStyle? = nil, description: String? = nil, errorInformation: ErrorInformation? = nil, externalId: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, previousRevision: RevisionLocation? = nil, revision: RevisionLocation? = nil, rollbackInfo: RollbackInfo? = nil, startTime: Date? = nil, status: DeploymentStatus? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
             self.additionalDeploymentStatusInfo = additionalDeploymentStatusInfo
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -1562,7 +1562,7 @@ extension CodeDeploy {
         ///  The unique ID of a deployment.
         public let deploymentId: String?
         ///  The date and time when the target Amazon ECS application was updated by a deployment.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         ///  The lifecycle events of the deployment to this target Amazon ECS application.
         public let lifecycleEvents: [LifecycleEvent]?
         ///  The status an Amazon ECS deployment's target ECS application.
@@ -1574,7 +1574,7 @@ extension CodeDeploy {
         ///  The ECSTaskSet objects associated with the ECS target.
         public let taskSetsInfo: [ECSTaskSet]?
 
-        public init(deploymentId: String? = nil, lastUpdatedAt: TimeStamp? = nil, lifecycleEvents: [LifecycleEvent]? = nil, status: TargetStatus? = nil, targetArn: String? = nil, targetId: String? = nil, taskSetsInfo: [ECSTaskSet]? = nil) {
+        public init(deploymentId: String? = nil, lastUpdatedAt: Date? = nil, lifecycleEvents: [LifecycleEvent]? = nil, status: TargetStatus? = nil, targetArn: String? = nil, targetId: String? = nil, taskSetsInfo: [ECSTaskSet]? = nil) {
             self.deploymentId = deploymentId
             self.lastUpdatedAt = lastUpdatedAt
             self.lifecycleEvents = lifecycleEvents
@@ -1672,13 +1672,13 @@ extension CodeDeploy {
         /// A comment about the revision.
         public let description: String?
         /// When the revision was first used by AWS CodeDeploy.
-        public let firstUsedTime: TimeStamp?
+        public let firstUsedTime: Date?
         /// When the revision was last used by AWS CodeDeploy.
-        public let lastUsedTime: TimeStamp?
+        public let lastUsedTime: Date?
         /// When the revision was registered with AWS CodeDeploy.
-        public let registerTime: TimeStamp?
+        public let registerTime: Date?
 
-        public init(deploymentGroups: [String]? = nil, description: String? = nil, firstUsedTime: TimeStamp? = nil, lastUsedTime: TimeStamp? = nil, registerTime: TimeStamp? = nil) {
+        public init(deploymentGroups: [String]? = nil, description: String? = nil, firstUsedTime: Date? = nil, lastUsedTime: Date? = nil, registerTime: Date? = nil) {
             self.deploymentGroups = deploymentGroups
             self.description = description
             self.firstUsedTime = firstUsedTime
@@ -1981,7 +1981,7 @@ extension CodeDeploy {
 
     public struct InstanceInfo: AWSDecodableShape {
         /// If the on-premises instance was deregistered, the time at which the on-premises instance was deregistered.
-        public let deregisterTime: TimeStamp?
+        public let deregisterTime: Date?
         /// The ARN of the IAM session associated with the on-premises instance.
         public let iamSessionArn: String?
         /// The IAM user ARN associated with the on-premises instance.
@@ -1991,11 +1991,11 @@ extension CodeDeploy {
         /// The name of the on-premises instance.
         public let instanceName: String?
         /// The time at which the on-premises instance was registered.
-        public let registerTime: TimeStamp?
+        public let registerTime: Date?
         /// The tags currently associated with the on-premises instance.
         public let tags: [Tag]?
 
-        public init(deregisterTime: TimeStamp? = nil, iamSessionArn: String? = nil, iamUserArn: String? = nil, instanceArn: String? = nil, instanceName: String? = nil, registerTime: TimeStamp? = nil, tags: [Tag]? = nil) {
+        public init(deregisterTime: Date? = nil, iamSessionArn: String? = nil, iamUserArn: String? = nil, instanceArn: String? = nil, instanceName: String? = nil, registerTime: Date? = nil, tags: [Tag]? = nil) {
             self.deregisterTime = deregisterTime
             self.iamSessionArn = iamSessionArn
             self.iamUserArn = iamUserArn
@@ -2024,13 +2024,13 @@ extension CodeDeploy {
         /// Information about which environment an instance belongs to in a blue/green deployment.   BLUE: The instance is part of the original environment.   GREEN: The instance is part of the replacement environment.
         public let instanceType: InstanceType?
         /// A timestamp that indicates when the instance information was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A list of lifecycle events for this instance.
         public let lifecycleEvents: [LifecycleEvent]?
         /// The deployment status for this instance:    Pending: The deployment is pending for this instance.    In Progress: The deployment is in progress for this instance.    Succeeded: The deployment has succeeded for this instance.    Failed: The deployment has failed for this instance.    Skipped: The deployment has been skipped for this instance.    Unknown: The deployment status is unknown for this instance.
         public let status: InstanceStatus?
 
-        public init(deploymentId: String? = nil, instanceId: String? = nil, instanceType: InstanceType? = nil, lastUpdatedAt: TimeStamp? = nil, lifecycleEvents: [LifecycleEvent]? = nil, status: InstanceStatus? = nil) {
+        public init(deploymentId: String? = nil, instanceId: String? = nil, instanceType: InstanceType? = nil, lastUpdatedAt: Date? = nil, lifecycleEvents: [LifecycleEvent]? = nil, status: InstanceStatus? = nil) {
             self.deploymentId = deploymentId
             self.instanceId = instanceId
             self.instanceType = instanceType
@@ -2055,7 +2055,7 @@ extension CodeDeploy {
         ///  A label that identifies whether the instance is an original target (BLUE) or a replacement target (GREEN).
         public let instanceLabel: TargetLabel?
         ///  The date and time when the target instance was updated by a deployment.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         ///  The lifecycle events of the deployment to this target instance.
         public let lifecycleEvents: [LifecycleEvent]?
         ///  The status an EC2/On-premises deployment's target instance.
@@ -2065,7 +2065,7 @@ extension CodeDeploy {
         ///  The unique ID of a deployment target that has a type of instanceTarget.
         public let targetId: String?
 
-        public init(deploymentId: String? = nil, instanceLabel: TargetLabel? = nil, lastUpdatedAt: TimeStamp? = nil, lifecycleEvents: [LifecycleEvent]? = nil, status: TargetStatus? = nil, targetArn: String? = nil, targetId: String? = nil) {
+        public init(deploymentId: String? = nil, instanceLabel: TargetLabel? = nil, lastUpdatedAt: Date? = nil, lifecycleEvents: [LifecycleEvent]? = nil, status: TargetStatus? = nil, targetArn: String? = nil, targetId: String? = nil) {
             self.deploymentId = deploymentId
             self.instanceLabel = instanceLabel
             self.lastUpdatedAt = lastUpdatedAt
@@ -2121,7 +2121,7 @@ extension CodeDeploy {
         ///  A LambdaFunctionInfo object that describes a target Lambda function.
         public let lambdaFunctionInfo: LambdaFunctionInfo?
         ///  The date and time when the target Lambda function was updated by a deployment.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         ///  The lifecycle events of the deployment to this target Lambda function.
         public let lifecycleEvents: [LifecycleEvent]?
         ///  The status an AWS Lambda deployment's target Lambda function.
@@ -2131,7 +2131,7 @@ extension CodeDeploy {
         ///  The unique ID of a deployment target that has a type of lambdaTarget.
         public let targetId: String?
 
-        public init(deploymentId: String? = nil, lambdaFunctionInfo: LambdaFunctionInfo? = nil, lastUpdatedAt: TimeStamp? = nil, lifecycleEvents: [LifecycleEvent]? = nil, status: TargetStatus? = nil, targetArn: String? = nil, targetId: String? = nil) {
+        public init(deploymentId: String? = nil, lambdaFunctionInfo: LambdaFunctionInfo? = nil, lastUpdatedAt: Date? = nil, lifecycleEvents: [LifecycleEvent]? = nil, status: TargetStatus? = nil, targetArn: String? = nil, targetId: String? = nil) {
             self.deploymentId = deploymentId
             self.lambdaFunctionInfo = lambdaFunctionInfo
             self.lastUpdatedAt = lastUpdatedAt
@@ -2154,15 +2154,15 @@ extension CodeDeploy {
 
     public struct LastDeploymentInfo: AWSDecodableShape {
         /// A timestamp that indicates when the most recent deployment to the deployment group started.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         ///  The unique ID of a deployment.
         public let deploymentId: String?
         /// A timestamp that indicates when the most recent deployment to the deployment group was complete.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The status of the most recent deployment.
         public let status: DeploymentStatus?
 
-        public init(createTime: TimeStamp? = nil, deploymentId: String? = nil, endTime: TimeStamp? = nil, status: DeploymentStatus? = nil) {
+        public init(createTime: Date? = nil, deploymentId: String? = nil, endTime: Date? = nil, status: DeploymentStatus? = nil) {
             self.createTime = createTime
             self.deploymentId = deploymentId
             self.endTime = endTime
@@ -2181,15 +2181,15 @@ extension CodeDeploy {
         /// Diagnostic information about the deployment lifecycle event.
         public let diagnostics: Diagnostics?
         /// A timestamp that indicates when the deployment lifecycle event ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The deployment lifecycle event name, such as ApplicationStop, BeforeInstall, AfterInstall, ApplicationStart, or ValidateService.
         public let lifecycleEventName: String?
         /// A timestamp that indicates when the deployment lifecycle event started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The deployment lifecycle event status:   Pending: The deployment lifecycle event is pending.   InProgress: The deployment lifecycle event is in progress.   Succeeded: The deployment lifecycle event ran successfully.   Failed: The deployment lifecycle event has failed.   Skipped: The deployment lifecycle event has been skipped.   Unknown: The deployment lifecycle event is unknown.
         public let status: LifecycleEventStatus?
 
-        public init(diagnostics: Diagnostics? = nil, endTime: TimeStamp? = nil, lifecycleEventName: String? = nil, startTime: TimeStamp? = nil, status: LifecycleEventStatus? = nil) {
+        public init(diagnostics: Diagnostics? = nil, endTime: Date? = nil, lifecycleEventName: String? = nil, startTime: Date? = nil, status: LifecycleEventStatus? = nil) {
             self.diagnostics = diagnostics
             self.endTime = endTime
             self.lifecycleEventName = lifecycleEventName
@@ -3076,11 +3076,11 @@ extension CodeDeploy {
 
     public struct TimeRange: AWSEncodableShape {
         /// The end time of the time range.  Specify null to leave the end time open-ended.
-        public let end: TimeStamp?
+        public let end: Date?
         /// The start time of the time range.  Specify null to leave the start time open-ended.
-        public let start: TimeStamp?
+        public let start: Date?
 
-        public init(end: TimeStamp? = nil, start: TimeStamp? = nil) {
+        public init(end: Date? = nil, start: Date? = nil) {
             self.end = end
             self.start = start
         }

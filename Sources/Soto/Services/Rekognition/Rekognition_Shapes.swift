@@ -908,13 +908,13 @@ extension Rekognition {
         /// The Amazon Resource Name (ARN) of the collection.
         public let collectionARN: String?
         /// The number of milliseconds since the Unix epoch time until the creation of the collection. The Unix epoch time is 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970.
-        public let creationTimestamp: TimeStamp?
+        public let creationTimestamp: Date?
         /// The number of faces that are indexed into the collection. To index faces into a collection, use IndexFaces.
         public let faceCount: Int64?
         /// The version of the face model that's used by the collection for face detection. For more information, see Model Versioning in the Amazon Rekognition Developer Guide.
         public let faceModelVersion: String?
 
-        public init(collectionARN: String? = nil, creationTimestamp: TimeStamp? = nil, faceCount: Int64? = nil, faceModelVersion: String? = nil) {
+        public init(collectionARN: String? = nil, creationTimestamp: Date? = nil, faceCount: Int64? = nil, faceModelVersion: String? = nil) {
             self.collectionARN = collectionARN
             self.creationTimestamp = creationTimestamp
             self.faceCount = faceCount
@@ -1048,11 +1048,11 @@ extension Rekognition {
 
     public struct DescribeStreamProcessorResponse: AWSDecodableShape {
         /// Date and time the stream processor was created
-        public let creationTimestamp: TimeStamp?
+        public let creationTimestamp: Date?
         /// Kinesis video stream that provides the source streaming video.
         public let input: StreamProcessorInput?
         /// The time, in Unix format, the stream processor was last updated. For example, when the stream processor moves from a running state to a failed state, or when the user starts or stops the stream processor.
-        public let lastUpdateTimestamp: TimeStamp?
+        public let lastUpdateTimestamp: Date?
         /// Name of the stream processor.
         public let name: String?
         /// Kinesis data stream to which Amazon Rekognition Video puts the analysis results.
@@ -1068,7 +1068,7 @@ extension Rekognition {
         /// ARN of the stream processor.
         public let streamProcessorArn: String?
 
-        public init(creationTimestamp: TimeStamp? = nil, input: StreamProcessorInput? = nil, lastUpdateTimestamp: TimeStamp? = nil, name: String? = nil, output: StreamProcessorOutput? = nil, roleArn: String? = nil, settings: StreamProcessorSettings? = nil, status: StreamProcessorStatus? = nil, statusMessage: String? = nil, streamProcessorArn: String? = nil) {
+        public init(creationTimestamp: Date? = nil, input: StreamProcessorInput? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, output: StreamProcessorOutput? = nil, roleArn: String? = nil, settings: StreamProcessorSettings? = nil, status: StreamProcessorStatus? = nil, statusMessage: String? = nil, streamProcessorArn: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.input = input
             self.lastUpdateTimestamp = lastUpdateTimestamp
@@ -2835,13 +2835,13 @@ extension Rekognition {
 
     public struct ProjectDescription: AWSDecodableShape {
         /// The Unix timestamp for the date and time that the project was created.
-        public let creationTimestamp: TimeStamp?
+        public let creationTimestamp: Date?
         /// The Amazon Resource Name (ARN) of the project.
         public let projectArn: String?
         /// The current status of the project.
         public let status: ProjectStatus?
 
-        public init(creationTimestamp: TimeStamp? = nil, projectArn: String? = nil, status: ProjectStatus? = nil) {
+        public init(creationTimestamp: Date? = nil, projectArn: String? = nil, status: ProjectStatus? = nil) {
             self.creationTimestamp = creationTimestamp
             self.projectArn = projectArn
             self.status = status
@@ -2858,7 +2858,7 @@ extension Rekognition {
         /// The duration, in seconds, that the model version has been billed for training. This value is only returned if the model version has been successfully trained.
         public let billableTrainingTimeInSeconds: Int64?
         /// The Unix datetime for the date and time that training started.
-        public let creationTimestamp: TimeStamp?
+        public let creationTimestamp: Date?
         /// The training results. EvaluationResult is only returned if training is successful.
         public let evaluationResult: EvaluationResult?
         /// The minimum number of inference units used by the model. For more information, see StartProjectVersion.
@@ -2876,9 +2876,9 @@ extension Rekognition {
         /// The manifest file that represents the training results.
         public let trainingDataResult: TrainingDataResult?
         /// The Unix date and time that training of the model ended.
-        public let trainingEndTimestamp: TimeStamp?
+        public let trainingEndTimestamp: Date?
 
-        public init(billableTrainingTimeInSeconds: Int64? = nil, creationTimestamp: TimeStamp? = nil, evaluationResult: EvaluationResult? = nil, minInferenceUnits: Int? = nil, outputConfig: OutputConfig? = nil, projectVersionArn: String? = nil, status: ProjectVersionStatus? = nil, statusMessage: String? = nil, testingDataResult: TestingDataResult? = nil, trainingDataResult: TrainingDataResult? = nil, trainingEndTimestamp: TimeStamp? = nil) {
+        public init(billableTrainingTimeInSeconds: Int64? = nil, creationTimestamp: Date? = nil, evaluationResult: EvaluationResult? = nil, minInferenceUnits: Int? = nil, outputConfig: OutputConfig? = nil, projectVersionArn: String? = nil, status: ProjectVersionStatus? = nil, statusMessage: String? = nil, testingDataResult: TestingDataResult? = nil, trainingDataResult: TrainingDataResult? = nil, trainingEndTimestamp: Date? = nil) {
             self.billableTrainingTimeInSeconds = billableTrainingTimeInSeconds
             self.creationTimestamp = creationTimestamp
             self.evaluationResult = evaluationResult

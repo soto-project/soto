@@ -152,11 +152,11 @@ extension MigrationHubConfig {
         /// The AWS Region that's been set as home region. For example, "us-west-2" or "eu-central-1" are valid home regions.
         public let homeRegion: String?
         /// A timestamp representing the time when the customer called CreateHomeregionControl and set the home region for the account.
-        public let requestedTime: TimeStamp?
+        public let requestedTime: Date?
         /// The target parameter specifies the identifier to which the home region is applied, which is always an ACCOUNT. It applies the home region to the current ACCOUNT.
         public let target: Target?
 
-        public init(controlId: String? = nil, homeRegion: String? = nil, requestedTime: TimeStamp? = nil, target: Target? = nil) {
+        public init(controlId: String? = nil, homeRegion: String? = nil, requestedTime: Date? = nil, target: Target? = nil) {
             self.controlId = controlId
             self.homeRegion = homeRegion
             self.requestedTime = requestedTime

@@ -284,11 +284,11 @@ extension Synthetics {
 
     public struct CanaryRunTimeline: AWSDecodableShape {
         /// The end time of the run.
-        public let completed: TimeStamp?
+        public let completed: Date?
         /// The start time of the run.
-        public let started: TimeStamp?
+        public let started: Date?
 
-        public init(completed: TimeStamp? = nil, started: TimeStamp? = nil) {
+        public init(completed: Date? = nil, started: Date? = nil) {
             self.completed = completed
             self.started = started
         }
@@ -363,15 +363,15 @@ extension Synthetics {
 
     public struct CanaryTimeline: AWSDecodableShape {
         /// The date and time the canary was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The date and time the canary was most recently modified.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The date and time that the canary's most recent run started.
-        public let lastStarted: TimeStamp?
+        public let lastStarted: Date?
         /// The date and time that the canary's most recent run ended.
-        public let lastStopped: TimeStamp?
+        public let lastStopped: Date?
 
-        public init(created: TimeStamp? = nil, lastModified: TimeStamp? = nil, lastStarted: TimeStamp? = nil, lastStopped: TimeStamp? = nil) {
+        public init(created: Date? = nil, lastModified: Date? = nil, lastStarted: Date? = nil, lastStopped: Date? = nil) {
             self.created = created
             self.lastModified = lastModified
             self.lastStarted = lastStarted
@@ -740,15 +740,15 @@ extension Synthetics {
 
     public struct RuntimeVersion: AWSDecodableShape {
         /// If this runtime version is deprecated, this value is the date of deprecation.
-        public let deprecationDate: TimeStamp?
+        public let deprecationDate: Date?
         /// A description of the runtime version, created by Amazon.
         public let description: String?
         /// The date that the runtime version was released.
-        public let releaseDate: TimeStamp?
+        public let releaseDate: Date?
         /// The name of the runtime version. Currently, the only valid value is syn-1.0.  Specifies the runtime version to use for the canary. Currently, the only valid value is syn-1.0.
         public let versionName: String?
 
-        public init(deprecationDate: TimeStamp? = nil, description: String? = nil, releaseDate: TimeStamp? = nil, versionName: String? = nil) {
+        public init(deprecationDate: Date? = nil, description: String? = nil, releaseDate: Date? = nil, versionName: String? = nil) {
             self.deprecationDate = deprecationDate
             self.description = description
             self.releaseDate = releaseDate

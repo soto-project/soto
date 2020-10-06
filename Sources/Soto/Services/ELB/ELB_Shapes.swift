@@ -1061,7 +1061,7 @@ extension ELB {
         /// The ID of the Amazon Route 53 hosted zone for the load balancer.
         public let canonicalHostedZoneNameID: String?
         /// The date and time the load balancer was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The DNS name of the load balancer.
         public let dNSName: String?
         /// Information about the health checks conducted on the load balancer.
@@ -1089,7 +1089,7 @@ extension ELB {
         /// The ID of the VPC for the load balancer.
         public let vPCId: String?
 
-        public init(availabilityZones: [String]? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, canonicalHostedZoneName: String? = nil, canonicalHostedZoneNameID: String? = nil, createdTime: TimeStamp? = nil, dNSName: String? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, listenerDescriptions: [ListenerDescription]? = nil, loadBalancerName: String? = nil, policies: Policies? = nil, scheme: String? = nil, securityGroups: [String]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, subnets: [String]? = nil, vPCId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, canonicalHostedZoneName: String? = nil, canonicalHostedZoneNameID: String? = nil, createdTime: Date? = nil, dNSName: String? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, listenerDescriptions: [ListenerDescription]? = nil, loadBalancerName: String? = nil, policies: Policies? = nil, scheme: String? = nil, securityGroups: [String]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, subnets: [String]? = nil, vPCId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.backendServerDescriptions = backendServerDescriptions
             self.canonicalHostedZoneName = canonicalHostedZoneName

@@ -440,7 +440,7 @@ extension CloudFormation {
         /// The name of the change set.
         public let changeSetName: String?
         /// The start time when the change set was created, in UTC.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Descriptive information about the change set.
         public let description: String?
         /// If the change set execution status is AVAILABLE, you can execute the change set. If you can’t execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because AWS CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
@@ -454,7 +454,7 @@ extension CloudFormation {
         /// A description of the change set's status. For example, if your change set is in the FAILED state, AWS CloudFormation shows the error message.
         public let statusReason: String?
 
-        public init(changeSetId: String? = nil, changeSetName: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil) {
+        public init(changeSetId: String? = nil, changeSetName: String? = nil, creationTime: Date? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil) {
             self.changeSetId = changeSetId
             self.changeSetName = changeSetName
             self.creationTime = creationTime
@@ -1223,7 +1223,7 @@ extension CloudFormation {
         /// The name of the change set.
         public let changeSetName: String?
         /// The start time when the change set was created, in UTC.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Information about the change set.
         public let description: String?
         /// If the change set execution status is AVAILABLE, you can execute the change set. If you can’t execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because AWS CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
@@ -1250,7 +1250,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(capabilities: [Capability]? = nil, changes: [Change]? = nil, changeSetId: String? = nil, changeSetName: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, nextToken: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil, tags: [Tag]? = nil) {
+        public init(capabilities: [Capability]? = nil, changes: [Change]? = nil, changeSetId: String? = nil, changeSetName: String? = nil, creationTime: Date? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, nextToken: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil, tags: [Tag]? = nil) {
             self.capabilities = capabilities
             self.changes = changes
             self.changeSetId = changeSetId
@@ -1321,9 +1321,9 @@ extension CloudFormation {
         /// The ID of the stack.
         public let stackId: String
         /// Time at which the stack drift detection operation was initiated.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
 
-        public init(detectionStatus: StackDriftDetectionStatus, detectionStatusReason: String? = nil, driftedStackResourceCount: Int? = nil, stackDriftDetectionId: String, stackDriftStatus: StackDriftStatus? = nil, stackId: String, timestamp: TimeStamp) {
+        public init(detectionStatus: StackDriftDetectionStatus, detectionStatusReason: String? = nil, driftedStackResourceCount: Int? = nil, stackDriftDetectionId: String, stackDriftStatus: StackDriftStatus? = nil, stackId: String, timestamp: Date) {
             self.detectionStatus = detectionStatus
             self.detectionStatusReason = detectionStatusReason
             self.driftedStackResourceCount = driftedStackResourceCount
@@ -1697,7 +1697,7 @@ extension CloudFormation {
         /// Whether the specified type version is set as the default version.
         public let isDefaultVersion: Bool?
         /// When the specified type version was registered.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// Contains logging configuration information for a type.
         public let loggingConfig: LoggingConfig?
         /// The provisioning behavior of the type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The type does not include an update handler, so the type cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The type does not include all of the following handlers, and therefore cannot actually be provisioned.   create   read   delete
@@ -1707,7 +1707,7 @@ extension CloudFormation {
         /// The URL of the source code for the type.
         public let sourceUrl: String?
         /// When the specified type version was registered.
-        public let timeCreated: TimeStamp?
+        public let timeCreated: Date?
         /// The kind of type.  Currently the only valid value is RESOURCE.
         public let `type`: RegistryType?
         /// The name of the registered type.
@@ -1715,7 +1715,7 @@ extension CloudFormation {
         /// The scope at which the type is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The type is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you register as PRIVATE.    PUBLIC: The type is publically visible and usable within any Amazon account.
         public let visibility: Visibility?
 
-        public init(arn: String? = nil, defaultVersionId: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, description: String? = nil, documentationUrl: String? = nil, executionRoleArn: String? = nil, isDefaultVersion: Bool? = nil, lastUpdated: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, provisioningType: ProvisioningType? = nil, schema: String? = nil, sourceUrl: String? = nil, timeCreated: TimeStamp? = nil, type: RegistryType? = nil, typeName: String? = nil, visibility: Visibility? = nil) {
+        public init(arn: String? = nil, defaultVersionId: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, description: String? = nil, documentationUrl: String? = nil, executionRoleArn: String? = nil, isDefaultVersion: Bool? = nil, lastUpdated: Date? = nil, loggingConfig: LoggingConfig? = nil, provisioningType: ProvisioningType? = nil, schema: String? = nil, sourceUrl: String? = nil, timeCreated: Date? = nil, type: RegistryType? = nil, typeName: String? = nil, visibility: Visibility? = nil) {
             self.arn = arn
             self.defaultVersionId = defaultVersionId
             self.deprecatedStatus = deprecatedStatus
@@ -3321,9 +3321,9 @@ extension CloudFormation {
         /// The unique ID of the change set.
         public let changeSetId: String?
         /// The time at which the stack was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The time the stack was deleted.
-        public let deletionTime: TimeStamp?
+        public let deletionTime: Date?
         /// A user-defined description associated with the stack.
         public let description: String?
         /// Boolean to enable or disable rollback on stack creation failures:    true: disable rollback    false: enable rollback
@@ -3333,7 +3333,7 @@ extension CloudFormation {
         /// Whether termination protection is enabled for the stack.  For nested stacks, termination protection is set on the root stack and cannot be changed directly on the nested stack. For more information, see Protecting a Stack From Being Deleted in the AWS CloudFormation User Guide.
         public let enableTerminationProtection: Bool?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// SNS topic ARNs to which stack related events are published.
         @OptionalCustomCoding<StandardArrayCoder>
         public var notificationARNs: [String]?
@@ -3365,7 +3365,7 @@ extension CloudFormation {
         /// The amount of time within which stack creation should complete.
         public let timeoutInMinutes: Int?
 
-        public init(capabilities: [Capability]? = nil, changeSetId: String? = nil, creationTime: TimeStamp, deletionTime: TimeStamp? = nil, description: String? = nil, disableRollback: Bool? = nil, driftInformation: StackDriftInformation? = nil, enableTerminationProtection: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, notificationARNs: [String]? = nil, outputs: [Output]? = nil, parameters: [Parameter]? = nil, parentId: String? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String, stackStatus: StackStatus, stackStatusReason: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil) {
+        public init(capabilities: [Capability]? = nil, changeSetId: String? = nil, creationTime: Date, deletionTime: Date? = nil, description: String? = nil, disableRollback: Bool? = nil, driftInformation: StackDriftInformation? = nil, enableTerminationProtection: Bool? = nil, lastUpdatedTime: Date? = nil, notificationARNs: [String]? = nil, outputs: [Output]? = nil, parameters: [Parameter]? = nil, parentId: String? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String, stackStatus: StackStatus, stackStatusReason: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.changeSetId = changeSetId
             self.creationTime = creationTime
@@ -3418,11 +3418,11 @@ extension CloudFormation {
 
     public struct StackDriftInformation: AWSDecodableShape {
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
-        public let lastCheckTimestamp: TimeStamp?
+        public let lastCheckTimestamp: Date?
         /// Status of the stack's actual configuration compared to its expected template configuration.     DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: AWS CloudFormation has not checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.
         public let stackDriftStatus: StackDriftStatus
 
-        public init(lastCheckTimestamp: TimeStamp? = nil, stackDriftStatus: StackDriftStatus) {
+        public init(lastCheckTimestamp: Date? = nil, stackDriftStatus: StackDriftStatus) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackDriftStatus = stackDriftStatus
         }
@@ -3435,11 +3435,11 @@ extension CloudFormation {
 
     public struct StackDriftInformationSummary: AWSDecodableShape {
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
-        public let lastCheckTimestamp: TimeStamp?
+        public let lastCheckTimestamp: Date?
         /// Status of the stack's actual configuration compared to its expected template configuration.     DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: AWS CloudFormation has not checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.
         public let stackDriftStatus: StackDriftStatus
 
-        public init(lastCheckTimestamp: TimeStamp? = nil, stackDriftStatus: StackDriftStatus) {
+        public init(lastCheckTimestamp: Date? = nil, stackDriftStatus: StackDriftStatus) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackDriftStatus = stackDriftStatus
         }
@@ -3472,9 +3472,9 @@ extension CloudFormation {
         /// The name associated with a stack.
         public let stackName: String
         /// Time the status was updated.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
 
-        public init(clientRequestToken: String? = nil, eventId: String, logicalResourceId: String? = nil, physicalResourceId: String? = nil, resourceProperties: String? = nil, resourceStatus: ResourceStatus? = nil, resourceStatusReason: String? = nil, resourceType: String? = nil, stackId: String, stackName: String, timestamp: TimeStamp) {
+        public init(clientRequestToken: String? = nil, eventId: String, logicalResourceId: String? = nil, physicalResourceId: String? = nil, resourceProperties: String? = nil, resourceStatus: ResourceStatus? = nil, resourceStatusReason: String? = nil, resourceType: String? = nil, stackId: String, stackName: String, timestamp: Date) {
             self.clientRequestToken = clientRequestToken
             self.eventId = eventId
             self.logicalResourceId = logicalResourceId
@@ -3509,7 +3509,7 @@ extension CloudFormation {
         /// Status of the stack instance's actual configuration compared to the expected template and parameter configuration of the stack set to which it belongs.     DRIFTED: The stack differs from the expected template and parameter configuration of the stack set to which it belongs. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.    NOT_CHECKED: AWS CloudFormation has not checked if the stack instance differs from its expected stack set configuration.    IN_SYNC: The stack instance's actual configuration matches its expected stack set configuration.    UNKNOWN: This value is reserved for future use.
         public let driftStatus: StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection has not yet been performed.
-        public let lastDriftCheckTimestamp: TimeStamp?
+        public let lastDriftCheckTimestamp: Date?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.
         public let organizationalUnitId: String?
         /// A list of parameters from the stack set template whose values have been overridden in this stack instance.
@@ -3528,7 +3528,7 @@ extension CloudFormation {
         /// The explanation for the specific status code that is assigned to this stack instance.
         public let statusReason: String?
 
-        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, organizationalUnitId: String? = nil, parameterOverrides: [Parameter]? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
+        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, organizationalUnitId: String? = nil, parameterOverrides: [Parameter]? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
             self.driftStatus = driftStatus
             self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
@@ -3598,7 +3598,7 @@ extension CloudFormation {
         /// Status of the stack instance's actual configuration compared to the expected template and parameter configuration of the stack set to which it belongs.     DRIFTED: The stack differs from the expected template and parameter configuration of the stack set to which it belongs. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.    NOT_CHECKED: AWS CloudFormation has not checked if the stack instance differs from its expected stack set configuration.    IN_SYNC: The stack instance's actual configuration matches its expected stack set configuration.    UNKNOWN: This value is reserved for future use.
         public let driftStatus: StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection has not yet been performed.
-        public let lastDriftCheckTimestamp: TimeStamp?
+        public let lastDriftCheckTimestamp: Date?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.
         public let organizationalUnitId: String?
         /// The name of the AWS Region that the stack instance is associated with.
@@ -3614,7 +3614,7 @@ extension CloudFormation {
         /// The explanation for the specific status code assigned to this stack instance.
         public let statusReason: String?
 
-        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, organizationalUnitId: String? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
+        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, organizationalUnitId: String? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
             self.driftStatus = driftStatus
             self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
@@ -3661,9 +3661,9 @@ extension CloudFormation {
         /// The name associated with the stack.
         public let stackName: String?
         /// Time the status was updated.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
 
-        public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, logicalResourceId: String, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String, stackId: String? = nil, stackName: String? = nil, timestamp: TimeStamp) {
+        public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, logicalResourceId: String, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String, stackId: String? = nil, stackName: String? = nil, timestamp: Date) {
             self.description = description
             self.driftInformation = driftInformation
             self.logicalResourceId = logicalResourceId
@@ -3696,7 +3696,7 @@ extension CloudFormation {
         /// Information about whether the resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources.
         public let driftInformation: StackResourceDriftInformation?
         /// Time the status was updated.
-        public let lastUpdatedTimestamp: TimeStamp
+        public let lastUpdatedTimestamp: Date
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
         /// The content of the Metadata attribute declared for the resource. For more information, see Metadata Attribute in the AWS CloudFormation User Guide.
@@ -3714,7 +3714,7 @@ extension CloudFormation {
         /// The name associated with the stack.
         public let stackName: String?
 
-        public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, lastUpdatedTimestamp: TimeStamp, logicalResourceId: String, metadata: String? = nil, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String, stackId: String? = nil, stackName: String? = nil) {
+        public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, lastUpdatedTimestamp: Date, logicalResourceId: String, metadata: String? = nil, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String, stackId: String? = nil, stackName: String? = nil) {
             self.description = description
             self.driftInformation = driftInformation
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -3765,9 +3765,9 @@ extension CloudFormation {
         /// Status of the resource's actual configuration compared to its expected configuration    DELETED: The resource differs from its expected template configuration because the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected values (as defined in the stack template and any values specified as template parameters).    IN_SYNC: The resources's actual configuration matches its expected template configuration.    NOT_CHECKED: AWS CloudFormation does not currently return this value.
         public let stackResourceDriftStatus: StackResourceDriftStatus
         /// Time at which AWS CloudFormation performed drift detection on the stack resource.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
 
-        public init(actualProperties: String? = nil, expectedProperties: String? = nil, logicalResourceId: String, physicalResourceId: String? = nil, physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]? = nil, propertyDifferences: [PropertyDifference]? = nil, resourceType: String, stackId: String, stackResourceDriftStatus: StackResourceDriftStatus, timestamp: TimeStamp) {
+        public init(actualProperties: String? = nil, expectedProperties: String? = nil, logicalResourceId: String, physicalResourceId: String? = nil, physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]? = nil, propertyDifferences: [PropertyDifference]? = nil, resourceType: String, stackId: String, stackResourceDriftStatus: StackResourceDriftStatus, timestamp: Date) {
             self.actualProperties = actualProperties
             self.expectedProperties = expectedProperties
             self.logicalResourceId = logicalResourceId
@@ -3796,11 +3796,11 @@ extension CloudFormation {
 
     public struct StackResourceDriftInformation: AWSDecodableShape {
         /// When AWS CloudFormation last checked if the resource had drifted from its expected configuration.
-        public let lastCheckTimestamp: TimeStamp?
+        public let lastCheckTimestamp: Date?
         /// Status of the resource's actual configuration compared to its expected configuration    DELETED: The resource differs from its expected configuration in that it has been deleted.    MODIFIED: The resource differs from its expected configuration.    NOT_CHECKED: AWS CloudFormation has not checked if the resource differs from its expected configuration. Any resources that do not currently support drift detection have a status of NOT_CHECKED. For more information, see Resources that Support Drift Detection.     IN_SYNC: The resources's actual configuration matches its expected configuration.
         public let stackResourceDriftStatus: StackResourceDriftStatus
 
-        public init(lastCheckTimestamp: TimeStamp? = nil, stackResourceDriftStatus: StackResourceDriftStatus) {
+        public init(lastCheckTimestamp: Date? = nil, stackResourceDriftStatus: StackResourceDriftStatus) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackResourceDriftStatus = stackResourceDriftStatus
         }
@@ -3813,11 +3813,11 @@ extension CloudFormation {
 
     public struct StackResourceDriftInformationSummary: AWSDecodableShape {
         /// When AWS CloudFormation last checked if the resource had drifted from its expected configuration.
-        public let lastCheckTimestamp: TimeStamp?
+        public let lastCheckTimestamp: Date?
         /// Status of the resource's actual configuration compared to its expected configuration    DELETED: The resource differs from its expected configuration in that it has been deleted.    MODIFIED: The resource differs from its expected configuration.    NOT_CHECKED: AWS CloudFormation has not checked if the resource differs from its expected configuration. Any resources that do not currently support drift detection have a status of NOT_CHECKED. For more information, see Resources that Support Drift Detection. If you performed an ContinueUpdateRollback operation on a stack, any resources included in ResourcesToSkip will also have a status of NOT_CHECKED. For more information on skipping resources during rollback operations, see Continue Rolling Back an Update in the AWS CloudFormation User Guide.    IN_SYNC: The resources's actual configuration matches its expected configuration.
         public let stackResourceDriftStatus: StackResourceDriftStatus
 
-        public init(lastCheckTimestamp: TimeStamp? = nil, stackResourceDriftStatus: StackResourceDriftStatus) {
+        public init(lastCheckTimestamp: Date? = nil, stackResourceDriftStatus: StackResourceDriftStatus) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackResourceDriftStatus = stackResourceDriftStatus
         }
@@ -3832,7 +3832,7 @@ extension CloudFormation {
         /// Information about whether the resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources.
         public let driftInformation: StackResourceDriftInformationSummary?
         /// Time the status was updated.
-        public let lastUpdatedTimestamp: TimeStamp
+        public let lastUpdatedTimestamp: Date
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
         /// The name or unique identifier that corresponds to a physical instance ID of the resource.
@@ -3844,7 +3844,7 @@ extension CloudFormation {
         /// Type of resource. (For more information, go to  AWS Resource Types Reference in the AWS CloudFormation User Guide.)
         public let resourceType: String
 
-        public init(driftInformation: StackResourceDriftInformationSummary? = nil, lastUpdatedTimestamp: TimeStamp, logicalResourceId: String, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String) {
+        public init(driftInformation: StackResourceDriftInformationSummary? = nil, lastUpdatedTimestamp: Date, logicalResourceId: String, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String) {
             self.driftInformation = driftInformation
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.logicalResourceId = logicalResourceId
@@ -3952,11 +3952,11 @@ extension CloudFormation {
         /// The number of stack instances which match the expected template and parameter configuration of the stack set.
         public let inSyncStackInstancesCount: Int?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection has not yet been performed.
-        public let lastDriftCheckTimestamp: TimeStamp?
+        public let lastDriftCheckTimestamp: Date?
         /// The total number of stack instances belonging to this stack set.  The total number of stack instances is equal to the total of:   Stack instances that match the stack set configuration.    Stack instances that have drifted from the stack set configuration.    Stack instances where the drift detection operation has failed.   Stack instances currently being checked for drift.
         public let totalStackInstancesCount: Int?
 
-        public init(driftDetectionStatus: StackSetDriftDetectionStatus? = nil, driftedStackInstancesCount: Int? = nil, driftStatus: StackSetDriftStatus? = nil, failedStackInstancesCount: Int? = nil, inProgressStackInstancesCount: Int? = nil, inSyncStackInstancesCount: Int? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, totalStackInstancesCount: Int? = nil) {
+        public init(driftDetectionStatus: StackSetDriftDetectionStatus? = nil, driftedStackInstancesCount: Int? = nil, driftStatus: StackSetDriftStatus? = nil, failedStackInstancesCount: Int? = nil, inProgressStackInstancesCount: Int? = nil, inSyncStackInstancesCount: Int? = nil, lastDriftCheckTimestamp: Date? = nil, totalStackInstancesCount: Int? = nil) {
             self.driftDetectionStatus = driftDetectionStatus
             self.driftedStackInstancesCount = driftedStackInstancesCount
             self.driftStatus = driftStatus
@@ -3985,11 +3985,11 @@ extension CloudFormation {
         /// The Amazon Resource Number (ARN) of the IAM role used to perform this stack set operation.  Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Define Permissions for Multiple Administrators in the AWS CloudFormation User Guide.
         public let administrationRoleARN: String?
         /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because AWS CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested Regions, before actually creating the first stacks.
-        public let creationTimestamp: TimeStamp?
+        public let creationTimestamp: Date?
         /// [Service-managed permissions] The AWS Organizations accounts affected by the stack operation.
         public let deploymentTargets: DeploymentTargets?
         /// The time at which the stack set operation ended, across all accounts and Regions specified. Note that this doesn't necessarily mean that the stack set operation was successful, or even attempted, in each account or Region.
-        public let endTimestamp: TimeStamp?
+        public let endTimestamp: Date?
         /// The name of the IAM execution role used to create or update the stack set. Use customized execution roles to control which stack resources users and groups can include in their stack sets.
         public let executionRoleName: String?
         /// The unique ID of a stack set operation.
@@ -4005,7 +4005,7 @@ extension CloudFormation {
         /// The status of the operation.     FAILED: The operation exceeded the specified failure tolerance. The failure tolerance value that you've set for an operation is applied for each Region during stack create and update operations. If the number of failed stacks within a Region exceeds the failure tolerance, the status of the operation in the Region is set to FAILED. This in turn sets the status of the operation as a whole to FAILED, and AWS CloudFormation cancels the operation in any remaining Regions.    QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the stack set operation status codes in the AWS CloudFormation User Guide.    RUNNING: The operation is currently being performed.    STOPPED: The user has cancelled the operation.    STOPPING: The operation is in the process of stopping, at user request.     SUCCEEDED: The operation completed creating or updating all the specified stacks without exceeding the failure tolerance for the operation.
         public let status: StackSetOperationStatus?
 
-        public init(action: StackSetOperationAction? = nil, administrationRoleARN: String? = nil, creationTimestamp: TimeStamp? = nil, deploymentTargets: DeploymentTargets? = nil, endTimestamp: TimeStamp? = nil, executionRoleName: String? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, retainStacks: Bool? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, status: StackSetOperationStatus? = nil) {
+        public init(action: StackSetOperationAction? = nil, administrationRoleARN: String? = nil, creationTimestamp: Date? = nil, deploymentTargets: DeploymentTargets? = nil, endTimestamp: Date? = nil, executionRoleName: String? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, retainStacks: Bool? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, status: StackSetOperationStatus? = nil) {
             self.action = action
             self.administrationRoleARN = administrationRoleARN
             self.creationTimestamp = creationTimestamp
@@ -4115,15 +4115,15 @@ extension CloudFormation {
         /// The type of operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack instances that are associated with the specified stack set. Update operations affect both the stack set itself as well as all associated stack set instances.
         public let action: StackSetOperationAction?
         /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because AWS CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested Regions, before actually creating the first stacks.
-        public let creationTimestamp: TimeStamp?
+        public let creationTimestamp: Date?
         /// The time at which the stack set operation ended, across all accounts and Regions specified. Note that this doesn't necessarily mean that the stack set operation was successful, or even attempted, in each account or Region.
-        public let endTimestamp: TimeStamp?
+        public let endTimestamp: Date?
         /// The unique ID of the stack set operation.
         public let operationId: String?
         /// The overall status of the operation.    FAILED: The operation exceeded the specified failure tolerance. The failure tolerance value that you've set for an operation is applied for each Region during stack create and update operations. If the number of failed stacks within a Region exceeds the failure tolerance, the status of the operation in the Region is set to FAILED. This in turn sets the status of the operation as a whole to FAILED, and AWS CloudFormation cancels the operation in any remaining Regions.    QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the stack set operation status codes in the AWS CloudFormation User Guide.    RUNNING: The operation is currently being performed.    STOPPED: The user has cancelled the operation.    STOPPING: The operation is in the process of stopping, at user request.     SUCCEEDED: The operation completed creating or updating all the specified stacks without exceeding the failure tolerance for the operation.
         public let status: StackSetOperationStatus?
 
-        public init(action: StackSetOperationAction? = nil, creationTimestamp: TimeStamp? = nil, endTimestamp: TimeStamp? = nil, operationId: String? = nil, status: StackSetOperationStatus? = nil) {
+        public init(action: StackSetOperationAction? = nil, creationTimestamp: Date? = nil, endTimestamp: Date? = nil, operationId: String? = nil, status: StackSetOperationStatus? = nil) {
             self.action = action
             self.creationTimestamp = creationTimestamp
             self.endTimestamp = endTimestamp
@@ -4148,7 +4148,7 @@ extension CloudFormation {
         /// Status of the stack set's actual configuration compared to its expected template and parameter configuration. A stack set is considered to have drifted if one or more of its stack instances have drifted from their expected template and parameter configuration.    DRIFTED: One or more of the stack instances belonging to the stack set stack differs from the expected template and parameter configuration. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.    NOT_CHECKED: AWS CloudFormation has not checked the stack set for drift.    IN_SYNC: All of the stack instances belonging to the stack set stack match from the expected template and parameter configuration.    UNKNOWN: This value is reserved for future use.
         public let driftStatus: StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection has not yet been performed.
-        public let lastDriftCheckTimestamp: TimeStamp?
+        public let lastDriftCheckTimestamp: Date?
         /// Describes how the IAM roles required for stack set operations are created.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant Self-Managed Stack Set Permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by AWS Organizations. For more information, see Grant Service-Managed Stack Set Permissions.
         public let permissionModel: PermissionModels?
         /// The ID of the stack set.
@@ -4158,7 +4158,7 @@ extension CloudFormation {
         /// The status of the stack set.
         public let status: StackSetStatus?
 
-        public init(autoDeployment: AutoDeployment? = nil, description: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, permissionModel: PermissionModels? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil) {
+        public init(autoDeployment: AutoDeployment? = nil, description: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, permissionModel: PermissionModels? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil) {
             self.autoDeployment = autoDeployment
             self.description = description
             self.driftStatus = driftStatus
@@ -4183,13 +4183,13 @@ extension CloudFormation {
 
     public struct StackSummary: AWSDecodableShape {
         /// The time the stack was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The time the stack was deleted.
-        public let deletionTime: TimeStamp?
+        public let deletionTime: Date?
         /// Summarizes information on whether a stack's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources.
         public let driftInformation: StackDriftInformationSummary?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see Working with Nested Stacks in the AWS CloudFormation User Guide.
         public let parentId: String?
         /// For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see Working with Nested Stacks in the AWS CloudFormation User Guide.
@@ -4205,7 +4205,7 @@ extension CloudFormation {
         /// The template description of the template used to create the stack.
         public let templateDescription: String?
 
-        public init(creationTime: TimeStamp, deletionTime: TimeStamp? = nil, driftInformation: StackDriftInformationSummary? = nil, lastUpdatedTime: TimeStamp? = nil, parentId: String? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String, stackStatus: StackStatus, stackStatusReason: String? = nil, templateDescription: String? = nil) {
+        public init(creationTime: Date, deletionTime: Date? = nil, driftInformation: StackDriftInformationSummary? = nil, lastUpdatedTime: Date? = nil, parentId: String? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String, stackStatus: StackStatus, stackStatusReason: String? = nil, templateDescription: String? = nil) {
             self.creationTime = creationTime
             self.deletionTime = deletionTime
             self.driftInformation = driftInformation
@@ -4316,7 +4316,7 @@ extension CloudFormation {
         /// The description of the type.
         public let description: String?
         /// When the current default version of the type was registered.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// The kind of type.
         public let `type`: RegistryType?
         /// The Amazon Resource Name (ARN) of the type.
@@ -4324,7 +4324,7 @@ extension CloudFormation {
         /// The name of the type.
         public let typeName: String?
 
-        public init(defaultVersionId: String? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, type: RegistryType? = nil, typeArn: String? = nil, typeName: String? = nil) {
+        public init(defaultVersionId: String? = nil, description: String? = nil, lastUpdated: Date? = nil, type: RegistryType? = nil, typeArn: String? = nil, typeName: String? = nil) {
             self.defaultVersionId = defaultVersionId
             self.description = description
             self.lastUpdated = lastUpdated
@@ -4351,7 +4351,7 @@ extension CloudFormation {
         /// Whether the specified type version is set as the default version.
         public let isDefaultVersion: Bool?
         /// When the version was registered.
-        public let timeCreated: TimeStamp?
+        public let timeCreated: Date?
         /// The kind of type.
         public let `type`: RegistryType?
         /// The name of the type.
@@ -4359,7 +4359,7 @@ extension CloudFormation {
         /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
         public let versionId: String?
 
-        public init(arn: String? = nil, description: String? = nil, isDefaultVersion: Bool? = nil, timeCreated: TimeStamp? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, isDefaultVersion: Bool? = nil, timeCreated: Date? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.description = description
             self.isDefaultVersion = isDefaultVersion

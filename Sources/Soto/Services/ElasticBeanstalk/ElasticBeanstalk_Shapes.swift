@@ -215,9 +215,9 @@ extension ElasticBeanstalk {
         @OptionalCustomCoding<StandardArrayCoder>
         public var configurationTemplates: [String]?
         /// The date when the application was created.
-        public let dateCreated: TimeStamp?
+        public let dateCreated: Date?
         /// The date when the application was last modified.
-        public let dateUpdated: TimeStamp?
+        public let dateUpdated: Date?
         /// User-defined description of the application.
         public let description: String?
         /// The lifecycle settings for the application.
@@ -226,7 +226,7 @@ extension ElasticBeanstalk {
         @OptionalCustomCoding<StandardArrayCoder>
         public var versions: [String]?
 
-        public init(applicationArn: String? = nil, applicationName: String? = nil, configurationTemplates: [String]? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, versions: [String]? = nil) {
+        public init(applicationArn: String? = nil, applicationName: String? = nil, configurationTemplates: [String]? = nil, dateCreated: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, versions: [String]? = nil) {
             self.applicationArn = applicationArn
             self.applicationName = applicationName
             self.configurationTemplates = configurationTemplates
@@ -343,9 +343,9 @@ extension ElasticBeanstalk {
         /// Reference to the artifact from the AWS CodeBuild build.
         public let buildArn: String?
         /// The creation date of the application version.
-        public let dateCreated: TimeStamp?
+        public let dateCreated: Date?
         /// The last modified date of the application version.
-        public let dateUpdated: TimeStamp?
+        public let dateUpdated: Date?
         /// The description of the application version.
         public let description: String?
         /// If the version's source code was retrieved from AWS CodeCommit, the location of the source code for the application version.
@@ -357,7 +357,7 @@ extension ElasticBeanstalk {
         /// A unique identifier for the application version.
         public let versionLabel: String?
 
-        public init(applicationName: String? = nil, applicationVersionArn: String? = nil, buildArn: String? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, sourceBuildInformation: SourceBuildInformation? = nil, sourceBundle: S3Location? = nil, status: ApplicationVersionStatus? = nil, versionLabel: String? = nil) {
+        public init(applicationName: String? = nil, applicationVersionArn: String? = nil, buildArn: String? = nil, dateCreated: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, sourceBuildInformation: SourceBuildInformation? = nil, sourceBundle: S3Location? = nil, status: ApplicationVersionStatus? = nil, versionLabel: String? = nil) {
             self.applicationName = applicationName
             self.applicationVersionArn = applicationVersionArn
             self.buildArn = buildArn
@@ -781,9 +781,9 @@ extension ElasticBeanstalk {
         /// The name of the application associated with this configuration set.
         public let applicationName: String?
         /// The date (in UTC time) when this configuration set was created.
-        public let dateCreated: TimeStamp?
+        public let dateCreated: Date?
         /// The date (in UTC time) when this configuration set was last modified.
-        public let dateUpdated: TimeStamp?
+        public let dateUpdated: Date?
         ///  If this configuration set is associated with an environment, the DeploymentStatus parameter indicates the deployment status of this configuration set:     null: This configuration is not associated with a running environment.    pending: This is a draft configuration that is not deployed to the associated environment but is in the process of deploying.    deployed: This is the configuration that is currently deployed to the associated running environment.    failed: This is a draft configuration that failed to successfully deploy.
         public let deploymentStatus: ConfigurationDeploymentStatus?
         /// Describes this configuration set.
@@ -800,7 +800,7 @@ extension ElasticBeanstalk {
         ///  If not null, the name of the configuration template for this configuration set.
         public let templateName: String?
 
-        public init(applicationName: String? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, deploymentStatus: ConfigurationDeploymentStatus? = nil, description: String? = nil, environmentName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, templateName: String? = nil) {
+        public init(applicationName: String? = nil, dateCreated: Date? = nil, dateUpdated: Date? = nil, deploymentStatus: ConfigurationDeploymentStatus? = nil, description: String? = nil, environmentName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, templateName: String? = nil) {
             self.applicationName = applicationName
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -1329,13 +1329,13 @@ extension ElasticBeanstalk {
         /// The ID of the deployment. This number increases by one each time that you deploy source code or change instance configuration settings.
         public let deploymentId: Int64?
         /// For in-progress deployments, the time that the deployment started. For completed deployments, the time that the deployment ended.
-        public let deploymentTime: TimeStamp?
+        public let deploymentTime: Date?
         /// The status of the deployment:    In Progress : The deployment is in progress.    Deployed : The deployment succeeded.    Failed : The deployment failed.
         public let status: String?
         /// The version label of the application version in the deployment.
         public let versionLabel: String?
 
-        public init(deploymentId: Int64? = nil, deploymentTime: TimeStamp? = nil, status: String? = nil, versionLabel: String? = nil) {
+        public init(deploymentId: Int64? = nil, deploymentTime: Date? = nil, status: String? = nil, versionLabel: String? = nil) {
             self.deploymentId = deploymentId
             self.deploymentTime = deploymentTime
             self.status = status
@@ -1539,11 +1539,11 @@ extension ElasticBeanstalk {
         /// Summary health information for the instances in the environment.
         public let instancesHealth: InstanceHealthSummary?
         /// The date and time that the health information was retrieved.
-        public let refreshedAt: TimeStamp?
+        public let refreshedAt: Date?
         /// The environment's operational status. Ready, Launching, Updating, Terminating, or Terminated.
         public let status: EnvironmentHealth?
 
-        public init(applicationMetrics: ApplicationMetrics? = nil, causes: [String]? = nil, color: String? = nil, environmentName: String? = nil, healthStatus: String? = nil, instancesHealth: InstanceHealthSummary? = nil, refreshedAt: TimeStamp? = nil, status: EnvironmentHealth? = nil) {
+        public init(applicationMetrics: ApplicationMetrics? = nil, causes: [String]? = nil, color: String? = nil, environmentName: String? = nil, healthStatus: String? = nil, instancesHealth: InstanceHealthSummary? = nil, refreshedAt: Date? = nil, status: EnvironmentHealth? = nil) {
             self.applicationMetrics = applicationMetrics
             self.causes = causes
             self.color = color
@@ -1681,7 +1681,7 @@ extension ElasticBeanstalk {
         @OptionalCustomCoding<StandardArrayCoder>
         public var environmentNames: [String]?
         ///  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed.
-        public let includedDeletedBackTo: TimeStamp?
+        public let includedDeletedBackTo: Date?
         /// Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
         public let includeDeleted: Bool?
         /// For a paginated request. Specify a maximum number of environments to include in each response. If no MaxRecords is specified, all available environments are retrieved in a single response.
@@ -1691,7 +1691,7 @@ extension ElasticBeanstalk {
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
         public let versionLabel: String?
 
-        public init(applicationName: String? = nil, environmentIds: [String]? = nil, environmentNames: [String]? = nil, includedDeletedBackTo: TimeStamp? = nil, includeDeleted: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil, versionLabel: String? = nil) {
+        public init(applicationName: String? = nil, environmentIds: [String]? = nil, environmentNames: [String]? = nil, includedDeletedBackTo: Date? = nil, includeDeleted: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil, versionLabel: String? = nil) {
             self.applicationName = applicationName
             self.environmentIds = environmentIds
             self.environmentNames = environmentNames
@@ -1731,7 +1731,7 @@ extension ElasticBeanstalk {
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
         public let applicationName: String?
         ///  If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
         public let environmentId: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
@@ -1747,13 +1747,13 @@ extension ElasticBeanstalk {
         /// If specified, limits the events returned from this call to include only those with the specified severity or higher.
         public let severity: EventSeverity?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
         public let templateName: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
         public let versionLabel: String?
 
-        public init(applicationName: String? = nil, endTime: TimeStamp? = nil, environmentId: String? = nil, environmentName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, platformArn: String? = nil, requestId: String? = nil, severity: EventSeverity? = nil, startTime: TimeStamp? = nil, templateName: String? = nil, versionLabel: String? = nil) {
+        public init(applicationName: String? = nil, endTime: Date? = nil, environmentId: String? = nil, environmentName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, platformArn: String? = nil, requestId: String? = nil, severity: EventSeverity? = nil, startTime: Date? = nil, templateName: String? = nil, versionLabel: String? = nil) {
             self.applicationName = applicationName
             self.endTime = endTime
             self.environmentId = environmentId
@@ -1837,9 +1837,9 @@ extension ElasticBeanstalk {
         /// Pagination token for the next page of results, if available.
         public let nextToken: String?
         /// The date and time that the health information was retrieved.
-        public let refreshedAt: TimeStamp?
+        public let refreshedAt: Date?
 
-        public init(instanceHealthList: [SingleInstanceHealth]? = nil, nextToken: String? = nil, refreshedAt: TimeStamp? = nil) {
+        public init(instanceHealthList: [SingleInstanceHealth]? = nil, nextToken: String? = nil, refreshedAt: Date? = nil) {
             self.instanceHealthList = instanceHealthList
             self.nextToken = nextToken
             self.refreshedAt = refreshedAt
@@ -1904,9 +1904,9 @@ extension ElasticBeanstalk {
         /// The URL to the CNAME for this environment.
         public let cname: String?
         /// The creation date for this environment.
-        public let dateCreated: TimeStamp?
+        public let dateCreated: Date?
         /// The last modified date for this environment.
-        public let dateUpdated: TimeStamp?
+        public let dateUpdated: Date?
         /// Describes this environment.
         public let description: String?
         /// For load-balanced, autoscaling environments, the URL to the LoadBalancer. For single-instance environments, the IP address of the instance.
@@ -1941,7 +1941,7 @@ extension ElasticBeanstalk {
         /// The application version deployed in this environment.
         public let versionLabel: String?
 
-        public init(abortableOperationInProgress: Bool? = nil, applicationName: String? = nil, cname: String? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, endpointURL: String? = nil, environmentArn: String? = nil, environmentId: String? = nil, environmentLinks: [EnvironmentLink]? = nil, environmentName: String? = nil, health: EnvironmentHealth? = nil, healthStatus: EnvironmentHealthStatus? = nil, operationsRole: String? = nil, platformArn: String? = nil, resources: EnvironmentResourcesDescription? = nil, solutionStackName: String? = nil, status: EnvironmentStatus? = nil, templateName: String? = nil, tier: EnvironmentTier? = nil, versionLabel: String? = nil) {
+        public init(abortableOperationInProgress: Bool? = nil, applicationName: String? = nil, cname: String? = nil, dateCreated: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, endpointURL: String? = nil, environmentArn: String? = nil, environmentId: String? = nil, environmentLinks: [EnvironmentLink]? = nil, environmentName: String? = nil, health: EnvironmentHealth? = nil, healthStatus: EnvironmentHealthStatus? = nil, operationsRole: String? = nil, platformArn: String? = nil, resources: EnvironmentResourcesDescription? = nil, solutionStackName: String? = nil, status: EnvironmentStatus? = nil, templateName: String? = nil, tier: EnvironmentTier? = nil, versionLabel: String? = nil) {
             self.abortableOperationInProgress = abortableOperationInProgress
             self.applicationName = applicationName
             self.cname = cname
@@ -2016,9 +2016,9 @@ extension ElasticBeanstalk {
         /// The retrieved information. Currently contains a presigned Amazon S3 URL. The files are deleted after 15 minutes. Anyone in possession of this URL can access the files before they are deleted. Make the URL available only to trusted parties.
         public let message: String?
         /// The time stamp when this information was retrieved.
-        public let sampleTimestamp: TimeStamp?
+        public let sampleTimestamp: Date?
 
-        public init(ec2InstanceId: String? = nil, infoType: EnvironmentInfoType? = nil, message: String? = nil, sampleTimestamp: TimeStamp? = nil) {
+        public init(ec2InstanceId: String? = nil, infoType: EnvironmentInfoType? = nil, message: String? = nil, sampleTimestamp: Date? = nil) {
             self.ec2InstanceId = ec2InstanceId
             self.infoType = infoType
             self.message = message
@@ -2151,7 +2151,7 @@ extension ElasticBeanstalk {
         /// The name of the environment associated with this event.
         public let environmentName: String?
         /// The date when the event occurred.
-        public let eventDate: TimeStamp?
+        public let eventDate: Date?
         /// The event message.
         public let message: String?
         /// The ARN of the platform version.
@@ -2165,7 +2165,7 @@ extension ElasticBeanstalk {
         /// The release label for the application version associated with this event.
         public let versionLabel: String?
 
-        public init(applicationName: String? = nil, environmentName: String? = nil, eventDate: TimeStamp? = nil, message: String? = nil, platformArn: String? = nil, requestId: String? = nil, severity: EventSeverity? = nil, templateName: String? = nil, versionLabel: String? = nil) {
+        public init(applicationName: String? = nil, environmentName: String? = nil, eventDate: Date? = nil, message: String? = nil, platformArn: String? = nil, requestId: String? = nil, severity: EventSeverity? = nil, templateName: String? = nil, versionLabel: String? = nil) {
             self.applicationName = applicationName
             self.environmentName = environmentName
             self.eventDate = eventDate
@@ -2511,9 +2511,9 @@ extension ElasticBeanstalk {
         /// The status of the managed action. If the action is Scheduled, you can apply it immediately with ApplyEnvironmentManagedAction.
         public let status: ActionStatus?
         /// The start time of the maintenance window in which the managed action will execute.
-        public let windowStartTime: TimeStamp?
+        public let windowStartTime: Date?
 
-        public init(actionDescription: String? = nil, actionId: String? = nil, actionType: ActionType? = nil, status: ActionStatus? = nil, windowStartTime: TimeStamp? = nil) {
+        public init(actionDescription: String? = nil, actionId: String? = nil, actionType: ActionType? = nil, status: ActionStatus? = nil, windowStartTime: Date? = nil) {
             self.actionDescription = actionDescription
             self.actionId = actionId
             self.actionType = actionType
@@ -2538,17 +2538,17 @@ extension ElasticBeanstalk {
         /// The type of the managed action.
         public let actionType: ActionType?
         /// The date and time that the action started executing.
-        public let executedTime: TimeStamp?
+        public let executedTime: Date?
         /// If the action failed, a description of the failure.
         public let failureDescription: String?
         /// If the action failed, the type of failure.
         public let failureType: FailureType?
         /// The date and time that the action finished executing.
-        public let finishedTime: TimeStamp?
+        public let finishedTime: Date?
         /// The status of the action.
         public let status: ActionHistoryStatus?
 
-        public init(actionDescription: String? = nil, actionId: String? = nil, actionType: ActionType? = nil, executedTime: TimeStamp? = nil, failureDescription: String? = nil, failureType: FailureType? = nil, finishedTime: TimeStamp? = nil, status: ActionHistoryStatus? = nil) {
+        public init(actionDescription: String? = nil, actionId: String? = nil, actionType: ActionType? = nil, executedTime: Date? = nil, failureDescription: String? = nil, failureType: FailureType? = nil, finishedTime: Date? = nil, status: ActionHistoryStatus? = nil) {
             self.actionDescription = actionDescription
             self.actionId = actionId
             self.actionType = actionType
@@ -2691,9 +2691,9 @@ extension ElasticBeanstalk {
         @OptionalCustomCoding<StandardArrayCoder>
         public var customAmiList: [CustomAmi]?
         /// The date when the platform version was created.
-        public let dateCreated: TimeStamp?
+        public let dateCreated: Date?
         /// The date when the platform version was last updated.
-        public let dateUpdated: TimeStamp?
+        public let dateUpdated: Date?
         /// The description of the platform version.
         public let description: String?
         /// The frameworks supported by the platform version.
@@ -2735,7 +2735,7 @@ extension ElasticBeanstalk {
         @OptionalCustomCoding<StandardArrayCoder>
         public var supportedTierList: [String]?
 
-        public init(customAmiList: [CustomAmi]? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, frameworks: [PlatformFramework]? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformBranchLifecycleState: String? = nil, platformBranchName: String? = nil, platformCategory: String? = nil, platformLifecycleState: String? = nil, platformName: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil, solutionStackName: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
+        public init(customAmiList: [CustomAmi]? = nil, dateCreated: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, frameworks: [PlatformFramework]? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformBranchLifecycleState: String? = nil, platformBranchName: String? = nil, platformCategory: String? = nil, platformLifecycleState: String? = nil, platformName: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil, solutionStackName: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
             self.customAmiList = customAmiList
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -3149,11 +3149,11 @@ extension ElasticBeanstalk {
         /// The instance's type.
         public let instanceType: String?
         /// The time at which the EC2 instance was launched.
-        public let launchedAt: TimeStamp?
+        public let launchedAt: Date?
         /// Operating system metrics from the instance.
         public let system: SystemStatus?
 
-        public init(applicationMetrics: ApplicationMetrics? = nil, availabilityZone: String? = nil, causes: [String]? = nil, color: String? = nil, deployment: Deployment? = nil, healthStatus: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchedAt: TimeStamp? = nil, system: SystemStatus? = nil) {
+        public init(applicationMetrics: ApplicationMetrics? = nil, availabilityZone: String? = nil, causes: [String]? = nil, color: String? = nil, deployment: Deployment? = nil, healthStatus: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchedAt: Date? = nil, system: SystemStatus? = nil) {
             self.applicationMetrics = applicationMetrics
             self.availabilityZone = availabilityZone
             self.causes = causes

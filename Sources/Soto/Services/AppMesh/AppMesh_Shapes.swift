@@ -1612,11 +1612,11 @@ extension AppMesh {
         /// The full Amazon Resource Name (ARN) for the gateway route.
         public let arn: String
         /// The Unix epoch timestamp in seconds for when the resource was created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The name of the gateway route.
         public let gatewayRouteName: String
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
-        public let lastUpdatedAt: TimeStamp
+        public let lastUpdatedAt: Date
         /// The name of the service mesh that the resource resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
@@ -1630,7 +1630,7 @@ extension AppMesh {
         /// The virtual gateway that the gateway route is associated with.
         public let virtualGatewayName: String
 
-        public init(arn: String, createdAt: TimeStamp, gatewayRouteName: String, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualGatewayName: String) {
+        public init(arn: String, createdAt: Date, gatewayRouteName: String, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualGatewayName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.gatewayRouteName = gatewayRouteName
@@ -3124,9 +3124,9 @@ extension AppMesh {
         /// The full Amazon Resource Name (ARN) of the service mesh.
         public let arn: String
         /// The Unix epoch timestamp in seconds for when the resource was created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
-        public let lastUpdatedAt: TimeStamp
+        public let lastUpdatedAt: Date
         /// The name of the service mesh.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
@@ -3138,7 +3138,7 @@ extension AppMesh {
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
 
-        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64) {
+        public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -3211,9 +3211,9 @@ extension AppMesh {
         /// The full Amazon Resource Name (ARN) for the resource.
         public let arn: String
         /// The Unix epoch timestamp in seconds for when the resource was created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
-        public let lastUpdatedAt: TimeStamp
+        public let lastUpdatedAt: Date
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
         ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
@@ -3225,7 +3225,7 @@ extension AppMesh {
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
 
-        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshOwner: String, resourceOwner: String, uid: String, version: Int64) {
+        public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshOwner: String, resourceOwner: String, uid: String, version: Int64) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -3283,9 +3283,9 @@ extension AppMesh {
         /// The full Amazon Resource Name (ARN) for the route.
         public let arn: String
         /// The Unix epoch timestamp in seconds for when the resource was created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
-        public let lastUpdatedAt: TimeStamp
+        public let lastUpdatedAt: Date
         /// The name of the service mesh that the route resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
@@ -3301,7 +3301,7 @@ extension AppMesh {
         /// The virtual router that the route is associated with.
         public let virtualRouterName: String
 
-        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, routeName: String, version: Int64, virtualRouterName: String) {
+        public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, routeName: String, version: Int64, virtualRouterName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -4400,9 +4400,9 @@ extension AppMesh {
         /// The full Amazon Resource Name (ARN) for the resource.
         public let arn: String
         /// The Unix epoch timestamp in seconds for when the resource was created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
-        public let lastUpdatedAt: TimeStamp
+        public let lastUpdatedAt: Date
         /// The name of the service mesh that the resource resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
@@ -4416,7 +4416,7 @@ extension AppMesh {
         /// The name of the resource.
         public let virtualGatewayName: String
 
-        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualGatewayName: String) {
+        public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualGatewayName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -4593,9 +4593,9 @@ extension AppMesh {
         /// The full Amazon Resource Name (ARN) for the virtual node.
         public let arn: String
         /// The Unix epoch timestamp in seconds for when the resource was created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
-        public let lastUpdatedAt: TimeStamp
+        public let lastUpdatedAt: Date
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
@@ -4609,7 +4609,7 @@ extension AppMesh {
         /// The name of the virtual node.
         public let virtualNodeName: String
 
-        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualNodeName: String) {
+        public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualNodeName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -4758,9 +4758,9 @@ extension AppMesh {
         /// The full Amazon Resource Name (ARN) for the virtual router.
         public let arn: String
         /// The Unix epoch timestamp in seconds for when the resource was created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
-        public let lastUpdatedAt: TimeStamp
+        public let lastUpdatedAt: Date
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
@@ -4774,7 +4774,7 @@ extension AppMesh {
         /// The name of the virtual router.
         public let virtualRouterName: String
 
-        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualRouterName: String) {
+        public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualRouterName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -4925,9 +4925,9 @@ extension AppMesh {
         /// The full Amazon Resource Name (ARN) for the virtual service.
         public let arn: String
         /// The Unix epoch timestamp in seconds for when the resource was created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
-        public let lastUpdatedAt: TimeStamp
+        public let lastUpdatedAt: Date
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
         /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
@@ -4941,7 +4941,7 @@ extension AppMesh {
         /// The name of the virtual service.
         public let virtualServiceName: String
 
-        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualServiceName: String) {
+        public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualServiceName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt

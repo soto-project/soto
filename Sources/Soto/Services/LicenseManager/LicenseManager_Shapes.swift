@@ -55,9 +55,9 @@ extension LicenseManager {
 
     public struct AutomatedDiscoveryInformation: AWSDecodableShape {
         /// Time that automated discovery last ran.
-        public let lastRunTime: TimeStamp?
+        public let lastRunTime: Date?
 
-        public init(lastRunTime: TimeStamp? = nil) {
+        public init(lastRunTime: Date? = nil) {
             self.lastRunTime = lastRunTime
         }
 
@@ -382,7 +382,7 @@ extension LicenseManager {
 
     public struct LicenseConfigurationAssociation: AWSDecodableShape {
         /// Time when the license configuration was associated with the resource.
-        public let associationTime: TimeStamp?
+        public let associationTime: Date?
         /// Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// ID of the AWS account that owns the resource consuming licenses.
@@ -390,7 +390,7 @@ extension LicenseManager {
         /// Type of server resource.
         public let resourceType: ResourceType?
 
-        public init(associationTime: TimeStamp? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
+        public init(associationTime: Date? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
             self.associationTime = associationTime
             self.resourceArn = resourceArn
             self.resourceOwnerId = resourceOwnerId
@@ -407,7 +407,7 @@ extension LicenseManager {
 
     public struct LicenseConfigurationUsage: AWSDecodableShape {
         /// Time when the license configuration was initially associated with the resource.
-        public let associationTime: TimeStamp?
+        public let associationTime: Date?
         /// Number of licenses consumed by the resource.
         public let consumedLicenses: Int64?
         /// Amazon Resource Name (ARN) of the resource.
@@ -419,7 +419,7 @@ extension LicenseManager {
         /// Type of resource.
         public let resourceType: ResourceType?
 
-        public init(associationTime: TimeStamp? = nil, consumedLicenses: Int64? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceStatus: String? = nil, resourceType: ResourceType? = nil) {
+        public init(associationTime: Date? = nil, consumedLicenses: Int64? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceStatus: String? = nil, resourceType: ResourceType? = nil) {
             self.associationTime = associationTime
             self.consumedLicenses = consumedLicenses
             self.resourceArn = resourceArn
@@ -442,7 +442,7 @@ extension LicenseManager {
         /// Error message.
         public let errorMessage: String?
         /// Failure time.
-        public let failureTime: TimeStamp?
+        public let failureTime: Date?
         /// Reserved.
         public let metadataList: [Metadata]?
         /// Name of the operation.
@@ -456,7 +456,7 @@ extension LicenseManager {
         /// Resource type.
         public let resourceType: ResourceType?
 
-        public init(errorMessage: String? = nil, failureTime: TimeStamp? = nil, metadataList: [Metadata]? = nil, operationName: String? = nil, operationRequestedBy: String? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
+        public init(errorMessage: String? = nil, failureTime: Date? = nil, metadataList: [Metadata]? = nil, operationName: String? = nil, operationRequestedBy: String? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
             self.errorMessage = errorMessage
             self.failureTime = failureTime
             self.metadataList = metadataList

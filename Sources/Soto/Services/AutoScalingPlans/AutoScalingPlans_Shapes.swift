@@ -256,11 +256,11 @@ extension AutoScalingPlans {
 
     public struct Datapoint: AWSDecodableShape {
         /// The time stamp for the data point in UTC format.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         /// The value of the data point.
         public let value: Double?
 
-        public init(timestamp: TimeStamp? = nil, value: Double? = nil) {
+        public init(timestamp: Date? = nil, value: Double? = nil) {
             self.timestamp = timestamp
             self.value = value
         }
@@ -405,7 +405,7 @@ extension AutoScalingPlans {
 
     public struct GetScalingPlanResourceForecastDataRequest: AWSEncodableShape {
         /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days.  Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The type of forecast data to get.    LoadForecast: The load metric forecast.     CapacityForecast: The capacity forecast.     ScheduledActionMinCapacity: The minimum capacity for each scheduled scaling action. This data is calculated as the larger of two values: the capacity forecast or the minimum capacity in the scaling instruction.    ScheduledActionMaxCapacity: The maximum capacity for each scheduled scaling action. The calculation used is determined by the predictive scaling maximum capacity behavior setting in the scaling instruction.
         public let forecastDataType: ForecastDataType
         /// The ID of the resource. This string consists of the resource type and unique identifier.    Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.
@@ -419,9 +419,9 @@ extension AutoScalingPlans {
         /// The namespace of the AWS service.
         public let serviceNamespace: ServiceNamespace
         /// The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, forecastDataType: ForecastDataType, resourceId: String, scalableDimension: ScalableDimension, scalingPlanName: String, scalingPlanVersion: Int64, serviceNamespace: ServiceNamespace, startTime: TimeStamp) {
+        public init(endTime: Date, forecastDataType: ForecastDataType, resourceId: String, scalableDimension: ScalableDimension, scalingPlanName: String, scalingPlanVersion: Int64, serviceNamespace: ServiceNamespace, startTime: Date) {
             self.endTime = endTime
             self.forecastDataType = forecastDataType
             self.resourceId = resourceId
@@ -605,7 +605,7 @@ extension AutoScalingPlans {
         /// The application source.
         public let applicationSource: ApplicationSource
         /// The Unix time stamp when the scaling plan was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The scaling instructions.
         public let scalingInstructions: [ScalingInstruction]
         /// The name of the scaling plan.
@@ -617,9 +617,9 @@ extension AutoScalingPlans {
         /// A simple message about the current status of the scaling plan.
         public let statusMessage: String?
         /// The Unix time stamp when the scaling plan entered the current status.
-        public let statusStartTime: TimeStamp?
+        public let statusStartTime: Date?
 
-        public init(applicationSource: ApplicationSource, creationTime: TimeStamp? = nil, scalingInstructions: [ScalingInstruction], scalingPlanName: String, scalingPlanVersion: Int64, statusCode: ScalingPlanStatusCode, statusMessage: String? = nil, statusStartTime: TimeStamp? = nil) {
+        public init(applicationSource: ApplicationSource, creationTime: Date? = nil, scalingInstructions: [ScalingInstruction], scalingPlanName: String, scalingPlanVersion: Int64, statusCode: ScalingPlanStatusCode, statusMessage: String? = nil, statusStartTime: Date? = nil) {
             self.applicationSource = applicationSource
             self.creationTime = creationTime
             self.scalingInstructions = scalingInstructions

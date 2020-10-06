@@ -289,7 +289,7 @@ extension GroundStation {
         /// Status of a contact.
         public let contactStatus: ContactStatus?
         /// End time of a contact.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Error message of a contact.
         public let errorMessage: String?
         /// Name of a ground station.
@@ -299,19 +299,19 @@ extension GroundStation {
         /// ARN of a mission profile.
         public let missionProfileArn: String?
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
-        public let postPassEndTime: TimeStamp?
+        public let postPassEndTime: Date?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
-        public let prePassStartTime: TimeStamp?
+        public let prePassStartTime: Date?
         /// Region of a contact.
         public let region: String?
         /// ARN of a satellite.
         public let satelliteArn: String?
         /// Start time of a contact.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// Tags assigned to a contact.
         public let tags: [String: String]?
 
-        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: Date? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.endTime = endTime
@@ -666,7 +666,7 @@ extension GroundStation {
         /// List describing source and destination details for each dataflow edge.
         public let dataflowList: [DataflowDetail]?
         /// End time of a contact.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Error message for a contact.
         public let errorMessage: String?
         /// Ground station for a contact.
@@ -676,19 +676,19 @@ extension GroundStation {
         /// ARN of a mission profile.
         public let missionProfileArn: String?
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
-        public let postPassEndTime: TimeStamp?
+        public let postPassEndTime: Date?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
-        public let prePassStartTime: TimeStamp?
+        public let prePassStartTime: Date?
         /// Region of a contact.
         public let region: String?
         /// ARN of a satellite.
         public let satelliteArn: String?
         /// Start time of a contact.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// Tags assigned to a contact.
         public let tags: [String: String]?
 
-        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, dataflowList: [DataflowDetail]? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, dataflowList: [DataflowDetail]? = nil, endTime: Date? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.dataflowList = dataflowList
@@ -1138,7 +1138,7 @@ extension GroundStation {
 
     public struct ListContactsRequest: AWSEncodableShape {
         /// End time of a contact.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// Name of a ground station.
         public let groundStation: String?
         /// Maximum number of contacts returned.
@@ -1150,11 +1150,11 @@ extension GroundStation {
         /// ARN of a satellite.
         public let satelliteArn: String?
         /// Start time of a contact.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// Status of a contact reservation.
         public let statusList: [ContactStatus]
 
-        public init(endTime: TimeStamp, groundStation: String? = nil, maxResults: Int? = nil, missionProfileArn: String? = nil, nextToken: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp, statusList: [ContactStatus]) {
+        public init(endTime: Date, groundStation: String? = nil, maxResults: Int? = nil, missionProfileArn: String? = nil, nextToken: String? = nil, satelliteArn: String? = nil, startTime: Date, statusList: [ContactStatus]) {
             self.endTime = endTime
             self.groundStation = groundStation
             self.maxResults = maxResults
@@ -1410,7 +1410,7 @@ extension GroundStation {
 
     public struct ReserveContactRequest: AWSEncodableShape {
         /// End time of a contact.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// Name of a ground station.
         public let groundStation: String
         /// ARN of a mission profile.
@@ -1418,11 +1418,11 @@ extension GroundStation {
         /// ARN of a satellite
         public let satelliteArn: String
         /// Start time of a contact.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// Tags assigned to a contact.
         public let tags: [String: String]?
 
-        public init(endTime: TimeStamp, groundStation: String, missionProfileArn: String, satelliteArn: String, startTime: TimeStamp, tags: [String: String]? = nil) {
+        public init(endTime: Date, groundStation: String, missionProfileArn: String, satelliteArn: String, startTime: Date, tags: [String: String]? = nil) {
             self.endTime = endTime
             self.groundStation = groundStation
             self.missionProfileArn = missionProfileArn

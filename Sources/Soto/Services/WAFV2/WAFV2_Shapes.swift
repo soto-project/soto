@@ -2687,11 +2687,11 @@ extension WAFV2 {
         /// The name of the Rule that the request matched. For managed rule groups, the format for this name is &lt;vendor name&gt;#&lt;managed rule group name&gt;#&lt;rule name&gt;. For your own rule groups, the format for this name is &lt;rule group name&gt;#&lt;rule name&gt;. If the rule is not in a rule group, this field is absent.
         public let ruleNameWithinRuleGroup: String?
         /// The time at which AWS WAF received the request from your AWS resource, in Unix time format (in seconds).
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         /// A value that indicates how one result in the response relates proportionally to other results in the response. For example, a result that has a weight of 2 represents roughly twice as many web requests as a result that has a weight of 1.
         public let weight: Int64
 
-        public init(action: String? = nil, request: HTTPRequest, ruleNameWithinRuleGroup: String? = nil, timestamp: TimeStamp? = nil, weight: Int64) {
+        public init(action: String? = nil, request: HTTPRequest, ruleNameWithinRuleGroup: String? = nil, timestamp: Date? = nil, weight: Int64) {
             self.action = action
             self.request = request
             self.ruleNameWithinRuleGroup = ruleNameWithinRuleGroup
@@ -2980,11 +2980,11 @@ extension WAFV2 {
 
     public struct TimeWindow: AWSEncodableShape & AWSDecodableShape {
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, startTime: TimeStamp) {
+        public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
         }

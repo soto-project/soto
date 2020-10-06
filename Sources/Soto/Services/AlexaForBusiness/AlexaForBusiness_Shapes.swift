@@ -474,7 +474,7 @@ extension AlexaForBusiness {
 
     public struct BusinessReport: AWSDecodableShape {
         /// The time of report delivery.
-        public let deliveryTime: TimeStamp?
+        public let deliveryTime: Date?
         /// The download link where a user can download the report.
         public let downloadUrl: String?
         /// The failure code.
@@ -484,7 +484,7 @@ extension AlexaForBusiness {
         /// The status of the report generation execution (RUNNING, SUCCEEDED, or FAILED).
         public let status: BusinessReportStatus?
 
-        public init(deliveryTime: TimeStamp? = nil, downloadUrl: String? = nil, failureCode: BusinessReportFailureCode? = nil, s3Location: BusinessReportS3Location? = nil, status: BusinessReportStatus? = nil) {
+        public init(deliveryTime: Date? = nil, downloadUrl: String? = nil, failureCode: BusinessReportFailureCode? = nil, s3Location: BusinessReportS3Location? = nil, status: BusinessReportStatus? = nil) {
             self.deliveryTime = deliveryTime
             self.downloadUrl = downloadUrl
             self.failureCode = failureCode
@@ -1912,7 +1912,7 @@ extension AlexaForBusiness {
 
     public struct DeviceData: AWSDecodableShape {
         /// The time (in epoch) when the device data was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The ARN of a device.
         public let deviceArn: String?
         /// The name of a device.
@@ -1938,7 +1938,7 @@ extension AlexaForBusiness {
         /// The software version of a device.
         public let softwareVersion: String?
 
-        public init(createdTime: TimeStamp? = nil, deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, roomArn: String? = nil, roomName: String? = nil, softwareVersion: String? = nil) {
+        public init(createdTime: Date? = nil, deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, roomArn: String? = nil, roomName: String? = nil, softwareVersion: String? = nil) {
             self.createdTime = createdTime
             self.deviceArn = deviceArn
             self.deviceName = deviceName
@@ -1973,13 +1973,13 @@ extension AlexaForBusiness {
 
     public struct DeviceEvent: AWSDecodableShape {
         /// The time (in epoch) when the event occurred.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         /// The type of device event.
         public let `type`: DeviceEventType?
         /// The value of the event.
         public let value: String?
 
-        public init(timestamp: TimeStamp? = nil, type: DeviceEventType? = nil, value: String? = nil) {
+        public init(timestamp: Date? = nil, type: DeviceEventType? = nil, value: String? = nil) {
             self.timestamp = timestamp
             self.`type` = `type`
             self.value = value
@@ -1996,11 +1996,11 @@ extension AlexaForBusiness {
         /// The ARN of the certificate associated with a device.
         public let certificateArn: String?
         /// The time (in epoch) when the certificate expires.
-        public let certificateExpirationTime: TimeStamp?
+        public let certificateExpirationTime: Date?
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String?
 
-        public init(certificateArn: String? = nil, certificateExpirationTime: TimeStamp? = nil, networkProfileArn: String? = nil) {
+        public init(certificateArn: String? = nil, certificateExpirationTime: Date? = nil, networkProfileArn: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateExpirationTime = certificateExpirationTime
             self.networkProfileArn = networkProfileArn
@@ -2034,11 +2034,11 @@ extension AlexaForBusiness {
         /// The latest available information about the connection status of a device.
         public let connectionStatus: ConnectionStatus?
         /// The time (in epoch) when the device connection status changed.
-        public let connectionStatusUpdatedTime: TimeStamp?
+        public let connectionStatusUpdatedTime: Date?
         /// One or more device status detail descriptions.
         public let deviceStatusDetails: [DeviceStatusDetail]?
 
-        public init(connectionStatus: ConnectionStatus? = nil, connectionStatusUpdatedTime: TimeStamp? = nil, deviceStatusDetails: [DeviceStatusDetail]? = nil) {
+        public init(connectionStatus: ConnectionStatus? = nil, connectionStatusUpdatedTime: Date? = nil, deviceStatusDetails: [DeviceStatusDetail]? = nil) {
             self.connectionStatus = connectionStatus
             self.connectionStatusUpdatedTime = connectionStatusUpdatedTime
             self.deviceStatusDetails = deviceStatusDetails

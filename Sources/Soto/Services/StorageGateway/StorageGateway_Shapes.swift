@@ -492,7 +492,7 @@ extension StorageGateway {
 
     public struct CachediSCSIVolume: AWSDecodableShape {
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this timestamp.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         public let kMSKey: String?
         /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g., snap-78e22663. Otherwise, this field is not included.
         public let sourceSnapshotId: String?
@@ -517,7 +517,7 @@ extension StorageGateway {
         /// The size of the data stored on the volume in bytes. This value is calculated based on the number of blocks that are touched, instead of the actual amount of data written. This value can be useful for sequential write patterns but less accurate for random write patterns. VolumeUsedInBytes is different from the compressed size of the volume, which is the value that is used to calculate your bill.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume.
         public let volumeUsedInBytes: Int64?
 
-        public init(createdDate: TimeStamp? = nil, kMSKey: String? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
+        public init(createdDate: Date? = nil, kMSKey: String? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
             self.createdDate = createdDate
             self.kMSKey = kMSKey
             self.sourceSnapshotId = sourceSnapshotId
@@ -1752,11 +1752,11 @@ extension StorageGateway {
     public struct DescribeAvailabilityMonitorTestOutput: AWSDecodableShape {
         public let gatewayARN: String?
         /// The time the High Availability monitoring test was started. If a test hasn't been performed, the value of this field is null.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the High Availability monitoring test. If a test hasn't been performed, the value of this field is null.
         public let status: AvailabilityMonitorTestStatus?
 
-        public init(gatewayARN: String? = nil, startTime: TimeStamp? = nil, status: AvailabilityMonitorTestStatus? = nil) {
+        public init(gatewayARN: String? = nil, startTime: Date? = nil, status: AvailabilityMonitorTestStatus? = nil) {
             self.gatewayARN = gatewayARN
             self.startTime = startTime
             self.status = status
@@ -3884,7 +3884,7 @@ extension StorageGateway {
 
     public struct StorediSCSIVolume: AWSDecodableShape {
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this timestamp.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         public let kMSKey: String?
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved. Valid Values: true | false
         public let preservedExistingData: Bool?
@@ -3913,7 +3913,7 @@ extension StorageGateway {
         /// The size of the data stored on the volume in bytes. This value is calculated based on the number of blocks that are touched, instead of the actual amount of data written. This value can be useful for sequential write patterns but less accurate for random write patterns. VolumeUsedInBytes is different from the compressed size of the volume, which is the value that is used to calculate your bill.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume.
         public let volumeUsedInBytes: Int64?
 
-        public init(createdDate: TimeStamp? = nil, kMSKey: String? = nil, preservedExistingData: Bool? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeDiskId: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
+        public init(createdDate: Date? = nil, kMSKey: String? = nil, preservedExistingData: Bool? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeDiskId: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
             self.createdDate = createdDate
             self.kMSKey = kMSKey
             self.preservedExistingData = preservedExistingData
@@ -3977,19 +3977,19 @@ extension StorageGateway {
     public struct Tape: AWSDecodableShape {
         public let kMSKey: String?
         /// The date that the tape enters a custom tape pool.
-        public let poolEntryDate: TimeStamp?
+        public let poolEntryDate: Date?
         /// The ID of the pool that contains tapes that will be archived. The tapes in this pool are archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE
         public let poolId: String?
         /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
         public let progress: Double?
         /// The date that the tape is first archived with tape retention lock enabled.
-        public let retentionStartDate: TimeStamp?
+        public let retentionStartDate: Date?
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
         /// The barcode that identifies a specific virtual tape.
         public let tapeBarcode: String?
         /// The date the virtual tape was created.
-        public let tapeCreatedDate: TimeStamp?
+        public let tapeCreatedDate: Date?
         /// The size, in bytes, of the virtual tape capacity.
         public let tapeSizeInBytes: Int64?
         /// The current state of the virtual tape.
@@ -4001,7 +4001,7 @@ extension StorageGateway {
         /// If the tape is archived as write-once-read-many (WORM), this value is true.
         public let worm: Bool?
 
-        public init(kMSKey: String? = nil, poolEntryDate: TimeStamp? = nil, poolId: String? = nil, progress: Double? = nil, retentionStartDate: TimeStamp? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: TimeStamp? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, vTLDevice: String? = nil, worm: Bool? = nil) {
+        public init(kMSKey: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, progress: Double? = nil, retentionStartDate: Date? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, vTLDevice: String? = nil, worm: Bool? = nil) {
             self.kMSKey = kMSKey
             self.poolEntryDate = poolEntryDate
             self.poolId = poolId
@@ -4036,14 +4036,14 @@ extension StorageGateway {
 
     public struct TapeArchive: AWSDecodableShape {
         /// The time that the archiving of the virtual tape was completed. The default timestamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let completionTime: TimeStamp?
+        public let completionTime: Date?
         public let kMSKey: String?
         /// The time that the tape entered the custom tape pool. The default timestamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let poolEntryDate: TimeStamp?
+        public let poolEntryDate: Date?
         /// The ID of the pool that was used to archive the tape. The tapes in this pool are archived in the S3 storage class that is associated with the pool. Valid Values: GLACIER | DEEP_ARCHIVE
         public let poolId: String?
         /// If the archived tape is subject to tape retention lock, the date that the archived tape started being retained.
-        public let retentionStartDate: TimeStamp?
+        public let retentionStartDate: Date?
         /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is being retrieved to. The virtual tape is retrieved from the virtual tape shelf (VTS).
         public let retrievedTo: String?
         /// The Amazon Resource Name (ARN) of an archived virtual tape.
@@ -4051,7 +4051,7 @@ extension StorageGateway {
         /// The barcode that identifies the archived virtual tape.
         public let tapeBarcode: String?
         /// The date the virtual tape was created.
-        public let tapeCreatedDate: TimeStamp?
+        public let tapeCreatedDate: Date?
         /// The size, in bytes, of the archived virtual tape.
         public let tapeSizeInBytes: Int64?
         /// The current state of the archived virtual tape.
@@ -4061,7 +4061,7 @@ extension StorageGateway {
         /// Set to true if the archived tape is stored as write-once-read-many (WORM).
         public let worm: Bool?
 
-        public init(completionTime: TimeStamp? = nil, kMSKey: String? = nil, poolEntryDate: TimeStamp? = nil, poolId: String? = nil, retentionStartDate: TimeStamp? = nil, retrievedTo: String? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: TimeStamp? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, worm: Bool? = nil) {
+        public init(completionTime: Date? = nil, kMSKey: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, retentionStartDate: Date? = nil, retrievedTo: String? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, worm: Bool? = nil) {
             self.completionTime = completionTime
             self.kMSKey = kMSKey
             self.poolEntryDate = poolEntryDate
@@ -4098,11 +4098,11 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String?
         /// The date that the tape entered the custom tape pool with tape retention lock enabled.
-        public let poolEntryDate: TimeStamp?
+        public let poolEntryDate: Date?
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE
         public let poolId: String?
         /// The date that the tape became subject to tape retention lock.
-        public let retentionStartDate: TimeStamp?
+        public let retentionStartDate: Date?
         /// The Amazon Resource Name (ARN) of a virtual tape.
         public let tapeARN: String?
         /// The barcode that identifies a specific virtual tape.
@@ -4112,7 +4112,7 @@ extension StorageGateway {
         /// The status of the tape.
         public let tapeStatus: String?
 
-        public init(gatewayARN: String? = nil, poolEntryDate: TimeStamp? = nil, poolId: String? = nil, retentionStartDate: TimeStamp? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil) {
+        public init(gatewayARN: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, retentionStartDate: Date? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil) {
             self.gatewayARN = gatewayARN
             self.poolEntryDate = poolEntryDate
             self.poolId = poolId
@@ -4139,13 +4139,13 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
         /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The default timestamp format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let tapeRecoveryPointTime: TimeStamp?
+        public let tapeRecoveryPointTime: Date?
         /// The size, in bytes, of the virtual tapes to recover.
         public let tapeSizeInBytes: Int64?
         /// The status of the virtual tapes.
         public let tapeStatus: String?
 
-        public init(tapeARN: String? = nil, tapeRecoveryPointTime: TimeStamp? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil) {
+        public init(tapeARN: String? = nil, tapeRecoveryPointTime: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil) {
             self.tapeARN = tapeARN
             self.tapeRecoveryPointTime = tapeRecoveryPointTime
             self.tapeSizeInBytes = tapeSizeInBytes

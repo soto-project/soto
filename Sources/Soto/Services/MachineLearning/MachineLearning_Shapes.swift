@@ -174,15 +174,15 @@ extension MachineLearning {
         public let batchPredictionId: String?
         public let computeTime: Int64?
         /// The time that the BatchPrediction was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
-        public let finishedAt: TimeStamp?
+        public let finishedAt: Date?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         public let invalidRecordCount: Int64?
         /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A description of the most recent details about processing the batch prediction request.
         public let message: String?
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
@@ -191,12 +191,12 @@ extension MachineLearning {
         public let name: String?
         /// The location of an Amazon S3 bucket or directory to receive the operation results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.
         public let outputUri: String?
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The status of the BatchPrediction. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate predictions for a batch of observations.  INPROGRESS - The process is underway.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable.
         public let status: EntityStatus?
         public let totalRecordCount: Int64?
 
-        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: TimeStamp? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
+        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
             self.batchPredictionId = batchPredictionId
             self.computeTime = computeTime
@@ -603,7 +603,7 @@ extension MachineLearning {
         public let computeStatistics: Bool?
         public let computeTime: Int64?
         /// The time that the DataSource was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
         /// The location and name of the data in Amazon Simple Storage Service (Amazon S3) that is used by a DataSource.
@@ -614,9 +614,9 @@ extension MachineLearning {
         public let dataSizeInBytes: Int64?
         /// The ID that is assigned to the DataSource during creation.
         public let dataSourceId: String?
-        public let finishedAt: TimeStamp?
+        public let finishedAt: Date?
         /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A description of the most recent details about creating the DataSource.
         public let message: String?
         /// A user-supplied name or description of the DataSource.
@@ -626,11 +626,11 @@ extension MachineLearning {
         public let rDSMetadata: RDSMetadata?
         public let redshiftMetadata: RedshiftMetadata?
         public let roleARN: String?
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource. INPROGRESS - The creation process is underway. FAILED - The request to create a DataSource did not run to completion. It is not usable. COMPLETED - The creation process completed successfully. DELETED - The DataSource is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
-        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, finishedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil) {
+        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeStatistics = computeStatistics
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -1290,18 +1290,18 @@ extension MachineLearning {
     public struct Evaluation: AWSDecodableShape {
         public let computeTime: Int64?
         /// The time that the Evaluation was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
         /// The ID of the DataSource that is used to evaluate the MLModel.
         public let evaluationDataSourceId: String?
         /// The ID that is assigned to the Evaluation at creation.
         public let evaluationId: String?
-        public let finishedAt: TimeStamp?
+        public let finishedAt: Date?
         /// The location and name of the data in Amazon Simple Storage Server (Amazon S3) that is used in the evaluation.
         public let inputDataLocationS3: String?
         /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A description of the most recent details about evaluating the MLModel.
         public let message: String?
         /// The ID of the MLModel that is the focus of the evaluation.
@@ -1310,11 +1310,11 @@ extension MachineLearning {
         public let name: String?
         /// Measurements of how well the MLModel performed, using observations referenced by the DataSource. One of the following metrics is returned, based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide.
         public let performanceMetrics: PerformanceMetrics?
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
-        public init(computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: TimeStamp? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil) {
+        public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeTime = computeTime
             self.createdAt = createdAt
             self.createdByIamUser = createdByIamUser
@@ -1376,17 +1376,17 @@ extension MachineLearning {
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the BatchPrediction, normalized and scaled on computation resources. ComputeTime is only available if the BatchPrediction is in the COMPLETED state.
         public let computeTime: Int64?
         /// The time when the BatchPrediction was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
         /// The epoch time when Amazon Machine Learning marked the BatchPrediction as COMPLETED or FAILED. FinishedAt is only available when the BatchPrediction is in the COMPLETED or FAILED state.
-        public let finishedAt: TimeStamp?
+        public let finishedAt: Date?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         /// The number of invalid records that Amazon Machine Learning saw while processing the BatchPrediction.
         public let invalidRecordCount: Int64?
         /// The time of the most recent edit to BatchPrediction. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A link to the file that contains logs of the CreateBatchPrediction operation.
         public let logUri: String?
         /// A description of the most recent details about processing the batch prediction request.
@@ -1398,13 +1398,13 @@ extension MachineLearning {
         /// The location of an Amazon S3 bucket or directory to receive the operation results.
         public let outputUri: String?
         /// The epoch time when Amazon Machine Learning marked the BatchPrediction as INPROGRESS. StartedAt isn't available if the BatchPrediction is in the PENDING state.
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The status of the BatchPrediction, which can be one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate batch predictions.  INPROGRESS - The batch predictions are in progress.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable.
         public let status: EntityStatus?
         /// The number of total records that Amazon Machine Learning saw while processing the BatchPrediction.
         public let totalRecordCount: Int64?
 
-        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: TimeStamp? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
+        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
             self.batchPredictionId = batchPredictionId
             self.computeTime = computeTime
@@ -1474,7 +1474,7 @@ extension MachineLearning {
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the DataSource, normalized and scaled on computation resources. ComputeTime is only available if the DataSource is in the COMPLETED state and the ComputeStatistics is set to true.
         public let computeTime: Int64?
         /// The time that the DataSource was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
@@ -1488,9 +1488,9 @@ extension MachineLearning {
         /// The schema used by all of the data files of this DataSource. Note This parameter is provided as part of the verbose format.
         public let dataSourceSchema: String?
         /// The epoch time when Amazon Machine Learning marked the DataSource as COMPLETED or FAILED. FinishedAt is only available when the DataSource is in the COMPLETED or FAILED state.
-        public let finishedAt: TimeStamp?
+        public let finishedAt: Date?
         /// The time of the most recent edit to the DataSource. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A link to the file containing logs of CreateDataSourceFrom* operations.
         public let logUri: String?
         /// The user-supplied description of the most recent details about creating the DataSource.
@@ -1503,11 +1503,11 @@ extension MachineLearning {
         public let redshiftMetadata: RedshiftMetadata?
         public let roleARN: String?
         /// The epoch time when Amazon Machine Learning marked the DataSource as INPROGRESS. StartedAt isn't available if the DataSource is in the PENDING state.
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon ML submitted a request to create a DataSource.  INPROGRESS - The creation process is underway.  FAILED - The request to create a DataSource did not run to completion. It is not usable.  COMPLETED - The creation process completed successfully.  DELETED - The DataSource is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
-        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, dataSourceSchema: String? = nil, finishedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, logUri: String? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil) {
+        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, dataSourceSchema: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeStatistics = computeStatistics
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -1577,7 +1577,7 @@ extension MachineLearning {
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the Evaluation, normalized and scaled on computation resources. ComputeTime is only available if the Evaluation is in the COMPLETED state.
         public let computeTime: Int64?
         /// The time that the Evaluation was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
         /// The DataSource used for this evaluation.
@@ -1585,11 +1585,11 @@ extension MachineLearning {
         /// The evaluation ID which is same as the EvaluationId in the request.
         public let evaluationId: String?
         /// The epoch time when Amazon Machine Learning marked the Evaluation as COMPLETED or FAILED. FinishedAt is only available when the Evaluation is in the COMPLETED or FAILED state.
-        public let finishedAt: TimeStamp?
+        public let finishedAt: Date?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A link to the file that contains logs of the CreateEvaluation operation.
         public let logUri: String?
         /// A description of the most recent details about evaluating the MLModel.
@@ -1601,11 +1601,11 @@ extension MachineLearning {
         /// Measurements of how well the MLModel performed using observations referenced by the DataSource. One of the following metric is returned based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide.
         public let performanceMetrics: PerformanceMetrics?
         /// The epoch time when Amazon Machine Learning marked the Evaluation as INPROGRESS. StartedAt isn't available if the Evaluation is in the PENDING state.
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
-        public init(computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: TimeStamp? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil) {
+        public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeTime = computeTime
             self.createdAt = createdAt
             self.createdByIamUser = createdByIamUser
@@ -1669,17 +1669,17 @@ extension MachineLearning {
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
         public let computeTime: Int64?
         /// The time that the MLModel was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
         /// The current endpoint of the MLModel
         public let endpointInfo: RealtimeEndpointInfo?
         /// The epoch time when Amazon Machine Learning marked the MLModel as COMPLETED or FAILED. FinishedAt is only available when the MLModel is in the COMPLETED or FAILED state.
-        public let finishedAt: TimeStamp?
+        public let finishedAt: Date?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A link to the file that contains logs of the CreateMLModel operation.
         public let logUri: String?
         /// A description of the most recent details about accessing the MLModel.
@@ -1697,10 +1697,10 @@ extension MachineLearning {
         /// The scoring threshold is used in binary classification MLModel models. It marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the threshold receive a positive result from the MLModel, such as true. Output values less than the threshold receive a negative response from the MLModel, such as false.
         public let scoreThreshold: Float?
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-        public let scoreThresholdLastUpdatedAt: TimeStamp?
+        public let scoreThresholdLastUpdatedAt: Date?
         public let sizeInBytes: Int64?
         /// The epoch time when Amazon Machine Learning marked the MLModel as INPROGRESS. StartedAt isn't available if the MLModel is in the PENDING state.
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The current status of the MLModel. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to describe a MLModel.  INPROGRESS - The request is processing.  FAILED - The request did not run to completion. The ML model isn't usable.  COMPLETED - The request completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable.
         public let status: EntityStatus?
         /// The ID of the training DataSource.
@@ -1708,7 +1708,7 @@ extension MachineLearning {
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let trainingParameters: [String: String]?
 
-        public init(computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: TimeStamp? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, name: String? = nil, recipe: String? = nil, schema: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: TimeStamp? = nil, sizeInBytes: Int64? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, name: String? = nil, recipe: String? = nil, schema: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
             self.computeTime = computeTime
             self.createdAt = createdAt
             self.createdByIamUser = createdByIamUser
@@ -1762,16 +1762,16 @@ extension MachineLearning {
         public let algorithm: Algorithm?
         public let computeTime: Int64?
         /// The time that the MLModel was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
         /// The current endpoint of the MLModel.
         public let endpointInfo: RealtimeEndpointInfo?
-        public let finishedAt: TimeStamp?
+        public let finishedAt: Date?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A description of the most recent details about accessing the MLModel.
         public let message: String?
         /// The ID assigned to the MLModel at creation.
@@ -1782,9 +1782,9 @@ extension MachineLearning {
         public let name: String?
         public let scoreThreshold: Float?
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-        public let scoreThresholdLastUpdatedAt: TimeStamp?
+        public let scoreThresholdLastUpdatedAt: Date?
         public let sizeInBytes: Int64?
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The current status of an MLModel. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create an MLModel.  INPROGRESS - The creation process is underway.  FAILED - The request to create an MLModel didn't run to completion. The model isn't usable.  COMPLETED - The creation process completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable.
         public let status: EntityStatus?
         /// The ID of the training DataSource. The CreateMLModel operation uses the TrainingDataSourceId.
@@ -1792,7 +1792,7 @@ extension MachineLearning {
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let trainingParameters: [String: String]?
 
-        public init(algorithm: Algorithm? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: TimeStamp? = nil, message: String? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, name: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: TimeStamp? = nil, sizeInBytes: Int64? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithm: Algorithm? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, name: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithm = algorithm
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -2066,7 +2066,7 @@ extension MachineLearning {
 
     public struct RealtimeEndpointInfo: AWSDecodableShape {
         /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         ///  The current status of the real-time endpoint for the MLModel. This element can have one of the following values:    NONE - Endpoint does not exist or was previously deleted.  READY - Endpoint is ready to be used for real-time predictions.  UPDATING - Updating/creating the endpoint.
         public let endpointStatus: RealtimeEndpointStatus?
         /// The URI that specifies where to send real-time prediction requests for the MLModel. Note The application must wait until the real-time endpoint is ready before using this URI.
@@ -2074,7 +2074,7 @@ extension MachineLearning {
         ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
         public let peakRequestsPerSecond: Int?
 
-        public init(createdAt: TimeStamp? = nil, endpointStatus: RealtimeEndpointStatus? = nil, endpointUrl: String? = nil, peakRequestsPerSecond: Int? = nil) {
+        public init(createdAt: Date? = nil, endpointStatus: RealtimeEndpointStatus? = nil, endpointUrl: String? = nil, peakRequestsPerSecond: Int? = nil) {
             self.createdAt = createdAt
             self.endpointStatus = endpointStatus
             self.endpointUrl = endpointUrl

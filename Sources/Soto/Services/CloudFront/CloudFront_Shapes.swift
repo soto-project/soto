@@ -340,9 +340,9 @@ extension CloudFront {
         /// The unique identifier for the cache policy.
         public let id: String
         /// The date and time when the cache policy was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
 
-        public init(cachePolicyConfig: CachePolicyConfig, id: String, lastModifiedTime: TimeStamp) {
+        public init(cachePolicyConfig: CachePolicyConfig, id: String, lastModifiedTime: Date) {
             self.cachePolicyConfig = cachePolicyConfig
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -1662,11 +1662,11 @@ extension CloudFront {
         /// The number of invalidation batches currently in progress.
         public let inProgressInvalidationBatches: Int
         /// The date and time the distribution was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations.
         public let status: String
 
-        public init(activeTrustedSigners: ActiveTrustedSigners, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int, lastModifiedTime: TimeStamp, status: String) {
+        public init(activeTrustedSigners: ActiveTrustedSigners, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int, lastModifiedTime: Date, status: String) {
             self.activeTrustedSigners = activeTrustedSigners
             self.aliasICPRecordals = aliasICPRecordals
             self.arn = arn
@@ -1900,7 +1900,7 @@ extension CloudFront {
         /// Whether CloudFront responds to IPv6 DNS requests with an IPv6 address for your distribution.
         public let isIPV6Enabled: Bool
         /// The date and time the distribution was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         ///  A complex type that contains information about origin groups for this distribution.
         public let originGroups: OriginGroups?
         /// A complex type that contains information about origins for this distribution.
@@ -1916,7 +1916,7 @@ extension CloudFront {
         /// The Web ACL Id (if any) associated with the distribution.
         public let webACLId: String
 
-        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: HttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: TimeStamp, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
+        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: HttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
             self.aliases = aliases
             self.aliasICPRecordals = aliasICPRecordals
             self.arn = arn
@@ -2027,9 +2027,9 @@ extension CloudFront {
         /// The configuration ID for a field-level encryption configuration which includes a set of profiles that specify certain selected data fields to be encrypted by specific public keys.
         public let id: String
         /// The last time the field-level encryption configuration was changed.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
 
-        public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig, id: String, lastModifiedTime: TimeStamp) {
+        public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig, id: String, lastModifiedTime: Date) {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -2103,9 +2103,9 @@ extension CloudFront {
         /// The ID for a field-level encryption profile configuration which includes a set of profiles that specify certain selected data fields to be encrypted by specific public keys.
         public let id: String
         /// The last time the field-level encryption profile was updated.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
 
-        public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, id: String, lastModifiedTime: TimeStamp) {
+        public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, id: String, lastModifiedTime: Date) {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -2181,11 +2181,11 @@ extension CloudFront {
         /// ID for the field-level encryption profile summary.
         public let id: String
         /// The time when the the field-level encryption profile summary was last updated.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// Name for the field-level encryption profile summary.
         public let name: String
 
-        public init(comment: String? = nil, encryptionEntities: EncryptionEntities, id: String, lastModifiedTime: TimeStamp, name: String) {
+        public init(comment: String? = nil, encryptionEntities: EncryptionEntities, id: String, lastModifiedTime: Date, name: String) {
             self.comment = comment
             self.encryptionEntities = encryptionEntities
             self.id = id
@@ -2210,11 +2210,11 @@ extension CloudFront {
         /// The unique ID of a field-level encryption item.
         public let id: String
         /// The last time that the summary of field-level encryption items was modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         ///  A summary of a query argument-profile mapping.
         public let queryArgProfileConfig: QueryArgProfileConfig?
 
-        public init(comment: String? = nil, contentTypeProfileConfig: ContentTypeProfileConfig? = nil, id: String, lastModifiedTime: TimeStamp, queryArgProfileConfig: QueryArgProfileConfig? = nil) {
+        public init(comment: String? = nil, contentTypeProfileConfig: ContentTypeProfileConfig? = nil, id: String, lastModifiedTime: Date, queryArgProfileConfig: QueryArgProfileConfig? = nil) {
             self.comment = comment
             self.contentTypeProfileConfig = contentTypeProfileConfig
             self.id = id
@@ -3025,7 +3025,7 @@ extension CloudFront {
 
     public struct Invalidation: AWSDecodableShape {
         /// The date and time the invalidation request was first made.
-        public let createTime: TimeStamp
+        public let createTime: Date
         /// The identifier for the invalidation request. For example: IDFDVBD632BHDS5.
         public let id: String
         /// The current invalidation information for the batch request.
@@ -3033,7 +3033,7 @@ extension CloudFront {
         /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
         public let status: String
 
-        public init(createTime: TimeStamp, id: String, invalidationBatch: InvalidationBatch, status: String) {
+        public init(createTime: Date, id: String, invalidationBatch: InvalidationBatch, status: String) {
             self.createTime = createTime
             self.id = id
             self.invalidationBatch = invalidationBatch
@@ -3105,13 +3105,13 @@ extension CloudFront {
 
     public struct InvalidationSummary: AWSDecodableShape {
         /// The time that an invalidation request was created.
-        public let createTime: TimeStamp
+        public let createTime: Date
         /// The unique ID for an invalidation request.
         public let id: String
         /// The status of an invalidation request.
         public let status: String
 
-        public init(createTime: TimeStamp, id: String, status: String) {
+        public init(createTime: Date, id: String, status: String) {
             self.createTime = createTime
             self.id = id
             self.status = status
@@ -4012,11 +4012,11 @@ extension CloudFront {
         /// The unique identifier for the origin request policy.
         public let id: String
         /// The date and time when the origin request policy was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// The origin request policy configuration.
         public let originRequestPolicyConfig: OriginRequestPolicyConfig
 
-        public init(id: String, lastModifiedTime: TimeStamp, originRequestPolicyConfig: OriginRequestPolicyConfig) {
+        public init(id: String, lastModifiedTime: Date, originRequestPolicyConfig: OriginRequestPolicyConfig) {
             self.id = id
             self.lastModifiedTime = lastModifiedTime
             self.originRequestPolicyConfig = originRequestPolicyConfig
@@ -4249,13 +4249,13 @@ extension CloudFront {
 
     public struct PublicKey: AWSDecodableShape {
         /// A time you added a public key to CloudFront.
-        public let createdTime: TimeStamp
+        public let createdTime: Date
         /// A unique ID assigned to a public key you've added to CloudFront.
         public let id: String
         /// A complex data type for a public key you add to CloudFront to use with features like field-level encryption.
         public let publicKeyConfig: PublicKeyConfig
 
-        public init(createdTime: TimeStamp, id: String, publicKeyConfig: PublicKeyConfig) {
+        public init(createdTime: Date, id: String, publicKeyConfig: PublicKeyConfig) {
             self.createdTime = createdTime
             self.id = id
             self.publicKeyConfig = publicKeyConfig
@@ -4327,7 +4327,7 @@ extension CloudFront {
         ///  Comment for public key information summary.
         public let comment: String?
         ///  Creation time for public key information summary.
-        public let createdTime: TimeStamp
+        public let createdTime: Date
         ///  Encoded key for public key information summary.
         public let encodedKey: String
         ///  ID for public key information summary.
@@ -4335,7 +4335,7 @@ extension CloudFront {
         ///  Name for public key information summary.
         public let name: String
 
-        public init(comment: String? = nil, createdTime: TimeStamp, encodedKey: String, id: String, name: String) {
+        public init(comment: String? = nil, createdTime: Date, encodedKey: String, id: String, name: String) {
             self.comment = comment
             self.createdTime = createdTime
             self.encodedKey = encodedKey
@@ -4596,13 +4596,13 @@ extension CloudFront {
         /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
         public let id: String
         /// The date and time that the distribution was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The current status of the RTMP distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
         public let status: String
         /// The current configuration information for the RTMP distribution.
         public let streamingDistributionConfig: StreamingDistributionConfig
 
-        public init(activeTrustedSigners: ActiveTrustedSigners, arn: String, domainName: String, id: String, lastModifiedTime: TimeStamp? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig) {
+        public init(activeTrustedSigners: ActiveTrustedSigners, arn: String, domainName: String, id: String, lastModifiedTime: Date? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig) {
             self.activeTrustedSigners = activeTrustedSigners
             self.arn = arn
             self.domainName = domainName
@@ -4739,7 +4739,7 @@ extension CloudFront {
         /// The identifier for the distribution, for example, EDFDVBD632BHDS5.
         public let id: String
         /// The date and time the distribution was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// A complex type that contains information about price class for this streaming distribution.
         public let priceClass: PriceClass
         /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
@@ -4749,7 +4749,7 @@ extension CloudFront {
         /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners
 
-        public init(aliases: Aliases, arn: String, comment: String, domainName: String, enabled: Bool, id: String, lastModifiedTime: TimeStamp, priceClass: PriceClass, s3Origin: S3Origin, status: String, trustedSigners: TrustedSigners) {
+        public init(aliases: Aliases, arn: String, comment: String, domainName: String, enabled: Bool, id: String, lastModifiedTime: Date, priceClass: PriceClass, s3Origin: S3Origin, status: String, trustedSigners: TrustedSigners) {
             self.aliases = aliases
             self.arn = arn
             self.comment = comment

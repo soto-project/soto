@@ -189,15 +189,15 @@ extension SMS {
         /// The unique ID of the application.
         public let appId: String?
         /// The creation time of the application.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The description of the application.
         public let description: String?
         /// The ID of the application.
         public let importedAppId: String?
         /// The last modified time of the application.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The timestamp of the application's most recent successful replication.
-        public let latestReplicationTime: TimeStamp?
+        public let latestReplicationTime: Date?
         /// Status of the launch configuration.
         public let launchConfigurationStatus: AppLaunchConfigurationStatus?
         /// Details about the latest launch of the application.
@@ -225,7 +225,7 @@ extension SMS {
         /// The number of servers present in the application.
         public let totalServers: Int?
 
-        public init(appId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, importedAppId: String? = nil, lastModified: TimeStamp? = nil, latestReplicationTime: TimeStamp? = nil, launchConfigurationStatus: AppLaunchConfigurationStatus? = nil, launchDetails: LaunchDetails? = nil, launchStatus: AppLaunchStatus? = nil, launchStatusMessage: String? = nil, name: String? = nil, replicationConfigurationStatus: AppReplicationConfigurationStatus? = nil, replicationStatus: AppReplicationStatus? = nil, replicationStatusMessage: String? = nil, roleName: String? = nil, status: AppStatus? = nil, statusMessage: String? = nil, totalServerGroups: Int? = nil, totalServers: Int? = nil) {
+        public init(appId: String? = nil, creationTime: Date? = nil, description: String? = nil, importedAppId: String? = nil, lastModified: Date? = nil, latestReplicationTime: Date? = nil, launchConfigurationStatus: AppLaunchConfigurationStatus? = nil, launchDetails: LaunchDetails? = nil, launchStatus: AppLaunchStatus? = nil, launchStatusMessage: String? = nil, name: String? = nil, replicationConfigurationStatus: AppReplicationConfigurationStatus? = nil, replicationStatus: AppReplicationStatus? = nil, replicationStatusMessage: String? = nil, roleName: String? = nil, status: AppStatus? = nil, statusMessage: String? = nil, totalServerGroups: Int? = nil, totalServers: Int? = nil) {
             self.appId = appId
             self.creationTime = creationTime
             self.description = description
@@ -318,7 +318,7 @@ extension SMS {
 
     public struct Connector: AWSDecodableShape {
         /// The time the connector was associated.
-        public let associatedOn: TimeStamp?
+        public let associatedOn: Date?
         /// The capabilities of the connector.
         public let capabilityList: [ConnectorCapability]?
         /// The ID of the connector.
@@ -338,7 +338,7 @@ extension SMS {
         /// The VM management product.
         public let vmManagerType: VmManagerType?
 
-        public init(associatedOn: TimeStamp? = nil, capabilityList: [ConnectorCapability]? = nil, connectorId: String? = nil, ipAddress: String? = nil, macAddress: String? = nil, status: ConnectorStatus? = nil, version: String? = nil, vmManagerId: String? = nil, vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil) {
+        public init(associatedOn: Date? = nil, capabilityList: [ConnectorCapability]? = nil, connectorId: String? = nil, ipAddress: String? = nil, macAddress: String? = nil, status: ConnectorStatus? = nil, version: String? = nil, vmManagerId: String? = nil, vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil) {
             self.associatedOn = associatedOn
             self.capabilityList = capabilityList
             self.connectorId = connectorId
@@ -437,11 +437,11 @@ extension SMS {
         /// Indicates whether to run the replication job one time.
         public let runOnce: Bool?
         /// The seed replication time.
-        public let seedReplicationTime: TimeStamp
+        public let seedReplicationTime: Date
         /// The ID of the server.
         public let serverId: String
 
-        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp, serverId: String) {
+        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: Date, serverId: String) {
             self.description = description
             self.encrypted = encrypted
             self.frequency = frequency
@@ -962,7 +962,7 @@ extension SMS {
 
     public struct GetServersResponse: AWSDecodableShape {
         /// The time when the server was last modified.
-        public let lastModifiedOn: TimeStamp?
+        public let lastModifiedOn: Date?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The status of the server catalog.
@@ -970,7 +970,7 @@ extension SMS {
         /// Information about the servers.
         public let serverList: [Server]?
 
-        public init(lastModifiedOn: TimeStamp? = nil, nextToken: String? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, serverList: [Server]? = nil) {
+        public init(lastModifiedOn: Date? = nil, nextToken: String? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, serverList: [Server]? = nil) {
             self.lastModifiedOn = lastModifiedOn
             self.nextToken = nextToken
             self.serverCatalogStatus = serverCatalogStatus
@@ -1029,13 +1029,13 @@ extension SMS {
 
     public struct LaunchDetails: AWSDecodableShape {
         /// The latest time that this application was launched successfully.
-        public let latestLaunchTime: TimeStamp?
+        public let latestLaunchTime: Date?
         /// The ID of the latest stack launched for this application.
         public let stackId: String?
         /// The name of the latest stack launched for this application.
         public let stackName: String?
 
-        public init(latestLaunchTime: TimeStamp? = nil, stackId: String? = nil, stackName: String? = nil) {
+        public init(latestLaunchTime: Date? = nil, stackId: String? = nil, stackName: String? = nil) {
             self.latestLaunchTime = latestLaunchTime
             self.stackId = stackId
             self.stackName = stackName
@@ -1243,7 +1243,7 @@ extension SMS {
         /// The license type to be used for the AMI created by a successful replication run.
         public let licenseType: LicenseType?
         /// The start time of the next replication run.
-        public let nextReplicationRunStartTime: TimeStamp?
+        public let nextReplicationRunStartTime: Date?
         /// The number of recent AMIs to keep in the customer's account for a replication job. By default, the value is set to zero, meaning that all AMIs are kept.
         public let numberOfRecentAmisToKeep: Int?
         /// The ID of the replication job.
@@ -1255,7 +1255,7 @@ extension SMS {
         /// Indicates whether to run the replication job one time.
         public let runOnce: Bool?
         /// The seed replication time.
-        public let seedReplicationTime: TimeStamp?
+        public let seedReplicationTime: Date?
         /// The ID of the server.
         public let serverId: String?
         /// The type of server.
@@ -1267,7 +1267,7 @@ extension SMS {
         /// Information about the VM server.
         public let vmServer: VmServer?
 
-        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, latestAmiId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int? = nil, replicationJobId: String? = nil, replicationRunList: [ReplicationRun]? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp? = nil, serverId: String? = nil, serverType: ServerType? = nil, state: ReplicationJobState? = nil, statusMessage: String? = nil, vmServer: VmServer? = nil) {
+        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, latestAmiId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: Date? = nil, numberOfRecentAmisToKeep: Int? = nil, replicationJobId: String? = nil, replicationRunList: [ReplicationRun]? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: Date? = nil, serverId: String? = nil, serverType: ServerType? = nil, state: ReplicationJobState? = nil, statusMessage: String? = nil, vmServer: VmServer? = nil) {
             self.description = description
             self.encrypted = encrypted
             self.frequency = frequency
@@ -1314,7 +1314,7 @@ extension SMS {
         /// The ID of the Amazon Machine Image (AMI) from the replication run.
         public let amiId: String?
         /// The completion time of the last replication run.
-        public let completedTime: TimeStamp?
+        public let completedTime: Date?
         /// The description of the replication run.
         public let description: String?
         /// Indicates whether the replication run should produce an encrypted AMI.
@@ -1324,7 +1324,7 @@ extension SMS {
         /// The ID of the replication run.
         public let replicationRunId: String?
         /// The start time of the next replication run.
-        public let scheduledStartTime: TimeStamp?
+        public let scheduledStartTime: Date?
         /// Details about the current stage of the replication run.
         public let stageDetails: ReplicationRunStageDetails?
         /// The state of the replication run.
@@ -1334,7 +1334,7 @@ extension SMS {
         /// The type of replication run.
         public let `type`: ReplicationRunType?
 
-        public init(amiId: String? = nil, completedTime: TimeStamp? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, replicationRunId: String? = nil, scheduledStartTime: TimeStamp? = nil, stageDetails: ReplicationRunStageDetails? = nil, state: ReplicationRunState? = nil, statusMessage: String? = nil, type: ReplicationRunType? = nil) {
+        public init(amiId: String? = nil, completedTime: Date? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, replicationRunId: String? = nil, scheduledStartTime: Date? = nil, stageDetails: ReplicationRunStageDetails? = nil, state: ReplicationRunState? = nil, statusMessage: String? = nil, type: ReplicationRunType? = nil) {
             self.amiId = amiId
             self.completedTime = completedTime
             self.description = description
@@ -1666,9 +1666,9 @@ extension SMS {
         /// Indicates whether to run the replication job one time.
         public let runOnce: Bool?
         /// The seed time for creating a replication job for the server.
-        public let seedTime: TimeStamp?
+        public let seedTime: Date?
 
-        public init(encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, runOnce: Bool? = nil, seedTime: TimeStamp? = nil) {
+        public init(encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, runOnce: Bool? = nil, seedTime: Date? = nil) {
             self.encrypted = encrypted
             self.frequency = frequency
             self.kmsKeyId = kmsKeyId
@@ -1938,7 +1938,7 @@ extension SMS {
         /// The license type to be used for the AMI created by a successful replication run.
         public let licenseType: LicenseType?
         /// The start time of the next replication run.
-        public let nextReplicationRunStartTime: TimeStamp?
+        public let nextReplicationRunStartTime: Date?
         /// The maximum number of SMS-created AMIs to retain. The oldest is deleted after the maximum number is reached and a new AMI is created.
         public let numberOfRecentAmisToKeep: Int?
         /// The ID of the replication job.
@@ -1946,7 +1946,7 @@ extension SMS {
         /// The name of the IAM role to be used by AWS SMS.
         public let roleName: String?
 
-        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int? = nil, replicationJobId: String, roleName: String? = nil) {
+        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: Date? = nil, numberOfRecentAmisToKeep: Int? = nil, replicationJobId: String, roleName: String? = nil) {
             self.description = description
             self.encrypted = encrypted
             self.frequency = frequency
@@ -2017,7 +2017,7 @@ extension SMS {
         /// The output from validating an application.
         public let appValidationOutput: AppValidationOutput?
         /// The latest time that the validation was performed.
-        public let latestValidationTime: TimeStamp?
+        public let latestValidationTime: Date?
         /// The name of the validation.
         public let name: String?
         /// The output from validation an instance.
@@ -2029,7 +2029,7 @@ extension SMS {
         /// The ID of the validation.
         public let validationId: String?
 
-        public init(appValidationOutput: AppValidationOutput? = nil, latestValidationTime: TimeStamp? = nil, name: String? = nil, serverValidationOutput: ServerValidationOutput? = nil, status: ValidationStatus? = nil, statusMessage: String? = nil, validationId: String? = nil) {
+        public init(appValidationOutput: AppValidationOutput? = nil, latestValidationTime: Date? = nil, name: String? = nil, serverValidationOutput: ServerValidationOutput? = nil, status: ValidationStatus? = nil, statusMessage: String? = nil, validationId: String? = nil) {
             self.appValidationOutput = appValidationOutput
             self.latestValidationTime = latestValidationTime
             self.name = name

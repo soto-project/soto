@@ -272,11 +272,11 @@ extension ApplicationDiscoveryService {
         /// A type of tag on which to filter. For example, serverType.
         public let key: String?
         /// The time the configuration tag was created in Coordinated Universal Time (UTC).
-        public let timeOfCreation: TimeStamp?
+        public let timeOfCreation: Date?
         /// A value on which to filter. For example key = serverType and value = web server.
         public let value: String?
 
-        public init(configurationId: String? = nil, configurationType: ConfigurationItemType? = nil, key: String? = nil, timeOfCreation: TimeStamp? = nil, value: String? = nil) {
+        public init(configurationId: String? = nil, configurationType: ConfigurationItemType? = nil, key: String? = nil, timeOfCreation: Date? = nil, value: String? = nil) {
             self.configurationId = configurationId
             self.configurationType = configurationType
             self.key = key
@@ -303,15 +303,15 @@ extension ApplicationDiscoveryService {
         /// An object which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.
         public let schemaStorageConfig: [String: String]?
         /// The timestamp representing when the continuous export was started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// Describes the status of the export. Can be one of the following values:   START_IN_PROGRESS - setting up resources to start continuous export.   START_FAILED - an error occurred setting up continuous export. To recover, call start-continuous-export again.   ACTIVE - data is being exported to the customer bucket.   ERROR - an error occurred during export. To fix the issue, call stop-continuous-export and start-continuous-export.   STOP_IN_PROGRESS - stopping the export.   STOP_FAILED - an error occurred stopping the export. To recover, call stop-continuous-export again.   INACTIVE - the continuous export has been stopped. Data is no longer being exported to the customer bucket.
         public let status: ContinuousExportStatus?
         /// Contains information about any errors that have occurred. This data type can have the following values:   ACCESS_DENIED - You don’t have permission to start Data Exploration in Amazon Athena. Contact your AWS administrator for help. For more information, see Setting Up AWS Application Discovery Service in the Application Discovery Service User Guide.   DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis Data Firehose delivery streams. Reduce the number of streams or request a limit increase and try again. For more information, see Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide.   FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your IAM User is missing the AWSApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see Step 3: Provide Application Discovery Service Access to Non-Administrator Users by Attaching Policies in the Application Discovery Service User Guide.   FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your IAM User is missing one or more of the Kinesis data delivery streams.   INTERNAL_FAILURE - The Data Exploration feature is in an error state because of an internal failure. Try again later. If this problem persists, contact AWS Support.   S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets. Reduce the number of Amazon S3 buckets or request a limit increase and try again. For more information, see Bucket Restrictions and Limitations in the Amazon Simple Storage Service Developer Guide.   S3_NOT_SIGNED_UP - Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3.
         public let statusDetail: String?
         /// The timestamp that represents when this continuous export was stopped.
-        public let stopTime: TimeStamp?
+        public let stopTime: Date?
 
-        public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: TimeStamp? = nil, status: ContinuousExportStatus? = nil, statusDetail: String? = nil, stopTime: TimeStamp? = nil) {
+        public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: Date? = nil, status: ContinuousExportStatus? = nil, statusDetail: String? = nil, stopTime: Date? = nil) {
             self.dataSource = dataSource
             self.exportId = exportId
             self.s3Bucket = s3Bucket
@@ -832,19 +832,19 @@ extension ApplicationDiscoveryService {
         /// A unique identifier used to query an export.
         public let exportId: String
         /// The time that the data export was initiated.
-        public let exportRequestTime: TimeStamp
+        public let exportRequestTime: Date
         /// The status of the data export job.
         public let exportStatus: ExportStatus
         /// If true, the export of agent information exceeded the size limit for a single export and the exported data is incomplete for the requested time range. To address this, select a smaller time range for the export by using startDate and endDate.
         public let isTruncated: Bool?
         /// The endTime used in the StartExportTask request. If no endTime was requested, this result does not appear in ExportInfo.
-        public let requestedEndTime: TimeStamp?
+        public let requestedEndTime: Date?
         /// The value of startTime parameter in the StartExportTask request. If no startTime was requested, this result does not appear in ExportInfo.
-        public let requestedStartTime: TimeStamp?
+        public let requestedStartTime: Date?
         /// A status message provided for API callers.
         public let statusMessage: String
 
-        public init(configurationsDownloadUrl: String? = nil, exportId: String, exportRequestTime: TimeStamp, exportStatus: ExportStatus, isTruncated: Bool? = nil, requestedEndTime: TimeStamp? = nil, requestedStartTime: TimeStamp? = nil, statusMessage: String) {
+        public init(configurationsDownloadUrl: String? = nil, exportId: String, exportRequestTime: Date, exportStatus: ExportStatus, isTruncated: Bool? = nil, requestedEndTime: Date? = nil, requestedStartTime: Date? = nil, statusMessage: String) {
             self.configurationsDownloadUrl = configurationsDownloadUrl
             self.exportId = exportId
             self.exportRequestTime = exportRequestTime
@@ -935,11 +935,11 @@ extension ApplicationDiscoveryService {
         /// A link to a compressed archive folder (in the ZIP format) that contains an error log and a file of failed records. You can use these two files to quickly identify records that failed, why they failed, and correct those records. Afterward, you can upload the corrected file to your Amazon S3 bucket and create another import task request. This field also includes authorization information so you can confirm the authenticity of the compressed archive before you download it. If some records failed to be imported we recommend that you correct the records in the failed entries file and then imports that failed entries file. This prevents you from having to correct and update the larger original file and attempt importing it again.
         public let errorsAndFailedEntriesZip: String?
         /// The time that the import task request finished, presented in the Unix time stamp format.
-        public let importCompletionTime: TimeStamp?
+        public let importCompletionTime: Date?
         /// The time that the import task request was deleted, presented in the Unix time stamp format.
-        public let importDeletedTime: TimeStamp?
+        public let importDeletedTime: Date?
         /// The time that the import task request was made, presented in the Unix time stamp format.
-        public let importRequestTime: TimeStamp?
+        public let importRequestTime: Date?
         /// The unique ID for a specific import task. These IDs aren't globally unique, but they are unique within an AWS account.
         public let importTaskId: String?
         /// The URL for your import file that you've uploaded to Amazon S3.
@@ -953,7 +953,7 @@ extension ApplicationDiscoveryService {
         /// The status of the import task. An import can have the status of IMPORT_COMPLETE and still have some records fail to import from the overall request. More information can be found in the downloadable archive defined in the errorsAndFailedEntriesZip field, or in the Migration Hub management console.
         public let status: ImportStatus?
 
-        public init(applicationImportFailure: Int? = nil, applicationImportSuccess: Int? = nil, clientRequestToken: String? = nil, errorsAndFailedEntriesZip: String? = nil, importCompletionTime: TimeStamp? = nil, importDeletedTime: TimeStamp? = nil, importRequestTime: TimeStamp? = nil, importTaskId: String? = nil, importUrl: String? = nil, name: String? = nil, serverImportFailure: Int? = nil, serverImportSuccess: Int? = nil, status: ImportStatus? = nil) {
+        public init(applicationImportFailure: Int? = nil, applicationImportSuccess: Int? = nil, clientRequestToken: String? = nil, errorsAndFailedEntriesZip: String? = nil, importCompletionTime: Date? = nil, importDeletedTime: Date? = nil, importRequestTime: Date? = nil, importTaskId: String? = nil, importUrl: String? = nil, name: String? = nil, serverImportFailure: Int? = nil, serverImportSuccess: Int? = nil, status: ImportStatus? = nil) {
             self.applicationImportFailure = applicationImportFailure
             self.applicationImportSuccess = applicationImportSuccess
             self.clientRequestToken = clientRequestToken
@@ -1168,9 +1168,9 @@ extension ApplicationDiscoveryService {
         /// A dictionary which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.
         public let schemaStorageConfig: [String: String]?
         /// The timestamp representing when the continuous export was started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: TimeStamp? = nil) {
+        public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: Date? = nil) {
             self.dataSource = dataSource
             self.exportId = exportId
             self.s3Bucket = s3Bucket
@@ -1215,15 +1215,15 @@ extension ApplicationDiscoveryService {
 
     public struct StartExportTaskRequest: AWSEncodableShape {
         /// The end timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, exported data includes the most recent data collected by the agent.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated.
         public let exportDataFormat: [ExportDataFormat]?
         /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents.
         public let filters: [ExportFilter]?
         /// The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, exportDataFormat: [ExportDataFormat]? = nil, filters: [ExportFilter]? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, exportDataFormat: [ExportDataFormat]? = nil, filters: [ExportFilter]? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.exportDataFormat = exportDataFormat
             self.filters = filters
@@ -1309,11 +1309,11 @@ extension ApplicationDiscoveryService {
 
     public struct StopContinuousExportResponse: AWSDecodableShape {
         /// Timestamp that represents when this continuous export started collecting data.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// Timestamp that represents when this continuous export was stopped.
-        public let stopTime: TimeStamp?
+        public let stopTime: Date?
 
-        public init(startTime: TimeStamp? = nil, stopTime: TimeStamp? = nil) {
+        public init(startTime: Date? = nil, stopTime: Date? = nil) {
             self.startTime = startTime
             self.stopTime = stopTime
         }

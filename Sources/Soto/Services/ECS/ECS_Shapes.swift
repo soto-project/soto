@@ -887,7 +887,7 @@ extension ECS {
         /// The number of tasks on the container instance that are in the PENDING status.
         public let pendingTasksCount: Int?
         /// The Unix timestamp for when the container instance was registered.
-        public let registeredAt: TimeStamp?
+        public let registeredAt: Date?
         /// For CPU and memory resource types, this parameter describes the amount of each resource that was available on the container instance when the container agent registered it with Amazon ECS. This value represents the total amount of CPU and memory that can be allocated on this container instance to tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent when it registered the container instance with Amazon ECS.
         public let registeredResources: [Resource]?
         /// For CPU and memory resource types, this parameter describes the remaining CPU and memory that has not already been allocated to tasks and is therefore available for new tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent (at instance registration time) and any task containers that have reserved port mappings on the host (with the host or bridge network mode). Any port that is not specified here is available for new tasks.
@@ -905,7 +905,7 @@ extension ECS {
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
         public let versionInfo: VersionInfo?
 
-        public init(agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, capacityProviderName: String? = nil, containerInstanceArn: String? = nil, ec2InstanceId: String? = nil, pendingTasksCount: Int? = nil, registeredAt: TimeStamp? = nil, registeredResources: [Resource]? = nil, remainingResources: [Resource]? = nil, runningTasksCount: Int? = nil, status: String? = nil, statusReason: String? = nil, tags: [Tag]? = nil, version: Int64? = nil, versionInfo: VersionInfo? = nil) {
+        public init(agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, capacityProviderName: String? = nil, containerInstanceArn: String? = nil, ec2InstanceId: String? = nil, pendingTasksCount: Int? = nil, registeredAt: Date? = nil, registeredResources: [Resource]? = nil, remainingResources: [Resource]? = nil, runningTasksCount: Int? = nil, status: String? = nil, statusReason: String? = nil, tags: [Tag]? = nil, version: Int64? = nil, versionInfo: VersionInfo? = nil) {
             self.agentConnected = agentConnected
             self.agentUpdateStatus = agentUpdateStatus
             self.attachments = attachments
@@ -1505,7 +1505,7 @@ extension ECS {
         /// The capacity provider strategy that the deployment is using.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The Unix timestamp for when the service deployment was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The most recent desired count of tasks that was specified for the service to deploy or maintain.
         public let desiredCount: Int?
         /// The ID of the deployment.
@@ -1525,9 +1525,9 @@ extension ECS {
         /// The most recent task definition that was specified for the tasks in the service to use.
         public let taskDefinition: String?
         /// The Unix timestamp for when the service deployment was last updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, createdAt: TimeStamp? = nil, desiredCount: Int? = nil, id: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, runningCount: Int? = nil, status: String? = nil, taskDefinition: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, createdAt: Date? = nil, desiredCount: Int? = nil, id: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, runningCount: Int? = nil, status: String? = nil, taskDefinition: String? = nil, updatedAt: Date? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.createdAt = createdAt
             self.desiredCount = desiredCount
@@ -3417,7 +3417,7 @@ extension ECS {
         /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
         public let clusterArn: String?
         /// The Unix timestamp for when the service was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The principal that created the service.
         public let createdBy: String?
         /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
@@ -3471,7 +3471,7 @@ extension ECS {
         /// Information about a set of Amazon ECS tasks in either an AWS CodeDeploy or an EXTERNAL deployment. An Amazon ECS task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
         public let taskSets: [TaskSet]?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, createdAt: TimeStamp? = nil, createdBy: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, deployments: [Deployment]? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, events: [ServiceEvent]? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, roleArn: String? = nil, runningCount: Int? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceArn: String? = nil, serviceName: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSets: [TaskSet]? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, deployments: [Deployment]? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, events: [ServiceEvent]? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, roleArn: String? = nil, runningCount: Int? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceArn: String? = nil, serviceName: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSets: [TaskSet]? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.createdAt = createdAt
@@ -3538,13 +3538,13 @@ extension ECS {
 
     public struct ServiceEvent: AWSDecodableShape {
         /// The Unix timestamp for when the event was triggered.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The ID string of the event.
         public let id: String?
         /// The event message.
         public let message: String?
 
-        public init(createdAt: TimeStamp? = nil, id: String? = nil, message: String? = nil) {
+        public init(createdAt: Date? = nil, id: String? = nil, message: String? = nil) {
             self.createdAt = createdAt
             self.id = id
             self.message = message
@@ -3807,11 +3807,11 @@ extension ECS {
         /// Any containers associated with the state change request.
         public let containers: [ContainerStateChange]?
         /// The Unix timestamp for when the task execution stopped.
-        public let executionStoppedAt: TimeStamp?
+        public let executionStoppedAt: Date?
         /// The Unix timestamp for when the container image pull began.
-        public let pullStartedAt: TimeStamp?
+        public let pullStartedAt: Date?
         /// The Unix timestamp for when the container image pull completed.
-        public let pullStoppedAt: TimeStamp?
+        public let pullStoppedAt: Date?
         /// The reason for the state change request.
         public let reason: String?
         /// The status of the state change request.
@@ -3819,7 +3819,7 @@ extension ECS {
         /// The task ID or full ARN of the task in the state change request.
         public let task: String?
 
-        public init(attachments: [AttachmentStateChange]? = nil, cluster: String? = nil, containers: [ContainerStateChange]? = nil, executionStoppedAt: TimeStamp? = nil, pullStartedAt: TimeStamp? = nil, pullStoppedAt: TimeStamp? = nil, reason: String? = nil, status: String? = nil, task: String? = nil) {
+        public init(attachments: [AttachmentStateChange]? = nil, cluster: String? = nil, containers: [ContainerStateChange]? = nil, executionStoppedAt: Date? = nil, pullStartedAt: Date? = nil, pullStoppedAt: Date? = nil, reason: String? = nil, status: String? = nil, task: String? = nil) {
             self.attachments = attachments
             self.cluster = cluster
             self.containers = containers
@@ -3943,7 +3943,7 @@ extension ECS {
         /// The connectivity status of a task.
         public let connectivity: Connectivity?
         /// The Unix timestamp for when the task last went into CONNECTED status.
-        public let connectivityAt: TimeStamp?
+        public let connectivityAt: Date?
         /// The ARN of the container instances that host the task.
         public let containerInstanceArn: String?
         /// The containers associated with the task.
@@ -3951,11 +3951,11 @@ extension ECS {
         /// The number of CPU units used by the task as expressed in a task definition. It can be expressed as an integer using CPU units, for example 1024. It can also be expressed as a string using vCPUs, for example 1 vCPU or 1 vcpu. String values are converted to an integer indicating the CPU units when the task definition is registered. If you are using the EC2 launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 10240 CPU units (10 vCPUs). If you are using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of supported values for the memory parameter:   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
         public let cpu: String?
         /// The Unix timestamp for when the task was created (the task entered the PENDING state).
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The desired status of the task. For more information, see Task Lifecycle.
         public let desiredStatus: String?
         /// The Unix timestamp for when the task execution stopped.
-        public let executionStoppedAt: TimeStamp?
+        public let executionStoppedAt: Date?
         /// The name of the task group associated with the task.
         public let group: String?
         /// The health status for the task, which is determined by the health of the essential containers in the task. If all essential containers in the task are reporting as HEALTHY, then the task status also reports as HEALTHY. If any essential containers in the task are reporting as UNHEALTHY or UNKNOWN, then the task status also reports as UNHEALTHY or UNKNOWN, accordingly.  The Amazon ECS container agent does not monitor or report on Docker health checks that are embedded in a container image (such as those specified in a parent image or from the image's Dockerfile) and not specified in the container definition. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image.
@@ -3973,21 +3973,21 @@ extension ECS {
         /// The platform version on which your task is running. A platform version is only specified for tasks using the Fargate launch type. If one is not specified, the LATEST platform version is used by default. For more information, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
         /// The Unix timestamp for when the container image pull began.
-        public let pullStartedAt: TimeStamp?
+        public let pullStartedAt: Date?
         /// The Unix timestamp for when the container image pull completed.
-        public let pullStoppedAt: TimeStamp?
+        public let pullStoppedAt: Date?
         /// The Unix timestamp for when the task started (the task transitioned from the PENDING state to the RUNNING state).
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The tag specified when a task is started. If the task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
         public let startedBy: String?
         /// The stop code indicating why a task was stopped. The stoppedReason may contain additional details.
         public let stopCode: TaskStopCode?
         /// The Unix timestamp for when the task was stopped (the task transitioned from the RUNNING state to the STOPPED state).
-        public let stoppedAt: TimeStamp?
+        public let stoppedAt: Date?
         /// The reason that the task was stopped.
         public let stoppedReason: String?
         /// The Unix timestamp for when the task stops (transitions from the RUNNING state to STOPPED).
-        public let stoppingAt: TimeStamp?
+        public let stoppingAt: Date?
         /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the task.
@@ -3997,7 +3997,7 @@ extension ECS {
         /// The version counter for the task. Every time a task experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS task state with CloudWatch Events, you can compare the version of a task reported by the Amazon ECS API actions with the version reported in CloudWatch Events for the task (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
 
-        public init(attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, availabilityZone: String? = nil, capacityProviderName: String? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: TimeStamp? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: TimeStamp? = nil, desiredStatus: String? = nil, executionStoppedAt: TimeStamp? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformVersion: String? = nil, pullStartedAt: TimeStamp? = nil, pullStoppedAt: TimeStamp? = nil, startedAt: TimeStamp? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: TimeStamp? = nil, stoppedReason: String? = nil, stoppingAt: TimeStamp? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, version: Int64? = nil) {
+        public init(attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, availabilityZone: String? = nil, capacityProviderName: String? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: Date? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: Date? = nil, desiredStatus: String? = nil, executionStoppedAt: Date? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformVersion: String? = nil, pullStartedAt: Date? = nil, pullStoppedAt: Date? = nil, startedAt: Date? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: Date? = nil, stoppedReason: String? = nil, stoppingAt: Date? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, version: Int64? = nil) {
             self.attachments = attachments
             self.attributes = attributes
             self.availabilityZone = availabilityZone
@@ -4213,7 +4213,7 @@ extension ECS {
         /// The computed desired count for the task set. This is calculated by multiplying the service's desiredCount by the task set's scale percentage. The result is always rounded up. For example, if the computed desired count is 1.2, it rounds up to 2 tasks.
         public let computedDesiredCount: Int?
         /// The Unix timestamp for when the task set was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The external ID associated with the task set. If a task set is created by an AWS CodeDeploy deployment, the externalId parameter contains the AWS CodeDeploy deployment ID. If a task set is created for an external deployment and is associated with a service discovery registry, the externalId parameter contains the ECS_TASK_SET_EXTERNAL_ID AWS Cloud Map attribute.
         public let externalId: String?
         /// The ID of the task set.
@@ -4239,7 +4239,7 @@ extension ECS {
         /// The stability status, which indicates whether the task set has reached a steady state. If the following conditions are met, the task set will be in STEADY_STATE:   The task runningCount is equal to the computedDesiredCount.   The pendingCount is 0.   There are no tasks running on container instances in the DRAINING status.   All tasks are reporting a healthy status from the load balancers, service discovery, and container health checks.   If any of those conditions are not met, the stability status returns STABILIZING.
         public let stabilityStatus: StabilityStatus?
         /// The Unix timestamp for when the task set stability status was retrieved.
-        public let stabilityStatusAt: TimeStamp?
+        public let stabilityStatusAt: Date?
         /// The tag specified when a task set is started. If the task set is created by an AWS CodeDeploy deployment, the startedBy parameter is CODE_DEPLOY. For a task set created for an external deployment, the startedBy field isn't used.
         public let startedBy: String?
         /// The status of the task set. The following describes each state:  PRIMARY  The task set is serving production traffic.  ACTIVE  The task set is not serving production traffic.  DRAINING  The tasks in the task set are being stopped and their corresponding targets are being deregistered from their target group.
@@ -4251,9 +4251,9 @@ extension ECS {
         /// The Amazon Resource Name (ARN) of the task set.
         public let taskSetArn: String?
         /// The Unix timestamp for when the task set was last updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, computedDesiredCount: Int? = nil, createdAt: TimeStamp? = nil, externalId: String? = nil, id: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, runningCount: Int? = nil, scale: Scale? = nil, serviceArn: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, stabilityStatus: StabilityStatus? = nil, stabilityStatusAt: TimeStamp? = nil, startedBy: String? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSetArn: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, computedDesiredCount: Int? = nil, createdAt: Date? = nil, externalId: String? = nil, id: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, runningCount: Int? = nil, scale: Scale? = nil, serviceArn: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, stabilityStatus: StabilityStatus? = nil, stabilityStatusAt: Date? = nil, startedBy: String? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSetArn: String? = nil, updatedAt: Date? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.computedDesiredCount = computedDesiredCount

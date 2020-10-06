@@ -356,15 +356,15 @@ extension DirectoryService {
         /// The common name for the certificate.
         public let commonName: String?
         /// The date and time when the certificate will expire.
-        public let expiryDateTime: TimeStamp?
+        public let expiryDateTime: Date?
         /// The date and time that the certificate was registered.
-        public let registeredDateTime: TimeStamp?
+        public let registeredDateTime: Date?
         /// The state of the certificate.
         public let state: CertificateState?
         /// Describes a state change for the certificate.
         public let stateReason: String?
 
-        public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: TimeStamp? = nil, registeredDateTime: TimeStamp? = nil, state: CertificateState? = nil, stateReason: String? = nil) {
+        public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, registeredDateTime: Date? = nil, state: CertificateState? = nil, stateReason: String? = nil) {
             self.certificateId = certificateId
             self.commonName = commonName
             self.expiryDateTime = expiryDateTime
@@ -389,11 +389,11 @@ extension DirectoryService {
         /// The common name for the certificate.
         public let commonName: String?
         /// The date and time when the certificate will expire.
-        public let expiryDateTime: TimeStamp?
+        public let expiryDateTime: Date?
         /// The state of the certificate.
         public let state: CertificateState?
 
-        public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: TimeStamp? = nil, state: CertificateState? = nil) {
+        public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, state: CertificateState? = nil) {
             self.certificateId = certificateId
             self.commonName = commonName
             self.expiryDateTime = expiryDateTime
@@ -1583,7 +1583,7 @@ extension DirectoryService {
         /// The edition associated with this directory.
         public let edition: DirectoryEdition?
         /// Specifies when the directory was created.
-        public let launchTime: TimeStamp?
+        public let launchTime: Date?
         /// The fully qualified name of the directory.
         public let name: String?
         /// Describes the AWS Managed Microsoft AD directory in the directory owner account.
@@ -1607,7 +1607,7 @@ extension DirectoryService {
         /// The current stage of the directory.
         public let stage: DirectoryStage?
         /// The date and time that the stage was last updated.
-        public let stageLastUpdatedDateTime: TimeStamp?
+        public let stageLastUpdatedDateTime: Date?
         /// Additional information about the directory stage.
         public let stageReason: String?
         /// The directory size.
@@ -1615,7 +1615,7 @@ extension DirectoryService {
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
-        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: TimeStamp? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: TimeStamp? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
+        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: Date? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: Date? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accessUrl = accessUrl
             self.alias = alias
             self.connectSettings = connectSettings
@@ -1853,11 +1853,11 @@ extension DirectoryService {
         /// Identifies a specific domain controller in the directory.
         public let domainControllerId: String?
         /// Specifies when the domain controller was created.
-        public let launchTime: TimeStamp?
+        public let launchTime: Date?
         /// The status of the domain controller.
         public let status: DomainControllerStatus?
         /// The date and time that the status was last updated.
-        public let statusLastUpdatedDateTime: TimeStamp?
+        public let statusLastUpdatedDateTime: Date?
         /// A description of the domain controller state.
         public let statusReason: String?
         /// Identifier of the subnet in the VPC that contains the domain controller.
@@ -1865,7 +1865,7 @@ extension DirectoryService {
         /// The identifier of the VPC that contains the domain controller.
         public let vpcId: String?
 
-        public init(availabilityZone: String? = nil, directoryId: String? = nil, dnsIpAddr: String? = nil, domainControllerId: String? = nil, launchTime: TimeStamp? = nil, status: DomainControllerStatus? = nil, statusLastUpdatedDateTime: TimeStamp? = nil, statusReason: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
+        public init(availabilityZone: String? = nil, directoryId: String? = nil, dnsIpAddr: String? = nil, domainControllerId: String? = nil, launchTime: Date? = nil, status: DomainControllerStatus? = nil, statusLastUpdatedDateTime: Date? = nil, statusReason: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.directoryId = directoryId
             self.dnsIpAddr = dnsIpAddr
@@ -1978,7 +1978,7 @@ extension DirectoryService {
 
     public struct EventTopic: AWSDecodableShape {
         /// The date and time of when you associated your directory with the SNS topic.
-        public let createdDateTime: TimeStamp?
+        public let createdDateTime: Date?
         /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
         public let directoryId: String?
         /// The topic registration status.
@@ -1988,7 +1988,7 @@ extension DirectoryService {
         /// The name of an AWS SNS topic the receives status messages from the directory.
         public let topicName: String?
 
-        public init(createdDateTime: TimeStamp? = nil, directoryId: String? = nil, status: TopicStatus? = nil, topicArn: String? = nil, topicName: String? = nil) {
+        public init(createdDateTime: Date? = nil, directoryId: String? = nil, status: TopicStatus? = nil, topicArn: String? = nil, topicName: String? = nil) {
             self.createdDateTime = createdDateTime
             self.directoryId = directoryId
             self.status = status
@@ -2078,7 +2078,7 @@ extension DirectoryService {
 
     public struct IpRouteInfo: AWSDecodableShape {
         /// The date and time the address block was added to the directory.
-        public let addedDateTime: TimeStamp?
+        public let addedDateTime: Date?
         /// IP address block in the IpRoute.
         public let cidrIp: String?
         /// Description of the IpRouteInfo.
@@ -2090,7 +2090,7 @@ extension DirectoryService {
         /// The reason for the IpRouteStatusMsg.
         public let ipRouteStatusReason: String?
 
-        public init(addedDateTime: TimeStamp? = nil, cidrIp: String? = nil, description: String? = nil, directoryId: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, ipRouteStatusReason: String? = nil) {
+        public init(addedDateTime: Date? = nil, cidrIp: String? = nil, description: String? = nil, directoryId: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, ipRouteStatusReason: String? = nil) {
             self.addedDateTime = addedDateTime
             self.cidrIp = cidrIp
             self.description = description
@@ -2111,13 +2111,13 @@ extension DirectoryService {
 
     public struct LDAPSSettingInfo: AWSDecodableShape {
         /// The date and time when the LDAPS settings were last updated.
-        public let lastUpdatedDateTime: TimeStamp?
+        public let lastUpdatedDateTime: Date?
         /// The state of the LDAPS settings.
         public let lDAPSStatus: LDAPSStatus?
         /// Describes a state change for LDAPS.
         public let lDAPSStatusReason: String?
 
-        public init(lastUpdatedDateTime: TimeStamp? = nil, lDAPSStatus: LDAPSStatus? = nil, lDAPSStatusReason: String? = nil) {
+        public init(lastUpdatedDateTime: Date? = nil, lDAPSStatus: LDAPSStatus? = nil, lDAPSStatusReason: String? = nil) {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.lDAPSStatus = lDAPSStatus
             self.lDAPSStatusReason = lDAPSStatusReason
@@ -2352,9 +2352,9 @@ extension DirectoryService {
         /// The name of the log group.
         public let logGroupName: String?
         /// The date and time that the log subscription was created.
-        public let subscriptionCreatedDateTime: TimeStamp?
+        public let subscriptionCreatedDateTime: Date?
 
-        public init(directoryId: String? = nil, logGroupName: String? = nil, subscriptionCreatedDateTime: TimeStamp? = nil) {
+        public init(directoryId: String? = nil, logGroupName: String? = nil, subscriptionCreatedDateTime: Date? = nil) {
             self.directoryId = directoryId
             self.logGroupName = logGroupName
             self.subscriptionCreatedDateTime = subscriptionCreatedDateTime
@@ -2671,7 +2671,7 @@ extension DirectoryService {
         /// The identifier of the directory to which the schema extension is applied.
         public let directoryId: String?
         /// The date and time that the schema extension was completed.
-        public let endDateTime: TimeStamp?
+        public let endDateTime: Date?
         /// The identifier of the schema extension.
         public let schemaExtensionId: String?
         /// The current status of the schema extension.
@@ -2679,9 +2679,9 @@ extension DirectoryService {
         /// The reason for the SchemaExtensionStatus.
         public let schemaExtensionStatusReason: String?
         /// The date and time that the schema extension started being applied to the directory.
-        public let startDateTime: TimeStamp?
+        public let startDateTime: Date?
 
-        public init(description: String? = nil, directoryId: String? = nil, endDateTime: TimeStamp? = nil, schemaExtensionId: String? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, schemaExtensionStatusReason: String? = nil, startDateTime: TimeStamp? = nil) {
+        public init(description: String? = nil, directoryId: String? = nil, endDateTime: Date? = nil, schemaExtensionId: String? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, schemaExtensionStatusReason: String? = nil, startDateTime: Date? = nil) {
             self.description = description
             self.directoryId = directoryId
             self.endDateTime = endDateTime
@@ -2770,9 +2770,9 @@ extension DirectoryService {
 
     public struct SharedDirectory: AWSDecodableShape {
         /// The date and time that the shared directory was created.
-        public let createdDateTime: TimeStamp?
+        public let createdDateTime: Date?
         /// The date and time that the shared directory was last updated.
-        public let lastUpdatedDateTime: TimeStamp?
+        public let lastUpdatedDateTime: Date?
         /// Identifier of the directory owner account, which contains the directory that has been shared to the consumer account.
         public let ownerAccountId: String?
         /// Identifier of the directory in the directory owner account.
@@ -2788,7 +2788,7 @@ extension DirectoryService {
         /// Current directory status of the shared AWS Managed Microsoft AD directory.
         public let shareStatus: ShareStatus?
 
-        public init(createdDateTime: TimeStamp? = nil, lastUpdatedDateTime: TimeStamp? = nil, ownerAccountId: String? = nil, ownerDirectoryId: String? = nil, sharedAccountId: String? = nil, sharedDirectoryId: String? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil) {
+        public init(createdDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, ownerAccountId: String? = nil, ownerDirectoryId: String? = nil, sharedAccountId: String? = nil, sharedDirectoryId: String? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil) {
             self.createdDateTime = createdDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.ownerAccountId = ownerAccountId
@@ -2821,13 +2821,13 @@ extension DirectoryService {
         /// The snapshot identifier.
         public let snapshotId: String?
         /// The date and time that the snapshot was taken.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The snapshot status.
         public let status: SnapshotStatus?
         /// The snapshot type.
         public let `type`: SnapshotType?
 
-        public init(directoryId: String? = nil, name: String? = nil, snapshotId: String? = nil, startTime: TimeStamp? = nil, status: SnapshotStatus? = nil, type: SnapshotType? = nil) {
+        public init(directoryId: String? = nil, name: String? = nil, snapshotId: String? = nil, startTime: Date? = nil, status: SnapshotStatus? = nil, type: SnapshotType? = nil) {
             self.directoryId = directoryId
             self.name = name
             self.snapshotId = snapshotId
@@ -2942,17 +2942,17 @@ extension DirectoryService {
 
     public struct Trust: AWSDecodableShape {
         /// The date and time that the trust relationship was created.
-        public let createdDateTime: TimeStamp?
+        public let createdDateTime: Date?
         /// The Directory ID of the AWS directory involved in the trust relationship.
         public let directoryId: String?
         /// The date and time that the trust relationship was last updated.
-        public let lastUpdatedDateTime: TimeStamp?
+        public let lastUpdatedDateTime: Date?
         /// The Fully Qualified Domain Name (FQDN) of the external domain involved in the trust relationship.
         public let remoteDomainName: String?
         /// Current state of selective authentication for the trust.
         public let selectiveAuth: SelectiveAuth?
         /// The date and time that the TrustState was last updated.
-        public let stateLastUpdatedDateTime: TimeStamp?
+        public let stateLastUpdatedDateTime: Date?
         /// The trust relationship direction.
         public let trustDirection: TrustDirection?
         /// The unique ID of the trust relationship.
@@ -2964,7 +2964,7 @@ extension DirectoryService {
         /// The trust relationship type. Forest is the default.
         public let trustType: TrustType?
 
-        public init(createdDateTime: TimeStamp? = nil, directoryId: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, remoteDomainName: String? = nil, selectiveAuth: SelectiveAuth? = nil, stateLastUpdatedDateTime: TimeStamp? = nil, trustDirection: TrustDirection? = nil, trustId: String? = nil, trustState: TrustState? = nil, trustStateReason: String? = nil, trustType: TrustType? = nil) {
+        public init(createdDateTime: Date? = nil, directoryId: String? = nil, lastUpdatedDateTime: Date? = nil, remoteDomainName: String? = nil, selectiveAuth: SelectiveAuth? = nil, stateLastUpdatedDateTime: Date? = nil, trustDirection: TrustDirection? = nil, trustId: String? = nil, trustState: TrustState? = nil, trustStateReason: String? = nil, trustType: TrustType? = nil) {
             self.createdDateTime = createdDateTime
             self.directoryId = directoryId
             self.lastUpdatedDateTime = lastUpdatedDateTime

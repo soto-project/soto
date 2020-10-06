@@ -945,13 +945,13 @@ extension Transfer {
 
     public struct SshPublicKey: AWSDecodableShape {
         /// Specifies the date that the public key was added to the user account.
-        public let dateImported: TimeStamp
+        public let dateImported: Date
         /// Specifies the content of the SSH public key as specified by the PublicKeyId.
         public let sshPublicKeyBody: String
         /// Specifies the SshPublicKeyId parameter contains the identifier of the public key.
         public let sshPublicKeyId: String
 
-        public init(dateImported: TimeStamp, sshPublicKeyBody: String, sshPublicKeyId: String) {
+        public init(dateImported: Date, sshPublicKeyBody: String, sshPublicKeyId: String) {
             self.dateImported = dateImported
             self.sshPublicKeyBody = sshPublicKeyBody
             self.sshPublicKeyId = sshPublicKeyId

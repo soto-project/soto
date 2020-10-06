@@ -416,7 +416,7 @@ extension DynamoDBStreams {
 
     public struct StreamDescription: AWSDecodableShape {
         /// The date and time when the request to create this stream was issued.
-        public let creationRequestDateTime: TimeStamp?
+        public let creationRequestDateTime: Date?
         /// The key attribute(s) of the stream's DynamoDB table.
         public let keySchema: [KeySchemaElement]?
         /// The shard ID of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedShardId is empty, then the "last page" of results has been processed and there is currently no more data to be retrieved. If LastEvaluatedShardId is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedShardId is empty.
@@ -434,7 +434,7 @@ extension DynamoDBStreams {
         /// The DynamoDB table with which the stream is associated.
         public let tableName: String?
 
-        public init(creationRequestDateTime: TimeStamp? = nil, keySchema: [KeySchemaElement]? = nil, lastEvaluatedShardId: String? = nil, shards: [Shard]? = nil, streamArn: String? = nil, streamLabel: String? = nil, streamStatus: StreamStatus? = nil, streamViewType: StreamViewType? = nil, tableName: String? = nil) {
+        public init(creationRequestDateTime: Date? = nil, keySchema: [KeySchemaElement]? = nil, lastEvaluatedShardId: String? = nil, shards: [Shard]? = nil, streamArn: String? = nil, streamLabel: String? = nil, streamStatus: StreamStatus? = nil, streamViewType: StreamViewType? = nil, tableName: String? = nil) {
             self.creationRequestDateTime = creationRequestDateTime
             self.keySchema = keySchema
             self.lastEvaluatedShardId = lastEvaluatedShardId
@@ -461,7 +461,7 @@ extension DynamoDBStreams {
 
     public struct StreamRecord: AWSDecodableShape {
         /// The approximate date and time when the stream record was created, in UNIX epoch time format.
-        public let approximateCreationDateTime: TimeStamp?
+        public let approximateCreationDateTime: Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
         public let keys: [String: AttributeValue]?
         /// The item in the DynamoDB table as it appeared after it was modified.
@@ -475,7 +475,7 @@ extension DynamoDBStreams {
         /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.
         public let streamViewType: StreamViewType?
 
-        public init(approximateCreationDateTime: TimeStamp? = nil, keys: [String: AttributeValue]? = nil, newImage: [String: AttributeValue]? = nil, oldImage: [String: AttributeValue]? = nil, sequenceNumber: String? = nil, sizeBytes: Int64? = nil, streamViewType: StreamViewType? = nil) {
+        public init(approximateCreationDateTime: Date? = nil, keys: [String: AttributeValue]? = nil, newImage: [String: AttributeValue]? = nil, oldImage: [String: AttributeValue]? = nil, sequenceNumber: String? = nil, sizeBytes: Int64? = nil, streamViewType: StreamViewType? = nil) {
             self.approximateCreationDateTime = approximateCreationDateTime
             self.keys = keys
             self.newImage = newImage

@@ -573,18 +573,18 @@ extension ManagedBlockchain {
 
     public struct Invitation: AWSDecodableShape {
         /// The date and time that the invitation was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         /// The date and time that the invitation expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy. After this date and time, the invitee can no longer create a member and join the network using this InvitationId.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var expirationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expirationDate: Date?
         /// The unique identifier for the invitation.
         public let invitationId: String?
         public let networkSummary: NetworkSummary?
         /// The status of the invitation:    PENDING - The invitee has not created a member to join the network, and the invitation has not yet expired.    ACCEPTING - The invitee has begun creating a member, and creation has not yet completed.    ACCEPTED - The invitee created a member and joined the network using the InvitationID.    REJECTED - The invitee rejected the invitation.    EXPIRED - The invitee neither created a member nor rejected the invitation before the ExpirationDate.
         public let status: InvitationStatus?
 
-        public init(creationDate: TimeStamp? = nil, expirationDate: TimeStamp? = nil, invitationId: String? = nil, networkSummary: NetworkSummary? = nil, status: InvitationStatus? = nil) {
+        public init(creationDate: Date? = nil, expirationDate: Date? = nil, invitationId: String? = nil, networkSummary: NetworkSummary? = nil, status: InvitationStatus? = nil) {
             self.creationDate = creationDate
             self.expirationDate = expirationDate
             self.invitationId = invitationId
@@ -958,8 +958,8 @@ extension ManagedBlockchain {
 
     public struct Member: AWSDecodableShape {
         /// The date and time that the member was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         /// An optional description for the member.
         public let description: String?
         /// Attributes relevant to a member for the blockchain framework that the Managed Blockchain network uses.
@@ -975,7 +975,7 @@ extension ManagedBlockchain {
         /// The status of a member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.
         public let status: MemberStatus?
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil) {
+        public init(creationDate: Date? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil) {
             self.creationDate = creationDate
             self.description = description
             self.frameworkAttributes = frameworkAttributes
@@ -1131,8 +1131,8 @@ extension ManagedBlockchain {
 
     public struct MemberSummary: AWSDecodableShape {
         /// The date and time that the member was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         /// An optional description of the member.
         public let description: String?
         /// The unique identifier of the member.
@@ -1144,7 +1144,7 @@ extension ManagedBlockchain {
         /// The status of the member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.
         public let status: MemberStatus?
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, id: String? = nil, isOwned: Bool? = nil, name: String? = nil, status: MemberStatus? = nil) {
+        public init(creationDate: Date? = nil, description: String? = nil, id: String? = nil, isOwned: Bool? = nil, name: String? = nil, status: MemberStatus? = nil) {
             self.creationDate = creationDate
             self.description = description
             self.id = id
@@ -1165,8 +1165,8 @@ extension ManagedBlockchain {
 
     public struct Network: AWSDecodableShape {
         /// The date and time that the network was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         /// Attributes of the blockchain framework for the network.
         public let description: String?
         /// The blockchain framework that the network uses.
@@ -1186,7 +1186,7 @@ extension ManagedBlockchain {
         /// The VPC endpoint service name of the VPC endpoint service of the network. Members use the VPC endpoint service name to create a VPC endpoint to access network resources.
         public let vpcEndpointServiceName: String?
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, framework: Framework? = nil, frameworkAttributes: NetworkFrameworkAttributes? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil, votingPolicy: VotingPolicy? = nil, vpcEndpointServiceName: String? = nil) {
+        public init(creationDate: Date? = nil, description: String? = nil, framework: Framework? = nil, frameworkAttributes: NetworkFrameworkAttributes? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil, votingPolicy: VotingPolicy? = nil, vpcEndpointServiceName: String? = nil) {
             self.creationDate = creationDate
             self.description = description
             self.framework = framework
@@ -1271,8 +1271,8 @@ extension ManagedBlockchain {
 
     public struct NetworkSummary: AWSDecodableShape {
         /// The date and time that the network was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         /// An optional description of the network.
         public let description: String?
         /// The blockchain framework that the network uses.
@@ -1286,7 +1286,7 @@ extension ManagedBlockchain {
         /// The current status of the network.
         public let status: NetworkStatus?
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, framework: Framework? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil) {
+        public init(creationDate: Date? = nil, description: String? = nil, framework: Framework? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil) {
             self.creationDate = creationDate
             self.description = description
             self.framework = framework
@@ -1311,8 +1311,8 @@ extension ManagedBlockchain {
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
         /// The date and time that the node was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         /// Attributes of the blockchain framework being used.
         public let frameworkAttributes: NodeFrameworkAttributes?
         /// The unique identifier of the node.
@@ -1327,7 +1327,7 @@ extension ManagedBlockchain {
         /// The status of the node.
         public let status: NodeStatus?
 
-        public init(availabilityZone: String? = nil, creationDate: TimeStamp? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, status: NodeStatus? = nil) {
+        public init(availabilityZone: String? = nil, creationDate: Date? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, status: NodeStatus? = nil) {
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
             self.frameworkAttributes = frameworkAttributes
@@ -1436,8 +1436,8 @@ extension ManagedBlockchain {
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
         /// The date and time that the node was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         /// The unique identifier of the node.
         public let id: String?
         /// The EC2 instance type for the node.
@@ -1445,7 +1445,7 @@ extension ManagedBlockchain {
         /// The status of the node.
         public let status: NodeStatus?
 
-        public init(availabilityZone: String? = nil, creationDate: TimeStamp? = nil, id: String? = nil, instanceType: String? = nil, status: NodeStatus? = nil) {
+        public init(availabilityZone: String? = nil, creationDate: Date? = nil, id: String? = nil, instanceType: String? = nil, status: NodeStatus? = nil) {
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
             self.id = id
@@ -1466,13 +1466,13 @@ extension ManagedBlockchain {
         /// The actions to perform on the network if the proposal is APPROVED.
         public let actions: ProposalActions?
         ///  The date and time that the proposal was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         /// The description of the proposal.
         public let description: String?
         ///  The date and time that the proposal expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy. After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is EXPIRED and Actions are not carried out.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var expirationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expirationDate: Date?
         /// The unique identifier of the network for which the proposal is made.
         public let networkId: String?
         ///  The current total of NO votes cast on the proposal by members.
@@ -1490,7 +1490,7 @@ extension ManagedBlockchain {
         ///  The current total of YES votes cast on the proposal by members.
         public let yesVoteCount: Int?
 
-        public init(actions: ProposalActions? = nil, creationDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, networkId: String? = nil, noVoteCount: Int? = nil, outstandingVoteCount: Int? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil, yesVoteCount: Int? = nil) {
+        public init(actions: ProposalActions? = nil, creationDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, networkId: String? = nil, noVoteCount: Int? = nil, outstandingVoteCount: Int? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil, yesVoteCount: Int? = nil) {
             self.actions = actions
             self.creationDate = creationDate
             self.description = description
@@ -1546,13 +1546,13 @@ extension ManagedBlockchain {
 
     public struct ProposalSummary: AWSDecodableShape {
         ///  The date and time that the proposal was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         ///  The description of the proposal.
         public let description: String?
         ///  The date and time that the proposal expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy. After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is EXPIRED and Actions are not carried out.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var expirationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expirationDate: Date?
         ///  The unique identifier of the proposal.
         public let proposalId: String?
         ///  The unique identifier of the member that created the proposal.
@@ -1562,7 +1562,7 @@ extension ManagedBlockchain {
         /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions are not carried out.    EXPIRED - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions are not carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved could not be completed because of an error.
         public let status: ProposalStatus?
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil) {
+        public init(creationDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil) {
             self.creationDate = creationDate
             self.description = description
             self.expirationDate = expirationDate

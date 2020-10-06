@@ -203,9 +203,9 @@ extension WorkSpaces {
         /// The state of the modification to the configuration of BYOL.
         public let modificationState: DedicatedTenancyModificationStateEnum?
         /// The timestamp when the modification of the BYOL configuration was started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil, errorCode: String? = nil, errorMessage: String? = nil, modificationState: DedicatedTenancyModificationStateEnum? = nil, startTime: TimeStamp? = nil) {
+        public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil, errorCode: String? = nil, errorMessage: String? = nil, modificationState: DedicatedTenancyModificationStateEnum? = nil, startTime: Date? = nil) {
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
             self.errorCode = errorCode
@@ -2144,9 +2144,9 @@ extension WorkSpaces {
 
     public struct Snapshot: AWSDecodableShape {
         /// The time when the snapshot was created.
-        public let snapshotTime: TimeStamp?
+        public let snapshotTime: Date?
 
-        public init(snapshotTime: TimeStamp? = nil) {
+        public init(snapshotTime: Date? = nil) {
             self.snapshotTime = snapshotTime
         }
 
@@ -2543,7 +2543,7 @@ extension WorkSpaces {
         /// The image identifier of the bundle.
         public let imageId: String?
         /// The last time that the bundle was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The name of the bundle.
         public let name: String?
         /// The owner of the bundle. This is the account identifier of the owner, or AMAZON if the bundle is provided by AWS.
@@ -2553,7 +2553,7 @@ extension WorkSpaces {
         /// The size of the user storage.
         public let userStorage: UserStorage?
 
-        public init(bundleId: String? = nil, computeType: ComputeType? = nil, description: String? = nil, imageId: String? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, userStorage: UserStorage? = nil) {
+        public init(bundleId: String? = nil, computeType: ComputeType? = nil, description: String? = nil, imageId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, userStorage: UserStorage? = nil) {
             self.bundleId = bundleId
             self.computeType = computeType
             self.description = description
@@ -2582,13 +2582,13 @@ extension WorkSpaces {
         /// The connection state of the WorkSpace. The connection state is unknown if the WorkSpace is stopped.
         public let connectionState: ConnectionState?
         /// The timestamp of the connection status check.
-        public let connectionStateCheckTimestamp: TimeStamp?
+        public let connectionStateCheckTimestamp: Date?
         /// The timestamp of the last known user connection.
-        public let lastKnownUserConnectionTimestamp: TimeStamp?
+        public let lastKnownUserConnectionTimestamp: Date?
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
 
-        public init(connectionState: ConnectionState? = nil, connectionStateCheckTimestamp: TimeStamp? = nil, lastKnownUserConnectionTimestamp: TimeStamp? = nil, workspaceId: String? = nil) {
+        public init(connectionState: ConnectionState? = nil, connectionStateCheckTimestamp: Date? = nil, lastKnownUserConnectionTimestamp: Date? = nil, workspaceId: String? = nil) {
             self.connectionState = connectionState
             self.connectionStateCheckTimestamp = connectionStateCheckTimestamp
             self.lastKnownUserConnectionTimestamp = lastKnownUserConnectionTimestamp
@@ -2717,7 +2717,7 @@ extension WorkSpaces {
 
     public struct WorkspaceImage: AWSDecodableShape {
         /// The date when the image was created. If the image has been shared, the AWS account that the image has been shared with sees the original creation date of the image.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The description of the image.
         public let description: String?
         /// The error code that is returned for the image.
@@ -2737,7 +2737,7 @@ extension WorkSpaces {
         /// The status of the image.
         public let state: WorkspaceImageState?
 
-        public init(created: TimeStamp? = nil, description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
+        public init(created: Date? = nil, description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
             self.created = created
             self.description = description
             self.errorCode = errorCode

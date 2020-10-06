@@ -1115,9 +1115,9 @@ extension Glue {
         /// The name of the person who initiated the migration.
         public let importedBy: String?
         /// The time that the migration was started.
-        public let importTime: TimeStamp?
+        public let importTime: Date?
 
-        public init(importCompleted: Bool? = nil, importedBy: String? = nil, importTime: TimeStamp? = nil) {
+        public init(importCompleted: Bool? = nil, importedBy: String? = nil, importTime: Date? = nil) {
             self.importCompleted = importCompleted
             self.importedBy = importedBy
             self.importTime = importTime
@@ -1351,7 +1351,7 @@ extension Glue {
 
     public struct ColumnStatistics: AWSEncodableShape & AWSDecodableShape {
         /// The analyzed time of the column statistics.
-        public let analyzedTime: TimeStamp
+        public let analyzedTime: Date
         /// The name of the column.
         public let columnName: String
         /// The type of the column.
@@ -1359,7 +1359,7 @@ extension Glue {
         /// The statistics of the column.
         public let statisticsData: ColumnStatisticsData
 
-        public init(analyzedTime: TimeStamp, columnName: String, columnType: String, statisticsData: ColumnStatisticsData) {
+        public init(analyzedTime: Date, columnName: String, columnType: String, statisticsData: ColumnStatisticsData) {
             self.analyzedTime = analyzedTime
             self.columnName = columnName
             self.columnType = columnType
@@ -1521,13 +1521,13 @@ extension Glue {
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
         /// The time that this connection definition was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The description of the connection.
         public let description: String?
         /// The user, group, or role that last updated this connection definition.
         public let lastUpdatedBy: String?
         /// The last time that this connection definition was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// A list of criteria that can be used in selecting this connection.
         public let matchCriteria: [String]?
         /// The name of the connection definition.
@@ -1535,7 +1535,7 @@ extension Glue {
         /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to make this connection successfully.
         public let physicalConnectionRequirements: PhysicalConnectionRequirements?
 
-        public init(connectionProperties: [ConnectionPropertyKey: String]? = nil, connectionType: ConnectionType? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: TimeStamp? = nil, matchCriteria: [String]? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
+        public init(connectionProperties: [ConnectionPropertyKey: String]? = nil, connectionType: ConnectionType? = nil, creationTime: Date? = nil, description: String? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: Date? = nil, matchCriteria: [String]? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
             self.creationTime = creationTime
@@ -1651,7 +1651,7 @@ extension Glue {
 
     public struct Crawl: AWSDecodableShape {
         /// The date and time on which the crawl completed.
-        public let completedOn: TimeStamp?
+        public let completedOn: Date?
         /// The error message associated with the crawl.
         public let errorMessage: String?
         /// The log group associated with the crawl.
@@ -1659,11 +1659,11 @@ extension Glue {
         /// The log stream associated with the crawl.
         public let logStream: String?
         /// The date and time on which the crawl started.
-        public let startedOn: TimeStamp?
+        public let startedOn: Date?
         /// The state of the crawler.
         public let state: CrawlState?
 
-        public init(completedOn: TimeStamp? = nil, errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, startedOn: TimeStamp? = nil, state: CrawlState? = nil) {
+        public init(completedOn: Date? = nil, errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, startedOn: Date? = nil, state: CrawlState? = nil) {
             self.completedOn = completedOn
             self.errorMessage = errorMessage
             self.logGroup = logGroup
@@ -1692,7 +1692,7 @@ extension Glue {
         /// The name of the SecurityConfiguration structure to be used by this crawler.
         public let crawlerSecurityConfiguration: String?
         /// The time that the crawler was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the database in which the crawler's output is stored.
         public let databaseName: String?
         /// A description of the crawler.
@@ -1700,7 +1700,7 @@ extension Glue {
         /// The status of the last crawl, and potentially error information if an error occurred.
         public let lastCrawl: LastCrawlInfo?
         /// The time that the crawler was last updated.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// The name of the crawler.
         public let name: String?
         /// The Amazon Resource Name (ARN) of an IAM role that's used to access customer resources, such as Amazon Simple Storage Service (Amazon S3) data.
@@ -1718,7 +1718,7 @@ extension Glue {
         /// The version of the crawler.
         public let version: Int64?
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: TimeStamp? = nil, name: String? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, name: String? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlElapsedTime = crawlElapsedTime
@@ -2168,7 +2168,7 @@ extension Glue {
         /// The AWS Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
         /// The point in time at which this DevEndpoint was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The name assigned to the new DevEndpoint.
         public let endpointName: String?
         /// Path to one or more Java .jar files in an S3 bucket that will be loaded in your DevEndpoint.
@@ -2202,7 +2202,7 @@ extension Glue {
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int?
 
-        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, glueVersion: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: Date? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, glueVersion: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -2635,11 +2635,11 @@ extension Glue {
 
     public struct CreateSecurityConfigurationResponse: AWSDecodableShape {
         /// The time at which the new security configuration was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The name assigned to the new security configuration.
         public let name: String?
 
-        public init(createdTimestamp: TimeStamp? = nil, name: String? = nil) {
+        public init(createdTimestamp: Date? = nil, name: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
         }
@@ -2900,7 +2900,7 @@ extension Glue {
         /// Indicates whether the CSV file contains a header.
         public let containsHeader: CsvHeaderOption?
         /// The time that this classifier was registered.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// A custom symbol to denote what separates each column entry in the row.
         public let delimiter: String?
         /// Specifies not to trim values before identifying the type of column values. The default value is true.
@@ -2908,7 +2908,7 @@ extension Glue {
         /// A list of strings representing column names.
         public let header: [String]?
         /// The time that this classifier was last updated.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// The name of the classifier.
         public let name: String
         /// A custom symbol to denote what combines content into a single column value. It must be different from the column delimiter.
@@ -2916,7 +2916,7 @@ extension Glue {
         /// The version of this classifier.
         public let version: Int64?
 
-        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, creationTime: TimeStamp? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, lastUpdated: TimeStamp? = nil, name: String, quoteSymbol: String? = nil, version: Int64? = nil) {
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, creationTime: Date? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, lastUpdated: Date? = nil, name: String, quoteSymbol: String? = nil, version: Int64? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.creationTime = creationTime
@@ -2989,7 +2989,7 @@ extension Glue {
         /// Creates a set of default permissions on the table for principals.
         public let createTableDefaultPermissions: [PrincipalPermissions]?
         /// The time at which the metadata database was created in the catalog.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// A description of the database.
         public let description: String?
         /// The location of the database (for example, an HDFS path).
@@ -3001,7 +3001,7 @@ extension Glue {
         /// A DatabaseIdentifier structure that describes a target database for resource linking.
         public let targetDatabase: DatabaseIdentifier?
 
-        public init(catalogId: String? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, createTime: TimeStamp? = nil, description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil, targetDatabase: DatabaseIdentifier? = nil) {
+        public init(catalogId: String? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, createTime: Date? = nil, description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil, targetDatabase: DatabaseIdentifier? = nil) {
             self.catalogId = catalogId
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.createTime = createTime
@@ -3107,15 +3107,15 @@ extension Glue {
 
     public struct DateColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
         /// Maximum value of the column.
-        public let maximumValue: TimeStamp?
+        public let maximumValue: Date?
         /// Minimum value of the column.
-        public let minimumValue: TimeStamp?
+        public let minimumValue: Date?
         /// Number of distinct values.
         public let numberOfDistinctValues: Int64
         /// Number of nulls.
         public let numberOfNulls: Int64
 
-        public init(maximumValue: TimeStamp? = nil, minimumValue: TimeStamp? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
+        public init(maximumValue: Date? = nil, minimumValue: Date? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -3749,7 +3749,7 @@ extension Glue {
         /// The AWS Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
         /// The point in time at which this DevEndpoint was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The name of the DevEndpoint.
         public let endpointName: String?
         /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint.
@@ -3761,7 +3761,7 @@ extension Glue {
         /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.  For more information about the available AWS Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Development endpoints that are created without specifying a Glue version default to Glue 0.9. You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let glueVersion: String?
         /// The point in time at which this DevEndpoint was last modified.
-        public let lastModifiedTimestamp: TimeStamp?
+        public let lastModifiedTimestamp: Date?
         /// The status of the last update.
         public let lastUpdateStatus: String?
         /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
@@ -3795,7 +3795,7 @@ extension Glue {
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int?
 
-        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, glueVersion: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: Date? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, glueVersion: String? = nil, lastModifiedTimestamp: Date? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -5046,19 +5046,19 @@ extension Glue {
 
     public struct GetMLTaskRunResponse: AWSDecodableShape {
         /// The date and time when this task run was completed.
-        public let completedOn: TimeStamp?
+        public let completedOn: Date?
         /// The error strings that are associated with the task run.
         public let errorString: String?
         /// The amount of time (in seconds) that the task run consumed resources.
         public let executionTime: Int?
         /// The date and time when this task run was last modified.
-        public let lastModifiedOn: TimeStamp?
+        public let lastModifiedOn: Date?
         /// The names of the log groups that are associated with the task run.
         public let logGroupName: String?
         /// The list of properties that are associated with the task run.
         public let properties: TaskRunProperties?
         /// The date and time when this task run started.
-        public let startedOn: TimeStamp?
+        public let startedOn: Date?
         /// The status for this task run.
         public let status: TaskStatusType?
         /// The unique run identifier associated with this run.
@@ -5066,7 +5066,7 @@ extension Glue {
         /// The unique identifier of the task run.
         public let transformId: String?
 
-        public init(completedOn: TimeStamp? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, properties: TaskRunProperties? = nil, startedOn: TimeStamp? = nil, status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
+        public init(completedOn: Date? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, properties: TaskRunProperties? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
             self.completedOn = completedOn
             self.errorString = errorString
             self.executionTime = executionTime
@@ -5168,7 +5168,7 @@ extension Glue {
 
     public struct GetMLTransformResponse: AWSDecodableShape {
         /// The date and time when the transform was created.
-        public let createdOn: TimeStamp?
+        public let createdOn: Date?
         /// A description of the transform.
         public let description: String?
         /// The latest evaluation metrics.
@@ -5180,7 +5180,7 @@ extension Glue {
         /// The number of labels available for this transform.
         public let labelCount: Int?
         /// The date and time when the transform was last modified.
-        public let lastModifiedOn: TimeStamp?
+        public let lastModifiedOn: Date?
         /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
         public let maxCapacity: Double?
         /// The maximum number of times to retry a task for this transform after a task run fails.
@@ -5204,7 +5204,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
-        public init(createdOn: TimeStamp? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: TimeStamp? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
+        public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
             self.createdOn = createdOn
             self.description = description
             self.evaluationMetrics = evaluationMetrics
@@ -5630,15 +5630,15 @@ extension Glue {
 
     public struct GetResourcePolicyResponse: AWSDecodableShape {
         /// The date and time at which the policy was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// Contains the hash value associated with this policy.
         public let policyHash: String?
         /// Contains the requested policy document, in JSON format.
         public let policyInJson: String?
         /// The date and time at which the policy was last updated.
-        public let updateTime: TimeStamp?
+        public let updateTime: Date?
 
-        public init(createTime: TimeStamp? = nil, policyHash: String? = nil, policyInJson: String? = nil, updateTime: TimeStamp? = nil) {
+        public init(createTime: Date? = nil, policyHash: String? = nil, policyInJson: String? = nil, updateTime: Date? = nil) {
             self.createTime = createTime
             self.policyHash = policyHash
             self.policyInJson = policyInJson
@@ -6329,15 +6329,15 @@ extension Glue {
 
     public struct GluePolicy: AWSDecodableShape {
         /// The date and time at which the policy was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// Contains the hash value associated with this policy.
         public let policyHash: String?
         /// Contains the requested policy document, in JSON format.
         public let policyInJson: String?
         /// The date and time at which the policy was last updated.
-        public let updateTime: TimeStamp?
+        public let updateTime: Date?
 
-        public init(createTime: TimeStamp? = nil, policyHash: String? = nil, policyInJson: String? = nil, updateTime: TimeStamp? = nil) {
+        public init(createTime: Date? = nil, policyHash: String? = nil, policyInJson: String? = nil, updateTime: Date? = nil) {
             self.createTime = createTime
             self.policyHash = policyHash
             self.policyInJson = policyInJson
@@ -6396,19 +6396,19 @@ extension Glue {
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, and so on.
         public let classification: String
         /// The time that this classifier was registered.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Optional custom grok patterns defined by this classifier. For more information, see custom patterns in Writing Custom Classifiers.
         public let customPatterns: String?
         /// The grok pattern applied to a data store by this classifier. For more information, see built-in patterns in Writing Custom Classifiers.
         public let grokPattern: String
         /// The time that this classifier was last updated.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// The name of the classifier.
         public let name: String
         /// The version of this classifier.
         public let version: Int64?
 
-        public init(classification: String, creationTime: TimeStamp? = nil, customPatterns: String? = nil, grokPattern: String, lastUpdated: TimeStamp? = nil, name: String, version: Int64? = nil) {
+        public init(classification: String, creationTime: Date? = nil, customPatterns: String? = nil, grokPattern: String, lastUpdated: Date? = nil, name: String, version: Int64? = nil) {
             self.classification = classification
             self.creationTime = creationTime
             self.customPatterns = customPatterns
@@ -6496,7 +6496,7 @@ extension Glue {
         /// The connections used for this job.
         public let connections: ConnectionsList?
         /// The time and date that this job definition was created.
-        public let createdOn: TimeStamp?
+        public let createdOn: Date?
         /// The default arguments for this job, specified as name-value pairs. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let defaultArguments: [String: String]?
         /// A description of the job.
@@ -6506,7 +6506,7 @@ extension Glue {
         /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for jobs of type Spark.  For more information about the available AWS Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public let glueVersion: String?
         /// The last point in time when this job definition was modified.
-        public let lastModifiedOn: TimeStamp?
+        public let lastModifiedOn: Date?
         /// This field is reserved for future use.
         public let logUri: String?
         /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
@@ -6530,7 +6530,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.createdOn = createdOn
@@ -6677,7 +6677,7 @@ extension Glue {
         /// The number of the attempt to run this job.
         public let attempt: Int?
         /// The date and time that this job run completed.
-        public let completedOn: TimeStamp?
+        public let completedOn: Date?
         /// An error message associated with this job run.
         public let errorMessage: String?
         /// The amount of time (in seconds) that the job run consumed resources.
@@ -6691,7 +6691,7 @@ extension Glue {
         /// The current state of the job run. For more information about the statuses of jobs that have terminated abnormally, see AWS Glue Job Run Statuses.
         public let jobRunState: JobRunState?
         /// The last time that this job run was modified.
-        public let lastModifiedOn: TimeStamp?
+        public let lastModifiedOn: Date?
         /// The name of the log group for secure logging that can be server-side encrypted in Amazon CloudWatch using AWS KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration is used to encrypt the log group.
         public let logGroupName: String?
         /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
@@ -6707,7 +6707,7 @@ extension Glue {
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public let securityConfiguration: String?
         /// The date and time at which this job run was started.
-        public let startedOn: TimeStamp?
+        public let startedOn: Date?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
         public let timeout: Int?
         /// The name of the trigger that started this job run.
@@ -6715,7 +6715,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.arguments = arguments
             self.attempt = attempt
             self.completedOn = completedOn
@@ -6854,17 +6854,17 @@ extension Glue {
 
     public struct JsonClassifier: AWSDecodableShape {
         /// The time that this classifier was registered.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
         public let jsonPath: String
         /// The time that this classifier was last updated.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// The name of the classifier.
         public let name: String
         /// The version of this classifier.
         public let version: Int64?
 
-        public init(creationTime: TimeStamp? = nil, jsonPath: String, lastUpdated: TimeStamp? = nil, name: String, version: Int64? = nil) {
+        public init(creationTime: Date? = nil, jsonPath: String, lastUpdated: Date? = nil, name: String, version: Int64? = nil) {
             self.creationTime = creationTime
             self.jsonPath = jsonPath
             self.lastUpdated = lastUpdated
@@ -6921,11 +6921,11 @@ extension Glue {
         /// The prefix for a message about this crawl.
         public let messagePrefix: String?
         /// The time at which the crawl started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// Status of the last crawl.
         public let status: LastCrawlStatus?
 
-        public init(errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, messagePrefix: String? = nil, startTime: TimeStamp? = nil, status: LastCrawlStatus? = nil) {
+        public init(errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, messagePrefix: String? = nil, startTime: Date? = nil, status: LastCrawlStatus? = nil) {
             self.errorMessage = errorMessage
             self.logGroup = logGroup
             self.logStream = logStream
@@ -7306,7 +7306,7 @@ extension Glue {
 
     public struct MLTransform: AWSDecodableShape {
         /// A timestamp. The time and date that this machine learning transform was created.
-        public let createdOn: TimeStamp?
+        public let createdOn: Date?
         /// A user-defined, long-form description text for the machine learning transform. Descriptions are not guaranteed to be unique and can be changed at any time.
         public let description: String?
         /// An EvaluationMetrics object. Evaluation metrics provide an estimate of the quality of your machine learning transform.
@@ -7318,7 +7318,7 @@ extension Glue {
         /// A count identifier for the labeling files generated by AWS Glue for this transform. As you create a better transform, you can iteratively download, label, and upload the labeling file.
         public let labelCount: Int?
         /// A timestamp. The last point in time when this machine learning transform was modified.
-        public let lastModifiedOn: TimeStamp?
+        public let lastModifiedOn: Date?
         /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.   MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.   When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
         public let maxCapacity: Double?
         /// The maximum number of times to retry after an MLTaskRun of the machine learning transform fails.
@@ -7342,7 +7342,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
         public let workerType: WorkerType?
 
-        public init(createdOn: TimeStamp? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: TimeStamp? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
+        public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
             self.createdOn = createdOn
             self.description = description
             self.evaluationMetrics = evaluationMetrics
@@ -7497,13 +7497,13 @@ extension Glue {
         /// The ID of the Data Catalog in which the partition resides.
         public let catalogId: String?
         /// The time at which the partition was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the catalog database in which to create the partition.
         public let databaseName: String?
         /// The last time at which the partition was accessed.
-        public let lastAccessTime: TimeStamp?
+        public let lastAccessTime: Date?
         /// The last time at which column statistics were computed for this partition.
-        public let lastAnalyzedTime: TimeStamp?
+        public let lastAnalyzedTime: Date?
         /// These key-value pairs define partition parameters.
         public let parameters: [String: String]?
         /// Provides information about the physical location where the partition is stored.
@@ -7513,7 +7513,7 @@ extension Glue {
         /// The values of the partition.
         public let values: [String]?
 
-        public init(catalogId: String? = nil, creationTime: TimeStamp? = nil, databaseName: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, tableName: String? = nil, values: [String]? = nil) {
+        public init(catalogId: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, tableName: String? = nil, values: [String]? = nil) {
             self.catalogId = catalogId
             self.creationTime = creationTime
             self.databaseName = databaseName
@@ -7607,9 +7607,9 @@ extension Glue {
 
     public struct PartitionInput: AWSEncodableShape {
         /// The last time at which the partition was accessed.
-        public let lastAccessTime: TimeStamp?
+        public let lastAccessTime: Date?
         /// The last time at which column statistics were computed for this partition.
-        public let lastAnalyzedTime: TimeStamp?
+        public let lastAnalyzedTime: Date?
         /// These key-value pairs define partition parameters.
         public let parameters: [String: String]?
         /// Provides information about the physical location where the partition is stored.
@@ -7617,7 +7617,7 @@ extension Glue {
         /// The values of the partition. Although this parameter is not required by the SDK, you must specify this parameter for a valid input. The values for the keys for the new partition must be passed as an array of String objects that must be ordered in the same order as the partition keys appearing in the Amazon S3 prefix. Otherwise AWS Glue will add the values to the wrong keys.
         public let values: [String]?
 
-        public init(lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, values: [String]? = nil) {
+        public init(lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, values: [String]? = nil) {
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
             self.parameters = parameters
@@ -8190,13 +8190,13 @@ extension Glue {
 
     public struct SecurityConfiguration: AWSDecodableShape {
         /// The time at which this security configuration was created.
-        public let createdTimeStamp: TimeStamp?
+        public let createdTimeStamp: Date?
         /// The encryption configuration associated with this security configuration.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The name of the security configuration.
         public let name: String?
 
-        public init(createdTimeStamp: TimeStamp? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, name: String? = nil) {
+        public init(createdTimeStamp: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, name: String? = nil) {
             self.createdTimeStamp = createdTimeStamp
             self.encryptionConfiguration = encryptionConfiguration
             self.name = name
@@ -8875,7 +8875,7 @@ extension Glue {
         /// The person or entity who created the table.
         public let createdBy: String?
         /// The time when the table definition was created in the Data Catalog.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The name of the database where the table metadata resides. For Hive compatibility, this must be all lowercase.
         public let databaseName: String?
         /// A description of the table.
@@ -8883,9 +8883,9 @@ extension Glue {
         /// Indicates whether the table has been registered with AWS Lake Formation.
         public let isRegisteredWithLakeFormation: Bool?
         /// The last time that the table was accessed. This is usually taken from HDFS, and might not be reliable.
-        public let lastAccessTime: TimeStamp?
+        public let lastAccessTime: Date?
         /// The last time that column statistics were computed for this table.
-        public let lastAnalyzedTime: TimeStamp?
+        public let lastAnalyzedTime: Date?
         /// The table name. For Hive compatibility, this must be entirely lowercase.
         public let name: String
         /// The owner of the table.
@@ -8903,13 +8903,13 @@ extension Glue {
         /// A TableIdentifier structure that describes a target table for resource linking.
         public let targetTable: TableIdentifier?
         /// The last time that the table was updated.
-        public let updateTime: TimeStamp?
+        public let updateTime: Date?
         /// If the table is a view, the expanded text of the view; otherwise null.
         public let viewExpandedText: String?
         /// If the table is a view, the original text of the view; otherwise null.
         public let viewOriginalText: String?
 
-        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: TimeStamp? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.catalogId = catalogId
             self.createdBy = createdBy
             self.createTime = createTime
@@ -9008,9 +9008,9 @@ extension Glue {
         /// A description of the table.
         public let description: String?
         /// The last time that the table was accessed.
-        public let lastAccessTime: TimeStamp?
+        public let lastAccessTime: Date?
         /// The last time that column statistics were computed for this table.
-        public let lastAnalyzedTime: TimeStamp?
+        public let lastAnalyzedTime: Date?
         /// The table name. For Hive compatibility, this is folded to lowercase when it is stored.
         public let name: String
         /// The table owner.
@@ -9032,7 +9032,7 @@ extension Glue {
         /// If the table is a view, the original text of the view; otherwise null.
         public let viewOriginalText: String?
 
-        public init(description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(description: String? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.description = description
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -9165,19 +9165,19 @@ extension Glue {
 
     public struct TaskRun: AWSDecodableShape {
         /// The last point in time that the requested task run was completed.
-        public let completedOn: TimeStamp?
+        public let completedOn: Date?
         /// The list of error strings associated with this task run.
         public let errorString: String?
         /// The amount of time (in seconds) that the task run consumed resources.
         public let executionTime: Int?
         /// The last point in time that the requested task run was updated.
-        public let lastModifiedOn: TimeStamp?
+        public let lastModifiedOn: Date?
         /// The names of the log group for secure logging, associated with this task run.
         public let logGroupName: String?
         /// Specifies configuration properties associated with this task run.
         public let properties: TaskRunProperties?
         /// The date and time that this task run started.
-        public let startedOn: TimeStamp?
+        public let startedOn: Date?
         /// The current status of the requested task run.
         public let status: TaskStatusType?
         /// The unique identifier for this task run.
@@ -9185,7 +9185,7 @@ extension Glue {
         /// The unique identifier for the transform.
         public let transformId: String?
 
-        public init(completedOn: TimeStamp? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, properties: TaskRunProperties? = nil, startedOn: TimeStamp? = nil, status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
+        public init(completedOn: Date? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, properties: TaskRunProperties? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
             self.completedOn = completedOn
             self.errorString = errorString
             self.executionTime = executionTime
@@ -9214,15 +9214,15 @@ extension Glue {
 
     public struct TaskRunFilterCriteria: AWSEncodableShape {
         /// Filter on task runs started after this date.
-        public let startedAfter: TimeStamp?
+        public let startedAfter: Date?
         /// Filter on task runs started before this date.
-        public let startedBefore: TimeStamp?
+        public let startedBefore: Date?
         /// The current status of the task run.
         public let status: TaskStatusType?
         /// The type of task run.
         public let taskRunType: TaskType?
 
-        public init(startedAfter: TimeStamp? = nil, startedBefore: TimeStamp? = nil, status: TaskStatusType? = nil, taskRunType: TaskType? = nil) {
+        public init(startedAfter: Date? = nil, startedBefore: Date? = nil, status: TaskStatusType? = nil, taskRunType: TaskType? = nil) {
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
             self.status = status
@@ -9285,15 +9285,15 @@ extension Glue {
 
     public struct TransformFilterCriteria: AWSEncodableShape {
         /// The time and date after which the transforms were created.
-        public let createdAfter: TimeStamp?
+        public let createdAfter: Date?
         /// The time and date before which the transforms were created.
-        public let createdBefore: TimeStamp?
+        public let createdBefore: Date?
         /// This value determines which version of AWS Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see AWS Glue Versions in the developer guide.
         public let glueVersion: String?
         /// Filter on transforms last modified after this date.
-        public let lastModifiedAfter: TimeStamp?
+        public let lastModifiedAfter: Date?
         /// Filter on transforms last modified before this date.
-        public let lastModifiedBefore: TimeStamp?
+        public let lastModifiedBefore: Date?
         /// A unique transform name that is used to filter the machine learning transforms.
         public let name: String?
         /// Filters on datasets with a specific schema. The Map&lt;Column, Type&gt; object is an array of key-value pairs representing the schema this transform accepts, where Column is the name of a column, and Type is the type of the data such as an integer or string. Has an upper bound of 100 columns.
@@ -9303,7 +9303,7 @@ extension Glue {
         /// The type of machine learning transform that is used to filter the machine learning transforms.
         public let transformType: TransformType?
 
-        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, glueVersion: String? = nil, lastModifiedAfter: TimeStamp? = nil, lastModifiedBefore: TimeStamp? = nil, name: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, transformType: TransformType? = nil) {
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, glueVersion: String? = nil, lastModifiedAfter: Date? = nil, lastModifiedBefore: Date? = nil, name: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, transformType: TransformType? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.glueVersion = glueVersion
@@ -10373,7 +10373,7 @@ extension Glue {
         /// The Java class that contains the function code.
         public let className: String?
         /// The time at which the function was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The name of the catalog database that contains the function.
         public let databaseName: String?
         /// The name of the function.
@@ -10385,7 +10385,7 @@ extension Glue {
         /// The resource URIs for the function.
         public let resourceUris: [ResourceUri]?
 
-        public init(catalogId: String? = nil, className: String? = nil, createTime: TimeStamp? = nil, databaseName: String? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
+        public init(catalogId: String? = nil, className: String? = nil, createTime: Date? = nil, databaseName: String? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
             self.catalogId = catalogId
             self.className = className
             self.createTime = createTime
@@ -10456,7 +10456,7 @@ extension Glue {
 
     public struct Workflow: AWSDecodableShape {
         /// The date and time when the workflow was created.
-        public let createdOn: TimeStamp?
+        public let createdOn: Date?
         /// A collection of properties to be used as part of each execution of the workflow.
         public let defaultRunProperties: [String: String]?
         /// A description of the workflow.
@@ -10464,7 +10464,7 @@ extension Glue {
         /// The graph representing all the AWS Glue components that belong to the workflow as nodes and directed connections between them as edges.
         public let graph: WorkflowGraph?
         /// The date and time when the workflow was last modified.
-        public let lastModifiedOn: TimeStamp?
+        public let lastModifiedOn: Date?
         /// The information about the last execution of the workflow.
         public let lastRun: WorkflowRun?
         /// You can use this parameter to prevent unwanted multiple updates to data, to control costs, or in some cases, to prevent exceeding the maximum number of concurrent runs of any of the component jobs. If you leave this parameter blank, there is no limit to the number of concurrent workflow runs.
@@ -10472,7 +10472,7 @@ extension Glue {
         /// The name of the workflow representing the flow.
         public let name: String?
 
-        public init(createdOn: TimeStamp? = nil, defaultRunProperties: [String: String]? = nil, description: String? = nil, graph: WorkflowGraph? = nil, lastModifiedOn: TimeStamp? = nil, lastRun: WorkflowRun? = nil, maxConcurrentRuns: Int? = nil, name: String? = nil) {
+        public init(createdOn: Date? = nil, defaultRunProperties: [String: String]? = nil, description: String? = nil, graph: WorkflowGraph? = nil, lastModifiedOn: Date? = nil, lastRun: WorkflowRun? = nil, maxConcurrentRuns: Int? = nil, name: String? = nil) {
             self.createdOn = createdOn
             self.defaultRunProperties = defaultRunProperties
             self.description = description
@@ -10514,7 +10514,7 @@ extension Glue {
 
     public struct WorkflowRun: AWSDecodableShape {
         /// The date and time when the workflow run completed.
-        public let completedOn: TimeStamp?
+        public let completedOn: Date?
         /// This error message describes any error that may have occurred in starting the workflow run. Currently the only error message is "Concurrent runs exceeded for workflow: foo."
         public let errorMessage: String?
         /// The graph representing all the AWS Glue components that belong to the workflow as nodes and directed connections between them as edges.
@@ -10524,7 +10524,7 @@ extension Glue {
         /// The ID of the previous workflow run.
         public let previousRunId: String?
         /// The date and time when the workflow run was started.
-        public let startedOn: TimeStamp?
+        public let startedOn: Date?
         /// The statistics of the run.
         public let statistics: WorkflowRunStatistics?
         /// The status of the workflow run.
@@ -10534,7 +10534,7 @@ extension Glue {
         /// The workflow run properties which were set during the run.
         public let workflowRunProperties: [String: String]?
 
-        public init(completedOn: TimeStamp? = nil, errorMessage: String? = nil, graph: WorkflowGraph? = nil, name: String? = nil, previousRunId: String? = nil, startedOn: TimeStamp? = nil, statistics: WorkflowRunStatistics? = nil, status: WorkflowRunStatus? = nil, workflowRunId: String? = nil, workflowRunProperties: [String: String]? = nil) {
+        public init(completedOn: Date? = nil, errorMessage: String? = nil, graph: WorkflowGraph? = nil, name: String? = nil, previousRunId: String? = nil, startedOn: Date? = nil, statistics: WorkflowRunStatistics? = nil, status: WorkflowRunStatus? = nil, workflowRunId: String? = nil, workflowRunProperties: [String: String]? = nil) {
             self.completedOn = completedOn
             self.errorMessage = errorMessage
             self.graph = graph
@@ -10598,9 +10598,9 @@ extension Glue {
         /// An identifier of the data format that the classifier matches.
         public let classification: String
         /// The time that this classifier was registered.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The time that this classifier was last updated.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// The name of the classifier.
         public let name: String
         /// The XML tag designating the element that contains each record in an XML document being parsed. This can't identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
@@ -10608,7 +10608,7 @@ extension Glue {
         /// The version of this classifier.
         public let version: Int64?
 
-        public init(classification: String, creationTime: TimeStamp? = nil, lastUpdated: TimeStamp? = nil, name: String, rowTag: String? = nil, version: Int64? = nil) {
+        public init(classification: String, creationTime: Date? = nil, lastUpdated: Date? = nil, name: String, rowTag: String? = nil, version: Int64? = nil) {
             self.classification = classification
             self.creationTime = creationTime
             self.lastUpdated = lastUpdated

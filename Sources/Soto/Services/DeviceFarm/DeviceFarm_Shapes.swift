@@ -858,11 +858,11 @@ extension DeviceFarm {
 
     public struct CreateTestGridUrlResult: AWSDecodableShape {
         /// The number of seconds the URL from CreateTestGridUrlResult$url stays active.
-        public let expires: TimeStamp?
+        public let expires: Date?
         /// A signed URL, expiring in CreateTestGridUrlRequest$expiresInSeconds seconds, to be passed to a RemoteWebDriver.
         public let url: String?
 
-        public init(expires: TimeStamp? = nil, url: String? = nil) {
+        public init(expires: Date? = nil, url: String? = nil) {
             self.expires = expires
             self.url = url
         }
@@ -2189,7 +2189,7 @@ extension DeviceFarm {
         /// The job's result counters.
         public let counters: Counters?
         /// When the job was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The device (phone or tablet).
         public let device: Device?
         /// Represents the total (metered or unmetered) minutes used by the job.
@@ -2203,11 +2203,11 @@ extension DeviceFarm {
         /// The job's result. Allowed values include:   PENDING   PASSED   WARNED   FAILED   SKIPPED   ERRORED   STOPPED
         public let result: ExecutionResult?
         /// The job's start time.
-        public let started: TimeStamp?
+        public let started: Date?
         /// The job's status. Allowed values include:   PENDING   PENDING_CONCURRENCY   PENDING_DEVICE   PROCESSING   SCHEDULING   PREPARING   RUNNING   COMPLETED   STOPPING
         public let status: ExecutionStatus?
         /// The job's stop time.
-        public let stopped: TimeStamp?
+        public let stopped: Date?
         /// The job's type. Allowed values include the following:   BUILTIN_FUZZ   BUILTIN_EXPLORER. For Android, an app explorer that traverses an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT   APPIUM_JAVA_TESTNG   APPIUM_PYTHON   APPIUM_NODE   APPIUM_RUBY   APPIUM_WEB_JAVA_JUNIT   APPIUM_WEB_JAVA_TESTNG   APPIUM_WEB_PYTHON   APPIUM_WEB_NODE   APPIUM_WEB_RUBY   CALABASH   INSTRUMENTATION   UIAUTOMATION   UIAUTOMATOR   XCTEST   XCTEST_UI
         public let `type`: TestType?
         /// This value is set to true if video capture is enabled. Otherwise, it is set to false.
@@ -2215,7 +2215,7 @@ extension DeviceFarm {
         /// The endpoint for streaming device video.
         public let videoEndpoint: String?
 
-        public init(arn: String? = nil, counters: Counters? = nil, created: TimeStamp? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, instanceArn: String? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, type: TestType? = nil, videoCapture: Bool? = nil, videoEndpoint: String? = nil) {
+        public init(arn: String? = nil, counters: Counters? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, instanceArn: String? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, type: TestType? = nil, videoCapture: Bool? = nil, videoEndpoint: String? = nil) {
             self.arn = arn
             self.counters = counters
             self.created = created
@@ -3046,13 +3046,13 @@ extension DeviceFarm {
 
     public struct ListTestGridSessionsRequest: AWSEncodableShape {
         /// Return only sessions created after this time.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// Return only sessions created before this time.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// Return only sessions that ended after this time.
-        public let endTimeAfter: TimeStamp?
+        public let endTimeAfter: Date?
         /// Return only sessions that ended before this time.
-        public let endTimeBefore: TimeStamp?
+        public let endTimeBefore: Date?
         /// Return only this many results at a time.
         public let maxResult: Int?
         /// Pagination token.
@@ -3062,7 +3062,7 @@ extension DeviceFarm {
         /// Return only sessions in this state.
         public let status: TestGridSessionStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, endTimeAfter: TimeStamp? = nil, endTimeBefore: TimeStamp? = nil, maxResult: Int? = nil, nextToken: String? = nil, projectArn: String, status: TestGridSessionStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endTimeAfter: Date? = nil, endTimeBefore: Date? = nil, maxResult: Int? = nil, nextToken: String? = nil, projectArn: String, status: TestGridSessionStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.endTimeAfter = endTimeAfter
@@ -3420,7 +3420,7 @@ extension DeviceFarm {
 
     public struct OfferingStatus: AWSDecodableShape {
         /// The date on which the offering is effective.
-        public let effectiveOn: TimeStamp?
+        public let effectiveOn: Date?
         /// Represents the metadata of an offering status.
         public let offering: Offering?
         /// The number of available devices in the offering.
@@ -3428,7 +3428,7 @@ extension DeviceFarm {
         /// The type specified for the offering status.
         public let `type`: OfferingTransactionType?
 
-        public init(effectiveOn: TimeStamp? = nil, offering: Offering? = nil, quantity: Int? = nil, type: OfferingTransactionType? = nil) {
+        public init(effectiveOn: Date? = nil, offering: Offering? = nil, quantity: Int? = nil, type: OfferingTransactionType? = nil) {
             self.effectiveOn = effectiveOn
             self.offering = offering
             self.quantity = quantity
@@ -3447,7 +3447,7 @@ extension DeviceFarm {
         /// The cost of an offering transaction.
         public let cost: MonetaryAmount?
         /// The date on which an offering transaction was created.
-        public let createdOn: TimeStamp?
+        public let createdOn: Date?
         /// The ID that corresponds to a device offering promotion.
         public let offeringPromotionId: String?
         /// The status of an offering transaction.
@@ -3455,7 +3455,7 @@ extension DeviceFarm {
         /// The transaction ID of the offering transaction.
         public let transactionId: String?
 
-        public init(cost: MonetaryAmount? = nil, createdOn: TimeStamp? = nil, offeringPromotionId: String? = nil, offeringStatus: OfferingStatus? = nil, transactionId: String? = nil) {
+        public init(cost: MonetaryAmount? = nil, createdOn: Date? = nil, offeringPromotionId: String? = nil, offeringStatus: OfferingStatus? = nil, transactionId: String? = nil) {
             self.cost = cost
             self.createdOn = createdOn
             self.offeringPromotionId = offeringPromotionId
@@ -3530,13 +3530,13 @@ extension DeviceFarm {
         /// The project's ARN.
         public let arn: String?
         /// When the project was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The default number of minutes (at the project level) a test run executes before it times out. The default value is 150 minutes.
         public let defaultJobTimeoutMinutes: Int?
         /// The project's name.
         public let name: String?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil) {
+        public init(arn: String? = nil, created: Date? = nil, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil) {
             self.arn = arn
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
@@ -3640,7 +3640,7 @@ extension DeviceFarm {
         /// Unique identifier of your client for the remote access session. Only returned if remote debugging is enabled for the remote access session. Remote debugging is no longer supported.
         public let clientId: String?
         /// The date and time the remote access session was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The device (phone or tablet) used in the remote access session.
         public let device: Device?
         /// The number of minutes a device is used in a remote access session (including setup and teardown minutes).
@@ -3670,13 +3670,13 @@ extension DeviceFarm {
         /// When set to true, for private devices, Device Farm does not sign your app again. For public devices, Device Farm always signs your apps again. For more information about how Device Farm re-signs your apps, see Do you modify my app? in the AWS Device Farm FAQs.
         public let skipAppResign: Bool?
         /// The date and time the remote access session was started.
-        public let started: TimeStamp?
+        public let started: Date?
         /// The status of the remote access session. Can be any of the following:   PENDING.   PENDING_CONCURRENCY.   PENDING_DEVICE.   PROCESSING.   SCHEDULING.   PREPARING.   RUNNING.   COMPLETED.   STOPPING.
         public let status: ExecutionStatus?
         /// The date and time the remote access session was stopped.
-        public let stopped: TimeStamp?
+        public let stopped: Date?
 
-        public init(arn: String? = nil, billingMethod: BillingMethod? = nil, clientId: String? = nil, created: TimeStamp? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceUdid: String? = nil, endpoint: String? = nil, hostAddress: String? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil) {
+        public init(arn: String? = nil, billingMethod: BillingMethod? = nil, clientId: String? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceUdid: String? = nil, endpoint: String? = nil, hostAddress: String? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil) {
             self.arn = arn
             self.billingMethod = billingMethod
             self.clientId = clientId
@@ -3809,7 +3809,7 @@ extension DeviceFarm {
         /// The run's result counters.
         public let counters: Counters?
         /// When the run was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// Output CustomerArtifactPaths object for the test run.
         public let customerArtifactPaths: CustomerArtifactPaths?
         /// Represents the total (metered or unmetered) minutes used by the test run.
@@ -3847,11 +3847,11 @@ extension DeviceFarm {
         /// When set to true, for private devices, Device Farm does not sign your app again. For public devices, Device Farm always signs your apps again. For more information about how Device Farm re-signs your apps, see Do you modify my app? in the AWS Device Farm FAQs.
         public let skipAppResign: Bool?
         /// The run's start time.
-        public let started: TimeStamp?
+        public let started: Date?
         /// The run's status. Allowed values include:   PENDING   PENDING_CONCURRENCY   PENDING_DEVICE   PROCESSING   SCHEDULING   PREPARING   RUNNING   COMPLETED   STOPPING
         public let status: ExecutionStatus?
         /// The run's stop time.
-        public let stopped: TimeStamp?
+        public let stopped: Date?
         /// The ARN of the YAML-formatted test specification for the run.
         public let testSpecArn: String?
         /// The total number of jobs for the run.
@@ -3861,7 +3861,7 @@ extension DeviceFarm {
         /// The Device Farm console URL for the recording of the run.
         public let webUrl: String?
 
-        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: TimeStamp? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, webUrl: String? = nil) {
+        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, webUrl: String? = nil) {
             self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
@@ -4227,7 +4227,7 @@ extension DeviceFarm {
         /// The suite's result counters.
         public let counters: Counters?
         /// When the suite was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// Represents the total (metered or unmetered) minutes used by the test suite.
         public let deviceMinutes: DeviceMinutes?
         /// A message about the suite's result.
@@ -4237,15 +4237,15 @@ extension DeviceFarm {
         /// The suite's result. Allowed values include:   PENDING   PASSED   WARNED   FAILED   SKIPPED   ERRORED   STOPPED
         public let result: ExecutionResult?
         /// The suite's start time.
-        public let started: TimeStamp?
+        public let started: Date?
         /// The suite's status. Allowed values include:   PENDING   PENDING_CONCURRENCY   PENDING_DEVICE   PROCESSING   SCHEDULING   PREPARING   RUNNING   COMPLETED   STOPPING
         public let status: ExecutionStatus?
         /// The suite's stop time.
-        public let stopped: TimeStamp?
+        public let stopped: Date?
         /// The suite's type. Must be one of the following values:   BUILTIN_FUZZ   BUILTIN_EXPLORER   Only available for Android; an app explorer that traverses an Android app, interacting with it and capturing screenshots at the same time.    APPIUM_JAVA_JUNIT   APPIUM_JAVA_TESTNG   APPIUM_PYTHON   APPIUM_NODE   APPIUM_RUBY   APPIUM_WEB_JAVA_JUNIT   APPIUM_WEB_JAVA_TESTNG   APPIUM_WEB_PYTHON   APPIUM_WEB_NODE   APPIUM_WEB_RUBY   CALABASH   INSTRUMENTATION   UIAUTOMATION   UIAUTOMATOR   XCTEST   XCTEST_UI
         public let `type`: TestType?
 
-        public init(arn: String? = nil, counters: Counters? = nil, created: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, type: TestType? = nil) {
+        public init(arn: String? = nil, counters: Counters? = nil, created: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, type: TestType? = nil) {
             self.arn = arn
             self.counters = counters
             self.created = created
@@ -4335,7 +4335,7 @@ extension DeviceFarm {
         /// The test's result counters.
         public let counters: Counters?
         /// When the test was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// Represents the total (metered or unmetered) minutes used by the test.
         public let deviceMinutes: DeviceMinutes?
         /// A message about the test's result.
@@ -4345,15 +4345,15 @@ extension DeviceFarm {
         /// The test's result. Allowed values include:   PENDING   PASSED   WARNED   FAILED   SKIPPED   ERRORED   STOPPED
         public let result: ExecutionResult?
         /// The test's start time.
-        public let started: TimeStamp?
+        public let started: Date?
         /// The test's status. Allowed values include:   PENDING   PENDING_CONCURRENCY   PENDING_DEVICE   PROCESSING   SCHEDULING   PREPARING   RUNNING   COMPLETED   STOPPING
         public let status: ExecutionStatus?
         /// The test's stop time.
-        public let stopped: TimeStamp?
+        public let stopped: Date?
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ   BUILTIN_EXPLORER  For Android, an app explorer that traverses an Android app, interacting with it and capturing screenshots at the same time.    APPIUM_JAVA_JUNIT   APPIUM_JAVA_TESTNG   APPIUM_PYTHON   APPIUM_NODE   APPIUM_RUBY   APPIUM_WEB_JAVA_JUNIT   APPIUM_WEB_JAVA_TESTNG   APPIUM_WEB_PYTHON   APPIUM_WEB_NODE   APPIUM_WEB_RUBY   CALABASH   INSTRUMENTATION   UIAUTOMATION   UIAUTOMATOR   XCTEST   XCTEST_UI
         public let `type`: TestType?
 
-        public init(arn: String? = nil, counters: Counters? = nil, created: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, type: TestType? = nil) {
+        public init(arn: String? = nil, counters: Counters? = nil, created: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, type: TestType? = nil) {
             self.arn = arn
             self.counters = counters
             self.created = created
@@ -4386,13 +4386,13 @@ extension DeviceFarm {
         /// The ARN for the project.
         public let arn: String?
         /// When the project was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// A human-readable description for the project.
         public let description: String?
         /// A human-readable name for the project.
         public let name: String?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, created: Date? = nil, description: String? = nil, name: String? = nil) {
             self.arn = arn
             self.created = created
             self.description = description
@@ -4413,15 +4413,15 @@ extension DeviceFarm {
         /// The number of billed minutes that were used for this session.
         public let billingMinutes: Double?
         /// The time that the session was started.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The time the session ended.
-        public let ended: TimeStamp?
+        public let ended: Date?
         /// A JSON object of options and parameters passed to the Selenium WebDriver.
         public let seleniumProperties: String?
         /// The state of the session.
         public let status: TestGridSessionStatus?
 
-        public init(arn: String? = nil, billingMinutes: Double? = nil, created: TimeStamp? = nil, ended: TimeStamp? = nil, seleniumProperties: String? = nil, status: TestGridSessionStatus? = nil) {
+        public init(arn: String? = nil, billingMinutes: Double? = nil, created: Date? = nil, ended: Date? = nil, seleniumProperties: String? = nil, status: TestGridSessionStatus? = nil) {
             self.arn = arn
             self.billingMinutes = billingMinutes
             self.created = created
@@ -4448,11 +4448,11 @@ extension DeviceFarm {
         /// HTTP method that the browser used to make the request.
         public let requestMethod: String?
         /// The time that the session invoked the action.
-        public let started: TimeStamp?
+        public let started: Date?
         /// HTTP status code returned to the browser when the action was taken.
         public let statusCode: String?
 
-        public init(action: String? = nil, duration: Int64? = nil, requestMethod: String? = nil, started: TimeStamp? = nil, statusCode: String? = nil) {
+        public init(action: String? = nil, duration: Int64? = nil, requestMethod: String? = nil, started: Date? = nil, statusCode: String? = nil) {
             self.action = action
             self.duration = duration
             self.requestMethod = requestMethod
@@ -4995,7 +4995,7 @@ extension DeviceFarm {
         /// The upload's content type (for example, application/octet-stream).
         public let contentType: String?
         /// When the upload was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// A message about the upload's result.
         public let message: String?
         /// The upload's metadata. For example, for Android, this contains information that is parsed from the manifest and is displayed in the AWS Device Farm console after the associated app is uploaded.
@@ -5009,7 +5009,7 @@ extension DeviceFarm {
         /// The presigned Amazon S3 URL that was used to store a file using a PUT request.
         public let url: String?
 
-        public init(arn: String? = nil, category: UploadCategory? = nil, contentType: String? = nil, created: TimeStamp? = nil, message: String? = nil, metadata: String? = nil, name: String? = nil, status: UploadStatus? = nil, type: UploadType? = nil, url: String? = nil) {
+        public init(arn: String? = nil, category: UploadCategory? = nil, contentType: String? = nil, created: Date? = nil, message: String? = nil, metadata: String? = nil, name: String? = nil, status: UploadStatus? = nil, type: UploadType? = nil, url: String? = nil) {
             self.arn = arn
             self.category = category
             self.contentType = contentType

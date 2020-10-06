@@ -447,7 +447,7 @@ extension Redshift {
         /// The availability status of the cluster for queries. Possible values are the following:   Available - The cluster is available for queries.    Unavailable - The cluster is not available for queries.   Maintenance - The cluster is intermittently available for queries due to maintenance activities.   Modifying - The cluster is intermittently available for queries due to changes that modify the cluster.   Failed - The cluster failed and is not available for queries.
         public let clusterAvailabilityStatus: String?
         /// The date and time that the cluster was created.
-        public let clusterCreateTime: TimeStamp?
+        public let clusterCreateTime: Date?
         /// The unique identifier of the cluster.
         public let clusterIdentifier: String?
         /// The nodes in the cluster.
@@ -488,7 +488,7 @@ extension Redshift {
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
         /// The date and time when the next snapshot is expected to be taken for clusters with a valid snapshot schedule and backups enabled.
-        public let expectedNextSnapshotScheduleTime: TimeStamp?
+        public let expectedNextSnapshotScheduleTime: Date?
         ///  The status of next expected snapshot for clusters having a valid snapshot schedule and backups enabled. Possible values are the following:   OnTrack - The next snapshot is expected to be taken on time.    Pending - The next snapshot is pending to be taken.
         public let expectedNextSnapshotScheduleTimeStatus: String?
         /// A value that reports whether the Amazon Redshift cluster has finished applying any hardware security module (HSM) settings changes specified in a modify cluster command. Values: active, applying
@@ -507,7 +507,7 @@ extension Redshift {
         /// The status of a modify operation, if any, initiated for the cluster.
         public let modifyStatus: String?
         /// The date and time in UTC when system maintenance can begin.
-        public let nextMaintenanceWindowStartTime: TimeStamp?
+        public let nextMaintenanceWindowStartTime: Date?
         /// The node type for the nodes in the cluster.
         public let nodeType: String?
         /// The number of compute nodes in the cluster.
@@ -538,7 +538,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: TimeStamp? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: TimeStamp? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
@@ -658,9 +658,9 @@ extension Redshift {
         /// A database user name that is authorized to log on to the database DbName using the password DbPassword. If the specified DbUser exists in the database, the new user name has the same database privileges as the the user named in DbUser. By default, the user is added to PUBLIC. If the DbGroups parameter is specifed, DbUser is added to the listed groups for any sessions created using these credentials.
         public let dbUser: String?
         /// The date and time the password in DbPassword expires.
-        public let expiration: TimeStamp?
+        public let expiration: Date?
 
-        public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: TimeStamp? = nil) {
+        public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: Date? = nil) {
             self.dbPassword = dbPassword
             self.dbUser = dbUser
             self.expiration = expiration
@@ -681,12 +681,12 @@ extension Redshift {
         /// A string representing the current cluster version.
         public let currentDatabaseRevision: String?
         /// The date on which the database revision was released.
-        public let databaseRevisionReleaseDate: TimeStamp?
+        public let databaseRevisionReleaseDate: Date?
         /// A list of RevisionTarget objects, where each object describes the database revision that a cluster can be updated to.
         @OptionalCustomCoding<ArrayCoder<_RevisionTargetsEncoding, RevisionTarget>>
         public var revisionTargets: [RevisionTarget]?
 
-        public init(clusterIdentifier: String? = nil, currentDatabaseRevision: String? = nil, databaseRevisionReleaseDate: TimeStamp? = nil, revisionTargets: [RevisionTarget]? = nil) {
+        public init(clusterIdentifier: String? = nil, currentDatabaseRevision: String? = nil, databaseRevisionReleaseDate: Date? = nil, revisionTargets: [RevisionTarget]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.currentDatabaseRevision = currentDatabaseRevision
             self.databaseRevisionReleaseDate = databaseRevisionReleaseDate
@@ -1597,7 +1597,7 @@ extension Redshift {
         /// If true, the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see ScheduledAction.
         public let enable: Bool?
         /// The end time in UTC of the scheduled action. After this time, the scheduled action does not trigger. For more information about this parameter, see ScheduledAction.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The IAM role to assume to run the target action. For more information about this parameter, see ScheduledAction.
         public let iamRole: String
         /// The schedule in at( ) or cron( ) format. For more information about this parameter, see ScheduledAction.
@@ -1607,11 +1607,11 @@ extension Redshift {
         /// The name of the scheduled action. The name must be unique within an account. For more information about this parameter, see ScheduledAction.
         public let scheduledActionName: String
         /// The start time in UTC of the scheduled action. Before this time, the scheduled action does not trigger. For more information about this parameter, see ScheduledAction.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// A JSON format string of the Amazon Redshift API operation with input parameters. For more information about this parameter, see ScheduledAction.
         public let targetAction: ScheduledActionType
 
-        public init(enable: Bool? = nil, endTime: TimeStamp? = nil, iamRole: String, schedule: String, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil, targetAction: ScheduledActionType) {
+        public init(enable: Bool? = nil, endTime: Date? = nil, iamRole: String, schedule: String, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: Date? = nil, targetAction: ScheduledActionType) {
             self.enable = enable
             self.endTime = endTime
             self.iamRole = iamRole
@@ -1842,13 +1842,13 @@ extension Redshift {
 
     public struct DeferredMaintenanceWindow: AWSDecodableShape {
         ///  A timestamp for the end of the time period when we defer maintenance.
-        public let deferMaintenanceEndTime: TimeStamp?
+        public let deferMaintenanceEndTime: Date?
         /// A unique identifier for the maintenance window.
         public let deferMaintenanceIdentifier: String?
         ///  A timestamp for the beginning of the time period when we defer maintenance.
-        public let deferMaintenanceStartTime: TimeStamp?
+        public let deferMaintenanceStartTime: Date?
 
-        public init(deferMaintenanceEndTime: TimeStamp? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: TimeStamp? = nil) {
+        public init(deferMaintenanceEndTime: Date? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: Date? = nil) {
             self.deferMaintenanceEndTime = deferMaintenanceEndTime
             self.deferMaintenanceIdentifier = deferMaintenanceIdentifier
             self.deferMaintenanceStartTime = deferMaintenanceStartTime
@@ -2217,7 +2217,7 @@ extension Redshift {
         /// The identifier of the cluster which generated the requested snapshots.
         public let clusterIdentifier: String?
         /// A time value that requests only snapshots created at or before the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSnapshots request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2231,7 +2231,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_SortingEntitiesEncoding, SnapshotSortingEntity>>
         public var sortingEntities: [SnapshotSortingEntity]?
         /// A value that requests only snapshots created at or after the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// A tag key or keys for which you want to return all matching cluster snapshots that are associated with the specified key or keys. For example, suppose that you have snapshots that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag keys associated with them.
         @OptionalCustomCoding<ArrayCoder<_TagKeysEncoding, String>>
         public var tagKeys: [String]?
@@ -2239,7 +2239,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
-        public init(clusterExists: Bool? = nil, clusterIdentifier: String? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil, snapshotType: String? = nil, sortingEntities: [SnapshotSortingEntity]? = nil, startTime: TimeStamp? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(clusterExists: Bool? = nil, clusterIdentifier: String? = nil, endTime: Date? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil, snapshotType: String? = nil, sortingEntities: [SnapshotSortingEntity]? = nil, startTime: Date? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterExists = clusterExists
             self.clusterIdentifier = clusterIdentifier
             self.endTime = endTime
@@ -2468,7 +2468,7 @@ extension Redshift {
         /// The number of minutes prior to the time of the request for which to retrieve events. For example, if the request is sent at 18:00 and you specify a duration of 60, then only events which have occurred after 17:00 will be returned. Default: 60
         public let duration: Int?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEvents request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2478,9 +2478,9 @@ extension Redshift {
         /// The event source to retrieve events for. If no value is specified, all events are returned. Constraints: If SourceType is supplied, SourceIdentifier must also be provided.   Specify cluster when SourceIdentifier is a cluster identifier.   Specify cluster-security-group when SourceIdentifier is a cluster security group name.   Specify cluster-parameter-group when SourceIdentifier is a cluster parameter group name.   Specify cluster-snapshot when SourceIdentifier is a cluster snapshot identifier.
         public let sourceType: SourceType?
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(duration: Int? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: Date? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: Date? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.marker = marker
@@ -2708,7 +2708,7 @@ extension Redshift {
         /// If true, retrieve only active scheduled actions. If false, retrieve only disabled scheduled actions.
         public let active: Bool?
         /// The end time in UTC of the scheduled action to retrieve. Only active scheduled actions that have invocations before this time are retrieved.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// List of scheduled action filters.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, ScheduledActionFilter>>
         public var filters: [ScheduledActionFilter]?
@@ -2719,11 +2719,11 @@ extension Redshift {
         /// The name of the scheduled action to retrieve.
         public let scheduledActionName: String?
         /// The start time in UTC of the scheduled actions to retrieve. Only active scheduled actions that have invocations after this time are retrieved.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The type of the scheduled actions to retrieve.
         public let targetActionType: ScheduledActionTypeValues?
 
-        public init(active: Bool? = nil, endTime: TimeStamp? = nil, filters: [ScheduledActionFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, scheduledActionName: String? = nil, startTime: TimeStamp? = nil, targetActionType: ScheduledActionTypeValues? = nil) {
+        public init(active: Bool? = nil, endTime: Date? = nil, filters: [ScheduledActionFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, scheduledActionName: String? = nil, startTime: Date? = nil, targetActionType: ScheduledActionTypeValues? = nil) {
             self.active = active
             self.endTime = endTime
             self.filters = filters
@@ -3109,7 +3109,7 @@ extension Redshift {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
 
         /// The date and time of the event.
-        public let date: TimeStamp?
+        public let date: Date?
         /// A list of the event categories. Values: Configuration, Management, Monitoring, Security
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
@@ -3124,7 +3124,7 @@ extension Redshift {
         /// The source type for this event.
         public let sourceType: SourceType?
 
-        public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, eventId: String? = nil, message: String? = nil, severity: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
+        public init(date: Date? = nil, eventCategories: [String]? = nil, eventId: String? = nil, message: String? = nil, severity: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
             self.eventId = eventId
@@ -3235,12 +3235,12 @@ extension Redshift {
         /// The status of the Amazon Redshift event notification subscription. Constraints:   Can be one of the following: active | no-permission | topic-not-exist   The status "no-permission" indicates that Amazon Redshift no longer has permission to post to the Amazon SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
         public let status: String?
         /// The date and time the Amazon Redshift event notification subscription was created.
-        public let subscriptionCreationTime: TimeStamp?
+        public let subscriptionCreationTime: Date?
         /// The list of tags for the event subscription.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, severity: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: TimeStamp? = nil, tags: [Tag]? = nil) {
+        public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, severity: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: Date? = nil, tags: [Tag]? = nil) {
             self.customerAwsId = customerAwsId
             self.custSubscriptionId = custSubscriptionId
             self.enabled = enabled
@@ -3533,15 +3533,15 @@ extension Redshift {
         /// The message indicating that logs failed to be delivered.
         public let lastFailureMessage: String?
         /// The last time when logs failed to be delivered.
-        public let lastFailureTime: TimeStamp?
+        public let lastFailureTime: Date?
         /// The last time that logs were delivered.
-        public let lastSuccessfulDeliveryTime: TimeStamp?
+        public let lastSuccessfulDeliveryTime: Date?
         ///  true if logging is on, false if logging is off.
         public let loggingEnabled: Bool?
         /// The prefix applied to the log file names.
         public let s3KeyPrefix: String?
 
-        public init(bucketName: String? = nil, lastFailureMessage: String? = nil, lastFailureTime: TimeStamp? = nil, lastSuccessfulDeliveryTime: TimeStamp? = nil, loggingEnabled: Bool? = nil, s3KeyPrefix: String? = nil) {
+        public init(bucketName: String? = nil, lastFailureMessage: String? = nil, lastFailureTime: Date? = nil, lastSuccessfulDeliveryTime: Date? = nil, loggingEnabled: Bool? = nil, s3KeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.lastFailureMessage = lastFailureMessage
             self.lastFailureTime = lastFailureTime
@@ -3659,13 +3659,13 @@ extension Redshift {
         /// An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 45 days or less.
         public let deferMaintenanceDuration: Int?
         /// A timestamp indicating end time for the deferred maintenance window. If you specify an end time, you can't specify a duration.
-        public let deferMaintenanceEndTime: TimeStamp?
+        public let deferMaintenanceEndTime: Date?
         /// A unique identifier for the deferred maintenance window.
         public let deferMaintenanceIdentifier: String?
         /// A timestamp indicating the start time for the deferred maintenance window.
-        public let deferMaintenanceStartTime: TimeStamp?
+        public let deferMaintenanceStartTime: Date?
 
-        public init(clusterIdentifier: String, deferMaintenance: Bool? = nil, deferMaintenanceDuration: Int? = nil, deferMaintenanceEndTime: TimeStamp? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: TimeStamp? = nil) {
+        public init(clusterIdentifier: String, deferMaintenance: Bool? = nil, deferMaintenanceDuration: Int? = nil, deferMaintenanceEndTime: Date? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: Date? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.deferMaintenance = deferMaintenance
             self.deferMaintenanceDuration = deferMaintenanceDuration
@@ -3978,7 +3978,7 @@ extension Redshift {
         /// A modified enable flag of the scheduled action. If true, the scheduled action is active. If false, the scheduled action is disabled.
         public let enable: Bool?
         /// A modified end time of the scheduled action. For more information about this parameter, see ScheduledAction.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// A different IAM role to assume to run the target action. For more information about this parameter, see ScheduledAction.
         public let iamRole: String?
         /// A modified schedule in either at( ) or cron( ) format. For more information about this parameter, see ScheduledAction.
@@ -3988,11 +3988,11 @@ extension Redshift {
         /// The name of the scheduled action to modify.
         public let scheduledActionName: String
         /// A modified start time of the scheduled action. For more information about this parameter, see ScheduledAction.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// A modified JSON format of the scheduled action. For more information about this parameter, see ScheduledAction.
         public let targetAction: ScheduledActionType?
 
-        public init(enable: Bool? = nil, endTime: TimeStamp? = nil, iamRole: String? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil, targetAction: ScheduledActionType? = nil) {
+        public init(enable: Bool? = nil, endTime: Date? = nil, iamRole: String? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: Date? = nil, targetAction: ScheduledActionType? = nil) {
             self.enable = enable
             self.endTime = endTime
             self.iamRole = iamRole
@@ -4424,13 +4424,13 @@ extension Redshift {
         public let reservedNodeOfferingId: String?
         public let reservedNodeOfferingType: ReservedNodeOfferingType?
         /// The time the reservation started. You purchase a reserved node offering for a duration. This is the start time of that duration.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The state of the reserved compute node. Possible Values:   pending-payment-This reserved node has recently been purchased, and the sale has been approved, but payment has not yet been confirmed.   active-This reserved node is owned by the caller and is available for use.   payment-failed-Payment failed for the purchase attempt.   retired-The reserved node is no longer available.    exchanging-The owner is exchanging the reserved node for another reserved node.
         public let state: String?
         /// The hourly rate Amazon Redshift charges you for this reserved node.
         public let usagePrice: Double?
 
-        public init(currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, nodeCount: Int? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeId: String? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
+        public init(currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, nodeCount: Int? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeId: String? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, startTime: Date? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -4955,11 +4955,11 @@ extension Redshift {
         /// A unique string that identifies the version to update the cluster to. You can use this value in ModifyClusterDbRevision.
         public let databaseRevision: String?
         /// The date on which the database revision was released.
-        public let databaseRevisionReleaseDate: TimeStamp?
+        public let databaseRevisionReleaseDate: Date?
         /// A string that describes the changes and features that will be applied to the cluster when it is updated to the corresponding ClusterDbRevision.
         public let description: String?
 
-        public init(databaseRevision: String? = nil, databaseRevisionReleaseDate: TimeStamp? = nil, description: String? = nil) {
+        public init(databaseRevision: String? = nil, databaseRevisionReleaseDate: Date? = nil, description: String? = nil) {
             self.databaseRevision = databaseRevision
             self.databaseRevisionReleaseDate = databaseRevisionReleaseDate
             self.description = description
@@ -5071,12 +5071,12 @@ extension Redshift {
         public struct _NextInvocationsEncoding: ArrayCoderProperties { public static let member = "ScheduledActionTime" }
 
         /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Cluster Management Guide.
         public let iamRole: String?
         /// List of times when the scheduled action will run.
-        @OptionalCustomCoding<ArrayCoder<_NextInvocationsEncoding, TimeStamp>>
-        public var nextInvocations: [TimeStamp]?
+        @OptionalCustomCoding<ArrayCoder<_NextInvocationsEncoding, Date>>
+        public var nextInvocations: [Date]?
         /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: String?
         /// The description of the scheduled action.
@@ -5084,13 +5084,13 @@ extension Redshift {
         /// The name of the scheduled action.
         public let scheduledActionName: String?
         /// The start time in UTC when the schedule is active. Before this time, the scheduled action does not trigger.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The state of the scheduled action. For example, DISABLED.
         public let state: ScheduledActionState?
         /// A JSON format string of the Amazon Redshift API operation with input parameters.  "{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
         public let targetAction: ScheduledActionType?
 
-        public init(endTime: TimeStamp? = nil, iamRole: String? = nil, nextInvocations: [TimeStamp]? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String? = nil, startTime: TimeStamp? = nil, state: ScheduledActionState? = nil, targetAction: ScheduledActionType? = nil) {
+        public init(endTime: Date? = nil, iamRole: String? = nil, nextInvocations: [Date]? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String? = nil, startTime: Date? = nil, state: ScheduledActionState? = nil, targetAction: ScheduledActionType? = nil) {
             self.endTime = endTime
             self.iamRole = iamRole
             self.nextInvocations = nextInvocations
@@ -5191,7 +5191,7 @@ extension Redshift {
         /// The number of megabytes that have been transferred to the snapshot backup.
         public let backupProgressInMegaBytes: Double?
         /// The time (UTC) when the cluster was originally created.
-        public let clusterCreateTime: TimeStamp?
+        public let clusterCreateTime: Date?
         /// The identifier of the cluster for which the snapshot was taken.
         public let clusterIdentifier: String?
         /// The version ID of the Amazon Redshift engine that is running on the cluster.
@@ -5232,11 +5232,11 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_RestorableNodeTypesEncoding, String>>
         public var restorableNodeTypes: [String]?
         /// The time (in UTC format) when Amazon Redshift began the snapshot. A snapshot contains a copy of the cluster data as of this exact time.
-        public let snapshotCreateTime: TimeStamp?
+        public let snapshotCreateTime: Date?
         /// The snapshot identifier that is provided in the request.
         public let snapshotIdentifier: String?
         /// A timestamp representing the start of the retention period for the snapshot.
-        public let snapshotRetentionStartTime: TimeStamp?
+        public let snapshotRetentionStartTime: Date?
         /// The snapshot type. Snapshots created using CreateClusterSnapshot and CopyClusterSnapshot are of type "manual".
         public let snapshotType: String?
         /// The source region from which the snapshot was copied.
@@ -5251,7 +5251,7 @@ extension Redshift {
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
         public let vpcId: String?
 
-        public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dBName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, restorableNodeTypes: [String]? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: TimeStamp? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
+        public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dBName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, restorableNodeTypes: [String]? = nil, snapshotCreateTime: Date? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: Date? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.availabilityZone = availabilityZone
@@ -5424,8 +5424,8 @@ extension Redshift {
         /// A list of clusters associated with the schedule. A maximum of 100 clusters is returned.
         @OptionalCustomCoding<ArrayCoder<_AssociatedClustersEncoding, ClusterAssociatedToSchedule>>
         public var associatedClusters: [ClusterAssociatedToSchedule]?
-        @OptionalCustomCoding<ArrayCoder<_NextInvocationsEncoding, TimeStamp>>
-        public var nextInvocations: [TimeStamp]?
+        @OptionalCustomCoding<ArrayCoder<_NextInvocationsEncoding, Date>>
+        public var nextInvocations: [Date]?
         /// A list of ScheduleDefinitions.
         @OptionalCustomCoding<ArrayCoder<_ScheduleDefinitionsEncoding, String>>
         public var scheduleDefinitions: [String]?
@@ -5437,7 +5437,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(associatedClusterCount: Int? = nil, associatedClusters: [ClusterAssociatedToSchedule]? = nil, nextInvocations: [TimeStamp]? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
+        public init(associatedClusterCount: Int? = nil, associatedClusters: [ClusterAssociatedToSchedule]? = nil, nextInvocations: [Date]? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.associatedClusterCount = associatedClusterCount
             self.associatedClusters = associatedClusters
             self.nextInvocations = nextInvocations
@@ -5530,7 +5530,7 @@ extension Redshift {
         /// The amount of data restored to the new table so far, in megabytes (MB).
         public let progressInMegaBytes: Int64?
         /// The time that the table restore request was made, in Universal Coordinated Time (UTC).
-        public let requestTime: TimeStamp?
+        public let requestTime: Date?
         /// The identifier of the snapshot that the table is being restored from.
         public let snapshotIdentifier: String?
         /// The name of the source database that contains the table being restored.
@@ -5550,7 +5550,7 @@ extension Redshift {
         /// The total amount of data to restore to the new table, in megabytes (MB).
         public let totalDataInMegaBytes: Int64?
 
-        public init(clusterIdentifier: String? = nil, message: String? = nil, newTableName: String? = nil, progressInMegaBytes: Int64? = nil, requestTime: TimeStamp? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceSchemaName: String? = nil, sourceTableName: String? = nil, status: TableRestoreStatusType? = nil, tableRestoreRequestId: String? = nil, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, totalDataInMegaBytes: Int64? = nil) {
+        public init(clusterIdentifier: String? = nil, message: String? = nil, newTableName: String? = nil, progressInMegaBytes: Int64? = nil, requestTime: Date? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceSchemaName: String? = nil, sourceTableName: String? = nil, status: TableRestoreStatusType? = nil, tableRestoreRequestId: String? = nil, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, totalDataInMegaBytes: Int64? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.message = message
             self.newTableName = newTableName

@@ -1223,15 +1223,15 @@ extension Athena {
 
     public struct QueryExecutionStatus: AWSDecodableShape {
         /// The date and time that the query completed.
-        public let completionDateTime: TimeStamp?
+        public let completionDateTime: Date?
         /// The state of query execution. QUEUED indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. RUNNING indicates that the query is in execution phase. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution.  Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from RUNNING or FAILED to QUEUED.
         public let state: QueryExecutionState?
         /// Further detail about the status of the query.
         public let stateChangeReason: String?
         /// The date and time that the query was submitted.
-        public let submissionDateTime: TimeStamp?
+        public let submissionDateTime: Date?
 
-        public init(completionDateTime: TimeStamp? = nil, state: QueryExecutionState? = nil, stateChangeReason: String? = nil, submissionDateTime: TimeStamp? = nil) {
+        public init(completionDateTime: Date? = nil, state: QueryExecutionState? = nil, stateChangeReason: String? = nil, submissionDateTime: Date? = nil) {
             self.completionDateTime = completionDateTime
             self.state = state
             self.stateChangeReason = stateChangeReason
@@ -1403,9 +1403,9 @@ extension Athena {
         /// A list of the columns in the table.
         public let columns: [Column]?
         /// The time that the table was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The last time the table was accessed.
-        public let lastAccessTime: TimeStamp?
+        public let lastAccessTime: Date?
         /// The name of the table.
         public let name: String
         /// A set of custom key/value pairs for table properties.
@@ -1415,7 +1415,7 @@ extension Athena {
         /// The type of table. In Athena, only EXTERNAL_TABLE is supported.
         public let tableType: String?
 
-        public init(columns: [Column]? = nil, createTime: TimeStamp? = nil, lastAccessTime: TimeStamp? = nil, name: String, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, tableType: String? = nil) {
+        public init(columns: [Column]? = nil, createTime: Date? = nil, lastAccessTime: Date? = nil, name: String, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, tableType: String? = nil) {
             self.columns = columns
             self.createTime = createTime
             self.lastAccessTime = lastAccessTime
@@ -1644,7 +1644,7 @@ extension Athena {
         /// The configuration of the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for query results; whether the Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup settings override client-side settings; and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let configuration: WorkGroupConfiguration?
         /// The date and time the workgroup was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The workgroup description.
         public let description: String?
         /// The workgroup name.
@@ -1652,7 +1652,7 @@ extension Athena {
         /// The state of the workgroup: ENABLED or DISABLED.
         public let state: WorkGroupState?
 
-        public init(configuration: WorkGroupConfiguration? = nil, creationTime: TimeStamp? = nil, description: String? = nil, name: String, state: WorkGroupState? = nil) {
+        public init(configuration: WorkGroupConfiguration? = nil, creationTime: Date? = nil, description: String? = nil, name: String, state: WorkGroupState? = nil) {
             self.configuration = configuration
             self.creationTime = creationTime
             self.description = description
@@ -1741,7 +1741,7 @@ extension Athena {
 
     public struct WorkGroupSummary: AWSDecodableShape {
         /// The workgroup creation date and time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The workgroup description.
         public let description: String?
         /// The name of the workgroup.
@@ -1749,7 +1749,7 @@ extension Athena {
         /// The state of the workgroup.
         public let state: WorkGroupState?
 
-        public init(creationTime: TimeStamp? = nil, description: String? = nil, name: String? = nil, state: WorkGroupState? = nil) {
+        public init(creationTime: Date? = nil, description: String? = nil, name: String? = nil, state: WorkGroupState? = nil) {
             self.creationTime = creationTime
             self.description = description
             self.name = name

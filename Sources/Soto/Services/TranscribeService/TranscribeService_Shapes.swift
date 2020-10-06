@@ -251,13 +251,13 @@ extension TranscribeService {
         /// The language code for the entries in your custom vocabulary. US English (en-US) is the only valid language code for Amazon Transcribe Medical.
         public let languageCode: LanguageCode?
         /// The date and time that you created the vocabulary.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the vocabulary. The name must be unique within an AWS account and is case sensitive.
         public let vocabularyName: String?
         /// The processing state of your custom vocabulary in Amazon Transcribe Medical. If the state is READY, you can use the vocabulary in a StartMedicalTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
-        public init(failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
+        public init(failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.failureReason = failureReason
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
@@ -317,11 +317,11 @@ extension TranscribeService {
         /// The language code of the words in the collection.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary filter was modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the vocabulary filter.
         public let vocabularyFilterName: String?
 
-        public init(languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyFilterName: String? = nil) {
+        public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
             self.vocabularyFilterName = vocabularyFilterName
@@ -379,13 +379,13 @@ extension TranscribeService {
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was created.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the vocabulary.
         public let vocabularyName: String?
         /// The processing state of the vocabulary. When the VocabularyState field contains READY the vocabulary is ready to be used in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
-        public init(failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
+        public init(failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.failureReason = failureReason
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
@@ -607,13 +607,13 @@ extension TranscribeService {
         /// The valid language code for your vocabulary entries.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was last modified with a text file different from the one that was previously used.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the vocabulary returned by Amazon Transcribe Medical.
         public let vocabularyName: String?
         /// The processing state of the vocabulary. If the VocabularyState is READY then you can use it in the StartMedicalTranscriptionJob operation.
         public let vocabularyState: VocabularyState?
 
-        public init(downloadUri: String? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
+        public init(downloadUri: String? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.downloadUri = downloadUri
             self.failureReason = failureReason
             self.languageCode = languageCode
@@ -689,11 +689,11 @@ extension TranscribeService {
         /// The language code of the words in the vocabulary filter.
         public let languageCode: LanguageCode?
         /// The date and time that the contents of the vocabulary filter were updated.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the vocabulary filter.
         public let vocabularyFilterName: String?
 
-        public init(downloadUri: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyFilterName: String? = nil) {
+        public init(downloadUri: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
             self.downloadUri = downloadUri
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
@@ -735,13 +735,13 @@ extension TranscribeService {
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the vocabulary to return.
         public let vocabularyName: String?
         /// The processing state of the vocabulary.
         public let vocabularyState: VocabularyState?
 
-        public init(downloadUri: String? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
+        public init(downloadUri: String? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.downloadUri = downloadUri
             self.failureReason = failureReason
             self.languageCode = languageCode
@@ -820,7 +820,7 @@ extension TranscribeService {
         /// The Amazon Transcribe standard language model, or base model used to create the custom language model.
         public let baseModelName: BaseModelName?
         /// The time the custom language model was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The reason why the custom language model couldn't be created.
         public let failureReason: String?
         /// The data access role and Amazon S3 prefixes for the input files used to train the custom language model.
@@ -828,7 +828,7 @@ extension TranscribeService {
         /// The language code you used to create your custom language model.
         public let languageCode: CLMLanguageCode?
         /// The most recent time the custom language model was modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the custom language model.
         public let modelName: String?
         /// The creation status of a custom language model. When the status is COMPLETED the model is ready for use.
@@ -836,7 +836,7 @@ extension TranscribeService {
         /// Whether the base model used for the custom language model is up to date. If this field is true then you are running the most up-to-date version of the base model in your custom language model.
         public let upgradeAvailability: Bool?
 
-        public init(baseModelName: BaseModelName? = nil, createTime: TimeStamp? = nil, failureReason: String? = nil, inputDataConfig: InputDataConfig? = nil, languageCode: CLMLanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, modelName: String? = nil, modelStatus: ModelStatus? = nil, upgradeAvailability: Bool? = nil) {
+        public init(baseModelName: BaseModelName? = nil, createTime: Date? = nil, failureReason: String? = nil, inputDataConfig: InputDataConfig? = nil, languageCode: CLMLanguageCode? = nil, lastModifiedTime: Date? = nil, modelName: String? = nil, modelStatus: ModelStatus? = nil, upgradeAvailability: Bool? = nil) {
             self.baseModelName = baseModelName
             self.createTime = createTime
             self.failureReason = failureReason
@@ -1219,9 +1219,9 @@ extension TranscribeService {
 
     public struct MedicalTranscriptionJob: AWSDecodableShape {
         /// A timestamp that shows when the job was completed.
-        public let completionTime: TimeStamp?
+        public let completionTime: Date?
         /// A timestamp that shows when the job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// If the TranscriptionJobStatus field is FAILED, this field contains information about why the job failed. The FailureReason field contains one of the following values:    Unsupported media format- The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media format- The media format of the audio file doesn't match the format specified in the MediaFormat field in the request. Check the media format of your media file and make sure the two values match.    Invalid sample rate for audio file- The sample rate specified in the MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8000 and 48000 Hertz.    The sample rate provided does not match the detected sample rate- The sample rate in the audio file doesn't match the sample rate specified in the MediaSampleRateHertz field in the request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large- The size of your audio file is larger than what Amazon Transcribe Medical can process. For more information, see Guidelines and Quotas in the Amazon Transcribe Medical Guide     Invalid number of channels: number of channels too large- Your audio contains more channels than Amazon Transcribe Medical is configured to process. To request additional channels, see Amazon Transcribe Medical Endpoints and Quotas in the Amazon Web Services General Reference
         public let failureReason: String?
         /// The language code for the language spoken in the source audio file. US English (en-US) is the only supported language for medical transcriptions. Any other value you enter for language code results in a BadRequestException error.
@@ -1238,7 +1238,7 @@ extension TranscribeService {
         /// The medical specialty of any clinicians providing a dictation or having a conversation. PRIMARYCARE is the only available setting for this object. This specialty enables you to generate transcriptions for the following medical fields:   Family Medicine
         public let specialty: Specialty?
         /// A timestamp that shows when the job started processing.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// An object that contains the MedicalTranscript. The MedicalTranscript contains the TranscriptFileUri.
         public let transcript: MedicalTranscript?
         /// The completion status of a medical transcription job.
@@ -1246,7 +1246,7 @@ extension TranscribeService {
         /// The type of speech in the transcription job. CONVERSATION is generally used for patient-physician dialogues. DICTATION is the setting for physicians speaking their notes after seeing a patient. For more information, see how-it-works-med
         public let `type`: `Type`?
 
-        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty? = nil, startTime: TimeStamp? = nil, transcript: MedicalTranscript? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
+        public init(completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcript: MedicalTranscript? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -1283,9 +1283,9 @@ extension TranscribeService {
 
     public struct MedicalTranscriptionJobSummary: AWSDecodableShape {
         /// A timestamp that shows when the job was completed.
-        public let completionTime: TimeStamp?
+        public let completionTime: Date?
         /// A timestamp that shows when the medical transcription job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// If the TranscriptionJobStatus field is FAILED, a description of the error.
         public let failureReason: String?
         /// The language of the transcript in the source audio file.
@@ -1297,13 +1297,13 @@ extension TranscribeService {
         /// The medical specialty of the transcription job. Primary care is the only valid value.
         public let specialty: Specialty?
         /// A timestamp that shows when the job began processing.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the medical transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
         /// The speech of the clinician in the input audio.
         public let `type`: `Type`?
 
-        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, medicalTranscriptionJobName: String? = nil, outputLocationType: OutputLocationType? = nil, specialty: Specialty? = nil, startTime: TimeStamp? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
+        public init(completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, medicalTranscriptionJobName: String? = nil, outputLocationType: OutputLocationType? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -1624,11 +1624,11 @@ extension TranscribeService {
 
     public struct TranscriptionJob: AWSDecodableShape {
         /// A timestamp that shows when the job was completed.
-        public let completionTime: TimeStamp?
+        public let completionTime: Date?
         /// An object that describes content redaction settings for the transcription job.
         public let contentRedaction: ContentRedaction?
         /// A timestamp that shows when the job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// If the TranscriptionJobStatus field is FAILED, this field contains information about why the job failed. The FailureReason field can contain one of the following values:    Unsupported media format - The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media format - The media format of the audio file doesn't match the format specified in the MediaFormat field in the request. Check the media format of your media file and make sure that the two values match.    Invalid sample rate for audio file - The sample rate specified in the MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8000 and 48000 Hertz.    The sample rate provided does not match the detected sample rate - The sample rate in the audio file doesn't match the sample rate specified in the MediaSampleRateHertz field in the request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large - The size of your audio file is larger than Amazon Transcribe can process. For more information, see Limits in the Amazon Transcribe Developer Guide.    Invalid number of channels: number of channels too large - Your audio contains more channels than Amazon Transcribe is configured to process. To request additional channels, see Amazon Transcribe Limits in the Amazon Web Services General Reference.
         public let failureReason: String?
         /// Provides information about how a transcription job is executed.
@@ -1646,7 +1646,7 @@ extension TranscribeService {
         /// Optional settings for the transcription job. Use these settings to turn on speaker recognition, to set the maximum number of speakers that should be identified and to specify a custom vocabulary to use when processing the transcription job.
         public let settings: Settings?
         /// A timestamp that shows with the job was started processing.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// An object that describes the output of the transcription job.
         public let transcript: Transcript?
         /// The name of the transcription job.
@@ -1654,7 +1654,7 @@ extension TranscribeService {
         /// The status of the transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: TimeStamp? = nil, contentRedaction: ContentRedaction? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: TimeStamp? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
@@ -1693,11 +1693,11 @@ extension TranscribeService {
 
     public struct TranscriptionJobSummary: AWSDecodableShape {
         /// A timestamp that shows when the job was completed.
-        public let completionTime: TimeStamp?
+        public let completionTime: Date?
         /// The content redaction settings of the transcription job.
         public let contentRedaction: ContentRedaction?
         /// A timestamp that shows when the job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// If the TranscriptionJobStatus field is FAILED, a description of the error.
         public let failureReason: String?
         /// The language code for the input speech.
@@ -1706,13 +1706,13 @@ extension TranscribeService {
         /// Indicates the location of the output of the transcription job. If the value is CUSTOMER_BUCKET then the location is the S3 bucket specified in the outputBucketName field when the transcription job was started with the StartTranscriptionJob operation. If the value is SERVICE_BUCKET then the output is stored by Amazon Transcribe and can be retrieved using the URI in the GetTranscriptionJob response's TranscriptFileUri field.
         public let outputLocationType: OutputLocationType?
         /// A timestamp that shows when the job started processing.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The name of the transcription job.
         public let transcriptionJobName: String?
         /// The status of the transcription job. When the status is COMPLETED, use the GetTranscriptionJob operation to get the results of the transcription.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: TimeStamp? = nil, contentRedaction: ContentRedaction? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, modelSettings: ModelSettings? = nil, outputLocationType: OutputLocationType? = nil, startTime: TimeStamp? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, modelSettings: ModelSettings? = nil, outputLocationType: OutputLocationType? = nil, startTime: Date? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
@@ -1773,13 +1773,13 @@ extension TranscribeService {
         /// The language code for the language of the text file used to update the custom vocabulary. US English (en-US) is the only language supported in Amazon Transcribe Medical.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was updated.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the updated vocabulary.
         public let vocabularyName: String?
         /// The processing state of the update to the vocabulary. When the VocabularyState field is READY, the vocabulary is ready to be used in a StartMedicalTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
-        public init(languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
+        public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
             self.vocabularyName = vocabularyName
@@ -1833,11 +1833,11 @@ extension TranscribeService {
         /// The language code of the words in the vocabulary filter.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary filter was updated.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the updated vocabulary filter.
         public let vocabularyFilterName: String?
 
-        public init(languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyFilterName: String? = nil) {
+        public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
             self.vocabularyFilterName = vocabularyFilterName
@@ -1893,13 +1893,13 @@ extension TranscribeService {
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was updated.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the vocabulary that was updated.
         public let vocabularyName: String?
         /// The processing state of the vocabulary. When the VocabularyState field contains READY the vocabulary is ready to be used in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
-        public init(languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
+        public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
             self.vocabularyName = vocabularyName
@@ -1918,11 +1918,11 @@ extension TranscribeService {
         /// The language code of the words in the vocabulary filter.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was last updated.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the vocabulary filter. The name must be unique in the account that holds the filter.
         public let vocabularyFilterName: String?
 
-        public init(languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyFilterName: String? = nil) {
+        public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
             self.vocabularyFilterName = vocabularyFilterName
@@ -1939,13 +1939,13 @@ extension TranscribeService {
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the vocabulary.
         public let vocabularyName: String?
         /// The processing state of the vocabulary. If the state is READY you can use the vocabulary in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
-        public init(languageCode: LanguageCode? = nil, lastModifiedTime: TimeStamp? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
+        public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
             self.vocabularyName = vocabularyName

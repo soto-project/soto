@@ -1319,7 +1319,7 @@ extension ElasticsearchService {
         /// Additional information if the package is in an error state. Null otherwise.
         public let errorDetails: ErrorDetails?
         /// Timestamp of the most-recent update to the association status.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// Internal ID of the package.
         public let packageID: String?
         /// User specified name of the package.
@@ -1329,7 +1329,7 @@ extension ElasticsearchService {
         /// The relative path on Amazon ES nodes, which can be used as synonym_path when the package is synonym file.
         public let referencePath: String?
 
-        public init(domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: TimeStamp? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, referencePath: String? = nil) {
+        public init(domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: Date? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, referencePath: String? = nil) {
             self.domainName = domainName
             self.domainPackageStatus = domainPackageStatus
             self.errorDetails = errorDetails
@@ -2234,17 +2234,17 @@ extension ElasticsearchService {
 
     public struct OptionStatus: AWSDecodableShape {
         /// Timestamp which tells the creation date for the entity.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// Indicates whether the Elasticsearch domain is being deleted.
         public let pendingDeletion: Bool?
         /// Provides the OptionState for the Elasticsearch domain.
         public let state: OptionState
         /// Timestamp which tells the last updated time for the entity.
-        public let updateDate: TimeStamp
+        public let updateDate: Date
         /// Specifies the latest version for the entity.
         public let updateVersion: Int?
 
-        public init(creationDate: TimeStamp, pendingDeletion: Bool? = nil, state: OptionState, updateDate: TimeStamp, updateVersion: Int? = nil) {
+        public init(creationDate: Date, pendingDeletion: Bool? = nil, state: OptionState, updateDate: Date, updateVersion: Int? = nil) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
             self.state = state
@@ -2309,7 +2309,7 @@ extension ElasticsearchService {
 
     public struct PackageDetails: AWSDecodableShape {
         /// Timestamp which tells creation date of the package.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// Additional information if the package is in an error state. Null otherwise.
         public let errorDetails: ErrorDetails?
         /// User-specified description of the package.
@@ -2323,7 +2323,7 @@ extension ElasticsearchService {
         /// Currently supports only TXT-DICTIONARY.
         public let packageType: PackageType?
 
-        public init(createdAt: TimeStamp? = nil, errorDetails: ErrorDetails? = nil, packageDescription: String? = nil, packageID: String? = nil, packageName: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil) {
+        public init(createdAt: Date? = nil, errorDetails: ErrorDetails? = nil, packageDescription: String? = nil, packageID: String? = nil, packageName: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil) {
             self.createdAt = createdAt
             self.errorDetails = errorDetails
             self.packageDescription = packageDescription
@@ -2495,13 +2495,13 @@ extension ElasticsearchService {
         /// The offering identifier.
         public let reservedElasticsearchInstanceOfferingId: String?
         /// The time the reservation started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The state of the reserved Elasticsearch instance.
         public let state: String?
         /// The rate you are charged for each hour for the domain that is using this reserved instance.
         public let usagePrice: Double?
 
-        public init(currencyCode: String? = nil, duration: Int? = nil, elasticsearchInstanceCount: Int? = nil, elasticsearchInstanceType: ESPartitionInstanceType? = nil, fixedPrice: Double? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservationName: String? = nil, reservedElasticsearchInstanceId: String? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
+        public init(currencyCode: String? = nil, duration: Int? = nil, elasticsearchInstanceCount: Int? = nil, elasticsearchInstanceType: ESPartitionInstanceType? = nil, fixedPrice: Double? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservationName: String? = nil, reservedElasticsearchInstanceId: String? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, startTime: Date? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.elasticsearchInstanceCount = elasticsearchInstanceCount
@@ -2577,7 +2577,7 @@ extension ElasticsearchService {
 
     public struct ServiceSoftwareOptions: AWSDecodableShape {
         /// Timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
-        public let automatedUpdateDate: TimeStamp?
+        public let automatedUpdateDate: Date?
         /// True if you are able to cancel your service software version update. False if you are not able to cancel your service software version.
         public let cancellable: Bool?
         /// The current service software version that is present on the domain.
@@ -2593,7 +2593,7 @@ extension ElasticsearchService {
         /// The status of your service software update. This field can take the following values: ELIGIBLE, PENDING_UPDATE, IN_PROGRESS, COMPLETED, and NOT_ELIGIBLE.
         public let updateStatus: DeploymentStatus?
 
-        public init(automatedUpdateDate: TimeStamp? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, optionalDeployment: Bool? = nil, updateAvailable: Bool? = nil, updateStatus: DeploymentStatus? = nil) {
+        public init(automatedUpdateDate: Date? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, optionalDeployment: Bool? = nil, updateAvailable: Bool? = nil, updateStatus: DeploymentStatus? = nil) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
             self.currentVersion = currentVersion
@@ -2863,7 +2863,7 @@ extension ElasticsearchService {
 
     public struct UpgradeHistory: AWSDecodableShape {
         /// UTC Timestamp at which the Upgrade API call was made in "yyyy-MM-ddTHH:mm:ssZ" format.
-        public let startTimestamp: TimeStamp?
+        public let startTimestamp: Date?
         ///  A list of  UpgradeStepItem  s representing information about each step performed as pard of a specific Upgrade or Upgrade Eligibility Check.
         public let stepsList: [UpgradeStepItem]?
         /// A string that describes the update briefly
@@ -2871,7 +2871,7 @@ extension ElasticsearchService {
         ///  The overall status of the update. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed
         public let upgradeStatus: UpgradeStatus?
 
-        public init(startTimestamp: TimeStamp? = nil, stepsList: [UpgradeStepItem]? = nil, upgradeName: String? = nil, upgradeStatus: UpgradeStatus? = nil) {
+        public init(startTimestamp: Date? = nil, stepsList: [UpgradeStepItem]? = nil, upgradeName: String? = nil, upgradeStatus: UpgradeStatus? = nil) {
             self.startTimestamp = startTimestamp
             self.stepsList = stepsList
             self.upgradeName = upgradeName

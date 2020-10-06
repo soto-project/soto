@@ -1083,7 +1083,7 @@ extension ServiceDiscovery {
         /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the namespace when you create it.
         public let arn: String?
         /// The date that the namespace was created, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing an operation twice.
         public let creatorRequestId: String?
         /// The description that you specify for the namespace when you create it.
@@ -1099,7 +1099,7 @@ extension ServiceDiscovery {
         /// The type of the namespace. The methods for discovering instances depends on the value that you specify:    HTTP: Instances can be discovered only programmatically, using the AWS Cloud Map DiscoverInstances API.    DNS_PUBLIC: Instances can be discovered using public DNS queries and using the DiscoverInstances API.    DNS_PRIVATE: Instances can be discovered using DNS queries in VPCs and using the DiscoverInstances API.
         public let `type`: NamespaceType?
 
-        public init(arn: String? = nil, createDate: TimeStamp? = nil, creatorRequestId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
+        public init(arn: String? = nil, createDate: Date? = nil, creatorRequestId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.creatorRequestId = creatorRequestId
@@ -1173,7 +1173,7 @@ extension ServiceDiscovery {
         /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the namespace when you create it.
         public let arn: String?
         /// The date and time that the namespace was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// A description for the namespace.
         public let description: String?
         /// The ID of the namespace.
@@ -1186,7 +1186,7 @@ extension ServiceDiscovery {
         /// The type of the namespace, either public or private.
         public let `type`: NamespaceType?
 
-        public init(arn: String? = nil, createDate: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
+        public init(arn: String? = nil, createDate: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.description = description
@@ -1211,7 +1211,7 @@ extension ServiceDiscovery {
 
     public struct Operation: AWSDecodableShape {
         /// The date and time that the request was submitted, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The code associated with ErrorMessage. Values for ErrorCode include the following:    ACCESS_DENIED     CANNOT_CREATE_HOSTED_ZONE     EXPIRED_TOKEN     HOSTED_ZONE_NOT_FOUND     INTERNAL_FAILURE     INVALID_CHANGE_BATCH     THROTTLED_REQUEST
         public let errorCode: String?
         /// If the value of Status is FAIL, the reason that the operation failed.
@@ -1225,9 +1225,9 @@ extension ServiceDiscovery {
         /// The name of the operation that is associated with the specified ID.
         public let `type`: OperationType?
         /// The date and time that the value of Status changed to the current value, in Unix date/time format and Coordinated Universal Time (UTC). The value of UpdateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let updateDate: TimeStamp?
+        public let updateDate: Date?
 
-        public init(createDate: TimeStamp? = nil, errorCode: String? = nil, errorMessage: String? = nil, id: String? = nil, status: OperationStatus? = nil, targets: [OperationTargetType: String]? = nil, type: OperationType? = nil, updateDate: TimeStamp? = nil) {
+        public init(createDate: Date? = nil, errorCode: String? = nil, errorMessage: String? = nil, id: String? = nil, status: OperationStatus? = nil, targets: [OperationTargetType: String]? = nil, type: OperationType? = nil, updateDate: Date? = nil) {
             self.createDate = createDate
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1349,7 +1349,7 @@ extension ServiceDiscovery {
         /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the service when you create it.
         public let arn: String?
         /// The date and time that the service was created, in Unix format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String?
         /// The description of the service.
@@ -1369,7 +1369,7 @@ extension ServiceDiscovery {
         /// The ID of the namespace that was used to create the service.
         public let namespaceId: String?
 
-        public init(arn: String? = nil, createDate: TimeStamp? = nil, creatorRequestId: String? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil, namespaceId: String? = nil) {
+        public init(arn: String? = nil, createDate: Date? = nil, creatorRequestId: String? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil, namespaceId: String? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.creatorRequestId = creatorRequestId
@@ -1456,7 +1456,7 @@ extension ServiceDiscovery {
         /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the service when you create it.
         public let arn: String?
         /// The date and time that the service was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The description that you specify when you create the service.
         public let description: String?
         public let dnsConfig: DnsConfig?
@@ -1469,7 +1469,7 @@ extension ServiceDiscovery {
         /// The name of the service.
         public let name: String?
 
-        public init(arn: String? = nil, createDate: TimeStamp? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createDate: Date? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.description = description

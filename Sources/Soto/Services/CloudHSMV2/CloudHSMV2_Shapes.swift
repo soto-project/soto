@@ -65,11 +65,11 @@ extension CloudHSMV2 {
         /// The identifier (ID) of the cluster that was backed up.
         public let clusterId: String?
         /// The date and time when the backup was copied from a source backup.
-        public let copyTimestamp: TimeStamp?
+        public let copyTimestamp: Date?
         /// The date and time when the backup was created.
-        public let createTimestamp: TimeStamp?
+        public let createTimestamp: Date?
         /// The date and time when the backup will be permanently deleted.
-        public let deleteTimestamp: TimeStamp?
+        public let deleteTimestamp: Date?
         /// The identifier (ID) of the source backup from which the new backup was copied.
         public let sourceBackup: String?
         /// The identifier (ID) of the cluster containing the source backup from which the new backup was copied.
@@ -79,7 +79,7 @@ extension CloudHSMV2 {
         /// The list of tags for the backup.
         public let tagList: [Tag]?
 
-        public init(backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: TimeStamp? = nil, createTimestamp: TimeStamp? = nil, deleteTimestamp: TimeStamp? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil, tagList: [Tag]? = nil) {
+        public init(backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: Date? = nil, createTimestamp: Date? = nil, deleteTimestamp: Date? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil, tagList: [Tag]? = nil) {
             self.backupId = backupId
             self.backupState = backupState
             self.clusterId = clusterId
@@ -143,7 +143,7 @@ extension CloudHSMV2 {
         /// The cluster's identifier (ID).
         public let clusterId: String?
         /// The date and time when the cluster was created.
-        public let createTimestamp: TimeStamp?
+        public let createTimestamp: Date?
         /// Contains information about the HSMs in the cluster.
         public let hsms: [Hsm]?
         /// The type of HSM that the cluster contains.
@@ -165,7 +165,7 @@ extension CloudHSMV2 {
         /// The identifier (ID) of the virtual private cloud (VPC) that contains the cluster.
         public let vpcId: String?
 
-        public init(backupPolicy: BackupPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: TimeStamp? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
+        public init(backupPolicy: BackupPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
             self.backupPolicy = backupPolicy
             self.certificates = certificates
             self.clusterId = clusterId
@@ -544,7 +544,7 @@ extension CloudHSMV2 {
 
     public struct DestinationBackup: AWSDecodableShape {
         /// The date and time when both the source backup was created.
-        public let createTimestamp: TimeStamp?
+        public let createTimestamp: Date?
         /// The identifier (ID) of the source backup from which the new backup was copied.
         public let sourceBackup: String?
         /// The identifier (ID) of the cluster containing the source backup from which the new backup was copied.
@@ -552,7 +552,7 @@ extension CloudHSMV2 {
         /// The AWS region that contains the source backup from which the new backup was copied.
         public let sourceRegion: String?
 
-        public init(createTimestamp: TimeStamp? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil) {
+        public init(createTimestamp: Date? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil) {
             self.createTimestamp = createTimestamp
             self.sourceBackup = sourceBackup
             self.sourceCluster = sourceCluster

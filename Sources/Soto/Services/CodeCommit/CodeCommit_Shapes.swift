@@ -155,9 +155,9 @@ extension CodeCommit {
         /// The name of the approval rule.
         public let approvalRuleName: String?
         /// The date the approval rule was created, in timestamp format.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The date the approval rule was most recently changed, in timestamp format.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The Amazon Resource Name (ARN) of the user who made the most recent changes to the approval rule.
         public let lastModifiedUser: String?
         /// The approval rule template used to create the rule.
@@ -165,7 +165,7 @@ extension CodeCommit {
         /// The SHA-256 hash signature for the content of the approval rule.
         public let ruleContentSha256: String?
 
-        public init(approvalRuleContent: String? = nil, approvalRuleId: String? = nil, approvalRuleName: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, originApprovalRuleTemplate: OriginApprovalRuleTemplate? = nil, ruleContentSha256: String? = nil) {
+        public init(approvalRuleContent: String? = nil, approvalRuleId: String? = nil, approvalRuleName: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, lastModifiedUser: String? = nil, originApprovalRuleTemplate: OriginApprovalRuleTemplate? = nil, ruleContentSha256: String? = nil) {
             self.approvalRuleContent = approvalRuleContent
             self.approvalRuleId = approvalRuleId
             self.approvalRuleName = approvalRuleName
@@ -236,15 +236,15 @@ extension CodeCommit {
         /// The name of the approval rule template.
         public let approvalRuleTemplateName: String?
         /// The date the approval rule template was created, in timestamp format.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The date the approval rule template was most recently changed, in timestamp format.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The Amazon Resource Name (ARN) of the user who made the most recent changes to the approval rule template.
         public let lastModifiedUser: String?
         /// The SHA-256 hash signature for the content of the approval rule template.
         public let ruleContentSha256: String?
 
-        public init(approvalRuleTemplateContent: String? = nil, approvalRuleTemplateDescription: String? = nil, approvalRuleTemplateId: String? = nil, approvalRuleTemplateName: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, ruleContentSha256: String? = nil) {
+        public init(approvalRuleTemplateContent: String? = nil, approvalRuleTemplateDescription: String? = nil, approvalRuleTemplateId: String? = nil, approvalRuleTemplateName: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, lastModifiedUser: String? = nil, ruleContentSha256: String? = nil) {
             self.approvalRuleTemplateContent = approvalRuleTemplateContent
             self.approvalRuleTemplateDescription = approvalRuleTemplateDescription
             self.approvalRuleTemplateId = approvalRuleTemplateId
@@ -697,17 +697,17 @@ extension CodeCommit {
         /// The content of the comment.
         public let content: String?
         /// The date and time the comment was created, in timestamp format.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A Boolean value indicating whether the comment has been deleted.
         public let deleted: Bool?
         /// The ID of the comment for which this comment is a reply, if any.
         public let inReplyTo: String?
         /// The date and time the comment was most recently modified, in timestamp format.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// A string to integer map that represents the number of individual users who have responded to a comment with the specified reactions.
         public let reactionCounts: [String: Int]?
 
-        public init(authorArn: String? = nil, callerReactions: [String]? = nil, clientRequestToken: String? = nil, commentId: String? = nil, content: String? = nil, creationDate: TimeStamp? = nil, deleted: Bool? = nil, inReplyTo: String? = nil, lastModifiedDate: TimeStamp? = nil, reactionCounts: [String: Int]? = nil) {
+        public init(authorArn: String? = nil, callerReactions: [String]? = nil, clientRequestToken: String? = nil, commentId: String? = nil, content: String? = nil, creationDate: Date? = nil, deleted: Bool? = nil, inReplyTo: String? = nil, lastModifiedDate: Date? = nil, reactionCounts: [String: Int]? = nil) {
             self.authorArn = authorArn
             self.callerReactions = callerReactions
             self.clientRequestToken = clientRequestToken
@@ -3822,11 +3822,11 @@ extension CodeCommit {
         /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
         public let clientRequestToken: String?
         /// The date and time the pull request was originally created, in timestamp format.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The user-defined description of the pull request. This description can be used to clarify what should be reviewed and other details of the request.
         public let description: String?
         /// The day and time of the last user or system activity on the pull request, in timestamp format.
-        public let lastActivityDate: TimeStamp?
+        public let lastActivityDate: Date?
         /// The system-generated ID of the pull request.
         public let pullRequestId: String?
         /// The status of the pull request. Pull request status can only change from OPEN to CLOSED.
@@ -3838,7 +3838,7 @@ extension CodeCommit {
         /// The user-defined title of the pull request. This title is displayed in the list of pull requests to other repository users.
         public let title: String?
 
-        public init(approvalRules: [ApprovalRule]? = nil, authorArn: String? = nil, clientRequestToken: String? = nil, creationDate: TimeStamp? = nil, description: String? = nil, lastActivityDate: TimeStamp? = nil, pullRequestId: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, pullRequestTargets: [PullRequestTarget]? = nil, revisionId: String? = nil, title: String? = nil) {
+        public init(approvalRules: [ApprovalRule]? = nil, authorArn: String? = nil, clientRequestToken: String? = nil, creationDate: Date? = nil, description: String? = nil, lastActivityDate: Date? = nil, pullRequestId: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, pullRequestTargets: [PullRequestTarget]? = nil, revisionId: String? = nil, title: String? = nil) {
             self.approvalRules = approvalRules
             self.authorArn = authorArn
             self.clientRequestToken = clientRequestToken
@@ -3902,7 +3902,7 @@ extension CodeCommit {
         /// Information about an approval state change for a pull request.
         public let approvalStateChangedEventMetadata: ApprovalStateChangedEventMetadata?
         /// The day and time of the pull request event, in timestamp format.
-        public let eventDate: TimeStamp?
+        public let eventDate: Date?
         /// Information about the source and destination branches for the pull request.
         public let pullRequestCreatedEventMetadata: PullRequestCreatedEventMetadata?
         /// The type of the pull request event (for example, a status change event (PULL_REQUEST_STATUS_CHANGED) or update event (PULL_REQUEST_SOURCE_REFERENCE_UPDATED)).
@@ -3916,7 +3916,7 @@ extension CodeCommit {
         /// Information about the change in status for the pull request event.
         public let pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata?
 
-        public init(actorArn: String? = nil, approvalRuleEventMetadata: ApprovalRuleEventMetadata? = nil, approvalRuleOverriddenEventMetadata: ApprovalRuleOverriddenEventMetadata? = nil, approvalStateChangedEventMetadata: ApprovalStateChangedEventMetadata? = nil, eventDate: TimeStamp? = nil, pullRequestCreatedEventMetadata: PullRequestCreatedEventMetadata? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String? = nil, pullRequestMergedStateChangedEventMetadata: PullRequestMergedStateChangedEventMetadata? = nil, pullRequestSourceReferenceUpdatedEventMetadata: PullRequestSourceReferenceUpdatedEventMetadata? = nil, pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata? = nil) {
+        public init(actorArn: String? = nil, approvalRuleEventMetadata: ApprovalRuleEventMetadata? = nil, approvalRuleOverriddenEventMetadata: ApprovalRuleOverriddenEventMetadata? = nil, approvalStateChangedEventMetadata: ApprovalStateChangedEventMetadata? = nil, eventDate: Date? = nil, pullRequestCreatedEventMetadata: PullRequestCreatedEventMetadata? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String? = nil, pullRequestMergedStateChangedEventMetadata: PullRequestMergedStateChangedEventMetadata? = nil, pullRequestSourceReferenceUpdatedEventMetadata: PullRequestSourceReferenceUpdatedEventMetadata? = nil, pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata? = nil) {
             self.actorArn = actorArn
             self.approvalRuleEventMetadata = approvalRuleEventMetadata
             self.approvalRuleOverriddenEventMetadata = approvalRuleOverriddenEventMetadata
@@ -4282,11 +4282,11 @@ extension CodeCommit {
         /// The URL to use for cloning the repository over SSH.
         public let cloneUrlSsh: String?
         /// The date and time the repository was created, in timestamp format.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The repository's default branch name.
         public let defaultBranch: String?
         /// The date and time the repository was last modified, in timestamp format.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// A comment or description about the repository.
         public let repositoryDescription: String?
         /// The ID of the repository.
@@ -4294,7 +4294,7 @@ extension CodeCommit {
         /// The repository's name.
         public let repositoryName: String?
 
-        public init(accountId: String? = nil, arn: String? = nil, cloneUrlHttp: String? = nil, cloneUrlSsh: String? = nil, creationDate: TimeStamp? = nil, defaultBranch: String? = nil, lastModifiedDate: TimeStamp? = nil, repositoryDescription: String? = nil, repositoryId: String? = nil, repositoryName: String? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, cloneUrlHttp: String? = nil, cloneUrlSsh: String? = nil, creationDate: Date? = nil, defaultBranch: String? = nil, lastModifiedDate: Date? = nil, repositoryDescription: String? = nil, repositoryId: String? = nil, repositoryName: String? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.cloneUrlHttp = cloneUrlHttp

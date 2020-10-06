@@ -216,19 +216,19 @@ extension ACMPCA {
         /// Your private CA configuration.
         public let certificateAuthorityConfiguration: CertificateAuthorityConfiguration?
         /// Date and time at which your private CA was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// Reason the request to create your private CA failed.
         public let failureReason: FailureReason?
         /// Date and time at which your private CA was last updated.
-        public let lastStateChangeAt: TimeStamp?
+        public let lastStateChangeAt: Date?
         /// Date and time after which your private CA certificate is not valid.
-        public let notAfter: TimeStamp?
+        public let notAfter: Date?
         /// Date and time before which your private CA certificate is not valid.
-        public let notBefore: TimeStamp?
+        public let notBefore: Date?
         /// The AWS account ID that owns the certificate authority.
         public let ownerAccount: String?
         /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the DeleteCertificateAuthorityRequest action.
-        public let restorableUntil: TimeStamp?
+        public let restorableUntil: Date?
         /// Information about the certificate revocation list (CRL) created and maintained by your private CA.
         public let revocationConfiguration: RevocationConfiguration?
         /// Serial number of your private CA.
@@ -238,7 +238,7 @@ extension ACMPCA {
         /// Type of your private CA.
         public let `type`: CertificateAuthorityType?
 
-        public init(arn: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, createdAt: TimeStamp? = nil, failureReason: FailureReason? = nil, lastStateChangeAt: TimeStamp? = nil, notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil, ownerAccount: String? = nil, restorableUntil: TimeStamp? = nil, revocationConfiguration: RevocationConfiguration? = nil, serial: String? = nil, status: CertificateAuthorityStatus? = nil, type: CertificateAuthorityType? = nil) {
+        public init(arn: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, createdAt: Date? = nil, failureReason: FailureReason? = nil, lastStateChangeAt: Date? = nil, notAfter: Date? = nil, notBefore: Date? = nil, ownerAccount: String? = nil, restorableUntil: Date? = nil, revocationConfiguration: RevocationConfiguration? = nil, serial: String? = nil, status: CertificateAuthorityStatus? = nil, type: CertificateAuthorityType? = nil) {
             self.arn = arn
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
             self.createdAt = createdAt
@@ -577,13 +577,13 @@ extension ACMPCA {
         /// Specifies whether report creation is in progress, has succeeded, or has failed.
         public let auditReportStatus: AuditReportStatus?
         /// The date and time at which the report was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// Name of the S3 bucket that contains the report.
         public let s3BucketName: String?
         /// S3 key that uniquely identifies the report file in your S3 bucket.
         public let s3Key: String?
 
-        public init(auditReportStatus: AuditReportStatus? = nil, createdAt: TimeStamp? = nil, s3BucketName: String? = nil, s3Key: String? = nil) {
+        public init(auditReportStatus: AuditReportStatus? = nil, createdAt: Date? = nil, s3BucketName: String? = nil, s3Key: String? = nil) {
             self.auditReportStatus = auditReportStatus
             self.createdAt = createdAt
             self.s3BucketName = s3BucketName
@@ -1012,7 +1012,7 @@ extension ACMPCA {
         /// The Amazon Resource Number (ARN) of the private CA from which the permission was issued.
         public let certificateAuthorityArn: String?
         /// The time at which the permission was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The name of the policy that is associated with the permission.
         public let policy: String?
         /// The AWS service or entity that holds the permission. At this time, the only valid principal is acm.amazonaws.com.
@@ -1020,7 +1020,7 @@ extension ACMPCA {
         /// The ID of the account that assigned the permission.
         public let sourceAccount: String?
 
-        public init(actions: [ActionType]? = nil, certificateAuthorityArn: String? = nil, createdAt: TimeStamp? = nil, policy: String? = nil, principal: String? = nil, sourceAccount: String? = nil) {
+        public init(actions: [ActionType]? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, policy: String? = nil, principal: String? = nil, sourceAccount: String? = nil) {
             self.actions = actions
             self.certificateAuthorityArn = certificateAuthorityArn
             self.createdAt = createdAt

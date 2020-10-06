@@ -493,6 +493,7 @@ let package = Package(
         .testTarget(name: "SotoTests", dependencies: [
             "SotoACM",
             "SotoAPIGateway",
+            "SotoApiGatewayV2",
             "SotoCloudFront",
             "SotoCloudTrail",
             "SotoDynamoDB",

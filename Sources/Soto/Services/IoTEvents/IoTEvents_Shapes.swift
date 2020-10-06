@@ -537,7 +537,7 @@ extension IoTEvents {
 
     public struct DetectorModelConfiguration: AWSDecodableShape {
         /// The time the detector model was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The ARN of the detector model.
         public let detectorModelArn: String?
         /// A brief description of the detector model.
@@ -551,13 +551,13 @@ extension IoTEvents {
         /// The value used to identify a detector instance. When a device or system sends input, a new detector instance with a unique key value is created. AWS IoT Events can continue to route input to its corresponding detector instance based on this identifying information.  This parameter uses a JSON-path expression to select the attribute-value pair in the message payload that is used for identification. To route the message to the correct detector instance, the device must send a message payload that contains the same attribute-value.
         public let key: String?
         /// The time the detector model was last updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The ARN of the role that grants permission to AWS IoT Events to perform its operations.
         public let roleArn: String?
         /// The status of the detector model.
         public let status: DetectorModelVersionStatus?
 
-        public init(creationTime: TimeStamp? = nil, detectorModelArn: String? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, evaluationMethod: EvaluationMethod? = nil, key: String? = nil, lastUpdateTime: TimeStamp? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
+        public init(creationTime: Date? = nil, detectorModelArn: String? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, evaluationMethod: EvaluationMethod? = nil, key: String? = nil, lastUpdateTime: Date? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
             self.creationTime = creationTime
             self.detectorModelArn = detectorModelArn
             self.detectorModelDescription = detectorModelDescription
@@ -612,13 +612,13 @@ extension IoTEvents {
 
     public struct DetectorModelSummary: AWSDecodableShape {
         /// The time the detector model was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// A brief description of the detector model.
         public let detectorModelDescription: String?
         /// The name of the detector model.
         public let detectorModelName: String?
 
-        public init(creationTime: TimeStamp? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil) {
+        public init(creationTime: Date? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil) {
             self.creationTime = creationTime
             self.detectorModelDescription = detectorModelDescription
             self.detectorModelName = detectorModelName
@@ -633,7 +633,7 @@ extension IoTEvents {
 
     public struct DetectorModelVersionSummary: AWSDecodableShape {
         /// The time the detector model version was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The ARN of the detector model version.
         public let detectorModelArn: String?
         /// The name of the detector model.
@@ -643,13 +643,13 @@ extension IoTEvents {
         /// Information about the order in which events are evaluated and how actions are executed.
         public let evaluationMethod: EvaluationMethod?
         /// The last time the detector model version was updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The ARN of the role that grants the detector model permission to perform its tasks.
         public let roleArn: String?
         /// The status of the detector model version.
         public let status: DetectorModelVersionStatus?
 
-        public init(creationTime: TimeStamp? = nil, detectorModelArn: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, evaluationMethod: EvaluationMethod? = nil, lastUpdateTime: TimeStamp? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
+        public init(creationTime: Date? = nil, detectorModelArn: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, evaluationMethod: EvaluationMethod? = nil, lastUpdateTime: Date? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
             self.creationTime = creationTime
             self.detectorModelArn = detectorModelArn
             self.detectorModelName = detectorModelName
@@ -818,7 +818,7 @@ extension IoTEvents {
 
     public struct InputConfiguration: AWSDecodableShape {
         /// The time the input was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The ARN of the input.
         public let inputArn: String
         /// A brief description of the input.
@@ -826,11 +826,11 @@ extension IoTEvents {
         /// The name of the input.
         public let inputName: String
         /// The last time the input was updated.
-        public let lastUpdateTime: TimeStamp
+        public let lastUpdateTime: Date
         /// The status of the input.
         public let status: InputStatus
 
-        public init(creationTime: TimeStamp, inputArn: String, inputDescription: String? = nil, inputName: String, lastUpdateTime: TimeStamp, status: InputStatus) {
+        public init(creationTime: Date, inputArn: String, inputDescription: String? = nil, inputName: String, lastUpdateTime: Date, status: InputStatus) {
             self.creationTime = creationTime
             self.inputArn = inputArn
             self.inputDescription = inputDescription
@@ -872,7 +872,7 @@ extension IoTEvents {
 
     public struct InputSummary: AWSDecodableShape {
         /// The time the input was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The ARN of the input.
         public let inputArn: String?
         /// A brief description of the input.
@@ -880,11 +880,11 @@ extension IoTEvents {
         /// The name of the input.
         public let inputName: String?
         /// The last time the input was updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The status of the input.
         public let status: InputStatus?
 
-        public init(creationTime: TimeStamp? = nil, inputArn: String? = nil, inputDescription: String? = nil, inputName: String? = nil, lastUpdateTime: TimeStamp? = nil, status: InputStatus? = nil) {
+        public init(creationTime: Date? = nil, inputArn: String? = nil, inputDescription: String? = nil, inputName: String? = nil, lastUpdateTime: Date? = nil, status: InputStatus? = nil) {
             self.creationTime = creationTime
             self.inputArn = inputArn
             self.inputDescription = inputDescription

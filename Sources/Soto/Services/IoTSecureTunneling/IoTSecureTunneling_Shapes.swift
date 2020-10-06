@@ -61,11 +61,11 @@ extension IoTSecureTunneling {
 
     public struct ConnectionState: AWSDecodableShape {
         /// The last time the connection status was updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The connection status of the tunnel. Valid values are CONNECTED and DISCONNECTED.
         public let status: ConnectionStatus?
 
-        public init(lastUpdatedAt: TimeStamp? = nil, status: ConnectionStatus? = nil) {
+        public init(lastUpdatedAt: Date? = nil, status: ConnectionStatus? = nil) {
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
         }
@@ -352,7 +352,7 @@ extension IoTSecureTunneling {
 
     public struct Tunnel: AWSDecodableShape {
         /// The time when the tunnel was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// A description of the tunnel.
         public let description: String?
         /// The destination configuration that specifies the thing name of the destination device and a service name that the local proxy uses to connect to the destination application.
@@ -360,7 +360,7 @@ extension IoTSecureTunneling {
         /// The connection state of the destination application.
         public let destinationConnectionState: ConnectionState?
         /// The last time the tunnel was updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The connection state of the source application.
         public let sourceConnectionState: ConnectionState?
         /// The status of a tunnel. Valid values are: Open and Closed.
@@ -374,7 +374,7 @@ extension IoTSecureTunneling {
         /// A unique alpha-numeric ID that identifies a tunnel.
         public let tunnelId: String?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, destinationConfig: DestinationConfig? = nil, destinationConnectionState: ConnectionState? = nil, lastUpdatedAt: TimeStamp? = nil, sourceConnectionState: ConnectionState? = nil, status: TunnelStatus? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil, tunnelArn: String? = nil, tunnelId: String? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, destinationConfig: DestinationConfig? = nil, destinationConnectionState: ConnectionState? = nil, lastUpdatedAt: Date? = nil, sourceConnectionState: ConnectionState? = nil, status: TunnelStatus? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil, tunnelArn: String? = nil, tunnelId: String? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.destinationConfig = destinationConfig
@@ -405,11 +405,11 @@ extension IoTSecureTunneling {
 
     public struct TunnelSummary: AWSDecodableShape {
         /// The time the tunnel was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// A description of the tunnel.
         public let description: String?
         /// The time the tunnel was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The status of a tunnel. Valid values are: Open and Closed.
         public let status: TunnelStatus?
         /// The Amazon Resource Name of the tunnel. The tunnel ARN format is arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;
@@ -417,7 +417,7 @@ extension IoTSecureTunneling {
         /// The unique alpha-numeric identifier for the tunnel.
         public let tunnelId: String?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, lastUpdatedAt: TimeStamp? = nil, status: TunnelStatus? = nil, tunnelArn: String? = nil, tunnelId: String? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, lastUpdatedAt: Date? = nil, status: TunnelStatus? = nil, tunnelArn: String? = nil, tunnelId: String? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt

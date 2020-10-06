@@ -463,7 +463,7 @@ extension DAX {
         /// The number of minutes' worth of events to retrieve.
         public let duration: Int?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
         public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -473,9 +473,9 @@ extension DAX {
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(duration: Int? = nil, endTime: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, startTime: Date? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.maxResults = maxResults
@@ -650,7 +650,7 @@ extension DAX {
 
     public struct Event: AWSDecodableShape {
         /// The date and time when the event occurred.
-        public let date: TimeStamp?
+        public let date: Date?
         /// A user-defined message associated with the event.
         public let message: String?
         /// The source of the event. For example, if the event occurred at the node level, the source would be the node ID.
@@ -658,7 +658,7 @@ extension DAX {
         /// Specifies the origin of this event - a cluster, a parameter group, a node ID, etc.
         public let sourceType: SourceType?
 
-        public init(date: TimeStamp? = nil, message: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil) {
+        public init(date: Date? = nil, message: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.message = message
             self.sourceName = sourceName
@@ -747,7 +747,7 @@ extension DAX {
         /// The endpoint for the node, consisting of a DNS name and a port number. Client applications can connect directly to a node endpoint, if desired (as an alternative to allowing DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
         public let endpoint: Endpoint?
         /// The date and time (in UNIX epoch format) when the node was launched.
-        public let nodeCreateTime: TimeStamp?
+        public let nodeCreateTime: Date?
         /// A system-generated identifier for the node.
         public let nodeId: String?
         /// The current status of the node. For example: available.
@@ -755,7 +755,7 @@ extension DAX {
         /// The status of the parameter group associated with this node. For example, in-sync.
         public let parameterGroupStatus: String?
 
-        public init(availabilityZone: String? = nil, endpoint: Endpoint? = nil, nodeCreateTime: TimeStamp? = nil, nodeId: String? = nil, nodeStatus: String? = nil, parameterGroupStatus: String? = nil) {
+        public init(availabilityZone: String? = nil, endpoint: Endpoint? = nil, nodeCreateTime: Date? = nil, nodeId: String? = nil, nodeStatus: String? = nil, parameterGroupStatus: String? = nil) {
             self.availabilityZone = availabilityZone
             self.endpoint = endpoint
             self.nodeCreateTime = nodeCreateTime

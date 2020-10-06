@@ -3427,15 +3427,15 @@ extension EC2 {
         /// The level of task completion, as a percent (for example, 20%).
         public let progress: String?
         /// The time this task started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The state of the task.
         public let state: BundleTaskState?
         /// The Amazon S3 storage locations.
         public let storage: Storage?
         /// The time of the most recent update for the task.
-        public let updateTime: TimeStamp?
+        public let updateTime: Date?
 
-        public init(bundleId: String? = nil, bundleTaskError: BundleTaskError? = nil, instanceId: String? = nil, progress: String? = nil, startTime: TimeStamp? = nil, state: BundleTaskState? = nil, storage: Storage? = nil, updateTime: TimeStamp? = nil) {
+        public init(bundleId: String? = nil, bundleTaskError: BundleTaskError? = nil, instanceId: String? = nil, progress: String? = nil, startTime: Date? = nil, state: BundleTaskState? = nil, storage: Storage? = nil, updateTime: Date? = nil) {
             self.bundleId = bundleId
             self.bundleTaskError = bundleTaskError
             self.instanceId = instanceId
@@ -3833,11 +3833,11 @@ extension EC2 {
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String?
         /// The date and time at which the Capacity Reservation was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// Indicates whether the Capacity Reservation supports EBS-optimized instances. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS- optimized instance.
         public let ebsOptimized: Bool?
         /// The date and time at which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved capacity is released and you can no longer launch instances into it. The Capacity Reservation's state changes to expired when it reaches its end date and time.
-        public let endDate: TimeStamp?
+        public let endDate: Date?
         /// Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can have one of the following end types:    unlimited - The Capacity Reservation remains active until you explicitly cancel it.    limited - The Capacity Reservation expires automatically at a specified date and time.
         public let endDateType: EndDateType?
         /// Indicates whether the Capacity Reservation supports instances with temporary, block-level storage.
@@ -3860,7 +3860,7 @@ extension EC2 {
         /// The total number of instances for which the Capacity Reservation reserves capacity.
         public let totalInstanceCount: Int?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityReservationArn: String? = nil, capacityReservationId: String? = nil, createDate: TimeStamp? = nil, ebsOptimized: Bool? = nil, endDate: TimeStamp? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, ownerId: String? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityReservationArn: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, ownerId: String? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableInstanceCount = availableInstanceCount
@@ -4204,13 +4204,13 @@ extension EC2 {
         /// A user-defined comment about the disk upload.
         public let comment: String?
         /// The time that the disk upload ends.
-        public let uploadEnd: TimeStamp?
+        public let uploadEnd: Date?
         /// The size of the uploaded disk image, in GiB.
         public let uploadSize: Double?
         /// The time that the disk upload starts.
-        public let uploadStart: TimeStamp?
+        public let uploadStart: Date?
 
-        public init(comment: String? = nil, uploadEnd: TimeStamp? = nil, uploadSize: Double? = nil, uploadStart: TimeStamp? = nil) {
+        public init(comment: String? = nil, uploadEnd: Date? = nil, uploadSize: Double? = nil, uploadStart: Date? = nil) {
             self.comment = comment
             self.uploadEnd = uploadEnd
             self.uploadSize = uploadSize
@@ -4966,7 +4966,7 @@ extension EC2 {
         /// Indicates whether the Capacity Reservation supports EBS-optimized instances. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS- optimized instance.
         public let ebsOptimized: Bool?
         /// The date and time at which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved capacity is released and you can no longer launch instances into it. The Capacity Reservation's state changes to expired when it reaches its end date and time. You must provide an EndDate value if EndDateType is limited. Omit EndDate if EndDateType is unlimited. If the EndDateType is limited, the Capacity Reservation is cancelled within an hour from the specified time. For example, if you specify 5/31/2019, 13:30:55, the Capacity Reservation is guaranteed to end between 13:30:55 and 14:30:55 on 5/31/2019.
-        public let endDate: TimeStamp?
+        public let endDate: Date?
         /// Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can have one of the following end types:    unlimited - The Capacity Reservation remains active until you explicitly cancel it. Do not provide an EndDate if the EndDateType is unlimited.    limited - The Capacity Reservation expires automatically at a specified date and time. You must provide an EndDate value if the EndDateType value is limited.
         public let endDateType: EndDateType?
         /// Indicates whether the Capacity Reservation supports instances with temporary, block-level storage.
@@ -4985,7 +4985,7 @@ extension EC2 {
         /// Indicates the tenancy of the Capacity Reservation. A Capacity Reservation can have one of the following tenancy settings:    default - The Capacity Reservation is created on hardware that is shared with other AWS accounts.    dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated to a single AWS account.
         public let tenancy: CapacityReservationTenancy?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, endDate: TimeStamp? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceCount: Int, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform, instanceType: String, tagSpecifications: [TagSpecification]? = nil, tenancy: CapacityReservationTenancy? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceCount: Int, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform, instanceType: String, tagSpecifications: [TagSpecification]? = nil, tenancy: CapacityReservationTenancy? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.clientToken = clientToken
@@ -5493,11 +5493,11 @@ extension EC2 {
         /// The type of the request. By default, the EC2 Fleet places an asynchronous request for your desired capacity, and maintains it by replenishing interrupted Spot Instances (maintain). A value of instant places a synchronous one-time request, and returns errors for any instances that could not be launched. A value of request places an asynchronous one-time request without maintaining capacity or submitting requests in alternative capacity pools if capacity is unavailable. For more information, see EC2 Fleet Request Types in the Amazon Elastic Compute Cloud User Guide.
         public let `type`: FleetType?
         /// The start date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
-        public let validFrom: TimeStamp?
+        public let validFrom: Date?
         /// The end date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new EC2 Fleet requests are placed or able to fulfill the request. If no value is specified, the request remains until you cancel it.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest], onDemandOptions: OnDemandOptionsRequest? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptionsRequest? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
+        public init(clientToken: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest], onDemandOptions: OnDemandOptionsRequest? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptionsRequest? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
@@ -10778,15 +10778,15 @@ extension EC2 {
         /// The Availability Zone.
         public let availabilityZone: String?
         /// The time at which fast snapshot restores entered the disabled state.
-        public let disabledTime: TimeStamp?
+        public let disabledTime: Date?
         /// The time at which fast snapshot restores entered the disabling state.
-        public let disablingTime: TimeStamp?
+        public let disablingTime: Date?
         /// The time at which fast snapshot restores entered the enabled state.
-        public let enabledTime: TimeStamp?
+        public let enabledTime: Date?
         /// The time at which fast snapshot restores entered the enabling state.
-        public let enablingTime: TimeStamp?
+        public let enablingTime: Date?
         /// The time at which fast snapshot restores entered the optimizing state.
-        public let optimizingTime: TimeStamp?
+        public let optimizingTime: Date?
         /// The AWS owner alias that enabled fast snapshot restores on the snapshot. This is intended for future use.
         public let ownerAlias: String?
         /// The ID of the AWS account that enabled fast snapshot restores on the snapshot.
@@ -10798,7 +10798,7 @@ extension EC2 {
         /// The reason for the state transition. The possible values are as follows:    Client.UserInitiated - The state successfully transitioned to enabling or disabling.    Client.UserInitiated - Lifecycle state transition - The state successfully transitioned to optimizing, enabled, or disabled.
         public let stateTransitionReason: String?
 
-        public init(availabilityZone: String? = nil, disabledTime: TimeStamp? = nil, disablingTime: TimeStamp? = nil, enabledTime: TimeStamp? = nil, enablingTime: TimeStamp? = nil, optimizingTime: TimeStamp? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
+        public init(availabilityZone: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
             self.availabilityZone = availabilityZone
             self.disabledTime = disabledTime
             self.disablingTime = disablingTime
@@ -10917,9 +10917,9 @@ extension EC2 {
         /// The token for the next set of results.
         public let nextToken: String?
         /// The start date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(dryRun: Bool? = nil, eventType: FleetEventType? = nil, fleetId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp) {
+        public init(dryRun: Bool? = nil, eventType: FleetEventType? = nil, fleetId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
             self.dryRun = dryRun
             self.eventType = eventType
             self.fleetId = fleetId
@@ -10947,13 +10947,13 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_HistoryRecordsEncoding, HistoryRecordEntry>>
         public var historyRecords: [HistoryRecordEntry]?
         /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more results, this value is not present.
-        public let lastEvaluatedTime: TimeStamp?
+        public let lastEvaluatedTime: Date?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The start date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(fleetId: String? = nil, historyRecords: [HistoryRecordEntry]? = nil, lastEvaluatedTime: TimeStamp? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
+        public init(fleetId: String? = nil, historyRecords: [HistoryRecordEntry]? = nil, lastEvaluatedTime: Date? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.fleetId = fleetId
             self.historyRecords = historyRecords
             self.lastEvaluatedTime = lastEvaluatedTime
@@ -14102,9 +14102,9 @@ extension EC2 {
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(dryRun: Bool? = nil, eventType: EventType? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotFleetRequestId: String, startTime: TimeStamp) {
+        public init(dryRun: Bool? = nil, eventType: EventType? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotFleetRequestId: String, startTime: Date) {
             self.dryRun = dryRun
             self.eventType = eventType
             self.maxResults = maxResults
@@ -14135,15 +14135,15 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_HistoryRecordsEncoding, HistoryRecord>>
         public var historyRecords: [HistoryRecord]?
         /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more results, this value is not present.
-        public let lastEvaluatedTime: TimeStamp?
+        public let lastEvaluatedTime: Date?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(historyRecords: [HistoryRecord]? = nil, lastEvaluatedTime: TimeStamp? = nil, nextToken: String? = nil, spotFleetRequestId: String? = nil, startTime: TimeStamp? = nil) {
+        public init(historyRecords: [HistoryRecord]? = nil, lastEvaluatedTime: Date? = nil, nextToken: String? = nil, spotFleetRequestId: String? = nil, startTime: Date? = nil) {
             self.historyRecords = historyRecords
             self.lastEvaluatedTime = lastEvaluatedTime
             self.nextToken = nextToken
@@ -14270,7 +14270,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The date and time, up to the current date, from which to stop retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// One or more filters.    availability-zone - The Availability Zone for which prices should be returned.    instance-type - The type of instance (for example, m3.medium).    product-description - The product description for the Spot price (Linux/UNIX | SUSE Linux | Windows | Linux/UNIX (Amazon VPC) | SUSE Linux (Amazon VPC) | Windows (Amazon VPC)).    spot-price - The Spot price. The value must match exactly (or use wildcards; greater than or less than comparison is not supported).    timestamp - The time stamp of the Spot price history, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). You can use wildcards (* and ?). Greater than or less than comparison is not supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -14285,9 +14285,9 @@ extension EC2 {
         @OptionalCustomCoding<StandardArrayCoder>
         public var productDescriptions: [String]?
         /// The date and time, up to the past 90 days, from which to start retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(availabilityZone: String? = nil, dryRun: Bool? = nil, endTime: TimeStamp? = nil, filters: [Filter]? = nil, instanceTypes: [InstanceType]? = nil, maxResults: Int? = nil, nextToken: String? = nil, productDescriptions: [String]? = nil, startTime: TimeStamp? = nil) {
+        public init(availabilityZone: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, filters: [Filter]? = nil, instanceTypes: [InstanceType]? = nil, maxResults: Int? = nil, nextToken: String? = nil, productDescriptions: [String]? = nil, startTime: Date? = nil) {
             self.availabilityZone = availabilityZone
             self.dryRun = dryRun
             self.endTime = endTime
@@ -16169,15 +16169,15 @@ extension EC2 {
         /// The Availability Zone.
         public let availabilityZone: String?
         /// The time at which fast snapshot restores entered the disabled state.
-        public let disabledTime: TimeStamp?
+        public let disabledTime: Date?
         /// The time at which fast snapshot restores entered the disabling state.
-        public let disablingTime: TimeStamp?
+        public let disablingTime: Date?
         /// The time at which fast snapshot restores entered the enabled state.
-        public let enabledTime: TimeStamp?
+        public let enabledTime: Date?
         /// The time at which fast snapshot restores entered the enabling state.
-        public let enablingTime: TimeStamp?
+        public let enablingTime: Date?
         /// The time at which fast snapshot restores entered the optimizing state.
-        public let optimizingTime: TimeStamp?
+        public let optimizingTime: Date?
         /// The AWS owner alias that enabled fast snapshot restores on the snapshot. This is intended for future use.
         public let ownerAlias: String?
         /// The ID of the AWS account that enabled fast snapshot restores on the snapshot.
@@ -16189,7 +16189,7 @@ extension EC2 {
         /// The reason for the state transition. The possible values are as follows:    Client.UserInitiated - The state successfully transitioned to enabling or disabling.    Client.UserInitiated - Lifecycle state transition - The state successfully transitioned to optimizing, enabled, or disabled.
         public let stateTransitionReason: String?
 
-        public init(availabilityZone: String? = nil, disabledTime: TimeStamp? = nil, disablingTime: TimeStamp? = nil, enabledTime: TimeStamp? = nil, enablingTime: TimeStamp? = nil, optimizingTime: TimeStamp? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
+        public init(availabilityZone: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
             self.availabilityZone = availabilityZone
             self.disabledTime = disabledTime
             self.disablingTime = disablingTime
@@ -16824,7 +16824,7 @@ extension EC2 {
 
     public struct EbsInstanceBlockDevice: AWSDecodableShape {
         /// The time stamp when the attachment initiated.
-        public let attachTime: TimeStamp?
+        public let attachTime: Date?
         /// Indicates whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
         /// The attachment state.
@@ -16832,7 +16832,7 @@ extension EC2 {
         /// The ID of the EBS volume.
         public let volumeId: String?
 
-        public init(attachTime: TimeStamp? = nil, deleteOnTermination: Bool? = nil, status: AttachmentStatus? = nil, volumeId: String? = nil) {
+        public init(attachTime: Date? = nil, deleteOnTermination: Bool? = nil, status: AttachmentStatus? = nil, volumeId: String? = nil) {
             self.attachTime = attachTime
             self.deleteOnTermination = deleteOnTermination
             self.status = status
@@ -17056,9 +17056,9 @@ extension EC2 {
         ///  The state of the elastic inference accelerator.
         public let elasticInferenceAcceleratorAssociationState: String?
         ///  The time at which the elastic inference accelerator is associated with an instance.
-        public let elasticInferenceAcceleratorAssociationTime: TimeStamp?
+        public let elasticInferenceAcceleratorAssociationTime: Date?
 
-        public init(elasticInferenceAcceleratorArn: String? = nil, elasticInferenceAcceleratorAssociationId: String? = nil, elasticInferenceAcceleratorAssociationState: String? = nil, elasticInferenceAcceleratorAssociationTime: TimeStamp? = nil) {
+        public init(elasticInferenceAcceleratorArn: String? = nil, elasticInferenceAcceleratorAssociationId: String? = nil, elasticInferenceAcceleratorAssociationState: String? = nil, elasticInferenceAcceleratorAssociationTime: Date? = nil) {
             self.elasticInferenceAcceleratorArn = elasticInferenceAcceleratorArn
             self.elasticInferenceAcceleratorAssociationId = elasticInferenceAcceleratorAssociationId
             self.elasticInferenceAcceleratorAssociationState = elasticInferenceAcceleratorAssociationState
@@ -17157,15 +17157,15 @@ extension EC2 {
         /// The Availability Zone.
         public let availabilityZone: String?
         /// The time at which fast snapshot restores entered the disabled state.
-        public let disabledTime: TimeStamp?
+        public let disabledTime: Date?
         /// The time at which fast snapshot restores entered the disabling state.
-        public let disablingTime: TimeStamp?
+        public let disablingTime: Date?
         /// The time at which fast snapshot restores entered the enabled state.
-        public let enabledTime: TimeStamp?
+        public let enabledTime: Date?
         /// The time at which fast snapshot restores entered the enabling state.
-        public let enablingTime: TimeStamp?
+        public let enablingTime: Date?
         /// The time at which fast snapshot restores entered the optimizing state.
-        public let optimizingTime: TimeStamp?
+        public let optimizingTime: Date?
         /// The AWS owner alias that enabled fast snapshot restores on the snapshot. This is intended for future use.
         public let ownerAlias: String?
         /// The ID of the AWS account that enabled fast snapshot restores on the snapshot.
@@ -17177,7 +17177,7 @@ extension EC2 {
         /// The reason for the state transition. The possible values are as follows:    Client.UserInitiated - The state successfully transitioned to enabling or disabling.    Client.UserInitiated - Lifecycle state transition - The state successfully transitioned to optimizing, enabled, or disabled.
         public let stateTransitionReason: String?
 
-        public init(availabilityZone: String? = nil, disabledTime: TimeStamp? = nil, disablingTime: TimeStamp? = nil, enabledTime: TimeStamp? = nil, enablingTime: TimeStamp? = nil, optimizingTime: TimeStamp? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
+        public init(availabilityZone: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
             self.availabilityZone = availabilityZone
             self.disabledTime = disabledTime
             self.disablingTime = disablingTime
@@ -17846,7 +17846,7 @@ extension EC2 {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraints: Maximum 64 ASCII characters
         public let clientToken: String?
         /// The creation date and time of the EC2 Fleet.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// Information about the instances that could not be launched by the fleet. Valid only when Type is set to instant.
         @OptionalCustomCoding<ArrayCoder<_ErrorsEncoding, DescribeFleetError>>
         public var errors: [DescribeFleetError]?
@@ -17882,11 +17882,11 @@ extension EC2 {
         /// The type of request. Indicates whether the EC2 Fleet only requests the target capacity, or also attempts to maintain it. If you request a certain target capacity, EC2 Fleet only places the required requests; it does not attempt to replenish instances if capacity is diminished, and it does not submit requests in alternative capacity pools if capacity is unavailable. To maintain a certain target capacity, EC2 Fleet places the required requests to meet this target capacity. It also automatically replenishes any interrupted Spot Instances. Default: maintain.
         public let `type`: FleetType?
         /// The start date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
-        public let validFrom: TimeStamp?
+        public let validFrom: Date?
         /// The end date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new instance requests are placed or able to fulfill the request. The default end date is 7 days from the current date.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(activityStatus: FleetActivityStatus? = nil, clientToken: String? = nil, createTime: TimeStamp? = nil, errors: [DescribeFleetError]? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, fleetId: String? = nil, fleetState: FleetStateCode? = nil, fulfilledCapacity: Double? = nil, fulfilledOnDemandCapacity: Double? = nil, instances: [DescribeFleetsInstances]? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfig]? = nil, onDemandOptions: OnDemandOptions? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptions? = nil, tags: [Tag]? = nil, targetCapacitySpecification: TargetCapacitySpecification? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
+        public init(activityStatus: FleetActivityStatus? = nil, clientToken: String? = nil, createTime: Date? = nil, errors: [DescribeFleetError]? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, fleetId: String? = nil, fleetState: FleetStateCode? = nil, fulfilledCapacity: Double? = nil, fulfilledOnDemandCapacity: Double? = nil, instances: [DescribeFleetsInstances]? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfig]? = nil, onDemandOptions: OnDemandOptions? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptions? = nil, tags: [Tag]? = nil, targetCapacitySpecification: TargetCapacitySpecification? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.activityStatus = activityStatus
             self.clientToken = clientToken
             self.createTime = createTime
@@ -18110,7 +18110,7 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The date and time the flow log was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Information about the error that occurred. Rate limited indicates that CloudWatch Logs throttling has been applied for one or more network interfaces, or that you've reached the limit on the number of log groups that you can create. Access error indicates that the IAM role associated with the flow log does not have sufficient permissions to publish to CloudWatch Logs. Unknown error indicates an internal error.
         public let deliverLogsErrorMessage: String?
         /// The ARN of the IAM role that posts logs to CloudWatch Logs.
@@ -18139,7 +18139,7 @@ extension EC2 {
         /// The type of traffic captured for the flow log.
         public let trafficType: TrafficType?
 
-        public init(creationTime: TimeStamp? = nil, deliverLogsErrorMessage: String? = nil, deliverLogsPermissionArn: String? = nil, deliverLogsStatus: String? = nil, flowLogId: String? = nil, flowLogStatus: String? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceId: String? = nil, tags: [Tag]? = nil, trafficType: TrafficType? = nil) {
+        public init(creationTime: Date? = nil, deliverLogsErrorMessage: String? = nil, deliverLogsPermissionArn: String? = nil, deliverLogsStatus: String? = nil, flowLogId: String? = nil, flowLogStatus: String? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceId: String? = nil, tags: [Tag]? = nil, trafficType: TrafficType? = nil) {
             self.creationTime = creationTime
             self.deliverLogsErrorMessage = deliverLogsErrorMessage
             self.deliverLogsPermissionArn = deliverLogsPermissionArn
@@ -18217,7 +18217,7 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The date and time the AFI was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// Indicates whether data retention support is enabled for the AFI.
         public let dataRetentionSupport: Bool?
         /// The description of the AFI.
@@ -18247,9 +18247,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The time of the most recent update to the AFI.
-        public let updateTime: TimeStamp?
+        public let updateTime: Date?
 
-        public init(createTime: TimeStamp? = nil, dataRetentionSupport: Bool? = nil, description: String? = nil, fpgaImageGlobalId: String? = nil, fpgaImageId: String? = nil, name: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, pciId: PciId? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, shellVersion: String? = nil, state: FpgaImageState? = nil, tags: [Tag]? = nil, updateTime: TimeStamp? = nil) {
+        public init(createTime: Date? = nil, dataRetentionSupport: Bool? = nil, description: String? = nil, fpgaImageGlobalId: String? = nil, fpgaImageId: String? = nil, name: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, pciId: PciId? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, shellVersion: String? = nil, state: FpgaImageState? = nil, tags: [Tag]? = nil, updateTime: Date? = nil) {
             self.createTime = createTime
             self.dataRetentionSupport = dataRetentionSupport
             self.description = description
@@ -18565,9 +18565,9 @@ extension EC2 {
         /// The console output, base64-encoded. If you are using a command line tool, the tool decodes the output for you.
         public let output: String?
         /// The time at which the output was last updated.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(instanceId: String? = nil, output: String? = nil, timestamp: TimeStamp? = nil) {
+        public init(instanceId: String? = nil, output: String? = nil, timestamp: Date? = nil) {
             self.instanceId = instanceId
             self.output = output
             self.timestamp = timestamp
@@ -18955,9 +18955,9 @@ extension EC2 {
         /// The password of the instance. Returns an empty string if the password is not available.
         public let passwordData: String?
         /// The time the data was last updated.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(instanceId: String? = nil, passwordData: String? = nil, timestamp: TimeStamp? = nil) {
+        public init(instanceId: String? = nil, passwordData: String? = nil, timestamp: Date? = nil) {
             self.instanceId = instanceId
             self.passwordData = passwordData
             self.timestamp = timestamp
@@ -19005,7 +19005,7 @@ extension EC2 {
         /// If true, the exchange is valid. If false, the exchange cannot be completed.
         public let isValidExchange: Bool?
         /// The new end date of the reservation term.
-        public let outputReservedInstancesWillExpireAt: TimeStamp?
+        public let outputReservedInstancesWillExpireAt: Date?
         /// The total true upfront charge for the exchange.
         public let paymentDue: String?
         /// The cost associated with the Reserved Instance.
@@ -19021,7 +19021,7 @@ extension EC2 {
         /// Describes the reason why the exchange cannot be completed.
         public let validationFailureReason: String?
 
-        public init(currencyCode: String? = nil, isValidExchange: Bool? = nil, outputReservedInstancesWillExpireAt: TimeStamp? = nil, paymentDue: String? = nil, reservedInstanceValueRollup: ReservationValue? = nil, reservedInstanceValueSet: [ReservedInstanceReservationValue]? = nil, targetConfigurationValueRollup: ReservationValue? = nil, targetConfigurationValueSet: [TargetReservationValue]? = nil, validationFailureReason: String? = nil) {
+        public init(currencyCode: String? = nil, isValidExchange: Bool? = nil, outputReservedInstancesWillExpireAt: Date? = nil, paymentDue: String? = nil, reservedInstanceValueRollup: ReservationValue? = nil, reservedInstanceValueSet: [ReservedInstanceReservationValue]? = nil, targetConfigurationValueRollup: ReservationValue? = nil, targetConfigurationValueSet: [TargetReservationValue]? = nil, validationFailureReason: String? = nil) {
             self.currencyCode = currencyCode
             self.isValidExchange = isValidExchange
             self.outputReservedInstancesWillExpireAt = outputReservedInstancesWillExpireAt
@@ -19438,9 +19438,9 @@ extension EC2 {
         /// The event type.    error - An error with the Spot Fleet request.    fleetRequestChange - A change in the status or configuration of the Spot Fleet request.    instanceChange - An instance was launched or terminated.    Information - An informational event.
         public let eventType: EventType?
         /// The date and time of the event, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(eventInformation: EventInformation? = nil, eventType: EventType? = nil, timestamp: TimeStamp? = nil) {
+        public init(eventInformation: EventInformation? = nil, eventType: EventType? = nil, timestamp: Date? = nil) {
             self.eventInformation = eventInformation
             self.eventType = eventType
             self.timestamp = timestamp
@@ -19459,9 +19459,9 @@ extension EC2 {
         /// The event type.
         public let eventType: FleetEventType?
         /// The date and time of the event, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(eventInformation: EventInformation? = nil, eventType: FleetEventType? = nil, timestamp: TimeStamp? = nil) {
+        public init(eventInformation: EventInformation? = nil, eventType: FleetEventType? = nil, timestamp: Date? = nil) {
             self.eventInformation = eventInformation
             self.eventType = eventType
             self.timestamp = timestamp
@@ -19479,7 +19479,7 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The time that the Dedicated Host was allocated.
-        public let allocationTime: TimeStamp?
+        public let allocationTime: Date?
         /// Indicates whether the Dedicated Host supports multiple instance types of the same instance family, or a specific instance type only. one indicates that the Dedicated Host supports multiple instance types in the instance family. off indicates that the Dedicated Host supports a single instance type only.
         public let allowsMultipleInstanceTypes: AllowsMultipleInstanceTypes?
         /// Whether auto-placement is on or off.
@@ -19508,14 +19508,14 @@ extension EC2 {
         /// The ID of the AWS account that owns the Dedicated Host.
         public let ownerId: String?
         /// The time that the Dedicated Host was released.
-        public let releaseTime: TimeStamp?
+        public let releaseTime: Date?
         /// The Dedicated Host's state.
         public let state: AllocationState?
         /// Any tags assigned to the Dedicated Host.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(allocationTime: TimeStamp? = nil, allowsMultipleInstanceTypes: AllowsMultipleInstanceTypes? = nil, autoPlacement: AutoPlacement? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableCapacity: AvailableCapacity? = nil, clientToken: String? = nil, hostId: String? = nil, hostProperties: HostProperties? = nil, hostRecovery: HostRecovery? = nil, hostReservationId: String? = nil, instances: [HostInstance]? = nil, memberOfServiceLinkedResourceGroup: Bool? = nil, ownerId: String? = nil, releaseTime: TimeStamp? = nil, state: AllocationState? = nil, tags: [Tag]? = nil) {
+        public init(allocationTime: Date? = nil, allowsMultipleInstanceTypes: AllowsMultipleInstanceTypes? = nil, autoPlacement: AutoPlacement? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableCapacity: AvailableCapacity? = nil, clientToken: String? = nil, hostId: String? = nil, hostProperties: HostProperties? = nil, hostRecovery: HostRecovery? = nil, hostReservationId: String? = nil, instances: [HostInstance]? = nil, memberOfServiceLinkedResourceGroup: Bool? = nil, ownerId: String? = nil, releaseTime: Date? = nil, state: AllocationState? = nil, tags: [Tag]? = nil) {
             self.allocationTime = allocationTime
             self.allowsMultipleInstanceTypes = allowsMultipleInstanceTypes
             self.autoPlacement = autoPlacement
@@ -19654,7 +19654,7 @@ extension EC2 {
         /// The length of the reservation's term, specified in seconds. Can be 31536000 (1 year) | 94608000 (3 years).
         public let duration: Int?
         /// The date and time that the reservation ends.
-        public let end: TimeStamp?
+        public let end: Date?
         /// The IDs of the Dedicated Hosts associated with the reservation.
         @OptionalCustomCoding<ArrayCoder<_HostIdSetEncoding, String>>
         public var hostIdSet: [String]?
@@ -19669,7 +19669,7 @@ extension EC2 {
         /// The payment option selected for this reservation.
         public let paymentOption: PaymentOption?
         /// The date and time that the reservation started.
-        public let start: TimeStamp?
+        public let start: Date?
         /// The state of the reservation.
         public let state: ReservationState?
         /// Any tags assigned to the Dedicated Host Reservation.
@@ -19678,7 +19678,7 @@ extension EC2 {
         /// The upfront price of the reservation.
         public let upfrontPrice: String?
 
-        public init(count: Int? = nil, currencyCode: CurrencyCodeValues? = nil, duration: Int? = nil, end: TimeStamp? = nil, hostIdSet: [String]? = nil, hostReservationId: String? = nil, hourlyPrice: String? = nil, instanceFamily: String? = nil, offeringId: String? = nil, paymentOption: PaymentOption? = nil, start: TimeStamp? = nil, state: ReservationState? = nil, tags: [Tag]? = nil, upfrontPrice: String? = nil) {
+        public init(count: Int? = nil, currencyCode: CurrencyCodeValues? = nil, duration: Int? = nil, end: Date? = nil, hostIdSet: [String]? = nil, hostReservationId: String? = nil, hourlyPrice: String? = nil, instanceFamily: String? = nil, offeringId: String? = nil, paymentOption: PaymentOption? = nil, start: Date? = nil, state: ReservationState? = nil, tags: [Tag]? = nil, upfrontPrice: String? = nil) {
             self.count = count
             self.currencyCode = currencyCode
             self.duration = duration
@@ -19766,9 +19766,9 @@ extension EC2 {
         /// The state of the association.
         public let state: IamInstanceProfileAssociationState?
         /// The time the IAM instance profile was associated with the instance.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(associationId: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, instanceId: String? = nil, state: IamInstanceProfileAssociationState? = nil, timestamp: TimeStamp? = nil) {
+        public init(associationId: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, instanceId: String? = nil, state: IamInstanceProfileAssociationState? = nil, timestamp: Date? = nil) {
             self.associationId = associationId
             self.iamInstanceProfile = iamInstanceProfile
             self.instanceId = instanceId
@@ -19821,13 +19821,13 @@ extension EC2 {
 
     public struct IdFormat: AWSDecodableShape {
         /// The date in UTC at which you are permanently switched over to using longer IDs. If a deadline is not yet available for this resource type, this field is not returned.
-        public let deadline: TimeStamp?
+        public let deadline: Date?
         /// The type of resource.
         public let resource: String?
         /// Indicates whether longer IDs (17-character IDs) are enabled for the resource.
         public let useLongIds: Bool?
 
-        public init(deadline: TimeStamp? = nil, resource: String? = nil, useLongIds: Bool? = nil) {
+        public init(deadline: Date? = nil, resource: String? = nil, useLongIds: Bool? = nil) {
             self.deadline = deadline
             self.resource = resource
             self.useLongIds = useLongIds
@@ -20811,7 +20811,7 @@ extension EC2 {
         /// The name of the key pair, if this instance was launched with an associated key pair.
         public let keyName: String?
         /// The time the instance was launched.
-        public let launchTime: TimeStamp?
+        public let launchTime: Date?
         /// The license configurations.
         @OptionalCustomCoding<ArrayCoder<_LicensesEncoding, LicenseConfiguration>>
         public var licenses: [LicenseConfiguration]?
@@ -20870,7 +20870,7 @@ extension EC2 {
         /// [EC2-VPC] The ID of the VPC in which the instance is running.
         public let vpcId: String?
 
-        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: TimeStamp? = nil, licenses: [LicenseConfiguration]? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
+        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
             self.amiLaunchIndex = amiLaunchIndex
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
@@ -21410,7 +21410,7 @@ extension EC2 {
         /// The ID of the network interface attachment.
         public let attachmentId: String?
         /// The time stamp when the attachment initiated.
-        public let attachTime: TimeStamp?
+        public let attachTime: Date?
         /// Indicates whether the network interface is deleted when the instance is terminated.
         public let deleteOnTermination: Bool?
         /// The index of the device on the instance for the network interface attachment.
@@ -21418,7 +21418,7 @@ extension EC2 {
         /// The attachment state.
         public let status: AttachmentStatus?
 
-        public init(attachmentId: String? = nil, attachTime: TimeStamp? = nil, deleteOnTermination: Bool? = nil, deviceIndex: Int? = nil, status: AttachmentStatus? = nil) {
+        public init(attachmentId: String? = nil, attachTime: Date? = nil, deleteOnTermination: Bool? = nil, deviceIndex: Int? = nil, status: AttachmentStatus? = nil) {
             self.attachmentId = attachmentId
             self.attachTime = attachTime
             self.deleteOnTermination = deleteOnTermination
@@ -21629,13 +21629,13 @@ extension EC2 {
 
     public struct InstanceStatusDetails: AWSDecodableShape {
         /// The time when a status check failed. For an instance that was launched and impaired, this is the time when the instance was launched.
-        public let impairedSince: TimeStamp?
+        public let impairedSince: Date?
         /// The type of instance status.
         public let name: StatusName?
         /// The status.
         public let status: StatusType?
 
-        public init(impairedSince: TimeStamp? = nil, name: StatusName? = nil, status: StatusType? = nil) {
+        public init(impairedSince: Date? = nil, name: StatusName? = nil, status: StatusType? = nil) {
             self.impairedSince = impairedSince
             self.name = name
             self.status = status
@@ -21656,13 +21656,13 @@ extension EC2 {
         /// The ID of the event.
         public let instanceEventId: String?
         /// The latest scheduled end time for the event.
-        public let notAfter: TimeStamp?
+        public let notAfter: Date?
         /// The earliest scheduled start time for the event.
-        public let notBefore: TimeStamp?
+        public let notBefore: Date?
         /// The deadline for starting the event.
-        public let notBeforeDeadline: TimeStamp?
+        public let notBeforeDeadline: Date?
 
-        public init(code: EventCode? = nil, description: String? = nil, instanceEventId: String? = nil, notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil, notBeforeDeadline: TimeStamp? = nil) {
+        public init(code: EventCode? = nil, description: String? = nil, instanceEventId: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, notBeforeDeadline: Date? = nil) {
             self.code = code
             self.description = description
             self.instanceEventId = instanceEventId
@@ -22271,7 +22271,7 @@ extension EC2 {
         /// The principal that created the launch template.
         public let createdBy: String?
         /// The time launch template was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The version number of the default version of the launch template.
         public let defaultVersionNumber: Int64?
         /// The version number of the latest version of the launch template.
@@ -22284,7 +22284,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(createdBy: String? = nil, createTime: TimeStamp? = nil, defaultVersionNumber: Int64? = nil, latestVersionNumber: Int64? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, tags: [Tag]? = nil) {
+        public init(createdBy: String? = nil, createTime: Date? = nil, defaultVersionNumber: Int64? = nil, latestVersionNumber: Int64? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.createTime = createTime
             self.defaultVersionNumber = defaultVersionNumber
@@ -23032,9 +23032,9 @@ extension EC2 {
         /// The Spot Instance request type.
         public let spotInstanceType: SpotInstanceType?
         /// The end date of the request. For a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date and time is reached.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: TimeStamp? = nil) {
+        public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: Date? = nil) {
             self.blockDurationMinutes = blockDurationMinutes
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
             self.maxPrice = maxPrice
@@ -23061,9 +23061,9 @@ extension EC2 {
         /// The Spot Instance request type.
         public let spotInstanceType: SpotInstanceType?
         /// The end date of the request. For a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date and time is reached. The default end date is 7 days from the current date.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: TimeStamp? = nil) {
+        public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: Date? = nil) {
             self.blockDurationMinutes = blockDurationMinutes
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
             self.maxPrice = maxPrice
@@ -23124,7 +23124,7 @@ extension EC2 {
         /// The principal that created the version.
         public let createdBy: String?
         /// The time the version was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// Indicates whether the version is the default version.
         public let defaultVersion: Bool?
         /// Information about the launch template.
@@ -23138,7 +23138,7 @@ extension EC2 {
         /// The version number.
         public let versionNumber: Int64?
 
-        public init(createdBy: String? = nil, createTime: TimeStamp? = nil, defaultVersion: Bool? = nil, launchTemplateData: ResponseLaunchTemplateData? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, versionDescription: String? = nil, versionNumber: Int64? = nil) {
+        public init(createdBy: String? = nil, createTime: Date? = nil, defaultVersion: Bool? = nil, launchTemplateData: ResponseLaunchTemplateData? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, versionDescription: String? = nil, versionNumber: Int64? = nil) {
             self.createdBy = createdBy
             self.createTime = createTime
             self.defaultVersion = defaultVersion
@@ -23635,13 +23635,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The date and time at which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved capacity is released and you can no longer launch instances into it. The Capacity Reservation's state changes to expired when it reaches its end date and time. The Capacity Reservation is cancelled within an hour from the specified time. For example, if you specify 5/31/2019, 13:30:55, the Capacity Reservation is guaranteed to end between 13:30:55 and 14:30:55 on 5/31/2019. You must provide an EndDate value if EndDateType is limited. Omit EndDate if EndDateType is unlimited.
-        public let endDate: TimeStamp?
+        public let endDate: Date?
         /// Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can have one of the following end types:    unlimited - The Capacity Reservation remains active until you explicitly cancel it. Do not provide an EndDate value if EndDateType is unlimited.    limited - The Capacity Reservation expires automatically at a specified date and time. You must provide an EndDate value if EndDateType is limited.
         public let endDateType: EndDateType?
         /// The number of instances for which to reserve capacity.
         public let instanceCount: Int?
 
-        public init(capacityReservationId: String, dryRun: Bool? = nil, endDate: TimeStamp? = nil, endDateType: EndDateType? = nil, instanceCount: Int? = nil) {
+        public init(capacityReservationId: String, dryRun: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, instanceCount: Int? = nil) {
             self.capacityReservationId = capacityReservationId
             self.dryRun = dryRun
             self.endDate = endDate
@@ -24235,9 +24235,9 @@ extension EC2 {
         /// The ID of the instance with the scheduled event.
         public let instanceId: String
         /// The new date and time when the event will take place.
-        public let notBefore: TimeStamp
+        public let notBefore: Date
 
-        public init(dryRun: Bool? = nil, instanceEventId: String, instanceId: String, notBefore: TimeStamp) {
+        public init(dryRun: Bool? = nil, instanceEventId: String, instanceId: String, notBefore: Date) {
             self.dryRun = dryRun
             self.instanceEventId = instanceEventId
             self.instanceId = instanceId
@@ -25748,9 +25748,9 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The date and time the NAT gateway was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The date and time the NAT gateway was deleted, if applicable.
-        public let deleteTime: TimeStamp?
+        public let deleteTime: Date?
         /// If the NAT gateway could not be created, specifies the error code for the failure. (InsufficientFreeAddressesInSubnet | Gateway.NotAttached | InvalidAllocationID.NotFound | Resource.AlreadyAssociated | InternalError | InvalidSubnetID.NotFound)
         public let failureCode: String?
         /// If the NAT gateway could not be created, specifies the error message for the failure, that corresponds to the error code.   For InsufficientFreeAddressesInSubnet: "Subnet has insufficient free addresses to create this NAT gateway"   For Gateway.NotAttached: "Network vpc-xxxxxxxx has no Internet gateway attached"   For InvalidAllocationID.NotFound: "Elastic IP address eipalloc-xxxxxxxx could not be associated with this NAT gateway"   For Resource.AlreadyAssociated: "Elastic IP address eipalloc-xxxxxxxx is already associated"   For InternalError: "Network interface eni-xxxxxxxx, created and used internally by this NAT gateway is in an invalid state. Please try again."   For InvalidSubnetID.NotFound: "The specified subnet subnet-xxxxxxxx does not exist or could not be found."
@@ -25772,7 +25772,7 @@ extension EC2 {
         /// The ID of the VPC in which the NAT gateway is located.
         public let vpcId: String?
 
-        public init(createTime: TimeStamp? = nil, deleteTime: TimeStamp? = nil, failureCode: String? = nil, failureMessage: String? = nil, natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil, provisionedBandwidth: ProvisionedBandwidth? = nil, state: NatGatewayState? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(createTime: Date? = nil, deleteTime: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil, provisionedBandwidth: ProvisionedBandwidth? = nil, state: NatGatewayState? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.createTime = createTime
             self.deleteTime = deleteTime
             self.failureCode = failureCode
@@ -26112,7 +26112,7 @@ extension EC2 {
         /// The ID of the network interface attachment.
         public let attachmentId: String?
         /// The timestamp indicating when the attachment initiated.
-        public let attachTime: TimeStamp?
+        public let attachTime: Date?
         /// Indicates whether the network interface is deleted when the instance is terminated.
         public let deleteOnTermination: Bool?
         /// The device index of the network interface attachment on the instance.
@@ -26124,7 +26124,7 @@ extension EC2 {
         /// The attachment state.
         public let status: AttachmentStatus?
 
-        public init(attachmentId: String? = nil, attachTime: TimeStamp? = nil, deleteOnTermination: Bool? = nil, deviceIndex: Int? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, status: AttachmentStatus? = nil) {
+        public init(attachmentId: String? = nil, attachTime: Date? = nil, deleteOnTermination: Bool? = nil, deviceIndex: Int? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, status: AttachmentStatus? = nil) {
             self.attachmentId = attachmentId
             self.attachTime = attachTime
             self.deleteOnTermination = deleteOnTermination
@@ -27034,15 +27034,15 @@ extension EC2 {
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
         public let provisioned: String?
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
-        public let provisionTime: TimeStamp?
+        public let provisionTime: Date?
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
         public let requested: String?
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
-        public let requestTime: TimeStamp?
+        public let requestTime: Date?
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
         public let status: String?
 
-        public init(provisioned: String? = nil, provisionTime: TimeStamp? = nil, requested: String? = nil, requestTime: TimeStamp? = nil, status: String? = nil) {
+        public init(provisioned: String? = nil, provisionTime: Date? = nil, requested: String? = nil, requestTime: Date? = nil, status: String? = nil) {
             self.provisioned = provisioned
             self.provisionTime = provisionTime
             self.requested = requested
@@ -27265,11 +27265,11 @@ extension EC2 {
         /// Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices.
         public let limitPrice: ReservedInstanceLimitPrice?
         /// The time at which to purchase the Reserved Instance, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let purchaseTime: TimeStamp?
+        public let purchaseTime: Date?
         /// The ID of the Reserved Instance offering to purchase.
         public let reservedInstancesOfferingId: String
 
-        public init(dryRun: Bool? = nil, instanceCount: Int, limitPrice: ReservedInstanceLimitPrice? = nil, purchaseTime: TimeStamp? = nil, reservedInstancesOfferingId: String) {
+        public init(dryRun: Bool? = nil, instanceCount: Int, limitPrice: ReservedInstanceLimitPrice? = nil, purchaseTime: Date? = nil, reservedInstancesOfferingId: String) {
             self.dryRun = dryRun
             self.instanceCount = instanceCount
             self.limitPrice = limitPrice
@@ -28089,7 +28089,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The time at which the reported instance health state ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The instances.
         @CustomCoding<ArrayCoder<_InstancesEncoding, String>>
         public var instances: [String]
@@ -28097,11 +28097,11 @@ extension EC2 {
         @CustomCoding<ArrayCoder<_ReasonCodesEncoding, ReportInstanceReasonCodes>>
         public var reasonCodes: [ReportInstanceReasonCodes]
         /// The time at which the reported instance health state began.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of all instances listed.
         public let status: ReportStatusType
 
-        public init(description: String? = nil, dryRun: Bool? = nil, endTime: TimeStamp? = nil, instances: [String], reasonCodes: [ReportInstanceReasonCodes], startTime: TimeStamp? = nil, status: ReportStatusType) {
+        public init(description: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, instances: [String], reasonCodes: [ReportInstanceReasonCodes], startTime: Date? = nil, status: ReportStatusType) {
             self.description = description
             self.dryRun = dryRun
             self.endTime = endTime
@@ -28319,11 +28319,11 @@ extension EC2 {
         /// The Spot Instance request type. Default: one-time
         public let `type`: SpotInstanceType?
         /// The start date of the request. If this is a one-time request, the request becomes active at this date and time and remains active until all instances launch, the request expires, or the request is canceled. If the request is persistent, the request becomes active at this date and time and remains active until it expires or is canceled. The specified start date and time cannot be equal to the current date and time. You must specify a start date and time that occurs after the current date and time.
-        public let validFrom: TimeStamp?
+        public let validFrom: Date?
         /// The end date of the request. If this is a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date is reached. The default end date is 7 days from the current date.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(availabilityZoneGroup: String? = nil, blockDurationMinutes: Int? = nil, clientToken: String? = nil, dryRun: Bool? = nil, instanceCount: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, launchGroup: String? = nil, launchSpecification: RequestSpotLaunchSpecification? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: SpotInstanceType? = nil, validFrom: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
+        public init(availabilityZoneGroup: String? = nil, blockDurationMinutes: Int? = nil, clientToken: String? = nil, dryRun: Bool? = nil, instanceCount: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, launchGroup: String? = nil, launchSpecification: RequestSpotLaunchSpecification? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: SpotInstanceType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.availabilityZoneGroup = availabilityZoneGroup
             self.blockDurationMinutes = blockDurationMinutes
             self.clientToken = clientToken
@@ -28554,7 +28554,7 @@ extension EC2 {
         /// The duration of the Reserved Instance, in seconds.
         public let duration: Int64?
         /// The time when the Reserved Instance expires.
-        public let end: TimeStamp?
+        public let end: Date?
         /// The purchase price of the Reserved Instance.
         public let fixedPrice: Float?
         /// The number of reservations purchased.
@@ -28577,7 +28577,7 @@ extension EC2 {
         /// The scope of the Reserved Instance.
         public let scope: Scope?
         /// The date and time the Reserved Instance started.
-        public let start: TimeStamp?
+        public let start: Date?
         /// The state of the Reserved Instance purchase.
         public let state: ReservedInstanceState?
         /// Any tags assigned to the resource.
@@ -28586,7 +28586,7 @@ extension EC2 {
         /// The usage price of the Reserved Instance, per hour.
         public let usagePrice: Float?
 
-        public init(availabilityZone: String? = nil, currencyCode: CurrencyCodeValues? = nil, duration: Int64? = nil, end: TimeStamp? = nil, fixedPrice: Float? = nil, instanceCount: Int? = nil, instanceTenancy: Tenancy? = nil, instanceType: InstanceType? = nil, offeringClass: OfferingClassType? = nil, offeringType: OfferingTypeValues? = nil, productDescription: RIProductDescription? = nil, recurringCharges: [RecurringCharge]? = nil, reservedInstancesId: String? = nil, scope: Scope? = nil, start: TimeStamp? = nil, state: ReservedInstanceState? = nil, tags: [Tag]? = nil, usagePrice: Float? = nil) {
+        public init(availabilityZone: String? = nil, currencyCode: CurrencyCodeValues? = nil, duration: Int64? = nil, end: Date? = nil, fixedPrice: Float? = nil, instanceCount: Int? = nil, instanceTenancy: Tenancy? = nil, instanceType: InstanceType? = nil, offeringClass: OfferingClassType? = nil, offeringType: OfferingTypeValues? = nil, productDescription: RIProductDescription? = nil, recurringCharges: [RecurringCharge]? = nil, reservedInstancesId: String? = nil, scope: Scope? = nil, start: Date? = nil, state: ReservedInstanceState? = nil, tags: [Tag]? = nil, usagePrice: Float? = nil) {
             self.availabilityZone = availabilityZone
             self.currencyCode = currencyCode
             self.duration = duration
@@ -28679,7 +28679,7 @@ extension EC2 {
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// The time the listing was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The number of instances in this state.
         @OptionalCustomCoding<ArrayCoder<_InstanceCountsEncoding, InstanceCount>>
         public var instanceCounts: [InstanceCount]?
@@ -28698,9 +28698,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The last modified timestamp of the listing.
-        public let updateDate: TimeStamp?
+        public let updateDate: Date?
 
-        public init(clientToken: String? = nil, createDate: TimeStamp? = nil, instanceCounts: [InstanceCount]? = nil, priceSchedules: [PriceSchedule]? = nil, reservedInstancesId: String? = nil, reservedInstancesListingId: String? = nil, status: ListingStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, updateDate: TimeStamp? = nil) {
+        public init(clientToken: String? = nil, createDate: Date? = nil, instanceCounts: [InstanceCount]? = nil, priceSchedules: [PriceSchedule]? = nil, reservedInstancesId: String? = nil, reservedInstancesListingId: String? = nil, status: ListingStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, updateDate: Date? = nil) {
             self.clientToken = clientToken
             self.createDate = createDate
             self.instanceCounts = instanceCounts
@@ -28734,9 +28734,9 @@ extension EC2 {
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// The time when the modification request was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The time for the modification to become effective.
-        public let effectiveDate: TimeStamp?
+        public let effectiveDate: Date?
         /// Contains target configurations along with their corresponding new Reserved Instance IDs.
         @OptionalCustomCoding<ArrayCoder<_ModificationResultsEncoding, ReservedInstancesModificationResult>>
         public var modificationResults: [ReservedInstancesModificationResult]?
@@ -28750,9 +28750,9 @@ extension EC2 {
         /// The reason for the status.
         public let statusMessage: String?
         /// The time when the modification request was last updated.
-        public let updateDate: TimeStamp?
+        public let updateDate: Date?
 
-        public init(clientToken: String? = nil, createDate: TimeStamp? = nil, effectiveDate: TimeStamp? = nil, modificationResults: [ReservedInstancesModificationResult]? = nil, reservedInstancesIds: [ReservedInstancesId]? = nil, reservedInstancesModificationId: String? = nil, status: String? = nil, statusMessage: String? = nil, updateDate: TimeStamp? = nil) {
+        public init(clientToken: String? = nil, createDate: Date? = nil, effectiveDate: Date? = nil, modificationResults: [ReservedInstancesModificationResult]? = nil, reservedInstancesIds: [ReservedInstancesId]? = nil, reservedInstancesModificationId: String? = nil, status: String? = nil, statusMessage: String? = nil, updateDate: Date? = nil) {
             self.clientToken = clientToken
             self.createDate = createDate
             self.effectiveDate = effectiveDate
@@ -29807,7 +29807,7 @@ extension EC2 {
         /// The Availability Zone.
         public let availabilityZone: String?
         /// The date when the Scheduled Instance was purchased.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The hourly price for a single instance.
         public let hourlyPrice: String?
         /// The number of instances.
@@ -29817,11 +29817,11 @@ extension EC2 {
         /// The network platform (EC2-Classic or EC2-VPC).
         public let networkPlatform: String?
         /// The time for the next schedule to start.
-        public let nextSlotStartTime: TimeStamp?
+        public let nextSlotStartTime: Date?
         /// The platform (Linux/UNIX or Windows).
         public let platform: String?
         /// The time that the previous schedule ended or will end.
-        public let previousSlotEndTime: TimeStamp?
+        public let previousSlotEndTime: Date?
         /// The schedule recurrence.
         public let recurrence: ScheduledInstanceRecurrence?
         /// The Scheduled Instance ID.
@@ -29829,13 +29829,13 @@ extension EC2 {
         /// The number of hours in the schedule.
         public let slotDurationInHours: Int?
         /// The end date for the Scheduled Instance.
-        public let termEndDate: TimeStamp?
+        public let termEndDate: Date?
         /// The start date for the Scheduled Instance.
-        public let termStartDate: TimeStamp?
+        public let termStartDate: Date?
         /// The total number of hours for a single instance for the entire term.
         public let totalScheduledInstanceHours: Int?
 
-        public init(availabilityZone: String? = nil, createDate: TimeStamp? = nil, hourlyPrice: String? = nil, instanceCount: Int? = nil, instanceType: String? = nil, networkPlatform: String? = nil, nextSlotStartTime: TimeStamp? = nil, platform: String? = nil, previousSlotEndTime: TimeStamp? = nil, recurrence: ScheduledInstanceRecurrence? = nil, scheduledInstanceId: String? = nil, slotDurationInHours: Int? = nil, termEndDate: TimeStamp? = nil, termStartDate: TimeStamp? = nil, totalScheduledInstanceHours: Int? = nil) {
+        public init(availabilityZone: String? = nil, createDate: Date? = nil, hourlyPrice: String? = nil, instanceCount: Int? = nil, instanceType: String? = nil, networkPlatform: String? = nil, nextSlotStartTime: Date? = nil, platform: String? = nil, previousSlotEndTime: Date? = nil, recurrence: ScheduledInstanceRecurrence? = nil, scheduledInstanceId: String? = nil, slotDurationInHours: Int? = nil, termEndDate: Date? = nil, termStartDate: Date? = nil, totalScheduledInstanceHours: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.createDate = createDate
             self.hourlyPrice = hourlyPrice
@@ -29878,7 +29878,7 @@ extension EC2 {
         /// The number of available instances.
         public let availableInstanceCount: Int?
         /// The time period for the first schedule to start.
-        public let firstSlotStartTime: TimeStamp?
+        public let firstSlotStartTime: Date?
         /// The hourly price for a single instance.
         public let hourlyPrice: String?
         /// The instance type. You can specify one of the C3, C4, M4, or R3 instance types.
@@ -29900,7 +29900,7 @@ extension EC2 {
         /// The total number of hours for a single instance for the entire term.
         public let totalScheduledInstanceHours: Int?
 
-        public init(availabilityZone: String? = nil, availableInstanceCount: Int? = nil, firstSlotStartTime: TimeStamp? = nil, hourlyPrice: String? = nil, instanceType: String? = nil, maxTermDurationInDays: Int? = nil, minTermDurationInDays: Int? = nil, networkPlatform: String? = nil, platform: String? = nil, purchaseToken: String? = nil, recurrence: ScheduledInstanceRecurrence? = nil, slotDurationInHours: Int? = nil, totalScheduledInstanceHours: Int? = nil) {
+        public init(availabilityZone: String? = nil, availableInstanceCount: Int? = nil, firstSlotStartTime: Date? = nil, hourlyPrice: String? = nil, instanceType: String? = nil, maxTermDurationInDays: Int? = nil, minTermDurationInDays: Int? = nil, networkPlatform: String? = nil, platform: String? = nil, purchaseToken: String? = nil, recurrence: ScheduledInstanceRecurrence? = nil, slotDurationInHours: Int? = nil, totalScheduledInstanceHours: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.availableInstanceCount = availableInstanceCount
             self.firstSlotStartTime = firstSlotStartTime
@@ -30682,11 +30682,11 @@ extension EC2 {
 
     public struct SlotDateTimeRangeRequest: AWSEncodableShape {
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
-        public let earliestTime: TimeStamp
+        public let earliestTime: Date
         /// The latest date and time, in UTC, for the Scheduled Instance to start. This value must be later than or equal to the earliest date and at most three months in the future.
-        public let latestTime: TimeStamp
+        public let latestTime: Date
 
-        public init(earliestTime: TimeStamp, latestTime: TimeStamp) {
+        public init(earliestTime: Date, latestTime: Date) {
             self.earliestTime = earliestTime
             self.latestTime = latestTime
         }
@@ -30699,11 +30699,11 @@ extension EC2 {
 
     public struct SlotStartTimeRangeRequest: AWSEncodableShape {
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
-        public let earliestTime: TimeStamp?
+        public let earliestTime: Date?
         /// The latest date and time, in UTC, for the Scheduled Instance to start.
-        public let latestTime: TimeStamp?
+        public let latestTime: Date?
 
-        public init(earliestTime: TimeStamp? = nil, latestTime: TimeStamp? = nil) {
+        public init(earliestTime: Date? = nil, latestTime: Date? = nil) {
             self.earliestTime = earliestTime
             self.latestTime = latestTime
         }
@@ -30734,7 +30734,7 @@ extension EC2 {
         /// The ID of the snapshot. Each snapshot receives a unique identifier when it is created.
         public let snapshotId: String?
         /// The time stamp when the snapshot was initiated.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The snapshot state.
         public let state: SnapshotState?
         /// Encrypted Amazon EBS snapshots are copied asynchronously. If a snapshot copy operation fails (for example, if the proper AWS Key Management Service (AWS KMS) permissions are not obtained) this field displays error state details to help you diagnose why the error occurred. This parameter is only returned by DescribeSnapshots.
@@ -30747,7 +30747,7 @@ extension EC2 {
         /// The size of the volume, in GiB.
         public let volumeSize: Int?
 
-        public init(dataEncryptionKeyId: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, progress: String? = nil, snapshotId: String? = nil, startTime: TimeStamp? = nil, state: SnapshotState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
+        public init(dataEncryptionKeyId: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, progress: String? = nil, snapshotId: String? = nil, startTime: Date? = nil, state: SnapshotState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
             self.dataEncryptionKeyId = dataEncryptionKeyId
             self.description = description
             self.encrypted = encrypted
@@ -30870,7 +30870,7 @@ extension EC2 {
         /// Snapshot id that can be used to describe this snapshot.
         public let snapshotId: String?
         /// Time this snapshot was started. This is the same for all snapshots initiated by the same request.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// Current state of the snapshot.
         public let state: SnapshotState?
         /// Tags associated with this snapshot.
@@ -30881,7 +30881,7 @@ extension EC2 {
         /// Size of the volume from which this snapshot was created.
         public let volumeSize: Int?
 
-        public init(description: String? = nil, encrypted: Bool? = nil, ownerId: String? = nil, progress: String? = nil, snapshotId: String? = nil, startTime: TimeStamp? = nil, state: SnapshotState? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
+        public init(description: String? = nil, encrypted: Bool? = nil, ownerId: String? = nil, progress: String? = nil, snapshotId: String? = nil, startTime: Date? = nil, state: SnapshotState? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
             self.description = description
             self.encrypted = encrypted
             self.ownerId = ownerId
@@ -31099,7 +31099,7 @@ extension EC2 {
         /// The progress of the Spot Fleet request. If there is an error, the status is error. After all requests are placed, the status is pending_fulfillment. If the size of the fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the fleet is decreased, the status is pending_termination while Spot Instances are terminating.
         public let activityStatus: ActivityStatus?
         /// The creation date and time of the request.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The configuration of the Spot Fleet request.
         public let spotFleetRequestConfig: SpotFleetRequestConfigData?
         /// The ID of the Spot Fleet request.
@@ -31110,7 +31110,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(activityStatus: ActivityStatus? = nil, createTime: TimeStamp? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData? = nil, spotFleetRequestId: String? = nil, spotFleetRequestState: BatchState? = nil, tags: [Tag]? = nil) {
+        public init(activityStatus: ActivityStatus? = nil, createTime: Date? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData? = nil, spotFleetRequestId: String? = nil, spotFleetRequestState: BatchState? = nil, tags: [Tag]? = nil) {
             self.activityStatus = activityStatus
             self.createTime = createTime
             self.spotFleetRequestConfig = spotFleetRequestConfig
@@ -31180,11 +31180,11 @@ extension EC2 {
         /// The type of request. Indicates whether the Spot Fleet only requests the target capacity or also attempts to maintain it. When this value is request, the Spot Fleet only places the required requests. It does not attempt to replenish Spot Instances if capacity is diminished, nor does it submit requests in alternative Spot pools if capacity is not available. When this value is maintain, the Spot Fleet maintains the target capacity. The Spot Fleet places the required requests to meet capacity and automatically replenishes any interrupted instances. Default: maintain. instant is listed but is not used by Spot Fleet.
         public let `type`: FleetType?
         /// The start date and time of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). By default, Amazon EC2 starts fulfilling the request immediately.
-        public let validFrom: TimeStamp?
+        public let validFrom: Date?
         /// The end date and time of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). After the end date and time, no new Spot Instance requests are placed or able to fulfill the request. If no value is specified, the Spot Fleet request remains until you cancel it.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(allocationStrategy: AllocationStrategy? = nil, clientToken: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, fulfilledCapacity: Double? = nil, iamFleetRole: String, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int? = nil, launchSpecifications: [SpotFleetLaunchSpecification]? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, loadBalancersConfig: LoadBalancersConfig? = nil, onDemandAllocationStrategy: OnDemandAllocationStrategy? = nil, onDemandFulfilledCapacity: Double? = nil, onDemandMaxTotalPrice: String? = nil, onDemandTargetCapacity: Int? = nil, replaceUnhealthyInstances: Bool? = nil, spotMaxTotalPrice: String? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacity: Int, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
+        public init(allocationStrategy: AllocationStrategy? = nil, clientToken: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, fulfilledCapacity: Double? = nil, iamFleetRole: String, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int? = nil, launchSpecifications: [SpotFleetLaunchSpecification]? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, loadBalancersConfig: LoadBalancersConfig? = nil, onDemandAllocationStrategy: OnDemandAllocationStrategy? = nil, onDemandFulfilledCapacity: Double? = nil, onDemandMaxTotalPrice: String? = nil, onDemandTargetCapacity: Int? = nil, replaceUnhealthyInstances: Bool? = nil, spotMaxTotalPrice: String? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacity: Int, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.allocationStrategy = allocationStrategy
             self.clientToken = clientToken
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
@@ -31274,7 +31274,7 @@ extension EC2 {
         /// The duration for the Spot Instance, in minutes.
         public let blockDurationMinutes: Int?
         /// The date and time when the Spot Instance request was created, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The fault codes for the Spot Instance request, if any.
         public let fault: SpotInstanceStateFault?
         /// The instance ID, if an instance has been launched to fulfill the Spot Instance request.
@@ -31303,11 +31303,11 @@ extension EC2 {
         /// The Spot Instance request type.
         public let `type`: SpotInstanceType?
         /// The start date of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The request becomes active at this date and time.
-        public let validFrom: TimeStamp?
+        public let validFrom: Date?
         /// The end date of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). If this is a one-time request, it remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date is reached. The default end date is 7 days from the current date.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(actualBlockHourlyPrice: String? = nil, availabilityZoneGroup: String? = nil, blockDurationMinutes: Int? = nil, createTime: TimeStamp? = nil, fault: SpotInstanceStateFault? = nil, instanceId: String? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, launchedAvailabilityZone: String? = nil, launchGroup: String? = nil, launchSpecification: LaunchSpecification? = nil, productDescription: RIProductDescription? = nil, spotInstanceRequestId: String? = nil, spotPrice: String? = nil, state: SpotInstanceState? = nil, status: SpotInstanceStatus? = nil, tags: [Tag]? = nil, type: SpotInstanceType? = nil, validFrom: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
+        public init(actualBlockHourlyPrice: String? = nil, availabilityZoneGroup: String? = nil, blockDurationMinutes: Int? = nil, createTime: Date? = nil, fault: SpotInstanceStateFault? = nil, instanceId: String? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, launchedAvailabilityZone: String? = nil, launchGroup: String? = nil, launchSpecification: LaunchSpecification? = nil, productDescription: RIProductDescription? = nil, spotInstanceRequestId: String? = nil, spotPrice: String? = nil, state: SpotInstanceState? = nil, status: SpotInstanceStatus? = nil, tags: [Tag]? = nil, type: SpotInstanceType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.actualBlockHourlyPrice = actualBlockHourlyPrice
             self.availabilityZoneGroup = availabilityZoneGroup
             self.blockDurationMinutes = blockDurationMinutes
@@ -31375,9 +31375,9 @@ extension EC2 {
         /// The description for the status code.
         public let message: String?
         /// The date and time of the most recent status update, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let updateTime: TimeStamp?
+        public let updateTime: Date?
 
-        public init(code: String? = nil, message: String? = nil, updateTime: TimeStamp? = nil) {
+        public init(code: String? = nil, message: String? = nil, updateTime: Date? = nil) {
             self.code = code
             self.message = message
             self.updateTime = updateTime
@@ -31400,9 +31400,9 @@ extension EC2 {
         /// The Spot Instance request type. For RunInstances, persistent Spot Instance requests are only supported when InstanceInterruptionBehavior is set to either hibernate or stop.
         public let spotInstanceType: SpotInstanceType?
         /// The end date of the request. For a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date and time is reached. The default end date is 7 days from the current date.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: TimeStamp? = nil) {
+        public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: Date? = nil) {
             self.blockDurationMinutes = blockDurationMinutes
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
             self.maxPrice = maxPrice
@@ -31524,9 +31524,9 @@ extension EC2 {
         /// The maximum price per hour that you are willing to pay for a Spot Instance.
         public let spotPrice: String?
         /// The date and time the request was created, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(availabilityZone: String? = nil, instanceType: InstanceType? = nil, productDescription: RIProductDescription? = nil, spotPrice: String? = nil, timestamp: TimeStamp? = nil) {
+        public init(availabilityZone: String? = nil, instanceType: InstanceType? = nil, productDescription: RIProductDescription? = nil, spotPrice: String? = nil, timestamp: Date? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
             self.productDescription = productDescription
@@ -32509,7 +32509,7 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The description of the transit gateway.
         public let description: String?
         /// The transit gateway options.
@@ -32526,7 +32526,7 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
 
-        public init(creationTime: TimeStamp? = nil, description: String? = nil, options: TransitGatewayOptions? = nil, ownerId: String? = nil, state: TransitGatewayState? = nil, tags: [Tag]? = nil, transitGatewayArn: String? = nil, transitGatewayId: String? = nil) {
+        public init(creationTime: Date? = nil, description: String? = nil, options: TransitGatewayOptions? = nil, ownerId: String? = nil, state: TransitGatewayState? = nil, tags: [Tag]? = nil, transitGatewayArn: String? = nil, transitGatewayId: String? = nil) {
             self.creationTime = creationTime
             self.description = description
             self.options = options
@@ -32584,7 +32584,7 @@ extension EC2 {
         /// The association.
         public let association: TransitGatewayAttachmentAssociation?
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The ID of the resource.
         public let resourceId: String?
         /// The ID of the AWS account that owns the resource.
@@ -32603,7 +32603,7 @@ extension EC2 {
         /// The ID of the AWS account that owns the transit gateway.
         public let transitGatewayOwnerId: String?
 
-        public init(association: TransitGatewayAttachmentAssociation? = nil, creationTime: TimeStamp? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayAttachmentState? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, transitGatewayOwnerId: String? = nil) {
+        public init(association: TransitGatewayAttachmentAssociation? = nil, creationTime: Date? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayAttachmentState? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, transitGatewayOwnerId: String? = nil) {
             self.association = association
             self.creationTime = creationTime
             self.resourceId = resourceId
@@ -32716,7 +32716,7 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The time the transit gateway multicast domain was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The state of the transit gateway multicast domain.
         public let state: TransitGatewayMulticastDomainState?
         /// The tags for the transit gateway multicast domain.
@@ -32727,7 +32727,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
-        public init(creationTime: TimeStamp? = nil, state: TransitGatewayMulticastDomainState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
+        public init(creationTime: Date? = nil, state: TransitGatewayMulticastDomainState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.creationTime = creationTime
             self.state = state
             self.tags = tags
@@ -32949,7 +32949,7 @@ extension EC2 {
         /// Information about the accepter transit gateway.
         public let accepterTgwInfo: PeeringTgwInfo?
         /// The time the transit gateway peering attachment was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Information about the requester transit gateway.
         public let requesterTgwInfo: PeeringTgwInfo?
         /// The state of the transit gateway peering attachment. Note that the initiating state has been deprecated.
@@ -32962,7 +32962,7 @@ extension EC2 {
         /// The ID of the transit gateway peering attachment.
         public let transitGatewayAttachmentId: String?
 
-        public init(accepterTgwInfo: PeeringTgwInfo? = nil, creationTime: TimeStamp? = nil, requesterTgwInfo: PeeringTgwInfo? = nil, state: TransitGatewayAttachmentState? = nil, status: PeeringAttachmentStatus? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil) {
+        public init(accepterTgwInfo: PeeringTgwInfo? = nil, creationTime: Date? = nil, requesterTgwInfo: PeeringTgwInfo? = nil, state: TransitGatewayAttachmentState? = nil, status: PeeringAttachmentStatus? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil) {
             self.accepterTgwInfo = accepterTgwInfo
             self.creationTime = creationTime
             self.requesterTgwInfo = requesterTgwInfo
@@ -33160,7 +33160,7 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Indicates whether this is the default association route table for the transit gateway.
         public let defaultAssociationRouteTable: Bool?
         /// Indicates whether this is the default propagation route table for the transit gateway.
@@ -33175,7 +33175,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
-        public init(creationTime: TimeStamp? = nil, defaultAssociationRouteTable: Bool? = nil, defaultPropagationRouteTable: Bool? = nil, state: TransitGatewayRouteTableState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayRouteTableId: String? = nil) {
+        public init(creationTime: Date? = nil, defaultAssociationRouteTable: Bool? = nil, defaultPropagationRouteTable: Bool? = nil, state: TransitGatewayRouteTableState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.creationTime = creationTime
             self.defaultAssociationRouteTable = defaultAssociationRouteTable
             self.defaultPropagationRouteTable = defaultPropagationRouteTable
@@ -33251,7 +33251,7 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The VPC attachment options.
         public let options: TransitGatewayVpcAttachmentOptions?
         /// The state of the VPC attachment. Note that the initiating state has been deprecated.
@@ -33271,7 +33271,7 @@ extension EC2 {
         /// The ID of the AWS account that owns the VPC.
         public let vpcOwnerId: String?
 
-        public init(creationTime: TimeStamp? = nil, options: TransitGatewayVpcAttachmentOptions? = nil, state: TransitGatewayAttachmentState? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, vpcId: String? = nil, vpcOwnerId: String? = nil) {
+        public init(creationTime: Date? = nil, options: TransitGatewayVpcAttachmentOptions? = nil, state: TransitGatewayAttachmentState? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, vpcId: String? = nil, vpcOwnerId: String? = nil) {
             self.creationTime = creationTime
             self.options = options
             self.state = state
@@ -33816,7 +33816,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the VPN tunnel endpoint certificate.
         public let certificateArn: String?
         /// The date and time of the last change in status.
-        public let lastStatusChange: TimeStamp?
+        public let lastStatusChange: Date?
         /// The Internet-routable IP address of the virtual private gateway's outside interface.
         public let outsideIpAddress: String?
         /// The status of the VPN tunnel.
@@ -33824,7 +33824,7 @@ extension EC2 {
         /// If an error occurs, a description of the error.
         public let statusMessage: String?
 
-        public init(acceptedRouteCount: Int? = nil, certificateArn: String? = nil, lastStatusChange: TimeStamp? = nil, outsideIpAddress: String? = nil, status: TelemetryStatus? = nil, statusMessage: String? = nil) {
+        public init(acceptedRouteCount: Int? = nil, certificateArn: String? = nil, lastStatusChange: Date? = nil, outsideIpAddress: String? = nil, status: TelemetryStatus? = nil, statusMessage: String? = nil) {
             self.acceptedRouteCount = acceptedRouteCount
             self.certificateArn = certificateArn
             self.lastStatusChange = lastStatusChange
@@ -33853,7 +33853,7 @@ extension EC2 {
         /// The Availability Zone for the volume.
         public let availabilityZone: String?
         /// The time stamp when volume creation was initiated.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// Indicates whether the volume is encrypted.
         public let encrypted: Bool?
         /// Indicates whether the volume was created using fast snapshot restore.
@@ -33880,7 +33880,7 @@ extension EC2 {
         /// The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
         public let volumeType: VolumeType?
 
-        public init(attachments: [VolumeAttachment]? = nil, availabilityZone: String? = nil, createTime: TimeStamp? = nil, encrypted: Bool? = nil, fastRestored: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, state: VolumeState? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
+        public init(attachments: [VolumeAttachment]? = nil, availabilityZone: String? = nil, createTime: Date? = nil, encrypted: Bool? = nil, fastRestored: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, state: VolumeState? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
             self.attachments = attachments
             self.availabilityZone = availabilityZone
             self.createTime = createTime
@@ -33919,7 +33919,7 @@ extension EC2 {
 
     public struct VolumeAttachment: AWSDecodableShape {
         /// The time stamp when the attachment initiated.
-        public let attachTime: TimeStamp?
+        public let attachTime: Date?
         /// Indicates whether the EBS volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
         /// The device name.
@@ -33931,7 +33931,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
-        public init(attachTime: TimeStamp? = nil, deleteOnTermination: Bool? = nil, device: String? = nil, instanceId: String? = nil, state: VolumeAttachmentState? = nil, volumeId: String? = nil) {
+        public init(attachTime: Date? = nil, deleteOnTermination: Bool? = nil, device: String? = nil, instanceId: String? = nil, state: VolumeAttachmentState? = nil, volumeId: String? = nil) {
             self.attachTime = attachTime
             self.deleteOnTermination = deleteOnTermination
             self.device = device
@@ -33965,7 +33965,7 @@ extension EC2 {
 
     public struct VolumeModification: AWSDecodableShape {
         /// The modification completion or failure time.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The current modification state. The modification state is null for unmodified volumes.
         public let modificationState: VolumeModificationState?
         /// The original IOPS rate of the volume.
@@ -33977,7 +33977,7 @@ extension EC2 {
         /// The modification progress, from 0 to 100 percent complete.
         public let progress: Int64?
         /// The modification start time.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// A status message about the modification progress or failure.
         public let statusMessage: String?
         /// The target IOPS rate of the volume.
@@ -33989,7 +33989,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
-        public init(endTime: TimeStamp? = nil, modificationState: VolumeModificationState? = nil, originalIops: Int? = nil, originalSize: Int? = nil, originalVolumeType: VolumeType? = nil, progress: Int64? = nil, startTime: TimeStamp? = nil, statusMessage: String? = nil, targetIops: Int? = nil, targetSize: Int? = nil, targetVolumeType: VolumeType? = nil, volumeId: String? = nil) {
+        public init(endTime: Date? = nil, modificationState: VolumeModificationState? = nil, originalIops: Int? = nil, originalSize: Int? = nil, originalVolumeType: VolumeType? = nil, progress: Int64? = nil, startTime: Date? = nil, statusMessage: String? = nil, targetIops: Int? = nil, targetSize: Int? = nil, targetVolumeType: VolumeType? = nil, volumeId: String? = nil) {
             self.endTime = endTime
             self.modificationState = modificationState
             self.originalIops = originalIops
@@ -34089,11 +34089,11 @@ extension EC2 {
         /// The ID of the instance associated with the event.
         public let instanceId: String?
         /// The latest end time of the event.
-        public let notAfter: TimeStamp?
+        public let notAfter: Date?
         /// The earliest start time of the event.
-        public let notBefore: TimeStamp?
+        public let notBefore: Date?
 
-        public init(description: String? = nil, eventId: String? = nil, eventType: String? = nil, instanceId: String? = nil, notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil) {
+        public init(description: String? = nil, eventId: String? = nil, eventType: String? = nil, instanceId: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil) {
             self.description = description
             self.eventId = eventId
             self.eventType = eventType
@@ -34320,7 +34320,7 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The date and time that the VPC endpoint was created.
-        public let creationTimestamp: TimeStamp?
+        public let creationTimestamp: Date?
         /// (Interface endpoint) The DNS entries for the endpoint.
         @OptionalCustomCoding<ArrayCoder<_DnsEntriesEncoding, DnsEntry>>
         public var dnsEntries: [DnsEntry]?
@@ -34360,7 +34360,7 @@ extension EC2 {
         /// The ID of the VPC to which the endpoint is associated.
         public let vpcId: String?
 
-        public init(creationTimestamp: TimeStamp? = nil, dnsEntries: [DnsEntry]? = nil, groups: [SecurityGroupIdentifier]? = nil, lastError: LastError? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, requesterManaged: Bool? = nil, routeTableIds: [String]? = nil, serviceName: String? = nil, state: State? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcEndpointId: String? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String? = nil) {
+        public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, groups: [SecurityGroupIdentifier]? = nil, lastError: LastError? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, requesterManaged: Bool? = nil, routeTableIds: [String]? = nil, serviceName: String? = nil, state: State? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcEndpointId: String? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.dnsEntries = dnsEntries
             self.groups = groups
@@ -34406,7 +34406,7 @@ extension EC2 {
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The date and time that the VPC endpoint was created.
-        public let creationTimestamp: TimeStamp?
+        public let creationTimestamp: Date?
         /// The DNS entries for the VPC endpoint.
         @OptionalCustomCoding<ArrayCoder<_DnsEntriesEncoding, DnsEntry>>
         public var dnsEntries: [DnsEntry]?
@@ -34422,7 +34422,7 @@ extension EC2 {
         /// The state of the VPC endpoint.
         public let vpcEndpointState: State?
 
-        public init(creationTimestamp: TimeStamp? = nil, dnsEntries: [DnsEntry]? = nil, networkLoadBalancerArns: [String]? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcEndpointState: State? = nil) {
+        public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, networkLoadBalancerArns: [String]? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcEndpointState: State? = nil) {
             self.creationTimestamp = creationTimestamp
             self.dnsEntries = dnsEntries
             self.networkLoadBalancerArns = networkLoadBalancerArns
@@ -34478,7 +34478,7 @@ extension EC2 {
         /// Information about the accepter VPC. CIDR block information is only returned when describing an active VPC peering connection.
         public let accepterVpcInfo: VpcPeeringConnectionVpcInfo?
         /// The time that an unaccepted VPC peering connection will expire.
-        public let expirationTime: TimeStamp?
+        public let expirationTime: Date?
         /// Information about the requester VPC. CIDR block information is only returned when describing an active VPC peering connection.
         public let requesterVpcInfo: VpcPeeringConnectionVpcInfo?
         /// The status of the VPC peering connection.
@@ -34489,7 +34489,7 @@ extension EC2 {
         /// The ID of the VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
-        public init(accepterVpcInfo: VpcPeeringConnectionVpcInfo? = nil, expirationTime: TimeStamp? = nil, requesterVpcInfo: VpcPeeringConnectionVpcInfo? = nil, status: VpcPeeringConnectionStateReason? = nil, tags: [Tag]? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(accepterVpcInfo: VpcPeeringConnectionVpcInfo? = nil, expirationTime: Date? = nil, requesterVpcInfo: VpcPeeringConnectionVpcInfo? = nil, status: VpcPeeringConnectionStateReason? = nil, tags: [Tag]? = nil, vpcPeeringConnectionId: String? = nil) {
             self.accepterVpcInfo = accepterVpcInfo
             self.expirationTime = expirationTime
             self.requesterVpcInfo = requesterVpcInfo

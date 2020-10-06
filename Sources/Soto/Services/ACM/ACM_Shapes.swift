@@ -188,7 +188,7 @@ extension ACM {
         /// The Amazon Resource Name (ARN) of the ACM PCA private certificate authority (CA) that issued the certificate. This has the following format:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String?
         /// The time at which the certificate was requested. This value exists only when the certificate type is AMAZON_ISSUED.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The fully qualified domain name for the certificate, such as www.example.com or example.com.
         public let domainName: String?
         /// Contains information about the initial validation of each domain name that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
@@ -198,11 +198,11 @@ extension ACM {
         /// The reason the certificate request failed. This value exists only when the certificate status is FAILED. For more information, see Certificate Request Failed in the AWS Certificate Manager User Guide.
         public let failureReason: FailureReason?
         /// The date and time at which the certificate was imported. This value exists only when the certificate type is IMPORTED.
-        public let importedAt: TimeStamp?
+        public let importedAt: Date?
         /// A list of ARNs for the AWS resources that are using the certificate. A certificate can be used by multiple AWS resources.
         public let inUseBy: [String]?
         /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED.
-        public let issuedAt: TimeStamp?
+        public let issuedAt: Date?
         /// The name of the certificate authority that issued and signed the certificate.
         public let issuer: String?
         /// The algorithm that was used to generate the public-private key pair.
@@ -210,9 +210,9 @@ extension ACM {
         /// A list of Key Usage X.509 v3 extension objects. Each object is a string value that identifies the purpose of the public key contained in the certificate. Possible extension values include DIGITAL_SIGNATURE, KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
         public let keyUsages: [KeyUsage]?
         /// The time after which the certificate is not valid.
-        public let notAfter: TimeStamp?
+        public let notAfter: Date?
         /// The time before which the certificate is not valid.
-        public let notBefore: TimeStamp?
+        public let notBefore: Date?
         /// Value that specifies whether to add the certificate to a transparency log. Certificate transparency makes it possible to detect SSL certificates that have been mistakenly or maliciously issued. A browser might respond to certificate that has not been logged by showing an error message. The logs are cryptographically secure.
         public let options: CertificateOptions?
         /// Specifies whether the certificate is eligible for renewal. At this time, only exported private certificates can be renewed with the RenewCertificate command.
@@ -222,7 +222,7 @@ extension ACM {
         /// The reason the certificate was revoked. This value exists only when the certificate status is REVOKED.
         public let revocationReason: RevocationReason?
         /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED.
-        public let revokedAt: TimeStamp?
+        public let revokedAt: Date?
         /// The serial number of the certificate.
         public let serial: String?
         /// The algorithm that was used to sign the certificate.
@@ -236,7 +236,7 @@ extension ACM {
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the AWS Certificate Manager User Guide.
         public let `type`: CertificateType?
 
-        public init(certificateArn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: TimeStamp? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: TimeStamp? = nil, inUseBy: [String]? = nil, issuedAt: TimeStamp? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: TimeStamp? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
+        public init(certificateArn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
             self.certificateArn = certificateArn
             self.certificateAuthorityArn = certificateAuthorityArn
             self.createdAt = createdAt
@@ -764,9 +764,9 @@ extension ACM {
         /// The reason that a renewal request was unsuccessful.
         public let renewalStatusReason: FailureReason?
         /// The time at which the renewal summary was last updated.
-        public let updatedAt: TimeStamp
+        public let updatedAt: Date
 
-        public init(domainValidationOptions: [DomainValidation], renewalStatus: RenewalStatus, renewalStatusReason: FailureReason? = nil, updatedAt: TimeStamp) {
+        public init(domainValidationOptions: [DomainValidation], renewalStatus: RenewalStatus, renewalStatusReason: FailureReason? = nil, updatedAt: Date) {
             self.domainValidationOptions = domainValidationOptions
             self.renewalStatus = renewalStatus
             self.renewalStatusReason = renewalStatusReason

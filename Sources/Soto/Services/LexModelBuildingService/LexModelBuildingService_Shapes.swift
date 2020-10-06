@@ -152,15 +152,15 @@ extension LexModelBuildingService {
         /// Settings that determine how Amazon Lex uses conversation logs for the alias.
         public let conversationLogs: ConversationLogsResponse?
         /// The date that the bot alias was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the bot alias.
         public let description: String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the bot alias.
         public let name: String?
 
-        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil) {
+        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil) {
             self.botName = botName
             self.botVersion = botVersion
             self.checksum = checksum
@@ -191,7 +191,7 @@ extension LexModelBuildingService {
         /// The name of the Amazon Lex bot to which this association is being made.   Currently, Amazon Lex supports associations with Facebook and Slack, and Twilio.
         public let botName: String?
         /// The date that the association between the Amazon Lex bot and the channel was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A text description of the association you are creating.
         public let description: String?
         /// If status is FAILED, Amazon Lex provides the reason that it failed to create the association.
@@ -203,7 +203,7 @@ extension LexModelBuildingService {
         /// Specifies the type of association by indicating the type of channel being established between the Amazon Lex bot and the external messaging platform.
         public let `type`: ChannelType?
 
-        public init(botAlias: String? = nil, botConfiguration: [String: String]? = nil, botName: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, name: String? = nil, status: ChannelStatus? = nil, type: ChannelType? = nil) {
+        public init(botAlias: String? = nil, botConfiguration: [String: String]? = nil, botName: String? = nil, createdDate: Date? = nil, description: String? = nil, failureReason: String? = nil, name: String? = nil, status: ChannelStatus? = nil, type: ChannelType? = nil) {
             self.botAlias = botAlias
             self.botConfiguration = botConfiguration
             self.botName = botName
@@ -230,11 +230,11 @@ extension LexModelBuildingService {
 
     public struct BotMetadata: AWSDecodableShape {
         /// The date that the bot was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the bot.
         public let description: String?
         /// The date that the bot was updated. When you create a bot, the creation date and last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the bot.
         public let name: String?
         /// The status of the bot.
@@ -242,7 +242,7 @@ extension LexModelBuildingService {
         /// The version of the bot. For a new bot, the version is always $LATEST.
         public let version: String?
 
-        public init(createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, status: Status? = nil, version: String? = nil) {
+        public init(createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, status: Status? = nil, version: String? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
@@ -412,7 +412,7 @@ extension LexModelBuildingService {
         /// The message that Amazon Lex uses when it doesn't understand the user's request. For more information, see PutBot.
         public let clarificationPrompt: Prompt?
         /// The date when the bot version was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the bot.
         public let description: String?
         /// Indicates whether utterances entered by the user should be sent to Amazon Comprehend for sentiment analysis.
@@ -426,7 +426,7 @@ extension LexModelBuildingService {
         /// An array of Intent objects. For more information, see PutBot.
         public let intents: [Intent]?
         /// The date when the $LATEST version of this bot was updated.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         ///  Specifies the target locale for the bot.
         public let locale: Locale?
         /// The name of the bot.
@@ -438,7 +438,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interactions with the user.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: Date? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -513,7 +513,7 @@ extension LexModelBuildingService {
         /// If defined, the prompt that Amazon Lex uses to confirm the user's intent before fulfilling it.
         public let confirmationPrompt: Prompt?
         /// The date that the intent was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the intent.
         public let description: String?
         /// If defined, Amazon Lex invokes this Lambda function for each user input.
@@ -525,7 +525,7 @@ extension LexModelBuildingService {
         /// Configuration information, if any, for connectin an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
         public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the intent.
         public let name: String?
         /// A unique identifier for a built-in intent.
@@ -539,7 +539,7 @@ extension LexModelBuildingService {
         /// The version number assigned to the new version of the intent.
         public let version: String?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -608,13 +608,13 @@ extension LexModelBuildingService {
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
         /// The date that the slot type was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the slot type.
         public let description: String?
         /// A list of EnumerationValue objects that defines the values that the slot type can take.
         public let enumerationValues: [EnumerationValue]?
         /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the slot type.
         public let name: String?
         /// The built-in slot type used a the parent of the slot type.
@@ -626,7 +626,7 @@ extension LexModelBuildingService {
         /// The version assigned to the new slot type version.
         public let version: String?
 
-        public init(checksum: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, createdDate: Date? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
             self.checksum = checksum
             self.createdDate = createdDate
             self.description = description
@@ -997,15 +997,15 @@ extension LexModelBuildingService {
         /// The settings that determine how Amazon Lex uses conversation logs for the alias.
         public let conversationLogs: ConversationLogsResponse?
         /// The date that the bot alias was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the bot alias.
         public let description: String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the bot alias.
         public let name: String?
 
-        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil) {
+        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil) {
             self.botName = botName
             self.botVersion = botVersion
             self.checksum = checksum
@@ -1126,7 +1126,7 @@ extension LexModelBuildingService {
         /// The name of the Amazon Lex bot.
         public let botName: String?
         /// The date that the association between the bot and the channel was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the association between the bot and the channel.
         public let description: String?
         /// If status is FAILED, Amazon Lex provides the reason that it failed to create the association.
@@ -1138,7 +1138,7 @@ extension LexModelBuildingService {
         /// The type of the messaging platform.
         public let `type`: ChannelType?
 
-        public init(botAlias: String? = nil, botConfiguration: [String: String]? = nil, botName: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, name: String? = nil, status: ChannelStatus? = nil, type: ChannelType? = nil) {
+        public init(botAlias: String? = nil, botConfiguration: [String: String]? = nil, botName: String? = nil, createdDate: Date? = nil, description: String? = nil, failureReason: String? = nil, name: String? = nil, status: ChannelStatus? = nil, type: ChannelType? = nil) {
             self.botAlias = botAlias
             self.botConfiguration = botConfiguration
             self.botName = botName
@@ -1260,7 +1260,7 @@ extension LexModelBuildingService {
         /// The message Amazon Lex uses when it doesn't understand the user's request. For more information, see PutBot.
         public let clarificationPrompt: Prompt?
         /// The date that the bot was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the bot.
         public let description: String?
         /// Indicates whether user utterances should be sent to Amazon Comprehend for sentiment analysis.
@@ -1274,7 +1274,7 @@ extension LexModelBuildingService {
         /// An array of intent objects. For more information, see PutBot.
         public let intents: [Intent]?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         ///  The target locale for the bot.
         public let locale: Locale?
         /// The name of the bot.
@@ -1288,7 +1288,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, nluIntentConfidenceThreshold: Double? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: Date? = nil, locale: Locale? = nil, name: String? = nil, nluIntentConfidenceThreshold: Double? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -1651,7 +1651,7 @@ extension LexModelBuildingService {
 
     public struct GetImportResponse: AWSDecodableShape {
         /// A timestamp for the date and time that the import job was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A string that describes why an import job failed to complete.
         public let failureReason: [String]?
         /// The identifier for the specific import job.
@@ -1665,7 +1665,7 @@ extension LexModelBuildingService {
         /// The type of resource imported.
         public let resourceType: ResourceType?
 
-        public init(createdDate: TimeStamp? = nil, failureReason: [String]? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, name: String? = nil, resourceType: ResourceType? = nil) {
+        public init(createdDate: Date? = nil, failureReason: [String]? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, name: String? = nil, resourceType: ResourceType? = nil) {
             self.createdDate = createdDate
             self.failureReason = failureReason
             self.importId = importId
@@ -1722,7 +1722,7 @@ extension LexModelBuildingService {
         /// If defined in the bot, Amazon Lex uses prompt to confirm the intent before fulfilling the user's request. For more information, see PutIntent.
         public let confirmationPrompt: Prompt?
         /// The date that the intent was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the intent.
         public let description: String?
         /// If defined in the bot, Amazon Amazon Lex invokes this Lambda function for each user input. For more information, see PutIntent.
@@ -1734,7 +1734,7 @@ extension LexModelBuildingService {
         /// Configuration information, if any, to connect to an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
         public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated. When you create a resource, the creation date and the last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the intent.
         public let name: String?
         /// A unique identifier for a built-in intent.
@@ -1748,7 +1748,7 @@ extension LexModelBuildingService {
         /// The version of the intent.
         public let version: String?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -1915,13 +1915,13 @@ extension LexModelBuildingService {
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
         /// The date that the slot type was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the slot type.
         public let description: String?
         /// A list of EnumerationValue objects that defines the values that the slot type can take.
         public let enumerationValues: [EnumerationValue]?
         /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the slot type.
         public let name: String?
         /// The built-in slot type used as a parent for the slot type.
@@ -1933,7 +1933,7 @@ extension LexModelBuildingService {
         /// The version of the slot type.
         public let version: String?
 
-        public init(checksum: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, createdDate: Date? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
             self.checksum = checksum
             self.createdDate = createdDate
             self.description = description
@@ -2137,17 +2137,17 @@ extension LexModelBuildingService {
 
     public struct IntentMetadata: AWSDecodableShape {
         /// The date that the intent was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the intent.
         public let description: String?
         /// The date that the intent was updated. When you create an intent, the creation date and last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the intent.
         public let name: String?
         /// The version of the intent.
         public let version: String?
 
-        public init(createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, version: String? = nil) {
+        public init(createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, version: String? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
@@ -2422,17 +2422,17 @@ extension LexModelBuildingService {
         /// The settings that determine how Amazon Lex uses conversation logs for the alias.
         public let conversationLogs: ConversationLogsResponse?
         /// The date that the bot alias was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the alias.
         public let description: String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the alias.
         public let name: String?
         /// A list of tags associated with a bot.
         public let tags: [Tag]?
 
-        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, tags: [Tag]? = nil) {
+        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, tags: [Tag]? = nil) {
             self.botName = botName
             self.botVersion = botVersion
             self.checksum = checksum
@@ -2565,7 +2565,7 @@ extension LexModelBuildingService {
         ///  The prompts that Amazon Lex uses when it doesn't understand the user's intent. For more information, see PutBot.
         public let clarificationPrompt: Prompt?
         /// The date that the bot was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         ///  True if a new version of the bot was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
         public let createVersion: Bool?
         /// A description of the bot.
@@ -2581,7 +2581,7 @@ extension LexModelBuildingService {
         /// An array of Intent objects. For more information, see PutBot.
         public let intents: [Intent]?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         ///  The target locale for the bot.
         public let locale: Locale?
         /// The name of the bot.
@@ -2597,7 +2597,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, nluIntentConfidenceThreshold: Double? = nil, status: Status? = nil, tags: [Tag]? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: Date? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: Date? = nil, locale: Locale? = nil, name: String? = nil, nluIntentConfidenceThreshold: Double? = nil, status: Status? = nil, tags: [Tag]? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -2746,7 +2746,7 @@ extension LexModelBuildingService {
         /// If defined in the intent, Amazon Lex prompts the user to confirm the intent before fulfilling it.
         public let confirmationPrompt: Prompt?
         /// The date that the intent was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         ///  True if a new version of the intent was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
         public let createVersion: Bool?
         /// A description of the intent.
@@ -2760,7 +2760,7 @@ extension LexModelBuildingService {
         /// Configuration information, if any, required to connect to an Amazon Kendra index and use the AMAZON.KendraSearchIntent intent.
         public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated. When you create a resource, the creation date and last update dates are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the intent.
         public let name: String?
         /// A unique identifier for the built-in intent that this intent is based on.
@@ -2774,7 +2774,7 @@ extension LexModelBuildingService {
         /// The version of the intent. For a new intent, the version is always $LATEST.
         public let version: String?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -2884,7 +2884,7 @@ extension LexModelBuildingService {
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
         /// The date that the slot type was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         ///  True if a new version of the slot type was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
         public let createVersion: Bool?
         /// A description of the slot type.
@@ -2892,7 +2892,7 @@ extension LexModelBuildingService {
         /// A list of EnumerationValue objects that defines the values that the slot type can take.
         public let enumerationValues: [EnumerationValue]?
         /// The date that the slot type was updated. When you create a slot type, the creation date and last update date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the slot type.
         public let name: String?
         /// The built-in slot type used as the parent of the slot type.
@@ -2904,7 +2904,7 @@ extension LexModelBuildingService {
         /// The version of the slot type. For a new slot type, the version is always $LATEST.
         public let version: String?
 
-        public init(checksum: String? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, createdDate: Date? = nil, createVersion: Bool? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
             self.checksum = checksum
             self.createdDate = createdDate
             self.createVersion = createVersion
@@ -3026,17 +3026,17 @@ extension LexModelBuildingService {
 
     public struct SlotTypeMetadata: AWSDecodableShape {
         /// The date that the slot type was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// A description of the slot type.
         public let description: String?
         /// The date that the slot type was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the slot type.
         public let name: String?
         /// The version of the slot type.
         public let version: String?
 
-        public init(createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, version: String? = nil) {
+        public init(createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, version: String? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
@@ -3106,7 +3106,7 @@ extension LexModelBuildingService {
 
     public struct StartImportResponse: AWSDecodableShape {
         /// A timestamp for the date and time that the import job was requested.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The identifier for the specific import job.
         public let importId: String?
         /// The status of the import job. If the status is FAILED, you can get the reason for the failure using the GetImport operation.
@@ -3120,7 +3120,7 @@ extension LexModelBuildingService {
         /// A list of tags added to the imported bot.
         public let tags: [Tag]?
 
-        public init(createdDate: TimeStamp? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, name: String? = nil, resourceType: ResourceType? = nil, tags: [Tag]? = nil) {
+        public init(createdDate: Date? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, name: String? = nil, resourceType: ResourceType? = nil, tags: [Tag]? = nil) {
             self.createdDate = createdDate
             self.importId = importId
             self.importStatus = importStatus
@@ -3266,13 +3266,13 @@ extension LexModelBuildingService {
         /// The total number of individuals that used the utterance.
         public let distinctUsers: Int?
         /// The date that the utterance was first recorded.
-        public let firstUtteredDate: TimeStamp?
+        public let firstUtteredDate: Date?
         /// The date that the utterance was last recorded.
-        public let lastUtteredDate: TimeStamp?
+        public let lastUtteredDate: Date?
         /// The text that was entered by the user or the text representation of an audio clip.
         public let utteranceString: String?
 
-        public init(count: Int? = nil, distinctUsers: Int? = nil, firstUtteredDate: TimeStamp? = nil, lastUtteredDate: TimeStamp? = nil, utteranceString: String? = nil) {
+        public init(count: Int? = nil, distinctUsers: Int? = nil, firstUtteredDate: Date? = nil, lastUtteredDate: Date? = nil, utteranceString: String? = nil) {
             self.count = count
             self.distinctUsers = distinctUsers
             self.firstUtteredDate = firstUtteredDate

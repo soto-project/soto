@@ -248,13 +248,13 @@ extension EBS {
         /// An array of objects containing information about the changed blocks.
         public let changedBlocks: [ChangedBlock]?
         /// The time when the BlockToken expires.
-        public let expiryTime: TimeStamp?
+        public let expiryTime: Date?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The size of the volume in GB.
         public let volumeSize: Int64?
 
-        public init(blockSize: Int? = nil, changedBlocks: [ChangedBlock]? = nil, expiryTime: TimeStamp? = nil, nextToken: String? = nil, volumeSize: Int64? = nil) {
+        public init(blockSize: Int? = nil, changedBlocks: [ChangedBlock]? = nil, expiryTime: Date? = nil, nextToken: String? = nil, volumeSize: Int64? = nil) {
             self.blockSize = blockSize
             self.changedBlocks = changedBlocks
             self.expiryTime = expiryTime
@@ -315,13 +315,13 @@ extension EBS {
         /// The size of the block.
         public let blockSize: Int?
         /// The time when the BlockToken expires.
-        public let expiryTime: TimeStamp?
+        public let expiryTime: Date?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The size of the volume in GB.
         public let volumeSize: Int64?
 
-        public init(blocks: [Block]? = nil, blockSize: Int? = nil, expiryTime: TimeStamp? = nil, nextToken: String? = nil, volumeSize: Int64? = nil) {
+        public init(blocks: [Block]? = nil, blockSize: Int? = nil, expiryTime: Date? = nil, nextToken: String? = nil, volumeSize: Int64? = nil) {
             self.blocks = blocks
             self.blockSize = blockSize
             self.expiryTime = expiryTime
@@ -487,7 +487,7 @@ extension EBS {
         /// The ID of the snapshot.
         public let snapshotId: String?
         /// The timestamp when the snapshot was created.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the snapshot.
         public let status: Status?
         /// The tags applied to the snapshot. You can specify up to 50 tags per snapshot. For more information, see  Tagging your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.
@@ -495,7 +495,7 @@ extension EBS {
         /// The size of the volume, in GiB.
         public let volumeSize: Int64?
 
-        public init(blockSize: Int? = nil, description: String? = nil, kmsKeyArn: String? = nil, ownerId: String? = nil, parentSnapshotId: String? = nil, snapshotId: String? = nil, startTime: TimeStamp? = nil, status: Status? = nil, tags: [Tag]? = nil, volumeSize: Int64? = nil) {
+        public init(blockSize: Int? = nil, description: String? = nil, kmsKeyArn: String? = nil, ownerId: String? = nil, parentSnapshotId: String? = nil, snapshotId: String? = nil, startTime: Date? = nil, status: Status? = nil, tags: [Tag]? = nil, volumeSize: Int64? = nil) {
             self.blockSize = blockSize
             self.description = description
             self.kmsKeyArn = kmsKeyArn

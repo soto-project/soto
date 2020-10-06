@@ -59,7 +59,7 @@ extension CognitoIdentity {
                     let accessKeyId = credentials.accessKeyId,
                     let secretAccessKey = credentials.secretKey,
                     let sessionToken = credentials.sessionToken,
-                    let expiration = credentials.expiration?.dateValue
+                    let expiration = credentials.expiration
                 else {
                     throw CredentialProviderError.noProvider
                 }

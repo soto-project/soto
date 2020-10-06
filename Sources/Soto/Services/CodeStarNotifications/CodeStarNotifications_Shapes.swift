@@ -222,13 +222,13 @@ extension CodeStarNotifications {
         /// The name or email alias of the person who created the notification rule.
         public let createdBy: String?
         /// The date and time the notification rule was created, in timestamp format.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The level of detail included in the notifications for this resource. BASIC will include only the contents of the event as it would appear in AWS CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
         public let detailType: DetailType?
         /// A list of the event types associated with the notification rule.
         public let eventTypes: [EventTypeSummary]?
         /// The date and time the notification rule was most recently updated, in timestamp format.
-        public let lastModifiedTimestamp: TimeStamp?
+        public let lastModifiedTimestamp: Date?
         /// The name of the notification rule.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the resource associated with the notification rule.
@@ -240,7 +240,7 @@ extension CodeStarNotifications {
         /// A list of the SNS topics associated with the notification rule.
         public let targets: [TargetSummary]?
 
-        public init(arn: String, createdBy: String? = nil, createdTimestamp: TimeStamp? = nil, detailType: DetailType? = nil, eventTypes: [EventTypeSummary]? = nil, lastModifiedTimestamp: TimeStamp? = nil, name: String? = nil, resource: String? = nil, status: NotificationRuleStatus? = nil, tags: [String: String]? = nil, targets: [TargetSummary]? = nil) {
+        public init(arn: String, createdBy: String? = nil, createdTimestamp: Date? = nil, detailType: DetailType? = nil, eventTypes: [EventTypeSummary]? = nil, lastModifiedTimestamp: Date? = nil, name: String? = nil, resource: String? = nil, status: NotificationRuleStatus? = nil, tags: [String: String]? = nil, targets: [TargetSummary]? = nil) {
             self.arn = arn
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp

@@ -460,7 +460,7 @@ extension KMS {
         /// Indicates whether the custom key store is connected to its AWS CloudHSM cluster. You can create and use CMKs in your custom key stores only when its connection state is CONNECTED. The value is DISCONNECTED if the key store has never been connected or you use the DisconnectCustomKeyStore operation to disconnect it. If the value is CONNECTED but you are having trouble using the custom key store, make sure that its associated AWS CloudHSM cluster is active and contains at least one active HSM. A value of FAILED indicates that an attempt to connect was unsuccessful. The ConnectionErrorCode field in the response indicates the cause of the failure. For help resolving a connection failure, see Troubleshooting a Custom Key Store in the AWS Key Management Service Developer Guide.
         public let connectionState: ConnectionStateType?
         /// The date and time when the custom key store was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A unique identifier for the custom key store.
         public let customKeyStoreId: String?
         /// The user-specified friendly name for the custom key store.
@@ -468,7 +468,7 @@ extension KMS {
         /// The trust anchor certificate of the associated AWS CloudHSM cluster. When you initialize the cluster, you create this certificate and save it in the customerCA.crt file.
         public let trustAnchorCertificate: String?
 
-        public init(cloudHsmClusterId: String? = nil, connectionErrorCode: ConnectionErrorCodeType? = nil, connectionState: ConnectionStateType? = nil, creationDate: TimeStamp? = nil, customKeyStoreId: String? = nil, customKeyStoreName: String? = nil, trustAnchorCertificate: String? = nil) {
+        public init(cloudHsmClusterId: String? = nil, connectionErrorCode: ConnectionErrorCodeType? = nil, connectionState: ConnectionStateType? = nil, creationDate: Date? = nil, customKeyStoreId: String? = nil, customKeyStoreName: String? = nil, trustAnchorCertificate: String? = nil) {
             self.cloudHsmClusterId = cloudHsmClusterId
             self.connectionErrorCode = connectionErrorCode
             self.connectionState = connectionState
@@ -1253,11 +1253,11 @@ extension KMS {
         /// The Amazon Resource Name (key ARN) of the CMK to use in a subsequent ImportKeyMaterial request. This is the same CMK specified in the GetParametersForImport request.
         public let keyId: String?
         /// The time at which the import token and public key are no longer valid. After this time, you cannot use them to make an ImportKeyMaterial request and you must send another GetParametersForImport request to get new ones.
-        public let parametersValidTo: TimeStamp?
+        public let parametersValidTo: Date?
         /// The public key to use to encrypt the key material before importing it with ImportKeyMaterial.
         public let publicKey: Data?
 
-        public init(importToken: Data? = nil, keyId: String? = nil, parametersValidTo: TimeStamp? = nil, publicKey: Data? = nil) {
+        public init(importToken: Data? = nil, keyId: String? = nil, parametersValidTo: Date? = nil, publicKey: Data? = nil) {
             self.importToken = importToken
             self.keyId = keyId
             self.parametersValidTo = parametersValidTo
@@ -1354,7 +1354,7 @@ extension KMS {
         /// A list of key-value pairs that must be present in the encryption context of certain subsequent operations that the grant allows.
         public let constraints: GrantConstraints?
         /// The date and time when the grant was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The identity that gets the permissions in the grant. The GranteePrincipal field in the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, when the grantee principal in the grant is an AWS service, the GranteePrincipal field contains the service principal, which might represent several different grantee principals.
         public let granteePrincipal: String?
         /// The unique identifier for the grant.
@@ -1370,7 +1370,7 @@ extension KMS {
         /// The principal that can retire the grant.
         public let retiringPrincipal: String?
 
-        public init(constraints: GrantConstraints? = nil, creationDate: TimeStamp? = nil, granteePrincipal: String? = nil, grantId: String? = nil, issuingAccount: String? = nil, keyId: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, retiringPrincipal: String? = nil) {
+        public init(constraints: GrantConstraints? = nil, creationDate: Date? = nil, granteePrincipal: String? = nil, grantId: String? = nil, issuingAccount: String? = nil, keyId: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, retiringPrincipal: String? = nil) {
             self.constraints = constraints
             self.creationDate = creationDate
             self.granteePrincipal = granteePrincipal
@@ -1405,9 +1405,9 @@ extension KMS {
         /// The identifier of the symmetric CMK that receives the imported key material. The CMK's Origin must be EXTERNAL. This must be the same CMK specified in the KeyID parameter of the corresponding GetParametersForImport request. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE. Otherwise it is required.
-        public let validTo: TimeStamp?
+        public let validTo: Date?
 
-        public init(encryptedKeyMaterial: Data, expirationModel: ExpirationModelType? = nil, importToken: Data, keyId: String, validTo: TimeStamp? = nil) {
+        public init(encryptedKeyMaterial: Data, expirationModel: ExpirationModelType? = nil, importToken: Data, keyId: String, validTo: Date? = nil) {
             self.encryptedKeyMaterial = encryptedKeyMaterial
             self.expirationModel = expirationModel
             self.importToken = importToken
@@ -1462,13 +1462,13 @@ extension KMS {
         /// The cluster ID of the AWS CloudHSM cluster that contains the key material for the CMK. When you create a CMK in a custom key store, AWS KMS creates the key material for the CMK in the associated AWS CloudHSM cluster. This value is present only when the CMK is created in a custom key store.
         public let cloudHsmClusterId: String?
         /// The date and time when the CMK was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// Describes the type of key material in the CMK.
         public let customerMasterKeySpec: CustomerMasterKeySpec?
         /// A unique identifier for the custom key store that contains the CMK. This value is present only when the CMK is created in a custom key store.
         public let customKeyStoreId: String?
         /// The date and time after which AWS KMS deletes the CMK. This value is present only when KeyState is PendingDeletion.
-        public let deletionDate: TimeStamp?
+        public let deletionDate: Date?
         /// The description of the CMK.
         public let description: String?
         /// Specifies whether the CMK is enabled. When KeyState is Enabled this value is true, otherwise it is false.
@@ -1490,9 +1490,9 @@ extension KMS {
         /// The signing algorithms that the CMK supports. You cannot use the CMK with other signing algorithms within AWS KMS. This field appears only when the KeyUsage of the CMK is SIGN_VERIFY.
         public let signingAlgorithms: [SigningAlgorithmSpec]?
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. This value is present only for CMKs whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
-        public let validTo: TimeStamp?
+        public let validTo: Date?
 
-        public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: TimeStamp? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: TimeStamp? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: TimeStamp? = nil) {
+        public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil) {
             self.arn = arn
             self.aWSAccountId = aWSAccountId
             self.cloudHsmClusterId = cloudHsmClusterId
@@ -2022,11 +2022,11 @@ extension KMS {
 
     public struct ScheduleKeyDeletionResponse: AWSDecodableShape {
         /// The date and time after which AWS KMS deletes the customer master key (CMK).
-        public let deletionDate: TimeStamp?
+        public let deletionDate: Date?
         /// The Amazon Resource Name (key ARN) of the CMK whose deletion is scheduled.
         public let keyId: String?
 
-        public init(deletionDate: TimeStamp? = nil, keyId: String? = nil) {
+        public init(deletionDate: Date? = nil, keyId: String? = nil) {
             self.deletionDate = deletionDate
             self.keyId = keyId
         }

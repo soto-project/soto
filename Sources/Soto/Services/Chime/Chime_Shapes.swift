@@ -209,8 +209,8 @@ extension Chime {
         /// The AWS account ID.
         public let awsAccountId: String
         /// The Amazon Chime account creation timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
         /// The default license for the Amazon Chime account.
         public let defaultLicense: License?
         /// The Amazon Chime account name.
@@ -220,7 +220,7 @@ extension Chime {
         /// Supported licenses for the Amazon Chime account.
         public let supportedLicenses: [License]?
 
-        public init(accountId: String, accountType: AccountType? = nil, awsAccountId: String, createdTimestamp: TimeStamp? = nil, defaultLicense: License? = nil, name: String, signinDelegateGroups: [SigninDelegateGroup]? = nil, supportedLicenses: [License]? = nil) {
+        public init(accountId: String, accountType: AccountType? = nil, awsAccountId: String, createdTimestamp: Date? = nil, defaultLicense: License? = nil, name: String, signinDelegateGroups: [SigninDelegateGroup]? = nil, supportedLicenses: [License]? = nil) {
             self.accountId = accountId
             self.accountType = accountType
             self.awsAccountId = awsAccountId
@@ -732,8 +732,8 @@ extension Chime {
         /// The bot type.
         public let botType: BotType?
         /// The bot creation timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
         /// When true, the bot is stopped from running in your account.
         public let disabled: Bool?
         /// The bot display name.
@@ -741,12 +741,12 @@ extension Chime {
         /// The security token used to authenticate Amazon Chime with the outgoing event endpoint.
         public let securityToken: String?
         /// The updated bot timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
         /// The unique ID for the bot user.
         public let userId: String?
 
-        public init(botEmail: String? = nil, botId: String? = nil, botType: BotType? = nil, createdTimestamp: TimeStamp? = nil, disabled: Bool? = nil, displayName: String? = nil, securityToken: String? = nil, updatedTimestamp: TimeStamp? = nil, userId: String? = nil) {
+        public init(botEmail: String? = nil, botId: String? = nil, botType: BotType? = nil, createdTimestamp: Date? = nil, disabled: Bool? = nil, displayName: String? = nil, securityToken: String? = nil, updatedTimestamp: Date? = nil, userId: String? = nil) {
             self.botEmail = botEmail
             self.botId = botId
             self.botType = botType
@@ -2302,10 +2302,10 @@ extension Chime {
         /// The default outbound calling name for the account.
         public let callingName: String?
         /// The updated outbound calling name timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var callingNameUpdatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var callingNameUpdatedTimestamp: Date?
 
-        public init(callingName: String? = nil, callingNameUpdatedTimestamp: TimeStamp? = nil) {
+        public init(callingName: String? = nil, callingNameUpdatedTimestamp: Date? = nil) {
             self.callingName = callingName
             self.callingNameUpdatedTimestamp = callingNameUpdatedTimestamp
         }
@@ -2378,12 +2378,12 @@ extension Chime {
 
     public struct GetRetentionSettingsResponse: AWSDecodableShape {
         /// The timestamp representing the time at which the specified items are permanently deleted, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var initiateDeletionTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var initiateDeletionTimestamp: Date?
         /// The retention settings.
         public let retentionSettings: RetentionSettings?
 
-        public init(initiateDeletionTimestamp: TimeStamp? = nil, retentionSettings: RetentionSettings? = nil) {
+        public init(initiateDeletionTimestamp: Date? = nil, retentionSettings: RetentionSettings? = nil) {
             self.initiateDeletionTimestamp = initiateDeletionTimestamp
             self.retentionSettings = retentionSettings
         }
@@ -3875,11 +3875,11 @@ extension Chime {
         /// The phone number capabilities.
         public let capabilities: PhoneNumberCapabilities?
         /// The phone number creation timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
         /// The deleted phone number timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var deletionTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var deletionTimestamp: Date?
         /// The phone number, in E.164 format.
         public let e164PhoneNumber: String?
         /// The phone number ID.
@@ -3891,10 +3891,10 @@ extension Chime {
         /// The phone number type.
         public let `type`: PhoneNumberType?
         /// The updated phone number timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
 
-        public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, createdTimestamp: TimeStamp? = nil, deletionTimestamp: TimeStamp? = nil, e164PhoneNumber: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: TimeStamp? = nil) {
+        public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, createdTimestamp: Date? = nil, deletionTimestamp: Date? = nil, e164PhoneNumber: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: Date? = nil) {
             self.associations = associations
             self.callingName = callingName
             self.callingNameStatus = callingNameStatus
@@ -3927,14 +3927,14 @@ extension Chime {
 
     public struct PhoneNumberAssociation: AWSDecodableShape {
         /// The timestamp of the phone number association, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var associatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var associatedTimestamp: Date?
         /// Defines the association with an Amazon Chime account ID, user ID, Amazon Chime Voice Connector ID, or Amazon Chime Voice Connector group ID.
         public let name: PhoneNumberAssociationName?
         /// Contains the ID for the entity specified in Name.
         public let value: String?
 
-        public init(associatedTimestamp: TimeStamp? = nil, name: PhoneNumberAssociationName? = nil, value: String? = nil) {
+        public init(associatedTimestamp: Date? = nil, name: PhoneNumberAssociationName? = nil, value: String? = nil) {
             self.associatedTimestamp = associatedTimestamp
             self.name = name
             self.value = value
@@ -4003,8 +4003,8 @@ extension Chime {
 
     public struct PhoneNumberOrder: AWSDecodableShape {
         /// The phone number order creation timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
         /// The ordered phone number details, such as the phone number in E.164 format and the phone number status.
         public let orderedPhoneNumbers: [OrderedPhoneNumber]?
         /// The phone number order ID.
@@ -4014,10 +4014,10 @@ extension Chime {
         /// The status of the phone number order.
         public let status: PhoneNumberOrderStatus?
         /// The updated phone number order timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
 
-        public init(createdTimestamp: TimeStamp? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: TimeStamp? = nil) {
+        public init(createdTimestamp: Date? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.orderedPhoneNumbers = orderedPhoneNumbers
             self.phoneNumberOrderId = phoneNumberOrderId
@@ -4065,11 +4065,11 @@ extension Chime {
         /// The proxy session capabilities.
         public let capabilities: [Capability]?
         /// The created timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
         /// The ended timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var endedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedTimestamp: Date?
         /// The number of minutes allowed for the proxy session.
         public let expiryMinutes: Int?
         /// The preference for matching the country or area code of the proxy phone number with that of the first participant.
@@ -4087,12 +4087,12 @@ extension Chime {
         /// The status of the proxy session.
         public let status: ProxySessionStatus?
         /// The updated timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String?
 
-        public init(capabilities: [Capability]? = nil, createdTimestamp: TimeStamp? = nil, endedTimestamp: TimeStamp? = nil, expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participants: [Participant]? = nil, proxySessionId: String? = nil, status: ProxySessionStatus? = nil, updatedTimestamp: TimeStamp? = nil, voiceConnectorId: String? = nil) {
+        public init(capabilities: [Capability]? = nil, createdTimestamp: Date? = nil, endedTimestamp: Date? = nil, expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participants: [Participant]? = nil, proxySessionId: String? = nil, status: ProxySessionStatus? = nil, updatedTimestamp: Date? = nil, voiceConnectorId: String? = nil) {
             self.capabilities = capabilities
             self.createdTimestamp = createdTimestamp
             self.endedTimestamp = endedTimestamp
@@ -4197,12 +4197,12 @@ extension Chime {
 
     public struct PutRetentionSettingsResponse: AWSDecodableShape {
         /// The timestamp representing the time at which the specified items are permanently deleted, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var initiateDeletionTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var initiateDeletionTimestamp: Date?
         /// The retention settings.
         public let retentionSettings: RetentionSettings?
 
-        public init(initiateDeletionTimestamp: TimeStamp? = nil, retentionSettings: RetentionSettings? = nil) {
+        public init(initiateDeletionTimestamp: Date? = nil, retentionSettings: RetentionSettings? = nil) {
             self.initiateDeletionTimestamp = initiateDeletionTimestamp
             self.retentionSettings = retentionSettings
         }
@@ -4682,17 +4682,17 @@ extension Chime {
         /// The identifier of the room creator.
         public let createdBy: String?
         /// The room creation timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
         /// The room name.
         public let name: String?
         /// The room ID.
         public let roomId: String?
         /// The room update timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
 
-        public init(accountId: String? = nil, createdBy: String? = nil, createdTimestamp: TimeStamp? = nil, name: String? = nil, roomId: String? = nil, updatedTimestamp: TimeStamp? = nil) {
+        public init(accountId: String? = nil, createdBy: String? = nil, createdTimestamp: Date? = nil, name: String? = nil, roomId: String? = nil, updatedTimestamp: Date? = nil) {
             self.accountId = accountId
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
@@ -4720,10 +4720,10 @@ extension Chime {
         /// The room ID.
         public let roomId: String?
         /// The room membership update timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
 
-        public init(invitedBy: String? = nil, member: Member? = nil, role: RoomMembershipRole? = nil, roomId: String? = nil, updatedTimestamp: TimeStamp? = nil) {
+        public init(invitedBy: String? = nil, member: Member? = nil, role: RoomMembershipRole? = nil, roomId: String? = nil, updatedTimestamp: Date? = nil) {
             self.invitedBy = invitedBy
             self.member = member
             self.role = role
@@ -5049,10 +5049,10 @@ extension Chime {
         /// The source IP address.
         public let source: String?
         /// The timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var timestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var timestamp: Date?
 
-        public init(source: String? = nil, timestamp: TimeStamp? = nil) {
+        public init(source: String? = nil, timestamp: Date? = nil) {
             self.source = source
             self.timestamp = timestamp
         }
@@ -5708,8 +5708,8 @@ extension Chime {
         /// The display name of the user.
         public let displayName: String?
         /// Date and time when the user is invited to the Amazon Chime account, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var invitedOn: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var invitedOn: Date?
         /// The license type for the user.
         public let licenseType: License?
         /// The user's personal meeting PIN.
@@ -5719,8 +5719,8 @@ extension Chime {
         /// The primary phone number associated with the user.
         public let primaryProvisionedNumber: String?
         /// Date and time when the user is registered, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var registeredOn: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var registeredOn: Date?
         /// The user ID.
         public let userId: String
         /// The user invite status.
@@ -5730,7 +5730,7 @@ extension Chime {
         /// The user type.
         public let userType: UserType?
 
-        public init(accountId: String? = nil, alexaForBusinessMetadata: AlexaForBusinessMetadata? = nil, displayName: String? = nil, invitedOn: TimeStamp? = nil, licenseType: License? = nil, personalPIN: String? = nil, primaryEmail: String? = nil, primaryProvisionedNumber: String? = nil, registeredOn: TimeStamp? = nil, userId: String, userInvitationStatus: InviteStatus? = nil, userRegistrationStatus: RegistrationStatus? = nil, userType: UserType? = nil) {
+        public init(accountId: String? = nil, alexaForBusinessMetadata: AlexaForBusinessMetadata? = nil, displayName: String? = nil, invitedOn: Date? = nil, licenseType: License? = nil, personalPIN: String? = nil, primaryEmail: String? = nil, primaryProvisionedNumber: String? = nil, registeredOn: Date? = nil, userId: String, userInvitationStatus: InviteStatus? = nil, userRegistrationStatus: RegistrationStatus? = nil, userType: UserType? = nil) {
             self.accountId = accountId
             self.alexaForBusinessMetadata = alexaForBusinessMetadata
             self.displayName = displayName
@@ -5801,8 +5801,8 @@ extension Chime {
         /// The AWS Region in which the Amazon Chime Voice Connector is created. Default: us-east-1.
         public let awsRegion: VoiceConnectorAwsRegion?
         /// The Amazon Chime Voice Connector creation timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
         /// The name of the Amazon Chime Voice Connector.
         public let name: String?
         /// The outbound host name for the Amazon Chime Voice Connector.
@@ -5810,12 +5810,12 @@ extension Chime {
         /// Designates whether encryption is required for the Amazon Chime Voice Connector.
         public let requireEncryption: Bool?
         /// The updated Amazon Chime Voice Connector timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String?
 
-        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: TimeStamp? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: TimeStamp? = nil, voiceConnectorId: String? = nil) {
+        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorId: String? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
             self.name = name
@@ -5838,19 +5838,19 @@ extension Chime {
 
     public struct VoiceConnectorGroup: AWSDecodableShape {
         /// The Amazon Chime Voice Connector group creation timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
         /// The name of the Amazon Chime Voice Connector group.
         public let name: String?
         /// The updated Amazon Chime Voice Connector group timestamp, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedTimestamp: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String?
         /// The Amazon Chime Voice Connectors to which to route inbound calls.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
-        public init(createdTimestamp: TimeStamp? = nil, name: String? = nil, updatedTimestamp: TimeStamp? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
+        public init(createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
             self.updatedTimestamp = updatedTimestamp

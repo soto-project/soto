@@ -619,11 +619,11 @@ extension S3 {
 
     public struct Bucket: AWSDecodableShape {
         /// Date the bucket was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The name of the bucket.
         public let name: String?
 
-        public init(creationDate: TimeStamp? = nil, name: String? = nil) {
+        public init(creationDate: Date? = nil, name: String? = nil) {
             self.creationDate = creationDate
             self.name = name
         }
@@ -1088,11 +1088,11 @@ extension S3 {
         /// Copies the object if its entity tag (ETag) matches the specified tag.
         public let copySourceIfMatch: String?
         /// Copies the object if it has been modified since the specified time.
-        public let copySourceIfModifiedSince: TimeStamp?
+        public let copySourceIfModifiedSince: Date?
         /// Copies the object if its entity tag (ETag) is different than the specified ETag.
         public let copySourceIfNoneMatch: String?
         /// Copies the object if it hasn't been modified since the specified time.
-        public let copySourceIfUnmodifiedSince: TimeStamp?
+        public let copySourceIfUnmodifiedSince: Date?
         /// Specifies the algorithm to use when decrypting the source object (for example, AES256).
         public let copySourceSSECustomerAlgorithm: String?
         /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
@@ -1104,7 +1104,7 @@ extension S3 {
         /// The account id of the expected source bucket owner. If the source bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedSourceBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
-        public let expires: TimeStamp?
+        public let expires: Date?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
         public let grantFullControl: String?
         /// Allows grantee to read the object data and its metadata.
@@ -1124,7 +1124,7 @@ extension S3 {
         /// The Object Lock mode that you want to apply to the copied object.
         public let objectLockMode: ObjectLockMode?
         /// The date and time when you want the copied object's Object Lock to expire.
-        public let objectLockRetainUntilDate: TimeStamp?
+        public let objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
         /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
@@ -1147,7 +1147,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.cacheControl = cacheControl
@@ -1201,9 +1201,9 @@ extension S3 {
         /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata. The source and destination ETag is identical for a successfully copied object.
         public let eTag: String?
         /// Returns the date that the object was last modified.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
 
-        public init(eTag: String? = nil, lastModified: TimeStamp? = nil) {
+        public init(eTag: String? = nil, lastModified: Date? = nil) {
             self.eTag = eTag
             self.lastModified = lastModified
         }
@@ -1218,9 +1218,9 @@ extension S3 {
         /// Entity tag of the object.
         public let eTag: String?
         /// Date and time at which the object was uploaded.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
 
-        public init(eTag: String? = nil, lastModified: TimeStamp? = nil) {
+        public init(eTag: String? = nil, lastModified: Date? = nil) {
             self.eTag = eTag
             self.lastModified = lastModified
         }
@@ -1327,7 +1327,7 @@ extension S3 {
         ]
 
         /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, the response includes this header. The header indicates when the initiated multipart upload becomes eligible for an abort operation. For more information, see  Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy. The response also includes the x-amz-abort-rule-id header that provides the ID of the lifecycle configuration rule that defines this action.
-        public let abortDate: TimeStamp?
+        public let abortDate: Date?
         /// This header is returned along with the x-amz-abort-date header. It identifies the applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
         public let abortRuleId: String?
         /// Name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
@@ -1348,7 +1348,7 @@ extension S3 {
         /// ID for the initiated multipart upload.
         public let uploadId: String?
 
-        public init(abortDate: TimeStamp? = nil, abortRuleId: String? = nil, bucket: String? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, uploadId: String? = nil) {
+        public init(abortDate: Date? = nil, abortRuleId: String? = nil, bucket: String? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, uploadId: String? = nil) {
             self.abortDate = abortDate
             self.abortRuleId = abortRuleId
             self.bucket = bucket
@@ -1426,7 +1426,7 @@ extension S3 {
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
-        public let expires: TimeStamp?
+        public let expires: Date?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
         public let grantFullControl: String?
         /// Allows grantee to read the object data and its metadata.
@@ -1444,7 +1444,7 @@ extension S3 {
         /// Specifies the Object Lock mode that you want to apply to the uploaded object.
         public let objectLockMode: ObjectLockMode?
         /// Specifies the date and time when you want the Object Lock to expire.
-        public let objectLockRetainUntilDate: TimeStamp?
+        public let objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
         /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
@@ -1465,7 +1465,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.cacheControl = cacheControl
@@ -1776,13 +1776,13 @@ extension S3 {
         /// The object key.
         public let key: String?
         /// Date and time the object was last modified.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The account that created the delete marker.&gt;
         public let owner: Owner?
         /// Version ID of an object.
         public let versionId: String?
 
-        public init(isLatest: Bool? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, versionId: String? = nil) {
+        public init(isLatest: Bool? = nil, key: String? = nil, lastModified: Date? = nil, owner: Owner? = nil, versionId: String? = nil) {
             self.isLatest = isLatest
             self.key = key
             self.lastModified = lastModified
@@ -3073,9 +3073,9 @@ extension S3 {
         /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL encoded.
         public let expiration: String?
         /// The date and time at which the object is no longer cacheable.
-        public let expires: TimeStamp?
+        public let expires: Date?
         /// Last modified date of the object
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
@@ -3085,7 +3085,7 @@ extension S3 {
         /// The Object Lock mode currently in place for this object.
         public let objectLockMode: ObjectLockMode?
         /// The date and time when this object's Object Lock will expire.
-        public let objectLockRetainUntilDate: TimeStamp?
+        public let objectLockRetainUntilDate: Date?
         /// The count of parts this object has.
         public let partsCount: Int?
         /// Amazon S3 can return this if your request involves a bucket that is either a source or destination in a replication rule.
@@ -3110,7 +3110,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acceptRanges: String? = nil, body: AWSPayload? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: TimeStamp? = nil, lastModified: TimeStamp? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSPayload? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.cacheControl = cacheControl
@@ -3210,11 +3210,11 @@ extension S3 {
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        public let ifModifiedSince: TimeStamp?
+        public let ifModifiedSince: Date?
         /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
         public let ifNoneMatch: String?
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        public let ifUnmodifiedSince: TimeStamp?
+        public let ifUnmodifiedSince: Date?
         /// Key of the object to get.
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
@@ -3233,7 +3233,7 @@ extension S3 {
         /// Sets the Content-Type header of the response.
         public let responseContentType: String?
         /// Sets the Expires header of the response.
-        public let responseExpires: TimeStamp?
+        public let responseExpires: Date?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
@@ -3243,7 +3243,7 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, responseCacheControl: String? = nil, responseContentDisposition: String? = nil, responseContentEncoding: String? = nil, responseContentLanguage: String? = nil, responseContentType: String? = nil, responseExpires: TimeStamp? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: Date? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: Date? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, responseCacheControl: String? = nil, responseContentDisposition: String? = nil, responseContentEncoding: String? = nil, responseContentLanguage: String? = nil, responseContentType: String? = nil, responseExpires: Date? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
             self.ifMatch = ifMatch
@@ -3605,9 +3605,9 @@ extension S3 {
         /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL encoded.
         public let expiration: String?
         /// The date and time at which the object is no longer cacheable.
-        public let expires: TimeStamp?
+        public let expires: Date?
         /// Last modified date of the object
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
@@ -3617,7 +3617,7 @@ extension S3 {
         /// The Object Lock mode, if any, that's in effect for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. For more information about S3 Object Lock, see Object Lock.
         public let objectLockMode: ObjectLockMode?
         /// The date and time when the Object Lock retention period expires. This header is only returned if the requester has the s3:GetObjectRetention permission.
-        public let objectLockRetainUntilDate: TimeStamp?
+        public let objectLockRetainUntilDate: Date?
         /// The count of parts this object has.
         public let partsCount: Int?
         /// Amazon S3 can return this header if your request involves a bucket that is either a source or destination in a replication rule. In replication, you have a source bucket on which you configure replication and destination bucket where Amazon S3 stores object replicas. When you request an object (GetObject) or object metadata (HeadObject) from these buckets, Amazon S3 will return the x-amz-replication-status header in the response as follows:   If requesting an object from the source bucket — Amazon S3 will return the x-amz-replication-status header if the object in your request is eligible for replication.  For example, suppose that in your replication configuration, you specify object prefix TaxDocs requesting Amazon S3 to replicate objects with key prefix TaxDocs. Any objects you upload with this key name prefix, for example TaxDocs/document1.pdf, are eligible for replication. For any object request with this key name prefix, Amazon S3 will return the x-amz-replication-status header with value PENDING, COMPLETED or FAILED indicating object replication status.   If requesting an object from the destination bucket — Amazon S3 will return the x-amz-replication-status header with value REPLICA if the object in your request is a replica that Amazon S3 created.   For more information, see Replication.
@@ -3640,7 +3640,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acceptRanges: String? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: TimeStamp? = nil, lastModified: TimeStamp? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
@@ -3728,11 +3728,11 @@ extension S3 {
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        public let ifModifiedSince: TimeStamp?
+        public let ifModifiedSince: Date?
         /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
         public let ifNoneMatch: String?
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        public let ifUnmodifiedSince: TimeStamp?
+        public let ifUnmodifiedSince: Date?
         /// The object key.
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
@@ -3749,7 +3749,7 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: Date? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: Date? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
             self.ifMatch = ifMatch
@@ -4020,14 +4020,14 @@ extension S3 {
 
     public struct LifecycleExpiration: AWSEncodableShape & AWSDecodableShape {
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var date: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var date: Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
         public let days: Int?
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
         public let expiredObjectDeleteMarker: Bool?
 
-        public init(date: TimeStamp? = nil, days: Int? = nil, expiredObjectDeleteMarker: Bool? = nil) {
+        public init(date: Date? = nil, days: Int? = nil, expiredObjectDeleteMarker: Bool? = nil) {
             self.date = date
             self.days = days
             self.expiredObjectDeleteMarker = expiredObjectDeleteMarker
@@ -4703,7 +4703,7 @@ extension S3 {
         ]
 
         /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, then the response includes this header indicating when the initiated multipart upload will become eligible for abort operation. For more information, see Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy. The response will also include the x-amz-abort-rule-id header that will provide the ID of the lifecycle configuration rule that defines this action.
-        public let abortDate: TimeStamp?
+        public let abortDate: Date?
         /// This header is returned along with the x-amz-abort-date header. It identifies applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
         public let abortRuleId: String?
         /// Name of the bucket to which the multipart upload was initiated.
@@ -4730,7 +4730,7 @@ extension S3 {
         /// Upload ID identifying the multipart upload whose parts are being listed.
         public let uploadId: String?
 
-        public init(abortDate: TimeStamp? = nil, abortRuleId: String? = nil, bucket: String? = nil, initiator: Initiator? = nil, isTruncated: Bool? = nil, key: String? = nil, maxParts: Int? = nil, nextPartNumberMarker: Int? = nil, owner: Owner? = nil, partNumberMarker: Int? = nil, parts: [Part]? = nil, requestCharged: RequestCharged? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
+        public init(abortDate: Date? = nil, abortRuleId: String? = nil, bucket: String? = nil, initiator: Initiator? = nil, isTruncated: Bool? = nil, key: String? = nil, maxParts: Int? = nil, nextPartNumberMarker: Int? = nil, owner: Owner? = nil, partNumberMarker: Int? = nil, parts: [Part]? = nil, requestCharged: RequestCharged? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
             self.abortDate = abortDate
             self.abortRuleId = abortRuleId
             self.bucket = bucket
@@ -4939,7 +4939,7 @@ extension S3 {
 
     public struct MultipartUpload: AWSDecodableShape {
         /// Date and time at which the multipart upload was initiated.
-        public let initiated: TimeStamp?
+        public let initiated: Date?
         /// Identifies who initiated the multipart upload.
         public let initiator: Initiator?
         /// Key of the object for which the multipart upload was initiated.
@@ -4951,7 +4951,7 @@ extension S3 {
         /// Upload ID that identifies the multipart upload.
         public let uploadId: String?
 
-        public init(initiated: TimeStamp? = nil, initiator: Initiator? = nil, key: String? = nil, owner: Owner? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
+        public init(initiated: Date? = nil, initiator: Initiator? = nil, key: String? = nil, owner: Owner? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
             self.initiated = initiated
             self.initiator = initiator
             self.key = key
@@ -5064,7 +5064,7 @@ extension S3 {
         /// The name that you assign to an object. You use the object key to retrieve the object.
         public let key: String?
         /// The date the Object was Last Modified
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The owner of the object
         public let owner: Owner?
         /// Size in bytes of the object
@@ -5072,7 +5072,7 @@ extension S3 {
         /// The class of storage used to store the object.
         public let storageClass: ObjectStorageClass?
 
-        public init(eTag: String? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int64? = nil, storageClass: ObjectStorageClass? = nil) {
+        public init(eTag: String? = nil, key: String? = nil, lastModified: Date? = nil, owner: Owner? = nil, size: Int64? = nil, storageClass: ObjectStorageClass? = nil) {
             self.eTag = eTag
             self.key = key
             self.lastModified = lastModified
@@ -5152,10 +5152,10 @@ extension S3 {
         /// Indicates the Retention mode for the specified object.
         public let mode: ObjectLockRetentionMode?
         /// The date on which this Object Lock Retention will expire.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var retainUntilDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var retainUntilDate: Date?
 
-        public init(mode: ObjectLockRetentionMode? = nil, retainUntilDate: TimeStamp? = nil) {
+        public init(mode: ObjectLockRetentionMode? = nil, retainUntilDate: Date? = nil) {
             self.mode = mode
             self.retainUntilDate = retainUntilDate
         }
@@ -5187,7 +5187,7 @@ extension S3 {
         /// The object key.
         public let key: String?
         /// Date and time the object was last modified.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// Specifies the owner of the object.
         public let owner: Owner?
         /// Size in bytes of the object.
@@ -5197,7 +5197,7 @@ extension S3 {
         /// Version ID of an object.
         public let versionId: String?
 
-        public init(eTag: String? = nil, isLatest: Bool? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int64? = nil, storageClass: ObjectVersionStorageClass? = nil, versionId: String? = nil) {
+        public init(eTag: String? = nil, isLatest: Bool? = nil, key: String? = nil, lastModified: Date? = nil, owner: Owner? = nil, size: Int64? = nil, storageClass: ObjectVersionStorageClass? = nil, versionId: String? = nil) {
             self.eTag = eTag
             self.isLatest = isLatest
             self.key = key
@@ -5279,13 +5279,13 @@ extension S3 {
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
         /// Date and time at which the part was uploaded.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// Part number identifying the part. This is a positive integer between 1 and 10,000.
         public let partNumber: Int?
         /// Size in bytes of the uploaded part data.
         public let size: Int64?
 
-        public init(eTag: String? = nil, lastModified: TimeStamp? = nil, partNumber: Int? = nil, size: Int64? = nil) {
+        public init(eTag: String? = nil, lastModified: Date? = nil, partNumber: Int? = nil, size: Int64? = nil) {
             self.eTag = eTag
             self.lastModified = lastModified
             self.partNumber = partNumber
@@ -6233,7 +6233,7 @@ extension S3 {
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21.
-        public let expires: TimeStamp?
+        public let expires: Date?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
         public let grantFullControl: String?
         /// Allows grantee to read the object data and its metadata.
@@ -6251,7 +6251,7 @@ extension S3 {
         /// The Object Lock mode that you want to apply to this object.
         public let objectLockMode: ObjectLockMode?
         /// The date and time when you want this object's Object Lock to expire.
-        public let objectLockRetainUntilDate: TimeStamp?
+        public let objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
         /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
@@ -6272,7 +6272,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, body: AWSPayload? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSPayload? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -7370,14 +7370,14 @@ extension S3 {
 
     public struct Transition: AWSEncodableShape & AWSDecodableShape {
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var date: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var date: Date?
         /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
         public let days: Int?
         /// The storage class to which you want the object to transition.
         public let storageClass: TransitionStorageClass?
 
-        public init(date: TimeStamp? = nil, days: Int? = nil, storageClass: TransitionStorageClass? = nil) {
+        public init(date: Date? = nil, days: Int? = nil, storageClass: TransitionStorageClass? = nil) {
             self.date = date
             self.days = days
             self.storageClass = storageClass
@@ -7468,11 +7468,11 @@ extension S3 {
         /// Copies the object if its entity tag (ETag) matches the specified tag.
         public let copySourceIfMatch: String?
         /// Copies the object if it has been modified since the specified time.
-        public let copySourceIfModifiedSince: TimeStamp?
+        public let copySourceIfModifiedSince: Date?
         /// Copies the object if its entity tag (ETag) is different than the specified ETag.
         public let copySourceIfNoneMatch: String?
         /// Copies the object if it hasn't been modified since the specified time.
-        public let copySourceIfUnmodifiedSince: TimeStamp?
+        public let copySourceIfUnmodifiedSince: Date?
         /// The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first 10 bytes of the source. You can copy a range only if the source object is greater than 5 MB.
         public let copySourceRange: String?
         /// Specifies the algorithm to use when decrypting the source object (for example, AES256).
@@ -7499,7 +7499,7 @@ extension S3 {
         /// Upload ID identifying the multipart upload whose part is being copied.
         public let uploadId: String
 
-        public init(bucket: String, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceRange: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(bucket: String, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceRange: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
             self.bucket = bucket
             self.copySource = copySource
             self.copySourceIfMatch = copySourceIfMatch

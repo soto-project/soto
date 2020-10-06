@@ -91,7 +91,7 @@ extension AugmentedAIRuntime {
 
     public struct DescribeHumanLoopResponse: AWSDecodableShape {
         /// The creation time when Amazon Augmented AI created the human loop.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// A failure code that identifies the type of failure.
         public let failureCode: String?
         /// The reason why a human loop failed. The failure reason is returned when the status of the human loop is Failed.
@@ -107,7 +107,7 @@ extension AugmentedAIRuntime {
         /// The status of the human loop.
         public let humanLoopStatus: HumanLoopStatus
 
-        public init(creationTime: TimeStamp, failureCode: String? = nil, failureReason: String? = nil, flowDefinitionArn: String, humanLoopArn: String, humanLoopName: String, humanLoopOutput: HumanLoopOutput? = nil, humanLoopStatus: HumanLoopStatus) {
+        public init(creationTime: Date, failureCode: String? = nil, failureReason: String? = nil, flowDefinitionArn: String, humanLoopArn: String, humanLoopName: String, humanLoopOutput: HumanLoopOutput? = nil, humanLoopStatus: HumanLoopStatus) {
             self.creationTime = creationTime
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -179,7 +179,7 @@ extension AugmentedAIRuntime {
 
     public struct HumanLoopSummary: AWSDecodableShape {
         /// When Amazon Augmented AI created the human loop.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The reason why the human loop failed. A failure reason is returned when the status of the human loop is Failed.
         public let failureReason: String?
         /// The Amazon Resource Name (ARN) of the flow definition used to configure the human loop.
@@ -189,7 +189,7 @@ extension AugmentedAIRuntime {
         /// The status of the human loop.
         public let humanLoopStatus: HumanLoopStatus?
 
-        public init(creationTime: TimeStamp? = nil, failureReason: String? = nil, flowDefinitionArn: String? = nil, humanLoopName: String? = nil, humanLoopStatus: HumanLoopStatus? = nil) {
+        public init(creationTime: Date? = nil, failureReason: String? = nil, flowDefinitionArn: String? = nil, humanLoopName: String? = nil, humanLoopStatus: HumanLoopStatus? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.flowDefinitionArn = flowDefinitionArn
@@ -217,9 +217,9 @@ extension AugmentedAIRuntime {
         ]
 
         /// (Optional) The timestamp of the date when you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// (Optional) The timestamp of the date before which you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// The Amazon Resource Name (ARN) of a flow definition.
         public let flowDefinitionArn: String
         /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken is returned in the output. You can use this token to display the next page of results.
@@ -229,7 +229,7 @@ extension AugmentedAIRuntime {
         /// Optional. The order for displaying results. Valid values: Ascending and Descending.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, flowDefinitionArn: String, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, flowDefinitionArn: String, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.flowDefinitionArn = flowDefinitionArn

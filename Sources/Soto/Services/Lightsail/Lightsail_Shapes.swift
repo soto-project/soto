@@ -624,7 +624,7 @@ extension Lightsail {
         /// The contact protocols for the alarm, such as Email, SMS (text messaging), or both.
         public let contactProtocols: [ContactProtocol]?
         /// The timestamp when the alarm was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The number of data points that must not within the specified threshold to trigger the alarm.
         public let datapointsToAlarm: Int?
         /// The number of periods over which data is compared to the specified threshold.
@@ -658,7 +658,7 @@ extension Lightsail {
         /// The unit of the metric associated with the alarm.
         public let unit: MetricUnit?
 
-        public init(arn: String? = nil, comparisonOperator: ComparisonOperator? = nil, contactProtocols: [ContactProtocol]? = nil, createdAt: TimeStamp? = nil, datapointsToAlarm: Int? = nil, evaluationPeriods: Int? = nil, location: ResourceLocation? = nil, metricName: MetricName? = nil, monitoredResourceInfo: MonitoredResourceInfo? = nil, name: String? = nil, notificationEnabled: Bool? = nil, notificationTriggers: [AlarmState]? = nil, period: Int? = nil, resourceType: ResourceType? = nil, state: AlarmState? = nil, statistic: MetricStatistic? = nil, supportCode: String? = nil, threshold: Double? = nil, treatMissingData: TreatMissingData? = nil, unit: MetricUnit? = nil) {
+        public init(arn: String? = nil, comparisonOperator: ComparisonOperator? = nil, contactProtocols: [ContactProtocol]? = nil, createdAt: Date? = nil, datapointsToAlarm: Int? = nil, evaluationPeriods: Int? = nil, location: ResourceLocation? = nil, metricName: MetricName? = nil, monitoredResourceInfo: MonitoredResourceInfo? = nil, name: String? = nil, notificationEnabled: Bool? = nil, notificationTriggers: [AlarmState]? = nil, period: Int? = nil, resourceType: ResourceType? = nil, state: AlarmState? = nil, statistic: MetricStatistic? = nil, supportCode: String? = nil, threshold: Double? = nil, treatMissingData: TreatMissingData? = nil, unit: MetricUnit? = nil) {
             self.arn = arn
             self.comparisonOperator = comparisonOperator
             self.contactProtocols = contactProtocols
@@ -953,7 +953,7 @@ extension Lightsail {
 
     public struct AutoSnapshotDetails: AWSDecodableShape {
         /// The timestamp when the automatic snapshot was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The date of the automatic snapshot in YYYY-MM-DD format.
         public let date: String?
         /// An array of objects that describe the block storage disks attached to the instance when the automatic snapshot was created.
@@ -961,7 +961,7 @@ extension Lightsail {
         /// The status of the automatic snapshot.
         public let status: AutoSnapshotStatus?
 
-        public init(createdAt: TimeStamp? = nil, date: String? = nil, fromAttachedDisks: [AttachedDisk]? = nil, status: AutoSnapshotStatus? = nil) {
+        public init(createdAt: Date? = nil, date: String? = nil, fromAttachedDisks: [AttachedDisk]? = nil, status: AutoSnapshotStatus? = nil) {
             self.createdAt = createdAt
             self.date = date
             self.fromAttachedDisks = fromAttachedDisks
@@ -1183,7 +1183,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the certificate.
         public let arn: String?
         /// The timestamp when the certificate was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The domain name of the certificate.
         public let domainName: String?
         /// An array of objects that describe the domain validation records of the certificate.
@@ -1193,7 +1193,7 @@ extension Lightsail {
         /// The number of Lightsail resources that the certificate is attached to.
         public let inUseResourceCount: Int?
         /// The timestamp when the certificate was issued.
-        public let issuedAt: TimeStamp?
+        public let issuedAt: Date?
         /// The certificate authority that issued the certificate.
         public let issuerCA: String?
         /// The algorithm used to generate the key pair (the public and private key) of the certificate.
@@ -1201,9 +1201,9 @@ extension Lightsail {
         /// The name of the certificate (e.g., my-certificate).
         public let name: String?
         /// The timestamp when the certificate expires.
-        public let notAfter: TimeStamp?
+        public let notAfter: Date?
         /// The timestamp when the certificate is first valid.
-        public let notBefore: TimeStamp?
+        public let notBefore: Date?
         /// An object that describes the status of the certificate renewal managed by Lightsail.
         public let renewalSummary: RenewalSummary?
         /// The validation failure reason, if any, of the certificate. The following failure reasons are possible:     NO_AVAILABLE_CONTACTS  - This failure applies to email validation, which is not available for Lightsail certificates.     ADDITIONAL_VERIFICATION_REQUIRED  - Lightsail requires additional information to process this certificate request. This can happen as a fraud-protection measure, such as when the domain ranks within the Alexa top 1000 websites. To provide the required information, use the AWS Support Center to contact AWS Support.  You cannot request a certificate for Amazon-owned domain names such as those ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.      DOMAIN_NOT_ALLOWED  - One or more of the domain names in the certificate request was reported as an unsafe domain by VirusTotal. To correct the problem, search for your domain name on the VirusTotal website. If your domain is reported as suspicious, see Google Help for Hacked Websites to learn what you can do. If you believe that the result is a false positive, notify the organization that is reporting the domain. VirusTotal is an aggregate of several antivirus and URL scanners and cannot remove your domain from a block list itself. After you correct the problem and the VirusTotal registry has been updated, request a new certificate. If you see this error and your domain is not included in the VirusTotal list, visit the AWS Support Center and create a case.     INVALID_PUBLIC_DOMAIN  - One or more of the domain names in the certificate request is not valid. Typically, this is because a domain name in the request is not a valid top-level domain. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request, and ensure that all domain names in the request are for valid top-level domains. For example, you cannot request a certificate for example.invalidpublicdomain because invalidpublicdomain is not a valid top-level domain.     OTHER  - Typically, this failure occurs when there is a typographical error in one or more of the domain names in the certificate request. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request.
@@ -1211,7 +1211,7 @@ extension Lightsail {
         /// The reason the certificate was revoked. This value is present only when the certificate status is REVOKED.
         public let revocationReason: String?
         /// The timestamp when the certificate was revoked. This value is present only when the certificate status is REVOKED.
-        public let revokedAt: TimeStamp?
+        public let revokedAt: Date?
         /// The serial number of the certificate.
         public let serialNumber: String?
         /// The validation status of the certificate.
@@ -1223,7 +1223,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, domainName: String? = nil, domainValidationRecords: [DomainValidationRecord]? = nil, eligibleToRenew: String? = nil, inUseResourceCount: Int? = nil, issuedAt: TimeStamp? = nil, issuerCA: String? = nil, keyAlgorithm: String? = nil, name: String? = nil, notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil, renewalSummary: RenewalSummary? = nil, requestFailureReason: String? = nil, revocationReason: String? = nil, revokedAt: TimeStamp? = nil, serialNumber: String? = nil, status: CertificateStatus? = nil, subjectAlternativeNames: [String]? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationRecords: [DomainValidationRecord]? = nil, eligibleToRenew: String? = nil, inUseResourceCount: Int? = nil, issuedAt: Date? = nil, issuerCA: String? = nil, keyAlgorithm: String? = nil, name: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalSummary: RenewalSummary? = nil, requestFailureReason: String? = nil, revocationReason: String? = nil, revokedAt: Date? = nil, serialNumber: String? = nil, status: CertificateStatus? = nil, subjectAlternativeNames: [String]? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.domainName = domainName
@@ -1340,7 +1340,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the CloudFormation stack record.
         public let arn: String?
         /// The date when the CloudFormation stack record was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// A list of objects describing the destination service, which is AWS CloudFormation, and the Amazon Resource Name (ARN) of the AWS CloudFormation stack.
         public let destinationInfo: DestinationInfo?
         /// A list of objects describing the Availability Zone and AWS Region of the CloudFormation stack record.
@@ -1354,7 +1354,7 @@ extension Lightsail {
         /// The current state of the CloudFormation stack record.
         public let state: RecordState?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, destinationInfo: DestinationInfo? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sourceInfo: [CloudFormationStackRecordSourceInfo]? = nil, state: RecordState? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, destinationInfo: DestinationInfo? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sourceInfo: [CloudFormationStackRecordSourceInfo]? = nil, state: RecordState? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.destinationInfo = destinationInfo
@@ -1404,7 +1404,7 @@ extension Lightsail {
         /// The destination of the contact method, such as an email address or a mobile phone number.
         public let contactEndpoint: String?
         /// The timestamp when the contact method was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         public let location: ResourceLocation?
         /// The name of the contact method.
         public let name: String?
@@ -1417,7 +1417,7 @@ extension Lightsail {
         /// The support code. Include this code in your email to support when you have questions about your Lightsail contact method. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
 
-        public init(arn: String? = nil, contactEndpoint: String? = nil, createdAt: TimeStamp? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: ContactProtocol? = nil, resourceType: ResourceType? = nil, status: ContactMethodStatus? = nil, supportCode: String? = nil) {
+        public init(arn: String? = nil, contactEndpoint: String? = nil, createdAt: Date? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: ContactProtocol? = nil, resourceType: ResourceType? = nil, status: ContactMethodStatus? = nil, supportCode: String? = nil) {
             self.arn = arn
             self.contactEndpoint = contactEndpoint
             self.createdAt = createdAt
@@ -2250,7 +2250,7 @@ extension Lightsail {
         /// The name of the database snapshot from which to create your new database.
         public let relationalDatabaseSnapshotName: String?
         /// The date and time to restore your database from. Constraints:   Must be before the latest restorable time for the database.   Cannot be specified if the use latest restorable time parameter is true.   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a restore time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the restore time.
-        public let restoreTime: TimeStamp?
+        public let restoreTime: Date?
         /// The name of the source database.
         public let sourceRelationalDatabaseName: String?
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
@@ -2258,7 +2258,7 @@ extension Lightsail {
         /// Specifies whether your database is restored from the latest backup time. A value of true restores from the latest backup time.  Default: false  Constraints: Cannot be specified if the restore time parameter is provided.
         public let useLatestRestorableTime: Bool?
 
-        public init(availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBundleId: String? = nil, relationalDatabaseName: String, relationalDatabaseSnapshotName: String? = nil, restoreTime: TimeStamp? = nil, sourceRelationalDatabaseName: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil) {
+        public init(availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBundleId: String? = nil, relationalDatabaseName: String, relationalDatabaseSnapshotName: String? = nil, restoreTime: Date? = nil, sourceRelationalDatabaseName: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil) {
             self.availabilityZone = availabilityZone
             self.publiclyAccessible = publiclyAccessible
             self.relationalDatabaseBundleId = relationalDatabaseBundleId
@@ -3130,7 +3130,7 @@ extension Lightsail {
         /// The resources to which the disk is attached.
         public let attachedTo: String?
         /// The date when the disk was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The input/output operations per second (IOPS) of the disk.
         public let iops: Int?
         /// A Boolean value indicating whether the disk is attached.
@@ -3154,7 +3154,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, createdAt: TimeStamp? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, createdAt: Date? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.addOns = addOns
             self.arn = arn
             self.attachedTo = attachedTo
@@ -3242,7 +3242,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the disk snapshot.
         public let arn: String?
         /// The date when the disk snapshot was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the source disk from which the disk snapshot was created.
         public let fromDiskArn: String?
         /// The unique name of the source disk from which the disk snapshot was created.
@@ -3270,7 +3270,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, isFromAutoSnapshot: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, isFromAutoSnapshot: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.fromDiskArn = fromDiskArn
@@ -3353,7 +3353,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public let arn: String?
         /// The date when the domain recordset was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// An array of key-value pairs containing information about the domain entries.
         public let domainEntries: [DomainEntry]?
         /// The AWS Region and Availability Zones where the domain recordset was created.
@@ -3367,7 +3367,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, domainEntries: [DomainEntry]? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, domainEntries: [DomainEntry]? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.domainEntries = domainEntries
@@ -3500,7 +3500,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the export snapshot record.
         public let arn: String?
         /// The date when the export snapshot record was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// A list of objects describing the destination of the export snapshot record.
         public let destinationInfo: DestinationInfo?
         /// The AWS Region and Availability Zone where the export snapshot record is located.
@@ -3514,7 +3514,7 @@ extension Lightsail {
         /// The state of the export snapshot record.
         public let state: RecordState?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, destinationInfo: DestinationInfo? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sourceInfo: ExportSnapshotRecordSourceInfo? = nil, state: RecordState? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, destinationInfo: DestinationInfo? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sourceInfo: ExportSnapshotRecordSourceInfo? = nil, state: RecordState? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.destinationInfo = destinationInfo
@@ -3541,7 +3541,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the source instance or disk snapshot.
         public let arn: String?
         /// The date when the source instance or disk snapshot was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// A list of objects describing a disk snapshot.
         public let diskSnapshotInfo: DiskSnapshotInfo?
         /// The Amazon Resource Name (ARN) of the snapshot's source instance or disk.
@@ -3555,7 +3555,7 @@ extension Lightsail {
         /// The Lightsail resource type (e.g., InstanceSnapshot or DiskSnapshot).
         public let resourceType: ExportSnapshotRecordSourceType?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, diskSnapshotInfo: DiskSnapshotInfo? = nil, fromResourceArn: String? = nil, fromResourceName: String? = nil, instanceSnapshotInfo: InstanceSnapshotInfo? = nil, name: String? = nil, resourceType: ExportSnapshotRecordSourceType? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, diskSnapshotInfo: DiskSnapshotInfo? = nil, fromResourceArn: String? = nil, fromResourceName: String? = nil, instanceSnapshotInfo: InstanceSnapshotInfo? = nil, name: String? = nil, resourceType: ExportSnapshotRecordSourceType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.diskSnapshotInfo = diskSnapshotInfo
@@ -4033,11 +4033,11 @@ extension Lightsail {
 
     public struct GetDistributionLatestCacheResetResult: AWSDecodableShape {
         /// The timestamp of the last cache reset (e.g., 1479734909.17) in Unix time format.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The status of the last cache reset.
         public let status: String?
 
-        public init(createTime: TimeStamp? = nil, status: String? = nil) {
+        public init(createTime: Date? = nil, status: String? = nil) {
             self.createTime = createTime
             self.status = status
         }
@@ -4052,19 +4052,19 @@ extension Lightsail {
         /// The name of the distribution for which to get metric data. Use the GetDistributions action to get a list of distribution names that you can specify.
         public let distributionName: String
         /// The end of the time interval for which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The metric for which you want to return information. Valid distribution metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     Requests  - The total number of viewer requests received by your Lightsail distribution, for all HTTP methods, and for both HTTP and HTTPS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesDownloaded  - The number of bytes downloaded by viewers for GET, HEAD, and OPTIONS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesUploaded   - The number of bytes uploaded to your origin by your Lightsail distribution, using POST and PUT requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     TotalErrorRate  - The percentage of all viewer requests for which the response's HTTP status code was 4xx or 5xx.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     4xxErrorRate  - The percentage of all viewer requests for which the response's HTTP status cod was 4xx. In these cases, the client or client viewer may have made an error. For example, a status code of 404 (Not Found) means that the client requested an object that could not be found.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     5xxErrorRate  - The percentage of all viewer requests for which the response's HTTP status code was 5xx. In these cases, the origin server did not satisfy the requests. For example, a status code of 503 (Service Unavailable) means that the origin server is currently unavailable.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.
         public let metricName: DistributionMetricName
         /// The granularity, in seconds, for the metric data points that will be returned.
         public let period: Int
         /// The start of the time interval for which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
         public let statistics: [MetricStatistic]
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(distributionName: String, endTime: TimeStamp, metricName: DistributionMetricName, period: Int, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(distributionName: String, endTime: Date, metricName: DistributionMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.distributionName = distributionName
             self.endTime = endTime
             self.metricName = metricName
@@ -4268,7 +4268,7 @@ extension Lightsail {
 
     public struct GetInstanceMetricDataRequest: AWSEncodableShape {
         /// The end time of the time period.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The name of the instance for which you want to get metrics data.
         public let instanceName: String
         /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     BurstCapacityPercentage  - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     BurstCapacityTime  - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Seconds.     CPUUtilization  - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn  - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut  - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed  - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance  - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System  - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.
@@ -4276,13 +4276,13 @@ extension Lightsail {
         /// The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
         public let period: Int
         /// The start time of the time period.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
         public let statistics: [MetricStatistic]
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units to specify with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(endTime: TimeStamp, instanceName: String, metricName: InstanceMetricName, period: Int, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: Date, instanceName: String, metricName: InstanceMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.instanceName = instanceName
             self.metricName = metricName
@@ -4568,7 +4568,7 @@ extension Lightsail {
 
     public struct GetLoadBalancerMetricDataRequest: AWSEncodableShape {
         /// The end time of the period.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The metric for which you want to return information. Valid load balancer metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer due to a TLS error generated by the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.  Unit: The published unit is Count.     HTTPCode_Instance_2XX_Count  - The number of HTTP 2XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_3XX_Count  - The number of HTTP 3XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_4XX_Count  - The number of HTTP 4XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_5XX_Count  - The number of HTTP 5XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originated from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests were not received by the target instance. This count does not include response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originated from the load balancer. This does not include any response codes generated by the target instance. This metric is reported if there are no healthy instances attached to the load balancer, or if the request rate exceeds the capacity of the instances (spillover) or the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.  Unit: The published unit is Seconds.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.  Unit: The published unit is Count.
@@ -4576,13 +4576,13 @@ extension Lightsail {
         /// The granularity, in seconds, of the returned data points.
         public let period: Int
         /// The start time of the period.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
         public let statistics: [MetricStatistic]
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(endTime: TimeStamp, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: Date, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.loadBalancerName = loadBalancerName
             self.metricName = metricName
@@ -4948,7 +4948,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseLogEventsRequest: AWSEncodableShape {
         /// The end of the time interval from which to get log events. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The name of the log stream. Use the get relational database log streams operation to get a list of available log streams.
         public let logStreamName: String
         /// The token to advance to the next or previous page of results from your request. To get a page token, perform an initial GetRelationalDatabaseLogEvents request. If your results are paginated, the response will return a next forward token and/or next backward token that you can specify as the page token in a subsequent request.
@@ -4958,9 +4958,9 @@ extension Lightsail {
         /// Parameter to specify if the log should start from head or tail. If true is specified, the log event starts from the head of the log. If false is specified, the log event starts from the tail of the log.  For PostgreSQL, the default value of false is the only option available.
         public let startFromHead: Bool?
         /// The start of the time interval from which to get log events. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, logStreamName: String, pageToken: String? = nil, relationalDatabaseName: String, startFromHead: Bool? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, logStreamName: String, pageToken: String? = nil, relationalDatabaseName: String, startFromHead: Bool? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.logStreamName = logStreamName
             self.pageToken = pageToken
@@ -5057,11 +5057,11 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseMasterUserPasswordResult: AWSDecodableShape {
         /// The timestamp when the specified version of the master user password was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The master user password for the password version specified.
         public let masterUserPassword: String?
 
-        public init(createdAt: TimeStamp? = nil, masterUserPassword: String? = nil) {
+        public init(createdAt: Date? = nil, masterUserPassword: String? = nil) {
             self.createdAt = createdAt
             self.masterUserPassword = masterUserPassword
         }
@@ -5074,7 +5074,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseMetricDataRequest: AWSEncodableShape {
         /// The end of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The metric for which you want to return information. Valid relational database metric names are listed below, along with the most useful statistics to include in your request, and the published unit value. All relational database metric data is available in 1-minute (60 seconds) granularity.     CPUUtilization  - The percentage of CPU utilization currently in use on the database.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     DatabaseConnections  - The number of database connections in use.  Statistics: The most useful statistics are Maximum and Sum.  Unit: The published unit is Count.     DiskQueueDepth  - The number of outstanding IOs (read/write requests) that are waiting to access the disk.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     FreeStorageSpace  - The amount of available storage space.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkReceiveThroughput  - The incoming (Receive) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.     NetworkTransmitThroughput  - The outgoing (Transmit) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.
         public let metricName: RelationalDatabaseMetricName
         /// The granularity, in seconds, of the returned data points. All relational database metric data is available in 1-minute (60 seconds) granularity.
@@ -5082,13 +5082,13 @@ extension Lightsail {
         /// The name of your database from which to get metric data.
         public let relationalDatabaseName: String
         /// The start of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
         public let statistics: [MetricStatistic]
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(endTime: TimeStamp, metricName: RelationalDatabaseMetricName, period: Int, relationalDatabaseName: String, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: Date, metricName: RelationalDatabaseMetricName, period: Int, relationalDatabaseName: String, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.metricName = metricName
             self.period = period
@@ -5375,15 +5375,15 @@ extension Lightsail {
         /// The SHA-256 fingerprint of the returned SSH host key or RDP certificate.   Example of an SHA-256 SSH fingerprint:  SHA256:KTsMnRBh1IhD17HpdfsbzeGA4jOijm5tyXsMjKVbB8o    Example of an SHA-256 RDP fingerprint:  03:9b:36:9f:4b:de:4e:61:70:fc:7c:c9:78:e7:d2:1a:1c:25:a8:0c:91:f6:7c:e4:d6:a0:85:c8:b4:53:99:68
         public let fingerprintSHA256: String?
         /// The returned RDP certificate is not valid after this point in time. This value is listed only for RDP certificates.
-        public let notValidAfter: TimeStamp?
+        public let notValidAfter: Date?
         /// The returned RDP certificate is valid after this point in time. This value is listed only for RDP certificates.
-        public let notValidBefore: TimeStamp?
+        public let notValidBefore: Date?
         /// The public SSH host key or the RDP certificate.
         public let publicKey: String?
         /// The time that the SSH host key or RDP certificate was recorded by Lightsail.
-        public let witnessedAt: TimeStamp?
+        public let witnessedAt: Date?
 
-        public init(algorithm: String? = nil, fingerprintSHA1: String? = nil, fingerprintSHA256: String? = nil, notValidAfter: TimeStamp? = nil, notValidBefore: TimeStamp? = nil, publicKey: String? = nil, witnessedAt: TimeStamp? = nil) {
+        public init(algorithm: String? = nil, fingerprintSHA1: String? = nil, fingerprintSHA256: String? = nil, notValidAfter: Date? = nil, notValidBefore: Date? = nil, publicKey: String? = nil, witnessedAt: Date? = nil) {
             self.algorithm = algorithm
             self.fingerprintSHA1 = fingerprintSHA1
             self.fingerprintSHA256 = fingerprintSHA256
@@ -5475,7 +5475,7 @@ extension Lightsail {
         /// The bundle for the instance (e.g., micro_1_0).
         public let bundleId: String?
         /// The timestamp when the instance was created (e.g., 1479734909.17) in Unix time format.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The size of the vCPU and the amount of RAM for the instance.
         public let hardware: InstanceHardware?
         /// The IPv6 address of the instance.
@@ -5505,7 +5505,7 @@ extension Lightsail {
         /// The user name for connecting to the instance (e.g., ec2-user).
         public let username: String?
 
-        public init(addOns: [AddOn]? = nil, arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: TimeStamp? = nil, hardware: InstanceHardware? = nil, ipv6Address: String? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, hardware: InstanceHardware? = nil, ipv6Address: String? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.addOns = addOns
             self.arn = arn
             self.blueprintId = blueprintId
@@ -5556,7 +5556,7 @@ extension Lightsail {
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
         public let certKey: String?
         /// For SSH access, the date on which the temporary keys expire.
-        public let expiresAt: TimeStamp?
+        public let expiresAt: Date?
         /// Describes the public SSH host keys or the RDP certificate.
         public let hostKeys: [HostKeyAttributes]?
         /// The name of this Amazon Lightsail instance.
@@ -5574,7 +5574,7 @@ extension Lightsail {
         /// The user name to use when logging in to the Amazon Lightsail instance.
         public let username: String?
 
-        public init(certKey: String? = nil, expiresAt: TimeStamp? = nil, hostKeys: [HostKeyAttributes]? = nil, instanceName: String? = nil, ipAddress: String? = nil, password: String? = nil, passwordData: PasswordData? = nil, privateKey: String? = nil, protocol: InstanceAccessProtocol? = nil, username: String? = nil) {
+        public init(certKey: String? = nil, expiresAt: Date? = nil, hostKeys: [HostKeyAttributes]? = nil, instanceName: String? = nil, ipAddress: String? = nil, password: String? = nil, passwordData: PasswordData? = nil, privateKey: String? = nil, protocol: InstanceAccessProtocol? = nil, username: String? = nil) {
             self.certKey = certKey
             self.expiresAt = expiresAt
             self.hostKeys = hostKeys
@@ -5776,7 +5776,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
         public let arn: String?
         /// The timestamp when the snapshot was created (e.g., 1479907467.024).
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// An array of disk objects containing information about all block storage disks.
         public let fromAttachedDisks: [Disk]?
         /// The blueprint ID from which you created the snapshot (e.g., os_debian_8_3). A blueprint is a virtual private server (or instance) image used to create instances quickly.
@@ -5806,7 +5806,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromAttachedDisks: [Disk]? = nil, fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, isFromAutoSnapshot: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: InstanceSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, fromAttachedDisks: [Disk]? = nil, fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, isFromAutoSnapshot: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: InstanceSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.fromAttachedDisks = fromAttachedDisks
@@ -5904,7 +5904,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
         public let arn: String?
         /// The timestamp when the key pair was created (e.g., 1479816991.349).
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The RSA fingerprint of the key pair.
         public let fingerprint: String?
         /// The region name and Availability Zone where the key pair was created.
@@ -5918,7 +5918,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fingerprint: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, fingerprint: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.fingerprint = fingerprint
@@ -5957,7 +5957,7 @@ extension Lightsail {
         /// The name of the SSL/TLS certificate attached to the distribution, if any.
         public let certificateName: String?
         /// The timestamp when the distribution was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// An object that describes the default cache behavior of the distribution.
         public let defaultCacheBehavior: CacheBehavior?
         /// The domain name of the distribution.
@@ -5981,7 +5981,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: TimeStamp? = nil, defaultCacheBehavior: CacheBehavior? = nil, domainName: String? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: Date? = nil, defaultCacheBehavior: CacheBehavior? = nil, domainName: String? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.ableToUpdateBundle = ableToUpdateBundle
             self.alternativeDomainNames = alternativeDomainNames
             self.arn = arn
@@ -6032,7 +6032,7 @@ extension Lightsail {
         /// A string to string map of the configuration options for your load balancer. Valid values are listed below.
         public let configurationOptions: [LoadBalancerAttributeName: String]?
         /// The date when your load balancer was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The DNS name of your Lightsail load balancer.
         public let dnsName: String?
         /// The path you specified to perform your health checks. If no path is specified, the load balancer tries to make a request to the default (root) page.
@@ -6060,7 +6060,7 @@ extension Lightsail {
         /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
         public let tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]?
 
-        public init(arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, createdAt: TimeStamp? = nil, dnsName: String? = nil, healthCheckPath: String? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, instancePort: Int? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: LoadBalancerProtocol? = nil, publicPorts: [Int]? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil) {
+        public init(arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, createdAt: Date? = nil, dnsName: String? = nil, healthCheckPath: String? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, instancePort: Int? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: LoadBalancerProtocol? = nil, publicPorts: [Int]? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil) {
             self.arn = arn
             self.configurationOptions = configurationOptions
             self.createdAt = createdAt
@@ -6103,7 +6103,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
         public let arn: String?
         /// The time when you created your SSL/TLS certificate.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The domain name for your SSL/TLS certificate.
         public let domainName: String?
         /// An array of LoadBalancerTlsCertificateDomainValidationRecord objects describing the records.
@@ -6113,7 +6113,7 @@ extension Lightsail {
         /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
         public let isAttached: Bool?
         /// The time when the SSL/TLS certificate was issued.
-        public let issuedAt: TimeStamp?
+        public let issuedAt: Date?
         /// The issuer of the certificate.
         public let issuer: String?
         /// The algorithm used to generate the key pair (the public and private key).
@@ -6125,9 +6125,9 @@ extension Lightsail {
         /// The name of the SSL/TLS certificate (e.g., my-certificate).
         public let name: String?
         /// The timestamp when the SSL/TLS certificate expires.
-        public let notAfter: TimeStamp?
+        public let notAfter: Date?
         /// The timestamp when the SSL/TLS certificate is first valid.
-        public let notBefore: TimeStamp?
+        public let notBefore: Date?
         /// An object that describes the status of the certificate renewal managed by Lightsail.
         public let renewalSummary: LoadBalancerTlsCertificateRenewalSummary?
         /// The resource type (e.g., LoadBalancerTlsCertificate).     Instance  - A Lightsail instance (a virtual private server)     StaticIp  - A static IP address     KeyPair  - The key pair used to connect to a Lightsail instance     InstanceSnapshot  - A Lightsail instance snapshot     Domain  - A DNS zone     PeeredVpc  - A peered VPC     LoadBalancer  - A Lightsail load balancer     LoadBalancerTlsCertificate  - An SSL/TLS certificate associated with a Lightsail load balancer     Disk  - A Lightsail block storage disk     DiskSnapshot  - A block storage disk snapshot
@@ -6135,7 +6135,7 @@ extension Lightsail {
         /// The reason the certificate was revoked. This value is present only when the certificate status is REVOKED.
         public let revocationReason: LoadBalancerTlsCertificateRevocationReason?
         /// The timestamp when the certificate was revoked. This value is present only when the certificate status is REVOKED.
-        public let revokedAt: TimeStamp?
+        public let revokedAt: Date?
         /// The serial number of the certificate.
         public let serial: String?
         /// The algorithm that was used to sign the certificate.
@@ -6151,7 +6151,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, domainName: String? = nil, domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]? = nil, failureReason: LoadBalancerTlsCertificateFailureReason? = nil, isAttached: Bool? = nil, issuedAt: TimeStamp? = nil, issuer: String? = nil, keyAlgorithm: String? = nil, loadBalancerName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil, renewalSummary: LoadBalancerTlsCertificateRenewalSummary? = nil, resourceType: ResourceType? = nil, revocationReason: LoadBalancerTlsCertificateRevocationReason? = nil, revokedAt: TimeStamp? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: LoadBalancerTlsCertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]? = nil, failureReason: LoadBalancerTlsCertificateFailureReason? = nil, isAttached: Bool? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: String? = nil, loadBalancerName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalSummary: LoadBalancerTlsCertificateRenewalSummary? = nil, resourceType: ResourceType? = nil, revocationReason: LoadBalancerTlsCertificateRevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: LoadBalancerTlsCertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.domainName = domainName
@@ -6290,11 +6290,11 @@ extension Lightsail {
 
     public struct LogEvent: AWSDecodableShape {
         /// The timestamp when the database log event was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The message of the database log event.
         public let message: String?
 
-        public init(createdAt: TimeStamp? = nil, message: String? = nil) {
+        public init(createdAt: Date? = nil, message: String? = nil) {
             self.createdAt = createdAt
             self.message = message
         }
@@ -6317,11 +6317,11 @@ extension Lightsail {
         /// The sum.
         public let sum: Double?
         /// The timestamp (e.g., 1479816991.349).
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         /// The unit.
         public let unit: MetricUnit?
 
-        public init(average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: TimeStamp? = nil, unit: MetricUnit? = nil) {
+        public init(average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: Date? = nil, unit: MetricUnit? = nil) {
             self.average = average
             self.maximum = maximum
             self.minimum = minimum
@@ -6413,7 +6413,7 @@ extension Lightsail {
 
     public struct Operation: AWSDecodableShape {
         /// The timestamp when the operation was initialized (e.g., 1479816991.349).
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The error code.
         public let errorCode: String?
         /// The error details.
@@ -6435,9 +6435,9 @@ extension Lightsail {
         /// The status of the operation.
         public let status: OperationStatus?
         /// The timestamp when the status was changed (e.g., 1479816991.349).
-        public let statusChangedAt: TimeStamp?
+        public let statusChangedAt: Date?
 
-        public init(createdAt: TimeStamp? = nil, errorCode: String? = nil, errorDetails: String? = nil, id: String? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, operationDetails: String? = nil, operationType: OperationType? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, status: OperationStatus? = nil, statusChangedAt: TimeStamp? = nil) {
+        public init(createdAt: Date? = nil, errorCode: String? = nil, errorDetails: String? = nil, id: String? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, operationDetails: String? = nil, operationType: OperationType? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, status: OperationStatus? = nil, statusChangedAt: Date? = nil) {
             self.createdAt = createdAt
             self.errorCode = errorCode
             self.errorDetails = errorDetails
@@ -6531,11 +6531,11 @@ extension Lightsail {
         /// The type of pending database maintenance action.
         public let action: String?
         /// The effective date of the pending database maintenance action.
-        public let currentApplyDate: TimeStamp?
+        public let currentApplyDate: Date?
         /// Additional detail about the pending database maintenance action.
         public let description: String?
 
-        public init(action: String? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil) {
+        public init(action: String? = nil, currentApplyDate: Date? = nil, description: String? = nil) {
             self.action = action
             self.currentApplyDate = currentApplyDate
             self.description = description
@@ -6831,7 +6831,7 @@ extension Lightsail {
         /// The certificate associated with the database.
         public let caCertificateIdentifier: String?
         /// The timestamp when the database was created. Formatted in Unix time.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The database software (for example, MySQL).
         public let engine: String?
         /// The database engine version (for example, 5.7.23).
@@ -6839,7 +6839,7 @@ extension Lightsail {
         /// Describes the hardware of the database.
         public let hardware: RelationalDatabaseHardware?
         /// The latest point in time to which the database can be restored. Formatted in Unix time.
-        public let latestRestorableTime: TimeStamp?
+        public let latestRestorableTime: Date?
         /// The Region name and Availability Zone where the database is located.
         public let location: ResourceLocation?
         /// The name of the master database created when the Lightsail database resource is created.
@@ -6877,7 +6877,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, backupRetentionEnabled: Bool? = nil, caCertificateIdentifier: String? = nil, createdAt: TimeStamp? = nil, engine: String? = nil, engineVersion: String? = nil, hardware: RelationalDatabaseHardware? = nil, latestRestorableTime: TimeStamp? = nil, location: ResourceLocation? = nil, masterDatabaseName: String? = nil, masterEndpoint: RelationalDatabaseEndpoint? = nil, masterUsername: String? = nil, name: String? = nil, parameterApplyStatus: String? = nil, pendingMaintenanceActions: [PendingMaintenanceAction]? = nil, pendingModifiedValues: PendingModifiedRelationalDatabaseValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBlueprintId: String? = nil, relationalDatabaseBundleId: String? = nil, resourceType: ResourceType? = nil, secondaryAvailabilityZone: String? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, backupRetentionEnabled: Bool? = nil, caCertificateIdentifier: String? = nil, createdAt: Date? = nil, engine: String? = nil, engineVersion: String? = nil, hardware: RelationalDatabaseHardware? = nil, latestRestorableTime: Date? = nil, location: ResourceLocation? = nil, masterDatabaseName: String? = nil, masterEndpoint: RelationalDatabaseEndpoint? = nil, masterUsername: String? = nil, name: String? = nil, parameterApplyStatus: String? = nil, pendingMaintenanceActions: [PendingMaintenanceAction]? = nil, pendingModifiedValues: PendingModifiedRelationalDatabaseValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBlueprintId: String? = nil, relationalDatabaseBundleId: String? = nil, resourceType: ResourceType? = nil, secondaryAvailabilityZone: String? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.backupRetentionEnabled = backupRetentionEnabled
             self.caCertificateIdentifier = caCertificateIdentifier
@@ -7033,7 +7033,7 @@ extension Lightsail {
 
     public struct RelationalDatabaseEvent: AWSDecodableShape {
         /// The timestamp when the database event was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The category that the database event belongs to.
         public let eventCategories: [String]?
         /// The message of the database event.
@@ -7041,7 +7041,7 @@ extension Lightsail {
         /// The database that the database event relates to.
         public let resource: String?
 
-        public init(createdAt: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, resource: String? = nil) {
+        public init(createdAt: Date? = nil, eventCategories: [String]? = nil, message: String? = nil, resource: String? = nil) {
             self.createdAt = createdAt
             self.eventCategories = eventCategories
             self.message = message
@@ -7122,7 +7122,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the database snapshot.
         public let arn: String?
         /// The timestamp when the database snapshot was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The software of the database snapshot (for example, MySQL)
         public let engine: String?
         /// The database engine version for the database snapshot (for example, 5.7.23).
@@ -7150,7 +7150,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, engine: String? = nil, engineVersion: String? = nil, fromRelationalDatabaseArn: String? = nil, fromRelationalDatabaseBlueprintId: String? = nil, fromRelationalDatabaseBundleId: String? = nil, fromRelationalDatabaseName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, engine: String? = nil, engineVersion: String? = nil, fromRelationalDatabaseArn: String? = nil, fromRelationalDatabaseBlueprintId: String? = nil, fromRelationalDatabaseBundleId: String? = nil, fromRelationalDatabaseName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.engine = engine
@@ -7225,9 +7225,9 @@ extension Lightsail {
         /// The reason for the renewal status of the certificate.
         public let renewalStatusReason: String?
         /// The timestamp when the certificate was last updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(domainValidationRecords: [DomainValidationRecord]? = nil, renewalStatus: RenewalStatus? = nil, renewalStatusReason: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(domainValidationRecords: [DomainValidationRecord]? = nil, renewalStatus: RenewalStatus? = nil, renewalStatusReason: String? = nil, updatedAt: Date? = nil) {
             self.domainValidationRecords = domainValidationRecords
             self.renewalStatus = renewalStatus
             self.renewalStatusReason = renewalStatusReason
@@ -7261,13 +7261,13 @@ extension Lightsail {
 
     public struct ResetDistributionCacheResult: AWSDecodableShape {
         /// The timestamp of the reset cache request (e.g., 1479734909.17) in Unix time format.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
         /// The status of the reset cache request.
         public let status: String?
 
-        public init(createTime: TimeStamp? = nil, operation: Operation? = nil, status: String? = nil) {
+        public init(createTime: Date? = nil, operation: Operation? = nil, status: String? = nil) {
             self.createTime = createTime
             self.operation = operation
             self.status = status
@@ -7410,7 +7410,7 @@ extension Lightsail {
         /// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Ohio-1).
         public let attachedTo: String?
         /// The timestamp when the static IP was created (e.g., 1479735304.222).
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The static IP address.
         public let ipAddress: String?
         /// A Boolean value indicating whether the static IP is attached.
@@ -7424,7 +7424,7 @@ extension Lightsail {
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
 
-        public init(arn: String? = nil, attachedTo: String? = nil, createdAt: TimeStamp? = nil, ipAddress: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil) {
+        public init(arn: String? = nil, attachedTo: String? = nil, createdAt: Date? = nil, ipAddress: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil) {
             self.arn = arn
             self.attachedTo = attachedTo
             self.createdAt = createdAt

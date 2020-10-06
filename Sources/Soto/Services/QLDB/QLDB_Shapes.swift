@@ -146,7 +146,7 @@ extension QLDB {
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
         public let deletionProtection: Bool?
         /// The name of the ledger.
@@ -154,7 +154,7 @@ extension QLDB {
         /// The current status of the ledger.
         public let state: LedgerState?
 
-        public init(arn: String? = nil, creationDateTime: TimeStamp? = nil, deletionProtection: Bool? = nil, name: String? = nil, state: LedgerState? = nil) {
+        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.deletionProtection = deletionProtection
@@ -299,7 +299,7 @@ extension QLDB {
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
         public let deletionProtection: Bool?
         /// The name of the ledger.
@@ -307,7 +307,7 @@ extension QLDB {
         /// The current status of the ledger.
         public let state: LedgerState?
 
-        public init(arn: String? = nil, creationDateTime: TimeStamp? = nil, deletionProtection: Bool? = nil, name: String? = nil, state: LedgerState? = nil) {
+        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.deletionProtection = deletionProtection
@@ -330,9 +330,9 @@ extension QLDB {
         ]
 
         /// The exclusive end date and time for the range of journal contents that you want to export. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The ExclusiveEndTime must be less than or equal to the current UTC date and time.
-        public let exclusiveEndTime: TimeStamp
+        public let exclusiveEndTime: Date
         /// The inclusive start date and time for the range of journal contents that you want to export. The InclusiveStartTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The InclusiveStartTime must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's CreationDateTime.
-        public let inclusiveStartTime: TimeStamp
+        public let inclusiveStartTime: Date
         /// The name of the ledger.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS Key Management Service (AWS KMS) for server-side encryption of your exported data.
@@ -340,7 +340,7 @@ extension QLDB {
         /// The configuration settings of the Amazon S3 bucket destination for your export request.
         public let s3ExportConfiguration: S3ExportConfiguration
 
-        public init(exclusiveEndTime: TimeStamp, inclusiveStartTime: TimeStamp, name: String, roleArn: String, s3ExportConfiguration: S3ExportConfiguration) {
+        public init(exclusiveEndTime: Date, inclusiveStartTime: Date, name: String, roleArn: String, s3ExportConfiguration: S3ExportConfiguration) {
             self.exclusiveEndTime = exclusiveEndTime
             self.inclusiveStartTime = inclusiveStartTime
             self.name = name
@@ -525,13 +525,13 @@ extension QLDB {
         /// The Amazon Resource Name (ARN) of the QLDB journal stream.
         public let arn: String?
         /// The date and time, in epoch time format, when the QLDB journal stream was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The error message that describes the reason that a stream has a status of IMPAIRED or FAILED. This is not applicable to streams that have other status values.
         public let errorCause: ErrorCause?
         /// The exclusive date and time that specifies when the stream ends. If this parameter is blank, the stream runs indefinitely until you cancel it.
-        public let exclusiveEndTime: TimeStamp?
+        public let exclusiveEndTime: Date?
         /// The inclusive start date and time from which to start streaming journal data.
-        public let inclusiveStartTime: TimeStamp?
+        public let inclusiveStartTime: Date?
         /// The configuration settings of the Amazon Kinesis Data Streams destination for your QLDB journal stream.
         public let kinesisConfiguration: KinesisConfiguration
         /// The name of the ledger.
@@ -545,7 +545,7 @@ extension QLDB {
         /// The user-defined name of the QLDB journal stream.
         public let streamName: String
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, errorCause: ErrorCause? = nil, exclusiveEndTime: TimeStamp? = nil, inclusiveStartTime: TimeStamp? = nil, kinesisConfiguration: KinesisConfiguration, ledgerName: String, roleArn: String, status: StreamStatus, streamId: String, streamName: String) {
+        public init(arn: String? = nil, creationTime: Date? = nil, errorCause: ErrorCause? = nil, exclusiveEndTime: Date? = nil, inclusiveStartTime: Date? = nil, kinesisConfiguration: KinesisConfiguration, ledgerName: String, roleArn: String, status: StreamStatus, streamId: String, streamName: String) {
             self.arn = arn
             self.creationTime = creationTime
             self.errorCause = errorCause
@@ -576,13 +576,13 @@ extension QLDB {
 
     public struct JournalS3ExportDescription: AWSDecodableShape {
         /// The exclusive end date and time for the range of journal contents that are specified in the original export request.
-        public let exclusiveEndTime: TimeStamp
+        public let exclusiveEndTime: Date
         /// The date and time, in epoch time format, when the export job was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-        public let exportCreationTime: TimeStamp
+        public let exportCreationTime: Date
         /// The unique ID of the journal export job.
         public let exportId: String
         /// The inclusive start date and time for the range of journal contents that are specified in the original export request.
-        public let inclusiveStartTime: TimeStamp
+        public let inclusiveStartTime: Date
         /// The name of the ledger.
         public let ledgerName: String
         /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS Key Management Service (AWS KMS) for server-side encryption of your exported data.
@@ -591,7 +591,7 @@ extension QLDB {
         /// The current state of the journal export job.
         public let status: ExportStatus
 
-        public init(exclusiveEndTime: TimeStamp, exportCreationTime: TimeStamp, exportId: String, inclusiveStartTime: TimeStamp, ledgerName: String, roleArn: String, s3ExportConfiguration: S3ExportConfiguration, status: ExportStatus) {
+        public init(exclusiveEndTime: Date, exportCreationTime: Date, exportId: String, inclusiveStartTime: Date, ledgerName: String, roleArn: String, s3ExportConfiguration: S3ExportConfiguration, status: ExportStatus) {
             self.exclusiveEndTime = exclusiveEndTime
             self.exportCreationTime = exportCreationTime
             self.exportId = exportId
@@ -638,13 +638,13 @@ extension QLDB {
 
     public struct LedgerSummary: AWSDecodableShape {
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The name of the ledger.
         public let name: String?
         /// The current status of the ledger.
         public let state: LedgerState?
 
-        public init(creationDateTime: TimeStamp? = nil, name: String? = nil, state: LedgerState? = nil) {
+        public init(creationDateTime: Date? = nil, name: String? = nil, state: LedgerState? = nil) {
             self.creationDateTime = creationDateTime
             self.name = name
             self.state = state
@@ -938,9 +938,9 @@ extension QLDB {
         ]
 
         /// The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z
-        public let exclusiveEndTime: TimeStamp?
+        public let exclusiveEndTime: Date?
         /// The inclusive start date and time from which to start streaming journal data. This parameter must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The InclusiveStartTime cannot be in the future and must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, QLDB effectively defaults it to the ledger's CreationDateTime.
-        public let inclusiveStartTime: TimeStamp
+        public let inclusiveStartTime: Date
         /// The configuration settings of the Kinesis Data Streams destination for your stream request.
         public let kinesisConfiguration: KinesisConfiguration
         /// The name of the ledger.
@@ -952,7 +952,7 @@ extension QLDB {
         /// The key-value pairs to add as tags to the stream that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null.
         public let tags: [String: String]?
 
-        public init(exclusiveEndTime: TimeStamp? = nil, inclusiveStartTime: TimeStamp, kinesisConfiguration: KinesisConfiguration, ledgerName: String, roleArn: String, streamName: String, tags: [String: String]? = nil) {
+        public init(exclusiveEndTime: Date? = nil, inclusiveStartTime: Date, kinesisConfiguration: KinesisConfiguration, ledgerName: String, roleArn: String, streamName: String, tags: [String: String]? = nil) {
             self.exclusiveEndTime = exclusiveEndTime
             self.inclusiveStartTime = inclusiveStartTime
             self.kinesisConfiguration = kinesisConfiguration
@@ -1102,7 +1102,7 @@ extension QLDB {
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
         public let deletionProtection: Bool?
         /// The name of the ledger.
@@ -1110,7 +1110,7 @@ extension QLDB {
         /// The current status of the ledger.
         public let state: LedgerState?
 
-        public init(arn: String? = nil, creationDateTime: TimeStamp? = nil, deletionProtection: Bool? = nil, name: String? = nil, state: LedgerState? = nil) {
+        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.deletionProtection = deletionProtection

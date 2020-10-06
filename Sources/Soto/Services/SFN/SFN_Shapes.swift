@@ -131,11 +131,11 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
         /// The date the activity is created.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// The name of the activity. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
 
-        public init(activityArn: String, creationDate: TimeStamp, name: String) {
+        public init(activityArn: String, creationDate: Date, name: String) {
             self.activityArn = activityArn
             self.creationDate = creationDate
             self.name = name
@@ -301,9 +301,9 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that identifies the created activity.
         public let activityArn: String
         /// The date the activity is created.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
 
-        public init(activityArn: String, creationDate: TimeStamp) {
+        public init(activityArn: String, creationDate: Date) {
             self.activityArn = activityArn
             self.creationDate = creationDate
         }
@@ -362,11 +362,11 @@ extension SFN {
 
     public struct CreateStateMachineOutput: AWSDecodableShape {
         /// The date the state machine is created.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
         public let stateMachineArn: String
 
-        public init(creationDate: TimeStamp, stateMachineArn: String) {
+        public init(creationDate: Date, stateMachineArn: String) {
             self.creationDate = creationDate
             self.stateMachineArn = stateMachineArn
         }
@@ -443,11 +443,11 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
         /// The date the activity is created.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// The name of the activity. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
 
-        public init(activityArn: String, creationDate: TimeStamp, name: String) {
+        public init(activityArn: String, creationDate: Date, name: String) {
             self.activityArn = activityArn
             self.creationDate = creationDate
             self.name = name
@@ -490,15 +490,15 @@ extension SFN {
         public let output: String?
         public let outputDetails: CloudWatchEventsExecutionDataDetails?
         /// The date the execution is started.
-        public let startDate: TimeStamp
+        public let startDate: Date
         /// The Amazon Resource Name (ARN) of the executed stated machine.
         public let stateMachineArn: String
         /// The current status of the execution.
         public let status: ExecutionStatus
         /// If the execution has already ended, the date the execution stopped.
-        public let stopDate: TimeStamp?
+        public let stopDate: Date?
 
-        public init(executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: TimeStamp, stateMachineArn: String, status: ExecutionStatus, stopDate: TimeStamp? = nil) {
+        public init(executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil) {
             self.executionArn = executionArn
             self.input = input
             self.inputDetails = inputDetails
@@ -554,9 +554,9 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine associated with the execution.
         public let stateMachineArn: String
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
-        public let updateDate: TimeStamp
+        public let updateDate: Date
 
-        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, updateDate: TimeStamp) {
+        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, updateDate: Date) {
             self.definition = definition
             self.loggingConfiguration = loggingConfiguration
             self.name = name
@@ -595,7 +595,7 @@ extension SFN {
 
     public struct DescribeStateMachineOutput: AWSDecodableShape {
         /// The date the state machine is created.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
         public let loggingConfiguration: LoggingConfiguration?
@@ -610,7 +610,7 @@ extension SFN {
         /// The type of the state machine (STANDARD or EXPRESS).
         public let `type`: StateMachineType
 
-        public init(creationDate: TimeStamp, definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, type: StateMachineType) {
+        public init(creationDate: Date, definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, type: StateMachineType) {
             self.creationDate = creationDate
             self.definition = definition
             self.loggingConfiguration = loggingConfiguration
@@ -673,15 +673,15 @@ extension SFN {
         /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The date the execution started.
-        public let startDate: TimeStamp
+        public let startDate: Date
         /// The Amazon Resource Name (ARN) of the executed state machine.
         public let stateMachineArn: String
         /// The current status of the execution.
         public let status: ExecutionStatus
         /// If the execution already ended, the date the execution stopped.
-        public let stopDate: TimeStamp?
+        public let stopDate: Date?
 
-        public init(executionArn: String, name: String, startDate: TimeStamp, stateMachineArn: String, status: ExecutionStatus, stopDate: TimeStamp? = nil) {
+        public init(executionArn: String, name: String, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil) {
             self.executionArn = executionArn
             self.name = name
             self.startDate = startDate
@@ -905,11 +905,11 @@ extension SFN {
         /// Contains details about a task that timed out.
         public let taskTimedOutEventDetails: TaskTimedOutEventDetails?
         /// The date and time the event occurred.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
         /// The type of the event.
         public let `type`: HistoryEventType
 
-        public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, mapIterationAbortedEventDetails: MapIterationEventDetails? = nil, mapIterationFailedEventDetails: MapIterationEventDetails? = nil, mapIterationStartedEventDetails: MapIterationEventDetails? = nil, mapIterationSucceededEventDetails: MapIterationEventDetails? = nil, mapStateStartedEventDetails: MapStateStartedEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: TimeStamp, type: HistoryEventType) {
+        public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, mapIterationAbortedEventDetails: MapIterationEventDetails? = nil, mapIterationFailedEventDetails: MapIterationEventDetails? = nil, mapIterationStartedEventDetails: MapIterationEventDetails? = nil, mapIterationSucceededEventDetails: MapIterationEventDetails? = nil, mapStateStartedEventDetails: MapStateStartedEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: Date, type: HistoryEventType) {
             self.activityFailedEventDetails = activityFailedEventDetails
             self.activityScheduledEventDetails = activityScheduledEventDetails
             self.activityScheduleFailedEventDetails = activityScheduleFailedEventDetails
@@ -1464,9 +1464,9 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that id entifies the execution.
         public let executionArn: String
         /// The date the execution is started.
-        public let startDate: TimeStamp
+        public let startDate: Date
 
-        public init(executionArn: String, startDate: TimeStamp) {
+        public init(executionArn: String, startDate: Date) {
             self.executionArn = executionArn
             self.startDate = startDate
         }
@@ -1521,14 +1521,14 @@ extension SFN {
 
     public struct StateMachineListItem: AWSDecodableShape {
         /// The date the state machine is created.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// The name of the state machine. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
         public let `type`: StateMachineType
 
-        public init(creationDate: TimeStamp, name: String, stateMachineArn: String, type: StateMachineType) {
+        public init(creationDate: Date, name: String, stateMachineArn: String, type: StateMachineType) {
             self.creationDate = creationDate
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -1575,9 +1575,9 @@ extension SFN {
 
     public struct StopExecutionOutput: AWSDecodableShape {
         /// The date the execution is stopped.
-        public let stopDate: TimeStamp
+        public let stopDate: Date
 
-        public init(stopDate: TimeStamp) {
+        public init(stopDate: Date) {
             self.stopDate = stopDate
         }
 
@@ -1906,9 +1906,9 @@ extension SFN {
 
     public struct UpdateStateMachineOutput: AWSDecodableShape {
         /// The date and time the state machine was updated.
-        public let updateDate: TimeStamp
+        public let updateDate: Date
 
-        public init(updateDate: TimeStamp) {
+        public init(updateDate: Date) {
             self.updateDate = updateDate
         }
 

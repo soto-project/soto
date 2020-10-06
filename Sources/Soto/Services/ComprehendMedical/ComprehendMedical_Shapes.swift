@@ -226,11 +226,11 @@ extension ComprehendMedical {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
+        public let submitTimeAfter: Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
+        public let submitTimeBefore: Date?
 
-        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -255,9 +255,9 @@ extension ComprehendMedical {
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the detection job completed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The date and time that job metadata is deleted from the server. Output files in your S3 bucket will not be deleted. After the metadata is deleted, the job will no longer appear in the results of the ListEntitiesDetectionV2Job or the ListPHIDetectionJobs operation.
-        public let expirationTime: TimeStamp?
+        public let expirationTime: Date?
         /// The input data configuration that you supplied when you created the detection job.
         public let inputDataConfig: InputDataConfig?
         /// The identifier assigned to the detection job.
@@ -279,9 +279,9 @@ extension ComprehendMedical {
         /// The output data configuration that you supplied when you created the detection job.
         public let outputDataConfig: OutputDataConfig?
         /// The time that the detection job was submitted for processing.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, kMSKey: String? = nil, languageCode: LanguageCode? = nil, manifestFilePath: String? = nil, message: String? = nil, modelVersion: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, expirationTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, kMSKey: String? = nil, languageCode: LanguageCode? = nil, manifestFilePath: String? = nil, message: String? = nil, modelVersion: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.expirationTime = expirationTime

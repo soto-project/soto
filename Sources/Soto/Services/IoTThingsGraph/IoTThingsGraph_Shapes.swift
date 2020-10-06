@@ -574,7 +574,7 @@ extension IoTThingsGraph {
         /// The entity ARN.
         public let arn: String?
         /// The time at which the entity was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The definition document of the entity.
         public let definition: DefinitionDocument?
         /// The entity ID.
@@ -582,7 +582,7 @@ extension IoTThingsGraph {
         /// The entity type.
         public let `type`: EntityType?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, definition: DefinitionDocument? = nil, id: String? = nil, type: EntityType? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, definition: DefinitionDocument? = nil, id: String? = nil, type: EntityType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.definition = definition
@@ -624,9 +624,9 @@ extension IoTThingsGraph {
         /// A string containing information about the flow event.
         public let payload: String?
         /// The date and time when the message was last updated.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(eventType: FlowExecutionEventType? = nil, messageId: String? = nil, payload: String? = nil, timestamp: TimeStamp? = nil) {
+        public init(eventType: FlowExecutionEventType? = nil, messageId: String? = nil, payload: String? = nil, timestamp: Date? = nil) {
             self.eventType = eventType
             self.messageId = messageId
             self.payload = payload
@@ -643,7 +643,7 @@ extension IoTThingsGraph {
 
     public struct FlowExecutionSummary: AWSDecodableShape {
         /// The date and time when the flow execution summary was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The ID of the flow execution.
         public let flowExecutionId: String?
         /// The ID of the flow.
@@ -653,9 +653,9 @@ extension IoTThingsGraph {
         /// The ID of the system instance that contains the flow.
         public let systemInstanceId: String?
         /// The date and time when the flow execution summary was last updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(createdAt: TimeStamp? = nil, flowExecutionId: String? = nil, flowTemplateId: String? = nil, status: FlowExecutionStatus? = nil, systemInstanceId: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(createdAt: Date? = nil, flowExecutionId: String? = nil, flowTemplateId: String? = nil, status: FlowExecutionStatus? = nil, systemInstanceId: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.flowExecutionId = flowExecutionId
             self.flowTemplateId = flowTemplateId
@@ -722,13 +722,13 @@ extension IoTThingsGraph {
         /// The ARN of the workflow.
         public let arn: String?
         /// The date when the workflow was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The ID of the workflow.
         public let id: String?
         /// The revision number of the workflow.
         public let revisionNumber: Int64?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, id: String? = nil, revisionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, revisionNumber: Int64? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -1026,7 +1026,7 @@ extension IoTThingsGraph {
 
     public struct GetUploadStatusResponse: AWSDecodableShape {
         /// The date at which the upload was created.
-        public let createdDate: TimeStamp
+        public let createdDate: Date
         /// The reason for an upload failure.
         public let failureReason: [String]?
         /// The ARN of the upload.
@@ -1040,7 +1040,7 @@ extension IoTThingsGraph {
         /// The status of the upload. The initial status is IN_PROGRESS. The response show all validation failures if the upload fails.
         public let uploadStatus: UploadStatus
 
-        public init(createdDate: TimeStamp, failureReason: [String]? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, namespaceVersion: Int64? = nil, uploadId: String, uploadStatus: UploadStatus) {
+        public init(createdDate: Date, failureReason: [String]? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, namespaceVersion: Int64? = nil, uploadId: String, uploadStatus: UploadStatus) {
             self.createdDate = createdDate
             self.failureReason = failureReason
             self.namespaceArn = namespaceArn
@@ -1224,7 +1224,7 @@ extension IoTThingsGraph {
 
     public struct SearchFlowExecutionsRequest: AWSEncodableShape {
         /// The date and time of the latest flow execution to return.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The ID of a flow execution.
         public let flowExecutionId: String?
         /// The maximum number of results to return in the response.
@@ -1232,11 +1232,11 @@ extension IoTThingsGraph {
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
         /// The date and time of the earliest flow execution to return.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The ID of the system instance that contains the flow.
         public let systemInstanceId: String
 
-        public init(endTime: TimeStamp? = nil, flowExecutionId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil, systemInstanceId: String) {
+        public init(endTime: Date? = nil, flowExecutionId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil, systemInstanceId: String) {
             self.endTime = endTime
             self.flowExecutionId = flowExecutionId
             self.maxResults = maxResults
@@ -1519,7 +1519,7 @@ extension IoTThingsGraph {
         /// The ARN of the system instance.
         public let arn: String?
         /// The date when the system instance was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The ID of the Greengrass group where the system instance is deployed.
         public let greengrassGroupId: String?
         /// The ID of the Greengrass group where the system instance is deployed.
@@ -1533,9 +1533,9 @@ extension IoTThingsGraph {
         /// The target of the system instance.
         public let target: DeploymentTarget?
         ///  The date and time when the system instance was last updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, greengrassGroupId: String? = nil, greengrassGroupName: String? = nil, greengrassGroupVersionId: String? = nil, id: String? = nil, status: SystemInstanceDeploymentStatus? = nil, target: DeploymentTarget? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, greengrassGroupId: String? = nil, greengrassGroupName: String? = nil, greengrassGroupVersionId: String? = nil, id: String? = nil, status: SystemInstanceDeploymentStatus? = nil, target: DeploymentTarget? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.greengrassGroupId = greengrassGroupId
@@ -1608,13 +1608,13 @@ extension IoTThingsGraph {
         /// The ARN of the system.
         public let arn: String?
         /// The date when the system was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The ID of the system.
         public let id: String?
         /// The revision number of the system.
         public let revisionNumber: Int64?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, id: String? = nil, revisionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, revisionNumber: Int64? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id

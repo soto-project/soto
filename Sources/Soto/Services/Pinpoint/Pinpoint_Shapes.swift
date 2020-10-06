@@ -1067,8 +1067,8 @@ extension Pinpoint {
         /// The unique identifier for the application that the metric applies to.
         public let applicationId: String
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var endTime: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var endTime: Date
         /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of possible values, see the Amazon Pinpoint Developer Guide.
         public let kpiName: String
         /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
@@ -1076,10 +1076,10 @@ extension Pinpoint {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Application Metrics resource because the resource returns all results in a single page.
         public let nextToken: String?
         /// The first date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var startTime: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
 
-        public init(applicationId: String, endTime: TimeStamp, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: TimeStamp) {
+        public init(applicationId: String, endTime: Date, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: Date) {
             self.applicationId = applicationId
             self.endTime = endTime
             self.kpiName = kpiName
@@ -1378,8 +1378,8 @@ extension Pinpoint {
         /// The unique identifier for the campaign that the metric applies to.
         public let campaignId: String
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var endTime: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var endTime: Date
         /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of possible values, see the Amazon Pinpoint Developer Guide.
         public let kpiName: String
         /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
@@ -1387,10 +1387,10 @@ extension Pinpoint {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Campaign Metrics resource because the resource returns all results in a single page.
         public let nextToken: String?
         /// The first date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var startTime: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
 
-        public init(applicationId: String, campaignId: String, endTime: TimeStamp, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: TimeStamp) {
+        public init(applicationId: String, campaignId: String, endTime: Date, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: Date) {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.endTime = endTime
@@ -4497,13 +4497,13 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         public let kpiName: String
         public let nextToken: String?
         public let pageSize: String?
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(applicationId: String, endTime: TimeStamp? = nil, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: TimeStamp? = nil) {
+        public init(applicationId: String, endTime: Date? = nil, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: Date? = nil) {
             self.applicationId = applicationId
             self.endTime = endTime
             self.kpiName = kpiName
@@ -4686,13 +4686,13 @@ extension Pinpoint {
 
         public let applicationId: String
         public let campaignId: String
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         public let kpiName: String
         public let nextToken: String?
         public let pageSize: String?
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(applicationId: String, campaignId: String, endTime: TimeStamp? = nil, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: TimeStamp? = nil) {
+        public init(applicationId: String, campaignId: String, endTime: Date? = nil, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: Date? = nil) {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.endTime = endTime
@@ -5231,14 +5231,14 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         public let journeyId: String
         public let kpiName: String
         public let nextToken: String?
         public let pageSize: String?
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(applicationId: String, endTime: TimeStamp? = nil, journeyId: String, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: TimeStamp? = nil) {
+        public init(applicationId: String, endTime: Date? = nil, journeyId: String, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: Date? = nil) {
             self.applicationId = applicationId
             self.endTime = endTime
             self.journeyId = journeyId
@@ -6105,8 +6105,8 @@ extension Pinpoint {
         /// The unique identifier for the application that the metric applies to.
         public let applicationId: String
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var endTime: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var endTime: Date
         /// The unique identifier for the journey that the metric applies to.
         public let journeyId: String
         /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of possible values, see the Amazon Pinpoint Developer Guide.
@@ -6116,10 +6116,10 @@ extension Pinpoint {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Journey Engagement Metrics resource because the resource returns all results in a single page.
         public let nextToken: String?
         /// The first date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var startTime: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
 
-        public init(applicationId: String, endTime: TimeStamp, journeyId: String, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: TimeStamp) {
+        public init(applicationId: String, endTime: Date, journeyId: String, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: Date) {
             self.applicationId = applicationId
             self.endTime = endTime
             self.journeyId = journeyId
@@ -6333,11 +6333,11 @@ extension Pinpoint {
 
     public struct JourneySchedule: AWSEncodableShape & AWSDecodableShape {
         /// The scheduled time, in ISO 8601 format, when the journey ended or will end.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var endTime: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         /// The scheduled time, in ISO 8601 format, when the journey began or will begin.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var startTime: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
         /// The starting UTC offset for the journey schedule, if the value of the journey's LocalTime property is true. Valid values are: UTC,
         ///                   UTC+01, UTC+02, UTC+03, UTC+03:30, UTC+04, UTC+04:30, UTC+05, UTC+05:30,
         ///                   UTC+05:45, UTC+06, UTC+06:30, UTC+07, UTC+08, UTC+08:45, UTC+09, UTC+09:30,
@@ -6346,7 +6346,7 @@ extension Pinpoint {
         ///                   UTC-09:30, UTC-10, and UTC-11.
         public let timezone: String?
 
-        public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, timezone: String? = nil) {
+        public init(endTime: Date? = nil, startTime: Date? = nil, timezone: String? = nil) {
             self.endTime = endTime
             self.startTime = startTime
             self.timezone = timezone

@@ -177,13 +177,13 @@ extension FSx {
         /// Provides the percent complete of a STORAGE_OPTIMIZATION administrative action.
         public let progressPercent: Int?
         /// Time that the administrative action request was received.
-        public let requestTime: TimeStamp?
+        public let requestTime: Date?
         /// Describes the status of the administrative action, as follows:    FAILED - Amazon FSx failed to process the administrative action successfully.    IN_PROGRESS - Amazon FSx is processing the administrative action.    PENDING - Amazon FSx is waiting to process the administrative action.    COMPLETED - Amazon FSx has finished processing the administrative task.    UPDATED_OPTIMIZING - For a storage capacity increase update, Amazon FSx has updated the file system with the new storage capacity, and is now performing the storage optimization process. For more information, see Managing Storage Capacity.
         public let status: Status?
         /// Describes the target StorageCapacity or ThroughputCapacity value provided in the UpdateFileSystem operation. Returned for FILE_SYSTEM_UPDATE administrative actions.
         public let targetFileSystemValues: FileSystem?
 
-        public init(administrativeActionType: AdministrativeActionType? = nil, failureDetails: AdministrativeActionFailureDetails? = nil, progressPercent: Int? = nil, requestTime: TimeStamp? = nil, status: Status? = nil, targetFileSystemValues: FileSystem? = nil) {
+        public init(administrativeActionType: AdministrativeActionType? = nil, failureDetails: AdministrativeActionFailureDetails? = nil, progressPercent: Int? = nil, requestTime: Date? = nil, status: Status? = nil, targetFileSystemValues: FileSystem? = nil) {
             self.administrativeActionType = administrativeActionType
             self.failureDetails = failureDetails
             self.progressPercent = progressPercent
@@ -219,7 +219,7 @@ extension FSx {
         /// The ID of the backup.
         public let backupId: String
         /// The time when a particular backup was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The configuration of the self-managed Microsoft Active Directory (AD) to which the Windows File Server instance is joined.
         public let directoryInformation: ActiveDirectoryBackupAttributes?
         /// Details explaining any failures that occur when creating a backup.
@@ -238,7 +238,7 @@ extension FSx {
         /// The type of the file system backup.
         public let `type`: BackupType
 
-        public init(backupId: String, creationTime: TimeStamp, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
+        public init(backupId: String, creationTime: Date, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
             self.backupId = backupId
             self.creationTime = creationTime
             self.directoryInformation = directoryInformation
@@ -810,9 +810,9 @@ extension FSx {
     }
 
     public struct DataRepositoryTask: AWSDecodableShape {
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The time that Amazon FSx completed processing the task, populated after the task is complete.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Failure message describing why the task failed, it is populated only when Lifecycle is set to FAILED.
         public let failureDetails: DataRepositoryTaskFailureDetails?
         public let fileSystemId: String
@@ -823,7 +823,7 @@ extension FSx {
         public let report: CompletionReport?
         public let resourceARN: String?
         /// The time that Amazon FSx began processing the task.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// Provides the status of the number of files that the task has processed successfully and failed to process.
         public let status: DataRepositoryTaskStatus?
         public let tags: [Tag]?
@@ -832,7 +832,7 @@ extension FSx {
         /// The type of data repository task; EXPORT_TO_REPOSITORY is the only type currently supported.
         public let `type`: DataRepositoryTaskType
 
-        public init(creationTime: TimeStamp, endTime: TimeStamp? = nil, failureDetails: DataRepositoryTaskFailureDetails? = nil, fileSystemId: String, lifecycle: DataRepositoryTaskLifecycle, paths: [String]? = nil, report: CompletionReport? = nil, resourceARN: String? = nil, startTime: TimeStamp? = nil, status: DataRepositoryTaskStatus? = nil, tags: [Tag]? = nil, taskId: String, type: DataRepositoryTaskType) {
+        public init(creationTime: Date, endTime: Date? = nil, failureDetails: DataRepositoryTaskFailureDetails? = nil, fileSystemId: String, lifecycle: DataRepositoryTaskLifecycle, paths: [String]? = nil, report: CompletionReport? = nil, resourceARN: String? = nil, startTime: Date? = nil, status: DataRepositoryTaskStatus? = nil, tags: [Tag]? = nil, taskId: String, type: DataRepositoryTaskType) {
             self.creationTime = creationTime
             self.endTime = endTime
             self.failureDetails = failureDetails
@@ -907,13 +907,13 @@ extension FSx {
         /// A running total of the number of files that the task failed to process.
         public let failedCount: Int64?
         /// The time at which the task status was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// A running total of the number of files that the task has successfully processed.
         public let succeededCount: Int64?
         /// The total number of files that the task will process. While a task is executing, the sum of SucceededCount plus FailedCount may not equal TotalCount. When the task is complete, TotalCount equals the sum of SucceededCount plus FailedCount.
         public let totalCount: Int64?
 
-        public init(failedCount: Int64? = nil, lastUpdatedTime: TimeStamp? = nil, succeededCount: Int64? = nil, totalCount: Int64? = nil) {
+        public init(failedCount: Int64? = nil, lastUpdatedTime: Date? = nil, succeededCount: Int64? = nil, totalCount: Int64? = nil) {
             self.failedCount = failedCount
             self.lastUpdatedTime = lastUpdatedTime
             self.succeededCount = succeededCount
@@ -1285,7 +1285,7 @@ extension FSx {
         /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Windows file system that you have initiated using the UpdateFileSystem action.
         public let administrativeActions: [AdministrativeAction]?
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The DNS name for the file system.
         public let dNSName: String?
         public let failureDetails: FileSystemFailureDetails?
@@ -1317,7 +1317,7 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: WindowsFileSystemConfiguration?
 
-        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: TimeStamp? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
+        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
             self.dNSName = dNSName

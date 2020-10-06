@@ -230,7 +230,7 @@ extension APIGateway {
 
     public struct ApiKey: AWSDecodableShape {
         /// The timestamp when the API Key was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
         public let customerId: String?
         /// The description of the API Key.
@@ -240,7 +240,7 @@ extension APIGateway {
         /// The identifier of the API Key.
         public let id: String?
         /// The timestamp when the API Key was last updated.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The name of the API Key.
         public let name: String?
         /// A list of Stage resources that are associated with the ApiKey resource.
@@ -250,7 +250,7 @@ extension APIGateway {
         /// The value of the API Key.
         public let value: String?
 
-        public init(createdDate: TimeStamp? = nil, customerId: String? = nil, description: String? = nil, enabled: Bool? = nil, id: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, stageKeys: [String]? = nil, tags: [String: String]? = nil, value: String? = nil) {
+        public init(createdDate: Date? = nil, customerId: String? = nil, description: String? = nil, enabled: Bool? = nil, id: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, stageKeys: [String]? = nil, tags: [String: String]? = nil, value: String? = nil) {
             self.createdDate = createdDate
             self.customerId = customerId
             self.description = description
@@ -466,17 +466,17 @@ extension APIGateway {
         /// The identifier of the client certificate.
         public let clientCertificateId: String?
         /// The timestamp when the client certificate was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The description of the client certificate.
         public let description: String?
         /// The timestamp when the client certificate will expire.
-        public let expirationDate: TimeStamp?
+        public let expirationDate: Date?
         /// The PEM-encoded public key of the client certificate, which can be used to configure certificate authentication in the integration endpoint .
         public let pemEncodedCertificate: String?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
-        public init(clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, pemEncodedCertificate: String? = nil, tags: [String: String]? = nil) {
+        public init(clientCertificateId: String? = nil, createdDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, pemEncodedCertificate: String? = nil, tags: [String: String]? = nil) {
             self.clientCertificateId = clientCertificateId
             self.createdDate = createdDate
             self.description = description
@@ -1471,13 +1471,13 @@ extension APIGateway {
         /// A summary of the RestApi at the date and time that the deployment resource was created.
         public let apiSummary: [String: [String: MethodSnapshot]]?
         /// The date and time that the deployment resource was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The description for the deployment resource.
         public let description: String?
         /// The identifier for the deployment resource.
         public let id: String?
 
-        public init(apiSummary: [String: [String: MethodSnapshot]]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, id: String? = nil) {
+        public init(apiSummary: [String: [String: MethodSnapshot]]? = nil, createdDate: Date? = nil, description: String? = nil, id: String? = nil) {
             self.apiSummary = apiSummary
             self.createdDate = createdDate
             self.description = description
@@ -1618,13 +1618,13 @@ extension APIGateway {
 
     public struct DocumentationVersion: AWSDecodableShape {
         /// The date when the API documentation snapshot is created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The description of the API documentation snapshot.
         public let description: String?
         /// The version identifier of the API documentation snapshot.
         public let version: String?
 
-        public init(createdDate: TimeStamp? = nil, description: String? = nil, version: String? = nil) {
+        public init(createdDate: Date? = nil, description: String? = nil, version: String? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.version = version
@@ -1659,7 +1659,7 @@ extension APIGateway {
         /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
         public let certificateName: String?
         /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
-        public let certificateUploadDate: TimeStamp?
+        public let certificateUploadDate: Date?
         /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
         public let distributionDomainName: String?
         /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
@@ -1685,7 +1685,7 @@ extension APIGateway {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
-        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
@@ -3675,7 +3675,7 @@ extension APIGateway {
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
         public let binaryMediaTypes: [String]?
         /// The timestamp when the API was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The API's description.
         public let description: String?
         /// The endpoint configuration of this RestApi showing the endpoint types of the API.
@@ -3695,7 +3695,7 @@ extension APIGateway {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: Date? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.createdDate = createdDate
@@ -3855,7 +3855,7 @@ extension APIGateway {
         /// The identifier of a client certificate for an API stage.
         public let clientCertificateId: String?
         /// The timestamp when the stage was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The identifier of the Deployment that the stage points to.
         public let deploymentId: String?
         /// The stage's description.
@@ -3863,7 +3863,7 @@ extension APIGateway {
         /// The version of the associated API documentation.
         public let documentationVersion: String?
         /// The timestamp when the stage last updated.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage.
         public let methodSettings: [String: MethodSetting]?
         /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to API Gateway. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
@@ -3877,7 +3877,7 @@ extension APIGateway {
         /// The ARN of the WebAcl associated with the Stage.
         public let webAclArn: String?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, cacheClusterEnabled: Bool? = nil, cacheClusterSize: CacheClusterSize? = nil, cacheClusterStatus: CacheClusterStatus? = nil, canarySettings: CanarySettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, deploymentId: String? = nil, description: String? = nil, documentationVersion: String? = nil, lastUpdatedDate: TimeStamp? = nil, methodSettings: [String: MethodSetting]? = nil, stageName: String? = nil, tags: [String: String]? = nil, tracingEnabled: Bool? = nil, variables: [String: String]? = nil, webAclArn: String? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, cacheClusterEnabled: Bool? = nil, cacheClusterSize: CacheClusterSize? = nil, cacheClusterStatus: CacheClusterStatus? = nil, canarySettings: CanarySettings? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, deploymentId: String? = nil, description: String? = nil, documentationVersion: String? = nil, lastUpdatedDate: Date? = nil, methodSettings: [String: MethodSetting]? = nil, stageName: String? = nil, tags: [String: String]? = nil, tracingEnabled: Bool? = nil, variables: [String: String]? = nil, webAclArn: String? = nil) {
             self.accessLogSettings = accessLogSettings
             self.cacheClusterEnabled = cacheClusterEnabled
             self.cacheClusterSize = cacheClusterSize

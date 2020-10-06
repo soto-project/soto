@@ -29,11 +29,11 @@ extension PI {
 
     public struct DataPoint: AWSDecodableShape {
         /// The time, in epoch format, associated with a particular Value.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
         /// The actual value associated with a particular Timestamp.
         public let value: Double
 
-        public init(timestamp: TimeStamp, value: Double) {
+        public init(timestamp: Date, value: Double) {
             self.timestamp = timestamp
             self.value = value
         }
@@ -46,7 +46,7 @@ extension PI {
 
     public struct DescribeDimensionKeysRequest: AWSEncodableShape {
         /// The date and time specifying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy or Partition parameters.   A single filter for any other dimension in this dimension group.
         public let filter: [String: String]?
         /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights will return all of the dimensions within that group, unless you provide the names of specific dimensions within that group. You can also request that Performance Insights return a limited number of values for a dimension.
@@ -66,9 +66,9 @@ extension PI {
         /// The AWS service for which Performance Insights will return metrics. The only valid value for ServiceType is: RDS
         public let serviceType: ServiceType
         /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, filter: [String: String]? = nil, groupBy: DimensionGroup, identifier: String, maxResults: Int? = nil, metric: String, nextToken: String? = nil, partitionBy: DimensionGroup? = nil, periodInSeconds: Int? = nil, serviceType: ServiceType, startTime: TimeStamp) {
+        public init(endTime: Date, filter: [String: String]? = nil, groupBy: DimensionGroup, identifier: String, maxResults: Int? = nil, metric: String, nextToken: String? = nil, partitionBy: DimensionGroup? = nil, periodInSeconds: Int? = nil, serviceType: ServiceType, startTime: Date) {
             self.endTime = endTime
             self.filter = filter
             self.groupBy = groupBy
@@ -106,9 +106,9 @@ extension PI {
 
     public struct DescribeDimensionKeysResponse: AWSDecodableShape {
         /// The end time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
-        public let alignedEndTime: TimeStamp?
+        public let alignedEndTime: Date?
         /// The start time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
-        public let alignedStartTime: TimeStamp?
+        public let alignedStartTime: Date?
         /// The dimension keys that were requested.
         public let keys: [DimensionKeyDescription]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
@@ -116,7 +116,7 @@ extension PI {
         /// If PartitionBy was present in the request, PartitionKeys contains the breakdown of dimension keys by the specified partitions.
         public let partitionKeys: [ResponsePartitionKey]?
 
-        public init(alignedEndTime: TimeStamp? = nil, alignedStartTime: TimeStamp? = nil, keys: [DimensionKeyDescription]? = nil, nextToken: String? = nil, partitionKeys: [ResponsePartitionKey]? = nil) {
+        public init(alignedEndTime: Date? = nil, alignedStartTime: Date? = nil, keys: [DimensionKeyDescription]? = nil, nextToken: String? = nil, partitionKeys: [ResponsePartitionKey]? = nil) {
             self.alignedEndTime = alignedEndTime
             self.alignedStartTime = alignedStartTime
             self.keys = keys
@@ -184,7 +184,7 @@ extension PI {
 
     public struct GetResourceMetricsRequest: AWSEncodableShape {
         /// The date and time specifiying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A
         public let identifier: String
         /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved.
@@ -198,9 +198,9 @@ extension PI {
         /// The AWS service for which Performance Insights will return metrics. The only valid value for ServiceType is: RDS
         public let serviceType: ServiceType
         /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, identifier: String, maxResults: Int? = nil, metricQueries: [MetricQuery], nextToken: String? = nil, periodInSeconds: Int? = nil, serviceType: ServiceType, startTime: TimeStamp) {
+        public init(endTime: Date, identifier: String, maxResults: Int? = nil, metricQueries: [MetricQuery], nextToken: String? = nil, periodInSeconds: Int? = nil, serviceType: ServiceType, startTime: Date) {
             self.endTime = endTime
             self.identifier = identifier
             self.maxResults = maxResults
@@ -235,9 +235,9 @@ extension PI {
 
     public struct GetResourceMetricsResponse: AWSDecodableShape {
         /// The end time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
-        public let alignedEndTime: TimeStamp?
+        public let alignedEndTime: Date?
         /// The start time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
-        public let alignedStartTime: TimeStamp?
+        public let alignedStartTime: Date?
         /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A
         public let identifier: String?
         /// An array of metric results,, where each array element contains all of the data points for a particular dimension.
@@ -245,7 +245,7 @@ extension PI {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
         public let nextToken: String?
 
-        public init(alignedEndTime: TimeStamp? = nil, alignedStartTime: TimeStamp? = nil, identifier: String? = nil, metricList: [MetricKeyDataPoints]? = nil, nextToken: String? = nil) {
+        public init(alignedEndTime: Date? = nil, alignedStartTime: Date? = nil, identifier: String? = nil, metricList: [MetricKeyDataPoints]? = nil, nextToken: String? = nil) {
             self.alignedEndTime = alignedEndTime
             self.alignedStartTime = alignedStartTime
             self.identifier = identifier

@@ -1223,9 +1223,9 @@ extension SageMaker {
         /// The overall status of the algorithm.
         public let algorithmStatus: AlgorithmStatus
         /// A timestamp that shows when the algorithm was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
 
-        public init(algorithmArn: String, algorithmDescription: String? = nil, algorithmName: String, algorithmStatus: AlgorithmStatus, creationTime: TimeStamp) {
+        public init(algorithmArn: String, algorithmDescription: String? = nil, algorithmName: String, algorithmStatus: AlgorithmStatus, creationTime: Date) {
             self.algorithmArn = algorithmArn
             self.algorithmDescription = algorithmDescription
             self.algorithmName = algorithmName
@@ -1323,7 +1323,7 @@ extension SageMaker {
         /// The type of app.
         public let appType: AppType?
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The domain ID.
         public let domainId: String?
         /// The status.
@@ -1331,7 +1331,7 @@ extension SageMaker {
         /// The user profile name.
         public let userProfileName: String?
 
-        public init(appName: String? = nil, appType: AppType? = nil, creationTime: TimeStamp? = nil, domainId: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
+        public init(appName: String? = nil, appType: AppType? = nil, creationTime: Date? = nil, domainId: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
             self.creationTime = creationTime
@@ -1439,20 +1439,20 @@ extension SageMaker {
         /// The candidate's steps.
         public let candidateSteps: [AutoMLCandidateStep]
         /// The creation time.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The end time.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The failure reason.
         public let failureReason: String?
         public let finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric?
         /// The inference containers.
         public let inferenceContainers: [AutoMLContainerDefinition]?
         /// The last modified time.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// The objective status.
         public let objectiveStatus: ObjectiveStatus
 
-        public init(candidateName: String, candidateStatus: CandidateStatus, candidateSteps: [AutoMLCandidateStep], creationTime: TimeStamp, endTime: TimeStamp? = nil, failureReason: String? = nil, finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric? = nil, inferenceContainers: [AutoMLContainerDefinition]? = nil, lastModifiedTime: TimeStamp, objectiveStatus: ObjectiveStatus) {
+        public init(candidateName: String, candidateStatus: CandidateStatus, candidateSteps: [AutoMLCandidateStep], creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric? = nil, inferenceContainers: [AutoMLContainerDefinition]? = nil, lastModifiedTime: Date, objectiveStatus: ObjectiveStatus) {
             self.candidateName = candidateName
             self.candidateStatus = candidateStatus
             self.candidateSteps = candidateSteps
@@ -1653,15 +1653,15 @@ extension SageMaker {
         /// The job's status.
         public let autoMLJobStatus: AutoMLJobStatus
         /// When the job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The end time of an AutoML job.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The failure reason of a job.
         public let failureReason: String?
         /// When the job was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
 
-        public init(autoMLJobArn: String, autoMLJobName: String, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, creationTime: TimeStamp, endTime: TimeStamp? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp) {
+        public init(autoMLJobArn: String, autoMLJobName: String, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date) {
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobName = autoMLJobName
             self.autoMLJobSecondaryStatus = autoMLJobSecondaryStatus
@@ -1973,13 +1973,13 @@ extension SageMaker {
         /// The name of the Git repository.
         public let codeRepositoryName: String
         /// The date and time that the Git repository was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// Configuration details for the Git repository, including the URL where it is located and the ARN of the AWS Secrets Manager secret that contains the credentials used to access the repository.
         public let gitConfig: GitConfig?
         /// The date and time that the Git repository was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
 
-        public init(codeRepositoryArn: String, codeRepositoryName: String, creationTime: TimeStamp, gitConfig: GitConfig? = nil, lastModifiedTime: TimeStamp) {
+        public init(codeRepositoryArn: String, codeRepositoryName: String, creationTime: Date, gitConfig: GitConfig? = nil, lastModifiedTime: Date) {
             self.codeRepositoryArn = codeRepositoryArn
             self.codeRepositoryName = codeRepositoryName
             self.creationTime = creationTime
@@ -2087,7 +2087,7 @@ extension SageMaker {
 
     public struct CompilationJobSummary: AWSDecodableShape {
         /// The time when the model compilation job completed.
-        public let compilationEndTime: TimeStamp?
+        public let compilationEndTime: Date?
         /// The Amazon Resource Name (ARN) of the model compilation job.
         public let compilationJobArn: String
         /// The name of the model compilation job that you want a summary for.
@@ -2095,7 +2095,7 @@ extension SageMaker {
         /// The status of the model compilation job.
         public let compilationJobStatus: CompilationJobStatus
         /// The time when the model compilation job started.
-        public let compilationStartTime: TimeStamp?
+        public let compilationStartTime: Date?
         /// The type of device that the model will run on after the compilation job has completed.
         public let compilationTargetDevice: TargetDevice?
         /// The type of accelerator that the model will run on after the compilation job has completed.
@@ -2105,11 +2105,11 @@ extension SageMaker {
         /// The type of OS that the model will run on after the compilation job has completed.
         public let compilationTargetPlatformOs: TargetPlatformOs?
         /// The time when the model compilation job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The time when the model compilation job was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
 
-        public init(compilationEndTime: TimeStamp? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: TimeStamp? = nil, compilationTargetDevice: TargetDevice? = nil, compilationTargetPlatformAccelerator: TargetPlatformAccelerator? = nil, compilationTargetPlatformArch: TargetPlatformArch? = nil, compilationTargetPlatformOs: TargetPlatformOs? = nil, creationTime: TimeStamp, lastModifiedTime: TimeStamp? = nil) {
+        public init(compilationEndTime: Date? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: Date? = nil, compilationTargetDevice: TargetDevice? = nil, compilationTargetPlatformAccelerator: TargetPlatformAccelerator? = nil, compilationTargetPlatformArch: TargetPlatformArch? = nil, compilationTargetPlatformOs: TargetPlatformOs? = nil, creationTime: Date, lastModifiedTime: Date? = nil) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
             self.compilationJobName = compilationJobName
@@ -3776,7 +3776,7 @@ extension SageMaker {
         /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed.
         public let displayName: String?
         /// When the component ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input artifacts for the component. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types.
         public let inputArtifacts: [String: TrialComponentArtifact]?
         /// The output artifacts for the component. Examples of output artifacts are metrics, snapshots, logs, and images.
@@ -3784,7 +3784,7 @@ extension SageMaker {
         /// The hyperparameters for the component.
         public let parameters: [String: TrialComponentParameterValue]?
         /// When the component started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the component. States include:   InProgress   Completed   Failed
         public let status: TrialComponentStatus?
         /// A list of tags to associate with the component. You can use Search API to search on the tags.
@@ -3792,7 +3792,7 @@ extension SageMaker {
         /// The name of the component. The name must be unique in your AWS account and is not case-sensitive.
         public let trialComponentName: String
 
-        public init(displayName: String? = nil, endTime: TimeStamp? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentName: String) {
+        public init(displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentName: String) {
             self.displayName = displayName
             self.endTime = endTime
             self.inputArtifacts = inputArtifacts
@@ -4315,7 +4315,7 @@ extension SageMaker {
 
     public struct DebugRuleEvaluationStatus: AWSDecodableShape {
         /// Timestamp when the rule evaluation status was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The name of the rule configuration
         public let ruleConfigurationName: String?
         /// The Amazon Resource Name (ARN) of the rule evaluation job.
@@ -4325,7 +4325,7 @@ extension SageMaker {
         /// Details from the rule evaluation.
         public let statusDetails: String?
 
-        public init(lastModifiedTime: TimeStamp? = nil, ruleConfigurationName: String? = nil, ruleEvaluationJobArn: String? = nil, ruleEvaluationStatus: RuleEvaluationStatus? = nil, statusDetails: String? = nil) {
+        public init(lastModifiedTime: Date? = nil, ruleConfigurationName: String? = nil, ruleEvaluationJobArn: String? = nil, ruleEvaluationStatus: RuleEvaluationStatus? = nil, statusDetails: String? = nil) {
             self.lastModifiedTime = lastModifiedTime
             self.ruleConfigurationName = ruleConfigurationName
             self.ruleEvaluationJobArn = ruleEvaluationJobArn
@@ -4817,13 +4817,13 @@ extension SageMaker {
 
     public struct DeployedImage: AWSDecodableShape {
         /// The date and time when the image path for the model resolved to the ResolvedImage
-        public let resolutionTime: TimeStamp?
+        public let resolutionTime: Date?
         /// The specific digest path of the image hosted in this ProductionVariant.
         public let resolvedImage: String?
         /// The image path you specified when you created the model.
         public let specifiedImage: String?
 
-        public init(resolutionTime: TimeStamp? = nil, resolvedImage: String? = nil, specifiedImage: String? = nil) {
+        public init(resolutionTime: Date? = nil, resolvedImage: String? = nil, specifiedImage: String? = nil) {
             self.resolutionTime = resolutionTime
             self.resolvedImage = resolvedImage
             self.specifiedImage = specifiedImage
@@ -4869,7 +4869,7 @@ extension SageMaker {
         /// Whether the algorithm is certified to be listed in AWS Marketplace.
         public let certifyForMarketplace: Bool?
         /// A timestamp specifying when the algorithm was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// Details about inference jobs that the algorithm runs.
         public let inferenceSpecification: InferenceSpecification?
         /// The product identifier of the algorithm.
@@ -4879,7 +4879,7 @@ extension SageMaker {
         /// Details about configurations for one or more training jobs that Amazon SageMaker runs to test the algorithm.
         public let validationSpecification: AlgorithmValidationSpecification?
 
-        public init(algorithmArn: String, algorithmDescription: String? = nil, algorithmName: String, algorithmStatus: AlgorithmStatus, algorithmStatusDetails: AlgorithmStatusDetails, certifyForMarketplace: Bool? = nil, creationTime: TimeStamp, inferenceSpecification: InferenceSpecification? = nil, productId: String? = nil, trainingSpecification: TrainingSpecification, validationSpecification: AlgorithmValidationSpecification? = nil) {
+        public init(algorithmArn: String, algorithmDescription: String? = nil, algorithmName: String, algorithmStatus: AlgorithmStatus, algorithmStatusDetails: AlgorithmStatusDetails, certifyForMarketplace: Bool? = nil, creationTime: Date, inferenceSpecification: InferenceSpecification? = nil, productId: String? = nil, trainingSpecification: TrainingSpecification, validationSpecification: AlgorithmValidationSpecification? = nil) {
             self.algorithmArn = algorithmArn
             self.algorithmDescription = algorithmDescription
             self.algorithmName = algorithmName
@@ -4949,15 +4949,15 @@ extension SageMaker {
         /// The type of app.
         public let appType: AppType?
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The domain ID.
         public let domainId: String?
         /// The failure reason.
         public let failureReason: String?
         /// The timestamp of the last health check.
-        public let lastHealthCheckTimestamp: TimeStamp?
+        public let lastHealthCheckTimestamp: Date?
         /// The timestamp of the last user's activity.
-        public let lastUserActivityTimestamp: TimeStamp?
+        public let lastUserActivityTimestamp: Date?
         /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let resourceSpec: ResourceSpec?
         /// The status.
@@ -4965,7 +4965,7 @@ extension SageMaker {
         /// The user profile name.
         public let userProfileName: String?
 
-        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, creationTime: TimeStamp? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: TimeStamp? = nil, lastUserActivityTimestamp: TimeStamp? = nil, resourceSpec: ResourceSpec? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
+        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, resourceSpec: ResourceSpec? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
             self.appArn = appArn
             self.appName = appName
             self.appType = appType
@@ -5031,9 +5031,9 @@ extension SageMaker {
         /// Returns the job's BestCandidate.
         public let bestCandidate: AutoMLCandidate?
         /// Returns the job's creation time.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// Returns the job's end time.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Returns the job's FailureReason.
         public let failureReason: String?
         /// Returns the job's output from GenerateCandidateDefinitionsOnly.
@@ -5041,7 +5041,7 @@ extension SageMaker {
         /// Returns the job's input data config.
         public let inputDataConfig: [AutoMLChannel]
         /// Returns the job's last modified time.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// Returns the job's output data config.
         public let outputDataConfig: AutoMLOutputDataConfig
         /// Returns the job's problem type.
@@ -5051,7 +5051,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
 
-        public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, bestCandidate: AutoMLCandidate? = nil, creationTime: TimeStamp, endTime: TimeStamp? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], lastModifiedTime: TimeStamp, outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String) {
+        public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], lastModifiedTime: Date, outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String) {
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobArtifacts = autoMLJobArtifacts
             self.autoMLJobConfig = autoMLJobConfig
@@ -5119,13 +5119,13 @@ extension SageMaker {
         /// The name of the Git repository.
         public let codeRepositoryName: String
         /// The date and time that the repository was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// Configuration details about the repository, including the URL where the repository is located, the default branch, and the Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the repository.
         public let gitConfig: GitConfig?
         /// The date and time that the repository was last changed.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
 
-        public init(codeRepositoryArn: String, codeRepositoryName: String, creationTime: TimeStamp, gitConfig: GitConfig? = nil, lastModifiedTime: TimeStamp) {
+        public init(codeRepositoryArn: String, codeRepositoryName: String, creationTime: Date, gitConfig: GitConfig? = nil, lastModifiedTime: Date) {
             self.codeRepositoryArn = codeRepositoryArn
             self.codeRepositoryName = codeRepositoryName
             self.creationTime = creationTime
@@ -5163,7 +5163,7 @@ extension SageMaker {
 
     public struct DescribeCompilationJobResponse: AWSDecodableShape {
         /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker detected that the job failed.
-        public let compilationEndTime: TimeStamp?
+        public let compilationEndTime: Date?
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker assumes to perform the model compilation job.
         public let compilationJobArn: String
         /// The name of the model compilation job.
@@ -5171,15 +5171,15 @@ extension SageMaker {
         /// The status of the model compilation job.
         public let compilationJobStatus: CompilationJobStatus
         /// The time when the model compilation job started the CompilationJob instances.  You are billed for the time between this timestamp and the timestamp in the DescribeCompilationJobResponse$CompilationEndTime field. In Amazon CloudWatch Logs, the start time might be later than this time. That's because it takes time to download the compilation job, which depends on the size of the compilation job container.
-        public let compilationStartTime: TimeStamp?
+        public let compilationStartTime: Date?
         /// The time that the model compilation job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// If a model compilation job failed, the reason it failed.
         public let failureReason: String
         /// Information about the location in Amazon S3 of the input model artifacts, the name and shape of the expected data inputs, and the framework in which the model was trained.
         public let inputConfig: InputConfig
         /// The time that the status of the model compilation job was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// Information about the location in Amazon S3 that has been configured for storing the model artifacts used in the compilation job.
         public let modelArtifacts: ModelArtifacts
         /// Information about the output location for the compiled model and the target device that the model runs on.
@@ -5189,7 +5189,7 @@ extension SageMaker {
         /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
 
-        public init(compilationEndTime: TimeStamp? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: TimeStamp? = nil, creationTime: TimeStamp, failureReason: String, inputConfig: InputConfig, lastModifiedTime: TimeStamp, modelArtifacts: ModelArtifacts, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition) {
+        public init(compilationEndTime: Date? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: Date? = nil, creationTime: Date, failureReason: String, inputConfig: InputConfig, lastModifiedTime: Date, modelArtifacts: ModelArtifacts, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
             self.compilationJobName = compilationJobName
@@ -5243,7 +5243,7 @@ extension SageMaker {
         /// The domain's authentication mode.
         public let authMode: AuthMode?
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Settings which are applied to all UserProfile in this domain, if settings are not explicitly specified in a given UserProfile.
         public let defaultUserSettings: UserSettings?
         /// The domain's Amazon Resource Name (ARN).
@@ -5259,7 +5259,7 @@ extension SageMaker {
         /// The AWS Key Management Service encryption key ID.
         public let homeEfsFileSystemKmsKeyId: String?
         /// The last modified time.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The SSO managed application instance ID.
         public let singleSignOnManagedApplicationInstanceId: String?
         /// The status.
@@ -5271,7 +5271,7 @@ extension SageMaker {
         /// The ID of the Amazon Virtual Private Cloud.
         public let vpcId: String?
 
-        public init(authMode: AuthMode? = nil, creationTime: TimeStamp? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, lastModifiedTime: TimeStamp? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+        public init(authMode: AuthMode? = nil, creationTime: Date? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, lastModifiedTime: Date? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
             self.authMode = authMode
             self.creationTime = creationTime
             self.defaultUserSettings = defaultUserSettings
@@ -5328,7 +5328,7 @@ extension SageMaker {
 
     public struct DescribeEndpointConfigOutput: AWSDecodableShape {
         /// A timestamp that shows when the endpoint configuration was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         public let dataCaptureConfig: DataCaptureConfig?
         /// The Amazon Resource Name (ARN) of the endpoint configuration.
         public let endpointConfigArn: String
@@ -5339,7 +5339,7 @@ extension SageMaker {
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
 
-        public init(creationTime: TimeStamp, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigArn: String, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]) {
+        public init(creationTime: Date, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigArn: String, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]) {
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointConfigArn = endpointConfigArn
@@ -5378,7 +5378,7 @@ extension SageMaker {
 
     public struct DescribeEndpointOutput: AWSDecodableShape {
         /// A timestamp that shows when the endpoint was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         public let dataCaptureConfig: DataCaptureConfigSummary?
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String
@@ -5391,11 +5391,11 @@ extension SageMaker {
         /// If the status of the endpoint is Failed, the reason why it failed.
         public let failureReason: String?
         /// A timestamp that shows when the endpoint was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         ///  An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint.
         public let productionVariants: [ProductionVariantSummary]?
 
-        public init(creationTime: TimeStamp, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: TimeStamp, productionVariants: [ProductionVariantSummary]? = nil) {
+        public init(creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: Date, productionVariants: [ProductionVariantSummary]? = nil) {
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointArn = endpointArn
@@ -5443,7 +5443,7 @@ extension SageMaker {
         /// Who created the experiment.
         public let createdBy: UserContext?
         /// When the experiment was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The description of the experiment.
         public let description: String?
         /// The name of the experiment as displayed. If DisplayName isn't specified, ExperimentName is displayed.
@@ -5455,11 +5455,11 @@ extension SageMaker {
         /// Who last modified the experiment.
         public let lastModifiedBy: UserContext?
         /// When the experiment was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The ARN of the source and, optionally, the type.
         public let source: ExperimentSource?
 
-        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, source: ExperimentSource? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, source: ExperimentSource? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.description = description
@@ -5505,7 +5505,7 @@ extension SageMaker {
 
     public struct DescribeFlowDefinitionResponse: AWSDecodableShape {
         /// The timestamp when the flow definition was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The reason your flow definition failed.
         public let failureReason: String?
         /// The Amazon Resource Name (ARN) of the flow defintion.
@@ -5525,7 +5525,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) execution role for the flow definition.
         public let roleArn: String
 
-        public init(creationTime: TimeStamp, failureReason: String? = nil, flowDefinitionArn: String, flowDefinitionName: String, flowDefinitionStatus: FlowDefinitionStatus, humanLoopActivationConfig: HumanLoopActivationConfig? = nil, humanLoopConfig: HumanLoopConfig, humanLoopRequestSource: HumanLoopRequestSource? = nil, outputConfig: FlowDefinitionOutputConfig, roleArn: String) {
+        public init(creationTime: Date, failureReason: String? = nil, flowDefinitionArn: String, flowDefinitionName: String, flowDefinitionStatus: FlowDefinitionStatus, humanLoopActivationConfig: HumanLoopActivationConfig? = nil, humanLoopConfig: HumanLoopConfig, humanLoopRequestSource: HumanLoopRequestSource? = nil, outputConfig: FlowDefinitionOutputConfig, roleArn: String) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.flowDefinitionArn = flowDefinitionArn
@@ -5573,7 +5573,7 @@ extension SageMaker {
 
     public struct DescribeHumanTaskUiResponse: AWSDecodableShape {
         /// The timestamp when the human task user interface was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the human task user interface (worker task template).
         public let humanTaskUiArn: String
         /// The name of the human task user interface (worker task template).
@@ -5582,7 +5582,7 @@ extension SageMaker {
         public let humanTaskUiStatus: HumanTaskUiStatus?
         public let uiTemplate: UiTemplateInfo
 
-        public init(creationTime: TimeStamp, humanTaskUiArn: String, humanTaskUiName: String, humanTaskUiStatus: HumanTaskUiStatus? = nil, uiTemplate: UiTemplateInfo) {
+        public init(creationTime: Date, humanTaskUiArn: String, humanTaskUiName: String, humanTaskUiStatus: HumanTaskUiStatus? = nil, uiTemplate: UiTemplateInfo) {
             self.creationTime = creationTime
             self.humanTaskUiArn = humanTaskUiArn
             self.humanTaskUiName = humanTaskUiName
@@ -5622,11 +5622,11 @@ extension SageMaker {
         /// A TrainingJobSummary object that describes the training job that completed with the best current HyperParameterTuningJobObjective.
         public let bestTrainingJob: HyperParameterTrainingJobSummary?
         /// The date and time that the tuning job started.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// If the tuning job failed, the reason it failed.
         public let failureReason: String?
         /// The date and time that the tuning job ended.
-        public let hyperParameterTuningEndTime: TimeStamp?
+        public let hyperParameterTuningEndTime: Date?
         /// The Amazon Resource Name (ARN) of the tuning job.
         public let hyperParameterTuningJobArn: String
         /// The HyperParameterTuningJobConfig object that specifies the configuration of the tuning job.
@@ -5636,7 +5636,7 @@ extension SageMaker {
         /// The status of the tuning job: InProgress, Completed, Failed, Stopping, or Stopped.
         public let hyperParameterTuningJobStatus: HyperParameterTuningJobStatus
         /// The date and time that the status of the tuning job was modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The ObjectiveStatusCounters object that specifies the number of training jobs, categorized by the status of their final objective metric, that this tuning job launched.
         public let objectiveStatusCounters: ObjectiveStatusCounters
         /// If the hyperparameter tuning job is an warm start tuning job with a WarmStartType of IDENTICAL_DATA_AND_ALGORITHM, this is the TrainingJobSummary for the training job with the best objective metric value of all training jobs launched by this tuning job and all parent jobs specified for the warm start tuning job.
@@ -5650,7 +5650,7 @@ extension SageMaker {
         /// The configuration for starting the hyperparameter parameter tuning job using one or more previous tuning jobs as a starting point. The results of previous tuning jobs are used to inform which combinations of hyperparameters to search over in the new tuning job.
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
 
-        public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, creationTime: TimeStamp, failureReason: String? = nil, hyperParameterTuningEndTime: TimeStamp? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: TimeStamp? = nil, objectiveStatusCounters: ObjectiveStatusCounters, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, trainingJobStatusCounters: TrainingJobStatusCounters, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
+        public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, creationTime: Date, failureReason: String? = nil, hyperParameterTuningEndTime: Date? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: Date? = nil, objectiveStatusCounters: ObjectiveStatusCounters, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, trainingJobStatusCounters: TrainingJobStatusCounters, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.bestTrainingJob = bestTrainingJob
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -5708,7 +5708,7 @@ extension SageMaker {
 
     public struct DescribeLabelingJobResponse: AWSDecodableShape {
         /// The date and time that the labeling job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// If the job failed, the reason that it failed.
         public let failureReason: String?
         /// Configuration information required for human workers to complete a labeling task.
@@ -5734,7 +5734,7 @@ extension SageMaker {
         /// The processing status of the labeling job.
         public let labelingJobStatus: LabelingJobStatus
         /// The date and time that the labeling job was last updated.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// The location of the job's output data and the AWS Key Management Service key ID for the key used to encrypt the output data, if any.
         public let outputConfig: LabelingJobOutputConfig
         /// The Amazon Resource Name (ARN) that Amazon SageMaker assumes to perform tasks on your behalf during data labeling.
@@ -5744,7 +5744,7 @@ extension SageMaker {
         /// An array of key/value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
-        public init(creationTime: TimeStamp, failureReason: String? = nil, humanTaskConfig: HumanTaskConfig, inputConfig: LabelingJobInputConfig, jobReferenceCode: String, labelAttributeName: String? = nil, labelCategoryConfigS3Uri: String? = nil, labelCounters: LabelCounters, labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig? = nil, labelingJobArn: String, labelingJobName: String, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus, lastModifiedTime: TimeStamp, outputConfig: LabelingJobOutputConfig, roleArn: String, stoppingConditions: LabelingJobStoppingConditions? = nil, tags: [Tag]? = nil) {
+        public init(creationTime: Date, failureReason: String? = nil, humanTaskConfig: HumanTaskConfig, inputConfig: LabelingJobInputConfig, jobReferenceCode: String, labelAttributeName: String? = nil, labelCategoryConfigS3Uri: String? = nil, labelCounters: LabelCounters, labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig? = nil, labelingJobArn: String, labelingJobName: String, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus, lastModifiedTime: Date, outputConfig: LabelingJobOutputConfig, roleArn: String, stoppingConditions: LabelingJobStoppingConditions? = nil, tags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.humanTaskConfig = humanTaskConfig
@@ -5809,7 +5809,7 @@ extension SageMaker {
         /// The containers in the inference pipeline.
         public let containers: [ContainerDefinition]?
         /// A timestamp that shows when the model was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// If True, no inbound or outbound network calls can be made to or from the model container.
         public let enableNetworkIsolation: Bool?
         /// The Amazon Resource Name (ARN) of the IAM role that you specified for the model.
@@ -5823,7 +5823,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this model has access to. For more information, see Protect Endpoints by Using an Amazon Virtual Private Cloud
         public let vpcConfig: VpcConfig?
 
-        public init(containers: [ContainerDefinition]? = nil, creationTime: TimeStamp, enableNetworkIsolation: Bool? = nil, executionRoleArn: String, modelArn: String, modelName: String, primaryContainer: ContainerDefinition? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(containers: [ContainerDefinition]? = nil, creationTime: Date, enableNetworkIsolation: Bool? = nil, executionRoleArn: String, modelArn: String, modelName: String, primaryContainer: ContainerDefinition? = nil, vpcConfig: VpcConfig? = nil) {
             self.containers = containers
             self.creationTime = creationTime
             self.enableNetworkIsolation = enableNetworkIsolation
@@ -5869,7 +5869,7 @@ extension SageMaker {
         /// Whether the model package is certified for listing on AWS Marketplace.
         public let certifyForMarketplace: Bool?
         /// A timestamp specifying when the model package was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// Details about inference jobs that can be run with models based on this model package.
         public let inferenceSpecification: InferenceSpecification?
         /// The Amazon Resource Name (ARN) of the model package.
@@ -5887,7 +5887,7 @@ extension SageMaker {
         /// Configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
-        public init(certifyForMarketplace: Bool? = nil, creationTime: TimeStamp, inferenceSpecification: InferenceSpecification? = nil, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus, modelPackageStatusDetails: ModelPackageStatusDetails, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(certifyForMarketplace: Bool? = nil, creationTime: Date, inferenceSpecification: InferenceSpecification? = nil, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus, modelPackageStatusDetails: ModelPackageStatusDetails, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.certifyForMarketplace = certifyForMarketplace
             self.creationTime = creationTime
             self.inferenceSpecification = inferenceSpecification
@@ -5935,13 +5935,13 @@ extension SageMaker {
 
     public struct DescribeMonitoringScheduleResponse: AWSDecodableShape {
         /// The time at which the monitoring job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         ///  The name of the endpoint for the monitoring job.
         public let endpointName: String?
         /// A string, up to one KB in size, that contains the reason a monitoring job failed, if it failed.
         public let failureReason: String?
         /// The time at which the monitoring job was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// Describes metadata on the last execution to run, if there was one.
         public let lastMonitoringExecutionSummary: MonitoringExecutionSummary?
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
@@ -5953,7 +5953,7 @@ extension SageMaker {
         /// The status of an monitoring job.
         public let monitoringScheduleStatus: ScheduleStatus
 
-        public init(creationTime: TimeStamp, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String, monitoringScheduleConfig: MonitoringScheduleConfig, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus) {
+        public init(creationTime: Date, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String, monitoringScheduleConfig: MonitoringScheduleConfig, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.failureReason = failureReason
@@ -6016,9 +6016,9 @@ extension SageMaker {
 
     public struct DescribeNotebookInstanceLifecycleConfigOutput: AWSDecodableShape {
         /// A timestamp that tells when the lifecycle configuration was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// A timestamp that tells when the lifecycle configuration was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The Amazon Resource Name (ARN) of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigArn: String?
         /// The name of the lifecycle configuration.
@@ -6028,7 +6028,7 @@ extension SageMaker {
         /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance.
         public let onStart: [NotebookInstanceLifecycleHook]?
 
-        public init(creationTime: TimeStamp? = nil, lastModifiedTime: TimeStamp? = nil, notebookInstanceLifecycleConfigArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, notebookInstanceLifecycleConfigArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
@@ -6053,7 +6053,7 @@ extension SageMaker {
         /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let additionalCodeRepositories: [String]?
         /// A timestamp. Use this parameter to return the time when the notebook instance was created
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let defaultCodeRepository: String?
         /// Describes whether Amazon SageMaker provides internet access to the notebook instance. If this value is set to Disabled, the notebook instance does not have internet access, and cannot connect to Amazon SageMaker training and endpoint services. For more information, see Notebook Instances Are Internet-Enabled by Default.
@@ -6065,7 +6065,7 @@ extension SageMaker {
         /// The AWS KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
         public let kmsKeyId: String?
         /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The network interface IDs that Amazon SageMaker created at the time of creating the instance.
         public let networkInterfaceId: String?
         /// The Amazon Resource Name (ARN) of the notebook instance.
@@ -6089,7 +6089,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume attached to the notebook instance.
         public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: TimeStamp? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: TimeStamp? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
@@ -6161,7 +6161,7 @@ extension SageMaker {
         /// The ARN of an AutoML job associated with this processing job.
         public let autoMLJobArn: String?
         /// The time at which the processing job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The environment variables set in the Docker container.
         public let environment: [String: String]?
         /// An optional string, up to one KB in size, that contains metadata from the processing container when the processing job exits.
@@ -6171,13 +6171,13 @@ extension SageMaker {
         /// A string, up to one KB in size, that contains the reason a processing job failed, if it failed.
         public let failureReason: String?
         /// The time at which the processing job was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The ARN of a monitoring schedule for an endpoint associated with this processing job.
         public let monitoringScheduleArn: String?
         /// Networking options for a processing job.
         public let networkConfig: NetworkConfig?
         /// The time at which the processing job completed.
-        public let processingEndTime: TimeStamp?
+        public let processingEndTime: Date?
         /// The inputs for a processing job.
         public let processingInputs: [ProcessingInput]?
         /// The Amazon Resource Name (ARN) of the processing job.
@@ -6191,7 +6191,7 @@ extension SageMaker {
         /// Identifies the resources, ML compute instances, and ML storage volumes to deploy for a processing job. In distributed training, you specify more than one instance.
         public let processingResources: ProcessingResources
         /// The time at which the processing job started.
-        public let processingStartTime: TimeStamp?
+        public let processingStartTime: Date?
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
         public let roleArn: String?
         /// The time limit for how long the processing job is allowed to run.
@@ -6199,7 +6199,7 @@ extension SageMaker {
         /// The ARN of a training job associated with this processing job.
         public let trainingJobArn: String?
 
-        public init(appSpecification: AppSpecification, autoMLJobArn: String? = nil, creationTime: TimeStamp, environment: [String: String]? = nil, exitMessage: String? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp? = nil, monitoringScheduleArn: String? = nil, networkConfig: NetworkConfig? = nil, processingEndTime: TimeStamp? = nil, processingInputs: [ProcessingInput]? = nil, processingJobArn: String, processingJobName: String, processingJobStatus: ProcessingJobStatus, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources, processingStartTime: TimeStamp? = nil, roleArn: String? = nil, stoppingCondition: ProcessingStoppingCondition? = nil, trainingJobArn: String? = nil) {
+        public init(appSpecification: AppSpecification, autoMLJobArn: String? = nil, creationTime: Date, environment: [String: String]? = nil, exitMessage: String? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, monitoringScheduleArn: String? = nil, networkConfig: NetworkConfig? = nil, processingEndTime: Date? = nil, processingInputs: [ProcessingInput]? = nil, processingJobArn: String, processingJobName: String, processingJobStatus: ProcessingJobStatus, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources, processingStartTime: Date? = nil, roleArn: String? = nil, stoppingCondition: ProcessingStoppingCondition? = nil, trainingJobArn: String? = nil) {
             self.appSpecification = appSpecification
             self.autoMLJobArn = autoMLJobArn
             self.creationTime = creationTime
@@ -6307,7 +6307,7 @@ extension SageMaker {
         public let billableTimeInSeconds: Int?
         public let checkpointConfig: CheckpointConfig?
         /// A timestamp that indicates when the training job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         public let debugHookConfig: DebugHookConfig?
         /// Configuration information for debugging rules.
         public let debugRuleConfigurations: [DebugRuleConfiguration]?
@@ -6331,7 +6331,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the Amazon SageMaker Ground Truth labeling job that created the transform or training job.
         public let labelingJobArn: String?
         /// A timestamp that indicates when the status of the training job was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// Information about the Amazon S3 location that is configured for storing model artifacts.
         public let modelArtifacts: ModelArtifacts
         /// The S3 path where model artifacts that you configured when creating the job are stored. Amazon SageMaker creates subfolders for model artifacts.
@@ -6348,7 +6348,7 @@ extension SageMaker {
         public let stoppingCondition: StoppingCondition
         public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
-        public let trainingEndTime: TimeStamp?
+        public let trainingEndTime: Date?
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String
         ///  Name of the model training job.
@@ -6356,7 +6356,7 @@ extension SageMaker {
         /// The status of the training job. Amazon SageMaker provides the following training job statuses:    InProgress - The training is in progress.    Completed - The training job has completed.    Failed - The training job has failed. To see the reason for the failure, see the FailureReason field in the response to a DescribeTrainingJobResponse call.    Stopping - The training job is stopping.    Stopped - The training job has stopped.   For more detailed information, see SecondaryStatus.
         public let trainingJobStatus: TrainingJobStatus
         /// Indicates the time when the training job starts on training instances. You are billed for the time interval between this time and the value of TrainingEndTime. The start time in CloudWatch Logs might be later than this time. The difference is due to the time it takes to download the training data and to the size of the training container.
-        public let trainingStartTime: TimeStamp?
+        public let trainingStartTime: Date?
         /// The training time in seconds.
         public let trainingTimeInSeconds: Int?
         /// The Amazon Resource Name (ARN) of the associated hyperparameter tuning job if the training job was launched by a hyperparameter tuning job.
@@ -6364,7 +6364,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: TimeStamp, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -6464,7 +6464,7 @@ extension SageMaker {
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set SplitType to Line, RecordIO, or TFRecord.
         public let batchStrategy: BatchStrategy?
         /// A timestamp that shows when the transform Job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         public let dataProcessing: DataProcessing?
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
         public let environment: [String: String]?
@@ -6482,7 +6482,7 @@ extension SageMaker {
         /// The name of the model used in the transform job.
         public let modelName: String
         /// Indicates when the transform job has been completed, or has stopped or failed. You are billed for the time interval between this time and the value of TransformStartTime.
-        public let transformEndTime: TimeStamp?
+        public let transformEndTime: Date?
         /// Describes the dataset to be transformed and the Amazon S3 location where it is stored.
         public let transformInput: TransformInput
         /// The Amazon Resource Name (ARN) of the transform job.
@@ -6496,9 +6496,9 @@ extension SageMaker {
         /// Describes the resources, including ML instance types and ML instance count, to use for the transform job.
         public let transformResources: TransformResources
         /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
-        public let transformStartTime: TimeStamp?
+        public let transformStartTime: Date?
 
-        public init(autoMLJobArn: String? = nil, batchStrategy: BatchStrategy? = nil, creationTime: TimeStamp, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String, transformEndTime: TimeStamp? = nil, transformInput: TransformInput, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus, transformOutput: TransformOutput? = nil, transformResources: TransformResources, transformStartTime: TimeStamp? = nil) {
+        public init(autoMLJobArn: String? = nil, batchStrategy: BatchStrategy? = nil, creationTime: Date, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String, transformEndTime: Date? = nil, transformInput: TransformInput, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus, transformOutput: TransformOutput? = nil, transformResources: TransformResources, transformStartTime: Date? = nil) {
             self.autoMLJobArn = autoMLJobArn
             self.batchStrategy = batchStrategy
             self.creationTime = creationTime
@@ -6568,17 +6568,17 @@ extension SageMaker {
         /// Who created the component.
         public let createdBy: UserContext?
         /// When the component was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the component as displayed. If DisplayName isn't specified, TrialComponentName is displayed.
         public let displayName: String?
         /// When the component ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input artifacts of the component.
         public let inputArtifacts: [String: TrialComponentArtifact]?
         /// Who last modified the component.
         public let lastModifiedBy: UserContext?
         /// When the component was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The metrics for the component.
         public let metrics: [TrialComponentMetricSummary]?
         /// The output artifacts of the component.
@@ -6588,7 +6588,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the source and, optionally, the job type.
         public let source: TrialComponentSource?
         /// When the component started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the component. States include:   InProgress   Completed   Failed
         public let status: TrialComponentStatus?
         /// The Amazon Resource Name (ARN) of the trial component.
@@ -6596,7 +6596,7 @@ extension SageMaker {
         /// The name of the trial component.
         public let trialComponentName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, endTime: TimeStamp? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, source: TrialComponentSource? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, source: TrialComponentSource? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -6656,7 +6656,7 @@ extension SageMaker {
         /// Who created the trial.
         public let createdBy: UserContext?
         /// When the trial was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the trial as displayed. If DisplayName isn't specified, TrialName is displayed.
         public let displayName: String?
         /// The name of the experiment the trial is part of.
@@ -6664,7 +6664,7 @@ extension SageMaker {
         /// Who last modified the trial.
         public let lastModifiedBy: UserContext?
         /// When the trial was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The Amazon Resource Name (ARN) of the source and, optionally, the job type.
         public let source: TrialSource?
         /// The Amazon Resource Name (ARN) of the trial.
@@ -6672,7 +6672,7 @@ extension SageMaker {
         /// The name of the trial.
         public let trialName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, source: TrialSource? = nil, trialArn: String? = nil, trialName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, source: TrialSource? = nil, trialArn: String? = nil, trialName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -6722,7 +6722,7 @@ extension SageMaker {
 
     public struct DescribeUserProfileResponse: AWSDecodableShape {
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The ID of the domain that contains the profile.
         public let domainId: String?
         /// The failure reason.
@@ -6730,7 +6730,7 @@ extension SageMaker {
         /// The ID of the user's profile in the Amazon Elastic File System (EFS) volume.
         public let homeEfsFileSystemUid: String?
         /// The last modified time.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The SSO user identifier.
         public let singleSignOnUserIdentifier: String?
         /// The SSO user value.
@@ -6744,7 +6744,7 @@ extension SageMaker {
         /// A collection of settings.
         public let userSettings: UserSettings?
 
-        public init(creationTime: TimeStamp? = nil, domainId: String? = nil, failureReason: String? = nil, homeEfsFileSystemUid: String? = nil, lastModifiedTime: TimeStamp? = nil, singleSignOnUserIdentifier: String? = nil, singleSignOnUserValue: String? = nil, status: UserProfileStatus? = nil, userProfileArn: String? = nil, userProfileName: String? = nil, userSettings: UserSettings? = nil) {
+        public init(creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, homeEfsFileSystemUid: String? = nil, lastModifiedTime: Date? = nil, singleSignOnUserIdentifier: String? = nil, singleSignOnUserValue: String? = nil, status: UserProfileStatus? = nil, userProfileArn: String? = nil, userProfileName: String? = nil, userSettings: UserSettings? = nil) {
             self.creationTime = creationTime
             self.domainId = domainId
             self.failureReason = failureReason
@@ -6910,7 +6910,7 @@ extension SageMaker {
 
     public struct DomainDetails: AWSDecodableShape {
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The domain's Amazon Resource Name (ARN).
         public let domainArn: String?
         /// The domain ID.
@@ -6918,13 +6918,13 @@ extension SageMaker {
         /// The domain name.
         public let domainName: String?
         /// The last modified time.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The status.
         public let status: DomainStatus?
         /// The domain's URL.
         public let url: String?
 
-        public init(creationTime: TimeStamp? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, lastModifiedTime: TimeStamp? = nil, status: DomainStatus? = nil, url: String? = nil) {
+        public init(creationTime: Date? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, lastModifiedTime: Date? = nil, status: DomainStatus? = nil, url: String? = nil) {
             self.creationTime = creationTime
             self.domainArn = domainArn
             self.domainId = domainId
@@ -6947,13 +6947,13 @@ extension SageMaker {
 
     public struct EndpointConfigSummary: AWSDecodableShape {
         /// A timestamp that shows when the endpoint configuration was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the endpoint configuration.
         public let endpointConfigArn: String
         /// The name of the endpoint configuration.
         public let endpointConfigName: String
 
-        public init(creationTime: TimeStamp, endpointConfigArn: String, endpointConfigName: String) {
+        public init(creationTime: Date, endpointConfigArn: String, endpointConfigName: String) {
             self.creationTime = creationTime
             self.endpointConfigArn = endpointConfigArn
             self.endpointConfigName = endpointConfigName
@@ -7000,7 +7000,7 @@ extension SageMaker {
 
     public struct EndpointSummary: AWSDecodableShape {
         /// A timestamp that shows when the endpoint was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String
         /// The name of the endpoint.
@@ -7008,9 +7008,9 @@ extension SageMaker {
         /// The status of the endpoint.    OutOfService: Endpoint is not available to take incoming requests.    Creating: CreateEndpoint is executing.    Updating: UpdateEndpoint or UpdateEndpointWeightsAndCapacities is executing.    SystemUpdating: Endpoint is undergoing maintenance and cannot be updated or deleted or re-scaled until it has completed. This maintenance operation does not change any customer-specified values such as VPC config, KMS encryption, model, instance type, or instance count.    RollingBack: Endpoint fails to scale up or down or change its variant weight and is in the process of rolling back to its previous configuration. Once the rollback completes, endpoint returns to an InService status. This transitional status only applies to an endpoint that has autoscaling enabled and is undergoing variant weight or capacity changes as part of an UpdateEndpointWeightsAndCapacities call or when the UpdateEndpointWeightsAndCapacities operation is called explicitly.    InService: Endpoint is available to process incoming requests.    Deleting: DeleteEndpoint is executing.    Failed: Endpoint could not be created, updated, or re-scaled. Use DescribeEndpointOutput$FailureReason for information about the failure. DeleteEndpoint is the only operation that can be performed on a failed endpoint.   To get a list of endpoints with a specified status, use the ListEndpointsInput$StatusEquals filter.
         public let endpointStatus: EndpointStatus
         /// A timestamp that shows when the endpoint was last modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
 
-        public init(creationTime: TimeStamp, endpointArn: String, endpointName: String, endpointStatus: EndpointStatus, lastModifiedTime: TimeStamp) {
+        public init(creationTime: Date, endpointArn: String, endpointName: String, endpointStatus: EndpointStatus, lastModifiedTime: Date) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
             self.endpointName = endpointName
@@ -7030,7 +7030,7 @@ extension SageMaker {
     public struct Experiment: AWSDecodableShape {
         public let createdBy: UserContext?
         /// When the experiment was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The description of the experiment.
         public let description: String?
         /// The name of the experiment as displayed. If DisplayName isn't specified, ExperimentName is displayed.
@@ -7041,12 +7041,12 @@ extension SageMaker {
         public let experimentName: String?
         public let lastModifiedBy: UserContext?
         /// When the experiment was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         public let source: ExperimentSource?
         /// The list of tags that are associated with the experiment. You can use Search API to search on the tags.
         public let tags: [Tag]?
 
-        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, source: ExperimentSource? = nil, tags: [Tag]? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, source: ExperimentSource? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.description = description
@@ -7125,7 +7125,7 @@ extension SageMaker {
 
     public struct ExperimentSummary: AWSDecodableShape {
         /// When the experiment was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the experiment as displayed. If DisplayName isn't specified, ExperimentName is displayed.
         public let displayName: String?
         /// The Amazon Resource Name (ARN) of the experiment.
@@ -7134,9 +7134,9 @@ extension SageMaker {
         public let experimentName: String?
         public let experimentSource: ExperimentSource?
         /// When the experiment was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
 
-        public init(creationTime: TimeStamp? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, experimentSource: ExperimentSource? = nil, lastModifiedTime: TimeStamp? = nil) {
+        public init(creationTime: Date? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, experimentSource: ExperimentSource? = nil, lastModifiedTime: Date? = nil) {
             self.creationTime = creationTime
             self.displayName = displayName
             self.experimentArn = experimentArn
@@ -7285,7 +7285,7 @@ extension SageMaker {
 
     public struct FlowDefinitionSummary: AWSDecodableShape {
         /// The timestamp when SageMaker created the flow definition.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The reason why the flow definition creation failed. A failure reason is returned only when the flow definition status is Failed.
         public let failureReason: String?
         /// The Amazon Resource Name (ARN) of the flow definition.
@@ -7295,7 +7295,7 @@ extension SageMaker {
         /// The status of the flow definition. Valid values:
         public let flowDefinitionStatus: FlowDefinitionStatus
 
-        public init(creationTime: TimeStamp, failureReason: String? = nil, flowDefinitionArn: String, flowDefinitionName: String, flowDefinitionStatus: FlowDefinitionStatus) {
+        public init(creationTime: Date, failureReason: String? = nil, flowDefinitionArn: String, flowDefinitionName: String, flowDefinitionStatus: FlowDefinitionStatus) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.flowDefinitionArn = flowDefinitionArn
@@ -7604,13 +7604,13 @@ extension SageMaker {
 
     public struct HumanTaskUiSummary: AWSDecodableShape {
         /// A timestamp when SageMaker created the human task user interface.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the human task user interface.
         public let humanTaskUiArn: String
         /// The name of the human task user interface.
         public let humanTaskUiName: String
 
-        public init(creationTime: TimeStamp, humanTaskUiArn: String, humanTaskUiName: String) {
+        public init(creationTime: Date, humanTaskUiArn: String, humanTaskUiName: String) {
             self.creationTime = creationTime
             self.humanTaskUiArn = humanTaskUiArn
             self.humanTaskUiName = humanTaskUiName
@@ -7804,7 +7804,7 @@ extension SageMaker {
 
     public struct HyperParameterTrainingJobSummary: AWSDecodableShape {
         /// The date and time that the training job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The reason that the training job failed.
         public let failureReason: String?
         /// The FinalHyperParameterTuningJobObjectiveMetric object that specifies the value of the objective metric of the tuning job that launched this training job.
@@ -7812,7 +7812,7 @@ extension SageMaker {
         /// The status of the objective metric for the training job:   Succeeded: The final objective metric for the training job was evaluated by the hyperparameter tuning job and used in the hyperparameter tuning process.     Pending: The training job is in progress and evaluation of its final objective metric is pending.     Failed: The final objective metric for the training job was not evaluated, and was not used in the hyperparameter tuning process. This typically occurs when the training job failed or did not emit an objective metric.
         public let objectiveStatus: ObjectiveStatus?
         /// Specifies the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
-        public let trainingEndTime: TimeStamp?
+        public let trainingEndTime: Date?
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String
         /// The training job definition name.
@@ -7822,13 +7822,13 @@ extension SageMaker {
         /// The status of the training job.
         public let trainingJobStatus: TrainingJobStatus
         /// The date and time that the training job started.
-        public let trainingStartTime: TimeStamp?
+        public let trainingStartTime: Date?
         /// A list of the hyperparameters for which you specified ranges to search.
         public let tunedHyperParameters: [String: String]
         /// The HyperParameter tuning job that launched the training job.
         public let tuningJobName: String?
 
-        public init(creationTime: TimeStamp, failureReason: String? = nil, finalHyperParameterTuningJobObjectiveMetric: FinalHyperParameterTuningJobObjectiveMetric? = nil, objectiveStatus: ObjectiveStatus? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobDefinitionName: String? = nil, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, tunedHyperParameters: [String: String], tuningJobName: String? = nil) {
+        public init(creationTime: Date, failureReason: String? = nil, finalHyperParameterTuningJobObjectiveMetric: FinalHyperParameterTuningJobObjectiveMetric? = nil, objectiveStatus: ObjectiveStatus? = nil, trainingEndTime: Date? = nil, trainingJobArn: String, trainingJobDefinitionName: String? = nil, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: Date? = nil, tunedHyperParameters: [String: String], tuningJobName: String? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.finalHyperParameterTuningJobObjectiveMetric = finalHyperParameterTuningJobObjectiveMetric
@@ -7923,9 +7923,9 @@ extension SageMaker {
 
     public struct HyperParameterTuningJobSummary: AWSDecodableShape {
         /// The date and time that the tuning job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The date and time that the tuning job ended.
-        public let hyperParameterTuningEndTime: TimeStamp?
+        public let hyperParameterTuningEndTime: Date?
         /// The Amazon Resource Name (ARN) of the tuning job.
         public let hyperParameterTuningJobArn: String
         /// The name of the tuning job.
@@ -7933,7 +7933,7 @@ extension SageMaker {
         /// The status of the tuning job.
         public let hyperParameterTuningJobStatus: HyperParameterTuningJobStatus
         /// The date and time that the tuning job was modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The ObjectiveStatusCounters object that specifies the numbers of training jobs, categorized by objective metric status, that this tuning job launched.
         public let objectiveStatusCounters: ObjectiveStatusCounters
         /// The ResourceLimits object that specifies the maximum number of training jobs and parallel training jobs allowed for this tuning job.
@@ -7943,7 +7943,7 @@ extension SageMaker {
         /// The TrainingJobStatusCounters object that specifies the numbers of training jobs, categorized by status, that this tuning job launched.
         public let trainingJobStatusCounters: TrainingJobStatusCounters
 
-        public init(creationTime: TimeStamp, hyperParameterTuningEndTime: TimeStamp? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: TimeStamp? = nil, objectiveStatusCounters: ObjectiveStatusCounters, resourceLimits: ResourceLimits? = nil, strategy: HyperParameterTuningJobStrategyType, trainingJobStatusCounters: TrainingJobStatusCounters) {
+        public init(creationTime: Date, hyperParameterTuningEndTime: Date? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: Date? = nil, objectiveStatusCounters: ObjectiveStatusCounters, resourceLimits: ResourceLimits? = nil, strategy: HyperParameterTuningJobStrategyType, trainingJobStatusCounters: TrainingJobStatusCounters) {
             self.creationTime = creationTime
             self.hyperParameterTuningEndTime = hyperParameterTuningEndTime
             self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
@@ -8291,7 +8291,7 @@ extension SageMaker {
 
     public struct LabelingJobForWorkteamSummary: AWSDecodableShape {
         /// The date and time that the labeling job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// A unique identifier for a labeling job. You can use this to refer to a specific labeling job.
         public let jobReferenceCode: String
         /// Provides information about the progress of a labeling job.
@@ -8302,7 +8302,7 @@ extension SageMaker {
         public let numberOfHumanWorkersPerDataObject: Int?
         public let workRequesterAccountId: String
 
-        public init(creationTime: TimeStamp, jobReferenceCode: String, labelCounters: LabelCountersForWorkteam? = nil, labelingJobName: String? = nil, numberOfHumanWorkersPerDataObject: Int? = nil, workRequesterAccountId: String) {
+        public init(creationTime: Date, jobReferenceCode: String, labelCounters: LabelCountersForWorkteam? = nil, labelingJobName: String? = nil, numberOfHumanWorkersPerDataObject: Int? = nil, workRequesterAccountId: String) {
             self.creationTime = creationTime
             self.jobReferenceCode = jobReferenceCode
             self.labelCounters = labelCounters
@@ -8447,7 +8447,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the Lambda function used to consolidate the annotations from individual workers into a label for a data object. For more information, see Annotation Consolidation.
         public let annotationConsolidationLambdaArn: String?
         /// The date and time that the job was created (timestamp).
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// If the LabelingJobStatus field is Failed, this field contains a description of the error.
         public let failureReason: String?
         /// Input configuration for the labeling job.
@@ -8463,13 +8463,13 @@ extension SageMaker {
         /// The current status of the labeling job.
         public let labelingJobStatus: LabelingJobStatus
         /// The date and time that the job was last modified (timestamp).
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// The Amazon Resource Name (ARN) of a Lambda function. The function is run before each data object is sent to a worker.
         public let preHumanTaskLambdaArn: String
         /// The Amazon Resource Name (ARN) of the work team assigned to the job.
         public let workteamArn: String
 
-        public init(annotationConsolidationLambdaArn: String? = nil, creationTime: TimeStamp, failureReason: String? = nil, inputConfig: LabelingJobInputConfig? = nil, labelCounters: LabelCounters, labelingJobArn: String, labelingJobName: String, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus, lastModifiedTime: TimeStamp, preHumanTaskLambdaArn: String, workteamArn: String) {
+        public init(annotationConsolidationLambdaArn: String? = nil, creationTime: Date, failureReason: String? = nil, inputConfig: LabelingJobInputConfig? = nil, labelCounters: LabelCounters, labelingJobArn: String, labelingJobName: String, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus, lastModifiedTime: Date, preHumanTaskLambdaArn: String, workteamArn: String) {
             self.annotationConsolidationLambdaArn = annotationConsolidationLambdaArn
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -8502,9 +8502,9 @@ extension SageMaker {
 
     public struct ListAlgorithmsInput: AWSEncodableShape {
         /// A filter that returns only algorithms created after the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only algorithms created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// The maximum number of algorithms to return in the response.
         public let maxResults: Int?
         /// A string in the algorithm name. This filter returns only algorithms whose name contains the specified string.
@@ -8516,7 +8516,7 @@ extension SageMaker {
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AlgorithmSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AlgorithmSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -8625,13 +8625,13 @@ extension SageMaker {
 
     public struct ListAutoMLJobsRequest: AWSEncodableShape {
         /// Request a list of jobs, using a filter for time.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// Request a list of jobs, using a filter for time.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// Request a list of jobs, using a filter for time.
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// Request a list of jobs, using a filter for time.
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// Request a list of jobs up to a specified limit.
         public let maxResults: Int?
         /// Request a list of jobs, using a search filter for name.
@@ -8645,7 +8645,7 @@ extension SageMaker {
         /// Request a list of jobs, using a filter for status.
         public let statusEquals: AutoMLJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AutoMLSortBy? = nil, sortOrder: AutoMLSortOrder? = nil, statusEquals: AutoMLJobStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AutoMLSortBy? = nil, sortOrder: AutoMLSortOrder? = nil, statusEquals: AutoMLJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -8766,13 +8766,13 @@ extension SageMaker {
 
     public struct ListCodeRepositoriesInput: AWSEncodableShape {
         /// A filter that returns only Git repositories that were created after the specified time.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only Git repositories that were created before the specified time.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A filter that returns only Git repositories that were last modified after the specified time.
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only Git repositories that were last modified before the specified time.
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of Git repositories to return in the response.
         public let maxResults: Int?
         /// A string in the Git repositories name. This filter returns only repositories whose name contains the specified string.
@@ -8784,7 +8784,7 @@ extension SageMaker {
         /// The sort order for results. The default is Ascending.
         public let sortOrder: CodeRepositorySortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: CodeRepositorySortBy? = nil, sortOrder: CodeRepositorySortOrder? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: CodeRepositorySortBy? = nil, sortOrder: CodeRepositorySortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -8837,13 +8837,13 @@ extension SageMaker {
 
     public struct ListCompilationJobsRequest: AWSEncodableShape {
         /// A filter that returns the model compilation jobs that were created after a specified time.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns the model compilation jobs that were created before a specified time.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A filter that returns the model compilation jobs that were modified after a specified time.
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns the model compilation jobs that were modified before a specified time.
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of model compilation jobs to return in the response.
         public let maxResults: Int?
         /// A filter that returns the model compilation jobs whose name contains a specified string.
@@ -8857,7 +8857,7 @@ extension SageMaker {
         /// A filter that retrieves model compilation jobs with a specific DescribeCompilationJobResponse$CompilationJobStatus status.
         public let statusEquals: CompilationJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListCompilationJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: CompilationJobStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListCompilationJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: CompilationJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -8953,9 +8953,9 @@ extension SageMaker {
 
     public struct ListEndpointConfigsInput: AWSEncodableShape {
         /// A filter that returns only endpoint configurations with a creation time greater than or equal to the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only endpoint configurations created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// The maximum number of training jobs to return in the response.
         public let maxResults: Int?
         /// A string in the endpoint configuration name. This filter returns only endpoint configurations whose name contains the specified string.
@@ -8967,7 +8967,7 @@ extension SageMaker {
         /// The sort order for results. The default is Descending.
         public let sortOrder: OrderKey?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointConfigSortKey? = nil, sortOrder: OrderKey? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointConfigSortKey? = nil, sortOrder: OrderKey? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -9016,13 +9016,13 @@ extension SageMaker {
 
     public struct ListEndpointsInput: AWSEncodableShape {
         /// A filter that returns only endpoints with a creation time greater than or equal to the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only endpoints that were created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         ///  A filter that returns only endpoints that were modified after the specified timestamp.
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         ///  A filter that returns only endpoints that were modified before the specified timestamp.
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of endpoints to return in the response.
         public let maxResults: Int?
         /// A string in endpoint names. This filter returns only endpoints whose name contains the specified string.
@@ -9036,7 +9036,7 @@ extension SageMaker {
         ///  A filter that returns only endpoints with the specified status.
         public let statusEquals: EndpointStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointSortKey? = nil, sortOrder: OrderKey? = nil, statusEquals: EndpointStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointSortKey? = nil, sortOrder: OrderKey? = nil, statusEquals: EndpointStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -9091,9 +9091,9 @@ extension SageMaker {
 
     public struct ListExperimentsRequest: AWSEncodableShape {
         /// A filter that returns only experiments created after the specified time.
-        public let createdAfter: TimeStamp?
+        public let createdAfter: Date?
         /// A filter that returns only experiments created before the specified time.
-        public let createdBefore: TimeStamp?
+        public let createdBefore: Date?
         /// The maximum number of experiments to return in the response. The default value is 10.
         public let maxResults: Int?
         /// If the previous call to ListExperiments didn't return the full set of experiments, the call returns a token for getting the next set of experiments.
@@ -9103,7 +9103,7 @@ extension SageMaker {
         /// The sort order. The default value is Descending.
         public let sortOrder: SortOrder?
 
-        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortExperimentsBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortExperimentsBy? = nil, sortOrder: SortOrder? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.maxResults = maxResults
@@ -9148,9 +9148,9 @@ extension SageMaker {
 
     public struct ListFlowDefinitionsRequest: AWSEncodableShape {
         /// A filter that returns only flow definitions with a creation time greater than or equal to the specified timestamp.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only flow definitions that were created before the specified timestamp.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken will be provided in the output that you can use to resume pagination.
         public let maxResults: Int?
         /// A token to resume pagination.
@@ -9158,7 +9158,7 @@ extension SageMaker {
         /// An optional value that specifies whether you want the results sorted in Ascending or Descending order.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -9201,9 +9201,9 @@ extension SageMaker {
 
     public struct ListHumanTaskUisRequest: AWSEncodableShape {
         /// A filter that returns only human task user interfaces with a creation time greater than or equal to the specified timestamp.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only human task user interfaces that were created before the specified timestamp.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken will be provided in the output that you can use to resume pagination.
         public let maxResults: Int?
         /// A token to resume pagination.
@@ -9211,7 +9211,7 @@ extension SageMaker {
         /// An optional value that specifies whether you want the results sorted in Ascending or Descending order.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -9254,13 +9254,13 @@ extension SageMaker {
 
     public struct ListHyperParameterTuningJobsRequest: AWSEncodableShape {
         /// A filter that returns only tuning jobs that were created after the specified time.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only tuning jobs that were created before the specified time.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A filter that returns only tuning jobs that were modified after the specified time.
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only tuning jobs that were modified before the specified time.
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of tuning jobs to return. The default value is 10.
         public let maxResults: Int?
         /// A string in the tuning job name. This filter returns only tuning jobs whose name contains the specified string.
@@ -9274,7 +9274,7 @@ extension SageMaker {
         /// A filter that returns only tuning jobs with the specified status.
         public let statusEquals: HyperParameterTuningJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HyperParameterTuningJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: HyperParameterTuningJobStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HyperParameterTuningJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: HyperParameterTuningJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -9329,9 +9329,9 @@ extension SageMaker {
 
     public struct ListLabelingJobsForWorkteamRequest: AWSEncodableShape {
         /// A filter that returns only labeling jobs created after the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only labeling jobs created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A filter the limits jobs to only the ones whose job reference code contains the specified string.
         public let jobReferenceCodeContains: String?
         /// The maximum number of labeling jobs to return in each page of the response.
@@ -9345,7 +9345,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the work team for which you want to see labeling jobs for.
         public let workteamArn: String
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, jobReferenceCodeContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ListLabelingJobsForWorkteamSortByOptions? = nil, sortOrder: SortOrder? = nil, workteamArn: String) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, jobReferenceCodeContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ListLabelingJobsForWorkteamSortByOptions? = nil, sortOrder: SortOrder? = nil, workteamArn: String) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.jobReferenceCodeContains = jobReferenceCodeContains
@@ -9399,13 +9399,13 @@ extension SageMaker {
 
     public struct ListLabelingJobsRequest: AWSEncodableShape {
         /// A filter that returns only labeling jobs created after the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only labeling jobs created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A filter that returns only labeling jobs modified after the specified time (timestamp).
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only labeling jobs modified before the specified time (timestamp).
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of labeling jobs to return in each page of the response.
         public let maxResults: Int?
         /// A string in the labeling job name. This filter returns only labeling jobs whose name contains the specified string.
@@ -9419,7 +9419,7 @@ extension SageMaker {
         /// A filter that retrieves only labeling jobs with a specific status.
         public let statusEquals: LabelingJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: LabelingJobStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: LabelingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -9474,9 +9474,9 @@ extension SageMaker {
 
     public struct ListModelPackagesInput: AWSEncodableShape {
         /// A filter that returns only model packages created after the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only model packages created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// The maximum number of model packages to return in the response.
         public let maxResults: Int?
         /// A string in the model package name. This filter returns only model packages whose name contains the specified string.
@@ -9488,7 +9488,7 @@ extension SageMaker {
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -9537,9 +9537,9 @@ extension SageMaker {
 
     public struct ListModelsInput: AWSEncodableShape {
         /// A filter that returns only models with a creation time greater than or equal to the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only models created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// The maximum number of models to return in the response.
         public let maxResults: Int?
         /// A string in the training job name. This filter returns only models in the training job whose name contains the specified string.
@@ -9551,7 +9551,7 @@ extension SageMaker {
         /// The sort order for results. The default is Descending.
         public let sortOrder: OrderKey?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelSortKey? = nil, sortOrder: OrderKey? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelSortKey? = nil, sortOrder: OrderKey? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -9600,15 +9600,15 @@ extension SageMaker {
 
     public struct ListMonitoringExecutionsRequest: AWSEncodableShape {
         /// A filter that returns only jobs created after a specified time.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only jobs created before a specified time.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// Name of a specific endpoint to fetch jobs for.
         public let endpointName: String?
         /// A filter that returns only jobs modified before a specified time.
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only jobs modified after a specified time.
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of jobs to return in the response. The default value is 10.
         public let maxResults: Int?
         /// Name of a specific schedule to fetch jobs for.
@@ -9616,9 +9616,9 @@ extension SageMaker {
         /// The token returned if the response is truncated. To retrieve the next set of job executions, use it in the next request.
         public let nextToken: String?
         /// Filter for jobs scheduled after a specified time.
-        public let scheduledTimeAfter: TimeStamp?
+        public let scheduledTimeAfter: Date?
         /// Filter for jobs scheduled before a specified time.
-        public let scheduledTimeBefore: TimeStamp?
+        public let scheduledTimeBefore: Date?
         /// Whether to sort results by Status, CreationTime, ScheduledTime field. The default is CreationTime.
         public let sortBy: MonitoringExecutionSortKey?
         /// Whether to sort the results in Ascending or Descending order. The default is Descending.
@@ -9626,7 +9626,7 @@ extension SageMaker {
         /// A filter that retrieves only jobs with a specific status.
         public let statusEquals: ExecutionStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, endpointName: String? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, monitoringScheduleName: String? = nil, nextToken: String? = nil, scheduledTimeAfter: TimeStamp? = nil, scheduledTimeBefore: TimeStamp? = nil, sortBy: MonitoringExecutionSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ExecutionStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, monitoringScheduleName: String? = nil, nextToken: String? = nil, scheduledTimeAfter: Date? = nil, scheduledTimeBefore: Date? = nil, sortBy: MonitoringExecutionSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ExecutionStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.endpointName = endpointName
@@ -9690,15 +9690,15 @@ extension SageMaker {
 
     public struct ListMonitoringSchedulesRequest: AWSEncodableShape {
         /// A filter that returns only monitoring schedules created after a specified time.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only monitoring schedules created before a specified time.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// Name of a specific endpoint to fetch schedules for.
         public let endpointName: String?
         /// A filter that returns only monitoring schedules modified after a specified time.
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only monitoring schedules modified before a specified time.
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of jobs to return in the response. The default value is 10.
         public let maxResults: Int?
         /// Filter for monitoring schedules whose name contains a specified string.
@@ -9712,7 +9712,7 @@ extension SageMaker {
         /// A filter that returns only monitoring schedules modified before a specified time.
         public let statusEquals: ScheduleStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, endpointName: String? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringScheduleSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ScheduleStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringScheduleSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ScheduleStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.endpointName = endpointName
@@ -9771,13 +9771,13 @@ extension SageMaker {
 
     public struct ListNotebookInstanceLifecycleConfigsInput: AWSEncodableShape {
         /// A filter that returns only lifecycle configurations that were created after the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only lifecycle configurations that were created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A filter that returns only lifecycle configurations that were modified after the specified time (timestamp).
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only lifecycle configurations that were modified before the specified time (timestamp).
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of lifecycle configurations to return in the response.
         public let maxResults: Int?
         /// A string in the lifecycle configuration name. This filter returns only lifecycle configurations whose name contains the specified string.
@@ -9789,7 +9789,7 @@ extension SageMaker {
         /// The sort order for results.
         public let sortOrder: NotebookInstanceLifecycleConfigSortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: NotebookInstanceLifecycleConfigSortKey? = nil, sortOrder: NotebookInstanceLifecycleConfigSortOrder? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: NotebookInstanceLifecycleConfigSortKey? = nil, sortOrder: NotebookInstanceLifecycleConfigSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -9844,15 +9844,15 @@ extension SageMaker {
         /// A filter that returns only notebook instances with associated with the specified git repository.
         public let additionalCodeRepositoryEquals: String?
         /// A filter that returns only notebook instances that were created after the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only notebook instances that were created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A string in the name or URL of a Git repository associated with this notebook instance. This filter returns only notebook instances associated with a git repository with a name that contains the specified string.
         public let defaultCodeRepositoryContains: String?
         /// A filter that returns only notebook instances that were modified after the specified time (timestamp).
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only notebook instances that were modified before the specified time (timestamp).
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of notebook instances to return.
         public let maxResults: Int?
         /// A string in the notebook instances' name. This filter returns only notebook instances whose name contains the specified string.
@@ -9868,7 +9868,7 @@ extension SageMaker {
         /// A filter that returns only notebook instances with the specified status.
         public let statusEquals: NotebookInstanceStatus?
 
-        public init(additionalCodeRepositoryEquals: String? = nil, creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, defaultCodeRepositoryContains: String? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, notebookInstanceLifecycleConfigNameContains: String? = nil, sortBy: NotebookInstanceSortKey? = nil, sortOrder: NotebookInstanceSortOrder? = nil, statusEquals: NotebookInstanceStatus? = nil) {
+        public init(additionalCodeRepositoryEquals: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, defaultCodeRepositoryContains: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, notebookInstanceLifecycleConfigNameContains: String? = nil, sortBy: NotebookInstanceSortKey? = nil, sortOrder: NotebookInstanceSortOrder? = nil, statusEquals: NotebookInstanceStatus? = nil) {
             self.additionalCodeRepositoryEquals = additionalCodeRepositoryEquals
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -9936,13 +9936,13 @@ extension SageMaker {
 
     public struct ListProcessingJobsRequest: AWSEncodableShape {
         /// A filter that returns only processing jobs created after the specified time.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only processing jobs created after the specified time.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A filter that returns only processing jobs modified after the specified time.
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only processing jobs modified before the specified time.
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of processing jobs to return in the response.
         public let maxResults: Int?
         /// A string in the processing job name. This filter returns only processing jobs whose name contains the specified string.
@@ -9956,7 +9956,7 @@ extension SageMaker {
         /// A filter that retrieves only processing jobs with a specific status.
         public let statusEquals: ProcessingJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: ProcessingJobStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: ProcessingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -10163,13 +10163,13 @@ extension SageMaker {
 
     public struct ListTrainingJobsRequest: AWSEncodableShape {
         /// A filter that returns only training jobs created after the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only training jobs created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A filter that returns only training jobs modified after the specified time (timestamp).
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only training jobs modified before the specified time (timestamp).
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of training jobs to return in the response.
         public let maxResults: Int?
         /// A string in the training job name. This filter returns only training jobs whose name contains the specified string.
@@ -10183,7 +10183,7 @@ extension SageMaker {
         /// A filter that retrieves only training jobs with a specific status.
         public let statusEquals: TrainingJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -10238,13 +10238,13 @@ extension SageMaker {
 
     public struct ListTransformJobsRequest: AWSEncodableShape {
         /// A filter that returns only transform jobs created after the specified time.
-        public let creationTimeAfter: TimeStamp?
+        public let creationTimeAfter: Date?
         /// A filter that returns only transform jobs created before the specified time.
-        public let creationTimeBefore: TimeStamp?
+        public let creationTimeBefore: Date?
         /// A filter that returns only transform jobs modified after the specified time.
-        public let lastModifiedTimeAfter: TimeStamp?
+        public let lastModifiedTimeAfter: Date?
         /// A filter that returns only transform jobs modified before the specified time.
-        public let lastModifiedTimeBefore: TimeStamp?
+        public let lastModifiedTimeBefore: Date?
         /// The maximum number of transform jobs to return in the response. The default value is 10.
         public let maxResults: Int?
         /// A string in the transform job name. This filter returns only transform jobs whose name contains the specified string.
@@ -10258,7 +10258,7 @@ extension SageMaker {
         /// A filter that retrieves only transform jobs with a specific status.
         public let statusEquals: TransformJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TransformJobStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TransformJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -10313,9 +10313,9 @@ extension SageMaker {
 
     public struct ListTrialComponentsRequest: AWSEncodableShape {
         /// A filter that returns only components created after the specified time.
-        public let createdAfter: TimeStamp?
+        public let createdAfter: Date?
         /// A filter that returns only components created before the specified time.
-        public let createdBefore: TimeStamp?
+        public let createdBefore: Date?
         /// A filter that returns only components that are part of the specified experiment. If you specify ExperimentName, you can't filter by SourceArn or TrialName.
         public let experimentName: String?
         /// The maximum number of components to return in the response. The default value is 10.
@@ -10331,7 +10331,7 @@ extension SageMaker {
         /// A filter that returns only components that are part of the specified trial. If you specify TrialName, you can't filter by ExperimentName or SourceArn.
         public let trialName: String?
 
-        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialComponentsBy? = nil, sortOrder: SortOrder? = nil, sourceArn: String? = nil, trialName: String? = nil) {
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialComponentsBy? = nil, sortOrder: SortOrder? = nil, sourceArn: String? = nil, trialName: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.experimentName = experimentName
@@ -10389,9 +10389,9 @@ extension SageMaker {
 
     public struct ListTrialsRequest: AWSEncodableShape {
         /// A filter that returns only trials created after the specified time.
-        public let createdAfter: TimeStamp?
+        public let createdAfter: Date?
         /// A filter that returns only trials created before the specified time.
-        public let createdBefore: TimeStamp?
+        public let createdBefore: Date?
         /// A filter that returns only trials that are part of the specified experiment.
         public let experimentName: String?
         /// The maximum number of trials to return in the response. The default value is 10.
@@ -10405,7 +10405,7 @@ extension SageMaker {
         /// A filter that returns only trials that are associated with the specified trial component.
         public let trialComponentName: String?
 
-        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialsBy? = nil, sortOrder: SortOrder? = nil, trialComponentName: String? = nil) {
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialsBy? = nil, sortOrder: SortOrder? = nil, trialComponentName: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.experimentName = experimentName
@@ -10656,11 +10656,11 @@ extension SageMaker {
         /// The name of the metric.
         public let metricName: String?
         /// The date and time that the algorithm emitted the metric.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         /// The value of the metric.
         public let value: Float?
 
-        public init(metricName: String? = nil, timestamp: TimeStamp? = nil, value: Float? = nil) {
+        public init(metricName: String? = nil, timestamp: Date? = nil, value: Float? = nil) {
             self.metricName = metricName
             self.timestamp = timestamp
             self.value = value
@@ -10818,7 +10818,7 @@ extension SageMaker {
 
     public struct ModelPackageSummary: AWSDecodableShape {
         /// A timestamp that shows when the model package was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the model package.
         public let modelPackageArn: String
         /// A brief description of the model package.
@@ -10828,7 +10828,7 @@ extension SageMaker {
         /// The overall status of the model package.
         public let modelPackageStatus: ModelPackageStatus
 
-        public init(creationTime: TimeStamp, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus) {
+        public init(creationTime: Date, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus) {
             self.creationTime = creationTime
             self.modelPackageArn = modelPackageArn
             self.modelPackageDescription = modelPackageDescription
@@ -10899,13 +10899,13 @@ extension SageMaker {
 
     public struct ModelSummary: AWSDecodableShape {
         /// A timestamp that indicates when the model was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the model.
         public let modelArn: String
         /// The name of the model that you want a summary for.
         public let modelName: String
 
-        public init(creationTime: TimeStamp, modelArn: String, modelName: String) {
+        public init(creationTime: Date, modelArn: String, modelName: String) {
             self.creationTime = creationTime
             self.modelArn = modelArn
             self.modelName = modelName
@@ -11044,13 +11044,13 @@ extension SageMaker {
 
     public struct MonitoringExecutionSummary: AWSDecodableShape {
         /// The time at which the monitoring job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The name of teh endpoint used to run the monitoring job.
         public let endpointName: String?
         /// Contains the reason a monitoring job failed, if it failed.
         public let failureReason: String?
         /// A timestamp that indicates the last time the monitoring job was modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// The status of the monitoring job.
         public let monitoringExecutionStatus: ExecutionStatus
         /// The name of the monitoring schedule.
@@ -11058,9 +11058,9 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the monitoring job.
         public let processingJobArn: String?
         /// The time the monitoring job was scheduled.
-        public let scheduledTime: TimeStamp
+        public let scheduledTime: Date
 
-        public init(creationTime: TimeStamp, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp, monitoringExecutionStatus: ExecutionStatus, monitoringScheduleName: String, processingJobArn: String? = nil, scheduledTime: TimeStamp) {
+        public init(creationTime: Date, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date, monitoringExecutionStatus: ExecutionStatus, monitoringScheduleName: String, processingJobArn: String? = nil, scheduledTime: Date) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.failureReason = failureReason
@@ -11281,11 +11281,11 @@ extension SageMaker {
 
     public struct MonitoringScheduleSummary: AWSDecodableShape {
         /// The creation time of the monitoring schedule.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The name of the endpoint using the monitoring schedule.
         public let endpointName: String?
         /// The last time the monitoring schedule was modified.
-        public let lastModifiedTime: TimeStamp
+        public let lastModifiedTime: Date
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
         public let monitoringScheduleArn: String
         /// The name of the monitoring schedule.
@@ -11293,7 +11293,7 @@ extension SageMaker {
         /// The status of the monitoring schedule.
         public let monitoringScheduleStatus: ScheduleStatus
 
-        public init(creationTime: TimeStamp, endpointName: String? = nil, lastModifiedTime: TimeStamp, monitoringScheduleArn: String, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus) {
+        public init(creationTime: Date, endpointName: String? = nil, lastModifiedTime: Date, monitoringScheduleArn: String, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.lastModifiedTime = lastModifiedTime
@@ -11402,15 +11402,15 @@ extension SageMaker {
 
     public struct NotebookInstanceLifecycleConfigSummary: AWSDecodableShape {
         /// A timestamp that tells when the lifecycle configuration was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// A timestamp that tells when the lifecycle configuration was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The Amazon Resource Name (ARN) of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigArn: String
         /// The name of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigName: String
 
-        public init(creationTime: TimeStamp? = nil, lastModifiedTime: TimeStamp? = nil, notebookInstanceLifecycleConfigArn: String, notebookInstanceLifecycleConfigName: String) {
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, notebookInstanceLifecycleConfigArn: String, notebookInstanceLifecycleConfigName: String) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
@@ -11448,13 +11448,13 @@ extension SageMaker {
         /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let additionalCodeRepositories: [String]?
         /// A timestamp that shows when the notebook instance was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let defaultCodeRepository: String?
         /// The type of ML compute instance that the notebook instance is running on.
         public let instanceType: InstanceType?
         /// A timestamp that shows when the notebook instance was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The Amazon Resource Name (ARN) of the notebook instance.
         public let notebookInstanceArn: String
         /// The name of a notebook instance lifecycle configuration associated with this notebook instance. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
@@ -11466,7 +11466,7 @@ extension SageMaker {
         /// The URL that you use to connect to the Jupyter instance running in your notebook instance.
         public let url: String?
 
-        public init(additionalCodeRepositories: [String]? = nil, creationTime: TimeStamp? = nil, defaultCodeRepository: String? = nil, instanceType: InstanceType? = nil, lastModifiedTime: TimeStamp? = nil, notebookInstanceArn: String, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String, notebookInstanceStatus: NotebookInstanceStatus? = nil, url: String? = nil) {
+        public init(additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, instanceType: InstanceType? = nil, lastModifiedTime: Date? = nil, notebookInstanceArn: String, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String, notebookInstanceStatus: NotebookInstanceStatus? = nil, url: String? = nil) {
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
             self.defaultCodeRepository = defaultCodeRepository
@@ -11872,7 +11872,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the AutoML job associated with this processing job.
         public let autoMLJobArn: String?
         /// The time the processing job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Sets the environment variables in the Docker container.
         public let environment: [String: String]?
         /// A string, up to one KB in size, that contains metadata from the processing container when the processing job exits.
@@ -11881,12 +11881,12 @@ extension SageMaker {
         /// A string, up to one KB in size, that contains the reason a processing job failed, if it failed.
         public let failureReason: String?
         /// The time the processing job was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The ARN of a monitoring schedule for an endpoint associated with this processing job.
         public let monitoringScheduleArn: String?
         public let networkConfig: NetworkConfig?
         /// The time that the processing job ended.
-        public let processingEndTime: TimeStamp?
+        public let processingEndTime: Date?
         /// For each input, data is downloaded from S3 into the processing container before the processing job begins running if "S3InputMode" is set to File.
         public let processingInputs: [ProcessingInput]?
         /// The ARN of the processing job.
@@ -11898,7 +11898,7 @@ extension SageMaker {
         public let processingOutputConfig: ProcessingOutputConfig?
         public let processingResources: ProcessingResources?
         /// The time that the processing job started.
-        public let processingStartTime: TimeStamp?
+        public let processingStartTime: Date?
         /// The ARN of the role used to create the processing job.
         public let roleArn: String?
         public let stoppingCondition: ProcessingStoppingCondition?
@@ -11907,7 +11907,7 @@ extension SageMaker {
         /// The ARN of the training job associated with this processing job.
         public let trainingJobArn: String?
 
-        public init(appSpecification: AppSpecification? = nil, autoMLJobArn: String? = nil, creationTime: TimeStamp? = nil, environment: [String: String]? = nil, exitMessage: String? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp? = nil, monitoringScheduleArn: String? = nil, networkConfig: NetworkConfig? = nil, processingEndTime: TimeStamp? = nil, processingInputs: [ProcessingInput]? = nil, processingJobArn: String? = nil, processingJobName: String? = nil, processingJobStatus: ProcessingJobStatus? = nil, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources? = nil, processingStartTime: TimeStamp? = nil, roleArn: String? = nil, stoppingCondition: ProcessingStoppingCondition? = nil, tags: [Tag]? = nil, trainingJobArn: String? = nil) {
+        public init(appSpecification: AppSpecification? = nil, autoMLJobArn: String? = nil, creationTime: Date? = nil, environment: [String: String]? = nil, exitMessage: String? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, monitoringScheduleArn: String? = nil, networkConfig: NetworkConfig? = nil, processingEndTime: Date? = nil, processingInputs: [ProcessingInput]? = nil, processingJobArn: String? = nil, processingJobName: String? = nil, processingJobStatus: ProcessingJobStatus? = nil, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources? = nil, processingStartTime: Date? = nil, roleArn: String? = nil, stoppingCondition: ProcessingStoppingCondition? = nil, tags: [Tag]? = nil, trainingJobArn: String? = nil) {
             self.appSpecification = appSpecification
             self.autoMLJobArn = autoMLJobArn
             self.creationTime = creationTime
@@ -11960,15 +11960,15 @@ extension SageMaker {
 
     public struct ProcessingJobSummary: AWSDecodableShape {
         /// The time at which the processing job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// An optional string, up to one KB in size, that contains metadata from the processing container when the processing job exits.
         public let exitMessage: String?
         /// A string, up to one KB in size, that contains the reason a processing job failed, if it failed.
         public let failureReason: String?
         /// A timestamp that indicates the last time the processing job was modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The time at which the processing job completed.
-        public let processingEndTime: TimeStamp?
+        public let processingEndTime: Date?
         /// The Amazon Resource Name (ARN) of the processing job..
         public let processingJobArn: String
         /// The name of the processing job.
@@ -11976,7 +11976,7 @@ extension SageMaker {
         /// The status of the processing job.
         public let processingJobStatus: ProcessingJobStatus
 
-        public init(creationTime: TimeStamp, exitMessage: String? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp? = nil, processingEndTime: TimeStamp? = nil, processingJobArn: String, processingJobName: String, processingJobStatus: ProcessingJobStatus) {
+        public init(creationTime: Date, exitMessage: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, processingEndTime: Date? = nil, processingJobArn: String, processingJobName: String, processingJobStatus: ProcessingJobStatus) {
             self.creationTime = creationTime
             self.exitMessage = exitMessage
             self.failureReason = failureReason
@@ -12655,15 +12655,15 @@ extension SageMaker {
 
     public struct SecondaryStatusTransition: AWSDecodableShape {
         /// A timestamp that shows when the training job transitioned out of this secondary status state into another secondary status state or when the training job has ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// A timestamp that shows when the training job transitioned to the current secondary status state.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// Contains a secondary status information from a training job. Status might be one of the following secondary statuses:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.     We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTrainingStack     DownloadingTrainingImage
         public let status: SecondaryStatus
         /// A detailed description of the progress within a secondary status.  Amazon SageMaker provides secondary statuses and status messages that apply to each of them:  Starting    Starting the training job.   Launching requested ML instances.   Insufficient capacity error from EC2 while launching instances, retrying!   Launched instance was unhealthy, replacing it!   Preparing the instances for training.    Training    Downloading the training image.   Training image download completed. Training in progress.      Status messages are subject to change. Therefore, we recommend not including them in code that programmatically initiates actions. For examples, don't use status messages in if statements.  To have an overview of your training job's progress, view TrainingJobStatus and SecondaryStatus in DescribeTrainingJob, and StatusMessage together. For example, at the start of a training job, you might see the following:    TrainingJobStatus - InProgress    SecondaryStatus - Training    StatusMessage - Downloading the training image
         public let statusMessage: String?
 
-        public init(endTime: TimeStamp? = nil, startTime: TimeStamp, status: SecondaryStatus, statusMessage: String? = nil) {
+        public init(endTime: Date? = nil, startTime: Date, status: SecondaryStatus, statusMessage: String? = nil) {
             self.endTime = endTime
             self.startTime = startTime
             self.status = status
@@ -13158,7 +13158,7 @@ extension SageMaker {
         public let billableTimeInSeconds: Int?
         public let checkpointConfig: CheckpointConfig?
         /// A timestamp that indicates when the training job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         public let debugHookConfig: DebugHookConfig?
         /// Information about the debug rule configuration.
         public let debugRuleConfigurations: [DebugRuleConfiguration]?
@@ -13182,7 +13182,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the labeling job.
         public let labelingJobArn: String?
         /// A timestamp that indicates when the status of the training job was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// Information about the Amazon S3 location that is configured for storing model artifacts.
         public let modelArtifacts: ModelArtifacts?
         /// The S3 path where model artifacts that you configured when creating the job are stored. Amazon SageMaker creates subfolders for model artifacts.
@@ -13201,7 +13201,7 @@ extension SageMaker {
         public let tags: [Tag]?
         public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
-        public let trainingEndTime: TimeStamp?
+        public let trainingEndTime: Date?
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String?
         /// The name of the training job.
@@ -13209,7 +13209,7 @@ extension SageMaker {
         /// The status of the training job. Training job statuses are:    InProgress - The training is in progress.    Completed - The training job has completed.    Failed - The training job has failed. To see the reason for the failure, see the FailureReason field in the response to a DescribeTrainingJobResponse call.    Stopping - The training job is stopping.    Stopped - The training job has stopped.   For more detailed information, see SecondaryStatus.
         public let trainingJobStatus: TrainingJobStatus?
         /// Indicates the time when the training job starts on training instances. You are billed for the time interval between this time and the value of TrainingEndTime. The start time in CloudWatch Logs might be later than this time. The difference is due to the time it takes to download the training data and to the size of the training container.
-        public let trainingStartTime: TimeStamp?
+        public let trainingStartTime: Date?
         /// The training time in seconds.
         public let trainingTimeInSeconds: Int?
         /// The Amazon Resource Name (ARN) of the associated hyperparameter tuning job if the training job was launched by a hyperparameter tuning job.
@@ -13217,7 +13217,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: TimeStamp? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: TimeStamp? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -13375,11 +13375,11 @@ extension SageMaker {
 
     public struct TrainingJobSummary: AWSDecodableShape {
         /// A timestamp that shows when the training job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         ///  Timestamp when the training job was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// A timestamp that shows when the training job ended. This field is set only if the training job has one of the terminal statuses (Completed, Failed, or Stopped).
-        public let trainingEndTime: TimeStamp?
+        public let trainingEndTime: Date?
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String
         /// The name of the training job that you want a summary for.
@@ -13387,7 +13387,7 @@ extension SageMaker {
         /// The status of the training job.
         public let trainingJobStatus: TrainingJobStatus
 
-        public init(creationTime: TimeStamp, lastModifiedTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus) {
+        public init(creationTime: Date, lastModifiedTime: Date? = nil, trainingEndTime: Date? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.trainingEndTime = trainingEndTime
@@ -13526,7 +13526,7 @@ extension SageMaker {
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.
         public let batchStrategy: BatchStrategy?
         /// A timestamp that shows when the transform Job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         public let dataProcessing: DataProcessing?
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
         public let environment: [String: String]?
@@ -13545,7 +13545,7 @@ extension SageMaker {
         /// A list of tags associated with the transform job.
         public let tags: [Tag]?
         /// Indicates when the transform job has been completed, or has stopped or failed. You are billed for the time interval between this time and the value of TransformStartTime.
-        public let transformEndTime: TimeStamp?
+        public let transformEndTime: Date?
         public let transformInput: TransformInput?
         /// The Amazon Resource Name (ARN) of the transform job.
         public let transformJobArn: String?
@@ -13556,9 +13556,9 @@ extension SageMaker {
         public let transformOutput: TransformOutput?
         public let transformResources: TransformResources?
         /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
-        public let transformStartTime: TimeStamp?
+        public let transformStartTime: Date?
 
-        public init(autoMLJobArn: String? = nil, batchStrategy: BatchStrategy? = nil, creationTime: TimeStamp? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String? = nil, tags: [Tag]? = nil, transformEndTime: TimeStamp? = nil, transformInput: TransformInput? = nil, transformJobArn: String? = nil, transformJobName: String? = nil, transformJobStatus: TransformJobStatus? = nil, transformOutput: TransformOutput? = nil, transformResources: TransformResources? = nil, transformStartTime: TimeStamp? = nil) {
+        public init(autoMLJobArn: String? = nil, batchStrategy: BatchStrategy? = nil, creationTime: Date? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String? = nil, tags: [Tag]? = nil, transformEndTime: Date? = nil, transformInput: TransformInput? = nil, transformJobArn: String? = nil, transformJobName: String? = nil, transformJobStatus: TransformJobStatus? = nil, transformOutput: TransformOutput? = nil, transformResources: TransformResources? = nil, transformStartTime: Date? = nil) {
             self.autoMLJobArn = autoMLJobArn
             self.batchStrategy = batchStrategy
             self.creationTime = creationTime
@@ -13660,13 +13660,13 @@ extension SageMaker {
 
     public struct TransformJobSummary: AWSDecodableShape {
         /// A timestamp that shows when the transform Job was created.
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// If the transform job failed, the reason it failed.
         public let failureReason: String?
         /// Indicates when the transform job was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// Indicates when the transform job ends on compute instances. For successful jobs and stopped jobs, this is the exact time recorded after the results are uploaded. For failed jobs, this is when Amazon SageMaker detected that the job failed.
-        public let transformEndTime: TimeStamp?
+        public let transformEndTime: Date?
         /// The Amazon Resource Name (ARN) of the transform job.
         public let transformJobArn: String
         /// The name of the transform job.
@@ -13674,7 +13674,7 @@ extension SageMaker {
         /// The status of the transform job.
         public let transformJobStatus: TransformJobStatus
 
-        public init(creationTime: TimeStamp, failureReason: String? = nil, lastModifiedTime: TimeStamp? = nil, transformEndTime: TimeStamp? = nil, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus) {
+        public init(creationTime: Date, failureReason: String? = nil, lastModifiedTime: Date? = nil, transformEndTime: Date? = nil, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.lastModifiedTime = lastModifiedTime
@@ -13781,14 +13781,14 @@ extension SageMaker {
     public struct Trial: AWSDecodableShape {
         public let createdBy: UserContext?
         /// When the trial was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the trial as displayed. If DisplayName isn't specified, TrialName is displayed.
         public let displayName: String?
         /// The name of the experiment the trial is part of.
         public let experimentName: String?
         public let lastModifiedBy: UserContext?
         /// Who last modified the trial.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         public let source: TrialSource?
         /// The list of tags that are associated with the trial. You can use Search API to search on the tags.
         public let tags: [Tag]?
@@ -13799,7 +13799,7 @@ extension SageMaker {
         /// The name of the trial.
         public let trialName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, source: TrialSource? = nil, tags: [Tag]? = nil, trialArn: String? = nil, trialComponentSummaries: [TrialComponentSimpleSummary]? = nil, trialName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, source: TrialSource? = nil, tags: [Tag]? = nil, trialArn: String? = nil, trialComponentSummaries: [TrialComponentSimpleSummary]? = nil, trialName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -13831,16 +13831,16 @@ extension SageMaker {
     public struct TrialComponent: AWSDecodableShape {
         public let createdBy: UserContext?
         /// When the component was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the component as displayed. If DisplayName isn't specified, TrialComponentName is displayed.
         public let displayName: String?
         /// When the component ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The input artifacts of the component.
         public let inputArtifacts: [String: TrialComponentArtifact]?
         public let lastModifiedBy: UserContext?
         /// When the component was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The metrics for the component.
         public let metrics: [TrialComponentMetricSummary]?
         /// The output artifacts of the component.
@@ -13854,7 +13854,7 @@ extension SageMaker {
         /// Details of the source of the component.
         public let sourceDetail: TrialComponentSourceDetail?
         /// When the component started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         public let status: TrialComponentStatus?
         /// The list of tags that are associated with the component. You can use Search API to search on the tags.
         public let tags: [Tag]?
@@ -13863,7 +13863,7 @@ extension SageMaker {
         /// The name of the trial component.
         public let trialComponentName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, endTime: TimeStamp? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parents: [Parent]? = nil, source: TrialComponentSource? = nil, sourceDetail: TrialComponentSourceDetail? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parents: [Parent]? = nil, source: TrialComponentSource? = nil, sourceDetail: TrialComponentSourceDetail? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -13948,9 +13948,9 @@ extension SageMaker {
         /// The standard deviation of the metric.
         public let stdDev: Double?
         /// When the metric was last updated.
-        public let timeStamp: TimeStamp?
+        public let timeStamp: Date?
 
-        public init(avg: Double? = nil, count: Int? = nil, last: Double? = nil, max: Double? = nil, metricName: String? = nil, min: Double? = nil, sourceArn: String? = nil, stdDev: Double? = nil, timeStamp: TimeStamp? = nil) {
+        public init(avg: Double? = nil, count: Int? = nil, last: Double? = nil, max: Double? = nil, metricName: String? = nil, min: Double? = nil, sourceArn: String? = nil, stdDev: Double? = nil, timeStamp: Date? = nil) {
             self.avg = avg
             self.count = count
             self.last = last
@@ -14000,14 +14000,14 @@ extension SageMaker {
     public struct TrialComponentSimpleSummary: AWSDecodableShape {
         public let createdBy: UserContext?
         /// When the component was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
         /// The name of the trial component.
         public let trialComponentName: String?
         public let trialComponentSource: TrialComponentSource?
 
-        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil, trialComponentSource: TrialComponentSource? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil, trialComponentSource: TrialComponentSource? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.trialComponentArn = trialComponentArn
@@ -14092,17 +14092,17 @@ extension SageMaker {
         /// Who created the component.
         public let createdBy: UserContext?
         /// When the component was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the component as displayed. If DisplayName isn't specified, TrialComponentName is displayed.
         public let displayName: String?
         /// When the component ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Who last modified the component.
         public let lastModifiedBy: UserContext?
         /// When the component was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// When the component started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the component. States include:   InProgress   Completed   Failed
         public let status: TrialComponentStatus?
         /// The ARN of the trial component.
@@ -14111,7 +14111,7 @@ extension SageMaker {
         public let trialComponentName: String?
         public let trialComponentSource: TrialComponentSource?
 
-        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, endTime: TimeStamp? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil, trialComponentSource: TrialComponentSource? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil, trialComponentSource: TrialComponentSource? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -14159,18 +14159,18 @@ extension SageMaker {
 
     public struct TrialSummary: AWSDecodableShape {
         /// When the trial was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the trial as displayed. If DisplayName isn't specified, TrialName is displayed.
         public let displayName: String?
         /// When the trial was last modified.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The Amazon Resource Name (ARN) of the trial.
         public let trialArn: String?
         /// The name of the trial.
         public let trialName: String?
         public let trialSource: TrialSource?
 
-        public init(creationTime: TimeStamp? = nil, displayName: String? = nil, lastModifiedTime: TimeStamp? = nil, trialArn: String? = nil, trialName: String? = nil, trialSource: TrialSource? = nil) {
+        public init(creationTime: Date? = nil, displayName: String? = nil, lastModifiedTime: Date? = nil, trialArn: String? = nil, trialName: String? = nil, trialSource: TrialSource? = nil) {
             self.creationTime = creationTime
             self.displayName = displayName
             self.lastModifiedTime = lastModifiedTime
@@ -14660,7 +14660,7 @@ extension SageMaker {
         /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed.
         public let displayName: String?
         /// When the component ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Replaces all of the component's input artifacts with the specified artifacts.
         public let inputArtifacts: [String: TrialComponentArtifact]?
         /// The input artifacts to remove from the component.
@@ -14674,13 +14674,13 @@ extension SageMaker {
         /// The hyperparameters to remove from the component.
         public let parametersToRemove: [String]?
         /// When the component started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The new status of the component.
         public let status: TrialComponentStatus?
         /// The name of the component to update.
         public let trialComponentName: String
 
-        public init(displayName: String? = nil, endTime: TimeStamp? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, inputArtifactsToRemove: [String]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, outputArtifactsToRemove: [String]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parametersToRemove: [String]? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, trialComponentName: String) {
+        public init(displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, inputArtifactsToRemove: [String]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, outputArtifactsToRemove: [String]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parametersToRemove: [String]? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentName: String) {
             self.displayName = displayName
             self.endTime = endTime
             self.inputArtifacts = inputArtifacts
@@ -14957,17 +14957,17 @@ extension SageMaker {
 
     public struct UserProfileDetails: AWSDecodableShape {
         /// The creation time.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The domain ID.
         public let domainId: String?
         /// The last modified time.
-        public let lastModifiedTime: TimeStamp?
+        public let lastModifiedTime: Date?
         /// The status.
         public let status: UserProfileStatus?
         /// The user profile name.
         public let userProfileName: String?
 
-        public init(creationTime: TimeStamp? = nil, domainId: String? = nil, lastModifiedTime: TimeStamp? = nil, status: UserProfileStatus? = nil, userProfileName: String? = nil) {
+        public init(creationTime: Date? = nil, domainId: String? = nil, lastModifiedTime: Date? = nil, status: UserProfileStatus? = nil, userProfileName: String? = nil) {
             self.creationTime = creationTime
             self.domainId = domainId
             self.lastModifiedTime = lastModifiedTime
@@ -15081,9 +15081,9 @@ extension SageMaker {
         /// The configuration of an Amazon Cognito workforce. A single Cognito workforce is created using and corresponds to a single  Amazon Cognito user pool.
         public let cognitoConfig: CognitoConfig?
         /// The date that the workforce is created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The most recent date that was used to successfully add one or more IP address ranges (CIDRs) to a private workforce's allow list.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// The configuration of an OIDC Identity Provider (IdP) private workforce.
         public let oidcConfig: OidcConfigForResponse?
         /// A list of one to ten IP address ranges (CIDRs) to be added to the workforce allow list. By default, a workforce isn't restricted to specific IP addresses.
@@ -15095,7 +15095,7 @@ extension SageMaker {
         /// The name of the private workforce.
         public let workforceName: String
 
-        public init(cognitoConfig: CognitoConfig? = nil, createDate: TimeStamp? = nil, lastUpdatedDate: TimeStamp? = nil, oidcConfig: OidcConfigForResponse? = nil, sourceIpConfig: SourceIpConfig? = nil, subDomain: String? = nil, workforceArn: String, workforceName: String) {
+        public init(cognitoConfig: CognitoConfig? = nil, createDate: Date? = nil, lastUpdatedDate: Date? = nil, oidcConfig: OidcConfigForResponse? = nil, sourceIpConfig: SourceIpConfig? = nil, subDomain: String? = nil, workforceArn: String, workforceName: String) {
             self.cognitoConfig = cognitoConfig
             self.createDate = createDate
             self.lastUpdatedDate = lastUpdatedDate
@@ -15120,11 +15120,11 @@ extension SageMaker {
 
     public struct Workteam: AWSDecodableShape {
         /// The date and time that the work team was created (timestamp).
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// A description of the work team.
         public let description: String
         /// The date and time that the work team was last updated (timestamp).
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         /// A list of MemberDefinition objects that contains objects that identify the workers that make up the work team.  Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP). For private workforces created using Amazon Cognito use CognitoMemberDefinition. For workforces created using your own OIDC identity provider (IdP) use OidcMemberDefinition.
         public let memberDefinitions: [MemberDefinition]
         /// Configures SNS notifications of available or expiring work items for work teams.
@@ -15140,7 +15140,7 @@ extension SageMaker {
         /// The name of the work team.
         public let workteamName: String
 
-        public init(createDate: TimeStamp? = nil, description: String, lastUpdatedDate: TimeStamp? = nil, memberDefinitions: [MemberDefinition], notificationConfiguration: NotificationConfiguration? = nil, productListingIds: [String]? = nil, subDomain: String? = nil, workforceArn: String? = nil, workteamArn: String, workteamName: String) {
+        public init(createDate: Date? = nil, description: String, lastUpdatedDate: Date? = nil, memberDefinitions: [MemberDefinition], notificationConfiguration: NotificationConfiguration? = nil, productListingIds: [String]? = nil, subDomain: String? = nil, workforceArn: String? = nil, workteamArn: String, workteamName: String) {
             self.createDate = createDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate

@@ -49,7 +49,7 @@ extension MediaStore {
         /// The Amazon Resource Name (ARN) of the container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;  For example: arn:aws:mediastore:us-west-2:111122223333:container/movies
         public let arn: String?
         /// Unix timestamp.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The DNS endpoint of the container. Use the endpoint to identify the specific container when sending requests to the data plane. The service assigns this value when the container is created. Once the value has been assigned, it does not change.
         public let endpoint: String?
         /// The name of the container.
@@ -57,7 +57,7 @@ extension MediaStore {
         /// The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When the endpoint is available, the status changes to ACTIVE.
         public let status: ContainerStatus?
 
-        public init(accessLoggingEnabled: Bool? = nil, arn: String? = nil, creationTime: TimeStamp? = nil, endpoint: String? = nil, name: String? = nil, status: ContainerStatus? = nil) {
+        public init(accessLoggingEnabled: Bool? = nil, arn: String? = nil, creationTime: Date? = nil, endpoint: String? = nil, name: String? = nil, status: ContainerStatus? = nil) {
             self.accessLoggingEnabled = accessLoggingEnabled
             self.arn = arn
             self.creationTime = creationTime

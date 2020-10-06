@@ -514,7 +514,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The deployment application configuration.
         public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
         /// The deployment configuration.
@@ -530,7 +530,7 @@ extension RoboMaker {
         /// The list of all tags added to the deployment job.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -590,13 +590,13 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The name of the fleet.
         public let name: String?
         /// The list of all tags added to the fleet.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
@@ -657,7 +657,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the robot application.
         public let name: String?
         /// The revision id of the robot application.
@@ -671,7 +671,7 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -724,7 +724,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the robot application.
         public let name: String?
         /// The revision id of the robot application.
@@ -736,7 +736,7 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -805,7 +805,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the robot.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the Greengrass group associated with the robot.
         public let greengrassGroupId: String?
         /// The name of the robot.
@@ -813,7 +813,7 @@ extension RoboMaker {
         /// The list of all tags added to the robot.
         public let tags: [String: String]?
 
-        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, greengrassGroupId: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: Date? = nil, greengrassGroupId: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.arn = arn
             self.createdAt = createdAt
@@ -888,7 +888,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the simulation application.
         public let name: String?
         /// The rendering engine for the simulation application.
@@ -906,7 +906,7 @@ extension RoboMaker {
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -963,7 +963,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the simulation application.
         public let name: String?
         /// The rendering engine for the simulation application.
@@ -979,7 +979,7 @@ extension RoboMaker {
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -1112,9 +1112,9 @@ extension RoboMaker {
         /// The IAM role that allows the simulation job to call the AWS APIs that are specified in its associated policies on your behalf.
         public let iamRole: String?
         /// The time, in milliseconds since the epoch, when the simulation job was last started.
-        public let lastStartedAt: TimeStamp?
+        public let lastStartedAt: Date?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The logging configuration.
         public let loggingConfig: LoggingConfig?
         /// The maximum simulation job duration in seconds.
@@ -1134,7 +1134,7 @@ extension RoboMaker {
         /// Information about the vpc configuration.
         public let vpcConfig: VPCConfigResponse?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, compute: ComputeResponse? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, compute: ComputeResponse? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastStartedAt: Date? = nil, lastUpdatedAt: Date? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.compute = compute
@@ -1236,7 +1236,7 @@ extension RoboMaker {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
         public let failureCode: WorldExportJobErrorCode?
         /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
@@ -1247,7 +1247,7 @@ extension RoboMaker {
         /// A map that contains tag keys and tag values that are attached to the world export job.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, failureCode: WorldExportJobErrorCode? = nil, iamRole: String? = nil, outputLocation: OutputLocation? = nil, status: WorldExportJobStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, failureCode: WorldExportJobErrorCode? = nil, iamRole: String? = nil, outputLocation: OutputLocation? = nil, status: WorldExportJobStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
@@ -1318,7 +1318,7 @@ extension RoboMaker {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world generator job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The failure code of the world generator job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
         public let failureCode: WorldGenerationJobErrorCode?
         /// The status of the world generator job.  Pending  The world generator job request is pending.  Running  The world generator job is running.   Completed  The world generator job completed.   Failed  The world generator job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generator job was cancelled.  Canceling  The world generator job is being cancelled.
@@ -1330,7 +1330,7 @@ extension RoboMaker {
         /// Information about the world count.
         public let worldCount: WorldCount?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, failureCode: WorldGenerationJobErrorCode? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, failureCode: WorldGenerationJobErrorCode? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
@@ -1409,13 +1409,13 @@ extension RoboMaker {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world template was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The name of the world template.
         public let name: String?
         /// A map that contains tag keys and tag values that are attached to the world template.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
@@ -1687,7 +1687,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The deployment application configuration.
         public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
         /// The deployment configuration.
@@ -1701,7 +1701,7 @@ extension RoboMaker {
         /// The status of the deployment job.
         public let status: DeploymentStatus?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -1842,7 +1842,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The deployment application configuration.
         public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
         /// The deployment configuration.
@@ -1860,7 +1860,7 @@ extension RoboMaker {
         /// The list of all tags added to the specified deployment job.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, robotDeploymentSummary: [RobotDeployment]? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, robotDeploymentSummary: [RobotDeployment]? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -1910,13 +1910,13 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the last deployment job.
         public let lastDeploymentJob: String?
         /// The status of the last deployment.
         public let lastDeploymentStatus: DeploymentStatus?
         /// The time of the last deployment.
-        public let lastDeploymentTime: TimeStamp?
+        public let lastDeploymentTime: Date?
         /// The name of the fleet.
         public let name: String?
         /// A list of robots.
@@ -1924,7 +1924,7 @@ extension RoboMaker {
         /// The list of all tags added to the specified fleet.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, robots: [Robot]? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: Date? = nil, name: String? = nil, robots: [Robot]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastDeploymentJob = lastDeploymentJob
@@ -1977,7 +1977,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the robot application.
         public let name: String?
         /// The revision id of the robot application.
@@ -1991,7 +1991,7 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -2039,7 +2039,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the robot.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String?
         /// The Greengrass group id.
@@ -2047,7 +2047,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the last deployment job.
         public let lastDeploymentJob: String?
         /// The time of the last deployment job.
-        public let lastDeploymentTime: TimeStamp?
+        public let lastDeploymentTime: Date?
         /// The name of the robot.
         public let name: String?
         /// The status of the fleet.
@@ -2055,7 +2055,7 @@ extension RoboMaker {
         /// The list of all tags added to the specified robot.
         public let tags: [String: String]?
 
-        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greengrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil, tags: [String: String]? = nil) {
+        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: Date? = nil, fleetArn: String? = nil, greengrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: Date? = nil, name: String? = nil, status: RobotStatus? = nil, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.arn = arn
             self.createdAt = createdAt
@@ -2112,7 +2112,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the robot simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the simulation application.
         public let name: String?
         /// The rendering engine for the simulation application.
@@ -2130,7 +2130,7 @@ extension RoboMaker {
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -2184,7 +2184,7 @@ extension RoboMaker {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the simulation job batch was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// A list of created simulation job summaries.
         public let createdRequests: [SimulationJobSummary]?
         /// A list of failed create simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID.
@@ -2194,7 +2194,7 @@ extension RoboMaker {
         /// The reason the simulation job batch failed.
         public let failureReason: String?
         /// The time, in milliseconds since the epoch, when the simulation job batch was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// A list of pending simulation job requests. These requests have not yet been created into simulation jobs.
         public let pendingRequests: [SimulationJobRequest]?
         /// The status of the batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.
@@ -2202,7 +2202,7 @@ extension RoboMaker {
         /// A map that contains tag keys and tag values that are attached to the simulation job batch.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, batchPolicy: BatchPolicy? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, createdRequests: [SimulationJobSummary]? = nil, failedRequests: [FailedCreateSimulationJobRequest]? = nil, failureCode: SimulationJobBatchErrorCode? = nil, failureReason: String? = nil, lastUpdatedAt: TimeStamp? = nil, pendingRequests: [SimulationJobRequest]? = nil, status: SimulationJobBatchStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, batchPolicy: BatchPolicy? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, createdRequests: [SimulationJobSummary]? = nil, failedRequests: [FailedCreateSimulationJobRequest]? = nil, failureCode: SimulationJobBatchErrorCode? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, pendingRequests: [SimulationJobRequest]? = nil, status: SimulationJobBatchStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.batchPolicy = batchPolicy
             self.clientRequestToken = clientRequestToken
@@ -2270,9 +2270,9 @@ extension RoboMaker {
         /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf.
         public let iamRole: String?
         /// The time, in milliseconds since the epoch, when the simulation job was last started.
-        public let lastStartedAt: TimeStamp?
+        public let lastStartedAt: Date?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The logging configuration.
         public let loggingConfig: LoggingConfig?
         /// The maximum job duration in seconds. The value must be 8 days (691,200 seconds) or less.
@@ -2296,7 +2296,7 @@ extension RoboMaker {
         /// The VPC configuration.
         public let vpcConfig: VPCConfigResponse?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, compute: ComputeResponse? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, networkInterface: NetworkInterface? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, compute: ComputeResponse? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: Date? = nil, lastUpdatedAt: Date? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, networkInterface: NetworkInterface? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.compute = compute
@@ -2370,7 +2370,7 @@ extension RoboMaker {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
         public let failureCode: WorldExportJobErrorCode?
         /// The reason why the world export job failed.
@@ -2385,7 +2385,7 @@ extension RoboMaker {
         /// A list of Amazon Resource Names (arns) that correspond to worlds to be exported.
         public let worlds: [String]?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, failureCode: WorldExportJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, outputLocation: OutputLocation? = nil, status: WorldExportJobStatus? = nil, tags: [String: String]? = nil, worlds: [String]? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, failureCode: WorldExportJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, outputLocation: OutputLocation? = nil, status: WorldExportJobStatus? = nil, tags: [String: String]? = nil, worlds: [String]? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
@@ -2437,7 +2437,7 @@ extension RoboMaker {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world generation job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The failure code of the world generation job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
         public let failureCode: WorldGenerationJobErrorCode?
         /// The reason why the world generation job failed.
@@ -2453,7 +2453,7 @@ extension RoboMaker {
         /// Information about the world count.
         public let worldCount: WorldCount?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, failureCode: WorldGenerationJobErrorCode? = nil, failureReason: String? = nil, finishedWorldsSummary: FinishedWorldsSummary? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, failureCode: WorldGenerationJobErrorCode? = nil, failureReason: String? = nil, finishedWorldsSummary: FinishedWorldsSummary? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
@@ -2503,7 +2503,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (arn) of the world.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The Amazon Resource Name (arn) of the world generation job that generated the world.
         public let generationJob: String?
         /// A map that contains tag keys and tag values that are attached to the world.
@@ -2511,7 +2511,7 @@ extension RoboMaker {
         /// The world template.
         public let template: String?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, generationJob: String? = nil, tags: [String: String]? = nil, template: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, generationJob: String? = nil, tags: [String: String]? = nil, template: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.generationJob = generationJob
@@ -2553,15 +2553,15 @@ extension RoboMaker {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world template was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The time, in milliseconds since the epoch, when the world template was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the world template.
         public let name: String?
         /// A map that contains tag keys and tag values that are attached to the world template.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
@@ -2582,7 +2582,7 @@ extension RoboMaker {
 
     public struct FailedCreateSimulationJobRequest: AWSDecodableShape {
         /// The time, in milliseconds since the epoch, when the simulation job batch failed.
-        public let failedAt: TimeStamp?
+        public let failedAt: Date?
         /// The failure code.
         public let failureCode: SimulationJobErrorCode?
         /// The failure reason of the simulation job request.
@@ -2590,7 +2590,7 @@ extension RoboMaker {
         /// The simulation job request.
         public let request: SimulationJobRequest?
 
-        public init(failedAt: TimeStamp? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, request: SimulationJobRequest? = nil) {
+        public init(failedAt: Date? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, request: SimulationJobRequest? = nil) {
             self.failedAt = failedAt
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -2677,17 +2677,17 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the last deployment job.
         public let lastDeploymentJob: String?
         /// The status of the last fleet deployment.
         public let lastDeploymentStatus: DeploymentStatus?
         /// The time of the last deployment.
-        public let lastDeploymentTime: TimeStamp?
+        public let lastDeploymentTime: Date?
         /// The name of the fleet.
         public let name: String?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastDeploymentJob = lastDeploymentJob
@@ -3599,7 +3599,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the robot.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String?
         /// The Greengrass group associated with the robot.
@@ -3607,13 +3607,13 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the last deployment job.
         public let lastDeploymentJob: String?
         /// The time of the last deployment.
-        public let lastDeploymentTime: TimeStamp?
+        public let lastDeploymentTime: Date?
         /// The name of the robot.
         public let name: String?
         /// The status of the robot.
         public let status: RobotStatus?
 
-        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greenGrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil) {
+        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: Date? = nil, fleetArn: String? = nil, greenGrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: Date? = nil, name: String? = nil, status: RobotStatus? = nil) {
             self.architecture = architecture
             self.arn = arn
             self.createdAt = createdAt
@@ -3673,7 +3673,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the robot.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the robot application.
         public let name: String?
         /// Information about a robot software suite (ROS distribution).
@@ -3681,7 +3681,7 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -3702,9 +3702,9 @@ extension RoboMaker {
         /// The robot deployment Amazon Resource Name (ARN).
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment finished.
-        public let deploymentFinishTime: TimeStamp?
+        public let deploymentFinishTime: Date?
         /// The time, in milliseconds since the epoch, when the deployment was started.
-        public let deploymentStartTime: TimeStamp?
+        public let deploymentStartTime: Date?
         /// The robot deployment failure code.
         public let failureCode: DeploymentJobErrorCode?
         /// A short description of the reason why the robot deployment failed.
@@ -3714,7 +3714,7 @@ extension RoboMaker {
         /// The status of the robot deployment.
         public let status: RobotStatus?
 
-        public init(arn: String? = nil, deploymentFinishTime: TimeStamp? = nil, deploymentStartTime: TimeStamp? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, progressDetail: ProgressDetail? = nil, status: RobotStatus? = nil) {
+        public init(arn: String? = nil, deploymentFinishTime: Date? = nil, deploymentStartTime: Date? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, progressDetail: ProgressDetail? = nil, status: RobotStatus? = nil) {
             self.arn = arn
             self.deploymentFinishTime = deploymentFinishTime
             self.deploymentStartTime = deploymentStartTime
@@ -3843,7 +3843,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the simulation application.
         public let name: String?
         /// Information about a robot software suite (ROS distribution).
@@ -3853,7 +3853,7 @@ extension RoboMaker {
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -3890,9 +3890,9 @@ extension RoboMaker {
         /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job.
         public let iamRole: String?
         /// The time, in milliseconds since the epoch, when the simulation job was last started.
-        public let lastStartedAt: TimeStamp?
+        public let lastStartedAt: Date?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The logging configuration.
         public let loggingConfig: LoggingConfig?
         /// The maximum simulation job duration in seconds. The value must be 8 days (691,200 seconds) or less.
@@ -3916,7 +3916,7 @@ extension RoboMaker {
         /// VPC configuration information.
         public let vpcConfig: VPCConfigResponse?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, compute: ComputeResponse? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, networkInterface: NetworkInterface? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, compute: ComputeResponse? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: Date? = nil, lastUpdatedAt: Date? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, networkInterface: NetworkInterface? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.compute = compute
@@ -3969,19 +3969,19 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the batch.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation job batch was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The number of created simulation job requests.
         public let createdRequestCount: Int?
         /// The number of failed simulation job requests.
         public let failedRequestCount: Int?
         /// The time, in milliseconds since the epoch, when the simulation job batch was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The number of pending simulation job requests.
         public let pendingRequestCount: Int?
         /// The status of the simulation job batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.
         public let status: SimulationJobBatchStatus?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, createdRequestCount: Int? = nil, failedRequestCount: Int? = nil, lastUpdatedAt: TimeStamp? = nil, pendingRequestCount: Int? = nil, status: SimulationJobBatchStatus? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdRequestCount: Int? = nil, failedRequestCount: Int? = nil, lastUpdatedAt: Date? = nil, pendingRequestCount: Int? = nil, status: SimulationJobBatchStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdRequestCount = createdRequestCount
@@ -4094,7 +4094,7 @@ extension RoboMaker {
         /// The names of the data sources.
         public let dataSourceNames: [String]?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the simulation job.
         public let name: String?
         /// A list of simulation job robot application names.
@@ -4104,7 +4104,7 @@ extension RoboMaker {
         /// The status of the simulation job.
         public let status: SimulationJobStatus?
 
-        public init(arn: String? = nil, dataSourceNames: [String]? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotApplicationNames: [String]? = nil, simulationApplicationNames: [String]? = nil, status: SimulationJobStatus? = nil) {
+        public init(arn: String? = nil, dataSourceNames: [String]? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, robotApplicationNames: [String]? = nil, simulationApplicationNames: [String]? = nil, status: SimulationJobStatus? = nil) {
             self.arn = arn
             self.dataSourceNames = dataSourceNames
             self.lastUpdatedAt = lastUpdatedAt
@@ -4255,7 +4255,7 @@ extension RoboMaker {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the simulation job batch was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// A list of created simulation job request summaries.
         public let createdRequests: [SimulationJobSummary]?
         /// A list of failed simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID.
@@ -4271,7 +4271,7 @@ extension RoboMaker {
         /// A map that contains tag keys and tag values that are attached to the deployment job batch.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, batchPolicy: BatchPolicy? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, createdRequests: [SimulationJobSummary]? = nil, failedRequests: [FailedCreateSimulationJobRequest]? = nil, failureCode: SimulationJobBatchErrorCode? = nil, failureReason: String? = nil, pendingRequests: [SimulationJobRequest]? = nil, status: SimulationJobBatchStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, batchPolicy: BatchPolicy? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, createdRequests: [SimulationJobSummary]? = nil, failedRequests: [FailedCreateSimulationJobRequest]? = nil, failureCode: SimulationJobBatchErrorCode? = nil, failureReason: String? = nil, pendingRequests: [SimulationJobRequest]? = nil, status: SimulationJobBatchStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.batchPolicy = batchPolicy
             self.clientRequestToken = clientRequestToken
@@ -4330,7 +4330,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the synchronization request.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// Information about the deployment application configurations.
         public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
         /// Information about the deployment configuration.
@@ -4344,7 +4344,7 @@ extension RoboMaker {
         /// The status of the synchronization job.
         public let status: DeploymentStatus?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -4435,13 +4435,13 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the template.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the template was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The time, in milliseconds since the epoch, when the template was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the template.
         public let name: String?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, lastUpdatedAt: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -4531,7 +4531,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the updated robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the robot application.
         public let name: String?
         /// The revision id of the robot application.
@@ -4543,7 +4543,7 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -4615,7 +4615,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the updated simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the simulation application.
         public let name: String?
         /// The rendering engine for the simulation application.
@@ -4631,7 +4631,7 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -4698,13 +4698,13 @@ extension RoboMaker {
         /// The Amazon Resource Name (arn) of the world template.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world template was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The time, in milliseconds since the epoch, when the world template was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The name of the world template.
         public let name: String?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, lastUpdatedAt: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -4822,13 +4822,13 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the world export job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.
         public let status: WorldExportJobStatus?
         /// A list of worlds.
         public let worlds: [String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, status: WorldExportJobStatus? = nil, worlds: [String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, status: WorldExportJobStatus? = nil, worlds: [String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.status = status
@@ -4868,7 +4868,7 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the world generator job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world generator job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The number of worlds that failed.
         public let failedWorldCount: Int?
         /// The status of the world generator job:  Pending  The world generator job request is pending.  Running  The world generator job is running.   Completed  The world generator job completed.   Failed  The world generator job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generator job was cancelled.  Canceling  The world generator job is being cancelled.
@@ -4880,7 +4880,7 @@ extension RoboMaker {
         /// Information about the world count.
         public let worldCount: WorldCount?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, failedWorldCount: Int? = nil, status: WorldGenerationJobStatus? = nil, succeededWorldCount: Int? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, failedWorldCount: Int? = nil, status: WorldGenerationJobStatus? = nil, succeededWorldCount: Int? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.failedWorldCount = failedWorldCount
@@ -4905,13 +4905,13 @@ extension RoboMaker {
         /// The Amazon Resource Name (ARN) of the world.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The Amazon Resource Name (arn) of the world generation job.
         public let generationJob: String?
         /// The Amazon Resource Name (arn) of the world template.
         public let template: String?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, generationJob: String? = nil, template: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, generationJob: String? = nil, template: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.generationJob = generationJob

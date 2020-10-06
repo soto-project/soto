@@ -772,13 +772,13 @@ extension Appflow {
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
         public let connectorType: ConnectorType?
         ///  Specifies when the connector profile was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         ///  The Amazon Resource Name (ARN) of the connector profile credentials.
         public let credentialsArn: String?
         ///  Specifies when the connector profile was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
 
-        public init(connectionMode: ConnectionMode? = nil, connectorProfileArn: String? = nil, connectorProfileName: String? = nil, connectorProfileProperties: ConnectorProfileProperties? = nil, connectorType: ConnectorType? = nil, createdAt: TimeStamp? = nil, credentialsArn: String? = nil, lastUpdatedAt: TimeStamp? = nil) {
+        public init(connectionMode: ConnectionMode? = nil, connectorProfileArn: String? = nil, connectorProfileName: String? = nil, connectorProfileProperties: ConnectorProfileProperties? = nil, connectorType: ConnectorType? = nil, createdAt: Date? = nil, credentialsArn: String? = nil, lastUpdatedAt: Date? = nil) {
             self.connectionMode = connectionMode
             self.connectorProfileArn = connectorProfileArn
             self.connectorProfileName = connectorProfileName
@@ -1447,7 +1447,7 @@ extension Appflow {
 
     public struct DescribeFlowResponse: AWSDecodableShape {
         ///  Specifies when the flow was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         ///  The ARN of the user who created the flow.
         public let createdBy: String?
         ///  A description of the flow.
@@ -1467,7 +1467,7 @@ extension Appflow {
         ///  Describes the details of the most recent flow run.
         public let lastRunExecutionDetails: ExecutionDetails?
         ///  Specifies when the flow was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         ///  Specifies the user name of the account that performed the most recent update.
         public let lastUpdatedBy: String?
         ///  The configuration that controls how Amazon AppFlow retrieves data from the source connector.
@@ -1479,7 +1479,7 @@ extension Appflow {
         ///  The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig?
 
-        public init(createdAt: TimeStamp? = nil, createdBy: String? = nil, description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig]? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, flowStatusMessage: String? = nil, kmsArn: String? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastUpdatedAt: TimeStamp? = nil, lastUpdatedBy: String? = nil, sourceFlowConfig: SourceFlowConfig? = nil, tags: [String: String]? = nil, tasks: [Task]? = nil, triggerConfig: TriggerConfig? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig]? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, flowStatusMessage: String? = nil, kmsArn: String? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, sourceFlowConfig: SourceFlowConfig? = nil, tags: [String: String]? = nil, tasks: [Task]? = nil, triggerConfig: TriggerConfig? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -1739,9 +1739,9 @@ extension Appflow {
         ///  Specifies the status of the most recent flow run.
         public let mostRecentExecutionStatus: ExecutionStatus?
         ///  Specifies the time of the most recent flow run.
-        public let mostRecentExecutionTime: TimeStamp?
+        public let mostRecentExecutionTime: Date?
 
-        public init(mostRecentExecutionMessage: String? = nil, mostRecentExecutionStatus: ExecutionStatus? = nil, mostRecentExecutionTime: TimeStamp? = nil) {
+        public init(mostRecentExecutionMessage: String? = nil, mostRecentExecutionStatus: ExecutionStatus? = nil, mostRecentExecutionTime: Date? = nil) {
             self.mostRecentExecutionMessage = mostRecentExecutionMessage
             self.mostRecentExecutionStatus = mostRecentExecutionStatus
             self.mostRecentExecutionTime = mostRecentExecutionTime
@@ -1762,11 +1762,11 @@ extension Appflow {
         ///  Specifies the flow run status and whether it is in progress, has completed successfully, or has failed.
         public let executionStatus: ExecutionStatus?
         ///  Specifies the time of the most recent update.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         ///  Specifies the start time of the flow run.
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
 
-        public init(executionId: String? = nil, executionResult: ExecutionResult? = nil, executionStatus: ExecutionStatus? = nil, lastUpdatedAt: TimeStamp? = nil, startedAt: TimeStamp? = nil) {
+        public init(executionId: String? = nil, executionResult: ExecutionResult? = nil, executionStatus: ExecutionStatus? = nil, lastUpdatedAt: Date? = nil, startedAt: Date? = nil) {
             self.executionId = executionId
             self.executionResult = executionResult
             self.executionStatus = executionStatus
@@ -1831,7 +1831,7 @@ extension Appflow {
 
     public struct FlowDefinition: AWSDecodableShape {
         ///  Specifies when the flow was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         ///  The ARN of the user who created the flow.
         public let createdBy: String?
         ///  A user-entered description of the flow.
@@ -1847,7 +1847,7 @@ extension Appflow {
         ///  Describes the details of the most recent flow run.
         public let lastRunExecutionDetails: ExecutionDetails?
         ///  Specifies when the flow was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         ///  Specifies the account user name that most recently updated the flow.
         public let lastUpdatedBy: String?
         ///  Specifies the source connector type, such as Salesforce, Amazon S3, Amplitude, and so on.
@@ -1857,7 +1857,7 @@ extension Appflow {
         ///  Specifies the type of flow trigger. This can be OnDemand, Scheduled, or Event.
         public let triggerType: TriggerType?
 
-        public init(createdAt: TimeStamp? = nil, createdBy: String? = nil, description: String? = nil, destinationConnectorType: ConnectorType? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastUpdatedAt: TimeStamp? = nil, lastUpdatedBy: String? = nil, sourceConnectorType: ConnectorType? = nil, tags: [String: String]? = nil, triggerType: TriggerType? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, destinationConnectorType: ConnectorType? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, sourceConnectorType: ConnectorType? = nil, tags: [String: String]? = nil, triggerType: TriggerType? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -2544,15 +2544,15 @@ extension Appflow {
         ///  Specifies whether a scheduled flow has an incremental data transfer or a complete data transfer for each flow run.
         public let dataPullMode: DataPullMode?
         ///  Specifies the scheduled end time for a schedule-triggered flow.
-        public let scheduleEndTime: TimeStamp?
+        public let scheduleEndTime: Date?
         ///  The scheduling expression that determines when and how often the rule runs.
         public let scheduleExpression: String
         ///  Specifies the scheduled start time for a schedule-triggered flow.
-        public let scheduleStartTime: TimeStamp?
+        public let scheduleStartTime: Date?
         ///  Specifies the time zone used when referring to the date and time of a scheduled-triggered flow.
         public let timezone: String?
 
-        public init(dataPullMode: DataPullMode? = nil, scheduleEndTime: TimeStamp? = nil, scheduleExpression: String, scheduleStartTime: TimeStamp? = nil, timezone: String? = nil) {
+        public init(dataPullMode: DataPullMode? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleStartTime: Date? = nil, timezone: String? = nil) {
             self.dataPullMode = dataPullMode
             self.scheduleEndTime = scheduleEndTime
             self.scheduleExpression = scheduleExpression

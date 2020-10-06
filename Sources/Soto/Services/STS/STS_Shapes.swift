@@ -338,13 +338,13 @@ extension STS {
         /// The access key ID that identifies the temporary security credentials.
         public let accessKeyId: String
         /// The date on which the current credentials expire.
-        public let expiration: TimeStamp
+        public let expiration: Date
         /// The secret access key that can be used to sign requests.
         public let secretAccessKey: String
         /// The token that users must pass to the service API to use the temporary credentials.
         public let sessionToken: String
 
-        public init(accessKeyId: String, expiration: TimeStamp, secretAccessKey: String, sessionToken: String) {
+        public init(accessKeyId: String, expiration: Date, secretAccessKey: String, sessionToken: String) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey

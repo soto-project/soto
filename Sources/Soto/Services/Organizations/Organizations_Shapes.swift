@@ -185,13 +185,13 @@ extension Organizations {
         /// The method by which the account joined the organization.
         public let joinedMethod: AccountJoinedMethod?
         /// The date the account became a part of the organization.
-        public let joinedTimestamp: TimeStamp?
+        public let joinedTimestamp: Date?
         /// The friendly name of the account. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
         /// The status of the account in the organization.
         public let status: AccountStatus?
 
-        public init(arn: String? = nil, email: String? = nil, id: String? = nil, joinedMethod: AccountJoinedMethod? = nil, joinedTimestamp: TimeStamp? = nil, name: String? = nil, status: AccountStatus? = nil) {
+        public init(arn: String? = nil, email: String? = nil, id: String? = nil, joinedMethod: AccountJoinedMethod? = nil, joinedTimestamp: Date? = nil, name: String? = nil, status: AccountStatus? = nil) {
             self.arn = arn
             self.email = email
             self.id = id
@@ -339,7 +339,7 @@ extension Organizations {
         /// The account name given to the account when it was created.
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
-        public let completedTimestamp: TimeStamp?
+        public let completedTimestamp: Date?
         /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the same information.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.   MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has not received Business Validation.    MISSING_PAYMENT_INSTRUMENT: You must configure the master account with a valid payment method, such as a credit card.
         public let failureReason: CreateAccountFailureReason?
         /// If the account was created successfully, the unique identifier (ID) of the new account in the AWS GovCloud (US) Region.
@@ -347,11 +347,11 @@ extension Organizations {
         /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
         /// The date and time that the request was made for the account creation.
-        public let requestedTimestamp: TimeStamp?
+        public let requestedTimestamp: Date?
         /// The status of the request.
         public let state: CreateAccountState?
 
-        public init(accountId: String? = nil, accountName: String? = nil, completedTimestamp: TimeStamp? = nil, failureReason: CreateAccountFailureReason? = nil, govCloudAccountId: String? = nil, id: String? = nil, requestedTimestamp: TimeStamp? = nil, state: CreateAccountState? = nil) {
+        public init(accountId: String? = nil, accountName: String? = nil, completedTimestamp: Date? = nil, failureReason: CreateAccountFailureReason? = nil, govCloudAccountId: String? = nil, id: String? = nil, requestedTimestamp: Date? = nil, state: CreateAccountState? = nil) {
             self.accountId = accountId
             self.accountName = accountName
             self.completedTimestamp = completedTimestamp
@@ -570,7 +570,7 @@ extension Organizations {
         /// The Amazon Resource Name (ARN) of the delegated administrator's account.
         public let arn: String?
         /// The date when the account was made a delegated administrator.
-        public let delegationEnabledDate: TimeStamp?
+        public let delegationEnabledDate: Date?
         /// The email address that is associated with the delegated administrator's AWS account.
         public let email: String?
         /// The unique identifier (ID) of the delegated administrator's account.
@@ -578,13 +578,13 @@ extension Organizations {
         /// The method by which the delegated administrator's account joined the organization.
         public let joinedMethod: AccountJoinedMethod?
         /// The date when the delegated administrator's account became a part of the organization.
-        public let joinedTimestamp: TimeStamp?
+        public let joinedTimestamp: Date?
         /// The friendly name of the delegated administrator's account.
         public let name: String?
         /// The status of the delegated administrator's account in the organization.
         public let status: AccountStatus?
 
-        public init(arn: String? = nil, delegationEnabledDate: TimeStamp? = nil, email: String? = nil, id: String? = nil, joinedMethod: AccountJoinedMethod? = nil, joinedTimestamp: TimeStamp? = nil, name: String? = nil, status: AccountStatus? = nil) {
+        public init(arn: String? = nil, delegationEnabledDate: Date? = nil, email: String? = nil, id: String? = nil, joinedMethod: AccountJoinedMethod? = nil, joinedTimestamp: Date? = nil, name: String? = nil, status: AccountStatus? = nil) {
             self.arn = arn
             self.delegationEnabledDate = delegationEnabledDate
             self.email = email
@@ -609,11 +609,11 @@ extension Organizations {
 
     public struct DelegatedService: AWSDecodableShape {
         /// The date that the account became a delegated administrator for this service.
-        public let delegationEnabledDate: TimeStamp?
+        public let delegationEnabledDate: Date?
         /// The name of a service that can request an operation for the specified service. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
         public let servicePrincipal: String?
 
-        public init(delegationEnabledDate: TimeStamp? = nil, servicePrincipal: String? = nil) {
+        public init(delegationEnabledDate: Date? = nil, servicePrincipal: String? = nil) {
             self.delegationEnabledDate = delegationEnabledDate
             self.servicePrincipal = servicePrincipal
         }
@@ -968,7 +968,7 @@ extension Organizations {
 
     public struct EffectivePolicy: AWSDecodableShape {
         /// The time of the last update to this policy.
-        public let lastUpdatedTimestamp: TimeStamp?
+        public let lastUpdatedTimestamp: Date?
         /// The text content of the policy.
         public let policyContent: String?
         /// The policy type.
@@ -976,7 +976,7 @@ extension Organizations {
         /// The account ID of the policy target.
         public let targetId: String?
 
-        public init(lastUpdatedTimestamp: TimeStamp? = nil, policyContent: String? = nil, policyType: EffectivePolicyType? = nil, targetId: String? = nil) {
+        public init(lastUpdatedTimestamp: Date? = nil, policyContent: String? = nil, policyType: EffectivePolicyType? = nil, targetId: String? = nil) {
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.policyContent = policyContent
             self.policyType = policyType
@@ -1064,11 +1064,11 @@ extension Organizations {
 
     public struct EnabledServicePrincipal: AWSDecodableShape {
         /// The date that the service principal was enabled for integration with AWS Organizations.
-        public let dateEnabled: TimeStamp?
+        public let dateEnabled: Date?
         /// The name of the service principal. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
         public let servicePrincipal: String?
 
-        public init(dateEnabled: TimeStamp? = nil, servicePrincipal: String? = nil) {
+        public init(dateEnabled: Date? = nil, servicePrincipal: String? = nil) {
             self.dateEnabled = dateEnabled
             self.servicePrincipal = servicePrincipal
         }
@@ -1085,19 +1085,19 @@ extension Organizations {
         /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
-        public let expirationTimestamp: TimeStamp?
+        public let expirationTimestamp: Date?
         /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
         /// Information about the two accounts that are participating in the handshake.
         public let parties: [HandshakeParty]?
         /// The date and time that the handshake request was made.
-        public let requestedTimestamp: TimeStamp?
+        public let requestedTimestamp: Date?
         /// Additional information that is needed to process the handshake.
         public let resources: [HandshakeResource]?
         /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:    REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.    OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.    CANCELED: This handshake is no longer active because it was canceled by the originating account.    ACCEPTED: This handshake is complete because it has been accepted by the recipient.    DECLINED: This handshake is no longer active because it was declined by the recipient account.    EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).
         public let state: HandshakeState?
 
-        public init(action: ActionType? = nil, arn: String? = nil, expirationTimestamp: TimeStamp? = nil, id: String? = nil, parties: [HandshakeParty]? = nil, requestedTimestamp: TimeStamp? = nil, resources: [HandshakeResource]? = nil, state: HandshakeState? = nil) {
+        public init(action: ActionType? = nil, arn: String? = nil, expirationTimestamp: Date? = nil, id: String? = nil, parties: [HandshakeParty]? = nil, requestedTimestamp: Date? = nil, resources: [HandshakeResource]? = nil, state: HandshakeState? = nil) {
             self.action = action
             self.arn = arn
             self.expirationTimestamp = expirationTimestamp

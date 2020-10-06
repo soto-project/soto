@@ -194,7 +194,7 @@ extension ComputeOptimizer {
         /// The finding classification for the Auto Scaling group. Findings for Auto Scaling groups include:     NotOptimized —An Auto Scaling group is considered not optimized when AWS Compute Optimizer identifies a recommendation that can provide better performance for your workload.     Optimized —An Auto Scaling group is considered optimized when Compute Optimizer determines that the group is correctly provisioned to run your workload based on the chosen instance type. For optimized resources, Compute Optimizer might recommend a new generation instance type.    The values that are returned might be NOT_OPTIMIZED or OPTIMIZED.
         public let finding: Finding?
         /// The time stamp of when the Auto Scaling group recommendation was last refreshed.
-        public let lastRefreshTimestamp: TimeStamp?
+        public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the Auto Scaling group.
         public let lookBackPeriodInDays: Double?
         /// An array of objects that describe the recommendation options for the Auto Scaling group.
@@ -202,7 +202,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the Auto Scaling group.
         public let utilizationMetrics: [UtilizationMetric]?
 
-        public init(accountId: String? = nil, autoScalingGroupArn: String? = nil, autoScalingGroupName: String? = nil, currentConfiguration: AutoScalingGroupConfiguration? = nil, finding: Finding? = nil, lastRefreshTimestamp: TimeStamp? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [AutoScalingGroupRecommendationOption]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, autoScalingGroupArn: String? = nil, autoScalingGroupName: String? = nil, currentConfiguration: AutoScalingGroupConfiguration? = nil, finding: Finding? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [AutoScalingGroupRecommendationOption]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.autoScalingGroupArn = autoScalingGroupArn
             self.autoScalingGroupName = autoScalingGroupName
@@ -526,17 +526,17 @@ extension ComputeOptimizer {
 
     public struct GetEC2RecommendationProjectedMetricsRequest: AWSEncodableShape {
         /// The time stamp of the last projected metrics data point to return.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The Amazon Resource Name (ARN) of the instances for which to return recommendation projected metrics.
         public let instanceArn: String
         /// The granularity, in seconds, of the projected metrics data points.
         public let period: Int
         /// The time stamp of the first projected metrics data point to return.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// The statistic of the projected metrics.
         public let stat: MetricStatistic
 
-        public init(endTime: TimeStamp, instanceArn: String, period: Int, startTime: TimeStamp, stat: MetricStatistic) {
+        public init(endTime: Date, instanceArn: String, period: Int, startTime: Date, stat: MetricStatistic) {
             self.endTime = endTime
             self.instanceArn = instanceArn
             self.period = period
@@ -662,7 +662,7 @@ extension ComputeOptimizer {
         /// The name of the current instance.
         public let instanceName: String?
         /// The time stamp of when the instance recommendation was last refreshed.
-        public let lastRefreshTimestamp: TimeStamp?
+        public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the instance.
         public let lookBackPeriodInDays: Double?
         /// An array of objects that describe the recommendation options for the instance.
@@ -672,7 +672,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the instance.
         public let utilizationMetrics: [UtilizationMetric]?
 
-        public init(accountId: String? = nil, currentInstanceType: String? = nil, finding: Finding? = nil, instanceArn: String? = nil, instanceName: String? = nil, lastRefreshTimestamp: TimeStamp? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, currentInstanceType: String? = nil, finding: Finding? = nil, instanceArn: String? = nil, instanceName: String? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentInstanceType = currentInstanceType
             self.finding = finding
@@ -745,11 +745,11 @@ extension ComputeOptimizer {
         /// The name of the projected utilization metric.  Memory metrics are only returned for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
         public let name: MetricName?
         /// The time stamps of the projected utilization metric.
-        public let timestamps: [TimeStamp]?
+        public let timestamps: [Date]?
         /// The values of the projected utilization metrics.
         public let values: [Double]?
 
-        public init(name: MetricName? = nil, timestamps: [TimeStamp]? = nil, values: [Double]? = nil) {
+        public init(name: MetricName? = nil, timestamps: [Date]? = nil, values: [Double]? = nil) {
             self.name = name
             self.timestamps = timestamps
             self.values = values
@@ -764,7 +764,7 @@ extension ComputeOptimizer {
 
     public struct RecommendationExportJob: AWSDecodableShape {
         /// The timestamp of when the export job was created.
-        public let creationTimestamp: TimeStamp?
+        public let creationTimestamp: Date?
         /// An object that describes the destination of the export file.
         public let destination: ExportDestination?
         /// The reason for an export job failure.
@@ -772,13 +772,13 @@ extension ComputeOptimizer {
         /// The identification number of the export job.
         public let jobId: String?
         /// The timestamp of when the export job was last updated.
-        public let lastUpdatedTimestamp: TimeStamp?
+        public let lastUpdatedTimestamp: Date?
         /// The resource type of the exported recommendations.
         public let resourceType: ResourceType?
         /// The status of the export job.
         public let status: JobStatus?
 
-        public init(creationTimestamp: TimeStamp? = nil, destination: ExportDestination? = nil, failureReason: String? = nil, jobId: String? = nil, lastUpdatedTimestamp: TimeStamp? = nil, resourceType: ResourceType? = nil, status: JobStatus? = nil) {
+        public init(creationTimestamp: Date? = nil, destination: ExportDestination? = nil, failureReason: String? = nil, jobId: String? = nil, lastUpdatedTimestamp: Date? = nil, resourceType: ResourceType? = nil, status: JobStatus? = nil) {
             self.creationTimestamp = creationTimestamp
             self.destination = destination
             self.failureReason = failureReason

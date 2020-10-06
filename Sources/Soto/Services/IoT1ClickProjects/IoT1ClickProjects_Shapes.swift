@@ -521,15 +521,15 @@ extension IoT1ClickProjects {
         /// The user-defined attributes associated with the placement.
         public let attributes: [String: String]
         /// The date when the placement was initially created, in UNIX epoch time format.
-        public let createdDate: TimeStamp
+        public let createdDate: Date
         /// The name of the placement.
         public let placementName: String
         /// The name of the project containing the placement.
         public let projectName: String
         /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
-        public let updatedDate: TimeStamp
+        public let updatedDate: Date
 
-        public init(attributes: [String: String], createdDate: TimeStamp, placementName: String, projectName: String, updatedDate: TimeStamp) {
+        public init(attributes: [String: String], createdDate: Date, placementName: String, projectName: String, updatedDate: Date) {
             self.attributes = attributes
             self.createdDate = createdDate
             self.placementName = placementName
@@ -548,15 +548,15 @@ extension IoT1ClickProjects {
 
     public struct PlacementSummary: AWSDecodableShape {
         /// The date when the placement was originally created, in UNIX epoch time format.
-        public let createdDate: TimeStamp
+        public let createdDate: Date
         /// The name of the placement being summarized.
         public let placementName: String
         /// The name of the project containing the placement.
         public let projectName: String
         /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
-        public let updatedDate: TimeStamp
+        public let updatedDate: Date
 
-        public init(createdDate: TimeStamp, placementName: String, projectName: String, updatedDate: TimeStamp) {
+        public init(createdDate: Date, placementName: String, projectName: String, updatedDate: Date) {
             self.createdDate = createdDate
             self.placementName = placementName
             self.projectName = projectName
@@ -606,7 +606,7 @@ extension IoT1ClickProjects {
         /// The ARN of the project.
         public let arn: String?
         /// The date when the project was originally created, in UNIX epoch time format.
-        public let createdDate: TimeStamp
+        public let createdDate: Date
         /// The description of the project.
         public let description: String?
         /// An object describing the project's placement specifications.
@@ -616,9 +616,9 @@ extension IoT1ClickProjects {
         /// The tags (metadata key/value pairs) associated with the project.
         public let tags: [String: String]?
         /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
-        public let updatedDate: TimeStamp
+        public let updatedDate: Date
 
-        public init(arn: String? = nil, createdDate: TimeStamp, description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String, tags: [String: String]? = nil, updatedDate: TimeStamp) {
+        public init(arn: String? = nil, createdDate: Date, description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String, tags: [String: String]? = nil, updatedDate: Date) {
             self.arn = arn
             self.createdDate = createdDate
             self.description = description
@@ -643,15 +643,15 @@ extension IoT1ClickProjects {
         /// The ARN of the project.
         public let arn: String?
         /// The date when the project was originally created, in UNIX epoch time format.
-        public let createdDate: TimeStamp
+        public let createdDate: Date
         /// The name of the project being summarized.
         public let projectName: String
         /// The tags (metadata key/value pairs) associated with the project.
         public let tags: [String: String]?
         /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
-        public let updatedDate: TimeStamp
+        public let updatedDate: Date
 
-        public init(arn: String? = nil, createdDate: TimeStamp, projectName: String, tags: [String: String]? = nil, updatedDate: TimeStamp) {
+        public init(arn: String? = nil, createdDate: Date, projectName: String, tags: [String: String]? = nil, updatedDate: Date) {
             self.arn = arn
             self.createdDate = createdDate
             self.projectName = projectName

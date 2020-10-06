@@ -529,9 +529,9 @@ extension AWSService {
         case .timestamp(let format):
             switch format {
             case .iso8601:
-                return "\(codingWrapper)<ISO8601TimeStampCoder>"
+                return "\(codingWrapper)<ISO8601DateCoder>"
             case .unixTimestamp:
-                return "\(codingWrapper)<UnixEpochTimeStampCoder>"
+                return "\(codingWrapper)<UnixEpochDateCoder>"
             case .unspecified:
                 return nil
             }
@@ -948,7 +948,7 @@ extension Shape {
         case .payload:
             return "AWSPayload"
         case .timestamp:
-            return "TimeStamp"
+            return "Date"
         case .enum:
             return name.toSwiftClassCase()
         case .stub:

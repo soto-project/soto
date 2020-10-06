@@ -950,7 +950,7 @@ extension CodeArtifact {
         ///  The total size of all assets in the domain.
         public let assetSizeBytes: Int64?
         ///  A timestamp that represents the date and time the domain was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         ///  The ARN of an AWS Key Management Service (AWS KMS) key associated with a domain.
         public let encryptionKey: String?
         ///  The name of the domain.
@@ -962,7 +962,7 @@ extension CodeArtifact {
         ///  The current status of a domain. The valid values are     Active     Deleted
         public let status: DomainStatus?
 
-        public init(arn: String? = nil, assetSizeBytes: Int64? = nil, createdTime: TimeStamp? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, repositoryCount: Int? = nil, status: DomainStatus? = nil) {
+        public init(arn: String? = nil, assetSizeBytes: Int64? = nil, createdTime: Date? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, repositoryCount: Int? = nil, status: DomainStatus? = nil) {
             self.arn = arn
             self.assetSizeBytes = assetSizeBytes
             self.createdTime = createdTime
@@ -989,7 +989,7 @@ extension CodeArtifact {
         ///  The ARN of the domain.
         public let arn: String?
         ///  A timestamp that contains the date and time the domain was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         ///  The key used to encrypt the domain.
         public let encryptionKey: String?
         ///  The name of the domain.
@@ -999,7 +999,7 @@ extension CodeArtifact {
         ///  A string that contains the status of the domain. The valid values are:     Active     Deleted
         public let status: DomainStatus?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, status: DomainStatus? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, status: DomainStatus? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.encryptionKey = encryptionKey
@@ -1056,9 +1056,9 @@ extension CodeArtifact {
         ///  The returned authentication token.
         public let authorizationToken: String?
         ///  A timestamp that specifies the date and time the authorization token expires.
-        public let expiration: TimeStamp?
+        public let expiration: Date?
 
-        public init(authorizationToken: String? = nil, expiration: TimeStamp? = nil) {
+        public init(authorizationToken: String? = nil, expiration: Date? = nil) {
             self.authorizationToken = authorizationToken
             self.expiration = expiration
         }
@@ -2057,7 +2057,7 @@ extension CodeArtifact {
         ///  The name of the requested package.
         public let packageName: String?
         ///  A timestamp that contains the date and time the package version was published.
-        public let publishedTime: TimeStamp?
+        public let publishedTime: Date?
         ///  The revision of the package version.
         public let revision: String?
         ///  The repository for the source code in the package version, or the source code used to build it.
@@ -2069,7 +2069,7 @@ extension CodeArtifact {
         ///  The version of the package.
         public let version: String?
 
-        public init(displayName: String? = nil, format: PackageFormat? = nil, homePage: String? = nil, licenses: [LicenseInfo]? = nil, namespace: String? = nil, packageName: String? = nil, publishedTime: TimeStamp? = nil, revision: String? = nil, sourceCodeRepository: String? = nil, status: PackageVersionStatus? = nil, summary: String? = nil, version: String? = nil) {
+        public init(displayName: String? = nil, format: PackageFormat? = nil, homePage: String? = nil, licenses: [LicenseInfo]? = nil, namespace: String? = nil, packageName: String? = nil, publishedTime: Date? = nil, revision: String? = nil, sourceCodeRepository: String? = nil, status: PackageVersionStatus? = nil, summary: String? = nil, version: String? = nil) {
             self.displayName = displayName
             self.format = format
             self.homePage = homePage

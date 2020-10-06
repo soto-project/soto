@@ -778,11 +778,11 @@ extension AppStream {
 
     public struct CreateImageBuilderStreamingURLResult: AWSDecodableShape {
         /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
-        public let expires: TimeStamp?
+        public let expires: Date?
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
 
-        public init(expires: TimeStamp? = nil, streamingURL: String? = nil) {
+        public init(expires: Date? = nil, streamingURL: String? = nil) {
             self.expires = expires
             self.streamingURL = streamingURL
         }
@@ -936,11 +936,11 @@ extension AppStream {
 
     public struct CreateStreamingURLResult: AWSDecodableShape {
         /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
-        public let expires: TimeStamp?
+        public let expires: Date?
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
 
-        public init(expires: TimeStamp? = nil, streamingURL: String? = nil) {
+        public init(expires: Date? = nil, streamingURL: String? = nil) {
             self.expires = expires
             self.streamingURL = streamingURL
         }
@@ -1676,7 +1676,7 @@ extension AppStream {
 
     public struct DirectoryConfig: AWSDecodableShape {
         /// The time the directory configuration was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The fully qualified name of the directory (for example, corp.example.com).
         public let directoryName: String
         /// The distinguished names of the organizational units for computer accounts.
@@ -1684,7 +1684,7 @@ extension AppStream {
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
-        public init(createdTime: TimeStamp? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+        public init(createdTime: Date? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
             self.createdTime = createdTime
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
@@ -1827,7 +1827,7 @@ extension AppStream {
         /// The capacity status for the fleet.
         public let computeCapacityStatus: ComputeCapacityStatus
         /// The time the fleet was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description to display.
         public let description: String?
         /// The amount of time that a streaming session remains active after users disconnect. If they try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 360000.
@@ -1863,7 +1863,7 @@ extension AppStream {
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: TimeStamp? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int? = nil, name: String, state: FleetState, streamView: StreamView? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int? = nil, name: String, state: FleetState, streamView: StreamView? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
@@ -1937,7 +1937,7 @@ extension AppStream {
         /// The ARN of the image from which this image was created.
         public let baseImageArn: String?
         /// The time the image was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description to display.
         public let description: String?
         /// The image name to display.
@@ -1953,7 +1953,7 @@ extension AppStream {
         /// The operating system platform of the image.
         public let platform: PlatformType?
         /// The release date of the public base image. For private images, this date is the release date of the base image from which the image was created.
-        public let publicBaseImageReleasedDate: TimeStamp?
+        public let publicBaseImageReleasedDate: Date?
         /// The image starts in the PENDING state. If image creation succeeds, the state is AVAILABLE. If image creation fails, the state is FAILED.
         public let state: ImageState?
         /// The reason why the last state change occurred.
@@ -1961,7 +1961,7 @@ extension AppStream {
         /// Indicates whether the image is public or private.
         public let visibility: VisibilityType?
 
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imagePermissions: ImagePermissions? = nil, name: String, platform: PlatformType? = nil, publicBaseImageReleasedDate: TimeStamp? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imagePermissions: ImagePermissions? = nil, name: String, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -2008,7 +2008,7 @@ extension AppStream {
         /// The ARN for the image builder.
         public let arn: String?
         /// The time stamp when the image builder was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description to display.
         public let description: String?
         /// The image builder name to display.
@@ -2037,7 +2037,7 @@ extension AppStream {
         /// The VPC configuration of the image builder.
         public let vpcConfig: VpcConfig?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, name: String, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, name: String, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -2279,9 +2279,9 @@ extension AppStream {
         /// The error message.
         public let errorMessage: String?
         /// The time the error occurred.
-        public let errorTimestamp: TimeStamp?
+        public let errorTimestamp: Date?
 
-        public init(errorCode: FleetErrorCode? = nil, errorMessage: String? = nil, errorTimestamp: TimeStamp? = nil) {
+        public init(errorCode: FleetErrorCode? = nil, errorMessage: String? = nil, errorTimestamp: Date? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.errorTimestamp = errorTimestamp
@@ -2327,19 +2327,19 @@ extension AppStream {
         /// The identifier of the streaming session.
         public let id: String
         /// The time when the streaming session is set to expire. This time is based on the MaxUserDurationinSeconds value, which determines the maximum length of time that a streaming session can run. A streaming session might end earlier than the time specified in SessionMaxExpirationTime, when the DisconnectTimeOutInSeconds elapses or the user chooses to end his or her session. If the DisconnectTimeOutInSeconds elapses, or the user chooses to end his or her session, the streaming instance is terminated and the streaming session ends.
-        public let maxExpirationTime: TimeStamp?
+        public let maxExpirationTime: Date?
         /// The network details for the streaming session.
         public let networkAccessConfiguration: NetworkAccessConfiguration?
         /// The name of the stack for the streaming session.
         public let stackName: String
         /// The time when a streaming instance is dedicated for the user.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The current state of the streaming session.
         public let state: SessionState
         /// The identifier of the user for whom the session was created.
         public let userId: String
 
-        public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, fleetName: String, id: String, maxExpirationTime: TimeStamp? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String, startTime: TimeStamp? = nil, state: SessionState, userId: String) {
+        public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, fleetName: String, id: String, maxExpirationTime: Date? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String, startTime: Date? = nil, state: SessionState, userId: String) {
             self.authenticationType = authenticationType
             self.connectionState = connectionState
             self.fleetName = fleetName
@@ -2391,7 +2391,7 @@ extension AppStream {
         /// The ARN of the stack.
         public let arn: String?
         /// The time the stack was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description to display.
         public let description: String?
         /// The stack name to display.
@@ -2411,7 +2411,7 @@ extension AppStream {
         /// The actions that are enabled or disabled for users during their streaming sessions. By default these actions are enabled.
         public let userSettings: [UserSetting]?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.arn = arn
@@ -2926,7 +2926,7 @@ extension AppStream {
 
     public struct UsageReportSubscription: AWSDecodableShape {
         /// The time when the last usage report was generated.
-        public let lastGeneratedReportDate: TimeStamp?
+        public let lastGeneratedReportDate: Date?
         /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
         public let s3BucketName: String?
         /// The schedule for generating usage reports.
@@ -2934,7 +2934,7 @@ extension AppStream {
         /// The errors that were returned if usage reports couldn't be generated.
         public let subscriptionErrors: [LastReportGenerationExecutionError]?
 
-        public init(lastGeneratedReportDate: TimeStamp? = nil, s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil, subscriptionErrors: [LastReportGenerationExecutionError]? = nil) {
+        public init(lastGeneratedReportDate: Date? = nil, s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil, subscriptionErrors: [LastReportGenerationExecutionError]? = nil) {
             self.lastGeneratedReportDate = lastGeneratedReportDate
             self.s3BucketName = s3BucketName
             self.schedule = schedule
@@ -2955,7 +2955,7 @@ extension AppStream {
         /// The authentication type for the user.
         public let authenticationType: AuthenticationType
         /// The date and time the user was created in the user pool.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// Specifies whether the user in the user pool is enabled.
         public let enabled: Bool?
         /// The first name, or given name, of the user.
@@ -2967,7 +2967,7 @@ extension AppStream {
         /// The email address of the user.  Users' email addresses are case-sensitive.
         public let userName: String?
 
-        public init(arn: String? = nil, authenticationType: AuthenticationType, createdTime: TimeStamp? = nil, enabled: Bool? = nil, firstName: String? = nil, lastName: String? = nil, status: String? = nil, userName: String? = nil) {
+        public init(arn: String? = nil, authenticationType: AuthenticationType, createdTime: Date? = nil, enabled: Bool? = nil, firstName: String? = nil, lastName: String? = nil, status: String? = nil, userName: String? = nil) {
             self.arn = arn
             self.authenticationType = authenticationType
             self.createdTime = createdTime

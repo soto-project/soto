@@ -81,7 +81,7 @@ extension Amplify {
         ///  Describes the content of the build specification (build spec) for the Amplify app.
         public let buildSpec: String?
         ///  Creates a date and time for the Amplify app.
-        public let createTime: TimeStamp
+        public let createTime: Date
         ///  Describes the custom redirect and rewrite rules for the Amplify app.
         public let customRules: [CustomRule]?
         ///  The default domain for the Amplify app.
@@ -111,9 +111,9 @@ extension Amplify {
         ///  The tag for the Amplify app.
         public let tags: [String: String]?
         ///  Updates the date and time for the Amplify app.
-        public let updateTime: TimeStamp
+        public let updateTime: Date
 
-        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: TimeStamp, customRules: [CustomRule]? = nil, defaultDomain: String, description: String, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String], iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String, tags: [String: String]? = nil, updateTime: TimeStamp) {
+        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: Date, customRules: [CustomRule]? = nil, defaultDomain: String, description: String, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String], iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String, tags: [String: String]? = nil, updateTime: Date) {
             self.appArn = appArn
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -242,7 +242,7 @@ extension Amplify {
         ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
         public let backendEnvironmentArn: String
         ///  The creation date and time for a backend environment that is part of an Amplify app.
-        public let createTime: TimeStamp
+        public let createTime: Date
         ///  The name of deployment artifacts.
         public let deploymentArtifacts: String?
         ///  The name for a backend environment that is part of an Amplify app.
@@ -250,9 +250,9 @@ extension Amplify {
         ///  The AWS CloudFormation stack name of a backend environment.
         public let stackName: String?
         ///  The last updated date and time for a backend environment that is part of an Amplify app.
-        public let updateTime: TimeStamp
+        public let updateTime: Date
 
-        public init(backendEnvironmentArn: String, createTime: TimeStamp, deploymentArtifacts: String? = nil, environmentName: String, stackName: String? = nil, updateTime: TimeStamp) {
+        public init(backendEnvironmentArn: String, createTime: Date, deploymentArtifacts: String? = nil, environmentName: String, stackName: String? = nil, updateTime: Date) {
             self.backendEnvironmentArn = backendEnvironmentArn
             self.createTime = createTime
             self.deploymentArtifacts = deploymentArtifacts
@@ -287,7 +287,7 @@ extension Amplify {
         ///  The build specification (build spec) content for the branch of an Amplify app.
         public let buildSpec: String?
         ///  The creation date and time for a branch that is part of an Amplify app.
-        public let createTime: TimeStamp
+        public let createTime: Date
         ///  The custom domains for a branch of an Amplify app.
         public let customDomains: [String]
         ///  The description for the branch that is part of an Amplify app.
@@ -323,9 +323,9 @@ extension Amplify {
         ///  The content Time to Live (TTL) for the website in seconds.
         public let ttl: String
         ///  The last updated date and time for a branch that is part of an Amplify app.
-        public let updateTime: TimeStamp
+        public let updateTime: Date
 
-        public init(activeJobId: String, associatedResources: [String]? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: TimeStamp, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: TimeStamp) {
+        public init(activeJobId: String, associatedResources: [String]? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: Date, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: Date) {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
             self.backendEnvironmentArn = backendEnvironmentArn
@@ -1160,11 +1160,11 @@ extension Amplify {
         ///  The name of the domain.
         public let domainName: String
         ///  The time at which the logs should end. The time range specified is inclusive of the end time.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         ///  The time at which the logs should start. The time range specified is inclusive of the start time.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(appId: String, domainName: String, endTime: TimeStamp? = nil, startTime: TimeStamp? = nil) {
+        public init(appId: String, domainName: String, endTime: Date? = nil, startTime: Date? = nil) {
             self.appId = appId
             self.domainName = domainName
             self.endTime = endTime
@@ -1478,9 +1478,9 @@ extension Amplify {
         ///  The commit message from a third-party repository provider for the job.
         public let commitMessage: String
         ///  The commit date and time for the job.
-        public let commitTime: TimeStamp
+        public let commitTime: Date
         ///  The end date and time for the job.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         ///  The Amazon Resource Name (ARN) for the job.
         public let jobArn: String
         ///  The unique ID for the job.
@@ -1488,11 +1488,11 @@ extension Amplify {
         ///  The type for the job. If the value is RELEASE, the job was manually released from its source by using the StartJob API. If the value is RETRY, the job was manually retried using the StartJob API. If the value is WEB_HOOK, the job was automatically triggered by webhooks.
         public let jobType: JobType
         ///  The start date and time for the job.
-        public let startTime: TimeStamp
+        public let startTime: Date
         ///  The current status for the job.
         public let status: JobStatus
 
-        public init(commitId: String, commitMessage: String, commitTime: TimeStamp, endTime: TimeStamp? = nil, jobArn: String, jobId: String, jobType: JobType, startTime: TimeStamp, status: JobStatus) {
+        public init(commitId: String, commitMessage: String, commitTime: Date, endTime: Date? = nil, jobArn: String, jobId: String, jobType: JobType, startTime: Date, status: JobStatus) {
             self.commitId = commitId
             self.commitMessage = commitMessage
             self.commitTime = commitTime
@@ -1906,13 +1906,13 @@ extension Amplify {
         ///  The branch name for the production branch.
         public let branchName: String?
         ///  The last deploy time of the production branch.
-        public let lastDeployTime: TimeStamp?
+        public let lastDeployTime: Date?
         ///  The status of the production branch.
         public let status: String?
         ///  The thumbnail URL for the production branch.
         public let thumbnailUrl: String?
 
-        public init(branchName: String? = nil, lastDeployTime: TimeStamp? = nil, status: String? = nil, thumbnailUrl: String? = nil) {
+        public init(branchName: String? = nil, lastDeployTime: Date? = nil, status: String? = nil, thumbnailUrl: String? = nil) {
             self.branchName = branchName
             self.lastDeployTime = lastDeployTime
             self.status = status
@@ -1992,7 +1992,7 @@ extension Amplify {
         ///  The commit message from a third-party repository provider for the job.
         public let commitMessage: String?
         ///  The commit date and time for the job.
-        public let commitTime: TimeStamp?
+        public let commitTime: Date?
         ///  The unique ID for an existing job. This is required if the value of jobType is RETRY.
         public let jobId: String?
         ///  A descriptive reason for starting this job.
@@ -2000,7 +2000,7 @@ extension Amplify {
         ///  Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY, the jobId is also required.
         public let jobType: JobType
 
-        public init(appId: String, branchName: String, commitId: String? = nil, commitMessage: String? = nil, commitTime: TimeStamp? = nil, jobId: String? = nil, jobReason: String? = nil, jobType: JobType) {
+        public init(appId: String, branchName: String, commitId: String? = nil, commitMessage: String? = nil, commitTime: Date? = nil, jobId: String? = nil, jobReason: String? = nil, jobType: JobType) {
             self.appId = appId
             self.branchName = branchName
             self.commitId = commitId
@@ -2051,13 +2051,13 @@ extension Amplify {
         ///  The context for the current step. Includes a build image if the step is build.
         public let context: String?
         ///  The end date and time of the execution step.
-        public let endTime: TimeStamp
+        public let endTime: Date
         ///  The URL to the logs for the execution step.
         public let logUrl: String?
         ///  The list of screenshot URLs for the execution step, if relevant.
         public let screenshots: [String: String]?
         ///  The start date and time of the execution step.
-        public let startTime: TimeStamp
+        public let startTime: Date
         ///  The status of the execution step.
         public let status: JobStatus
         ///  The reason for the current step status.
@@ -2069,7 +2069,7 @@ extension Amplify {
         ///  The URL to the test configuration for the execution step.
         public let testConfigUrl: String?
 
-        public init(artifactsUrl: String? = nil, context: String? = nil, endTime: TimeStamp, logUrl: String? = nil, screenshots: [String: String]? = nil, startTime: TimeStamp, status: JobStatus, statusReason: String? = nil, stepName: String, testArtifactsUrl: String? = nil, testConfigUrl: String? = nil) {
+        public init(artifactsUrl: String? = nil, context: String? = nil, endTime: Date, logUrl: String? = nil, screenshots: [String: String]? = nil, startTime: Date, status: JobStatus, statusReason: String? = nil, stepName: String, testArtifactsUrl: String? = nil, testConfigUrl: String? = nil) {
             self.artifactsUrl = artifactsUrl
             self.context = context
             self.endTime = endTime
@@ -2602,11 +2602,11 @@ extension Amplify {
         ///  The name for a branch that is part of an Amplify app.
         public let branchName: String
         ///  The create date and time for a webhook.
-        public let createTime: TimeStamp
+        public let createTime: Date
         ///  The description for a webhook.
         public let description: String
         ///  Updates the date and time for a webhook.
-        public let updateTime: TimeStamp
+        public let updateTime: Date
         ///  The Amazon Resource Name (ARN) for the webhook.
         public let webhookArn: String
         ///  The ID of the webhook.
@@ -2614,7 +2614,7 @@ extension Amplify {
         ///  The URL of the webhook.
         public let webhookUrl: String
 
-        public init(branchName: String, createTime: TimeStamp, description: String, updateTime: TimeStamp, webhookArn: String, webhookId: String, webhookUrl: String) {
+        public init(branchName: String, createTime: Date, description: String, updateTime: Date, webhookArn: String, webhookId: String, webhookUrl: String) {
             self.branchName = branchName
             self.createTime = createTime
             self.description = description

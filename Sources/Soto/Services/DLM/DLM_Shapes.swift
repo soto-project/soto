@@ -383,11 +383,11 @@ extension DLM {
 
     public struct LifecyclePolicy: AWSDecodableShape {
         /// The local date and time when the lifecycle policy was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var dateCreated: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var dateCreated: Date?
         /// The local date and time when the lifecycle policy was last modified.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var dateModified: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var dateModified: Date?
         /// The description of the lifecycle policy.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
@@ -405,7 +405,7 @@ extension DLM {
         /// The tags.
         public let tags: [String: String]?
 
-        public init(dateCreated: TimeStamp? = nil, dateModified: TimeStamp? = nil, description: String? = nil, executionRoleArn: String? = nil, policyArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
+        public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, executionRoleArn: String? = nil, policyArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
             self.description = description

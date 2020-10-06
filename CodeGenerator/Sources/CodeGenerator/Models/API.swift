@@ -142,8 +142,8 @@ extension API {
         }
 
         // if query check if GET operation includes body elements
-        if metadata.protocol == .query {
-            for op in operations.values {
+        if self.metadata.protocol == .query {
+            for op in self.operations.values {
                 guard op.http.method == "GET" else { continue }
                 guard let input = op.input else { continue }
                 let shape = try getShape(named: input.shapeName)
