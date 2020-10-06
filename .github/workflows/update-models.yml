@@ -28,3 +28,4 @@ jobs:
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         branch: aws-sdk-go-update-models
         title: 'Update models from aws-sdk-go'
+        base: main
