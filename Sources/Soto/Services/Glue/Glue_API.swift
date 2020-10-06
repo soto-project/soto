@@ -123,6 +123,11 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "BatchStopJobRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Updates one or more partitions in a batch operation.
+    public func batchUpdatePartition(_ input: BatchUpdatePartitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchUpdatePartitionResponse> {
+        return self.client.execute(operation: "BatchUpdatePartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId.
     public func cancelMLTaskRun(_ input: CancelMLTaskRunRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelMLTaskRunResponse> {
         return self.client.execute(operation: "CancelMLTaskRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)

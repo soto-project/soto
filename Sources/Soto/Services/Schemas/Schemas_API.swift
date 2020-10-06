@@ -122,6 +122,11 @@ public struct Schemas: AWSService {
         return self.client.execute(operation: "DescribeSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Exports a schema to a different specification.
+    public func exportSchema(_ input: ExportSchemaRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExportSchemaResponse> {
+        return self.client.execute(operation: "ExportSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/export", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Get the code binding source URI.
     public func getCodeBindingSource(_ input: GetCodeBindingSourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCodeBindingSourceResponse> {
         return self.client.execute(operation: "GetCodeBindingSource", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}/source", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)

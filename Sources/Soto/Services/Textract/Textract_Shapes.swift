@@ -60,6 +60,7 @@ extension Textract {
     public enum RelationshipType: String, CustomStringConvertible, Codable {
         case value = "VALUE"
         case child = "CHILD"
+        case complexFeatures = "COMPLEX_FEATURES"
         public var description: String { return self.rawValue }
     }
 
@@ -356,7 +357,7 @@ extension Textract {
         public let jobStatus: JobStatus?
         /// If the response is truncated, Amazon Textract returns this token. You can use this token in the subsequent request to retrieve the next set of text detection results.
         public let nextToken: String?
-        /// The current status of an asynchronous document-analysis operation.
+        /// Returns if the detection job could not be completed. Contains explanation for what error occured.
         public let statusMessage: String?
         /// A list of warnings that occurred during the document-analysis operation.
         public let warnings: [Warning]?
@@ -423,7 +424,7 @@ extension Textract {
         public let jobStatus: JobStatus?
         /// If the response is truncated, Amazon Textract returns this token. You can use this token in the subsequent request to retrieve the next set of text-detection results.
         public let nextToken: String?
-        /// The current status of an asynchronous text-detection operation for the document.
+        /// Returns if the detection job could not be completed. Contains explanation for what error occured.
         public let statusMessage: String?
         /// A list of warnings that occurred during the text-detection operation for the document.
         public let warnings: [Warning]?
@@ -542,6 +543,32 @@ extension Textract {
         }
     }
 
+    public struct OutputConfig: AWSEncodableShape {
+        /// The name of the bucket your output will go to.
+        public let s3Bucket: String
+        /// The prefix of the object key that the output will be saved to. When not enabled, the prefix will be “textract_output".
+        public let s3Prefix: String?
+
+        public init(s3Bucket: String, s3Prefix: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3Prefix = s3Prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 1024)
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, min: 1)
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+            case s3Prefix = "S3Prefix"
+        }
+    }
+
     public struct Point: AWSDecodableShape {
         /// The value of the X coordinate for a point on a Polygon.
         public let x: Float?
@@ -562,7 +589,7 @@ extension Textract {
     public struct Relationship: AWSDecodableShape {
         /// An array of IDs for related blocks. You can get the type of the relationship from the Type element.
         public let ids: [String]?
-        /// The type of relationship that the blocks in the IDs array have with the current block. The relationship can be VALUE or CHILD. A relationship of type VALUE is a list that contains the ID of the VALUE block that's associated with the KEY of a key-value pair. A relationship of type CHILD is a list of IDs that identify WORD blocks.
+        /// The type of relationship that the blocks in the IDs array have with the current block. The relationship can be VALUE or CHILD. A relationship of type VALUE is a list that contains the ID of the VALUE block that's associated with the KEY of a key-value pair. A relationship of type CHILD is a list of IDs that identify WORD blocks in the case of lines Cell blocks in the case of Tables, and WORD blocks in the case of Selection Elements.
         public let `type`: RelationshipType?
 
         public init(ids: [String]? = nil, type: RelationshipType? = nil) {
@@ -620,13 +647,16 @@ extension Textract {
         public let jobTag: String?
         /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to.
         public let notificationChannel: NotificationChannel?
+        /// Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis operation.
+        public let outputConfig: OutputConfig?
 
-        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, notificationChannel: NotificationChannel? = nil) {
+        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
             self.featureTypes = featureTypes
             self.jobTag = jobTag
             self.notificationChannel = notificationChannel
+            self.outputConfig = outputConfig
         }
 
         public func validate(name: String) throws {
@@ -638,6 +668,7 @@ extension Textract {
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.outputConfig?.validate(name: "\(name).outputConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -646,6 +677,7 @@ extension Textract {
             case featureTypes = "FeatureTypes"
             case jobTag = "JobTag"
             case notificationChannel = "NotificationChannel"
+            case outputConfig = "OutputConfig"
         }
     }
 
@@ -671,12 +703,15 @@ extension Textract {
         public let jobTag: String?
         /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to.
         public let notificationChannel: NotificationChannel?
+        /// Sets if the output will go to a customer defined bucket. By default Amazon Textract will save the results internally to be accessed with the GetDocumentTextDetection operation.
+        public let outputConfig: OutputConfig?
 
-        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil) {
+        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
             self.jobTag = jobTag
             self.notificationChannel = notificationChannel
+            self.outputConfig = outputConfig
         }
 
         public func validate(name: String) throws {
@@ -688,6 +723,7 @@ extension Textract {
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.outputConfig?.validate(name: "\(name).outputConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -695,6 +731,7 @@ extension Textract {
             case documentLocation = "DocumentLocation"
             case jobTag = "JobTag"
             case notificationChannel = "NotificationChannel"
+            case outputConfig = "OutputConfig"
         }
     }
 

@@ -81,6 +81,7 @@ public enum RDSErrorType: AWSErrorType {
     case installationMediaAlreadyExistsFault(message: String?)
     case installationMediaNotFoundFault(message: String?)
     case instanceQuotaExceededFault(message: String?)
+    case insufficientAvailableIPsInSubnetFault(message: String?)
     case insufficientDBClusterCapacityFault(message: String?)
     case insufficientDBInstanceCapacityFault(message: String?)
     case insufficientStorageClusterCapacityFault(message: String?)
@@ -265,6 +266,8 @@ extension RDSErrorType {
             self = .installationMediaNotFoundFault(message: message)
         case "InstanceQuotaExceeded":
             self = .instanceQuotaExceededFault(message: message)
+        case "InsufficientAvailableIPsInSubnetFault":
+            self = .insufficientAvailableIPsInSubnetFault(message: message)
         case "InsufficientDBClusterCapacityFault":
             self = .insufficientDBClusterCapacityFault(message: message)
         case "InsufficientDBInstanceCapacity":
@@ -498,6 +501,8 @@ extension RDSErrorType: CustomStringConvertible {
             return "InstallationMediaNotFound: \(message ?? "")"
         case .instanceQuotaExceededFault(let message):
             return "InstanceQuotaExceeded: \(message ?? "")"
+        case .insufficientAvailableIPsInSubnetFault(let message):
+            return "InsufficientAvailableIPsInSubnetFault: \(message ?? "")"
         case .insufficientDBClusterCapacityFault(let message):
             return "InsufficientDBClusterCapacityFault: \(message ?? "")"
         case .insufficientDBInstanceCapacityFault(let message):

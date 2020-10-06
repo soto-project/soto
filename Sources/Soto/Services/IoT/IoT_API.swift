@@ -660,7 +660,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListAttachedPolicies", path: "/attached-policies/{target}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 180 days.)
+    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)
     public func listAuditFindings(_ input: ListAuditFindingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAuditFindingsResponse> {
         return self.client.execute(operation: "ListAuditFindings", path: "/audit/findings", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

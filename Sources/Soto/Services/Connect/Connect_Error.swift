@@ -18,10 +18,12 @@ import SotoCore
 
 /// Error enum for Connect
 public enum ConnectErrorType: AWSErrorType {
+    case contactFlowNotPublishedException(message: String?)
     case contactNotFoundException(message: String?)
     case destinationNotAllowedException(message: String?)
     case duplicateResourceException(message: String?)
     case internalServiceException(message: String?)
+    case invalidContactFlowException(message: String?)
     case invalidParameterException(message: String?)
     case invalidRequestException(message: String?)
     case limitExceededException(message: String?)
@@ -38,6 +40,8 @@ extension ConnectErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ContactFlowNotPublishedException":
+            self = .contactFlowNotPublishedException(message: message)
         case "ContactNotFoundException":
             self = .contactNotFoundException(message: message)
         case "DestinationNotAllowedException":
@@ -46,6 +50,8 @@ extension ConnectErrorType {
             self = .duplicateResourceException(message: message)
         case "InternalServiceException":
             self = .internalServiceException(message: message)
+        case "InvalidContactFlowException":
+            self = .invalidContactFlowException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
         case "InvalidRequestException":
@@ -69,6 +75,8 @@ extension ConnectErrorType {
 extension ConnectErrorType: CustomStringConvertible {
     public var description: String {
         switch self {
+        case .contactFlowNotPublishedException(let message):
+            return "ContactFlowNotPublishedException: \(message ?? "")"
         case .contactNotFoundException(let message):
             return "ContactNotFoundException: \(message ?? "")"
         case .destinationNotAllowedException(let message):
@@ -77,6 +85,8 @@ extension ConnectErrorType: CustomStringConvertible {
             return "DuplicateResourceException: \(message ?? "")"
         case .internalServiceException(let message):
             return "InternalServiceException: \(message ?? "")"
+        case .invalidContactFlowException(let message):
+            return "InvalidContactFlowException: \(message ?? "")"
         case .invalidParameterException(let message):
             return "InvalidParameterException: \(message ?? "")"
         case .invalidRequestException(let message):

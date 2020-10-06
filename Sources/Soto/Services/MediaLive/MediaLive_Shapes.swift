@@ -1090,6 +1090,7 @@ extension MediaLive {
         case mp4File = "MP4_FILE"
         case mediaconnect = "MEDIACONNECT"
         case inputDevice = "INPUT_DEVICE"
+        case awsCdi = "AWS_CDI"
         public var description: String { return self.rawValue }
     }
 
@@ -1315,6 +1316,7 @@ extension MediaLive {
         case avc = "AVC"
         case hevc = "HEVC"
         case audio = "AUDIO"
+        case link = "LINK"
         public var description: String { return self.rawValue }
     }
 
@@ -2005,7 +2007,7 @@ extension MediaLive {
     }
 
     public struct AudioTrackSelection: AWSEncodableShape & AWSDecodableShape {
-        /// Selects one or more unique audio tracks from within an mp4 source.
+        /// Selects one or more unique audio tracks from within a source.
         public let tracks: [AudioTrack]
 
         public init(tracks: [AudioTrack]) {
@@ -2094,6 +2096,67 @@ extension MediaLive {
         }
     }
 
+    public struct BatchDeleteRequest: AWSEncodableShape {
+        public let channelIds: [String]?
+        public let inputIds: [String]?
+        public let inputSecurityGroupIds: [String]?
+        public let multiplexIds: [String]?
+
+        public init(channelIds: [String]? = nil, inputIds: [String]? = nil, inputSecurityGroupIds: [String]? = nil, multiplexIds: [String]? = nil) {
+            self.channelIds = channelIds
+            self.inputIds = inputIds
+            self.inputSecurityGroupIds = inputSecurityGroupIds
+            self.multiplexIds = multiplexIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelIds
+            case inputIds
+            case inputSecurityGroupIds
+            case multiplexIds
+        }
+    }
+
+    public struct BatchDeleteResponse: AWSDecodableShape {
+        public let failed: [BatchFailedResultModel]?
+        public let successful: [BatchSuccessfulResultModel]?
+
+        public init(failed: [BatchFailedResultModel]? = nil, successful: [BatchSuccessfulResultModel]? = nil) {
+            self.failed = failed
+            self.successful = successful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed
+            case successful
+        }
+    }
+
+    public struct BatchFailedResultModel: AWSDecodableShape {
+        /// ARN of the resource
+        public let arn: String?
+        /// Error code for the failed operation
+        public let code: String?
+        /// ID of the resource
+        public let id: String?
+        /// Error message for the failed operation
+        public let message: String?
+
+        public init(arn: String? = nil, code: String? = nil, id: String? = nil, message: String? = nil) {
+            self.arn = arn
+            self.code = code
+            self.id = id
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case code
+            case id
+            case message
+        }
+    }
+
     public struct BatchScheduleActionCreateRequest: AWSEncodableShape {
         /// A list of schedule actions to create.
         public let scheduleActions: [ScheduleAction]
@@ -2149,6 +2212,87 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case scheduleActions
+        }
+    }
+
+    public struct BatchStartRequest: AWSEncodableShape {
+        public let channelIds: [String]?
+        public let multiplexIds: [String]?
+
+        public init(channelIds: [String]? = nil, multiplexIds: [String]? = nil) {
+            self.channelIds = channelIds
+            self.multiplexIds = multiplexIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelIds
+            case multiplexIds
+        }
+    }
+
+    public struct BatchStartResponse: AWSDecodableShape {
+        public let failed: [BatchFailedResultModel]?
+        public let successful: [BatchSuccessfulResultModel]?
+
+        public init(failed: [BatchFailedResultModel]? = nil, successful: [BatchSuccessfulResultModel]? = nil) {
+            self.failed = failed
+            self.successful = successful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed
+            case successful
+        }
+    }
+
+    public struct BatchStopRequest: AWSEncodableShape {
+        public let channelIds: [String]?
+        public let multiplexIds: [String]?
+
+        public init(channelIds: [String]? = nil, multiplexIds: [String]? = nil) {
+            self.channelIds = channelIds
+            self.multiplexIds = multiplexIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelIds
+            case multiplexIds
+        }
+    }
+
+    public struct BatchStopResponse: AWSDecodableShape {
+        public let failed: [BatchFailedResultModel]?
+        public let successful: [BatchSuccessfulResultModel]?
+
+        public init(failed: [BatchFailedResultModel]? = nil, successful: [BatchSuccessfulResultModel]? = nil) {
+            self.failed = failed
+            self.successful = successful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed
+            case successful
+        }
+    }
+
+    public struct BatchSuccessfulResultModel: AWSDecodableShape {
+        /// ARN of the resource
+        public let arn: String?
+        /// ID of the resource
+        public let id: String?
+        /// Current state of the resource
+        public let state: String?
+
+        public init(arn: String? = nil, id: String? = nil, state: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case id
+            case state
         }
     }
 
@@ -4249,7 +4393,7 @@ extension MediaLive {
     }
 
     public struct FrameCaptureGroupSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The destination for the frame capture files. Either the URI for an Amazon S3 bucket and object, plus a file name prefix (for example, s3ssl://sportsDelivery/highlights/20180820/curling_) or the URI for a MediaStore container, plus a file name prefix (for example, mediastoressl://sportsDelivery/20180820/curling_). The final file names consist of the prefix from the destination field (for example, "curling_") + name modifier + the counter (5 digits, starting from 00001) + extension (which is always .jpg).  For example, curlingLow.00001.jpg
+        /// The destination for the frame capture files. Either the URI for an Amazon S3 bucket and object, plus a file name prefix (for example, s3ssl://sportsDelivery/highlights/20180820/curling-) or the URI for a MediaStore container, plus a file name prefix (for example, mediastoressl://sportsDelivery/20180820/curling-). The final file names consist of the prefix from the destination field (for example, "curling-") + name modifier + the counter (5 digits, starting from 00001) + extension (which is always .jpg).  For example, curling-low.00001.jpg
         public let destination: OutputLocationRef
 
         public init(destination: OutputLocationRef) {
@@ -4963,7 +5107,8 @@ extension MediaLive {
         /// DISABLED: Do not create an I-frame-only manifest, but do create the master and media manifests (according to the Output Selection field).
         /// STANDARD: Create an I-frame-only manifest for each output that contains video, as well as the other manifests (according to the Output Selection field). The I-frame manifest contains a #EXT-X-I-FRAMES-ONLY tag to indicate it is I-frame only, and one or more #EXT-X-BYTERANGE entries identifying the I-frame position. For example, #EXT-X-BYTERANGE:160364@1461888"
         public let iFrameOnlyPlaylists: IFrameOnlyPlaylistType?
-        /// Applies only if Mode field is LIVE. Specifies the maximum number of segments in the media manifest file. After this maximum, older segments are removed from the media manifest. This number must be less than or equal to the Keep Segments field.
+        /// Applies only if Mode field is LIVE.
+        /// Specifies the maximum number of segments in the media manifest file. After this maximum, older segments are removed from the media manifest. This number must be smaller than the number in the Keep Segments field.
         public let indexNSegments: Int?
         /// Parameter that control output group behavior on input loss.
         public let inputLossAction: InputLossActionForHlsOut?
@@ -4971,7 +5116,9 @@ extension MediaLive {
         public let ivInManifest: HlsIvInManifest?
         /// For use with encryptionType. The IV (Initialization Vector) is a 128-bit number used in conjunction with the key for encrypting blocks. If this setting is "followsSegmentNumber", it will cause the IV to change every segment (to match the segment number). If this is set to "explicit", you must enter a constantIv value.
         public let ivSource: HlsIvSource?
-        /// Applies only if Mode field is LIVE. Specifies the number of media segments (.ts files) to retain in the destination directory.
+        /// Applies only if Mode field is LIVE.
+        /// Specifies the number of media segments to retain in the destination directory. This number should be bigger than indexNSegments (Num segments). We recommend (value = (2 x indexNsegments) + 1).
+        /// If this "keep segments" number is too low, the following might happen: the player is still reading a media manifest file that lists this segment, but that segment has been removed from the destination directory (as directed by indexNSegments). This situation would result in a 404 HTTP error on the player.
         public let keepSegments: Int?
         /// The value specifies how the key is represented in the resource identified by the URI.  If parameter is absent, an implicit value of "identity" is used.  A reverse DNS string can also be given.
         public let keyFormat: String?
@@ -6402,7 +6549,7 @@ extension MediaLive {
         public let audioStreamType: M2tsAudioStreamType?
         /// The output bitrate of the transport stream in bits per second. Setting to 0 lets the muxer automatically determine the appropriate bitrate.
         public let bitrate: Int?
-        /// If set to multiplex, use multiplex buffer model for accurate interleaving.  Setting to bufferModel to none can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
+        /// Controls the timing accuracy for output network traffic. Leave as MULTIPLEX to ensure accurate network packet timing. Or set to NONE, which might result in lower latency but will result in more variability in output network packet timing. This variability might cause interruptions, jitter, or bursty behavior in your playback or receiving devices.
         public let bufferModel: M2tsBufferModel?
         /// When set to enabled, generates captionServiceDescriptor in PMT.
         public let ccDescriptor: M2tsCcDescriptor?
@@ -9256,7 +9403,10 @@ extension MediaLive {
         public let height: Int?
         /// The name of this VideoDescription. Outputs will use this name to uniquely identify this Description.  Description names should be unique within this Live Event.
         public let name: String
-        /// Indicates how to respond to the AFD values in the input stream. RESPOND causes input video to be clipped, depending on the AFD value, input display aspect ratio, and output display aspect ratio, and (except for FRAME_CAPTURE codec) includes the values in the output. PASSTHROUGH (does not apply to FRAME_CAPTURE codec) ignores the AFD values and includes the values in the output, so input video is not clipped. NONE ignores the AFD values and does not include the values through to the output, so input video is not clipped.
+        /// Indicates how MediaLive will respond to the AFD values that might be in the input video. If you do not know what AFD signaling is, or if your downstream system has not given you guidance, choose PASSTHROUGH.
+        /// RESPOND: MediaLive clips the input video using a formula that uses the AFD values (configured in afdSignaling ), the input display aspect ratio, and the output display aspect ratio. MediaLive also includes the AFD values in the output, unless the codec for this encode is FRAME_CAPTURE.
+        /// PASSTHROUGH: MediaLive ignores the AFD values and does not clip the video. But MediaLive does include the values in the output.
+        /// NONE: MediaLive does not clip the input video and does not include the AFD values in the output
         public let respondToAfd: VideoDescriptionRespondToAfd?
         /// STRETCH_TO_OUTPUT configures the output position to stretch the video to the specified output resolution (height and width). This option will override any position value. DEFAULT may insert black boxes (pillar boxes or letter boxes) around the video to provide the specified output resolution.
         public let scalingBehavior: VideoDescriptionScalingBehavior?

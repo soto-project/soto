@@ -25,6 +25,8 @@ public enum CostExplorerErrorType: AWSErrorType {
     case requestChangedException(message: String?)
     case resourceNotFoundException(message: String?)
     case serviceQuotaExceededException(message: String?)
+    case unknownMonitorException(message: String?)
+    case unknownSubscriptionException(message: String?)
     case unresolvableUsageUnitException(message: String?)
 }
 
@@ -49,6 +51,10 @@ extension CostExplorerErrorType {
             self = .resourceNotFoundException(message: message)
         case "ServiceQuotaExceededException":
             self = .serviceQuotaExceededException(message: message)
+        case "UnknownMonitorException":
+            self = .unknownMonitorException(message: message)
+        case "UnknownSubscriptionException":
+            self = .unknownSubscriptionException(message: message)
         case "UnresolvableUsageUnitException":
             self = .unresolvableUsageUnitException(message: message)
         default:
@@ -74,6 +80,10 @@ extension CostExplorerErrorType: CustomStringConvertible {
             return "ResourceNotFoundException: \(message ?? "")"
         case .serviceQuotaExceededException(let message):
             return "ServiceQuotaExceededException: \(message ?? "")"
+        case .unknownMonitorException(let message):
+            return "UnknownMonitorException: \(message ?? "")"
+        case .unknownSubscriptionException(let message):
+            return "UnknownSubscriptionException: \(message ?? "")"
         case .unresolvableUsageUnitException(let message):
             return "UnresolvableUsageUnitException: \(message ?? "")"
         }

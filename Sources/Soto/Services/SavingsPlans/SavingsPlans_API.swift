@@ -67,6 +67,11 @@ public struct SavingsPlans: AWSService {
         return self.client.execute(operation: "CreateSavingsPlan", path: "/CreateSavingsPlan", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Deletes the queued purchase for the specified Savings Plan.
+    public func deleteQueuedSavingsPlan(_ input: DeleteQueuedSavingsPlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteQueuedSavingsPlanResponse> {
+        return self.client.execute(operation: "DeleteQueuedSavingsPlan", path: "/DeleteQueuedSavingsPlan", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Describes the specified Savings Plans rates.
     public func describeSavingsPlanRates(_ input: DescribeSavingsPlanRatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSavingsPlanRatesResponse> {
         return self.client.execute(operation: "DescribeSavingsPlanRates", path: "/DescribeSavingsPlanRates", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)

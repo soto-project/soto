@@ -293,12 +293,15 @@ extension Organizations {
         public let iamUserAccessToBilling: IAMUserAccessToBilling?
         /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member account. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:    Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide    Steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide    The regex pattern that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
         public let roleName: String?
+        /// A list of tags that you want to attach to the newly created account. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags for an account, then the entire request fails and the account is not created.
+        public let tags: [Tag]?
 
-        public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil) {
+        public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil, tags: [Tag]? = nil) {
             self.accountName = accountName
             self.email = email
             self.iamUserAccessToBilling = iamUserAccessToBilling
             self.roleName = roleName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -310,6 +313,9 @@ extension Organizations {
             try self.validate(self.email, name: "email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
             try self.validate(self.roleName, name: "roleName", parent: name, max: 64)
             try self.validate(self.roleName, name: "roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -317,6 +323,7 @@ extension Organizations {
             case email = "Email"
             case iamUserAccessToBilling = "IamUserAccessToBilling"
             case roleName = "RoleName"
+            case tags = "Tags"
         }
     }
 
@@ -383,12 +390,15 @@ extension Organizations {
         public let iamUserAccessToBilling: IAMUserAccessToBilling?
         /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member accounts in both the AWS GovCloud (US) Region and in the commercial Region. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide.  The regex pattern that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
         public let roleName: String?
+        /// A list of tags that you want to attach to the newly created account. These tags are attached to the commercial account associated with the GovCloud account, and not to the GovCloud account itself. To add tags to the actual GovCloud account, call the TagResource operation in the GovCloud region after the new GovCloud account exists. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags for an account, then the entire request fails and the account is not created.
+        public let tags: [Tag]?
 
-        public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil) {
+        public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil, tags: [Tag]? = nil) {
             self.accountName = accountName
             self.email = email
             self.iamUserAccessToBilling = iamUserAccessToBilling
             self.roleName = roleName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -400,6 +410,9 @@ extension Organizations {
             try self.validate(self.email, name: "email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
             try self.validate(self.roleName, name: "roleName", parent: name, max: 64)
             try self.validate(self.roleName, name: "roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -407,6 +420,7 @@ extension Organizations {
             case email = "Email"
             case iamUserAccessToBilling = "IamUserAccessToBilling"
             case roleName = "RoleName"
+            case tags = "Tags"
         }
     }
 
@@ -453,10 +467,13 @@ extension Organizations {
         public let name: String
         /// The unique identifier (ID) of the parent root or OU that you want to create the new OU in. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let parentId: String
+        /// A list of tags that you want to attach to the newly created OU. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags for an OU, then the entire request fails and the OU is not created.
+        public let tags: [Tag]?
 
-        public init(name: String, parentId: String) {
+        public init(name: String, parentId: String, tags: [Tag]? = nil) {
             self.name = name
             self.parentId = parentId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -465,11 +482,15 @@ extension Organizations {
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.parentId, name: "parentId", parent: name, max: 100)
             try self.validate(self.parentId, name: "parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case parentId = "ParentId"
+            case tags = "Tags"
         }
     }
 
@@ -493,13 +514,16 @@ extension Organizations {
         public let description: String
         /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String
+        /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created.
+        public let tags: [Tag]?
         /// The type of policy to create. You can specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY
         public let `type`: PolicyType
 
-        public init(content: String, description: String, name: String, type: PolicyType) {
+        public init(content: String, description: String, name: String, tags: [Tag]? = nil, type: PolicyType) {
             self.content = content
             self.description = description
             self.name = name
+            self.tags = tags
             self.`type` = `type`
         }
 
@@ -512,12 +536,16 @@ extension Organizations {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case description = "Description"
             case name = "Name"
+            case tags = "Tags"
             case `type` = "Type"
         }
     }
@@ -1189,22 +1217,29 @@ extension Organizations {
     public struct InviteAccountToOrganizationRequest: AWSEncodableShape {
         /// Additional information that you want to include in the generated email to the recipient account owner.
         public let notes: String?
-        /// The identifier (ID) of the AWS account that you want to invite to join your organization. This is a JSON object that contains the following elements:   { "Type": "ACCOUNT", "Id": "&lt; account id number &gt;" }  If you use the AWS CLI, you can submit this as a single string, similar to the following example:  --target Id=123456789012,Type=ACCOUNT  If you specify "Type": "ACCOUNT", you must provide the AWS account ID number as the Id. If you specify "Type": "EMAIL", you must specify the email address that is associated with the account.  --target Id=diego@example.com,Type=EMAIL
+        /// A list of tags that you want to attach to the account when it becomes a member of the organization. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  Any tags in the request are checked for compliance with any applicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is  not  checked again when the invitation is accepted and the tags are actually attached to the account. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant.   If any one of the tags is invalid or if you exceed the allowed number of tags for an account, then the entire request fails and invitations are not sent.
+        public let tags: [Tag]?
+        /// The identifier (ID) of the AWS account that you want to invite to join your organization. This is a JSON object that contains the following elements:  { "Type": "ACCOUNT", "Id": "&lt; account id number &gt;" }  If you use the AWS CLI, you can submit this as a single string, similar to the following example:  --target Id=123456789012,Type=ACCOUNT  If you specify "Type": "ACCOUNT", you must provide the AWS account ID number as the Id. If you specify "Type": "EMAIL", you must specify the email address that is associated with the account.  --target Id=diego@example.com,Type=EMAIL
         public let target: HandshakeParty
 
-        public init(notes: String? = nil, target: HandshakeParty) {
+        public init(notes: String? = nil, tags: [Tag]? = nil, target: HandshakeParty) {
             self.notes = notes
+            self.tags = tags
             self.target = target
         }
 
         public func validate(name: String) throws {
             try self.validate(self.notes, name: "notes", parent: name, max: 1024)
             try self.validate(self.notes, name: "notes", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.target.validate(name: "\(name).target")
         }
 
         private enum CodingKeys: String, CodingKey {
             case notes = "Notes"
+            case tags = "Tags"
             case target = "Target"
         }
     }
@@ -1868,7 +1903,7 @@ extension Organizations {
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
-        /// The ID of the resource that you want to retrieve tags for.
+        /// The ID of the resource with the tags to list. You can specify any of the following taggable resources.   AWS account – specify the account ID number.   Organizational unit – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3
         public let resourceId: String
 
         public init(nextToken: String? = nil, resourceId: String) {
@@ -1879,8 +1914,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100_000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
-            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 12)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 130)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2247,7 +2282,7 @@ extension Organizations {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The ID of the resource to add a tag to.
         public let resourceId: String
-        /// The tag to add to the specified resource. You must specify both a tag key and value. You can set the value of a tag to an empty string, but you can't set it to null.
+        /// A list of tags to add to the specified resource. You can specify any of the following taggable resources.   AWS account – specify the account ID number.   Organizational unit – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3     For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null.  If any one of the tags is invalid or if you exceed the allowed number of tags for an account user, then the entire request fails and the account is not created.
         public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
@@ -2256,8 +2291,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 12)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 130)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2270,9 +2305,9 @@ extension Organizations {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ID of the resource to remove the tag from.
+        /// The ID of the resource to remove a tag from. You can specify any of the following taggable resources.   AWS account – specify the account ID number.   Organizational unit – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3
         public let resourceId: String
-        /// The tag to remove from the specified resource.
+        /// The list of keys for tags to remove from the specified resource.
         public let tagKeys: [String]
 
         public init(resourceId: String, tagKeys: [String]) {
@@ -2281,8 +2316,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 12)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 130)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

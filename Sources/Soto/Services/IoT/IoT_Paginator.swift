@@ -51,7 +51,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 180 days.)
+    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)
     public func listAuditFindingsPaginator(
         _ input: ListAuditFindingsRequest,
         on eventLoop: EventLoop? = nil,

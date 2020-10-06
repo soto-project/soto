@@ -540,8 +540,10 @@ extension IoT {
         public let sqs: SqsAction?
         /// Starts execution of a Step Functions state machine.
         public let stepFunctions: StepFunctionsAction?
+        /// The Timestream rule action writes attributes (measures) from an MQTT message into an Amazon Timestream table. For more information, see the Timestream topic rule action documentation.
+        public let timestream: TimestreamAction?
 
-        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil) {
+        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
             self.cloudwatchAlarm = cloudwatchAlarm
             self.cloudwatchLogs = cloudwatchLogs
             self.cloudwatchMetric = cloudwatchMetric
@@ -561,6 +563,7 @@ extension IoT {
             self.sns = sns
             self.sqs = sqs
             self.stepFunctions = stepFunctions
+            self.timestream = timestream
         }
 
         public func validate(name: String) throws {
@@ -571,6 +574,7 @@ extension IoT {
             try self.iotSiteWise?.validate(name: "\(name).iotSiteWise")
             try self.republish?.validate(name: "\(name).republish")
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.timestream?.validate(name: "\(name).timestream")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -593,6 +597,7 @@ extension IoT {
             case sns
             case sqs
             case stepFunctions
+            case timestream
         }
     }
 
@@ -7848,7 +7853,7 @@ extension IoT {
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// The beginning of the time period. Audit information is retained for a limited time (180 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
+        /// The beginning of the time period. Audit information is retained for a limited time (90 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
         public let startTime: Date
         /// A filter to limit the output to audits with the specified completion status: can be one of "IN_PROGRESS", "COMPLETED", "FAILED", or "CANCELED".
         public let taskStatus: AuditTaskStatus?
@@ -10532,7 +10537,6 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
             try self.propertyValues.forEach {
                 try $0.validate(name: "\(name).propertyValues[]")
@@ -12442,6 +12446,74 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case inProgressTimeoutInMinutes
+        }
+    }
+
+    public struct TimestreamAction: AWSEncodableShape & AWSDecodableShape {
+        /// The name of an Amazon Timestream database.
+        public let databaseName: String
+        /// Metadata attributes of the time series that are written in each measure record.
+        public let dimensions: [TimestreamDimension]
+        /// The ARN of the role that grants permission to write to the Amazon Timestream database table.
+        public let roleArn: String
+        /// The name of the database table into which to write the measure records.
+        public let tableName: String
+        /// Specifies an application-defined value to replace the default value assigned to the Timestream record's timestamp in the time column. You can use this property to specify the value and the precision of the Timestream record's timestamp. You can specify a value from the message payload or a value computed by a substitution template. If omitted, the topic rule action assigns the timestamp, in milliseconds, at the time it processed the rule.
+        public let timestamp: TimestreamTimestamp?
+
+        public init(databaseName: String, dimensions: [TimestreamDimension], roleArn: String, tableName: String, timestamp: TimestreamTimestamp? = nil) {
+            self.databaseName = databaseName
+            self.dimensions = dimensions
+            self.roleArn = roleArn
+            self.tableName = tableName
+            self.timestamp = timestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 128)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName
+            case dimensions
+            case roleArn
+            case tableName
+            case timestamp
+        }
+    }
+
+    public struct TimestreamDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The metadata dimension name. This is the name of the column in the Amazon Timestream database table record. Dimensions cannot be named: measure_name, measure_value, or time. These names are reserved. Dimension names cannot start with ts_ or measure_value and they cannot contain the colon (:) character.
+        public let name: String
+        /// The value to write in this column of the database record.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case value
+        }
+    }
+
+    public struct TimestreamTimestamp: AWSEncodableShape & AWSDecodableShape {
+        /// The precision of the timestamp value that results from the expression described in value. Valid values: SECONDS | MILLISECONDS | MICROSECONDS | NANOSECONDS. The default is MILLISECONDS.
+        public let unit: String
+        /// An expression that returns a long epoch time value.
+        public let value: String
+
+        public init(unit: String, value: String) {
+            self.unit = unit
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit
+            case value
         }
     }
 

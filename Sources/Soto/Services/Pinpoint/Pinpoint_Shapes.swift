@@ -40,6 +40,7 @@ extension Pinpoint {
         case completed = "COMPLETED"
         case paused = "PAUSED"
         case deleted = "DELETED"
+        case invalid = "INVALID"
         public var description: String { return self.rawValue }
     }
 
@@ -1130,9 +1131,9 @@ extension Pinpoint {
         public let campaignHook: CampaignHook?
         /// The date and time, in ISO 8601 format, when the application's settings were last modified.
         public let lastModifiedDate: String?
-        /// The default sending limits for campaigns and journeys in the application.
+        /// The default sending limits for campaigns in the application.
         public let limits: CampaignLimits?
-        /// The default quiet time for campaigns and journeys in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled.
+        /// The default quiet time for campaigns in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled.
         public let quietTime: QuietTime?
 
         public init(applicationId: String, campaignHook: CampaignHook? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
@@ -1479,7 +1480,7 @@ extension Pinpoint {
         public let daily: Int?
         /// The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds.
         public let maximumDuration: Int?
-        /// The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns and journeys can send each second. The minimum value is 50. The maximum value is 20,000.
+        /// The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns can send each second. The minimum value is 50. The maximum value is 20,000.
         public let messagesPerSecond: Int?
         /// The maximum number of messages that a campaign can send to a single endpoint during the course of the campaign. If a campaign recurs, this setting applies to all runs of the campaign. The maximum value is 100.
         public let total: Int?
@@ -2279,7 +2280,7 @@ extension Pinpoint {
     }
 
     public struct CustomMessageActivity: AWSEncodableShape & AWSDecodableShape {
-        /// The destination to send the custom message to. This value can be one of the following: The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke to handle delivery of the custom message. The URL for a web application or service that supports HTTPS and can receive the message. The URL has to be a full URL, including the HTTPS protocol.
+        /// The destination to send the campaign or treatment to. This value can be one of the following: The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke to handle delivery of the campaign or treatment. The URL for a web application or service that supports HTTPS and can receive the message. The URL has to be a full URL, including the HTTPS protocol.
         public let deliveryUri: String?
         /// The types of endpoints to send the custom message to. Each valid value maps to a type of channel that you can associate with an endpoint by using the ChannelType property of an endpoint.
         public let endpointTypes: [Endpointtypeselement]?
@@ -3854,11 +3855,11 @@ extension Pinpoint {
 
     public struct EventCondition: AWSEncodableShape & AWSDecodableShape {
         /// The dimensions for the event filter to use for the activity.
-        public let dimensions: EventDimensions
+        public let dimensions: EventDimensions?
         /// The message identifier (message_id) for the message to use when determining whether message events meet the condition.
         public let messageActivity: String?
 
-        public init(dimensions: EventDimensions, messageActivity: String? = nil) {
+        public init(dimensions: EventDimensions? = nil, messageActivity: String? = nil) {
             self.dimensions = dimensions
             self.messageActivity = messageActivity
         }
@@ -3890,6 +3891,23 @@ extension Pinpoint {
         }
     }
 
+    public struct EventFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The dimensions for the event filter to use for the campaign or the journey activity.
+        public let dimensions: EventDimensions
+        /// The type of event that causes the campaign to be sent or the journey activity to be performed. Valid values are: SYSTEM, sends the campaign or performs the activity when a system event occurs; and, ENDPOINT, sends the campaign or performs the activity when an endpoint event (Events resource) occurs.
+        public let filterType: FilterType
+
+        public init(dimensions: EventDimensions, filterType: FilterType) {
+            self.dimensions = dimensions
+            self.filterType = filterType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case filterType = "FilterType"
+        }
+    }
+
     public struct EventItemResponse: AWSDecodableShape {
         /// A custom message that's returned in the response as a result of processing the event.
         public let message: String?
@@ -3904,6 +3922,21 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case statusCode = "StatusCode"
+        }
+    }
+
+    public struct EventStartCondition: AWSEncodableShape & AWSDecodableShape {
+        public let eventFilter: EventFilter?
+        public let segmentId: String?
+
+        public init(eventFilter: EventFilter? = nil, segmentId: String? = nil) {
+            self.eventFilter = eventFilter
+            self.segmentId = segmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventFilter = "EventFilter"
+            case segmentId = "SegmentId"
         }
     }
 
@@ -7509,7 +7542,7 @@ extension Pinpoint {
         public let body: String?
         /// The SMS program name that you provided to AWS Support when you requested your dedicated number.
         public let keyword: String?
-        /// The URL of an image or video to display in the SMS message. This field is reserved for future use.
+        /// This field is reserved for future use.
         public let mediaUrl: String?
         /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL (for messsages that aren't critical or time-sensitive, such as marketing messages).
         public let messageType: MessageType?
@@ -8195,16 +8228,19 @@ extension Pinpoint {
     public struct StartCondition: AWSEncodableShape & AWSDecodableShape {
         /// The custom description of the condition.
         public let description: String?
+        public let eventStartCondition: EventStartCondition?
         /// The segment that's associated with the first activity in the journey. This segment determines which users are participants in the journey.
         public let segmentStartCondition: SegmentCondition?
 
-        public init(description: String? = nil, segmentStartCondition: SegmentCondition? = nil) {
+        public init(description: String? = nil, eventStartCondition: EventStartCondition? = nil, segmentStartCondition: SegmentCondition? = nil) {
             self.description = description
+            self.eventStartCondition = eventStartCondition
             self.segmentStartCondition = segmentStartCondition
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case eventStartCondition = "EventStartCondition"
             case segmentStartCondition = "SegmentStartCondition"
         }
     }
@@ -9701,9 +9737,9 @@ extension Pinpoint {
         public let campaignHook: CampaignHook?
         /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
         public let cloudWatchMetricsEnabled: Bool?
-        /// The default sending limits for campaigns and journeys in the application. To override these limits and define custom limits for a specific campaign or journey, use the Campaign resource or the Journey resource, respectively.
+        /// The default sending limits for campaigns in the application. To override these limits and define custom limits for a specific campaign or journey, use the Campaign resource or the Journey resource, respectively.
         public let limits: CampaignLimits?
-        /// The default quiet time for campaigns and journeys in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled. To override the default quiet time settings for a specific campaign or journey, use the Campaign resource or the Journey resource to define a custom quiet time for the campaign or journey.
+        /// The default quiet time for campaigns in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled. To override the default quiet time settings for a specific campaign or journey, use the Campaign resource or the Journey resource to define a custom quiet time for the campaign or journey.
         public let quietTime: QuietTime?
 
         public init(campaignHook: CampaignHook? = nil, cloudWatchMetricsEnabled: Bool? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {

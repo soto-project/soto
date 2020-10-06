@@ -233,7 +233,7 @@ extension Translate {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The multipurpose internet mail extension (MIME) type of the input files. Valid values are text/plain for plaintext files and text/html for HTML files.
+        /// Describes the format of the data that you submit to Amazon Translate as input. You can specify one of the following multipurpose internet mail extension (MIME) types:    text/html: The input data consists of one or more HTML files. Amazon Translate translates only the text that resides in the html element in each file.    text/plain: The input data consists of one or more unformatted text files. Amazon Translate translates every character in this type of input.    application/vnd.openxmlformats-officedocument.wordprocessingml.document: The input data consists of one or more Word documents (.docx).    application/vnd.openxmlformats-officedocument.presentationml.presentation: The input data consists of one or more PowerPoint Presentation files (.pptx).    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet: The input data consists of one or more Excel Workbook files (.xlsx).    If you structure your input data as HTML, ensure that you set this parameter to text/html. By doing so, you cut costs by limiting the translation to the contents of the html element in each file. Otherwise, if you set this parameter to text/plain, your costs will cover the translation of every character.
         public let contentType: String
         /// The URI of the AWS S3 folder that contains the input file. The folder must be in the same Region as the API endpoint you are calling.
         public let s3Uri: String
@@ -383,7 +383,7 @@ extension Translate {
     }
 
     public struct StartTextTranslationJobRequest: AWSEncodableShape {
-        /// The client token of the EC2 instance calling the request. This token is auto-generated when using the Amazon Translate SDK. Otherwise, use the DescribeInstances EC2 operation to retreive an instance's client token. For more information, see Client Tokens in the EC2 User Guide.
+        /// A unique identifier for the request. This token is auto-generated when using the Amazon Translate SDK.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that grants Amazon Translate read access to your input data. For more nformation, see identity-and-access-management.
         public let dataAccessRoleArn: String
@@ -453,7 +453,7 @@ extension Translate {
     public struct StartTextTranslationJobResponse: AWSDecodableShape {
         /// The identifier generated for the job. To get the status of a job, use this ID with the DescribeTextTranslationJob operation.
         public let jobId: String?
-        /// The status of the job. Possible values include:    SUBMITTED - The job has been received and is queued for processing.    IN_PROGRESS - Amazon Translate is processing the job.    COMPLETED - The job was successfully completed and the output is available.    COMPLETED_WITH_ERRORS - The job was completed with errors. The errors can be analyzed in the job's output.    FAILED - The job did not complete. To get details, use the DescribeTextTranslationJob operation.    STOP_REQUESTED - The user who started the job has requested that it be stopped.    STOPPED - The job has been stopped.
+        /// The status of the job. Possible values include:    SUBMITTED - The job has been received and is queued for processing.    IN_PROGRESS - Amazon Translate is processing the job.    COMPLETED - The job was successfully completed and the output is available.    COMPLETED_WITH_ERROR - The job was completed with errors. The errors can be analyzed in the job's output.    FAILED - The job did not complete. To get details, use the DescribeTextTranslationJob operation.    STOP_REQUESTED - The user who started the job has requested that it be stopped.    STOPPED - The job has been stopped.
         public let jobStatus: JobStatus?
 
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {

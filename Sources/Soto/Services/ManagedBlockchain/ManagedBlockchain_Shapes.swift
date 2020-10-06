@@ -79,6 +79,12 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
+    public enum StateDBType: String, CustomStringConvertible, Codable {
+        case leveldb = "LevelDB"
+        case couchdb = "CouchDB"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ThresholdComparator: String, CustomStringConvertible, Codable {
         case greaterThan = "GREATER_THAN"
         case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
@@ -1003,6 +1009,7 @@ extension ManagedBlockchain {
         public let description: String?
         /// Configuration properties of the blockchain framework relevant to the member.
         public let frameworkConfiguration: MemberFrameworkConfiguration
+        /// Configuration properties for logging events associated with a member of a Managed Blockchain network.
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
         /// The name of the member.
         public let name: String
@@ -1319,15 +1326,18 @@ extension ManagedBlockchain {
         public let id: String?
         /// The instance type of the node.
         public let instanceType: String?
+        /// Configuration properties for logging events associated with a peer node owned by a member in a Managed Blockchain network.
         public let logPublishingConfiguration: NodeLogPublishingConfiguration?
         /// The unique identifier of the member to which the node belongs.
         public let memberId: String?
         /// The unique identifier of the network that the node is in.
         public let networkId: String?
+        /// The state database that the node uses. Values are LevelDB or CouchDB.
+        public let stateDB: StateDBType?
         /// The status of the node.
         public let status: NodeStatus?
 
-        public init(availabilityZone: String? = nil, creationDate: Date? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, status: NodeStatus? = nil) {
+        public init(availabilityZone: String? = nil, creationDate: Date? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, stateDB: StateDBType? = nil, status: NodeStatus? = nil) {
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
             self.frameworkAttributes = frameworkAttributes
@@ -1336,6 +1346,7 @@ extension ManagedBlockchain {
             self.logPublishingConfiguration = logPublishingConfiguration
             self.memberId = memberId
             self.networkId = networkId
+            self.stateDB = stateDB
             self.status = status
         }
 
@@ -1348,6 +1359,7 @@ extension ManagedBlockchain {
             case logPublishingConfiguration = "LogPublishingConfiguration"
             case memberId = "MemberId"
             case networkId = "NetworkId"
+            case stateDB = "StateDB"
             case status = "Status"
         }
     }
@@ -1357,18 +1369,23 @@ extension ManagedBlockchain {
         public let availabilityZone: String
         /// The Amazon Managed Blockchain instance type for the node.
         public let instanceType: String
+        /// Configuration properties for logging events associated with a peer node owned by a member in a Managed Blockchain network.
         public let logPublishingConfiguration: NodeLogPublishingConfiguration?
+        /// The state database that the node uses. Values are LevelDB or CouchDB. When using an Amazon Managed Blockchain network with Hyperledger Fabric version 1.4 or later, the default is CouchDB.
+        public let stateDB: StateDBType?
 
-        public init(availabilityZone: String, instanceType: String, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil) {
+        public init(availabilityZone: String, instanceType: String, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, stateDB: StateDBType? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
             self.logPublishingConfiguration = logPublishingConfiguration
+            self.stateDB = stateDB
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case instanceType = "InstanceType"
             case logPublishingConfiguration = "LogPublishingConfiguration"
+            case stateDB = "StateDB"
         }
     }
 

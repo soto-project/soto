@@ -125,6 +125,7 @@ extension QuickSight {
         case sqlserver = "SQLSERVER"
         case teradata = "TERADATA"
         case twitter = "TWITTER"
+        case timestream = "TIMESTREAM"
         public var description: String { return self.rawValue }
     }
 
@@ -433,12 +434,14 @@ extension QuickSight {
         public let lastUpdatedTime: Date?
         /// The descriptive name of the analysis.
         public let name: String?
+        /// A list of the associated sheets with the unique identifier and name of each sheet.
+        public let sheets: [Sheet]?
         /// Status associated with the analysis.
         public let status: ResourceStatus?
         /// The ARN of the theme of the analysis.
         public let themeArn: String?
 
-        public init(analysisId: String? = nil, arn: String? = nil, createdTime: Date? = nil, dataSetArns: [String]? = nil, errors: [AnalysisError]? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil) {
+        public init(analysisId: String? = nil, arn: String? = nil, createdTime: Date? = nil, dataSetArns: [String]? = nil, errors: [AnalysisError]? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, sheets: [Sheet]? = nil, status: ResourceStatus? = nil, themeArn: String? = nil) {
             self.analysisId = analysisId
             self.arn = arn
             self.createdTime = createdTime
@@ -446,6 +449,7 @@ extension QuickSight {
             self.errors = errors
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.sheets = sheets
             self.status = status
             self.themeArn = themeArn
         }
@@ -458,6 +462,7 @@ extension QuickSight {
             case errors = "Errors"
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
+            case sheets = "Sheets"
             case status = "Status"
             case themeArn = "ThemeArn"
         }
@@ -889,7 +894,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace"))
         ]
 
-        /// The QuickSight customizations you're adding in the current AWS Region. You can add these to an AWS account and a QuickSight namespace.  For example, you could add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. . Or, you could add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
+        /// The QuickSight customizations you're adding in the current AWS Region. You can add these to an AWS account and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
         public let accountCustomization: AccountCustomization
         /// The ID for the AWS account that you want to customize QuickSight for.
         public let awsAccountId: String
@@ -2389,6 +2394,8 @@ extension QuickSight {
         public let description: String?
         /// Errors associated with this dashboard version.
         public let errors: [DashboardError]?
+        /// A list of the associated sheets with the unique identifier and name of each sheet.
+        public let sheets: [Sheet]?
         /// Source entity ARN.
         public let sourceEntityArn: String?
         /// The HTTP status of the request.
@@ -2398,12 +2405,13 @@ extension QuickSight {
         /// Version number for this version of the dashboard.
         public let versionNumber: Int64?
 
-        public init(arn: String? = nil, createdTime: Date? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sheets: [Sheet]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.dataSetArns = dataSetArns
             self.description = description
             self.errors = errors
+            self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
             self.themeArn = themeArn
@@ -2416,6 +2424,7 @@ extension QuickSight {
             case dataSetArns = "DataSetArns"
             case description = "Description"
             case errors = "Errors"
+            case sheets = "Sheets"
             case sourceEntityArn = "SourceEntityArn"
             case status = "Status"
             case themeArn = "ThemeArn"
@@ -3853,7 +3862,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The QuickSight settings for this AWS account. This information includes the edition of Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the QuickSight subscription. The QuickSight console, the QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the QuickSight service for your AWS account. The edition that you subscribe to applies to QuickSight in every AWS Region where you use it.
+        /// The QuickSight settings for this AWS account. This information includes the edition of Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the QuickSight subscription. In the QuickSight console, the QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the QuickSight service for your AWS account. The edition that you subscribe to applies to QuickSight in every AWS Region where you use it.
         public let accountSettings: AccountSettings?
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -7653,6 +7662,23 @@ extension QuickSight {
         }
     }
 
+    public struct Sheet: AWSDecodableShape {
+        /// The name of a sheet. This is displayed on the sheet's tab in the QuickSight console.
+        public let name: String?
+        /// The unique identifier associated with a sheet.
+        public let sheetId: String?
+
+        public init(name: String? = nil, sheetId: String? = nil) {
+            self.name = name
+            self.sheetId = sheetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case sheetId = "SheetId"
+        }
+    }
+
     public struct SheetControlsOption: AWSEncodableShape {
         /// Visibility state.
         public let visibilityState: DashboardUIState?
@@ -8068,6 +8094,8 @@ extension QuickSight {
         public let description: String?
         /// Errors associated with this template version.
         public let errors: [TemplateError]?
+        /// A list of the associated sheets with the unique identifier and name of each sheet.
+        public let sheets: [Sheet]?
         /// The Amazon Resource Name (ARN) of an analysis or template that was used to create this template.
         public let sourceEntityArn: String?
         /// The HTTP status of the request.
@@ -8077,11 +8105,12 @@ extension QuickSight {
         /// The version number of the template version.
         public let versionNumber: Int64?
 
-        public init(createdTime: Date? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
+        public init(createdTime: Date? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sheets: [Sheet]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.createdTime = createdTime
             self.dataSetConfigurations = dataSetConfigurations
             self.description = description
             self.errors = errors
+            self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
             self.themeArn = themeArn
@@ -8093,6 +8122,7 @@ extension QuickSight {
             case dataSetConfigurations = "DataSetConfigurations"
             case description = "Description"
             case errors = "Errors"
+            case sheets = "Sheets"
             case sourceEntityArn = "SourceEntityArn"
             case status = "Status"
             case themeArn = "ThemeArn"
@@ -8674,7 +8704,7 @@ extension QuickSight {
 
         /// The ID for the AWS account that contains the QuickSight settings that you want to list.
         public let awsAccountId: String
-        /// The default namespace for this AWS Account. Currently, the default is default. IAM users who register for the first time with QuickSight provide an email that becomes associated with the default namespace.
+        /// The default namespace for this AWS account. Currently, the default is default. AWS Identity and Access Management (IAM) users that register for the first time with QuickSight provide an email that becomes associated with the default namespace.
         public let defaultNamespace: String
         /// The email address that you want QuickSight to send notifications to regarding your AWS account or QuickSight subscription.
         public let notificationEmail: String?

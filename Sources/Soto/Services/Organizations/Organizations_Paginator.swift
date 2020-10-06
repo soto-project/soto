@@ -115,7 +115,7 @@ extension Organizations {
         )
     }
 
-    ///  List the AWS services for which the specified account is a delegated administrator.  This operation can be called only from the organization's master account or by a member account that is a delegated administrator for an AWS service.
+    ///  List the AWS services for which the specified account is a delegated administrator. This operation can be called only from the organization's master account or by a member account that is a delegated administrator for an AWS service.
     public func listDelegatedServicesForAccountPaginator(
         _ input: ListDelegatedServicesForAccountRequest,
         on eventLoop: EventLoop? = nil,
@@ -243,7 +243,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists tags for the specified resource.  Currently, you can list tags on an account in AWS Organizations. This operation can be called only from the organization's master account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists tags that are attached to the specified resource. You can attach tags to the following resources in AWS Organizations.   AWS account   Organization root   Organizational unit (OU)   Policy (any type)   This operation can be called only from the organization's master account or by a member account that is a delegated administrator for an AWS service.
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
         on eventLoop: EventLoop? = nil,

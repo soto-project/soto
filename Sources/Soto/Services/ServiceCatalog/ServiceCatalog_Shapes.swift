@@ -1839,12 +1839,15 @@ extension ServiceCatalog {
     public struct DescribeProvisionedProductInput: AWSEncodableShape {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
-        /// The provisioned product identifier.
-        public let id: String
+        /// The provisioned product identifier. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
+        public let id: String?
+        /// The name of the provisioned product. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
+        public let name: String?
 
-        public init(acceptLanguage: String? = nil, id: String) {
+        public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+            self.name = name
         }
 
         public func validate(name: String) throws {
@@ -1852,11 +1855,15 @@ extension ServiceCatalog {
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
+            case name = "Name"
         }
     }
 

@@ -27,6 +27,11 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum DurationUnits: String, CustomStringConvertible, Codable {
+        case months = "MONTHS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EntitlementStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
@@ -39,12 +44,30 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum PriceUnits: String, CustomStringConvertible, Codable {
+        case hourly = "HOURLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Protocol`: String, CustomStringConvertible, Codable {
         case zixiPush = "zixi-push"
         case rtpFec = "rtp-fec"
         case rtp
         case zixiPull = "zixi-pull"
         case rist
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservationState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case expired = "EXPIRED"
+        case processing = "PROCESSING"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case mbpsOutboundBandwidth = "Mbps_Outbound_Bandwidth"
         public var description: String { return self.rawValue }
     }
 
@@ -348,6 +371,58 @@ extension MediaConnect {
         }
     }
 
+    public struct DescribeOfferingRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "offeringArn", location: .uri(locationName: "offeringArn"))
+        ]
+
+        public let offeringArn: String
+
+        public init(offeringArn: String) {
+            self.offeringArn = offeringArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeOfferingResponse: AWSDecodableShape {
+        public let offering: Offering?
+
+        public init(offering: Offering? = nil) {
+            self.offering = offering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offering
+        }
+    }
+
+    public struct DescribeReservationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "reservationArn", location: .uri(locationName: "reservationArn"))
+        ]
+
+        public let reservationArn: String
+
+        public init(reservationArn: String) {
+            self.reservationArn = reservationArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeReservationResponse: AWSDecodableShape {
+        public let reservation: Reservation?
+
+        public init(reservation: Reservation? = nil) {
+            self.reservation = reservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservation
+        }
+    }
+
     public struct Encryption: AWSEncodableShape & AWSDecodableShape {
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm
@@ -647,6 +722,84 @@ extension MediaConnect {
         }
     }
 
+    public struct ListOfferingsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListOfferingsResponse: AWSDecodableShape {
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+        public let nextToken: String?
+        /// A list of offerings that are available to this account in the current AWS Region.
+        public let offerings: [Offering]?
+
+        public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
+            self.nextToken = nextToken
+            self.offerings = offerings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case offerings
+        }
+    }
+
+    public struct ListReservationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListReservationsResponse: AWSDecodableShape {
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListReservations request a second time and specify the NextToken value.
+        public let nextToken: String?
+        /// A list of all reservations that have been purchased by this account in the current AWS Region.
+        public let reservations: [Reservation]?
+
+        public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
+            self.nextToken = nextToken
+            self.reservations = reservations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case reservations
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -741,6 +894,47 @@ extension MediaConnect {
         }
     }
 
+    public struct Offering: AWSDecodableShape {
+        /// The type of currency that is used for billing. The currencyCode used for all reservations is US dollars.
+        public let currencyCode: String
+        /// The length of time that your reservation would be active.
+        public let duration: Int
+        /// The unit of measurement for the duration of the offering.
+        public let durationUnits: DurationUnits
+        /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
+        public let offeringArn: String
+        /// A description of the offering.
+        public let offeringDescription: String
+        /// The cost of a single unit. This value, in combination with priceUnits, makes up the rate.
+        public let pricePerUnit: String
+        /// The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate.
+        public let priceUnits: PriceUnits
+        /// A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering.
+        public let resourceSpecification: ResourceSpecification
+
+        public init(currencyCode: String, duration: Int, durationUnits: DurationUnits, offeringArn: String, offeringDescription: String, pricePerUnit: String, priceUnits: PriceUnits, resourceSpecification: ResourceSpecification) {
+            self.currencyCode = currencyCode
+            self.duration = duration
+            self.durationUnits = durationUnits
+            self.offeringArn = offeringArn
+            self.offeringDescription = offeringDescription
+            self.pricePerUnit = pricePerUnit
+            self.priceUnits = priceUnits
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode
+            case duration
+            case durationUnits
+            case offeringArn
+            case offeringDescription
+            case pricePerUnit
+            case priceUnits
+            case resourceSpecification
+        }
+    }
+
     public struct Output: AWSDecodableShape {
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
@@ -791,6 +985,41 @@ extension MediaConnect {
             case port
             case transport
             case vpcInterfaceAttachment
+        }
+    }
+
+    public struct PurchaseOfferingRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "offeringArn", location: .uri(locationName: "offeringArn"))
+        ]
+
+        public let offeringArn: String
+        /// The name that you want to use for the reservation.
+        public let reservationName: String
+        /// The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
+        public let start: String
+
+        public init(offeringArn: String, reservationName: String, start: String) {
+            self.offeringArn = offeringArn
+            self.reservationName = reservationName
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservationName
+            case start
+        }
+    }
+
+    public struct PurchaseOfferingResponse: AWSDecodableShape {
+        public let reservation: Reservation?
+
+        public init(reservation: Reservation? = nil) {
+            self.reservation = reservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservation
         }
     }
 
@@ -897,6 +1126,84 @@ extension MediaConnect {
             case flowArn
             case nonDeletedNetworkInterfaceIds
             case vpcInterfaceName
+        }
+    }
+
+    public struct Reservation: AWSDecodableShape {
+        /// The type of currency that is used for billing. The currencyCode used for your reservation is US dollars.
+        public let currencyCode: String
+        /// The length of time that this reservation is active. MediaConnect defines this value in the offering.
+        public let duration: Int
+        /// The unit of measurement for the duration of the reservation. MediaConnect defines this value in the offering.
+        public let durationUnits: DurationUnits
+        /// The day and time that this reservation expires. This value is calculated based on the start date and time that you set and the offering's duration.
+        public let end: String
+        /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
+        public let offeringArn: String
+        /// A description of the offering. MediaConnect defines this value in the offering.
+        public let offeringDescription: String
+        /// The cost of a single unit. This value, in combination with priceUnits, makes up the rate. MediaConnect defines this value in the offering.
+        public let pricePerUnit: String
+        /// The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate. MediaConnect defines this value in the offering.
+        public let priceUnits: PriceUnits
+        /// The Amazon Resource Name (ARN) that MediaConnect assigns to the reservation when you purchase an offering.
+        public let reservationArn: String
+        /// The name that you assigned to the reservation when you purchased the offering.
+        public let reservationName: String
+        /// The status of your reservation.
+        public let reservationState: ReservationState
+        /// A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering. MediaConnect defines the values that make up the resourceSpecification in the offering.
+        public let resourceSpecification: ResourceSpecification
+        /// The day and time that the reservation becomes active. You set this value when you purchase the offering.
+        public let start: String
+
+        public init(currencyCode: String, duration: Int, durationUnits: DurationUnits, end: String, offeringArn: String, offeringDescription: String, pricePerUnit: String, priceUnits: PriceUnits, reservationArn: String, reservationName: String, reservationState: ReservationState, resourceSpecification: ResourceSpecification, start: String) {
+            self.currencyCode = currencyCode
+            self.duration = duration
+            self.durationUnits = durationUnits
+            self.end = end
+            self.offeringArn = offeringArn
+            self.offeringDescription = offeringDescription
+            self.pricePerUnit = pricePerUnit
+            self.priceUnits = priceUnits
+            self.reservationArn = reservationArn
+            self.reservationName = reservationName
+            self.reservationState = reservationState
+            self.resourceSpecification = resourceSpecification
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode
+            case duration
+            case durationUnits
+            case end
+            case offeringArn
+            case offeringDescription
+            case pricePerUnit
+            case priceUnits
+            case reservationArn
+            case reservationName
+            case reservationState
+            case resourceSpecification
+            case start
+        }
+    }
+
+    public struct ResourceSpecification: AWSDecodableShape {
+        /// The amount of outbound bandwidth that is discounted in the offering.
+        public let reservedBitrate: Int?
+        /// The type of resource and the unit that is being billed for.
+        public let resourceType: ResourceType
+
+        public init(reservedBitrate: Int? = nil, resourceType: ResourceType) {
+            self.reservedBitrate = reservedBitrate
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedBitrate
+            case resourceType
         }
     }
 
@@ -1271,6 +1578,7 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowEntitlementResponse: AWSDecodableShape {
+        /// The new configuration of the entitlement that you updated.
         public let entitlement: Entitlement?
         /// The ARN of the flow that this entitlement was granted on.
         public let flowArn: String?
@@ -1351,6 +1659,7 @@ extension MediaConnect {
     public struct UpdateFlowOutputResponse: AWSDecodableShape {
         /// The ARN of the flow that is associated with the updated output.
         public let flowArn: String?
+        /// The new settings of the output that you updated.
         public let output: Output?
 
         public init(flowArn: String? = nil, output: Output? = nil) {

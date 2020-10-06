@@ -149,6 +149,8 @@ extension ApiGatewayV2 {
         public var createdDate: Date?
         /// The description of the API.
         public let description: String?
+        /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
+        public let disableExecuteApiEndpoint: Bool?
         /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
         public let disableSchemaValidation: Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
@@ -166,7 +168,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -174,6 +176,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -192,6 +195,7 @@ extension ApiGatewayV2 {
             case corsConfiguration
             case createdDate
             case description
+            case disableExecuteApiEndpoint
             case disableSchemaValidation
             case importInfo
             case name
@@ -370,6 +374,7 @@ extension ApiGatewayV2 {
         public let corsConfiguration: Cors?
         public let credentialsArn: String?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let name: String
         public let protocolType: ProtocolType
@@ -379,11 +384,12 @@ extension ApiGatewayV2 {
         public let target: String?
         public let version: String?
 
-        public init(apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeKey: String? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, target: String? = nil, version: String? = nil) {
+        public init(apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeKey: String? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, target: String? = nil, version: String? = nil) {
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.corsConfiguration = corsConfiguration
             self.credentialsArn = credentialsArn
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.name = name
             self.protocolType = protocolType
@@ -403,6 +409,7 @@ extension ApiGatewayV2 {
             case corsConfiguration
             case credentialsArn
             case description
+            case disableExecuteApiEndpoint
             case disableSchemaValidation
             case name
             case protocolType
@@ -423,6 +430,7 @@ extension ApiGatewayV2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -432,7 +440,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -440,6 +448,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -458,6 +467,7 @@ extension ApiGatewayV2 {
             case corsConfiguration
             case createdDate
             case description
+            case disableExecuteApiEndpoint
             case disableSchemaValidation
             case importInfo
             case name
@@ -613,17 +623,20 @@ extension ApiGatewayV2 {
     public struct CreateDomainNameRequest: AWSEncodableShape {
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
         public let tags: [String: String]?
 
-        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, tags: [String: String]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName
             case domainNameConfigurations
+            case mutualTlsAuthentication
             case tags
         }
     }
@@ -632,12 +645,14 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthentication?
         public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
@@ -645,6 +660,7 @@ extension ApiGatewayV2 {
             case apiMappingSelectionExpression
             case domainName
             case domainNameConfigurations
+            case mutualTlsAuthentication
             case tags
         }
     }
@@ -1517,13 +1533,16 @@ extension ApiGatewayV2 {
         public let domainName: String
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        /// The mutual TLS authentication configuration for a custom domain name.
+        public let mutualTlsAuthentication: MutualTlsAuthentication?
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
@@ -1531,6 +1550,7 @@ extension ApiGatewayV2 {
             case apiMappingSelectionExpression
             case domainName
             case domainNameConfigurations
+            case mutualTlsAuthentication
             case tags
         }
     }
@@ -1722,6 +1742,7 @@ extension ApiGatewayV2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -1731,7 +1752,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -1739,6 +1760,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -1757,6 +1779,7 @@ extension ApiGatewayV2 {
             case corsConfiguration
             case createdDate
             case description
+            case disableExecuteApiEndpoint
             case disableSchemaValidation
             case importInfo
             case name
@@ -1992,12 +2015,14 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthentication?
         public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
@@ -2005,6 +2030,7 @@ extension ApiGatewayV2 {
             case apiMappingSelectionExpression
             case domainName
             case domainNameConfigurations
+            case mutualTlsAuthentication
             case tags
         }
     }
@@ -2775,6 +2801,7 @@ extension ApiGatewayV2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -2784,7 +2811,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -2792,6 +2819,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -2810,6 +2838,7 @@ extension ApiGatewayV2 {
             case corsConfiguration
             case createdDate
             case description
+            case disableExecuteApiEndpoint
             case disableSchemaValidation
             case importInfo
             case name
@@ -2987,6 +3016,44 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct MutualTlsAuthentication: AWSDecodableShape {
+        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
+        public let truststoreUri: String?
+        /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
+        public let truststoreVersion: String?
+        /// A list of warnings that API Gateway returns while processing your truststore. Invalid certificates produce warnings. Mutual TLS is still enabled, but some clients might not be able to access your API. To resolve warnings, upload a new truststore to S3, and then update you domain name to use the new version.
+        public let truststoreWarnings: [String]?
+
+        public init(truststoreUri: String? = nil, truststoreVersion: String? = nil, truststoreWarnings: [String]? = nil) {
+            self.truststoreUri = truststoreUri
+            self.truststoreVersion = truststoreVersion
+            self.truststoreWarnings = truststoreWarnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case truststoreUri
+            case truststoreVersion
+            case truststoreWarnings
+        }
+    }
+
+    public struct MutualTlsAuthenticationInput: AWSEncodableShape {
+        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
+        public let truststoreUri: String?
+        /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
+        public let truststoreVersion: String?
+
+        public init(truststoreUri: String? = nil, truststoreVersion: String? = nil) {
+            self.truststoreUri = truststoreUri
+            self.truststoreVersion = truststoreVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case truststoreUri
+            case truststoreVersion
+        }
+    }
+
     public struct ParameterConstraints: AWSEncodableShape & AWSDecodableShape {
         /// Whether or not the parameter is required.
         public let required: Bool?
@@ -3033,6 +3100,7 @@ extension ApiGatewayV2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -3042,7 +3110,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -3050,6 +3118,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -3068,6 +3137,7 @@ extension ApiGatewayV2 {
             case corsConfiguration
             case createdDate
             case description
+            case disableExecuteApiEndpoint
             case disableSchemaValidation
             case importInfo
             case name
@@ -3405,6 +3475,7 @@ extension ApiGatewayV2 {
         public let corsConfiguration: Cors?
         public let credentialsArn: String?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let name: String?
         public let routeKey: String?
@@ -3412,12 +3483,13 @@ extension ApiGatewayV2 {
         public let target: String?
         public let version: String?
 
-        public init(apiId: String, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, target: String? = nil, version: String? = nil) {
+        public init(apiId: String, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, target: String? = nil, version: String? = nil) {
             self.apiId = apiId
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.corsConfiguration = corsConfiguration
             self.credentialsArn = credentialsArn
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.name = name
             self.routeKey = routeKey
@@ -3435,6 +3507,7 @@ extension ApiGatewayV2 {
             case corsConfiguration
             case credentialsArn
             case description
+            case disableExecuteApiEndpoint
             case disableSchemaValidation
             case name
             case routeKey
@@ -3453,6 +3526,7 @@ extension ApiGatewayV2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -3462,7 +3536,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -3470,6 +3544,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -3488,6 +3563,7 @@ extension ApiGatewayV2 {
             case corsConfiguration
             case createdDate
             case description
+            case disableExecuteApiEndpoint
             case disableSchemaValidation
             case importInfo
             case name
@@ -3650,14 +3726,17 @@ extension ApiGatewayV2 {
 
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
 
-        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil) {
+        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainNameConfigurations
+            case mutualTlsAuthentication
         }
     }
 
@@ -3665,12 +3744,14 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthentication?
         public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
@@ -3678,6 +3759,7 @@ extension ApiGatewayV2 {
             case apiMappingSelectionExpression
             case domainName
             case domainNameConfigurations
+            case mutualTlsAuthentication
             case tags
         }
     }

@@ -158,6 +158,11 @@ public struct Comprehend: AWSService {
         return self.client.execute(operation: "DescribeKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Gets the properties associated with a PII entities detection job. For example, you can use this operation to get the job status.
+    public func describePiiEntitiesDetectionJob(_ input: DescribePiiEntitiesDetectionJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePiiEntitiesDetectionJobResponse> {
+        return self.client.execute(operation: "DescribePiiEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Gets the properties associated with a sentiment detection job. Use this operation to get the status of a detection job.
     public func describeSentimentDetectionJob(_ input: DescribeSentimentDetectionJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSentimentDetectionJobResponse> {
         return self.client.execute(operation: "DescribeSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -181,6 +186,11 @@ public struct Comprehend: AWSService {
     ///  Detects the key noun phrases found in the text.
     public func detectKeyPhrases(_ input: DetectKeyPhrasesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetectKeyPhrasesResponse> {
         return self.client.execute(operation: "DetectKeyPhrases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Inspects the input text for entities that contain personally identifiable information (PII) and returns information about them.
+    public func detectPiiEntities(_ input: DetectPiiEntitiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetectPiiEntitiesResponse> {
+        return self.client.execute(operation: "DetectPiiEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL, MIXED, or NEGATIVE).
@@ -228,6 +238,11 @@ public struct Comprehend: AWSService {
         return self.client.execute(operation: "ListKeyPhrasesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Gets a list of the PII entity detection jobs that you have submitted.
+    public func listPiiEntitiesDetectionJobs(_ input: ListPiiEntitiesDetectionJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPiiEntitiesDetectionJobsResponse> {
+        return self.client.execute(operation: "ListPiiEntitiesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Gets a list of sentiment detection jobs that you have submitted.
     public func listSentimentDetectionJobs(_ input: ListSentimentDetectionJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSentimentDetectionJobsResponse> {
         return self.client.execute(operation: "ListSentimentDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -263,6 +278,11 @@ public struct Comprehend: AWSService {
         return self.client.execute(operation: "StartKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Starts an asynchronous PII entity detection job for a collection of documents.
+    public func startPiiEntitiesDetectionJob(_ input: StartPiiEntitiesDetectionJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartPiiEntitiesDetectionJobResponse> {
+        return self.client.execute(operation: "StartPiiEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Starts an asynchronous sentiment detection job for a collection of documents. use the operation to track the status of a job.
     public func startSentimentDetectionJob(_ input: StartSentimentDetectionJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartSentimentDetectionJobResponse> {
         return self.client.execute(operation: "StartSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -286,6 +306,11 @@ public struct Comprehend: AWSService {
     ///  Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     public func stopKeyPhrasesDetectionJob(_ input: StopKeyPhrasesDetectionJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopKeyPhrasesDetectionJobResponse> {
         return self.client.execute(operation: "StopKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Stops a PII entities detection job in progress.
+    public func stopPiiEntitiesDetectionJob(_ input: StopPiiEntitiesDetectionJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopPiiEntitiesDetectionJobResponse> {
+        return self.client.execute(operation: "StopPiiEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Stops a sentiment detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.

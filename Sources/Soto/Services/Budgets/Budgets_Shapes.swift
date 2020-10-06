@@ -82,7 +82,7 @@ extension Budgets {
         public let calculatedSpend: CalculatedSpend?
         /// The cost filters, such as service or tag, that are applied to a budget. AWS Budgets supports the following services as a filter for RI budgets:   Amazon Elastic Compute Cloud - Compute   Amazon Redshift   Amazon Relational Database Service   Amazon ElastiCache   Amazon Elasticsearch Service
         public let costFilters: [String: [String]]?
-        /// The types of costs that are included in this COST budget.  USAGE, RI_UTILIZATION, RI_COVERAGE, Savings_Plans_Utilization, and Savings_Plans_Coverage budgets do not have CostTypes.
+        /// The types of costs that are included in this COST budget.  USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, and SAVINGS_PLANS_COVERAGE budgets do not have CostTypes.
         public let costTypes: CostTypes?
         /// The last time that you updated this budget.
         public let lastUpdatedTime: Date?
@@ -90,7 +90,7 @@ extension Budgets {
         public let plannedBudgetLimits: [String: Spend]?
         /// The period of time that is covered by a budget. The period has a start date and an end date. The start date must come before the end date. The end date must come before 06/15/87 00:00 UTC.  If you create your budget and don't specify a start date, AWS defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00 UTC. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API.  You can change either date with the UpdateBudget operation. After the end date, AWS deletes the budget and all associated notifications and subscribers.
         public let timePeriod: TimePeriod?
-        /// The length of time until a budget resets the actual and forecasted spend. DAILY is available only for RI_UTILIZATION, RI_COVERAGE, Savings_Plans_Utilization, and Savings_Plans_Coverage budgets.
+        /// The length of time until a budget resets the actual and forecasted spend.
         public let timeUnit: TimeUnit
 
         public init(budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, lastUpdatedTime: Date? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
@@ -191,9 +191,9 @@ extension Budgets {
     }
 
     public struct CalculatedSpend: AWSEncodableShape & AWSDecodableShape {
-        /// The amount of cost, usage, or RI units that you have used.
+        /// The amount of cost, usage, RI units, or Savings Plans units that you have used.
         public let actualSpend: Spend
-        /// The amount of cost, usage, or RI units that you are forecasted to use.
+        /// The amount of cost, usage, RI units, or Savings Plans units that you are forecasted to use.
         public let forecastedSpend: Spend?
 
         public init(actualSpend: Spend, forecastedSpend: Spend? = nil) {
@@ -287,7 +287,7 @@ extension Budgets {
             try self.notificationsWithSubscribers?.forEach {
                 try $0.validate(name: "\(name).notificationsWithSubscribers[]")
             }
-            try self.validate(self.notificationsWithSubscribers, name: "notificationsWithSubscribers", parent: name, max: 5)
+            try self.validate(self.notificationsWithSubscribers, name: "notificationsWithSubscribers", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -757,7 +757,7 @@ extension Budgets {
         public let notificationState: NotificationState?
         /// Whether the notification is for how much you have spent (ACTUAL) or for how much you're forecasted to spend (FORECASTED).
         public let notificationType: NotificationType
-        /// The threshold that is associated with a notification. Thresholds are always a percentage.
+        /// The threshold that is associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount.
         public let threshold: Double
         /// The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, AWS notifies you when you go over or are forecasted to go over your total cost threshold. For PERCENTAGE thresholds, AWS notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dollars and you have a PERCENTAGE threshold of 80%, AWS notifies you when you go over 160 dollars.
         public let thresholdType: ThresholdType?
@@ -771,7 +771,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.threshold, name: "threshold", parent: name, max: 1_000_000_000)
+            try self.validate(self.threshold, name: "threshold", parent: name, max: 40_000_000_000)
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
         }
 

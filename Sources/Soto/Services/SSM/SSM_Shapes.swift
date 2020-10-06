@@ -1186,7 +1186,7 @@ extension SSM {
         public let key: AttachmentsSourceKey?
         /// The name of the document attachment file.
         public let name: String?
-        /// The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify.   For the key SourceUrl, the value is an S3 bucket location. For example:  "Values": [ "s3://my-bucket/my-folder" ]    For the key S3FileUrl, the value is a file in an S3 bucket. For example:  "Values": [ "s3://my-bucket/my-folder/my-file.py" ]    For the key AttachmentReference, the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example:  "Values": [ "MyOtherDocument/3/my-other-file.py" ]  However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example:  "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ]
+        /// The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify.   For the key SourceUrl, the value is an S3 bucket location. For example:  "Values": [ "s3://doc-example-bucket/my-folder" ]    For the key S3FileUrl, the value is a file in an S3 bucket. For example:  "Values": [ "s3://doc-example-bucket/my-folder/my-file.py" ]    For the key AttachmentReference, the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example:  "Values": [ "MyOtherDocument/3/my-other-file.py" ]  However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example:  "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ]
         public let values: [String]?
 
         public init(key: AttachmentsSourceKey? = nil, name: String? = nil, values: [String]? = nil) {
@@ -1733,9 +1733,9 @@ extension SSM {
         public let name: String?
         /// Output of the plugin execution.
         public let output: String?
-        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
+        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response: doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript  doc-example-bucket is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-02573cafcfEXAMPLE is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3BucketName: String?
-        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
+        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response: doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript  doc-example-bucket is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-02573cafcfEXAMPLE is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3KeyPrefix: String?
         /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the S3 bucket region.
         public let outputS3Region: String?
@@ -1826,7 +1826,7 @@ extension SSM {
         public let resourceType: String?
         /// The severity of the compliance status. Severity can be one of the following: Critical, High, Medium, Low, Informational, Unspecified.
         public let severity: ComplianceSeverity?
-        /// The status of the compliance item. An item is either COMPLIANT or NON_COMPLIANT.
+        /// The status of the compliance item. An item is either COMPLIANT, NON_COMPLIANT, or an empty string (for Windows patches that aren't applicable).
         public let status: ComplianceStatus?
         /// A title for the compliance item. For example, if the compliance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services.
         public let title: String?
@@ -6609,7 +6609,7 @@ extension SSM {
         public let lastSuccessfulAssociationExecutionDate: Date?
         /// The name assigned to an on-premises server or virtual machine (VM) when it is activated as a Systems Manager managed instance. The name is specified as the DefaultInstanceName property using the CreateActivation command. It is applied to the managed instance by specifying the Activation Code and Activation ID when you install SSM Agent on the instance, as explained in Install SSM Agent for a hybrid environment (Linux) and Install SSM Agent for a hybrid environment (Windows). To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances action. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the AWS CLI Command Reference.
         public let name: String?
-        /// Connection status of SSM Agent.
+        /// Connection status of SSM Agent.   The status Inactive has been deprecated and is no longer in use.
         public let pingStatus: PingStatus?
         /// The name of the operating system platform running on your instance.
         public let platformName: String?
@@ -7738,7 +7738,7 @@ extension SSM {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
-        /// View a list of resource data syncs according to the sync type. Specify SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 buckets. Specify SyncFromSource to view resource data syncs from AWS Organizations or from multiple AWS Regions.
+        /// View a list of resource data syncs according to the sync type. Specify SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 bucket. Specify SyncFromSource to view resource data syncs from AWS Organizations or from multiple AWS Regions.
         public let syncType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, syncType: String? = nil) {

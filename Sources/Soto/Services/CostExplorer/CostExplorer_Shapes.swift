@@ -26,6 +26,20 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnomalyFeedbackType: String, CustomStringConvertible, Codable {
+        case yes = "YES"
+        case no = "NO"
+        case plannedActivity = "PLANNED_ACTIVITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnomalySubscriptionFrequency: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        case immediate = "IMMEDIATE"
+        case weekly = "WEEKLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Context: String, CustomStringConvertible, Codable {
         case costAndUsage = "COST_AND_USAGE"
         case reservations = "RESERVATIONS"
@@ -113,6 +127,27 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum MonitorDimension: String, CustomStringConvertible, Codable {
+        case service = "SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitorType: String, CustomStringConvertible, Codable {
+        case dimensional = "DIMENSIONAL"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NumericOperator: String, CustomStringConvertible, Codable {
+        case equal = "EQUAL"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case between = "BETWEEN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OfferingClass: String, CustomStringConvertible, Codable {
         case standard = "STANDARD"
         case convertible = "CONVERTIBLE"
@@ -141,6 +176,18 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum SubscriberStatus: String, CustomStringConvertible, Codable {
+        case confirmed = "CONFIRMED"
+        case declined = "DECLINED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriberType: String, CustomStringConvertible, Codable {
+        case email = "EMAIL"
+        case sns = "SNS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SupportedSavingsPlansType: String, CustomStringConvertible, Codable {
         case computeSp = "COMPUTE_SP"
         case ec2InstanceSp = "EC2_INSTANCE_SP"
@@ -154,6 +201,216 @@ extension CostExplorer {
     }
 
     // MARK: Shapes
+
+    public struct Anomaly: AWSDecodableShape {
+        ///  The last day the anomaly is detected.
+        public let anomalyEndDate: String?
+        ///  The unique identifier for the anomaly.
+        public let anomalyId: String
+        ///  The latest and maximum score for the anomaly.
+        public let anomalyScore: AnomalyScore
+        ///  The first day the anomaly is detected.
+        public let anomalyStartDate: String?
+        ///  The dimension for the anomaly. For example, an AWS service in a service monitor.
+        public let dimensionValue: String?
+        ///  The feedback value.
+        public let feedback: AnomalyFeedbackType?
+        ///  The dollar impact for the anomaly.
+        public let impact: Impact
+        ///  The Amazon Resource Name (ARN) for the cost monitor that generated this anomaly.
+        public let monitorArn: String
+        ///  The list of identified root causes for the anomaly.
+        public let rootCauses: [RootCause]?
+
+        public init(anomalyEndDate: String? = nil, anomalyId: String, anomalyScore: AnomalyScore, anomalyStartDate: String? = nil, dimensionValue: String? = nil, feedback: AnomalyFeedbackType? = nil, impact: Impact, monitorArn: String, rootCauses: [RootCause]? = nil) {
+            self.anomalyEndDate = anomalyEndDate
+            self.anomalyId = anomalyId
+            self.anomalyScore = anomalyScore
+            self.anomalyStartDate = anomalyStartDate
+            self.dimensionValue = dimensionValue
+            self.feedback = feedback
+            self.impact = impact
+            self.monitorArn = monitorArn
+            self.rootCauses = rootCauses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyEndDate = "AnomalyEndDate"
+            case anomalyId = "AnomalyId"
+            case anomalyScore = "AnomalyScore"
+            case anomalyStartDate = "AnomalyStartDate"
+            case dimensionValue = "DimensionValue"
+            case feedback = "Feedback"
+            case impact = "Impact"
+            case monitorArn = "MonitorArn"
+            case rootCauses = "RootCauses"
+        }
+    }
+
+    public struct AnomalyDateInterval: AWSEncodableShape {
+        ///  The last date an anomaly was observed.
+        public let endDate: String?
+        ///  The first date an anomaly was observed.
+        public let startDate: String
+
+        public init(endDate: String? = nil, startDate: String) {
+            self.endDate = endDate
+            self.startDate = startDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endDate, name: "endDate", parent: name, max: 40)
+            try self.validate(self.endDate, name: "endDate", parent: name, min: 0)
+            try self.validate(self.endDate, name: "endDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try self.validate(self.startDate, name: "startDate", parent: name, max: 40)
+            try self.validate(self.startDate, name: "startDate", parent: name, min: 0)
+            try self.validate(self.startDate, name: "startDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "EndDate"
+            case startDate = "StartDate"
+        }
+    }
+
+    public struct AnomalyMonitor: AWSEncodableShape & AWSDecodableShape {
+        ///  The date when the monitor was created.
+        public let creationDate: String?
+        ///  The value for evaluated dimensions.
+        public let dimensionalValueCount: Int?
+        ///  The date when the monitor last evaluated for anomalies.
+        public let lastEvaluatedDate: String?
+        ///  The date when the monitor was last updated.
+        public let lastUpdatedDate: String?
+        ///  The Amazon Resource Name (ARN) value.
+        public let monitorArn: String?
+        ///  The dimensions to evaluate.
+        public let monitorDimension: MonitorDimension?
+        ///  The name of the monitor.
+        public let monitorName: String
+        public let monitorSpecification: Expression?
+        ///  The possible type values.
+        public let monitorType: MonitorType
+
+        public init(creationDate: String? = nil, dimensionalValueCount: Int? = nil, lastEvaluatedDate: String? = nil, lastUpdatedDate: String? = nil, monitorArn: String? = nil, monitorDimension: MonitorDimension? = nil, monitorName: String, monitorSpecification: Expression? = nil, monitorType: MonitorType) {
+            self.creationDate = creationDate
+            self.dimensionalValueCount = dimensionalValueCount
+            self.lastEvaluatedDate = lastEvaluatedDate
+            self.lastUpdatedDate = lastUpdatedDate
+            self.monitorArn = monitorArn
+            self.monitorDimension = monitorDimension
+            self.monitorName = monitorName
+            self.monitorSpecification = monitorSpecification
+            self.monitorType = monitorType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.creationDate, name: "creationDate", parent: name, max: 40)
+            try self.validate(self.creationDate, name: "creationDate", parent: name, min: 0)
+            try self.validate(self.creationDate, name: "creationDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try self.validate(self.dimensionalValueCount, name: "dimensionalValueCount", parent: name, min: 0)
+            try self.validate(self.lastEvaluatedDate, name: "lastEvaluatedDate", parent: name, max: 40)
+            try self.validate(self.lastEvaluatedDate, name: "lastEvaluatedDate", parent: name, min: 0)
+            try self.validate(self.lastEvaluatedDate, name: "lastEvaluatedDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try self.validate(self.lastUpdatedDate, name: "lastUpdatedDate", parent: name, max: 40)
+            try self.validate(self.lastUpdatedDate, name: "lastUpdatedDate", parent: name, min: 0)
+            try self.validate(self.lastUpdatedDate, name: "lastUpdatedDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 1024)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, min: 0)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "[\\S\\s]*")
+            try self.monitorSpecification?.validate(name: "\(name).monitorSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case dimensionalValueCount = "DimensionalValueCount"
+            case lastEvaluatedDate = "LastEvaluatedDate"
+            case lastUpdatedDate = "LastUpdatedDate"
+            case monitorArn = "MonitorArn"
+            case monitorDimension = "MonitorDimension"
+            case monitorName = "MonitorName"
+            case monitorSpecification = "MonitorSpecification"
+            case monitorType = "MonitorType"
+        }
+    }
+
+    public struct AnomalyScore: AWSDecodableShape {
+        ///  The last observed score.
+        public let currentScore: Double
+        ///  The maximum score observed during the AnomalyDateInterval.
+        public let maxScore: Double
+
+        public init(currentScore: Double, maxScore: Double) {
+            self.currentScore = currentScore
+            self.maxScore = maxScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentScore = "CurrentScore"
+            case maxScore = "MaxScore"
+        }
+    }
+
+    public struct AnomalySubscription: AWSEncodableShape & AWSDecodableShape {
+        ///  Your unique account identifier.
+        public let accountId: String?
+        ///  The frequency at which anomaly reports are sent over email.
+        public let frequency: AnomalySubscriptionFrequency
+        ///  A list of cost anomaly monitors.
+        public let monitorArnList: [String]
+        ///  A list of subscribers to notify.
+        public let subscribers: [Subscriber]
+        ///  The AnomalySubscription Amazon Resource Name (ARN).
+        public let subscriptionArn: String?
+        ///  The name for the subscription.
+        public let subscriptionName: String
+        ///  The dollar value that triggers a notification if the threshold is exceeded.
+        public let threshold: Double
+
+        public init(accountId: String? = nil, frequency: AnomalySubscriptionFrequency, monitorArnList: [String], subscribers: [Subscriber], subscriptionArn: String? = nil, subscriptionName: String, threshold: Double) {
+            self.accountId = accountId
+            self.frequency = frequency
+            self.monitorArnList = monitorArnList
+            self.subscribers = subscribers
+            self.subscriptionArn = subscriptionArn
+            self.subscriptionName = subscriptionName
+            self.threshold = threshold
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 1024)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 0)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "[\\S\\s]*")
+            try self.monitorArnList.forEach {
+                try validate($0, name: "monitorArnList[]", parent: name, max: 1024)
+                try validate($0, name: "monitorArnList[]", parent: name, min: 0)
+                try validate($0, name: "monitorArnList[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.subscribers.forEach {
+                try $0.validate(name: "\(name).subscribers[]")
+            }
+            try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, max: 1024)
+            try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, min: 0)
+            try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, max: 1024)
+            try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, min: 0)
+            try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case frequency = "Frequency"
+            case monitorArnList = "MonitorArnList"
+            case subscribers = "Subscribers"
+            case subscriptionArn = "SubscriptionArn"
+            case subscriptionName = "SubscriptionName"
+            case threshold = "Threshold"
+        }
+    }
 
     public struct CostCategory: AWSDecodableShape {
         ///  The unique identifier for your Cost Category.
@@ -215,7 +472,7 @@ extension CostExplorer {
     }
 
     public struct CostCategoryRule: AWSEncodableShape & AWSDecodableShape {
-        /// An Expression object used to categorize costs. This supports dimensions, Tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR is not supported. We recommend that you create a separate rule instead.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the AWS Billing and Cost Management User Guide.
+        /// An Expression object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR is not supported. We recommend that you create a separate rule instead.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the AWS Billing and Cost Management User Guide.
         public let rule: Expression
         public let value: String
 
@@ -369,6 +626,66 @@ extension CostExplorer {
         }
     }
 
+    public struct CreateAnomalyMonitorRequest: AWSEncodableShape {
+        ///  The cost anomaly detection monitor object that you want to create.
+        public let anomalyMonitor: AnomalyMonitor
+
+        public init(anomalyMonitor: AnomalyMonitor) {
+            self.anomalyMonitor = anomalyMonitor
+        }
+
+        public func validate(name: String) throws {
+            try self.anomalyMonitor.validate(name: "\(name).anomalyMonitor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyMonitor = "AnomalyMonitor"
+        }
+    }
+
+    public struct CreateAnomalyMonitorResponse: AWSDecodableShape {
+        ///  The unique identifier of your newly created cost anomaly detection monitor.
+        public let monitorArn: String
+
+        public init(monitorArn: String) {
+            self.monitorArn = monitorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+        }
+    }
+
+    public struct CreateAnomalySubscriptionRequest: AWSEncodableShape {
+        ///  The cost anomaly subscription object that you want to create.
+        public let anomalySubscription: AnomalySubscription
+
+        public init(anomalySubscription: AnomalySubscription) {
+            self.anomalySubscription = anomalySubscription
+        }
+
+        public func validate(name: String) throws {
+            try self.anomalySubscription.validate(name: "\(name).anomalySubscription")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalySubscription = "AnomalySubscription"
+        }
+    }
+
+    public struct CreateAnomalySubscriptionResponse: AWSDecodableShape {
+        ///  The unique identifier of your newly created cost anomaly subscription.
+        public let subscriptionArn: String
+
+        public init(subscriptionArn: String) {
+            self.subscriptionArn = subscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
+        }
+    }
+
     public struct CreateCostCategoryDefinitionRequest: AWSEncodableShape {
         public let name: String
         /// The Cost Category rules used to categorize costs. For more information, see CostCategoryRule.
@@ -417,13 +734,13 @@ extension CostExplorer {
     }
 
     public struct CurrentInstance: AWSDecodableShape {
-        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        ///  The currency code that AWS used to calculate the costs for this instance.
         public let currencyCode: String?
         /// The name you've given an instance. This field will show as blank if you haven't given the instance a name.
         public let instanceName: String?
-        ///  Current On Demand cost of operating this instance on a monthly basis.
+        ///  Current On-Demand cost of operating this instance on a monthly basis.
         public let monthlyCost: String?
-        ///  Number of hours during the lookback period billed at On Demand rates.
+        ///  Number of hours during the lookback period billed at On-Demand rates.
         public let onDemandHoursInLookbackPeriod: String?
         ///  Number of hours during the lookback period covered by reservations.
         public let reservationCoveredHoursInLookbackPeriod: String?
@@ -493,6 +810,52 @@ extension CostExplorer {
             case end = "End"
             case start = "Start"
         }
+    }
+
+    public struct DeleteAnomalyMonitorRequest: AWSEncodableShape {
+        ///  The unique identifier of the cost anomaly monitor that you want to delete.
+        public let monitorArn: String
+
+        public init(monitorArn: String) {
+            self.monitorArn = monitorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+        }
+    }
+
+    public struct DeleteAnomalyMonitorResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAnomalySubscriptionRequest: AWSEncodableShape {
+        ///  The unique identifier of the cost anomaly subscription that you want to delete.
+        public let subscriptionArn: String
+
+        public init(subscriptionArn: String) {
+            self.subscriptionArn = subscriptionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, max: 1024)
+            try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, min: 0)
+            try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
+        }
+    }
+
+    public struct DeleteAnomalySubscriptionResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteCostCategoryDefinitionRequest: AWSEncodableShape {
@@ -572,7 +935,7 @@ extension CostExplorer {
     public struct DimensionValues: AWSEncodableShape & AWSDecodableShape {
         /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones.
         public let key: Dimension?
-        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
         public let values: [String]?
@@ -657,23 +1020,23 @@ extension CostExplorer {
     }
 
     public struct EC2ResourceDetails: AWSDecodableShape {
-        ///  Hourly public On Demand rate for the instance type.
+        ///  Hourly public On-Demand rate for the instance type.
         public let hourlyOnDemandRate: String?
-        ///  The type of Amazon Web Services instance.
+        ///  The type of AWS instance.
         public let instanceType: String?
-        ///  Memory capacity of Amazon Web Services instance.
+        ///  Memory capacity of the AWS instance.
         public let memory: String?
-        ///  Network performance capacity of the Amazon Web Services instance.
+        ///  Network performance capacity of the AWS instance.
         public let networkPerformance: String?
-        ///  The platform of the Amazon Web Services instance. The platform is the specific combination of operating system, license model, and software on an instance.
+        ///  The platform of the AWS instance. The platform is the specific combination of operating system, license model, and software on an instance.
         public let platform: String?
-        ///  The Amazon Web Services Region of the instance.
+        ///  The AWS Region of the instance.
         public let region: String?
         ///  The SKU of the product.
         public let sku: String?
-        ///  The disk storage of the Amazon Web Services instance (Not EBS storage).
+        ///  The disk storage of the AWS instance (not EBS storage).
         public let storage: String?
-        ///  Number of VCPU cores in the Amazon Web Services instance type.
+        ///  Number of VCPU cores in the AWS instance type.
         public let vcpu: String?
 
         public init(hourlyOnDemandRate: String? = nil, instanceType: String? = nil, memory: String? = nil, networkPerformance: String? = nil, platform: String? = nil, region: String? = nil, sku: String? = nil, storage: String? = nil, vcpu: String? = nil) {
@@ -868,21 +1231,186 @@ extension CostExplorer {
         }
     }
 
+    public struct GetAnomaliesRequest: AWSEncodableShape {
+        /// Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range.
+        public let dateInterval: AnomalyDateInterval
+        /// Filters anomaly results by the feedback field on the anomaly object.
+        public let feedback: AnomalyFeedbackType?
+        ///  The number of entries a paginated response contains.
+        public let maxResults: Int?
+        /// Retrieves all of the cost anomalies detected for a specific cost anomaly monitor Amazon Resource Name (ARN).
+        public let monitorArn: String?
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// Filters anomaly results by the total impact field on the anomaly object. For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies, with an estimated dollar impact greater than 200.
+        public let totalImpact: TotalImpactFilter?
+
+        public init(dateInterval: AnomalyDateInterval, feedback: AnomalyFeedbackType? = nil, maxResults: Int? = nil, monitorArn: String? = nil, nextPageToken: String? = nil, totalImpact: TotalImpactFilter? = nil) {
+            self.dateInterval = dateInterval
+            self.feedback = feedback
+            self.maxResults = maxResults
+            self.monitorArn = monitorArn
+            self.nextPageToken = nextPageToken
+            self.totalImpact = totalImpact
+        }
+
+        public func validate(name: String) throws {
+            try self.dateInterval.validate(name: "\(name).dateInterval")
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateInterval = "DateInterval"
+            case feedback = "Feedback"
+            case maxResults = "MaxResults"
+            case monitorArn = "MonitorArn"
+            case nextPageToken = "NextPageToken"
+            case totalImpact = "TotalImpact"
+        }
+    }
+
+    public struct GetAnomaliesResponse: AWSDecodableShape {
+        ///  A list of cost anomalies.
+        public let anomalies: [Anomaly]
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+
+        public init(anomalies: [Anomaly], nextPageToken: String? = nil) {
+            self.anomalies = anomalies
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalies = "Anomalies"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct GetAnomalyMonitorsRequest: AWSEncodableShape {
+        ///  The number of entries a paginated response contains.
+        public let maxResults: Int?
+        ///  A list of cost anomaly monitor ARNs.
+        public let monitorArnList: [String]?
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+
+        public init(maxResults: Int? = nil, monitorArnList: [String]? = nil, nextPageToken: String? = nil) {
+            self.maxResults = maxResults
+            self.monitorArnList = monitorArnList
+            self.nextPageToken = nextPageToken
+        }
+
+        public func validate(name: String) throws {
+            try self.monitorArnList?.forEach {
+                try validate($0, name: "monitorArnList[]", parent: name, max: 1024)
+                try validate($0, name: "monitorArnList[]", parent: name, min: 0)
+                try validate($0, name: "monitorArnList[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case monitorArnList = "MonitorArnList"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct GetAnomalyMonitorsResponse: AWSDecodableShape {
+        ///  A list of cost anomaly monitors that includes the detailed metadata for each monitor.
+        public let anomalyMonitors: [AnomalyMonitor]
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+
+        public init(anomalyMonitors: [AnomalyMonitor], nextPageToken: String? = nil) {
+            self.anomalyMonitors = anomalyMonitors
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyMonitors = "AnomalyMonitors"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct GetAnomalySubscriptionsRequest: AWSEncodableShape {
+        ///  The number of entries a paginated response contains.
+        public let maxResults: Int?
+        ///  Cost anomaly monitor ARNs.
+        public let monitorArn: String?
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        ///  A list of cost anomaly subscription ARNs.
+        public let subscriptionArnList: [String]?
+
+        public init(maxResults: Int? = nil, monitorArn: String? = nil, nextPageToken: String? = nil, subscriptionArnList: [String]? = nil) {
+            self.maxResults = maxResults
+            self.monitorArn = monitorArn
+            self.nextPageToken = nextPageToken
+            self.subscriptionArnList = subscriptionArnList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.subscriptionArnList?.forEach {
+                try validate($0, name: "subscriptionArnList[]", parent: name, max: 1024)
+                try validate($0, name: "subscriptionArnList[]", parent: name, min: 0)
+                try validate($0, name: "subscriptionArnList[]", parent: name, pattern: "[\\S\\s]*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case monitorArn = "MonitorArn"
+            case nextPageToken = "NextPageToken"
+            case subscriptionArnList = "SubscriptionArnList"
+        }
+    }
+
+    public struct GetAnomalySubscriptionsResponse: AWSDecodableShape {
+        ///  A list of cost anomaly subscriptions that includes the detailed metadata for each one.
+        public let anomalySubscriptions: [AnomalySubscription]
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+
+        public init(anomalySubscriptions: [AnomalySubscription], nextPageToken: String? = nil) {
+            self.anomalySubscriptions = anomalySubscriptions
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalySubscriptions = "AnomalySubscriptions"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
     public struct GetCostAndUsageRequest: AWSEncodableShape {
         /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.
         public let filter: Expression?
         /// Sets the AWS cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
         public let granularity: Granularity?
-        /// You can group AWS costs using up to two different groups, either dimensions, tag keys, or both. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, RECORD_TYPE, and USAGE_TYPE.
+        /// You can group AWS costs using up to two different groups, either dimensions, tag keys, cost categories, or any two group by types. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, RECORD_TYPE, and USAGE_TYPE.
         public let groupBy: [GroupDefinition]?
         /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
-        public let metrics: [String]?
+        public let metrics: [String]
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// Sets the start and end dates for retrieving AWS costs. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String], nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
@@ -896,7 +1424,7 @@ extension CostExplorer {
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
-            try self.metrics?.forEach {
+            try self.metrics.forEach {
                 try validate($0, name: "metrics[]", parent: name, max: 1024)
                 try validate($0, name: "metrics[]", parent: name, min: 0)
                 try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
@@ -939,8 +1467,8 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageWithResourcesRequest: AWSEncodableShape {
-        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId.
-        public let filter: Expression?
+        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter.
+        public let filter: Expression
         /// Sets the AWS cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
         public let granularity: Granularity?
         /// You can group Amazon Web Services costs using up to two different groups: either dimensions, tag keys, or both.
@@ -952,7 +1480,7 @@ extension CostExplorer {
         /// Sets the start and end dates for retrieving Amazon Web Services costs. The range must be within the last 14 days (the start date cannot be earlier than 14 days ago). The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
@@ -962,7 +1490,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try self.filter?.validate(name: "\(name).filter")
+            try self.filter.validate(name: "\(name).filter")
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
@@ -1017,7 +1545,7 @@ extension CostExplorer {
         public let metric: Metric
         /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
         public let predictionIntervalLevel: Int?
-        /// The period of time that you want the forecast to cover.
+        /// The period of time that you want the forecast to cover. The start date must be equal to or no later than the current date to avoid a validation error.
         public let timePeriod: DateInterval
 
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
@@ -1062,7 +1590,7 @@ extension CostExplorer {
     }
 
     public struct GetDimensionValuesRequest: AWSEncodableShape {
-        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan
+        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The AWS Region.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan
         public let context: Context?
         /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context.
         public let dimension: Dimension
@@ -1717,7 +2245,7 @@ extension CostExplorer {
         public let metric: Metric
         /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
         public let predictionIntervalLevel: Int?
-        /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. The start date must be equal to or later than the current date to avoid a validation error.
         public let timePeriod: DateInterval
 
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
@@ -1798,6 +2326,23 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case `type` = "Type"
+        }
+    }
+
+    public struct Impact: AWSDecodableShape {
+        ///  The maximum dollar value observed for an anomaly.
+        public let maxImpact: Double
+        ///  The cumulative dollar value observed for an anomaly.
+        public let totalImpact: Double?
+
+        public init(maxImpact: Double, totalImpact: Double? = nil) {
+            self.maxImpact = maxImpact
+            self.totalImpact = totalImpact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxImpact = "MaxImpact"
+            case totalImpact = "TotalImpact"
         }
     }
 
@@ -1897,7 +2442,7 @@ extension CostExplorer {
     }
 
     public struct ModifyRecommendationDetail: AWSDecodableShape {
-        /// Identifies whether this instance type is the Amazon Web Services default recommendation.
+        /// Identifies whether this instance type is the AWS default recommendation.
         public let targetInstances: [TargetInstance]?
 
         public init(targetInstances: [TargetInstance]? = nil) {
@@ -1906,6 +2451,42 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case targetInstances = "TargetInstances"
+        }
+    }
+
+    public struct ProvideAnomalyFeedbackRequest: AWSEncodableShape {
+        ///  A cost anomaly ID.
+        public let anomalyId: String
+        /// Describes whether the cost anomaly was a planned activity or you considered it an anomaly.
+        public let feedback: AnomalyFeedbackType
+
+        public init(anomalyId: String, feedback: AnomalyFeedbackType) {
+            self.anomalyId = anomalyId
+            self.feedback = feedback
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyId, name: "anomalyId", parent: name, max: 1024)
+            try self.validate(self.anomalyId, name: "anomalyId", parent: name, min: 0)
+            try self.validate(self.anomalyId, name: "anomalyId", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyId = "AnomalyId"
+            case feedback = "Feedback"
+        }
+    }
+
+    public struct ProvideAnomalyFeedbackResponse: AWSDecodableShape {
+        ///  The ID of the modified cost anomaly.
+        public let anomalyId: String
+
+        public init(anomalyId: String) {
+            self.anomalyId = anomalyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyId = "AnomalyId"
         }
     }
 
@@ -2264,7 +2845,7 @@ extension CostExplorer {
     }
 
     public struct ResourceUtilization: AWSDecodableShape {
-        /// Utilization of current Amazon EC2 Instance
+        /// Utilization of current Amazon EC2 instance.
         public let eC2ResourceUtilization: EC2ResourceUtilization?
 
         public init(eC2ResourceUtilization: EC2ResourceUtilization? = nil) {
@@ -2348,9 +2929,9 @@ extension CostExplorer {
     }
 
     public struct RightsizingRecommendationMetadata: AWSDecodableShape {
-        ///  The timestamp for when Amazon Web Services made this recommendation.
+        ///  The timestamp for when AWS made this recommendation.
         public let generationTimestamp: String?
-        ///  How many days of previous usage that Amazon Web Services considers when making this recommendation.
+        ///  How many days of previous usage that AWS considers when making this recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
         ///  The ID for this specific recommendation.
         public let recommendationId: String?
@@ -2371,7 +2952,7 @@ extension CostExplorer {
     public struct RightsizingRecommendationSummary: AWSDecodableShape {
         ///  Estimated total savings resulting from modifications, on a monthly basis.
         public let estimatedTotalMonthlySavingsAmount: String?
-        ///  The currency code that Amazon Web Services used to calculate the savings.
+        ///  The currency code that AWS used to calculate the savings.
         public let savingsCurrencyCode: String?
         ///  Savings percentage based on the recommended modifications, relative to the total On-Demand costs associated with these instances.
         public let savingsPercentage: String?
@@ -2390,6 +2971,31 @@ extension CostExplorer {
             case savingsCurrencyCode = "SavingsCurrencyCode"
             case savingsPercentage = "SavingsPercentage"
             case totalRecommendationCount = "TotalRecommendationCount"
+        }
+    }
+
+    public struct RootCause: AWSDecodableShape {
+        ///  The linked account value associated with the cost anomaly.
+        public let linkedAccount: String?
+        ///  The AWS Region associated with the cost anomaly.
+        public let region: String?
+        ///  The AWS service name associated with the cost anomaly.
+        public let service: String?
+        ///  The UsageType value associated with the cost anomaly.
+        public let usageType: String?
+
+        public init(linkedAccount: String? = nil, region: String? = nil, service: String? = nil, usageType: String? = nil) {
+            self.linkedAccount = linkedAccount
+            self.region = region
+            self.service = service
+            self.usageType = usageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkedAccount = "LinkedAccount"
+            case region = "Region"
+            case service = "Service"
+            case usageType = "UsageType"
         }
     }
 
@@ -2437,11 +3043,11 @@ extension CostExplorer {
     public struct SavingsPlansCoverageData: AWSDecodableShape {
         /// The percentage of your existing Savings Plans covered usage, divided by all of your eligible Savings Plans usage in an account(or set of accounts).
         public let coveragePercentage: String?
-        /// The cost of your Amazon Web Services usage at the public On-Demand rate.
+        /// The cost of your AWS usage at the public On-Demand rate.
         public let onDemandCost: String?
-        /// The amount of your Amazon Web Services usage that is covered by a Savings Plans.
+        /// The amount of your AWS usage that is covered by a Savings Plans.
         public let spendCoveredBySavingsPlans: String?
-        /// The total cost of your Amazon Web Services usage, regardless of your purchase option.
+        /// The total cost of your AWS usage, regardless of your purchase option.
         public let totalCost: String?
 
         public init(coveragePercentage: String? = nil, onDemandCost: String? = nil, spendCoveredBySavingsPlans: String? = nil, totalCost: String? = nil) {
@@ -2481,7 +3087,7 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansPurchaseRecommendation: AWSDecodableShape {
-        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
+        /// The account scope that you want your recommendations for. AWS calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
         public let accountScope: AccountScope?
         /// The lookback period in days, used to generate the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
@@ -2520,7 +3126,7 @@ extension CostExplorer {
     public struct SavingsPlansPurchaseRecommendationDetail: AWSDecodableShape {
         /// The AccountID the recommendation is generated for.
         public let accountId: String?
-        /// The currency code Amazon Web Services used to generate the recommendations and present potential savings.
+        /// The currency code AWS used to generate the recommendations and present potential savings.
         public let currencyCode: String?
         /// The average value of hourly On-Demand spend over the lookback period of the applicable usage type.
         public let currentAverageHourlyOnDemandSpend: String?
@@ -2608,7 +3214,7 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansPurchaseRecommendationSummary: AWSDecodableShape {
-        /// The currency code Amazon Web Services used to generate the recommendations and present potential savings.
+        /// The currency code AWS used to generate the recommendations and present potential savings.
         public let currencyCode: String?
         /// The current total on demand spend of the applicable usage types over the lookback period.
         public let currentOnDemandSpend: String?
@@ -2789,10 +3395,37 @@ extension CostExplorer {
         }
     }
 
+    public struct Subscriber: AWSEncodableShape & AWSDecodableShape {
+        ///  The email address or SNS Amazon Resource Name (ARN), depending on the Type.
+        public let address: String?
+        ///  Indicates if the subscriber accepts the notifications.
+        public let status: SubscriberStatus?
+        ///  The notification delivery channel.
+        public let `type`: SubscriberType?
+
+        public init(address: String? = nil, status: SubscriberStatus? = nil, type: SubscriberType? = nil) {
+            self.address = address
+            self.status = status
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.address, name: "address", parent: name, max: 302)
+            try self.validate(self.address, name: "address", parent: name, min: 6)
+            try self.validate(self.address, name: "address", parent: name, pattern: "(^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$)|(^arn:(aws[a-zA-Z-]*):sns:[a-zA-Z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case status = "Status"
+            case `type` = "Type"
+        }
+    }
+
     public struct TagValues: AWSEncodableShape & AWSDecodableShape {
         /// The key for the tag.
         public let key: String?
-        /// The match options that you can use to filter your results. MatchOptions is only applicable for only applicable for actions related to Cost Category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
         /// The specific value of the tag.
         public let values: [String]?
@@ -2822,9 +3455,9 @@ extension CostExplorer {
     }
 
     public struct TargetInstance: AWSDecodableShape {
-        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        ///  The currency code that AWS used to calculate the costs for this instance.
         public let currencyCode: String?
-        ///  Indicates whether or not this recommendation is the defaulted Amazon Web Services recommendation.
+        ///  Indicates whether this recommendation is the defaulted AWS recommendation.
         public let defaultTargetInstance: Bool?
         ///  Expected cost to operate this instance type on a monthly basis.
         public let estimatedMonthlyCost: String?
@@ -2855,7 +3488,7 @@ extension CostExplorer {
     }
 
     public struct TerminateRecommendationDetail: AWSDecodableShape {
-        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        ///  The currency code that AWS used to calculate the costs for this instance.
         public let currencyCode: String?
         ///  Estimated savings resulting from modification, on a monthly basis.
         public let estimatedMonthlySavings: String?
@@ -2868,6 +3501,130 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case currencyCode = "CurrencyCode"
             case estimatedMonthlySavings = "EstimatedMonthlySavings"
+        }
+    }
+
+    public struct TotalImpactFilter: AWSEncodableShape {
+        ///  The upper bound dollar value used in the filter.
+        public let endValue: Double?
+        ///  The comparing value used in the filter.
+        public let numericOperator: NumericOperator
+        ///  The lower bound dollar value used in the filter.
+        public let startValue: Double
+
+        public init(endValue: Double? = nil, numericOperator: NumericOperator, startValue: Double) {
+            self.endValue = endValue
+            self.numericOperator = numericOperator
+            self.startValue = startValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endValue = "EndValue"
+            case numericOperator = "NumericOperator"
+            case startValue = "StartValue"
+        }
+    }
+
+    public struct UpdateAnomalyMonitorRequest: AWSEncodableShape {
+        ///  Cost anomaly monitor Amazon Resource Names (ARNs).
+        public let monitorArn: String
+        ///  The new name for the cost anomaly monitor.
+        public let monitorName: String?
+
+        public init(monitorArn: String, monitorName: String? = nil) {
+            self.monitorArn = monitorArn
+            self.monitorName = monitorName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 1024)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, min: 0)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+            case monitorName = "MonitorName"
+        }
+    }
+
+    public struct UpdateAnomalyMonitorResponse: AWSDecodableShape {
+        ///  A cost anomaly monitor ARN.
+        public let monitorArn: String
+
+        public init(monitorArn: String) {
+            self.monitorArn = monitorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+        }
+    }
+
+    public struct UpdateAnomalySubscriptionRequest: AWSEncodableShape {
+        ///  The update to the frequency value at which subscribers will receive notifications.
+        public let frequency: AnomalySubscriptionFrequency?
+        ///  A list of cost anomaly subscription ARNs.
+        public let monitorArnList: [String]?
+        ///  The update to the subscriber list.
+        public let subscribers: [Subscriber]?
+        ///  A cost anomaly subscription Amazon Resource Name (ARN).
+        public let subscriptionArn: String
+        ///  The subscription's new name.
+        public let subscriptionName: String?
+        ///  The update to the threshold value for receiving notifications.
+        public let threshold: Double?
+
+        public init(frequency: AnomalySubscriptionFrequency? = nil, monitorArnList: [String]? = nil, subscribers: [Subscriber]? = nil, subscriptionArn: String, subscriptionName: String? = nil, threshold: Double? = nil) {
+            self.frequency = frequency
+            self.monitorArnList = monitorArnList
+            self.subscribers = subscribers
+            self.subscriptionArn = subscriptionArn
+            self.subscriptionName = subscriptionName
+            self.threshold = threshold
+        }
+
+        public func validate(name: String) throws {
+            try self.monitorArnList?.forEach {
+                try validate($0, name: "monitorArnList[]", parent: name, max: 1024)
+                try validate($0, name: "monitorArnList[]", parent: name, min: 0)
+                try validate($0, name: "monitorArnList[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.subscribers?.forEach {
+                try $0.validate(name: "\(name).subscribers[]")
+            }
+            try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, max: 1024)
+            try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, min: 0)
+            try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, max: 1024)
+            try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, min: 0)
+            try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frequency = "Frequency"
+            case monitorArnList = "MonitorArnList"
+            case subscribers = "Subscribers"
+            case subscriptionArn = "SubscriptionArn"
+            case subscriptionName = "SubscriptionName"
+            case threshold = "Threshold"
+        }
+    }
+
+    public struct UpdateAnomalySubscriptionResponse: AWSDecodableShape {
+        ///  A cost anomaly subscription ARN.
+        public let subscriptionArn: String
+
+        public init(subscriptionArn: String) {
+            self.subscriptionArn = subscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
         }
     }
 

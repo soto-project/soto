@@ -117,6 +117,11 @@ public struct Batch: AWSService {
         return self.client.execute(operation: "ListJobs", path: "/v1/listjobs", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  List the tags for an AWS Batch resource. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Registers an AWS Batch job definition.
     public func registerJobDefinition(_ input: RegisterJobDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterJobDefinitionResponse> {
         return self.client.execute(operation: "RegisterJobDefinition", path: "/v1/registerjobdefinition", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -127,9 +132,19 @@ public struct Batch: AWSService {
         return self.client.execute(operation: "SubmitJob", path: "/v1/submitjob", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+    public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED. Jobs that have not progressed to the STARTING state are cancelled.
     public func terminateJob(_ input: TerminateJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TerminateJobResponse> {
         return self.client.execute(operation: "TerminateJob", path: "/v1/terminatejob", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Deletes specified tags from an AWS Batch resource.
+    public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates an AWS Batch compute environment.

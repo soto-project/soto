@@ -333,6 +333,11 @@ public struct Greengrass: AWSService {
         return self.client.execute(operation: "GetSubscriptionDefinitionVersion", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions/{SubscriptionDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
+    ///  Get the runtime configuration of a thing.
+    public func getThingRuntimeConfiguration(_ input: GetThingRuntimeConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetThingRuntimeConfigurationResponse> {
+        return self.client.execute(operation: "GetThingRuntimeConfiguration", path: "/greengrass/things/{ThingName}/runtimeconfig", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
     public func listBulkDeploymentDetailedReports(_ input: ListBulkDeploymentDetailedReportsRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBulkDeploymentDetailedReportsResponse> {
         return self.client.execute(operation: "ListBulkDeploymentDetailedReports", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/detailed-reports", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -511,6 +516,11 @@ public struct Greengrass: AWSService {
     ///  Updates a subscription definition.
     public func updateSubscriptionDefinition(_ input: UpdateSubscriptionDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateSubscriptionDefinitionResponse> {
         return self.client.execute(operation: "UpdateSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Updates the runtime configuration of a thing.
+    public func updateThingRuntimeConfiguration(_ input: UpdateThingRuntimeConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logging.Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateThingRuntimeConfigurationResponse> {
+        return self.client.execute(operation: "UpdateThingRuntimeConfiguration", path: "/greengrass/things/{ThingName}/runtimeconfig", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 }
 

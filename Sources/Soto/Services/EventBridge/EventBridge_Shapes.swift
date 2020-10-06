@@ -1587,6 +1587,55 @@ extension EventBridge {
         }
     }
 
+    public struct RedshiftDataParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database. Required when authenticating using temporary credentials.
+        public let database: String
+        /// The database user name. Required when authenticating using temporary credentials.
+        public let dbUser: String?
+        /// The name or ARN of the secret that enables access to the database. Required when authenticating using AWS Secrets Manager.
+        public let secretManagerArn: String?
+        /// The SQL statement text to run.
+        public let sql: String
+        /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query.
+        public let statementName: String?
+        /// Indicates whether to send an event back to EventBridge after the SQL statement runs.
+        public let withEvent: Bool?
+
+        public init(database: String, dbUser: String? = nil, secretManagerArn: String? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil) {
+            self.database = database
+            self.dbUser = dbUser
+            self.secretManagerArn = secretManagerArn
+            self.sql = sql
+            self.statementName = statementName
+            self.withEvent = withEvent
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, max: 64)
+            try self.validate(self.database, name: "database", parent: name, min: 1)
+            try self.validate(self.database, name: "database", parent: name, pattern: "([a-zA-Z0-9]+)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try self.validate(self.dbUser, name: "dbUser", parent: name, max: 128)
+            try self.validate(self.dbUser, name: "dbUser", parent: name, min: 1)
+            try self.validate(self.dbUser, name: "dbUser", parent: name, pattern: "([a-zA-Z0-9]+)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 1600)
+            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, min: 1)
+            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try self.validate(self.sql, name: "sql", parent: name, max: 100_000)
+            try self.validate(self.sql, name: "sql", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
+            try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case dbUser = "DbUser"
+            case secretManagerArn = "SecretManagerArn"
+            case sql = "Sql"
+            case statementName = "StatementName"
+            case withEvent = "WithEvent"
+        }
+    }
+
     public struct RemovePermissionRequest: AWSEncodableShape {
         /// The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
         public let eventBusName: String?
@@ -1872,6 +1921,8 @@ extension EventBridge {
         public let inputTransformer: InputTransformer?
         /// The custom parameter you can use to control the shard assignment, when the target is a Kinesis data stream. If you do not include this parameter, the default is to use the eventId as the partition key.
         public let kinesisParameters: KinesisParameters?
+        /// Contains the Redshift Data API parameters to use when the target is a Redshift cluster. If you specify a Redshift Cluster as a Target, you can use this to specify parameters to invoke the Redshift Data API ExecuteStatement based on EventBridge events.
+        public let redshiftDataParameters: RedshiftDataParameters?
         /// The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
         public let roleArn: String?
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
@@ -1879,7 +1930,7 @@ extension EventBridge {
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public let sqsParameters: SqsParameters?
 
-        public init(arn: String, batchParameters: BatchParameters? = nil, ecsParameters: EcsParameters? = nil, httpParameters: HttpParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sqsParameters: SqsParameters? = nil) {
+        public init(arn: String, batchParameters: BatchParameters? = nil, ecsParameters: EcsParameters? = nil, httpParameters: HttpParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, redshiftDataParameters: RedshiftDataParameters? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sqsParameters: SqsParameters? = nil) {
             self.arn = arn
             self.batchParameters = batchParameters
             self.ecsParameters = ecsParameters
@@ -1889,6 +1940,7 @@ extension EventBridge {
             self.inputPath = inputPath
             self.inputTransformer = inputTransformer
             self.kinesisParameters = kinesisParameters
+            self.redshiftDataParameters = redshiftDataParameters
             self.roleArn = roleArn
             self.runCommandParameters = runCommandParameters
             self.sqsParameters = sqsParameters
@@ -1906,6 +1958,7 @@ extension EventBridge {
             try self.validate(self.inputPath, name: "inputPath", parent: name, max: 256)
             try self.inputTransformer?.validate(name: "\(name).inputTransformer")
             try self.kinesisParameters?.validate(name: "\(name).kinesisParameters")
+            try self.redshiftDataParameters?.validate(name: "\(name).redshiftDataParameters")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.runCommandParameters?.validate(name: "\(name).runCommandParameters")
@@ -1921,6 +1974,7 @@ extension EventBridge {
             case inputPath = "InputPath"
             case inputTransformer = "InputTransformer"
             case kinesisParameters = "KinesisParameters"
+            case redshiftDataParameters = "RedshiftDataParameters"
             case roleArn = "RoleArn"
             case runCommandParameters = "RunCommandParameters"
             case sqsParameters = "SqsParameters"

@@ -176,6 +176,8 @@ extension EKS {
         public let endpoint: String?
         /// The identity provider information for the cluster.
         public let identity: Identity?
+        /// Network configuration settings for your cluster.
+        public let kubernetesNetworkConfig: KubernetesNetworkConfigResponse?
         /// The logging configuration for your cluster.
         public let logging: Logging?
         /// The name of the cluster.
@@ -193,7 +195,7 @@ extension EKS {
         /// The Kubernetes server version for the cluster.
         public let version: String?
 
-        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, identity: Identity? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
@@ -201,6 +203,7 @@ extension EKS {
             self.encryptionConfig = encryptionConfig
             self.endpoint = endpoint
             self.identity = identity
+            self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
             self.name = name
             self.platformVersion = platformVersion
@@ -219,6 +222,7 @@ extension EKS {
             case encryptionConfig
             case endpoint
             case identity
+            case kubernetesNetworkConfig
             case logging
             case name
             case platformVersion
@@ -235,6 +239,8 @@ extension EKS {
         public let clientRequestToken: String?
         /// The encryption configuration for the cluster.
         public let encryptionConfig: [EncryptionConfig]?
+        /// The Kubernetes network configuration for the cluster.
+        public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see Amazon CloudWatch Pricing.
         public let logging: Logging?
         /// The unique name to give to your cluster.
@@ -248,9 +254,10 @@ extension EKS {
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used.
         public let version: String?
 
-        public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
+        public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.encryptionConfig = encryptionConfig
+            self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
             self.name = name
             self.resourcesVpcConfig = resourcesVpcConfig
@@ -274,6 +281,7 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken
             case encryptionConfig
+            case kubernetesNetworkConfig
             case logging
             case name
             case resourcesVpcConfig
@@ -362,7 +370,7 @@ extension EKS {
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
         ]
 
-        /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type, which uses the Amazon EKS-optimized Linux AMI with GPU support. Non-GPU instances should use the AL2_x86_64 AMI type, which uses the Amazon EKS-optimized Linux AMI. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type. Non-GPU instances should use the AL2_x86_64 AMI type. Arm instances should use the AL2_ARM_64 AMI type. All types use the Amazon EKS-optimized Amazon Linux 2 AMI. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let amiType: AMITypes?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
@@ -374,7 +382,7 @@ extension EKS {
         public let instanceTypes: [String]?
         /// The Kubernetes labels to be applied to the nodes in the node group when they are created.
         public let labels: [String: String]?
-        /// An object representing a node group's launch template specification. If specified, then do not specify instanceTypes, diskSize, or remoteAccess. If specified, make sure that the launch template meets the requirements in launchTemplateSpecification.
+        /// An object representing a node group's launch template specification. If specified, then do not specify instanceTypes, diskSize, or remoteAccess and make sure that the launch template meets the requirements in launchTemplateSpecification.
         public let launchTemplate: LaunchTemplateSpecification?
         /// The unique name to give your node group.
         public let nodegroupName: String
@@ -811,6 +819,32 @@ extension EKS {
         }
     }
 
+    public struct KubernetesNetworkConfigRequest: AWSEncodableShape {
+        /// The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements:   Within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0.0/12, or 192.168.0.0/16.   Doesn't overlap with any CIDR block assigned to the VPC that you selected for VPC.   Between /24 and /12.    You can only specify a custom CIDR block when you create a cluster and can't change this value once the cluster is created.
+        public let serviceIpv4Cidr: String?
+
+        public init(serviceIpv4Cidr: String? = nil) {
+            self.serviceIpv4Cidr = serviceIpv4Cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceIpv4Cidr
+        }
+    }
+
+    public struct KubernetesNetworkConfigResponse: AWSDecodableShape {
+        /// The CIDR block that Kubernetes service IP addresses are assigned from. If you didn't specify a CIDR block, then Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. If this was specified, then it was specified when the cluster was created and it cannot be changed.
+        public let serviceIpv4Cidr: String?
+
+        public init(serviceIpv4Cidr: String? = nil) {
+            self.serviceIpv4Cidr = serviceIpv4Cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceIpv4Cidr
+        }
+    }
+
     public struct LaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the launch template.
         public let id: String?
@@ -1077,11 +1111,11 @@ extension EKS {
         public let clusterName: String?
         /// The Unix epoch timestamp in seconds for when the managed node group was created.
         public let createdAt: Date?
-        /// If the node group wasn't deployed with a launch template, then this is the disk size in the node group configuration. If the node group was deployed with a launch template, then diskSize is null.
+        /// If the node group wasn't deployed with a launch template, then this is the disk size in the node group configuration. If the node group was deployed with a launch template, then this is null.
         public let diskSize: Int?
         /// The health status of the node group. If there are issues with your node group's health, they are listed here.
         public let health: NodegroupHealth?
-        /// If the node group wasn't deployed with a launch template, then this is the instance type that is associated with the node group. If the node group was deployed with a launch template, then instanceTypes is null.
+        /// If the node group wasn't deployed with a launch template, then this is the instance type that is associated with the node group. If the node group was deployed with a launch template, then this is null.
         public let instanceTypes: [String]?
         /// The Kubernetes labels applied to the nodes in the node group.  Only labels that are applied with the Amazon EKS API are shown here. There may be other Kubernetes labels applied to the nodes in this group.
         public let labels: [String: String]?
@@ -1097,7 +1131,7 @@ extension EKS {
         public let nodeRole: String?
         /// If the node group was deployed using a launch template with a custom AMI, then this is the AMI ID that was specified in the launch template. For node groups that weren't deployed using a launch template, this is the version of the Amazon EKS-optimized AMI that the node group was deployed with.
         public let releaseVersion: String?
-        /// If the node group wasn't deployed with a launch template, then this is the remote access configuration that is associated with the node group. If the node group was deployed with a launch template, then remoteAccess is null.
+        /// If the node group wasn't deployed with a launch template, then this is the remote access configuration that is associated with the node group. If the node group was deployed with a launch template, then this is null.
         public let remoteAccess: RemoteAccessConfig?
         /// The resources associated with the node group, such as Auto Scaling groups and security groups for remote access.
         public let resources: NodegroupResources?

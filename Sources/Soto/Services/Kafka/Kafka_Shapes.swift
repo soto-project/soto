@@ -68,6 +68,78 @@ extension Kafka {
 
     // MARK: Shapes
 
+    public struct BatchAssociateScramSecretRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
+        ]
+
+        public let clusterArn: String
+        /// List of AWS Secrets Manager secret ARNs.
+        public let secretArnList: [String]
+
+        public init(clusterArn: String, secretArnList: [String]) {
+            self.clusterArn = clusterArn
+            self.secretArnList = secretArnList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArnList
+        }
+    }
+
+    public struct BatchAssociateScramSecretResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// List of errors when associating secrets to cluster.
+        public let unprocessedScramSecrets: [UnprocessedScramSecret]?
+
+        public init(clusterArn: String? = nil, unprocessedScramSecrets: [UnprocessedScramSecret]? = nil) {
+            self.clusterArn = clusterArn
+            self.unprocessedScramSecrets = unprocessedScramSecrets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn
+            case unprocessedScramSecrets
+        }
+    }
+
+    public struct BatchDisassociateScramSecretRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
+        ]
+
+        public let clusterArn: String
+        /// List of AWS Secrets Manager secret ARNs.
+        public let secretArnList: [String]
+
+        public init(clusterArn: String, secretArnList: [String]) {
+            self.clusterArn = clusterArn
+            self.secretArnList = secretArnList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArnList
+        }
+    }
+
+    public struct BatchDisassociateScramSecretResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// List of errors when disassociating secrets to cluster.
+        public let unprocessedScramSecrets: [UnprocessedScramSecret]?
+
+        public init(clusterArn: String? = nil, unprocessedScramSecrets: [UnprocessedScramSecret]? = nil) {
+            self.clusterArn = clusterArn
+            self.unprocessedScramSecrets = unprocessedScramSecrets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn
+            case unprocessedScramSecrets
+        }
+    }
+
     public struct BrokerEBSVolumeInfo: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the broker to update.
         public let kafkaBrokerNodeId: String
@@ -197,14 +269,17 @@ extension Kafka {
     }
 
     public struct ClientAuthentication: AWSEncodableShape & AWSDecodableShape {
+        public let sasl: Sasl?
         /// Details for ClientAuthentication using TLS.
         public let tls: Tls?
 
-        public init(tls: Tls? = nil) {
+        public init(sasl: Sasl? = nil, tls: Tls? = nil) {
+            self.sasl = sasl
             self.tls = tls
         }
 
         private enum CodingKeys: String, CodingKey {
+            case sasl
             case tls
         }
     }
@@ -261,8 +336,10 @@ extension Kafka {
         public let tags: [String: String]?
         /// The connection string to use to connect to the Apache ZooKeeper cluster.
         public let zookeeperConnectString: String?
+        /// The connection string to use to connect to zookeeper cluster on Tls port.
+        public let zookeeperConnectStringTls: String?
 
-        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil) {
+        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -279,6 +356,7 @@ extension Kafka {
             self.state = state
             self.tags = tags
             self.zookeeperConnectString = zookeeperConnectString
+            self.zookeeperConnectStringTls = zookeeperConnectStringTls
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -298,6 +376,7 @@ extension Kafka {
             case state
             case tags
             case zookeeperConnectString
+            case zookeeperConnectStringTls
         }
     }
 
@@ -948,18 +1027,24 @@ extension Kafka {
     public struct GetBootstrapBrokersResponse: AWSDecodableShape {
         /// A string containing one or more hostname:port pairs.
         public let bootstrapBrokerString: String?
+        /// A string containing one or more DNS names (or IP) and SASL SCRAM port pairs. The following is an example. {
+        ///     "BootstrapBrokerStringSaslScram": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9096,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9096,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9096"
+        /// }
+        public let bootstrapBrokerStringSaslScram: String?
         /// A string containing one or more DNS names (or IP) and TLS port pairs. The following is an example. {
         ///     "BootstrapBrokerStringTls": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9094,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9094,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9094"
         /// }
         public let bootstrapBrokerStringTls: String?
 
-        public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringTls: String? = nil) {
+        public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringSaslScram: String? = nil, bootstrapBrokerStringTls: String? = nil) {
             self.bootstrapBrokerString = bootstrapBrokerString
+            self.bootstrapBrokerStringSaslScram = bootstrapBrokerStringSaslScram
             self.bootstrapBrokerStringTls = bootstrapBrokerStringTls
         }
 
         private enum CodingKeys: String, CodingKey {
             case bootstrapBrokerString
+            case bootstrapBrokerStringSaslScram
             case bootstrapBrokerStringTls
         }
     }
@@ -1280,6 +1365,48 @@ extension Kafka {
         }
     }
 
+    public struct ListScramSecretsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        public let clusterArn: String
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterArn = clusterArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListScramSecretsResponse: AWSDecodableShape {
+        /// Paginated results marker.
+        public let nextToken: String?
+        /// The list of scram secrets associated with the cluster.
+        public let secretArnList: [String]?
+
+        public init(nextToken: String? = nil, secretArnList: [String]? = nil) {
+            self.nextToken = nextToken
+            self.secretArnList = secretArnList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case secretArnList
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -1533,6 +1660,30 @@ extension Kafka {
         }
     }
 
+    public struct Sasl: AWSEncodableShape & AWSDecodableShape {
+        public let scram: Scram?
+
+        public init(scram: Scram? = nil) {
+            self.scram = scram
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scram
+        }
+    }
+
+    public struct Scram: AWSEncodableShape & AWSDecodableShape {
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled
+        }
+    }
+
     public struct StorageInfo: AWSEncodableShape & AWSDecodableShape {
         /// EBS volume information.
         public let ebsStorageInfo: EBSStorageInfo?
@@ -1579,6 +1730,24 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case certificateAuthorityArnList
+        }
+    }
+
+    public struct UnprocessedScramSecret: AWSDecodableShape {
+        public let errorCode: String?
+        public let errorMessage: String?
+        public let secretArn: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, secretArn: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode
+            case errorMessage
+            case secretArn
         }
     }
 

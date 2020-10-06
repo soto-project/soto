@@ -60,25 +60,25 @@ extension DynamoDBStreams {
     // MARK: Shapes
 
     public class AttributeValue: AWSDecodableShape {
-        /// A Binary data type.
+        /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
         public let b: Data?
-        /// A Boolean data type.
+        /// An attribute of type Boolean. For example:  "BOOL": true
         public let bool: Bool?
-        /// A Binary Set data type.
+        /// An attribute of type Binary Set. For example:  "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
         public let bs: [Data]?
-        /// A List data type.
+        /// An attribute of type List. For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]
         public let l: [AttributeValue]?
-        /// A Map data type.
+        /// An attribute of type Map. For example:  "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
         public let m: [String: AttributeValue]?
-        /// A Number data type.
+        /// An attribute of type Number. For example:  "N": "123.45"  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
         public let n: String?
-        /// A Number Set data type.
+        /// An attribute of type Number Set. For example:  "NS": ["42.2", "-19", "7.5", "3.14"]  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
         public let ns: [String]?
-        /// A Null data type.
+        /// An attribute of type Null. For example:  "NULL": true
         public let null: Bool?
-        /// A String data type.
+        /// An attribute of type String. For example:  "S": "Hello"
         public let s: String?
-        /// A String Set data type.
+        /// An attribute of type String Set. For example:  "SS": ["Giraffe", "Hippo" ,"Zebra"]
         public let ss: [String]?
 
         public init(b: Data? = nil, bool: Bool? = nil, bs: [Data]? = nil, l: [AttributeValue]? = nil, m: [String: AttributeValue]? = nil, n: String? = nil, ns: [String]? = nil, null: Bool? = nil, s: String? = nil, ss: [String]? = nil) {
@@ -257,7 +257,7 @@ extension DynamoDBStreams {
     public struct KeySchemaElement: AWSDecodableShape {
         /// The name of a key attribute.
         public let attributeName: String
-        /// The attribute data, consisting of the data type and the attribute value itself.
+        /// The role that this key attribute will assume:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         public let keyType: KeyType
 
         public init(attributeName: String, keyType: KeyType) {
@@ -356,9 +356,9 @@ extension DynamoDBStreams {
     }
 
     public struct SequenceNumberRange: AWSDecodableShape {
-        /// The last sequence number.
+        /// The last sequence number for the stream records contained within a shard. String contains numeric characters only.
         public let endingSequenceNumber: String?
-        /// The first sequence number.
+        /// The first sequence number for the stream records contained within a shard. String contains numeric characters only.
         public let startingSequenceNumber: String?
 
         public init(endingSequenceNumber: String? = nil, startingSequenceNumber: String? = nil) {

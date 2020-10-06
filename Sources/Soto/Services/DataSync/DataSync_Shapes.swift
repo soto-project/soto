@@ -138,6 +138,7 @@ extension DataSync {
         case intelligentTiering = "INTELLIGENT_TIERING"
         case glacier = "GLACIER"
         case deepArchive = "DEEP_ARCHIVE"
+        case outposts = "OUTPOSTS"
         public var description: String { return self.rawValue }
     }
 
@@ -499,13 +500,13 @@ extension DataSync {
     }
 
     public struct CreateLocationObjectStorageRequest: AWSEncodableShape {
-        /// Optional. The access key is used if credentials are required to access the self-managed object storage server.
+        /// Optional. The access key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
         public let accessKey: String?
         /// The Amazon Resource Name (ARN) of the agents associated with the self-managed object storage server location.
         public let agentArns: [String]
         /// The bucket on the self-managed object storage server that is used to read data from.
         public let bucketName: String
-        /// Optional. The secret key is used if credentials are required to access the self-managed object storage server.
+        /// Optional. The secret key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
         public let secretKey: String?
         /// The name of the self-managed object storage server. This value is the IP address or Domain Name Service (DNS) name of the object storage server. An agent uses this host name to mount the object storage server in a network.
         public let serverHostname: String
@@ -586,17 +587,20 @@ extension DataSync {
     }
 
     public struct CreateLocationS3Request: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
+        /// If you are using DataSync on an AWS Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your AWS Outpost. For more information about launching a DataSync agent on an Amazon Outpost, see outposts-agent.
+        public let agentArns: [String]?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket. If the bucket is on an AWS Outpost, this must be an access point ARN.
         public let s3BucketArn: String
         public let s3Config: S3Config
-        /// The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For more information about S3 storage classes, see Amazon S3 Storage Classes in the Amazon Simple Storage Service Developer Guide. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
+        /// The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For buckets in AWS Regions, the storage class defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3 Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes in the Amazon Simple Storage Service Developer Guide. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
         public let s3StorageClass: S3StorageClass?
         /// A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is used to read data from the S3 source location or write data to the S3 destination.
         public let subdirectory: String?
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
 
-        public init(s3BucketArn: String, s3Config: S3Config, s3StorageClass: S3StorageClass? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+        public init(agentArns: [String]? = nil, s3BucketArn: String, s3Config: S3Config, s3StorageClass: S3StorageClass? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+            self.agentArns = agentArns
             self.s3BucketArn = s3BucketArn
             self.s3Config = s3Config
             self.s3StorageClass = s3StorageClass
@@ -605,8 +609,14 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 76)
-            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:::([^/]*)$")
+            try self.agentArns?.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 156)
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(s3|s3-outposts):[a-z\\-0-9]*:[0-9]*:.*$")
             try self.s3Config.validate(name: "\(name).s3Config")
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
@@ -618,6 +628,7 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
             case s3BucketArn = "S3BucketArn"
             case s3Config = "S3Config"
             case s3StorageClass = "S3StorageClass"
@@ -1074,7 +1085,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationObjectStorageResponse: AWSDecodableShape {
-        /// Optional. The access key is used if credentials are required to access the self-managed object storage server.
+        /// Optional. The access key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
         public let accessKey: String?
         /// The Amazon Resource Name (ARN) of the agents associated with the self-managed object storage server location.
         public let agentArns: [String]?
@@ -1129,9 +1140,11 @@ extension DataSync {
     }
 
     public struct DescribeLocationS3Response: AWSDecodableShape {
+        /// If you are using DataSync on an Amazon Outpost, the Amazon Resource Name (ARNs) of the EC2 agents deployed on your AWS Outpost. For more information about launching a DataSync agent on an Amazon Outpost, see outposts-agent.
+        public let agentArns: [String]?
         /// The time that the Amazon S3 bucket location was created.
         public let creationTime: Date?
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location.
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket or access point.
         public let locationArn: String?
         /// The URL of the Amazon S3 location that was described.
         public let locationUri: String?
@@ -1139,7 +1152,8 @@ extension DataSync {
         /// The Amazon S3 storage class that you chose to store your files in when this location is used as a task destination. For more information about S3 storage classes, see Amazon S3 Storage Classes in the Amazon Simple Storage Service Developer Guide. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
         public let s3StorageClass: S3StorageClass?
 
-        public init(creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil, s3StorageClass: S3StorageClass? = nil) {
+        public init(agentArns: [String]? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil, s3StorageClass: S3StorageClass? = nil) {
+            self.agentArns = agentArns
             self.creationTime = creationTime
             self.locationArn = locationArn
             self.locationUri = locationUri
@@ -1148,6 +1162,7 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
             case creationTime = "CreationTime"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
@@ -1464,6 +1479,7 @@ extension DataSync {
     }
 
     public struct ListLocationsRequest: AWSEncodableShape {
+        /// You can use API filters to narrow down the list of resources returned by ListLocations. For example, to retrieve all tasks on a specific source location, you can use ListLocations with filter name LocationType S3 and Operator Equals.
         public let filters: [LocationFilter]?
         /// The maximum number of locations to return.
         public let maxResults: Int?
@@ -1605,6 +1621,7 @@ extension DataSync {
     }
 
     public struct ListTasksRequest: AWSEncodableShape {
+        /// You can use API filters to narrow down the list of resources returned by ListTasks. For example, to retrieve all tasks on a specific source location, you can use ListTasks with filter name LocationId and Operator Equals with the ARN for the location.
         public let filters: [TaskFilter]?
         /// The maximum number of tasks to return.
         public let maxResults: Int?
@@ -1652,8 +1669,11 @@ extension DataSync {
     }
 
     public struct LocationFilter: AWSEncodableShape {
+        /// The name of the filter being used. Each API call supports a list of filters that are available for it (for example, LocationType for ListLocations).
         public let name: LocationFilterName
+        /// The operator that is used to compare filter values (for example, Equals or Contains). For more about API filtering operators, see query-resources.
         public let `operator`: Operator
+        /// The values that you want to filter for. For example, you might want to display only Amazon S3 locations.
         public let values: [String]
 
         public init(name: LocationFilterName, operator: Operator, values: [String]) {
@@ -1708,7 +1728,7 @@ extension DataSync {
     }
 
     public struct OnPremConfig: AWSEncodableShape & AWSDecodableShape {
-        /// ARNs)of the agents to use for an NFS location.
+        /// ARNs of the agents to use for an NFS location.
         public let agentArns: [String]
 
         public init(agentArns: [String]) {
@@ -1750,7 +1770,7 @@ extension DataSync {
         public let preserveDevices: PreserveDevices?
         /// A value that determines whether tasks should be queued before executing the tasks. If set to ENABLED, the tasks will be queued. The default is ENABLED. If you use the same agent to run multiple tasks, you can enable the tasks to run in series. For more information, see queue-task-execution.
         public let taskQueueing: TaskQueueing?
-        /// TransferMode has two values: CHANGED and ALL. CHANGED performs an "incremental" or "delta sync", it compares file modification time between source and destination to determine which files need to be transferred. ALL skips destination inventory and transfers all files discovered on the source.
+        /// A value that determines whether DataSync transfers only the data and metadata that differ between the source and the destination location, or whether DataSync transfers all the content from the source, without comparing to the destination location.  CHANGED: DataSync copies only data or metadata that is new or different content from the source location to the destination location. ALL: DataSync copies all source location content to the destination, without comparing to existing content on the destination.
         public let transferMode: TransferMode?
         /// The user ID (UID) of the file's owner.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID.
         public let uid: Uid?
@@ -2014,8 +2034,11 @@ extension DataSync {
     }
 
     public struct TaskFilter: AWSEncodableShape {
+        /// The name of the filter being used. Each API call supports a list of filters that are available for it. For example, LocationId for ListTasks.
         public let name: TaskFilterName
+        /// The operator that is used to compare filter values (for example, Equals or Contains). For more about API filtering operators, see query-resources.
         public let `operator`: Operator
+        /// The values that you want to filter for. For example, you might want to display only tasks for a specific destination location.
         public let values: [String]
 
         public init(name: TaskFilterName, operator: Operator, values: [String]) {

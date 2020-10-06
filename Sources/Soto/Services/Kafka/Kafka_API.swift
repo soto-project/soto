@@ -62,6 +62,16 @@ public struct Kafka: AWSService {
 
     // MARK: API Calls
 
+    ///  Associates one or more Scram Secrets with an Amazon MSK cluster.
+    public func batchAssociateScramSecret(_ input: BatchAssociateScramSecretRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchAssociateScramSecretResponse> {
+        return self.client.execute(operation: "BatchAssociateScramSecret", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Disassociates one or more Scram Secrets from an Amazon MSK cluster.
+    public func batchDisassociateScramSecret(_ input: BatchDisassociateScramSecretRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDisassociateScramSecretResponse> {
+        return self.client.execute(operation: "BatchDisassociateScramSecret", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Creates a new MSK cluster.
     public func createCluster(_ input: CreateClusterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateClusterResponse> {
         return self.client.execute(operation: "CreateCluster", path: "/v1/clusters", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
@@ -140,6 +150,11 @@ public struct Kafka: AWSService {
     ///  Returns a list of the broker nodes in the cluster.
     public func listNodes(_ input: ListNodesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListNodesResponse> {
         return self.client.execute(operation: "ListNodes", path: "/v1/clusters/{clusterArn}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
+    public func listScramSecrets(_ input: ListScramSecretsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListScramSecretsResponse> {
+        return self.client.execute(operation: "ListScramSecrets", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Returns a list of the tags associated with the specified resource.

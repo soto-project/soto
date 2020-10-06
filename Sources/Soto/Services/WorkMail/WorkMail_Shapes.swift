@@ -42,6 +42,14 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
+    public enum MailboxExportJobState: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MemberType: String, CustomStringConvertible, Codable {
         case group = "GROUP"
         case user = "USER"
@@ -214,6 +222,41 @@ extension WorkMail {
             case autoDeclineConflictingRequests = "AutoDeclineConflictingRequests"
             case autoDeclineRecurringRequests = "AutoDeclineRecurringRequests"
         }
+    }
+
+    public struct CancelMailboxExportJobRequest: AWSEncodableShape {
+        /// The idempotency token for the client request.
+        public let clientToken: String
+        /// The job ID.
+        public let jobId: String
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(clientToken: String = CancelMailboxExportJobRequest.idempotencyToken(), jobId: String, organizationId: String) {
+            self.clientToken = clientToken
+            self.jobId = jobId
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\x21-\\x7e]+")
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 63)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[A-Za-z0-9-]+")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case jobId = "JobId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct CancelMailboxExportJobResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CreateAliasRequest: AWSEncodableShape {
@@ -675,6 +718,87 @@ extension WorkMail {
             case enabledDate = "EnabledDate"
             case groupId = "GroupId"
             case name = "Name"
+            case state = "State"
+        }
+    }
+
+    public struct DescribeMailboxExportJobRequest: AWSEncodableShape {
+        /// The mailbox export job ID.
+        public let jobId: String
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(jobId: String, organizationId: String) {
+            self.jobId = jobId
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 63)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[A-Za-z0-9-]+")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DescribeMailboxExportJobResponse: AWSDecodableShape {
+        /// The mailbox export job description.
+        public let description: String?
+        /// The mailbox export job end timestamp.
+        public let endTime: Date?
+        /// The identifier of the user or resource associated with the mailbox.
+        public let entityId: String?
+        /// Error information for failed mailbox export jobs.
+        public let errorInfo: String?
+        /// The estimated progress of the mailbox export job, in percentage points.
+        public let estimatedProgress: Int?
+        /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service (AWS KMS) key that encrypts the exported mailbox content.
+        public let kmsKeyArn: String?
+        /// The ARN of the AWS Identity and Access Management (IAM) role that grants write permission to the Amazon Simple Storage Service (Amazon S3) bucket.
+        public let roleArn: String?
+        /// The name of the S3 bucket.
+        public let s3BucketName: String?
+        /// The path to the S3 bucket and file that the mailbox export job is exporting to.
+        public let s3Path: String?
+        /// The S3 bucket prefix.
+        public let s3Prefix: String?
+        /// The mailbox export job start timestamp.
+        public let startTime: Date?
+        /// The state of the mailbox export job.
+        public let state: MailboxExportJobState?
+
+        public init(description: String? = nil, endTime: Date? = nil, entityId: String? = nil, errorInfo: String? = nil, estimatedProgress: Int? = nil, kmsKeyArn: String? = nil, roleArn: String? = nil, s3BucketName: String? = nil, s3Path: String? = nil, s3Prefix: String? = nil, startTime: Date? = nil, state: MailboxExportJobState? = nil) {
+            self.description = description
+            self.endTime = endTime
+            self.entityId = entityId
+            self.errorInfo = errorInfo
+            self.estimatedProgress = estimatedProgress
+            self.kmsKeyArn = kmsKeyArn
+            self.roleArn = roleArn
+            self.s3BucketName = s3BucketName
+            self.s3Path = s3Path
+            self.s3Prefix = s3Prefix
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endTime = "EndTime"
+            case entityId = "EntityId"
+            case errorInfo = "ErrorInfo"
+            case estimatedProgress = "EstimatedProgress"
+            case kmsKeyArn = "KmsKeyArn"
+            case roleArn = "RoleArn"
+            case s3BucketName = "S3BucketName"
+            case s3Path = "S3Path"
+            case s3Prefix = "S3Prefix"
+            case startTime = "StartTime"
             case state = "State"
         }
     }
@@ -1308,6 +1432,52 @@ extension WorkMail {
         }
     }
 
+    public struct ListMailboxExportJobsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct ListMailboxExportJobsResponse: AWSDecodableShape {
+        /// The mailbox export job details.
+        public let jobs: [MailboxExportJob]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(jobs: [MailboxExportJob]? = nil, nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "Jobs"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListMailboxPermissionsRequest: AWSEncodableShape {
         /// The identifier of the user, group, or resource for which to list mailbox permissions.
         public let entityId: String
@@ -1573,6 +1743,51 @@ extension WorkMail {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case users = "Users"
+        }
+    }
+
+    public struct MailboxExportJob: AWSDecodableShape {
+        /// The mailbox export job description.
+        public let description: String?
+        /// The mailbox export job end timestamp.
+        public let endTime: Date?
+        /// The identifier of the user or resource associated with the mailbox.
+        public let entityId: String?
+        /// The estimated progress of the mailbox export job, in percentage points.
+        public let estimatedProgress: Int?
+        /// The identifier of the mailbox export job.
+        public let jobId: String?
+        /// The name of the S3 bucket.
+        public let s3BucketName: String?
+        /// The path to the S3 bucket and file that the mailbox export job exports to.
+        public let s3Path: String?
+        /// The mailbox export job start timestamp.
+        public let startTime: Date?
+        /// The state of the mailbox export job.
+        public let state: MailboxExportJobState?
+
+        public init(description: String? = nil, endTime: Date? = nil, entityId: String? = nil, estimatedProgress: Int? = nil, jobId: String? = nil, s3BucketName: String? = nil, s3Path: String? = nil, startTime: Date? = nil, state: MailboxExportJobState? = nil) {
+            self.description = description
+            self.endTime = endTime
+            self.entityId = entityId
+            self.estimatedProgress = estimatedProgress
+            self.jobId = jobId
+            self.s3BucketName = s3BucketName
+            self.s3Path = s3Path
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endTime = "EndTime"
+            case entityId = "EntityId"
+            case estimatedProgress = "EstimatedProgress"
+            case jobId = "JobId"
+            case s3BucketName = "S3BucketName"
+            case s3Path = "S3Path"
+            case startTime = "StartTime"
+            case state = "State"
         }
     }
 
@@ -1944,6 +2159,83 @@ extension WorkMail {
             case name = "Name"
             case state = "State"
             case `type` = "Type"
+        }
+    }
+
+    public struct StartMailboxExportJobRequest: AWSEncodableShape {
+        /// The idempotency token for the client request.
+        public let clientToken: String
+        /// The mailbox export job description.
+        public let description: String?
+        /// The identifier of the user or resource associated with the mailbox.
+        public let entityId: String
+        /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service (AWS KMS) key that encrypts the exported mailbox content.
+        public let kmsKeyArn: String
+        /// The identifier associated with the organization.
+        public let organizationId: String
+        /// The ARN of the AWS Identity and Access Management (IAM) role that grants write permission to the S3 bucket.
+        public let roleArn: String
+        /// The name of the S3 bucket.
+        public let s3BucketName: String
+        /// The S3 bucket prefix.
+        public let s3Prefix: String
+
+        public init(clientToken: String = StartMailboxExportJobRequest.idempotencyToken(), description: String? = nil, entityId: String, kmsKeyArn: String, organizationId: String, roleArn: String, s3BucketName: String, s3Prefix: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.entityId = entityId
+            self.kmsKeyArn = kmsKeyArn
+            self.organizationId = organizationId
+            self.roleArn = roleArn
+            self.s3BucketName = s3BucketName
+            self.s3Prefix = s3Prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\x21-\\x7e]+")
+            try self.validate(self.description, name: "description", parent: name, max: 1023)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 12)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 1)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "[A-Za-z0-9.-]+")
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 1023)
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, min: 1)
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, pattern: "[A-Za-z0-9!_.*'()/-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case entityId = "EntityId"
+            case kmsKeyArn = "KmsKeyArn"
+            case organizationId = "OrganizationId"
+            case roleArn = "RoleArn"
+            case s3BucketName = "S3BucketName"
+            case s3Prefix = "S3Prefix"
+        }
+    }
+
+    public struct StartMailboxExportJobResponse: AWSDecodableShape {
+        /// The job ID.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
         }
     }
 

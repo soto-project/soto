@@ -63,9 +63,29 @@ public struct CostExplorer: AWSService {
 
     // MARK: API Calls
 
+    ///  Creates a new cost anomaly detection monitor with the requested type and monitor specification.
+    public func createAnomalyMonitor(_ input: CreateAnomalyMonitorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAnomalyMonitorResponse> {
+        return self.client.execute(operation: "CreateAnomalyMonitor", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Adds a subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifications. Email subscribers can set a dollar threshold and a time frequency for receiving notifications.
+    public func createAnomalySubscription(_ input: CreateAnomalySubscriptionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAnomalySubscriptionResponse> {
+        return self.client.execute(operation: "CreateAnomalySubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
     ///  Creates a new Cost Category with the requested name and rules.
     public func createCostCategoryDefinition(_ input: CreateCostCategoryDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCostCategoryDefinitionResponse> {
         return self.client.execute(operation: "CreateCostCategoryDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Deletes a cost anomaly monitor.
+    public func deleteAnomalyMonitor(_ input: DeleteAnomalyMonitorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAnomalyMonitorResponse> {
+        return self.client.execute(operation: "DeleteAnomalyMonitor", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Deletes a cost anomaly subscription.
+    public func deleteAnomalySubscription(_ input: DeleteAnomalySubscriptionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAnomalySubscriptionResponse> {
+        return self.client.execute(operation: "DeleteAnomalySubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
@@ -76,6 +96,21 @@ public struct CostExplorer: AWSService {
     ///  Returns the name, ARN, rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that is active on a specific date. If there is no EffectiveOn specified, you’ll see a Cost Category that is effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response.
     public func describeCostCategoryDefinition(_ input: DescribeCostCategoryDefinitionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeCostCategoryDefinitionResponse> {
         return self.client.execute(operation: "DescribeCostCategoryDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Retrieves all of the cost anomalies detected on your account, during the time period specified by the DateInterval object.
+    public func getAnomalies(_ input: GetAnomaliesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAnomaliesResponse> {
+        return self.client.execute(operation: "GetAnomalies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Retrieves the cost anomaly monitor definitions for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
+    public func getAnomalyMonitors(_ input: GetAnomalyMonitorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAnomalyMonitorsResponse> {
+        return self.client.execute(operation: "GetAnomalyMonitors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Retrieves the cost anomaly subscription objects for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
+    public func getAnomalySubscriptions(_ input: GetAnomalySubscriptionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAnomalySubscriptionsResponse> {
+        return self.client.execute(operation: "GetAnomalySubscriptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Master accounts in an organization in AWS Organizations have access to all member accounts.
@@ -151,6 +186,21 @@ public struct CostExplorer: AWSService {
     ///  Returns the name, ARN, NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
     public func listCostCategoryDefinitions(_ input: ListCostCategoryDefinitionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCostCategoryDefinitionsResponse> {
         return self.client.execute(operation: "ListCostCategoryDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Modifies the feedback property of a given cost anomaly.
+    public func provideAnomalyFeedback(_ input: ProvideAnomalyFeedbackRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ProvideAnomalyFeedbackResponse> {
+        return self.client.execute(operation: "ProvideAnomalyFeedback", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///  Updates an existing cost anomaly monitor. The changes made are applied going forward, and does not change anomalies detected in the past.
+    public func updateAnomalyMonitor(_ input: UpdateAnomalyMonitorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAnomalyMonitorResponse> {
+        return self.client.execute(operation: "UpdateAnomalyMonitor", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    }
+
+    ///   Updates an existing cost anomaly monitor subscription.
+    public func updateAnomalySubscription(_ input: UpdateAnomalySubscriptionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAnomalySubscriptionResponse> {
+        return self.client.execute(operation: "UpdateAnomalySubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
     ///  Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.

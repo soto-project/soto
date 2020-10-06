@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Connect {
-    ///  Gets the real-time metric data from the specified Amazon Connect instance. For more information, see Real-time Metrics Reports in the Amazon Connect Administrator Guide.
+    ///  Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.
     public func getCurrentMetricDataPaginator(
         _ input: GetCurrentMetricDataRequest,
         on eventLoop: EventLoop? = nil,
@@ -35,7 +35,7 @@ extension Connect {
         )
     }
 
-    ///  Gets historical metric data from the specified Amazon Connect instance. For more information, see Historical Metrics Reports in the Amazon Connect Administrator Guide.
+    ///  Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
     public func getMetricDataPaginator(
         _ input: GetMetricDataRequest,
         on eventLoop: EventLoop? = nil,
@@ -51,7 +51,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the contact flows for the specified Amazon Connect instance.
+    ///  Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
     public func listContactFlowsPaginator(
         _ input: ListContactFlowsRequest,
         on eventLoop: EventLoop? = nil,
@@ -67,7 +67,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the hours of operation for the specified Amazon Connect instance.
+    ///  Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     public func listHoursOfOperationsPaginator(
         _ input: ListHoursOfOperationsRequest,
         on eventLoop: EventLoop? = nil,
@@ -83,7 +83,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the phone numbers for the specified Amazon Connect instance.
+    ///  Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
     public func listPhoneNumbersPaginator(
         _ input: ListPhoneNumbersRequest,
         on eventLoop: EventLoop? = nil,
@@ -99,7 +99,23 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the queues for the specified Amazon Connect instance.
+    ///  Provides information about the prompts for the specified Amazon Connect instance.
+    public func listPromptsPaginator(
+        _ input: ListPromptsRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListPromptsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPrompts,
+            tokenKey: \ListPromptsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Provides information about the queues for the specified Amazon Connect instance. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
     public func listQueuesPaginator(
         _ input: ListQueuesRequest,
         on eventLoop: EventLoop? = nil,
@@ -115,7 +131,23 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the routing profiles for the specified Amazon Connect instance.
+    ///  List the queues associated with a routing profile.
+    public func listRoutingProfileQueuesPaginator(
+        _ input: ListRoutingProfileQueuesRequest,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (ListRoutingProfileQueuesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listRoutingProfileQueues,
+            tokenKey: \ListRoutingProfileQueuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Amazon Connect Administrator Guide.
     public func listRoutingProfilesPaginator(
         _ input: ListRoutingProfilesRequest,
         on eventLoop: EventLoop? = nil,
@@ -131,7 +163,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the security profiles for the specified Amazon Connect instance.
+    ///  Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
     public func listSecurityProfilesPaginator(
         _ input: ListSecurityProfilesRequest,
         on eventLoop: EventLoop? = nil,
@@ -147,7 +179,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance.
+    ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
     public func listUserHierarchyGroupsPaginator(
         _ input: ListUserHierarchyGroupsRequest,
         on eventLoop: EventLoop? = nil,
@@ -241,6 +273,16 @@ extension Connect.ListPhoneNumbersRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListPromptsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListPromptsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Connect.ListQueuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListQueuesRequest {
         return .init(
@@ -248,6 +290,17 @@ extension Connect.ListQueuesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             queueTypes: self.queueTypes
+        )
+    }
+}
+
+extension Connect.ListRoutingProfileQueuesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListRoutingProfileQueuesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            routingProfileId: self.routingProfileId
         )
     }
 }
