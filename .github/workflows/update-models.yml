@@ -13,4 +13,4 @@ jobs:
         fetch-depth: 1
     - name: Update Models
       run: |
-        ./scripts/update-models.sh
+        ./scripts/update_models.sh
