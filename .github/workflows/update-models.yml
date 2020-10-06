@@ -1,0 +1,16 @@
+name: Update AWS service files
+
+on:
+  workflow_dispatch:
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Update Models
+      run: |
+        ./scripts/update-models.sh
