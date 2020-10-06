@@ -254,9 +254,9 @@ extension Inspector {
         /// The ARN of the assessment template that is associated with the assessment run.
         public let assessmentTemplateArn: String
         /// The assessment run completion time that corresponds to the rules packages evaluation completion time or failure.
-        public let completedAt: TimeStamp?
+        public let completedAt: Date?
         /// The time when StartAssessmentRun was called.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// A Boolean value (true or false) that specifies whether the process of collecting data from the agents is completed.
         public let dataCollected: Bool
         /// The duration of the assessment run.
@@ -270,17 +270,17 @@ extension Inspector {
         /// The rules packages selected for the assessment run.
         public let rulesPackageArns: [String]
         /// The time when StartAssessmentRun was called.
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The state of the assessment run.
         public let state: AssessmentRunState
         /// The last time when the assessment run's state changed.
-        public let stateChangedAt: TimeStamp
+        public let stateChangedAt: Date
         /// A list of the assessment run state changes.
         public let stateChanges: [AssessmentRunStateChange]
         /// The user-defined attributes that are assigned to every generated finding.
         public let userAttributesForFindings: [Attribute]
 
-        public init(arn: String, assessmentTemplateArn: String, completedAt: TimeStamp? = nil, createdAt: TimeStamp, dataCollected: Bool, durationInSeconds: Int, findingCounts: [Severity: Int], name: String, notifications: [AssessmentRunNotification], rulesPackageArns: [String], startedAt: TimeStamp? = nil, state: AssessmentRunState, stateChangedAt: TimeStamp, stateChanges: [AssessmentRunStateChange], userAttributesForFindings: [Attribute]) {
+        public init(arn: String, assessmentTemplateArn: String, completedAt: Date? = nil, createdAt: Date, dataCollected: Bool, durationInSeconds: Int, findingCounts: [Severity: Int], name: String, notifications: [AssessmentRunNotification], rulesPackageArns: [String], startedAt: Date? = nil, state: AssessmentRunState, stateChangedAt: Date, stateChanges: [AssessmentRunStateChange], userAttributesForFindings: [Attribute]) {
             self.arn = arn
             self.assessmentTemplateArn = assessmentTemplateArn
             self.completedAt = completedAt
@@ -407,7 +407,7 @@ extension Inspector {
 
     public struct AssessmentRunNotification: AWSDecodableShape {
         /// The date of the notification.
-        public let date: TimeStamp
+        public let date: Date
         /// The Boolean value that specifies whether the notification represents an error.
         public let error: Bool
         /// The event for which a notification is sent.
@@ -419,7 +419,7 @@ extension Inspector {
         /// The SNS topic to which the SNS notification is sent.
         public let snsTopicArn: String?
 
-        public init(date: TimeStamp, error: Bool, event: InspectorEvent, message: String? = nil, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, snsTopicArn: String? = nil) {
+        public init(date: Date, error: Bool, event: InspectorEvent, message: String? = nil, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, snsTopicArn: String? = nil) {
             self.date = date
             self.error = error
             self.event = event
@@ -442,9 +442,9 @@ extension Inspector {
         /// The assessment run state.
         public let state: AssessmentRunState
         /// The last time the assessment run state changed.
-        public let stateChangedAt: TimeStamp
+        public let stateChangedAt: Date
 
-        public init(state: AssessmentRunState, stateChangedAt: TimeStamp) {
+        public init(state: AssessmentRunState, stateChangedAt: Date) {
             self.state = state
             self.stateChangedAt = stateChangedAt
         }
@@ -459,15 +459,15 @@ extension Inspector {
         /// The ARN that specifies the Amazon Inspector assessment target.
         public let arn: String
         /// The time at which the assessment target is created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The name of the Amazon Inspector assessment target.
         public let name: String
         /// The ARN that specifies the resource group that is associated with the assessment target.
         public let resourceGroupArn: String?
         /// The time at which UpdateAssessmentTarget is called.
-        public let updatedAt: TimeStamp
+        public let updatedAt: Date
 
-        public init(arn: String, createdAt: TimeStamp, name: String, resourceGroupArn: String? = nil, updatedAt: TimeStamp) {
+        public init(arn: String, createdAt: Date, name: String, resourceGroupArn: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
@@ -510,7 +510,7 @@ extension Inspector {
         /// The ARN of the assessment target that corresponds to this assessment template.
         public let assessmentTargetArn: String
         /// The time at which the assessment template is created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The duration in seconds specified for this assessment template. The default value is 3600 seconds (one hour). The maximum value is 86400 seconds (one day).
         public let durationInSeconds: Int
         /// The Amazon Resource Name (ARN) of the most recent assessment run associated with this assessment template. This value exists only when the value of assessmentRunCount is greaterpa than zero.
@@ -522,7 +522,7 @@ extension Inspector {
         /// The user-defined attributes that are assigned to every generated finding from the assessment run that uses this assessment template.
         public let userAttributesForFindings: [Attribute]
 
-        public init(arn: String, assessmentRunCount: Int, assessmentTargetArn: String, createdAt: TimeStamp, durationInSeconds: Int, lastAssessmentRunArn: String? = nil, name: String, rulesPackageArns: [String], userAttributesForFindings: [Attribute]) {
+        public init(arn: String, assessmentRunCount: Int, assessmentTargetArn: String, createdAt: Date, durationInSeconds: Int, lastAssessmentRunArn: String? = nil, name: String, rulesPackageArns: [String], userAttributesForFindings: [Attribute]) {
             self.arn = arn
             self.assessmentRunCount = assessmentRunCount
             self.assessmentTargetArn = assessmentTargetArn
@@ -981,13 +981,13 @@ extension Inspector {
 
     public struct DescribeCrossAccountAccessRoleResponse: AWSDecodableShape {
         /// The date when the cross-account access role was registered.
-        public let registeredAt: TimeStamp
+        public let registeredAt: Date
         /// The ARN that specifies the IAM role that Amazon Inspector uses to access your AWS account.
         public let roleArn: String
         /// A Boolean value that specifies whether the IAM role has the necessary policies attached to enable Amazon Inspector to access your AWS account.
         public let valid: Bool
 
-        public init(registeredAt: TimeStamp, roleArn: String, valid: Bool) {
+        public init(registeredAt: Date, roleArn: String, valid: Bool) {
             self.registeredAt = registeredAt
             self.roleArn = roleArn
             self.valid = valid
@@ -1196,9 +1196,9 @@ extension Inspector {
         /// The event for which Amazon Simple Notification Service (SNS) notifications are sent.
         public let event: InspectorEvent
         /// The time at which SubscribeToEvent is called.
-        public let subscribedAt: TimeStamp
+        public let subscribedAt: Date
 
-        public init(event: InspectorEvent, subscribedAt: TimeStamp) {
+        public init(event: InspectorEvent, subscribedAt: Date) {
             self.event = event
             self.subscribedAt = subscribedAt
         }
@@ -1300,7 +1300,7 @@ extension Inspector {
         /// This data element is currently not used.
         public let confidence: Int?
         /// The time when the finding was generated.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The description of the finding.
         public let description: String?
         /// The ID of the finding.
@@ -1322,11 +1322,11 @@ extension Inspector {
         /// The name of the finding.
         public let title: String?
         /// The time when AddAttributesToFindings is called.
-        public let updatedAt: TimeStamp
+        public let updatedAt: Date
         /// The user-defined attributes that are assigned to the finding.
         public let userAttributes: [Attribute]
 
-        public init(arn: String, assetAttributes: AssetAttributes? = nil, assetType: AssetType? = nil, attributes: [Attribute], confidence: Int? = nil, createdAt: TimeStamp, description: String? = nil, id: String? = nil, indicatorOfCompromise: Bool? = nil, numericSeverity: Double? = nil, recommendation: String? = nil, schemaVersion: Int? = nil, service: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, severity: Severity? = nil, title: String? = nil, updatedAt: TimeStamp, userAttributes: [Attribute]) {
+        public init(arn: String, assetAttributes: AssetAttributes? = nil, assetType: AssetType? = nil, attributes: [Attribute], confidence: Int? = nil, createdAt: Date, description: String? = nil, id: String? = nil, indicatorOfCompromise: Bool? = nil, numericSeverity: Double? = nil, recommendation: String? = nil, schemaVersion: Int? = nil, service: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, severity: Severity? = nil, title: String? = nil, updatedAt: Date, userAttributes: [Attribute]) {
             self.arn = arn
             self.assetAttributes = assetAttributes
             self.assetType = assetType
@@ -2195,11 +2195,11 @@ extension Inspector {
         /// The ARN of the resource group.
         public let arn: String
         /// The time at which resource group is created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// The tags (key and value pairs) of the resource group. This data type property is used in the CreateResourceGroup action.
         public let tags: [ResourceGroupTag]
 
-        public init(arn: String, createdAt: TimeStamp, tags: [ResourceGroupTag]) {
+        public init(arn: String, createdAt: Date, tags: [ResourceGroupTag]) {
             self.arn = arn
             self.createdAt = createdAt
             self.tags = tags
@@ -2481,11 +2481,11 @@ extension Inspector {
 
     public struct TimestampRange: AWSEncodableShape {
         /// The minimum value of the timestamp range.
-        public let beginDate: TimeStamp?
+        public let beginDate: Date?
         /// The maximum value of the timestamp range.
-        public let endDate: TimeStamp?
+        public let endDate: Date?
 
-        public init(beginDate: TimeStamp? = nil, endDate: TimeStamp? = nil) {
+        public init(beginDate: Date? = nil, endDate: Date? = nil) {
             self.beginDate = beginDate
             self.endDate = endDate
         }

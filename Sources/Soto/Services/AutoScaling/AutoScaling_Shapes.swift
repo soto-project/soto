@@ -129,17 +129,17 @@ extension AutoScaling {
         /// The details about the activity.
         public let details: String?
         /// The end time of the activity.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// A value between 0 and 100 that indicates the progress of the activity.
         public let progress: Int?
         /// The start time of the activity.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// The current status of the activity.
         public let statusCode: ScalingActivityStatusCode
         /// A friendly, more verbose description of the activity status.
         public let statusMessage: String?
 
-        public init(activityId: String, autoScalingGroupName: String, cause: String, description: String? = nil, details: String? = nil, endTime: TimeStamp? = nil, progress: Int? = nil, startTime: TimeStamp, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
+        public init(activityId: String, autoScalingGroupName: String, cause: String, description: String? = nil, details: String? = nil, endTime: Date? = nil, progress: Int? = nil, startTime: Date, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
             self.activityId = activityId
             self.autoScalingGroupName = autoScalingGroupName
             self.cause = cause
@@ -313,7 +313,7 @@ extension AutoScaling {
         @CustomCoding<StandardArrayCoder>
         public var availabilityZones: [String]
         /// The date and time the group was created.
-        public let createdTime: TimeStamp
+        public let createdTime: Date
         /// The duration of the default cooldown period, in seconds.
         public let defaultCooldown: Int
         /// The desired size of the group.
@@ -366,7 +366,7 @@ extension AutoScaling {
         /// One or more subnet IDs, if applicable, separated by commas.
         public let vPCZoneIdentifier: String?
 
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], createdTime: TimeStamp, defaultCooldown: Int, desiredCapacity: Int, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], createdTime: Date, defaultCooldown: Int, desiredCapacity: Int, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
@@ -1679,7 +1679,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The latest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -1688,9 +1688,9 @@ extension AutoScaling {
         @OptionalCustomCoding<StandardArrayCoder>
         public var scheduledActionNames: [String]?
         /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(autoScalingGroupName: String? = nil, endTime: TimeStamp? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scheduledActionNames: [String]? = nil, startTime: TimeStamp? = nil) {
+        public init(autoScalingGroupName: String? = nil, endTime: Date? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scheduledActionNames: [String]? = nil, startTime: Date? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.endTime = endTime
             self.maxRecords = maxRecords
@@ -2266,7 +2266,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The date and time at which the instance refresh ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The instance refresh ID.
         public let instanceRefreshId: String?
         /// The number of instances remaining to update before the instance refresh is complete.
@@ -2274,13 +2274,13 @@ extension AutoScaling {
         /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
         public let percentageComplete: Int?
         /// The date and time at which the instance refresh began.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The current status for the instance refresh operation:    Pending - The request was created, but the operation has not started.    InProgress - The operation is in progress.    Successful - The operation completed successfully.    Failed - The operation failed to complete. You can troubleshoot using the status reason and the scaling activities.     Cancelling - An ongoing operation is being cancelled. Cancellation does not roll back any replacements that have already been completed, but it prevents new replacements from being started.     Cancelled - The operation is cancelled.
         public let status: InstanceRefreshStatus?
         /// Provides more details about the current status of the instance refresh.
         public let statusReason: String?
 
-        public init(autoScalingGroupName: String? = nil, endTime: TimeStamp? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, startTime: TimeStamp? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, endTime: Date? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, startTime: Date? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.endTime = endTime
             self.instanceRefreshId = instanceRefreshId
@@ -2355,7 +2355,7 @@ extension AutoScaling {
         @OptionalCustomCoding<StandardArrayCoder>
         public var classicLinkVPCSecurityGroups: [String]?
         /// The creation date and time for the launch configuration.
-        public let createdTime: TimeStamp
+        public let createdTime: Date
         /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). For more information, see Amazon EBS-Optimized Instances in the Amazon EC2 User Guide for Linux Instances.
         public let ebsOptimized: Bool?
         /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see IAM Role for Applications That Run on Amazon EC2 Instances in the Amazon EC2 Auto Scaling User Guide.
@@ -2388,7 +2388,7 @@ extension AutoScaling {
         /// The Base64-encoded user data to make available to the launched EC2 instances. For more information, see Instance Metadata and User Data in the Amazon EC2 User Guide for Linux Instances.
         public let userData: String?
 
-        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, createdTime: TimeStamp, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String, kernelId: String? = nil, keyName: String? = nil, launchConfigurationARN: String? = nil, launchConfigurationName: String, metadataOptions: InstanceMetadataOptions? = nil, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, createdTime: Date, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String, kernelId: String? = nil, keyName: String? = nil, launchConfigurationARN: String? = nil, launchConfigurationName: String, metadataOptions: InstanceMetadataOptions? = nil, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.blockDeviceMappings = blockDeviceMappings
             self.classicLinkVPCId = classicLinkVPCId
@@ -3076,7 +3076,7 @@ extension AutoScaling {
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain. It can scale beyond this capacity if you add more scaling conditions.
         public let desiredCapacity: Int?
         /// The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling does not perform the action after this time.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The maximum size of the Auto Scaling group.
         public let maxSize: Int?
         /// The minimum size of the Auto Scaling group.
@@ -3086,11 +3086,11 @@ extension AutoScaling {
         /// The name of this scaling action.
         public let scheduledActionName: String
         /// The date and time for this action to start, in YYYY-MM-DDThh:mm:ssZ format in UTC/GMT only and in quotes (for example, "2019-06-01T00:00:00Z"). If you specify Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error message.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// This parameter is no longer used.
-        public let time: TimeStamp?
+        public let time: Date?
 
-        public init(autoScalingGroupName: String, desiredCapacity: Int? = nil, endTime: TimeStamp? = nil, maxSize: Int? = nil, minSize: Int? = nil, recurrence: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil, time: TimeStamp? = nil) {
+        public init(autoScalingGroupName: String, desiredCapacity: Int? = nil, endTime: Date? = nil, maxSize: Int? = nil, minSize: Int? = nil, recurrence: String? = nil, scheduledActionName: String, startTime: Date? = nil, time: Date? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredCapacity = desiredCapacity
             self.endTime = endTime
@@ -3317,7 +3317,7 @@ extension AutoScaling {
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
         public let desiredCapacity: Int?
         /// The date and time in UTC for the recurring schedule to end. For example, "2019-06-01T00:00:00Z".
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The maximum size of the Auto Scaling group.
         public let maxSize: Int?
         /// The minimum size of the Auto Scaling group.
@@ -3329,11 +3329,11 @@ extension AutoScaling {
         /// The name of the scheduled action.
         public let scheduledActionName: String?
         /// The date and time in UTC for this action to start. For example, "2019-06-01T00:00:00Z".
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// This parameter is no longer used.
-        public let time: TimeStamp?
+        public let time: Date?
 
-        public init(autoScalingGroupName: String? = nil, desiredCapacity: Int? = nil, endTime: TimeStamp? = nil, maxSize: Int? = nil, minSize: Int? = nil, recurrence: String? = nil, scheduledActionARN: String? = nil, scheduledActionName: String? = nil, startTime: TimeStamp? = nil, time: TimeStamp? = nil) {
+        public init(autoScalingGroupName: String? = nil, desiredCapacity: Int? = nil, endTime: Date? = nil, maxSize: Int? = nil, minSize: Int? = nil, recurrence: String? = nil, scheduledActionARN: String? = nil, scheduledActionName: String? = nil, startTime: Date? = nil, time: Date? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredCapacity = desiredCapacity
             self.endTime = endTime
@@ -3364,7 +3364,7 @@ extension AutoScaling {
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
         public let desiredCapacity: Int?
         /// The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling does not perform the action after this time.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The maximum size of the Auto Scaling group.
         public let maxSize: Int?
         /// The minimum size of the Auto Scaling group.
@@ -3374,9 +3374,9 @@ extension AutoScaling {
         /// The name of the scaling action.
         public let scheduledActionName: String
         /// The date and time for the action to start, in YYYY-MM-DDThh:mm:ssZ format in UTC/GMT only and in quotes (for example, "2019-06-01T00:00:00Z"). If you specify Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule the action in the past, Amazon EC2 Auto Scaling returns an error message.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(desiredCapacity: Int? = nil, endTime: TimeStamp? = nil, maxSize: Int? = nil, minSize: Int? = nil, recurrence: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil) {
+        public init(desiredCapacity: Int? = nil, endTime: Date? = nil, maxSize: Int? = nil, minSize: Int? = nil, recurrence: String? = nil, scheduledActionName: String, startTime: Date? = nil) {
             self.desiredCapacity = desiredCapacity
             self.endTime = endTime
             self.maxSize = maxSize

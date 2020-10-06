@@ -115,7 +115,7 @@ extension CognitoSync {
 
     public struct Dataset: AWSDecodableShape {
         /// Date on which the dataset was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
         public let datasetName: String?
         /// Total size in bytes of the records in this dataset.
@@ -125,11 +125,11 @@ extension CognitoSync {
         /// The device that made the last change to this dataset.
         public let lastModifiedBy: String?
         /// Date when the dataset was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// Number of records in this dataset.
         public let numRecords: Int64?
 
-        public init(creationDate: TimeStamp? = nil, datasetName: String? = nil, dataStorage: Int64? = nil, identityId: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: TimeStamp? = nil, numRecords: Int64? = nil) {
+        public init(creationDate: Date? = nil, datasetName: String? = nil, dataStorage: Int64? = nil, identityId: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, numRecords: Int64? = nil) {
             self.creationDate = creationDate
             self.datasetName = datasetName
             self.dataStorage = dataStorage
@@ -344,9 +344,9 @@ extension CognitoSync {
 
     public struct GetBulkPublishDetailsResponse: AWSDecodableShape {
         /// If BulkPublishStatus is SUCCEEDED, the time the last bulk publish operation completed.
-        public let bulkPublishCompleteTime: TimeStamp?
+        public let bulkPublishCompleteTime: Date?
         /// The date/time at which the last bulk publish was initiated.
-        public let bulkPublishStartTime: TimeStamp?
+        public let bulkPublishStartTime: Date?
         /// Status of the last bulk publish operation, valid values are: NOT_STARTED - No bulk publish has been requested for this identity pool IN_PROGRESS - Data is being published to the configured stream SUCCEEDED - All data for the identity pool has been published to the configured stream FAILED - Some portion of the data has failed to publish, check FailureMessage for the cause.
         public let bulkPublishStatus: BulkPublishStatus?
         /// If BulkPublishStatus is FAILED this field will contain the error message that caused the bulk publish to fail.
@@ -354,7 +354,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String?
 
-        public init(bulkPublishCompleteTime: TimeStamp? = nil, bulkPublishStartTime: TimeStamp? = nil, bulkPublishStatus: BulkPublishStatus? = nil, failureMessage: String? = nil, identityPoolId: String? = nil) {
+        public init(bulkPublishCompleteTime: Date? = nil, bulkPublishStartTime: Date? = nil, bulkPublishStatus: BulkPublishStatus? = nil, failureMessage: String? = nil, identityPoolId: String? = nil) {
             self.bulkPublishCompleteTime = bulkPublishCompleteTime
             self.bulkPublishStartTime = bulkPublishStartTime
             self.bulkPublishStatus = bulkPublishStatus
@@ -453,11 +453,11 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String?
         /// Date on which the identity pool was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// Number of sync sessions for the identity pool.
         public let syncSessionsCount: Int64?
 
-        public init(dataStorage: Int64? = nil, identityPoolId: String? = nil, lastModifiedDate: TimeStamp? = nil, syncSessionsCount: Int64? = nil) {
+        public init(dataStorage: Int64? = nil, identityPoolId: String? = nil, lastModifiedDate: Date? = nil, syncSessionsCount: Int64? = nil) {
             self.dataStorage = dataStorage
             self.identityPoolId = identityPoolId
             self.lastModifiedDate = lastModifiedDate
@@ -482,9 +482,9 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String?
         /// Date on which the identity was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
 
-        public init(datasetCount: Int? = nil, dataStorage: Int64? = nil, identityId: String? = nil, identityPoolId: String? = nil, lastModifiedDate: TimeStamp? = nil) {
+        public init(datasetCount: Int? = nil, dataStorage: Int64? = nil, identityId: String? = nil, identityPoolId: String? = nil, lastModifiedDate: Date? = nil) {
             self.datasetCount = datasetCount
             self.dataStorage = dataStorage
             self.identityId = identityId
@@ -726,19 +726,19 @@ extension CognitoSync {
 
     public struct Record: AWSDecodableShape {
         /// The last modified date of the client device.
-        public let deviceLastModifiedDate: TimeStamp?
+        public let deviceLastModifiedDate: Date?
         /// The key for the record.
         public let key: String?
         /// The user/device that made the last change to this record.
         public let lastModifiedBy: String?
         /// The date on which the record was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The server sync count for this record.
         public let syncCount: Int64?
         /// The value for the record.
         public let value: String?
 
-        public init(deviceLastModifiedDate: TimeStamp? = nil, key: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: TimeStamp? = nil, syncCount: Int64? = nil, value: String? = nil) {
+        public init(deviceLastModifiedDate: Date? = nil, key: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, syncCount: Int64? = nil, value: String? = nil) {
             self.deviceLastModifiedDate = deviceLastModifiedDate
             self.key = key
             self.lastModifiedBy = lastModifiedBy
@@ -759,7 +759,7 @@ extension CognitoSync {
 
     public struct RecordPatch: AWSEncodableShape {
         /// The last modified date of the client device.
-        public let deviceLastModifiedDate: TimeStamp?
+        public let deviceLastModifiedDate: Date?
         /// The key associated with the record patch.
         public let key: String
         /// An operation, either replace or remove.
@@ -769,7 +769,7 @@ extension CognitoSync {
         /// The value associated with the record patch.
         public let value: String?
 
-        public init(deviceLastModifiedDate: TimeStamp? = nil, key: String, op: Operation, syncCount: Int64, value: String? = nil) {
+        public init(deviceLastModifiedDate: Date? = nil, key: String, op: Operation, syncCount: Int64, value: String? = nil) {
             self.deviceLastModifiedDate = deviceLastModifiedDate
             self.key = key
             self.op = op

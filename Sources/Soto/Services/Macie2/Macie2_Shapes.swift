@@ -360,12 +360,12 @@ extension Macie2 {
     public struct ApiCallDetails: AWSDecodableShape {
         public let api: String?
         public let apiServiceName: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var firstSeen: TimeStamp?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastSeen: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var firstSeen: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastSeen: Date?
 
-        public init(api: String? = nil, apiServiceName: String? = nil, firstSeen: TimeStamp? = nil, lastSeen: TimeStamp? = nil) {
+        public init(api: String? = nil, apiServiceName: String? = nil, firstSeen: Date? = nil, lastSeen: Date? = nil) {
             self.api = api
             self.apiServiceName = apiServiceName
             self.firstSeen = firstSeen
@@ -433,14 +433,14 @@ extension Macie2 {
 
     public struct BatchGetCustomDataIdentifierSummary: AWSDecodableShape {
         public let arn: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let deleted: Bool?
         public let description: String?
         public let id: String?
         public let name: String?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deleted: Bool? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, deleted: Bool? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deleted = deleted
@@ -612,13 +612,13 @@ extension Macie2 {
     public struct BucketMetadata: AWSDecodableShape {
         public let accountId: String?
         public let bucketArn: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var bucketCreatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var bucketCreatedAt: Date?
         public let bucketName: String?
         public let classifiableObjectCount: Int64?
         public let classifiableSizeInBytes: Int64?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastUpdated: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdated: Date?
         public let objectCount: Int64?
         public let objectCountByEncryptionType: ObjectCountByEncryptionType?
         public let publicAccess: BucketPublicAccess?
@@ -632,7 +632,7 @@ extension Macie2 {
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
         public let versioning: Bool?
 
-        public init(accountId: String? = nil, bucketArn: String? = nil, bucketCreatedAt: TimeStamp? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: TimeStamp? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
+        public init(accountId: String? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
             self.accountId = accountId
             self.bucketArn = bucketArn
             self.bucketCreatedAt = bucketCreatedAt
@@ -1055,13 +1055,13 @@ extension Macie2 {
 
     public struct CustomDataIdentifierSummary: AWSDecodableShape {
         public let arn: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let description: String?
         public let id: String?
         public let name: String?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -1284,8 +1284,8 @@ extension Macie2 {
 
     public struct DescribeClassificationJobResponse: AWSDecodableShape {
         public let clientToken: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let customDataIdentifierIds: [String]?
         public let description: String?
         public let initialRun: Bool?
@@ -1293,8 +1293,8 @@ extension Macie2 {
         public let jobId: String?
         public let jobStatus: JobStatus?
         public let jobType: JobType?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastRunTime: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastRunTime: Date?
         public let name: String?
         public let s3JobDefinition: S3JobDefinition?
         public let samplingPercentage: Int?
@@ -1302,7 +1302,7 @@ extension Macie2 {
         public let statistics: Statistics?
         public let tags: [String: String]?
 
-        public init(clientToken: String? = DescribeClassificationJobResponse.idempotencyToken(), createdAt: TimeStamp? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunTime: TimeStamp? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, statistics: Statistics? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = DescribeClassificationJobResponse.idempotencyToken(), createdAt: Date? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunTime: Date? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, statistics: Statistics? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.customDataIdentifierIds = customDataIdentifierIds
@@ -1495,8 +1495,8 @@ extension Macie2 {
         public let category: FindingCategory?
         public let classificationDetails: ClassificationDetails?
         public let count: Int64?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let description: String?
         public let id: String?
         public let partition: String?
@@ -1508,10 +1508,10 @@ extension Macie2 {
         public let severity: Severity?
         public let title: String?
         public let `type`: FindingType?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(accountId: String? = nil, archived: Bool? = nil, category: FindingCategory? = nil, classificationDetails: ClassificationDetails? = nil, count: Int64? = nil, createdAt: TimeStamp? = nil, description: String? = nil, id: String? = nil, partition: String? = nil, policyDetails: PolicyDetails? = nil, region: String? = nil, resourcesAffected: ResourcesAffected? = nil, sample: Bool? = nil, schemaVersion: String? = nil, severity: Severity? = nil, title: String? = nil, type: FindingType? = nil, updatedAt: TimeStamp? = nil) {
+        public init(accountId: String? = nil, archived: Bool? = nil, category: FindingCategory? = nil, classificationDetails: ClassificationDetails? = nil, count: Int64? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, partition: String? = nil, policyDetails: PolicyDetails? = nil, region: String? = nil, resourcesAffected: ResourcesAffected? = nil, sample: Bool? = nil, schemaVersion: String? = nil, severity: Severity? = nil, title: String? = nil, type: FindingType? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.archived = archived
             self.category = category
@@ -1657,15 +1657,15 @@ extension Macie2 {
         public let bucketCountBySharedAccessType: BucketCountBySharedAccessType?
         public let classifiableObjectCount: Int64?
         public let classifiableSizeInBytes: Int64?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastUpdated: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdated: Date?
         public let objectCount: Int64?
         public let sizeInBytes: Int64?
         public let sizeInBytesCompressed: Int64?
         public let unclassifiableObjectCount: ObjectLevelStatistics?
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
 
-        public init(bucketCount: Int64? = nil, bucketCountByEffectivePermission: BucketCountByEffectivePermission? = nil, bucketCountByEncryptionType: BucketCountByEncryptionType? = nil, bucketCountBySharedAccessType: BucketCountBySharedAccessType? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: TimeStamp? = nil, objectCount: Int64? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
+        public init(bucketCount: Int64? = nil, bucketCountByEffectivePermission: BucketCountByEffectivePermission? = nil, bucketCountByEncryptionType: BucketCountByEncryptionType? = nil, bucketCountBySharedAccessType: BucketCountBySharedAccessType? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
             self.bucketCount = bucketCount
             self.bucketCountByEffectivePermission = bucketCountByEffectivePermission
             self.bucketCountByEncryptionType = bucketCountByEncryptionType
@@ -1728,8 +1728,8 @@ extension Macie2 {
 
     public struct GetCustomDataIdentifierResponse: AWSDecodableShape {
         public let arn: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let deleted: Bool?
         public let description: String?
         public let id: String?
@@ -1740,7 +1740,7 @@ extension Macie2 {
         public let regex: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deleted: Bool? = nil, description: String? = nil, id: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, deleted: Bool? = nil, description: String? = nil, id: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deleted = deleted
@@ -1897,15 +1897,15 @@ extension Macie2 {
     }
 
     public struct GetMacieSessionResponse: AWSDecodableShape {
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let findingPublishingFrequency: FindingPublishingFrequency?
         public let serviceRole: String?
         public let status: MacieStatus?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(createdAt: TimeStamp? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String? = nil, status: MacieStatus? = nil, updatedAt: TimeStamp? = nil) {
+        public init(createdAt: Date? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String? = nil, status: MacieStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.findingPublishingFrequency = findingPublishingFrequency
             self.serviceRole = serviceRole
@@ -1956,15 +1956,15 @@ extension Macie2 {
         public let accountId: String?
         public let arn: String?
         public let email: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var invitedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var invitedAt: Date?
         public let masterAccountId: String?
         public let relationshipStatus: RelationshipStatus?
         public let tags: [String: String]?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(accountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: TimeStamp? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: TimeStamp? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.email = email
@@ -2078,11 +2078,11 @@ extension Macie2 {
     public struct Invitation: AWSDecodableShape {
         public let accountId: String?
         public let invitationId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var invitedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var invitedAt: Date?
         public let relationshipStatus: RelationshipStatus?
 
-        public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: TimeStamp? = nil, relationshipStatus: RelationshipStatus? = nil) {
+        public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: Date? = nil, relationshipStatus: RelationshipStatus? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
             self.invitedAt = invitedAt
@@ -2231,14 +2231,14 @@ extension Macie2 {
 
     public struct JobSummary: AWSDecodableShape {
         public let bucketDefinitions: [S3BucketDefinitionForJob]?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let jobId: String?
         public let jobStatus: JobStatus?
         public let jobType: JobType?
         public let name: String?
 
-        public init(bucketDefinitions: [S3BucketDefinitionForJob]? = nil, createdAt: TimeStamp? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, name: String? = nil) {
+        public init(bucketDefinitions: [S3BucketDefinitionForJob]? = nil, createdAt: Date? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, name: String? = nil) {
             self.bucketDefinitions = bucketDefinitions
             self.createdAt = createdAt
             self.jobId = jobId
@@ -2603,15 +2603,15 @@ extension Macie2 {
         public let accountId: String?
         public let arn: String?
         public let email: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var invitedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var invitedAt: Date?
         public let masterAccountId: String?
         public let relationshipStatus: RelationshipStatus?
         public let tags: [String: String]?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(accountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: TimeStamp? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: TimeStamp? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.email = email
@@ -2759,15 +2759,15 @@ extension Macie2 {
 
     public struct S3Bucket: AWSDecodableShape {
         public let arn: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let defaultServerSideEncryption: ServerSideEncryption?
         public let name: String?
         public let owner: S3BucketOwner?
         public let publicAccess: BucketPublicAccess?
         public let tags: [KeyValuePair]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, defaultServerSideEncryption: ServerSideEncryption? = nil, name: String? = nil, owner: S3BucketOwner? = nil, publicAccess: BucketPublicAccess? = nil, tags: [KeyValuePair]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, defaultServerSideEncryption: ServerSideEncryption? = nil, name: String? = nil, owner: S3BucketOwner? = nil, publicAccess: BucketPublicAccess? = nil, tags: [KeyValuePair]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.defaultServerSideEncryption = defaultServerSideEncryption
@@ -2856,8 +2856,8 @@ extension Macie2 {
         public let eTag: String?
         public let `extension`: String?
         public let key: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastModified: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
         public let path: String?
         public let publicAccess: Bool?
         public let serverSideEncryption: ServerSideEncryption?
@@ -2866,7 +2866,7 @@ extension Macie2 {
         public let tags: [KeyValuePair]?
         public let versionId: String?
 
-        public init(bucketArn: String? = nil, eTag: String? = nil, extension: String? = nil, key: String? = nil, lastModified: TimeStamp? = nil, path: String? = nil, publicAccess: Bool? = nil, serverSideEncryption: ServerSideEncryption? = nil, size: Int64? = nil, storageClass: StorageClass? = nil, tags: [KeyValuePair]? = nil, versionId: String? = nil) {
+        public init(bucketArn: String? = nil, eTag: String? = nil, extension: String? = nil, key: String? = nil, lastModified: Date? = nil, path: String? = nil, publicAccess: Bool? = nil, serverSideEncryption: ServerSideEncryption? = nil, size: Int64? = nil, storageClass: StorageClass? = nil, tags: [KeyValuePair]? = nil, versionId: String? = nil) {
             self.bucketArn = bucketArn
             self.eTag = eTag
             self.`extension` = `extension`
@@ -2979,11 +2979,11 @@ extension Macie2 {
     }
 
     public struct SessionContextAttributes: AWSDecodableShape {
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
         public let mfaAuthenticated: Bool?
 
-        public init(creationDate: TimeStamp? = nil, mfaAuthenticated: Bool? = nil) {
+        public init(creationDate: Date? = nil, mfaAuthenticated: Bool? = nil) {
             self.creationDate = creationDate
             self.mfaAuthenticated = mfaAuthenticated
         }
@@ -3361,11 +3361,11 @@ extension Macie2 {
 
     public struct UsageRecord: AWSDecodableShape {
         public let accountId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var freeTrialStartDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var freeTrialStartDate: Date?
         public let usage: [UsageByAccount]?
 
-        public init(accountId: String? = nil, freeTrialStartDate: TimeStamp? = nil, usage: [UsageByAccount]? = nil) {
+        public init(accountId: String? = nil, freeTrialStartDate: Date? = nil, usage: [UsageByAccount]? = nil) {
             self.accountId = accountId
             self.freeTrialStartDate = freeTrialStartDate
             self.usage = usage

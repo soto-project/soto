@@ -417,7 +417,7 @@ extension Cloud9 {
         /// The ID of the environment for the environment member.
         public let environmentId: String?
         /// The time, expressed in epoch time format, when the environment member last opened the environment.
-        public let lastAccess: TimeStamp?
+        public let lastAccess: Date?
         /// The type of environment member permissions associated with this environment member. Available values include:    owner: Owns the environment.    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.
         public let permissions: Permissions?
         /// The Amazon Resource Name (ARN) of the environment member.
@@ -425,7 +425,7 @@ extension Cloud9 {
         /// The user ID in AWS Identity and Access Management (AWS IAM) of the environment member.
         public let userId: String?
 
-        public init(environmentId: String? = nil, lastAccess: TimeStamp? = nil, permissions: Permissions? = nil, userArn: String? = nil, userId: String? = nil) {
+        public init(environmentId: String? = nil, lastAccess: Date? = nil, permissions: Permissions? = nil, userArn: String? = nil, userId: String? = nil) {
             self.environmentId = environmentId
             self.lastAccess = lastAccess
             self.permissions = permissions

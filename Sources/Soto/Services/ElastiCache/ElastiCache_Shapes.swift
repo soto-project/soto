@@ -283,11 +283,11 @@ extension ElastiCache {
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false
         public let authTokenEnabled: Bool?
         /// The date the auth token was last modified
-        public let authTokenLastModifiedDate: TimeStamp?
+        public let authTokenLastModifiedDate: Date?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
         /// The date and time when the cluster was created.
-        public let cacheClusterCreateTime: TimeStamp?
+        public let cacheClusterCreateTime: Date?
         /// The user-supplied identifier of the cluster. This identifier is a unique key that identifies a cluster.
         public let cacheClusterId: String?
         /// The current state of this cluster, one of the following values: available, creating, deleted, deleting, incompatible-network, modifying, rebooting cluster nodes, restore-failed, or snapshotting.
@@ -333,7 +333,7 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
         public let transitEncryptionEnabled: Bool?
 
-        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: Date? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -465,7 +465,7 @@ extension ElastiCache {
 
     public struct CacheNode: AWSDecodableShape {
         /// The date and time when the cache node was created.
-        public let cacheNodeCreateTime: TimeStamp?
+        public let cacheNodeCreateTime: Date?
         /// The cache node identifier. A node ID is a numeric identifier (0001, 0002, etc.). The combination of cluster ID and node ID uniquely identifies every cache node used in a customer's AWS account.
         public let cacheNodeId: String?
         /// The current state of this cache node, one of the following values: available, creating, rebooting, or deleting.
@@ -479,7 +479,7 @@ extension ElastiCache {
         /// The ID of the primary node to which this read replica node is synchronized. If this field is empty, this node is not associated with a primary cluster.
         public let sourceCacheNodeId: String?
 
-        public init(cacheNodeCreateTime: TimeStamp? = nil, cacheNodeId: String? = nil, cacheNodeStatus: String? = nil, customerAvailabilityZone: String? = nil, endpoint: Endpoint? = nil, parameterGroupStatus: String? = nil, sourceCacheNodeId: String? = nil) {
+        public init(cacheNodeCreateTime: Date? = nil, cacheNodeId: String? = nil, cacheNodeStatus: String? = nil, customerAvailabilityZone: String? = nil, endpoint: Endpoint? = nil, parameterGroupStatus: String? = nil, sourceCacheNodeId: String? = nil) {
             self.cacheNodeCreateTime = cacheNodeCreateTime
             self.cacheNodeId = cacheNodeId
             self.cacheNodeStatus = cacheNodeStatus
@@ -569,21 +569,21 @@ extension ElastiCache {
         /// The node ID of the cache cluster
         public let cacheNodeId: String?
         /// The deletion date of the node
-        public let nodeDeletionDate: TimeStamp?
+        public let nodeDeletionDate: Date?
         /// The end date of the update for a node
-        public let nodeUpdateEndDate: TimeStamp?
+        public let nodeUpdateEndDate: Date?
         /// Reflects whether the update was initiated by the customer or automatically applied
         public let nodeUpdateInitiatedBy: NodeUpdateInitiatedBy?
         /// The date when the update is triggered
-        public let nodeUpdateInitiatedDate: TimeStamp?
+        public let nodeUpdateInitiatedDate: Date?
         /// The start date of the update for a node
-        public let nodeUpdateStartDate: TimeStamp?
+        public let nodeUpdateStartDate: Date?
         /// The update status of the node
         public let nodeUpdateStatus: NodeUpdateStatus?
         /// The date when the NodeUpdateStatus was last modified&gt;
-        public let nodeUpdateStatusModifiedDate: TimeStamp?
+        public let nodeUpdateStatusModifiedDate: Date?
 
-        public init(cacheNodeId: String? = nil, nodeDeletionDate: TimeStamp? = nil, nodeUpdateEndDate: TimeStamp? = nil, nodeUpdateInitiatedBy: NodeUpdateInitiatedBy? = nil, nodeUpdateInitiatedDate: TimeStamp? = nil, nodeUpdateStartDate: TimeStamp? = nil, nodeUpdateStatus: NodeUpdateStatus? = nil, nodeUpdateStatusModifiedDate: TimeStamp? = nil) {
+        public init(cacheNodeId: String? = nil, nodeDeletionDate: Date? = nil, nodeUpdateEndDate: Date? = nil, nodeUpdateInitiatedBy: NodeUpdateInitiatedBy? = nil, nodeUpdateInitiatedDate: Date? = nil, nodeUpdateStartDate: Date? = nil, nodeUpdateStatus: NodeUpdateStatus? = nil, nodeUpdateStatusModifiedDate: Date? = nil) {
             self.cacheNodeId = cacheNodeId
             self.nodeDeletionDate = nodeDeletionDate
             self.nodeUpdateEndDate = nodeUpdateEndDate
@@ -1847,7 +1847,7 @@ extension ElastiCache {
         /// The number of minutes worth of events to retrieve.
         public let duration: Int?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
@@ -1857,9 +1857,9 @@ extension ElastiCache {
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(duration: Int? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: Date? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: Date? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.marker = marker
@@ -2274,7 +2274,7 @@ extension ElastiCache {
 
     public struct Event: AWSDecodableShape {
         /// The date and time when the event occurred.
-        public let date: TimeStamp?
+        public let date: Date?
         /// The text of the event.
         public let message: String?
         /// The identifier for the source of the event. For example, if the event occurred at the cluster level, the identifier would be the name of the cluster.
@@ -2282,7 +2282,7 @@ extension ElastiCache {
         /// Specifies the origin of this event - a cluster, a parameter group, a security group, etc.
         public let sourceType: SourceType?
 
-        public init(date: TimeStamp? = nil, message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
+        public init(date: Date? = nil, message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.message = message
             self.sourceIdentifier = sourceIdentifier
@@ -3091,21 +3091,21 @@ extension ElastiCache {
         /// The node ID of the cache cluster
         public let cacheNodeId: String?
         /// The deletion date of the node
-        public let nodeDeletionDate: TimeStamp?
+        public let nodeDeletionDate: Date?
         /// The end date of the update for a node
-        public let nodeUpdateEndDate: TimeStamp?
+        public let nodeUpdateEndDate: Date?
         /// Reflects whether the update was initiated by the customer or automatically applied
         public let nodeUpdateInitiatedBy: NodeUpdateInitiatedBy?
         /// The date when the update is triggered
-        public let nodeUpdateInitiatedDate: TimeStamp?
+        public let nodeUpdateInitiatedDate: Date?
         /// The start date of the update for a node
-        public let nodeUpdateStartDate: TimeStamp?
+        public let nodeUpdateStartDate: Date?
         /// The update status of the node
         public let nodeUpdateStatus: NodeUpdateStatus?
         /// The date when the NodeUpdateStatus was last modified
-        public let nodeUpdateStatusModifiedDate: TimeStamp?
+        public let nodeUpdateStatusModifiedDate: Date?
 
-        public init(cacheClusterId: String? = nil, cacheNodeId: String? = nil, nodeDeletionDate: TimeStamp? = nil, nodeUpdateEndDate: TimeStamp? = nil, nodeUpdateInitiatedBy: NodeUpdateInitiatedBy? = nil, nodeUpdateInitiatedDate: TimeStamp? = nil, nodeUpdateStartDate: TimeStamp? = nil, nodeUpdateStatus: NodeUpdateStatus? = nil, nodeUpdateStatusModifiedDate: TimeStamp? = nil) {
+        public init(cacheClusterId: String? = nil, cacheNodeId: String? = nil, nodeDeletionDate: Date? = nil, nodeUpdateEndDate: Date? = nil, nodeUpdateInitiatedBy: NodeUpdateInitiatedBy? = nil, nodeUpdateInitiatedDate: Date? = nil, nodeUpdateStartDate: Date? = nil, nodeUpdateStatus: NodeUpdateStatus? = nil, nodeUpdateStatusModifiedDate: Date? = nil) {
             self.cacheClusterId = cacheClusterId
             self.cacheNodeId = cacheNodeId
             self.nodeDeletionDate = nodeDeletionDate
@@ -3154,7 +3154,7 @@ extension ElastiCache {
         /// A unique identifier for the source cluster.
         public let cacheClusterId: String?
         /// The date and time when the cache node was created in the source cluster.
-        public let cacheNodeCreateTime: TimeStamp?
+        public let cacheNodeCreateTime: Date?
         /// The cache node identifier for the node in the source cluster.
         public let cacheNodeId: String?
         /// The size of the cache on the source cache node.
@@ -3164,9 +3164,9 @@ extension ElastiCache {
         /// A unique identifier for the source node group (shard).
         public let nodeGroupId: String?
         /// The date and time when the source node's metadata and cache data set was obtained for the snapshot.
-        public let snapshotCreateTime: TimeStamp?
+        public let snapshotCreateTime: Date?
 
-        public init(cacheClusterId: String? = nil, cacheNodeCreateTime: TimeStamp? = nil, cacheNodeId: String? = nil, cacheSize: String? = nil, nodeGroupConfiguration: NodeGroupConfiguration? = nil, nodeGroupId: String? = nil, snapshotCreateTime: TimeStamp? = nil) {
+        public init(cacheClusterId: String? = nil, cacheNodeCreateTime: Date? = nil, cacheNodeId: String? = nil, cacheSize: String? = nil, nodeGroupConfiguration: NodeGroupConfiguration? = nil, nodeGroupId: String? = nil, snapshotCreateTime: Date? = nil) {
             self.cacheClusterId = cacheClusterId
             self.cacheNodeCreateTime = cacheNodeCreateTime
             self.cacheNodeId = cacheNodeId
@@ -3493,7 +3493,7 @@ extension ElastiCache {
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false
         public let authTokenEnabled: Bool?
         /// The date the auth token was last modified
-        public let authTokenLastModifiedDate: TimeStamp?
+        public let authTokenLastModifiedDate: Date?
         /// Indicates the status of automatic failover for this Redis replication group.
         public let automaticFailover: AutomaticFailoverStatus?
         /// The name of the compute and memory capacity node type for each node in the replication group.
@@ -3531,7 +3531,7 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
         public let transitEncryptionEnabled: Bool?
 
-        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, memberClusters: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, memberClusters: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -3650,13 +3650,13 @@ extension ElastiCache {
         /// The offering identifier.
         public let reservedCacheNodesOfferingId: String?
         /// The time the reservation started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The state of the reserved cache node.
         public let state: String?
         /// The hourly price charged for this reserved cache node.
         public let usagePrice: Double?
 
-        public init(cacheNodeCount: Int? = nil, cacheNodeType: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservationARN: String? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
+        public init(cacheNodeCount: Int? = nil, cacheNodeType: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservationARN: String? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String? = nil, startTime: Date? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.cacheNodeCount = cacheNodeCount
             self.cacheNodeType = cacheNodeType
             self.duration = duration
@@ -3898,13 +3898,13 @@ extension ElastiCache {
         /// Provides details of the service update
         public let serviceUpdateDescription: String?
         /// The date after which the service update is no longer available
-        public let serviceUpdateEndDate: TimeStamp?
+        public let serviceUpdateEndDate: Date?
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The recommendend date to apply the service update in order to ensure compliance. For information on compliance, see Self-Service Security Updates for Compliance.
-        public let serviceUpdateRecommendedApplyByDate: TimeStamp?
+        public let serviceUpdateRecommendedApplyByDate: Date?
         /// The date when the service update is initially available
-        public let serviceUpdateReleaseDate: TimeStamp?
+        public let serviceUpdateReleaseDate: Date?
         /// The severity of the service update
         public let serviceUpdateSeverity: ServiceUpdateSeverity?
         /// The status of the service update
@@ -3912,7 +3912,7 @@ extension ElastiCache {
         /// Reflects the nature of the service update
         public let serviceUpdateType: ServiceUpdateType?
 
-        public init(autoUpdateAfterRecommendedApplyByDate: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, estimatedUpdateTime: String? = nil, serviceUpdateDescription: String? = nil, serviceUpdateEndDate: TimeStamp? = nil, serviceUpdateName: String? = nil, serviceUpdateRecommendedApplyByDate: TimeStamp? = nil, serviceUpdateReleaseDate: TimeStamp? = nil, serviceUpdateSeverity: ServiceUpdateSeverity? = nil, serviceUpdateStatus: ServiceUpdateStatus? = nil, serviceUpdateType: ServiceUpdateType? = nil) {
+        public init(autoUpdateAfterRecommendedApplyByDate: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, estimatedUpdateTime: String? = nil, serviceUpdateDescription: String? = nil, serviceUpdateEndDate: Date? = nil, serviceUpdateName: String? = nil, serviceUpdateRecommendedApplyByDate: Date? = nil, serviceUpdateReleaseDate: Date? = nil, serviceUpdateSeverity: ServiceUpdateSeverity? = nil, serviceUpdateStatus: ServiceUpdateStatus? = nil, serviceUpdateType: ServiceUpdateType? = nil) {
             self.autoUpdateAfterRecommendedApplyByDate = autoUpdateAfterRecommendedApplyByDate
             self.engine = engine
             self.engineVersion = engineVersion
@@ -3986,7 +3986,7 @@ extension ElastiCache {
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
         /// The date and time when the source cluster was created.
-        public let cacheClusterCreateTime: TimeStamp?
+        public let cacheClusterCreateTime: Date?
         /// The user-supplied identifier of the source cluster.
         public let cacheClusterId: String?
         /// The name of the compute and memory capacity node type for the source cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
@@ -4033,7 +4033,7 @@ extension ElastiCache {
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group for the source cluster.
         public let vpcId: String?
 
-        public init(arn: String? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: Date? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.automaticFailover = automaticFailover
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -4209,11 +4209,11 @@ extension ElastiCache {
 
     public struct TimeRangeFilter: AWSEncodableShape {
         /// The end time of the time range filter
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The start time of the time range filter
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -4276,9 +4276,9 @@ extension ElastiCache {
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The recommended date to apply the service update to ensure compliance. For information on compliance, see Self-Service Security Updates for Compliance.
-        public let serviceUpdateRecommendedApplyByDate: TimeStamp?
+        public let serviceUpdateRecommendedApplyByDate: Date?
         /// The date the update is first available
-        public let serviceUpdateReleaseDate: TimeStamp?
+        public let serviceUpdateReleaseDate: Date?
         /// The severity of the service update
         public let serviceUpdateSeverity: ServiceUpdateSeverity?
         /// The status of the service update
@@ -4288,13 +4288,13 @@ extension ElastiCache {
         /// If yes, all nodes in the replication group have been updated by the recommended apply-by date. If no, at least one node in the replication group have not been updated by the recommended apply-by date. If N/A, the replication group was created after the recommended apply-by date.
         public let slaMet: SlaMet?
         /// The date that the service update is available to a replication group
-        public let updateActionAvailableDate: TimeStamp?
+        public let updateActionAvailableDate: Date?
         /// The status of the update action
         public let updateActionStatus: UpdateActionStatus?
         /// The date when the UpdateActionStatus was last modified
-        public let updateActionStatusModifiedDate: TimeStamp?
+        public let updateActionStatusModifiedDate: Date?
 
-        public init(cacheClusterId: String? = nil, cacheNodeUpdateStatus: [CacheNodeUpdateStatus]? = nil, engine: String? = nil, estimatedUpdateTime: String? = nil, nodeGroupUpdateStatus: [NodeGroupUpdateStatus]? = nil, nodesUpdated: String? = nil, replicationGroupId: String? = nil, serviceUpdateName: String? = nil, serviceUpdateRecommendedApplyByDate: TimeStamp? = nil, serviceUpdateReleaseDate: TimeStamp? = nil, serviceUpdateSeverity: ServiceUpdateSeverity? = nil, serviceUpdateStatus: ServiceUpdateStatus? = nil, serviceUpdateType: ServiceUpdateType? = nil, slaMet: SlaMet? = nil, updateActionAvailableDate: TimeStamp? = nil, updateActionStatus: UpdateActionStatus? = nil, updateActionStatusModifiedDate: TimeStamp? = nil) {
+        public init(cacheClusterId: String? = nil, cacheNodeUpdateStatus: [CacheNodeUpdateStatus]? = nil, engine: String? = nil, estimatedUpdateTime: String? = nil, nodeGroupUpdateStatus: [NodeGroupUpdateStatus]? = nil, nodesUpdated: String? = nil, replicationGroupId: String? = nil, serviceUpdateName: String? = nil, serviceUpdateRecommendedApplyByDate: Date? = nil, serviceUpdateReleaseDate: Date? = nil, serviceUpdateSeverity: ServiceUpdateSeverity? = nil, serviceUpdateStatus: ServiceUpdateStatus? = nil, serviceUpdateType: ServiceUpdateType? = nil, slaMet: SlaMet? = nil, updateActionAvailableDate: Date? = nil, updateActionStatus: UpdateActionStatus? = nil, updateActionStatusModifiedDate: Date? = nil) {
             self.cacheClusterId = cacheClusterId
             self.cacheNodeUpdateStatus = cacheNodeUpdateStatus
             self.engine = engine

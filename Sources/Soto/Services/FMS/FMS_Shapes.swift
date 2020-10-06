@@ -116,9 +116,9 @@ extension FMS {
         /// An array of applications in the AWS Firewall Manager applications list.
         public let appsList: [App]
         /// The time that the AWS Firewall Manager applications list was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The time that the AWS Firewall Manager applications list was last updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The ID of the AWS Firewall Manager applications list.
         public let listId: String?
         /// The name of the AWS Firewall Manager applications list.
@@ -128,7 +128,7 @@ extension FMS {
         /// A map of previous version numbers to their corresponding App object arrays.
         public let previousAppsList: [String: [App]]?
 
-        public init(appsList: [App], createTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, listId: String? = nil, listName: String, listUpdateToken: String? = nil, previousAppsList: [String: [App]]? = nil) {
+        public init(appsList: [App], createTime: Date? = nil, lastUpdateTime: Date? = nil, listId: String? = nil, listName: String, listUpdateToken: String? = nil, previousAppsList: [String: [App]]? = nil) {
             self.appsList = appsList
             self.createTime = createTime
             self.lastUpdateTime = lastUpdateTime
@@ -542,7 +542,7 @@ extension FMS {
 
     public struct GetProtectionStatusRequest: AWSEncodableShape {
         /// The end of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Specifies the number of objects that you want AWS Firewall Manager to return for this request. If you have more objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of objects.
         public let maxResults: Int?
         /// The AWS account that is in scope of the policy that you want to get the details for.
@@ -552,9 +552,9 @@ extension FMS {
         /// The ID of the policy for which you want to get the attack information.
         public let policyId: String
         /// The start of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, maxResults: Int? = nil, memberAccountId: String? = nil, nextToken: String? = nil, policyId: String, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, maxResults: Int? = nil, memberAccountId: String? = nil, nextToken: String? = nil, policyId: String, startTime: Date? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
             self.memberAccountId = memberAccountId
@@ -1062,7 +1062,7 @@ extension FMS {
         /// Indicates if over 100 resources are noncompliant with the AWS Firewall Manager policy.
         public let evaluationLimitExceeded: Bool?
         /// A timestamp that indicates when the returned information should be considered out of date.
-        public let expiredAt: TimeStamp?
+        public let expiredAt: Date?
         /// Details about problems with dependent services, such as AWS WAF or AWS Config, that are causing a resource to be noncompliant. The details include the name of the dependent service and the error message received that indicates the problem with the service.
         public let issueInfoMap: [DependentServiceName: String]?
         /// The AWS account ID.
@@ -1074,7 +1074,7 @@ extension FMS {
         /// An array of resources that aren't protected by the AWS WAF or Shield Advanced policy or that aren't in compliance with the security group policy.
         public let violators: [ComplianceViolator]?
 
-        public init(evaluationLimitExceeded: Bool? = nil, expiredAt: TimeStamp? = nil, issueInfoMap: [DependentServiceName: String]? = nil, memberAccount: String? = nil, policyId: String? = nil, policyOwner: String? = nil, violators: [ComplianceViolator]? = nil) {
+        public init(evaluationLimitExceeded: Bool? = nil, expiredAt: Date? = nil, issueInfoMap: [DependentServiceName: String]? = nil, memberAccount: String? = nil, policyId: String? = nil, policyOwner: String? = nil, violators: [ComplianceViolator]? = nil) {
             self.evaluationLimitExceeded = evaluationLimitExceeded
             self.expiredAt = expiredAt
             self.issueInfoMap = issueInfoMap
@@ -1101,7 +1101,7 @@ extension FMS {
         /// Details about problems with dependent services, such as AWS WAF or AWS Config, that are causing a resource to be noncompliant. The details include the name of the dependent service and the error message received that indicates the problem with the service.
         public let issueInfoMap: [DependentServiceName: String]?
         /// Timestamp of the last update to the EvaluationResult objects.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// The member account ID.
         public let memberAccount: String?
         /// The ID of the AWS Firewall Manager policy.
@@ -1111,7 +1111,7 @@ extension FMS {
         /// The AWS account that created the AWS Firewall Manager policy.
         public let policyOwner: String?
 
-        public init(evaluationResults: [EvaluationResult]? = nil, issueInfoMap: [DependentServiceName: String]? = nil, lastUpdated: TimeStamp? = nil, memberAccount: String? = nil, policyId: String? = nil, policyName: String? = nil, policyOwner: String? = nil) {
+        public init(evaluationResults: [EvaluationResult]? = nil, issueInfoMap: [DependentServiceName: String]? = nil, lastUpdated: Date? = nil, memberAccount: String? = nil, policyId: String? = nil, policyName: String? = nil, policyOwner: String? = nil) {
             self.evaluationResults = evaluationResults
             self.issueInfoMap = issueInfoMap
             self.lastUpdated = lastUpdated
@@ -1167,9 +1167,9 @@ extension FMS {
 
     public struct ProtocolsListData: AWSEncodableShape & AWSDecodableShape {
         /// The time that the AWS Firewall Manager protocols list was created.
-        public let createTime: TimeStamp?
+        public let createTime: Date?
         /// The time that the AWS Firewall Manager protocols list was last updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The ID of the AWS Firewall Manager protocols list.
         public let listId: String?
         /// The name of the AWS Firewall Manager protocols list.
@@ -1181,7 +1181,7 @@ extension FMS {
         /// An array of protocols in the AWS Firewall Manager protocols list.
         public let protocolsList: [String]
 
-        public init(createTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, listId: String? = nil, listName: String, listUpdateToken: String? = nil, previousProtocolsList: [String: [String]]? = nil, protocolsList: [String]) {
+        public init(createTime: Date? = nil, lastUpdateTime: Date? = nil, listId: String? = nil, listName: String, listUpdateToken: String? = nil, previousProtocolsList: [String: [String]]? = nil, protocolsList: [String]) {
             self.createTime = createTime
             self.lastUpdateTime = lastUpdateTime
             self.listId = listId

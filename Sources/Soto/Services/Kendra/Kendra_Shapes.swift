@@ -505,11 +505,11 @@ extension Kendra {
 
     public struct ClickFeedback: AWSEncodableShape {
         /// The Unix timestamp of the date and time that the result was clicked.
-        public let clickTime: TimeStamp
+        public let clickTime: Date
         /// The unique identifier of the search result that was clicked.
         public let resultId: String
 
-        public init(clickTime: TimeStamp, resultId: String) {
+        public init(clickTime: Date, resultId: String) {
             self.clickTime = clickTime
             self.resultId = resultId
         }
@@ -879,7 +879,7 @@ extension Kendra {
 
     public struct DataSourceSummary: AWSDecodableShape {
         /// The UNIX datetime that the data source was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The unique identifier for the data source.
         public let id: String?
         /// The name of the data source.
@@ -889,9 +889,9 @@ extension Kendra {
         /// The type of the data source.
         public let `type`: DataSourceType?
         /// The UNIX datetime that the data source was lasted updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(createdAt: TimeStamp? = nil, id: String? = nil, name: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: TimeStamp? = nil) {
+        public init(createdAt: Date? = nil, id: String? = nil, name: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.id = id
             self.name = name
@@ -914,7 +914,7 @@ extension Kendra {
         /// If the reason that the synchronization failed is due to an error with the underlying data source, this field contains a code that identifies the error.
         public let dataSourceErrorCode: String?
         /// The UNIX datetime that the synchronization job was completed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// If the Status field is set to FAILED, the ErrorCode field contains a the reason that the synchronization failed.
         public let errorCode: ErrorCode?
         /// If the Status field is set to ERROR, the ErrorMessage field contains a description of the error that caused the synchronization to fail.
@@ -924,11 +924,11 @@ extension Kendra {
         /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a connector.
         public let metrics: DataSourceSyncJobMetrics?
         /// The UNIX datetime that the synchronization job was started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The execution status of the synchronization job. When the Status field is set to SUCCEEDED, the synchronization job is done. If the status code is set to FAILED, the ErrorCode and ErrorMessage fields give you the reason for the failure.
         public let status: DataSourceSyncJobStatus?
 
-        public init(dataSourceErrorCode: String? = nil, endTime: TimeStamp? = nil, errorCode: ErrorCode? = nil, errorMessage: String? = nil, executionId: String? = nil, metrics: DataSourceSyncJobMetrics? = nil, startTime: TimeStamp? = nil, status: DataSourceSyncJobStatus? = nil) {
+        public init(dataSourceErrorCode: String? = nil, endTime: Date? = nil, errorCode: ErrorCode? = nil, errorMessage: String? = nil, executionId: String? = nil, metrics: DataSourceSyncJobMetrics? = nil, startTime: Date? = nil, status: DataSourceSyncJobStatus? = nil) {
             self.dataSourceErrorCode = dataSourceErrorCode
             self.endTime = endTime
             self.errorCode = errorCode
@@ -1213,7 +1213,7 @@ extension Kendra {
         /// Information that describes where the data source is located and how the data source is configured. The specific information in the description depends on the data source provider.
         public let configuration: DataSourceConfiguration?
         /// The Unix timestamp of when the data source was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the data source.
         public let description: String?
         /// When the Status field value is FAILED, the ErrorMessage field contains a description of the error that caused the data source to fail.
@@ -1233,9 +1233,9 @@ extension Kendra {
         /// The type of the data source.
         public let `type`: DataSourceType?
         /// The Unix timestamp of when the data source was last updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(configuration: DataSourceConfiguration? = nil, createdAt: TimeStamp? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: TimeStamp? = nil) {
+        public init(configuration: DataSourceConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil) {
             self.configuration = configuration
             self.createdAt = createdAt
             self.description = description
@@ -1294,7 +1294,7 @@ extension Kendra {
 
     public struct DescribeFaqResponse: AWSDecodableShape {
         /// The date and time that the FAQ was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the FAQ that you provided when it was created.
         public let description: String?
         /// If the Status field is FAILED, the ErrorMessage field contains the reason why the FAQ failed.
@@ -1311,9 +1311,9 @@ extension Kendra {
         /// The status of the FAQ. It is ready to use when the status is ACTIVE.
         public let status: FaqStatus?
         /// The date and time that the FAQ was last updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, s3Path: S3Path? = nil, status: FaqStatus? = nil, updatedAt: TimeStamp? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, s3Path: S3Path? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.errorMessage = errorMessage
@@ -1363,7 +1363,7 @@ extension Kendra {
         /// For enterprise edtion indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A 0 for the query capacity or the storage capacity indicates that the index is using the default capacity for the index.
         public let capacityUnits: CapacityUnitsConfiguration?
         /// The Unix datetime that the index was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the index.
         public let description: String?
         /// Configuration settings for any metadata applied to the documents in the index.
@@ -1385,9 +1385,9 @@ extension Kendra {
         /// The current status of the index. When the value is ACTIVE, the index is ready for use. If the Status field value is FAILED, the ErrorMessage field contains a message that explains why.
         public let status: IndexStatus?
         /// The Unix datetime that the index was last updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(capacityUnits: CapacityUnitsConfiguration? = nil, createdAt: TimeStamp? = nil, description: String? = nil, documentMetadataConfigurations: [DocumentMetadataConfiguration]? = nil, edition: IndexEdition? = nil, errorMessage: String? = nil, id: String? = nil, indexStatistics: IndexStatistics? = nil, name: String? = nil, roleArn: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: IndexStatus? = nil, updatedAt: TimeStamp? = nil) {
+        public init(capacityUnits: CapacityUnitsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, documentMetadataConfigurations: [DocumentMetadataConfiguration]? = nil, edition: IndexEdition? = nil, errorMessage: String? = nil, id: String? = nil, indexStatistics: IndexStatistics? = nil, name: String? = nil, roleArn: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: IndexStatus? = nil, updatedAt: Date? = nil) {
             self.capacityUnits = capacityUnits
             self.createdAt = createdAt
             self.description = description
@@ -1494,7 +1494,7 @@ extension Kendra {
 
     public struct DocumentAttributeValue: AWSEncodableShape & AWSDecodableShape {
         /// A date expressed as an ISO 8601 string.
-        public let dateValue: TimeStamp?
+        public let dateValue: Date?
         /// A long integer value.
         public let longValue: Int64?
         /// A list of strings.
@@ -1502,7 +1502,7 @@ extension Kendra {
         /// A string, such as "department".
         public let stringValue: String?
 
-        public init(dateValue: TimeStamp? = nil, longValue: Int64? = nil, stringListValue: [String]? = nil, stringValue: String? = nil) {
+        public init(dateValue: Date? = nil, longValue: Int64? = nil, stringListValue: [String]? = nil, stringValue: String? = nil) {
             self.dateValue = dateValue
             self.longValue = longValue
             self.stringListValue = stringListValue
@@ -1643,7 +1643,7 @@ extension Kendra {
 
     public struct FaqSummary: AWSDecodableShape {
         /// The UNIX datetime that the FAQ was added to the index.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The unique identifier of the FAQ.
         public let id: String?
         /// The name that you assigned the FAQ when you created or updated the FAQ.
@@ -1651,9 +1651,9 @@ extension Kendra {
         /// The current status of the FAQ. When the status is ACTIVE the FAQ is ready for use.
         public let status: FaqStatus?
         /// The UNIX datetime that the FAQ was last updated.
-        public let updatedAt: TimeStamp?
+        public let updatedAt: Date?
 
-        public init(createdAt: TimeStamp? = nil, id: String? = nil, name: String? = nil, status: FaqStatus? = nil, updatedAt: TimeStamp? = nil) {
+        public init(createdAt: Date? = nil, id: String? = nil, name: String? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.id = id
             self.name = name
@@ -1693,7 +1693,7 @@ extension Kendra {
 
     public struct IndexConfigurationSummary: AWSDecodableShape {
         /// The Unix timestamp when the index was created.
-        public let createdAt: TimeStamp
+        public let createdAt: Date
         /// Indicates whether the index is a enterprise edition index or a developer edition index.
         public let edition: IndexEdition?
         /// A unique identifier for the index. Use this to identify the index when you are using operations such as Query, DescribeIndex, UpdateIndex, and DeleteIndex.
@@ -1703,9 +1703,9 @@ extension Kendra {
         /// The current status of the index. When the status is ACTIVE, the index is ready to search.
         public let status: IndexStatus
         /// The Unix timestamp when the index was last updated by the UpdateIndex operation.
-        public let updatedAt: TimeStamp
+        public let updatedAt: Date
 
-        public init(createdAt: TimeStamp, edition: IndexEdition? = nil, id: String? = nil, name: String? = nil, status: IndexStatus, updatedAt: TimeStamp) {
+        public init(createdAt: Date, edition: IndexEdition? = nil, id: String? = nil, name: String? = nil, status: IndexStatus, updatedAt: Date) {
             self.createdAt = createdAt
             self.edition = edition
             self.id = id
@@ -3179,11 +3179,11 @@ extension Kendra {
 
     public struct TimeRange: AWSEncodableShape {
         /// The UNIX datetime of the end of the time range.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The UNIX datetime of the beginning of the time range.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.startTime = startTime
         }

@@ -745,7 +745,7 @@ extension ServiceQuotas {
         /// The case Id for the service quota increase request.
         public let caseId: String?
         /// The date and time when the service quota increase request was received and the case Id was created.
-        public let created: TimeStamp?
+        public let created: Date?
         /// New increased value for the service quota.
         public let desiredValue: Double?
         /// Identifies if the quota is global.
@@ -753,7 +753,7 @@ extension ServiceQuotas {
         /// The unique identifier of a requested service quota change.
         public let id: String?
         /// The date and time of the most recent change in the service quota increase request.
-        public let lastUpdated: TimeStamp?
+        public let lastUpdated: Date?
         /// The Amazon Resource Name (ARN) of the service quota.
         public let quotaArn: String?
         /// Specifies the service quota that you want to use.
@@ -771,7 +771,7 @@ extension ServiceQuotas {
         /// Specifies the unit used for the quota.
         public let unit: String?
 
-        public init(caseId: String? = nil, created: TimeStamp? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, id: String? = nil, lastUpdated: TimeStamp? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaName: String? = nil, requester: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, status: RequestStatus? = nil, unit: String? = nil) {
+        public init(caseId: String? = nil, created: Date? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, id: String? = nil, lastUpdated: Date? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaName: String? = nil, requester: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, status: RequestStatus? = nil, unit: String? = nil) {
             self.caseId = caseId
             self.created = created
             self.desiredValue = desiredValue

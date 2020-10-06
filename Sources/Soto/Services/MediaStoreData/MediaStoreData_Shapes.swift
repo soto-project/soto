@@ -103,9 +103,9 @@ extension MediaStoreData {
         /// The ETag that represents a unique instance of the object.
         public let eTag: String?
         /// The date and time that the object was last modified.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
 
-        public init(cacheControl: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil) {
+        public init(cacheControl: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.cacheControl = cacheControl
             self.contentLength = contentLength
             self.contentType = contentType
@@ -176,11 +176,11 @@ extension MediaStoreData {
         /// The ETag that represents a unique instance of the object.
         public let eTag: String?
         /// The date and time that the object was last modified.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The HTML status code of the request. Status codes ranging from 200 to 299 indicate success. All other status codes indicate the type of error that occurred.
         public let statusCode: Int
 
-        public init(body: AWSPayload? = nil, cacheControl: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil, statusCode: Int) {
+        public init(body: AWSPayload? = nil, cacheControl: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil, statusCode: Int) {
             self.body = body
             self.cacheControl = cacheControl
             self.contentLength = contentLength
@@ -211,13 +211,13 @@ extension MediaStoreData {
         /// The ETag that represents a unique instance of the item.
         public let eTag: String?
         /// The date and time that the item was last modified.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The name of the item.
         public let name: String?
         /// The item type (folder or object).
         public let `type`: ItemType?
 
-        public init(contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil, name: String? = nil, type: ItemType? = nil) {
+        public init(contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil, name: String? = nil, type: ItemType? = nil) {
             self.contentLength = contentLength
             self.contentType = contentType
             self.eTag = eTag

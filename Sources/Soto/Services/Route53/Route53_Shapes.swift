@@ -391,9 +391,9 @@ extension Route53 {
         /// The current state of the request. PENDING indicates that this request has not yet been applied to all Amazon Route 53 DNS servers.
         public let status: ChangeStatus
         /// The date and time that the change request was submitted in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
-        public let submittedAt: TimeStamp
+        public let submittedAt: Date
 
-        public init(comment: String? = nil, id: String, status: ChangeStatus, submittedAt: TimeStamp) {
+        public init(comment: String? = nil, id: String, status: ChangeStatus, submittedAt: Date) {
             self.comment = comment
             self.id = id
             self.status = status
@@ -3226,11 +3226,11 @@ extension Route53 {
 
     public struct StatusReport: AWSDecodableShape {
         /// The date and time that the health checker performed the health check in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
-        public let checkedTime: TimeStamp?
+        public let checkedTime: Date?
         /// A description of the status of the health check endpoint as reported by one of the Amazon Route 53 health checkers.
         public let status: String?
 
-        public init(checkedTime: TimeStamp? = nil, status: String? = nil) {
+        public init(checkedTime: Date? = nil, status: String? = nil) {
             self.checkedTime = checkedTime
             self.status = status
         }

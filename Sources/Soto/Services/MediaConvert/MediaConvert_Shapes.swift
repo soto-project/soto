@@ -5943,8 +5943,8 @@ extension MediaConvert {
         /// The tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up.
         public let billingTagsSource: BillingTagsSource?
         /// The time, in Unix epoch format in seconds, when the job got created.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var createdAt: Date?
         /// A job's phase can be PROBING, TRANSCODING OR UPLOADING
         public let currentPhase: JobPhase?
         /// Error code for the job
@@ -5986,7 +5986,7 @@ extension MediaConvert {
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, createdAt: TimeStamp? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, createdAt: Date? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.accelerationStatus = accelerationStatus
             self.arn = arn
@@ -6130,15 +6130,15 @@ extension MediaConvert {
         /// An optional category you create to organize your job templates.
         public let category: String?
         /// The timestamp in epoch seconds for Job template creation.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var createdAt: Date?
         /// An optional description you create for each job template.
         public let description: String?
         /// Optional list of hop destinations.
         public let hopDestinations: [HopDestination]?
         /// The timestamp in epoch seconds when the Job template was last updated.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var lastUpdated: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastUpdated: Date?
         /// A name you create for each job template. Each name must be unique within your account.
         public let name: String
         /// Relative priority on the job.
@@ -6152,7 +6152,7 @@ extension MediaConvert {
         /// A job template can be of two types: system or custom. System or built-in job templates can't be modified or deleted by the user.
         public let `type`: `Type`?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, lastUpdated: TimeStamp? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, lastUpdated: Date? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
             self.accelerationSettings = accelerationSettings
             self.arn = arn
             self.category = category
@@ -7723,13 +7723,13 @@ extension MediaConvert {
         /// An optional category you create to organize your presets.
         public let category: String?
         /// The timestamp in epoch seconds for preset creation.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var createdAt: Date?
         /// An optional description you create for each preset.
         public let description: String?
         /// The timestamp in epoch seconds when the preset was last updated.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var lastUpdated: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastUpdated: Date?
         /// A name you create for each preset. Each name must be unique within your account.
         public let name: String
         /// Settings for preset
@@ -7737,7 +7737,7 @@ extension MediaConvert {
         /// A preset can be of two types: system or custom. System or built-in preset can't be modified or deleted by the user.
         public let `type`: `Type`?
 
-        public init(arn: String? = nil, category: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, name: String, settings: PresetSettings, type: `Type`? = nil) {
+        public init(arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String, settings: PresetSettings, type: `Type`? = nil) {
             self.arn = arn
             self.category = category
             self.createdAt = createdAt
@@ -7866,13 +7866,13 @@ extension MediaConvert {
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
         /// The timestamp in epoch seconds for when you created the queue.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var createdAt: Date?
         /// An optional description that you create for each queue.
         public let description: String?
         /// The timestamp in epoch seconds for when you most recently updated the queue.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var lastUpdated: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastUpdated: Date?
         /// A name that you create for each queue. Each name must be unique within your account.
         public let name: String
         /// Specifies whether the pricing plan for the queue is on-demand or reserved. For on-demand, you pay per minute, billed in increments of .01 minute. For reserved, you pay for the transcoding capacity of the entire queue, regardless of how much or how little you use it. Reserved pricing requires a 12-month commitment.
@@ -7888,7 +7888,7 @@ extension MediaConvert {
         /// Specifies whether this on-demand queue is system or custom. System queues are built in. You can't modify or delete system queues. You can create and modify custom queues.
         public let `type`: `Type`?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, name: String, pricingPlan: PricingPlan? = nil, progressingJobsCount: Int? = nil, reservationPlan: ReservationPlan? = nil, status: QueueStatus? = nil, submittedJobsCount: Int? = nil, type: `Type`? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String, pricingPlan: PricingPlan? = nil, progressingJobsCount: Int? = nil, reservationPlan: ReservationPlan? = nil, status: QueueStatus? = nil, submittedJobsCount: Int? = nil, type: `Type`? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -7923,10 +7923,10 @@ extension MediaConvert {
         /// The queue that the job was on before the transition.
         public let sourceQueue: String?
         /// The time, in Unix epoch format, that the job moved from the source queue to the destination queue.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var timestamp: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var timestamp: Date?
 
-        public init(destinationQueue: String? = nil, sourceQueue: String? = nil, timestamp: TimeStamp? = nil) {
+        public init(destinationQueue: String? = nil, sourceQueue: String? = nil, timestamp: Date? = nil) {
             self.destinationQueue = destinationQueue
             self.sourceQueue = sourceQueue
             self.timestamp = timestamp
@@ -8008,11 +8008,11 @@ extension MediaConvert {
         /// The length of the term of your reserved queue pricing plan commitment.
         public let commitment: Commitment?
         /// The timestamp in epoch seconds for when the current pricing plan term for this reserved queue expires.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var expiresAt: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var expiresAt: Date?
         /// The timestamp in epoch seconds for when you set up the current pricing plan for this reserved queue.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var purchasedAt: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var purchasedAt: Date?
         /// Specifies whether the term of your reserved queue pricing plan is automatically extended (AUTO_RENEW) or expires (EXPIRE) at the end of the term.
         public let renewalType: RenewalType?
         /// Specifies the number of reserved transcode slots (RTS) for this queue. The number of RTS determines how many jobs the queue can process in parallel; each RTS can process one job at a time. When you increase this number, you extend your existing commitment with a new 12-month commitment for a larger number of RTS. The new commitment begins when you purchase the additional capacity. You can't decrease the number of RTS in your reserved queue.
@@ -8020,7 +8020,7 @@ extension MediaConvert {
         /// Specifies whether the pricing plan for your reserved queue is ACTIVE or EXPIRED.
         public let status: ReservationPlanStatus?
 
-        public init(commitment: Commitment? = nil, expiresAt: TimeStamp? = nil, purchasedAt: TimeStamp? = nil, renewalType: RenewalType? = nil, reservedSlots: Int? = nil, status: ReservationPlanStatus? = nil) {
+        public init(commitment: Commitment? = nil, expiresAt: Date? = nil, purchasedAt: Date? = nil, renewalType: RenewalType? = nil, reservedSlots: Int? = nil, status: ReservationPlanStatus? = nil) {
             self.commitment = commitment
             self.expiresAt = expiresAt
             self.purchasedAt = purchasedAt
@@ -8397,16 +8397,16 @@ extension MediaConvert {
 
     public struct Timing: AWSDecodableShape {
         /// The time, in Unix epoch format, that the transcoding job finished
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var finishTime: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var finishTime: Date?
         /// The time, in Unix epoch format, that transcoding for the job began.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var startTime: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var startTime: Date?
         /// The time, in Unix epoch format, that you submitted the job.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var submitTime: TimeStamp?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var submitTime: Date?
 
-        public init(finishTime: TimeStamp? = nil, startTime: TimeStamp? = nil, submitTime: TimeStamp? = nil) {
+        public init(finishTime: Date? = nil, startTime: Date? = nil, submitTime: Date? = nil) {
             self.finishTime = finishTime
             self.startTime = startTime
             self.submitTime = submitTime

@@ -51,13 +51,13 @@ extension ApiGatewayManagementApi {
     }
 
     public struct GetConnectionResponse: AWSDecodableShape {
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var connectedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var connectedAt: Date?
         public let identity: Identity?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastActiveAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastActiveAt: Date?
 
-        public init(connectedAt: TimeStamp? = nil, identity: Identity? = nil, lastActiveAt: TimeStamp? = nil) {
+        public init(connectedAt: Date? = nil, identity: Identity? = nil, lastActiveAt: Date? = nil) {
             self.connectedAt = connectedAt
             self.identity = identity
             self.lastActiveAt = lastActiveAt

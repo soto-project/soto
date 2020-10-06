@@ -800,13 +800,13 @@ extension LakeFormation {
 
     public struct ResourceInfo: AWSDecodableShape {
         /// The date and time the resource was last modified.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// The IAM role that registered a resource.
         public let roleArn: String?
 
-        public init(lastModified: TimeStamp? = nil, resourceArn: String? = nil, roleArn: String? = nil) {
+        public init(lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil) {
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn

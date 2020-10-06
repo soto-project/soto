@@ -121,8 +121,8 @@ extension DataExchange {
         /// The type of file your data is stored in. Currently, the supported asset type is S3_SNAPSHOT.
         public let assetType: AssetType
         /// The date and time that the asset was created, in ISO 8601 format.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// The unique identifier for the data set associated with this asset.
         public let dataSetId: String
         /// The unique identifier for the asset.
@@ -134,10 +134,10 @@ extension DataExchange {
         /// The asset ID of the owned asset corresponding to the entitled asset being viewed. This parameter is returned when an asset owner is viewing the entitled copy of its owned asset.
         public let sourceId: String?
         /// The date and time that the asset was last updated, in ISO 8601 format.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
 
-        public init(arn: String, assetDetails: AssetDetails, assetType: AssetType, createdAt: TimeStamp, dataSetId: String, id: String, name: String, revisionId: String, sourceId: String? = nil, updatedAt: TimeStamp) {
+        public init(arn: String, assetDetails: AssetDetails, assetType: AssetType, createdAt: Date, dataSetId: String, id: String, name: String, revisionId: String, sourceId: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.assetDetails = assetDetails
             self.assetType = assetType
@@ -223,8 +223,8 @@ extension DataExchange {
     public struct CreateDataSetResponse: AWSDecodableShape {
         public let arn: String?
         public let assetType: AssetType?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let description: String?
         public let id: String?
         public let name: String?
@@ -232,10 +232,10 @@ extension DataExchange {
         public let originDetails: OriginDetails?
         public let sourceId: String?
         public let tags: [String: String]?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, assetType: AssetType? = nil, createdAt: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, origin: Origin? = nil, originDetails: OriginDetails? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, origin: Origin? = nil, originDetails: OriginDetails? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetType = assetType
             self.createdAt = createdAt
@@ -287,17 +287,17 @@ extension DataExchange {
 
     public struct CreateJobResponse: AWSDecodableShape {
         public let arn: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let details: ResponseDetails?
         public let errors: [JobError]?
         public let id: String?
         public let state: State?
         public let `type`: `Type`?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.details = details
@@ -351,17 +351,17 @@ extension DataExchange {
     public struct CreateRevisionResponse: AWSDecodableShape {
         public let arn: String?
         public let comment: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let dataSetId: String?
         public let finalized: Bool?
         public let id: String?
         public let sourceId: String?
         public let tags: [String: String]?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, comment: String? = nil, createdAt: TimeStamp? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
@@ -392,8 +392,8 @@ extension DataExchange {
         /// The type of file your data is stored in. Currently, the supported asset type is S3_SNAPSHOT.
         public let assetType: AssetType
         /// The date and time that the data set was created, in ISO 8601 format.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// The description for the data set.
         public let description: String
         /// The unique identifier for the data set.
@@ -407,10 +407,10 @@ extension DataExchange {
         /// The data set ID of the owned data set corresponding to the entitled data set being viewed. This parameter is returned when a data set owner is viewing the entitled copy of its owned data set.
         public let sourceId: String?
         /// The date and time that the data set was last updated, in ISO 8601 format.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
 
-        public init(arn: String, assetType: AssetType, createdAt: TimeStamp, description: String, id: String, name: String, origin: Origin, originDetails: OriginDetails? = nil, sourceId: String? = nil, updatedAt: TimeStamp) {
+        public init(arn: String, assetType: AssetType, createdAt: Date, description: String, id: String, name: String, origin: Origin, originDetails: OriginDetails? = nil, sourceId: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.assetType = assetType
             self.createdAt = createdAt
@@ -534,10 +534,10 @@ extension DataExchange {
         /// The signed URL for the export request.
         public let signedUrl: String?
         /// The date and time that the signed URL expires, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var signedUrlExpiresAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var signedUrlExpiresAt: Date?
 
-        public init(assetId: String, dataSetId: String, revisionId: String, signedUrl: String? = nil, signedUrlExpiresAt: TimeStamp? = nil) {
+        public init(assetId: String, dataSetId: String, revisionId: String, signedUrl: String? = nil, signedUrlExpiresAt: Date? = nil) {
             self.assetId = assetId
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -645,17 +645,17 @@ extension DataExchange {
         public let arn: String?
         public let assetDetails: AssetDetails?
         public let assetType: AssetType?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let dataSetId: String?
         public let id: String?
         public let name: String?
         public let revisionId: String?
         public let sourceId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, assetDetails: AssetDetails? = nil, assetType: AssetType? = nil, createdAt: TimeStamp? = nil, dataSetId: String? = nil, id: String? = nil, name: String? = nil, revisionId: String? = nil, sourceId: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, assetDetails: AssetDetails? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, dataSetId: String? = nil, id: String? = nil, name: String? = nil, revisionId: String? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetDetails = assetDetails
             self.assetType = assetType
@@ -699,8 +699,8 @@ extension DataExchange {
     public struct GetDataSetResponse: AWSDecodableShape {
         public let arn: String?
         public let assetType: AssetType?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let description: String?
         public let id: String?
         public let name: String?
@@ -708,10 +708,10 @@ extension DataExchange {
         public let originDetails: OriginDetails?
         public let sourceId: String?
         public let tags: [String: String]?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, assetType: AssetType? = nil, createdAt: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, origin: Origin? = nil, originDetails: OriginDetails? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, origin: Origin? = nil, originDetails: OriginDetails? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetType = assetType
             self.createdAt = createdAt
@@ -756,17 +756,17 @@ extension DataExchange {
 
     public struct GetJobResponse: AWSDecodableShape {
         public let arn: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let details: ResponseDetails?
         public let errors: [JobError]?
         public let id: String?
         public let state: State?
         public let `type`: `Type`?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.details = details
@@ -809,17 +809,17 @@ extension DataExchange {
     public struct GetRevisionResponse: AWSDecodableShape {
         public let arn: String?
         public let comment: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let dataSetId: String?
         public let finalized: Bool?
         public let id: String?
         public let sourceId: String?
         public let tags: [String: String]?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, comment: String? = nil, createdAt: TimeStamp? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
@@ -899,10 +899,10 @@ extension DataExchange {
         /// The signed URL.
         public let signedUrl: String?
         /// The time and date at which the signed URL expires, in ISO 8601 format.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var signedUrlExpiresAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var signedUrlExpiresAt: Date?
 
-        public init(assetName: String, dataSetId: String, md5Hash: String? = nil, revisionId: String, signedUrl: String? = nil, signedUrlExpiresAt: TimeStamp? = nil) {
+        public init(assetName: String, dataSetId: String, md5Hash: String? = nil, revisionId: String, signedUrl: String? = nil, signedUrlExpiresAt: Date? = nil) {
             self.assetName = assetName
             self.dataSetId = dataSetId
             self.md5Hash = md5Hash
@@ -967,8 +967,8 @@ extension DataExchange {
         /// The ARN for the job.
         public let arn: String
         /// The date and time that the job was created, in ISO 8601 format.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// Details of the operation to be performed by the job, such as export destination details or import source details.
         public let details: ResponseDetails
         /// Errors for jobs.
@@ -980,10 +980,10 @@ extension DataExchange {
         /// The job type.
         public let `type`: `Type`
         /// The date and time that the job was last updated, in ISO 8601 format.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
 
-        public init(arn: String, createdAt: TimeStamp, details: ResponseDetails, errors: [JobError]? = nil, id: String, state: State, type: `Type`, updatedAt: TimeStamp) {
+        public init(arn: String, createdAt: Date, details: ResponseDetails, errors: [JobError]? = nil, id: String, state: State, type: `Type`, updatedAt: Date) {
             self.arn = arn
             self.createdAt = createdAt
             self.details = details
@@ -1306,8 +1306,8 @@ extension DataExchange {
         /// An optional comment about the revision.
         public let comment: String?
         /// The date and time that the revision was created, in ISO 8601 format.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// The unique identifier for the data set associated with this revision.
         public let dataSetId: String
         /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
@@ -1317,10 +1317,10 @@ extension DataExchange {
         /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
         public let sourceId: String?
         /// The date and time that the revision was last updated, in ISO 8601 format.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
 
-        public init(arn: String, comment: String? = nil, createdAt: TimeStamp, dataSetId: String, finalized: Bool? = nil, id: String, sourceId: String? = nil, updatedAt: TimeStamp) {
+        public init(arn: String, comment: String? = nil, createdAt: Date, dataSetId: String, finalized: Bool? = nil, id: String, sourceId: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
@@ -1438,17 +1438,17 @@ extension DataExchange {
         public let arn: String?
         public let assetDetails: AssetDetails?
         public let assetType: AssetType?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let dataSetId: String?
         public let id: String?
         public let name: String?
         public let revisionId: String?
         public let sourceId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, assetDetails: AssetDetails? = nil, assetType: AssetType? = nil, createdAt: TimeStamp? = nil, dataSetId: String? = nil, id: String? = nil, name: String? = nil, revisionId: String? = nil, sourceId: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, assetDetails: AssetDetails? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, dataSetId: String? = nil, id: String? = nil, name: String? = nil, revisionId: String? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetDetails = assetDetails
             self.assetType = assetType
@@ -1501,18 +1501,18 @@ extension DataExchange {
     public struct UpdateDataSetResponse: AWSDecodableShape {
         public let arn: String?
         public let assetType: AssetType?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let description: String?
         public let id: String?
         public let name: String?
         public let origin: Origin?
         public let originDetails: OriginDetails?
         public let sourceId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, assetType: AssetType? = nil, createdAt: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, origin: Origin? = nil, originDetails: OriginDetails? = nil, sourceId: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, origin: Origin? = nil, originDetails: OriginDetails? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetType = assetType
             self.createdAt = createdAt
@@ -1573,16 +1573,16 @@ extension DataExchange {
     public struct UpdateRevisionResponse: AWSDecodableShape {
         public let arn: String?
         public let comment: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         public let dataSetId: String?
         public let finalized: Bool?
         public let id: String?
         public let sourceId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(arn: String? = nil, comment: String? = nil, createdAt: TimeStamp? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt

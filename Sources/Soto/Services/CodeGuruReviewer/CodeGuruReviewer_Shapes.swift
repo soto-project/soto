@@ -118,9 +118,9 @@ extension CodeGuruReviewer {
         /// The Amazon Resource Name (ARN) of the  CodeReview  object.
         public let codeReviewArn: String?
         ///  The time, in milliseconds since the epoch, when the code review was created.
-        public let createdTimeStamp: TimeStamp?
+        public let createdTimeStamp: Date?
         ///  The time, in milliseconds since the epoch, when the code review was last updated.
-        public let lastUpdatedTimeStamp: TimeStamp?
+        public let lastUpdatedTimeStamp: Date?
         ///  The statistics from the code review.
         public let metrics: Metrics?
         ///  The name of the code review.
@@ -142,7 +142,7 @@ extension CodeGuruReviewer {
         ///  The type of code review.
         public let `type`: `Type`?
 
-        public init(codeReviewArn: String? = nil, createdTimeStamp: TimeStamp? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
+        public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
@@ -179,9 +179,9 @@ extension CodeGuruReviewer {
         /// The Amazon Resource Name (ARN) of the  CodeReview  object.
         public let codeReviewArn: String?
         ///  The time, in milliseconds since the epoch, when the code review was created.
-        public let createdTimeStamp: TimeStamp?
+        public let createdTimeStamp: Date?
         ///  The time, in milliseconds since the epoch, when the code review was last updated.
-        public let lastUpdatedTimeStamp: TimeStamp?
+        public let lastUpdatedTimeStamp: Date?
         ///  The statistics from the code review.
         public let metricsSummary: MetricsSummary?
         ///  The name of the code review.
@@ -199,7 +199,7 @@ extension CodeGuruReviewer {
         ///  The type of the code review.
         public let `type`: `Type`?
 
-        public init(codeReviewArn: String? = nil, createdTimeStamp: TimeStamp? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, metricsSummary: MetricsSummary? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, state: JobState? = nil, type: `Type`? = nil) {
+        public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metricsSummary: MetricsSummary? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, state: JobState? = nil, type: `Type`? = nil) {
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
@@ -800,9 +800,9 @@ extension CodeGuruReviewer {
         /// The Amazon Resource Name (ARN) of the  CodeReview  object.
         public let codeReviewArn: String?
         ///  The time at which the feedback was created.
-        public let createdTimeStamp: TimeStamp?
+        public let createdTimeStamp: Date?
         ///  The time at which the feedback was last updated.
-        public let lastUpdatedTimeStamp: TimeStamp?
+        public let lastUpdatedTimeStamp: Date?
         ///  List for storing reactions. Reactions are utf-8 text code for emojis. You can send an empty list to clear off all your feedback.
         public let reactions: [Reaction]?
         ///  The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback.
@@ -810,7 +810,7 @@ extension CodeGuruReviewer {
         ///  The ID of the user that made the API call.   The UserId is an IAM principal that can be specified as an AWS account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the AWS Identity and Access Management User Guide.
         public let userId: String?
 
-        public init(codeReviewArn: String? = nil, createdTimeStamp: TimeStamp? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, reactions: [Reaction]? = nil, recommendationId: String? = nil, userId: String? = nil) {
+        public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, reactions: [Reaction]? = nil, recommendationId: String? = nil, userId: String? = nil) {
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
@@ -931,9 +931,9 @@ extension CodeGuruReviewer {
         ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the AWS CodeStar Connections API Reference.
         public let connectionArn: String?
         /// The time, in milliseconds since the epoch, when the repository association was created.
-        public let createdTimeStamp: TimeStamp?
+        public let createdTimeStamp: Date?
         /// The time, in milliseconds since the epoch, when the repository association was last updated.
-        public let lastUpdatedTimeStamp: TimeStamp?
+        public let lastUpdatedTimeStamp: Date?
         /// The name of the repository.
         public let name: String?
         /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
@@ -945,7 +945,7 @@ extension CodeGuruReviewer {
         /// A description of why the repository association is in the current state.
         public let stateReason: String?
 
-        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, createdTimeStamp: TimeStamp? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil, stateReason: String? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil, stateReason: String? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.connectionArn = connectionArn
@@ -980,7 +980,7 @@ extension CodeGuruReviewer {
         ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the AWS CodeStar Connections API Reference.
         public let connectionArn: String?
         /// The time, in milliseconds since the epoch, since the repository association was last updated.
-        public let lastUpdatedTimeStamp: TimeStamp?
+        public let lastUpdatedTimeStamp: Date?
         /// The name of the repository association.
         public let name: String?
         /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
@@ -990,7 +990,7 @@ extension CodeGuruReviewer {
         /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.
         public let state: RepositoryAssociationState?
 
-        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, lastUpdatedTimeStamp: TimeStamp? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.connectionArn = connectionArn

@@ -248,7 +248,7 @@ extension DatabaseMigrationService {
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
         /// The date that the certificate was created.
-        public let certificateCreationDate: TimeStamp?
+        public let certificateCreationDate: Date?
         /// A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
         public let certificateIdentifier: String?
         /// The owner of the certificate.
@@ -262,11 +262,11 @@ extension DatabaseMigrationService {
         /// The signing algorithm for the certificate.
         public let signingAlgorithm: String?
         /// The beginning date that the certificate is valid.
-        public let validFromDate: TimeStamp?
+        public let validFromDate: Date?
         /// The final date that the certificate is valid.
-        public let validToDate: TimeStamp?
+        public let validToDate: Date?
 
-        public init(certificateArn: String? = nil, certificateCreationDate: TimeStamp? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: Data? = nil, keyLength: Int? = nil, signingAlgorithm: String? = nil, validFromDate: TimeStamp? = nil, validToDate: TimeStamp? = nil) {
+        public init(certificateArn: String? = nil, certificateCreationDate: Date? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: Data? = nil, keyLength: Int? = nil, signingAlgorithm: String? = nil, validFromDate: Date? = nil, validToDate: Date? = nil) {
             self.certificateArn = certificateArn
             self.certificateCreationDate = certificateCreationDate
             self.certificateIdentifier = certificateIdentifier
@@ -637,7 +637,7 @@ extension DatabaseMigrationService {
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS.
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
-        public let cdcStartTime: TimeStamp?
+        public let cdcStartTime: Date?
         /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
         public let cdcStopPosition: String?
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
@@ -659,7 +659,7 @@ extension DatabaseMigrationService {
         /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide.
         public let taskData: String?
 
-        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue, replicationInstanceArn: String, replicationTaskIdentifier: String, replicationTaskSettings: String? = nil, sourceEndpointArn: String, tableMappings: String, tags: [Tag]? = nil, targetEndpointArn: String, taskData: String? = nil) {
+        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue, replicationInstanceArn: String, replicationTaskIdentifier: String, replicationTaskSettings: String? = nil, sourceEndpointArn: String, tableMappings: String, tags: [Tag]? = nil, targetEndpointArn: String, taskData: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
@@ -1209,7 +1209,7 @@ extension DatabaseMigrationService {
         /// The duration of the events to be listed.
         public let duration: Int?
         /// The end time for the events to be listed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// A list of event categories for the source type that you've chosen.
         public let eventCategories: [String]?
         /// Filters applied to events.
@@ -1223,9 +1223,9 @@ extension DatabaseMigrationService {
         /// The type of AWS DMS resource that generates events. Valid values: replication-instance | replication-task
         public let sourceType: SourceType?
         /// The start time for the events to be listed.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(duration: Int? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: Date? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: Date? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.eventCategories = eventCategories
@@ -1924,7 +1924,7 @@ extension DatabaseMigrationService {
 
     public struct Event: AWSDecodableShape {
         /// The date of the event.
-        public let date: TimeStamp?
+        public let date: Date?
         /// The event categories available for the specified source type.
         public let eventCategories: [String]?
         /// The event message.
@@ -1934,7 +1934,7 @@ extension DatabaseMigrationService {
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | endpoint | replication-task
         public let sourceType: SourceType?
 
-        public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
+        public init(date: Date? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
             self.message = message
@@ -2529,7 +2529,7 @@ extension DatabaseMigrationService {
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS.
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
-        public let cdcStartTime: TimeStamp?
+        public let cdcStartTime: Date?
         /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
         public let cdcStopPosition: String?
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
@@ -2545,7 +2545,7 @@ extension DatabaseMigrationService {
         /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide.
         public let taskData: String?
 
-        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, tableMappings: String? = nil, taskData: String? = nil) {
+        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, tableMappings: String? = nil, taskData: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
@@ -2804,17 +2804,17 @@ extension DatabaseMigrationService {
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
         /// The date of the maintenance window when the action is to be applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
-        public let autoAppliedAfterDate: TimeStamp?
+        public let autoAppliedAfterDate: Date?
         /// The effective date when the pending maintenance action will be applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API operation, and also the AutoAppliedAfterDate and ForcedApplyDate parameter values. This value is blank if an opt-in request has not been received and nothing has been specified for AutoAppliedAfterDate or ForcedApplyDate.
-        public let currentApplyDate: TimeStamp?
+        public let currentApplyDate: Date?
         /// A description providing more detail about the maintenance action.
         public let description: String?
         /// The date when the maintenance action will be automatically applied. The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any immediate opt-in requests are ignored.
-        public let forcedApplyDate: TimeStamp?
+        public let forcedApplyDate: Date?
         /// The type of opt-in request that has been received for the resource.
         public let optInStatus: String?
 
-        public init(action: String? = nil, autoAppliedAfterDate: TimeStamp? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil, forcedApplyDate: TimeStamp? = nil, optInStatus: String? = nil) {
+        public init(action: String? = nil, autoAppliedAfterDate: Date? = nil, currentApplyDate: Date? = nil, description: String? = nil, forcedApplyDate: Date? = nil, optInStatus: String? = nil) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
             self.currentApplyDate = currentApplyDate
@@ -3037,13 +3037,13 @@ extension DatabaseMigrationService {
         /// The last failure message for the schema.
         public let lastFailureMessage: String?
         /// The date the schema was last refreshed.
-        public let lastRefreshDate: TimeStamp?
+        public let lastRefreshDate: Date?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String?
         /// The status of the schema.
         public let status: RefreshSchemasStatusTypeValue?
 
-        public init(endpointArn: String? = nil, lastFailureMessage: String? = nil, lastRefreshDate: TimeStamp? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil) {
+        public init(endpointArn: String? = nil, lastFailureMessage: String? = nil, lastRefreshDate: Date? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil) {
             self.endpointArn = endpointArn
             self.lastFailureMessage = lastFailureMessage
             self.lastRefreshDate = lastRefreshDate
@@ -3127,9 +3127,9 @@ extension DatabaseMigrationService {
         /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
         public let engineVersion: String?
         ///  The expiration date of the free replication instance that is part of the Free DMS program.
-        public let freeUntil: TimeStamp?
+        public let freeUntil: Date?
         /// The time the replication instance was created.
-        public let instanceCreateTime: TimeStamp?
+        public let instanceCreateTime: Date?
         /// An AWS KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
@@ -3159,7 +3159,7 @@ extension DatabaseMigrationService {
         /// The VPC security group for the instance.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: TimeStamp? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -3299,13 +3299,13 @@ extension DatabaseMigrationService {
         /// The Amazon Resource Name (ARN) of the replication task.
         public let replicationTaskArn: String?
         /// The date the replication task was created.
-        public let replicationTaskCreationDate: TimeStamp?
+        public let replicationTaskCreationDate: Date?
         /// The user-assigned replication task identifier or name. Constraints:   Must contain 1-255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
         public let replicationTaskIdentifier: String?
         /// The settings for the replication task.
         public let replicationTaskSettings: String?
         /// The date the replication task is scheduled to start.
-        public let replicationTaskStartDate: TimeStamp?
+        public let replicationTaskStartDate: Date?
         /// The statistics for the task, including elapsed time, tables loaded, and table errors.
         public let replicationTaskStats: ReplicationTaskStats?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -3321,7 +3321,7 @@ extension DatabaseMigrationService {
         /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide.
         public let taskData: String?
 
-        public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: TimeStamp? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil, taskData: String? = nil) {
+        public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: Date? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: Date? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil, taskData: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStopPosition = cdcStopPosition
             self.lastFailureMessage = lastFailureMessage
@@ -3376,11 +3376,11 @@ extension DatabaseMigrationService {
         ///  The replication task identifier of the task on which the task assessment was run.
         public let replicationTaskIdentifier: String?
         /// The date the task assessment was completed.
-        public let replicationTaskLastAssessmentDate: TimeStamp?
+        public let replicationTaskLastAssessmentDate: Date?
         ///  The URL of the S3 object containing the task assessment results.
         public let s3ObjectUrl: String?
 
-        public init(assessmentResults: String? = nil, assessmentResultsFile: String? = nil, assessmentStatus: String? = nil, replicationTaskArn: String? = nil, replicationTaskIdentifier: String? = nil, replicationTaskLastAssessmentDate: TimeStamp? = nil, s3ObjectUrl: String? = nil) {
+        public init(assessmentResults: String? = nil, assessmentResultsFile: String? = nil, assessmentStatus: String? = nil, replicationTaskArn: String? = nil, replicationTaskIdentifier: String? = nil, replicationTaskLastAssessmentDate: Date? = nil, s3ObjectUrl: String? = nil) {
             self.assessmentResults = assessmentResults
             self.assessmentResultsFile = assessmentResultsFile
             self.assessmentStatus = assessmentStatus
@@ -3413,7 +3413,7 @@ extension DatabaseMigrationService {
         /// Amazon Resource Name (ARN) of this assessment run.
         public let replicationTaskAssessmentRunArn: String?
         /// Date on which the assessment run was created using the StartReplicationTaskAssessmentRun operation.
-        public let replicationTaskAssessmentRunCreationDate: TimeStamp?
+        public let replicationTaskAssessmentRunCreationDate: Date?
         /// Encryption mode used to encrypt the assessment run results.
         public let resultEncryptionMode: String?
         /// ARN of the AWS KMS encryption key used to encrypt the assessment run results.
@@ -3427,7 +3427,7 @@ extension DatabaseMigrationService {
         /// Assessment run status.  This status can have one of the following values:    "cancelling" – The assessment run was canceled by the CancelReplicationTaskAssessmentRun operation.    "deleting" – The assessment run was deleted by the DeleteReplicationTaskAssessmentRun operation.    "failed" – At least one individual assessment completed with a failed status.    "error-provisioning" – An internal error occurred while resources were provisioned (during provisioning status).    "error-executing" – An internal error occurred while individual assessments ran (during running status).    "invalid state" – The assessment run is in an unknown state.    "passed" – All individual assessments have completed, and none has a failed status.    "provisioning" – Resources required to run individual assessments are being provisioned.    "running" – Individual assessments are being run.    "starting" – The assessment run is starting, but resources are not yet being provisioned for individual assessments.
         public let status: String?
 
-        public init(assessmentProgress: ReplicationTaskAssessmentRunProgress? = nil, assessmentRunName: String? = nil, lastFailureMessage: String? = nil, replicationTaskArn: String? = nil, replicationTaskAssessmentRunArn: String? = nil, replicationTaskAssessmentRunCreationDate: TimeStamp? = nil, resultEncryptionMode: String? = nil, resultKmsKeyArn: String? = nil, resultLocationBucket: String? = nil, resultLocationFolder: String? = nil, serviceAccessRoleArn: String? = nil, status: String? = nil) {
+        public init(assessmentProgress: ReplicationTaskAssessmentRunProgress? = nil, assessmentRunName: String? = nil, lastFailureMessage: String? = nil, replicationTaskArn: String? = nil, replicationTaskAssessmentRunArn: String? = nil, replicationTaskAssessmentRunCreationDate: Date? = nil, resultEncryptionMode: String? = nil, resultKmsKeyArn: String? = nil, resultLocationBucket: String? = nil, resultLocationFolder: String? = nil, serviceAccessRoleArn: String? = nil, status: String? = nil) {
             self.assessmentProgress = assessmentProgress
             self.assessmentRunName = assessmentRunName
             self.lastFailureMessage = lastFailureMessage
@@ -3483,11 +3483,11 @@ extension DatabaseMigrationService {
         /// Amazon Resource Name (ARN) of this individual assessment.
         public let replicationTaskIndividualAssessmentArn: String?
         /// Date when this individual assessment was started as part of running the StartReplicationTaskAssessmentRun operation.
-        public let replicationTaskIndividualAssessmentStartDate: TimeStamp?
+        public let replicationTaskIndividualAssessmentStartDate: Date?
         /// Individual assessment status. This status can have one of the following values:    "cancelled"     "error"     "failed"     "passed"     "pending"     "running"
         public let status: String?
 
-        public init(individualAssessmentName: String? = nil, replicationTaskAssessmentRunArn: String? = nil, replicationTaskIndividualAssessmentArn: String? = nil, replicationTaskIndividualAssessmentStartDate: TimeStamp? = nil, status: String? = nil) {
+        public init(individualAssessmentName: String? = nil, replicationTaskAssessmentRunArn: String? = nil, replicationTaskIndividualAssessmentArn: String? = nil, replicationTaskIndividualAssessmentStartDate: Date? = nil, status: String? = nil) {
             self.individualAssessmentName = individualAssessmentName
             self.replicationTaskAssessmentRunArn = replicationTaskAssessmentRunArn
             self.replicationTaskIndividualAssessmentArn = replicationTaskIndividualAssessmentArn
@@ -3508,17 +3508,17 @@ extension DatabaseMigrationService {
         /// The elapsed time of the task, in milliseconds.
         public let elapsedTimeMillis: Int64?
         /// The date the replication task was started either with a fresh start or a target reload.
-        public let freshStartDate: TimeStamp?
+        public let freshStartDate: Date?
         /// The date the replication task full load was completed.
-        public let fullLoadFinishDate: TimeStamp?
+        public let fullLoadFinishDate: Date?
         /// The percent complete for the full load migration task.
         public let fullLoadProgressPercent: Int?
         /// The date the replication task full load was started.
-        public let fullLoadStartDate: TimeStamp?
+        public let fullLoadStartDate: Date?
         /// The date the replication task was started either with a fresh start or a resume. For more information, see StartReplicationTaskType.
-        public let startDate: TimeStamp?
+        public let startDate: Date?
         /// The date the replication task was stopped.
-        public let stopDate: TimeStamp?
+        public let stopDate: Date?
         /// The number of errors that have occurred during this task.
         public let tablesErrored: Int?
         /// The number of tables loaded for this task.
@@ -3528,7 +3528,7 @@ extension DatabaseMigrationService {
         /// The number of tables queued for this task.
         public let tablesQueued: Int?
 
-        public init(elapsedTimeMillis: Int64? = nil, freshStartDate: TimeStamp? = nil, fullLoadFinishDate: TimeStamp? = nil, fullLoadProgressPercent: Int? = nil, fullLoadStartDate: TimeStamp? = nil, startDate: TimeStamp? = nil, stopDate: TimeStamp? = nil, tablesErrored: Int? = nil, tablesLoaded: Int? = nil, tablesLoading: Int? = nil, tablesQueued: Int? = nil) {
+        public init(elapsedTimeMillis: Int64? = nil, freshStartDate: Date? = nil, fullLoadFinishDate: Date? = nil, fullLoadProgressPercent: Int? = nil, fullLoadStartDate: Date? = nil, startDate: Date? = nil, stopDate: Date? = nil, tablesErrored: Int? = nil, tablesLoaded: Int? = nil, tablesLoading: Int? = nil, tablesQueued: Int? = nil) {
             self.elapsedTimeMillis = elapsedTimeMillis
             self.freshStartDate = freshStartDate
             self.fullLoadFinishDate = fullLoadFinishDate
@@ -3755,7 +3755,7 @@ extension DatabaseMigrationService {
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS.
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
-        public let cdcStartTime: TimeStamp?
+        public let cdcStartTime: Date?
         /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
         public let cdcStopPosition: String?
         /// The Amazon Resource Name (ARN) of the replication task to be started.
@@ -3763,7 +3763,7 @@ extension DatabaseMigrationService {
         /// The type of replication task.
         public let startReplicationTaskType: StartReplicationTaskTypeValue
 
-        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, replicationTaskArn: String, startReplicationTaskType: StartReplicationTaskTypeValue) {
+        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, replicationTaskArn: String, startReplicationTaskType: StartReplicationTaskTypeValue) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
@@ -3906,7 +3906,7 @@ extension DatabaseMigrationService {
         /// The number of rows that failed conditional checks during the full load operation (valid only for migrations where DynamoDB is the target).
         public let fullLoadCondtnlChkFailedRows: Int64?
         /// The time when the full load operation completed.
-        public let fullLoadEndTime: TimeStamp?
+        public let fullLoadEndTime: Date?
         /// The number of rows that failed to load during the full load operation (valid only for migrations where DynamoDB is the target).
         public let fullLoadErrorRows: Int64?
         /// A value that indicates if the table was reloaded (true) or loaded as part of a new full load operation (false).
@@ -3914,11 +3914,11 @@ extension DatabaseMigrationService {
         /// The number of rows added during the full load operation.
         public let fullLoadRows: Int64?
         /// The time when the full load operation started.
-        public let fullLoadStartTime: TimeStamp?
+        public let fullLoadStartTime: Date?
         /// The number of insert actions performed on a table.
         public let inserts: Int64?
         /// The last time a table was updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The schema name.
         public let schemaName: String?
         /// The name of the table.
@@ -3938,7 +3938,7 @@ extension DatabaseMigrationService {
         /// The number of records that couldn't be validated.
         public let validationSuspendedRecords: Int64?
 
-        public init(ddls: Int64? = nil, deletes: Int64? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadEndTime: TimeStamp? = nil, fullLoadErrorRows: Int64? = nil, fullLoadReloaded: Bool? = nil, fullLoadRows: Int64? = nil, fullLoadStartTime: TimeStamp? = nil, inserts: Int64? = nil, lastUpdateTime: TimeStamp? = nil, schemaName: String? = nil, tableName: String? = nil, tableState: String? = nil, updates: Int64? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, validationState: String? = nil, validationStateDetails: String? = nil, validationSuspendedRecords: Int64? = nil) {
+        public init(ddls: Int64? = nil, deletes: Int64? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadEndTime: Date? = nil, fullLoadErrorRows: Int64? = nil, fullLoadReloaded: Bool? = nil, fullLoadRows: Int64? = nil, fullLoadStartTime: Date? = nil, inserts: Int64? = nil, lastUpdateTime: Date? = nil, schemaName: String? = nil, tableName: String? = nil, tableState: String? = nil, updates: Int64? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, validationState: String? = nil, validationStateDetails: String? = nil, validationSuspendedRecords: Int64? = nil) {
             self.ddls = ddls
             self.deletes = deletes
             self.fullLoadCondtnlChkFailedRows = fullLoadCondtnlChkFailedRows

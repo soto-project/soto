@@ -404,7 +404,7 @@ extension Firehose {
 
     public struct DeliveryStreamDescription: AWSDecodableShape {
         /// The date and time that the delivery stream was created.
-        public let createTimestamp: TimeStamp?
+        public let createTimestamp: Date?
         /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let deliveryStreamARN: String
         /// Indicates the server-side encryption (SSE) status for the delivery stream.
@@ -422,13 +422,13 @@ extension Firehose {
         /// Indicates whether there are more destinations available to list.
         public let hasMoreDestinations: Bool
         /// The date and time that the delivery stream was last updated.
-        public let lastUpdateTimestamp: TimeStamp?
+        public let lastUpdateTimestamp: Date?
         /// If the DeliveryStreamType parameter is KinesisStreamAsSource, a SourceDescription object describing the source Kinesis data stream.
         public let source: SourceDescription?
         /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
         public let versionId: String
 
-        public init(createTimestamp: TimeStamp? = nil, deliveryStreamARN: String, deliveryStreamEncryptionConfiguration: DeliveryStreamEncryptionConfiguration? = nil, deliveryStreamName: String, deliveryStreamStatus: DeliveryStreamStatus, deliveryStreamType: DeliveryStreamType, destinations: [DestinationDescription], failureDescription: FailureDescription? = nil, hasMoreDestinations: Bool, lastUpdateTimestamp: TimeStamp? = nil, source: SourceDescription? = nil, versionId: String) {
+        public init(createTimestamp: Date? = nil, deliveryStreamARN: String, deliveryStreamEncryptionConfiguration: DeliveryStreamEncryptionConfiguration? = nil, deliveryStreamName: String, deliveryStreamStatus: DeliveryStreamStatus, deliveryStreamType: DeliveryStreamType, destinations: [DestinationDescription], failureDescription: FailureDescription? = nil, hasMoreDestinations: Bool, lastUpdateTimestamp: Date? = nil, source: SourceDescription? = nil, versionId: String) {
             self.createTimestamp = createTimestamp
             self.deliveryStreamARN = deliveryStreamARN
             self.deliveryStreamEncryptionConfiguration = deliveryStreamEncryptionConfiguration
@@ -1506,13 +1506,13 @@ extension Firehose {
 
     public struct KinesisStreamSourceDescription: AWSDecodableShape {
         /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream starting with this timestamp.
-        public let deliveryStartTimestamp: TimeStamp?
+        public let deliveryStartTimestamp: Date?
         /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
         public let kinesisStreamARN: String?
         /// The ARN of the role used by the source Kinesis data stream. For more information, see AWS Identity and Access Management (IAM) ARN Format.
         public let roleARN: String?
 
-        public init(deliveryStartTimestamp: TimeStamp? = nil, kinesisStreamARN: String? = nil, roleARN: String? = nil) {
+        public init(deliveryStartTimestamp: Date? = nil, kinesisStreamARN: String? = nil, roleARN: String? = nil) {
             self.deliveryStartTimestamp = deliveryStartTimestamp
             self.kinesisStreamARN = kinesisStreamARN
             self.roleARN = roleARN

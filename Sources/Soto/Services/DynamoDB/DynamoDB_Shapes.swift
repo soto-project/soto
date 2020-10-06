@@ -355,11 +355,11 @@ extension DynamoDB {
         /// The Amazon Resource Name (ARN) of the backup the table was archived to, when applicable in the archival reason. If you wish to restore this backup to the same table name, you will need to delete the original table.
         public let archivalBackupArn: String?
         /// The date and time when table archival was initiated by DynamoDB, in UNIX epoch time format.
-        public let archivalDateTime: TimeStamp?
+        public let archivalDateTime: Date?
         /// The reason DynamoDB archived the table. Currently, the only possible value is:    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The table was archived due to the table's AWS KMS key being inaccessible for more than seven days. An On-Demand backup was created at the archival time.
         public let archivalReason: String?
 
-        public init(archivalBackupArn: String? = nil, archivalDateTime: TimeStamp? = nil, archivalReason: String? = nil) {
+        public init(archivalBackupArn: String? = nil, archivalDateTime: Date? = nil, archivalReason: String? = nil) {
             self.archivalBackupArn = archivalBackupArn
             self.archivalDateTime = archivalDateTime
             self.archivalReason = archivalReason
@@ -597,9 +597,9 @@ extension DynamoDB {
         /// ARN associated with the backup.
         public let backupArn: String
         /// Time at which the backup was created. This is the request time of the backup.
-        public let backupCreationDateTime: TimeStamp
+        public let backupCreationDateTime: Date
         /// Time at which the automatic on-demand backup created by DynamoDB will expire. This SYSTEM on-demand backup expires automatically 35 days after its creation.
-        public let backupExpiryDateTime: TimeStamp?
+        public let backupExpiryDateTime: Date?
         /// Name of the requested backup.
         public let backupName: String
         /// Size of the backup in bytes.
@@ -609,7 +609,7 @@ extension DynamoDB {
         /// BackupType:    USER - You create and manage these using the on-demand backup feature.    SYSTEM - If you delete a table with point-in-time recovery enabled, a SYSTEM backup is automatically created and is retained for 35 days (at no additional cost). System backups allow you to restore the deleted table to the state it was in just before the point of deletion.     AWS_BACKUP - On-demand backup created by you from AWS Backup service.
         public let backupType: BackupType
 
-        public init(backupArn: String, backupCreationDateTime: TimeStamp, backupExpiryDateTime: TimeStamp? = nil, backupName: String, backupSizeBytes: Int64? = nil, backupStatus: BackupStatus, backupType: BackupType) {
+        public init(backupArn: String, backupCreationDateTime: Date, backupExpiryDateTime: Date? = nil, backupName: String, backupSizeBytes: Int64? = nil, backupStatus: BackupStatus, backupType: BackupType) {
             self.backupArn = backupArn
             self.backupCreationDateTime = backupCreationDateTime
             self.backupExpiryDateTime = backupExpiryDateTime
@@ -634,9 +634,9 @@ extension DynamoDB {
         /// ARN associated with the backup.
         public let backupArn: String?
         /// Time at which the backup was created.
-        public let backupCreationDateTime: TimeStamp?
+        public let backupCreationDateTime: Date?
         /// Time at which the automatic on-demand backup created by DynamoDB will expire. This SYSTEM on-demand backup expires automatically 35 days after its creation.
-        public let backupExpiryDateTime: TimeStamp?
+        public let backupExpiryDateTime: Date?
         /// Name of the specified backup.
         public let backupName: String?
         /// Size of the backup in bytes.
@@ -652,7 +652,7 @@ extension DynamoDB {
         /// Name of the table.
         public let tableName: String?
 
-        public init(backupArn: String? = nil, backupCreationDateTime: TimeStamp? = nil, backupExpiryDateTime: TimeStamp? = nil, backupName: String? = nil, backupSizeBytes: Int64? = nil, backupStatus: BackupStatus? = nil, backupType: BackupType? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil) {
+        public init(backupArn: String? = nil, backupCreationDateTime: Date? = nil, backupExpiryDateTime: Date? = nil, backupName: String? = nil, backupSizeBytes: Int64? = nil, backupStatus: BackupStatus? = nil, backupType: BackupType? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil) {
             self.backupArn = backupArn
             self.backupCreationDateTime = backupCreationDateTime
             self.backupExpiryDateTime = backupExpiryDateTime
@@ -780,9 +780,9 @@ extension DynamoDB {
         /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PROVISIONED - Sets the read/write capacity mode to PROVISIONED. We recommend using PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the read/write capacity mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable workloads.
         public let billingMode: BillingMode?
         /// Represents the time when PAY_PER_REQUEST was last set as the read/write capacity mode.
-        public let lastUpdateToPayPerRequestDateTime: TimeStamp?
+        public let lastUpdateToPayPerRequestDateTime: Date?
 
-        public init(billingMode: BillingMode? = nil, lastUpdateToPayPerRequestDateTime: TimeStamp? = nil) {
+        public init(billingMode: BillingMode? = nil, lastUpdateToPayPerRequestDateTime: Date? = nil) {
             self.billingMode = billingMode
             self.lastUpdateToPayPerRequestDateTime = lastUpdateToPayPerRequestDateTime
         }
@@ -1571,11 +1571,11 @@ extension DynamoDB {
         /// The name of the global secondary index being described.
         public let indexName: String?
         /// Timestamp of the last time the status was changed.
-        public let lastUpdateDateTime: TimeStamp?
+        public let lastUpdateDateTime: Date?
         /// The name of the table being described.
         public let tableName: String?
 
-        public init(contributorInsightsRuleList: [String]? = nil, contributorInsightsStatus: ContributorInsightsStatus? = nil, failureException: FailureException? = nil, indexName: String? = nil, lastUpdateDateTime: TimeStamp? = nil, tableName: String? = nil) {
+        public init(contributorInsightsRuleList: [String]? = nil, contributorInsightsStatus: ContributorInsightsStatus? = nil, failureException: FailureException? = nil, indexName: String? = nil, lastUpdateDateTime: Date? = nil, tableName: String? = nil) {
             self.contributorInsightsRuleList = contributorInsightsRuleList
             self.contributorInsightsStatus = contributorInsightsStatus
             self.failureException = failureException
@@ -2154,7 +2154,7 @@ extension DynamoDB {
 
     public struct GlobalTableDescription: AWSDecodableShape {
         /// The creation time of the global table.
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The unique identifier of the global table.
         public let globalTableArn: String?
         /// The global table name.
@@ -2164,7 +2164,7 @@ extension DynamoDB {
         /// The Regions where the global table has replicas.
         public let replicationGroup: [ReplicaDescription]?
 
-        public init(creationDateTime: TimeStamp? = nil, globalTableArn: String? = nil, globalTableName: String? = nil, globalTableStatus: GlobalTableStatus? = nil, replicationGroup: [ReplicaDescription]? = nil) {
+        public init(creationDateTime: Date? = nil, globalTableArn: String? = nil, globalTableName: String? = nil, globalTableStatus: GlobalTableStatus? = nil, replicationGroup: [ReplicaDescription]? = nil) {
             self.creationDateTime = creationDateTime
             self.globalTableArn = globalTableArn
             self.globalTableName = globalTableName
@@ -2313,11 +2313,11 @@ extension DynamoDB {
         /// The backups from the table specified by TableName are listed.
         public let tableName: String?
         /// Only backups created after this time are listed. TimeRangeLowerBound is inclusive.
-        public let timeRangeLowerBound: TimeStamp?
+        public let timeRangeLowerBound: Date?
         /// Only backups created before this time are listed. TimeRangeUpperBound is exclusive.
-        public let timeRangeUpperBound: TimeStamp?
+        public let timeRangeUpperBound: Date?
 
-        public init(backupType: BackupTypeFilter? = nil, exclusiveStartBackupArn: String? = nil, limit: Int? = nil, tableName: String? = nil, timeRangeLowerBound: TimeStamp? = nil, timeRangeUpperBound: TimeStamp? = nil) {
+        public init(backupType: BackupTypeFilter? = nil, exclusiveStartBackupArn: String? = nil, limit: Int? = nil, tableName: String? = nil, timeRangeLowerBound: Date? = nil, timeRangeUpperBound: Date? = nil) {
             self.backupType = backupType
             self.exclusiveStartBackupArn = exclusiveStartBackupArn
             self.limit = limit
@@ -2623,13 +2623,13 @@ extension DynamoDB {
 
     public struct PointInTimeRecoveryDescription: AWSDecodableShape {
         /// Specifies the earliest point in time you can restore your table to. You can restore your table to any point in time during the last 35 days.
-        public let earliestRestorableDateTime: TimeStamp?
+        public let earliestRestorableDateTime: Date?
         ///  LatestRestorableDateTime is typically 5 minutes before the current time.
-        public let latestRestorableDateTime: TimeStamp?
+        public let latestRestorableDateTime: Date?
         /// The current state of point in time recovery:    ENABLING - Point in time recovery is being enabled.    ENABLED - Point in time recovery is enabled.    DISABLED - Point in time recovery is disabled.
         public let pointInTimeRecoveryStatus: PointInTimeRecoveryStatus?
 
-        public init(earliestRestorableDateTime: TimeStamp? = nil, latestRestorableDateTime: TimeStamp? = nil, pointInTimeRecoveryStatus: PointInTimeRecoveryStatus? = nil) {
+        public init(earliestRestorableDateTime: Date? = nil, latestRestorableDateTime: Date? = nil, pointInTimeRecoveryStatus: PointInTimeRecoveryStatus? = nil) {
             self.earliestRestorableDateTime = earliestRestorableDateTime
             self.latestRestorableDateTime = latestRestorableDateTime
             self.pointInTimeRecoveryStatus = pointInTimeRecoveryStatus
@@ -2705,9 +2705,9 @@ extension DynamoDB {
 
     public struct ProvisionedThroughputDescription: AWSDecodableShape {
         /// The date and time of the last provisioned throughput decrease for this table.
-        public let lastDecreaseDateTime: TimeStamp?
+        public let lastDecreaseDateTime: Date?
         /// The date and time of the last provisioned throughput increase for this table.
-        public let lastIncreaseDateTime: TimeStamp?
+        public let lastIncreaseDateTime: Date?
         /// The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Limits in the Amazon DynamoDB Developer Guide.
         public let numberOfDecreasesToday: Int64?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
@@ -2715,7 +2715,7 @@ extension DynamoDB {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public let writeCapacityUnits: Int64?
 
-        public init(lastDecreaseDateTime: TimeStamp? = nil, lastIncreaseDateTime: TimeStamp? = nil, numberOfDecreasesToday: Int64? = nil, readCapacityUnits: Int64? = nil, writeCapacityUnits: Int64? = nil) {
+        public init(lastDecreaseDateTime: Date? = nil, lastIncreaseDateTime: Date? = nil, numberOfDecreasesToday: Int64? = nil, readCapacityUnits: Int64? = nil, writeCapacityUnits: Int64? = nil) {
             self.lastDecreaseDateTime = lastDecreaseDateTime
             self.lastIncreaseDateTime = lastIncreaseDateTime
             self.numberOfDecreasesToday = numberOfDecreasesToday
@@ -3418,7 +3418,7 @@ extension DynamoDB {
 
     public struct RestoreSummary: AWSDecodableShape {
         /// Point in time or source backup time.
-        public let restoreDateTime: TimeStamp
+        public let restoreDateTime: Date
         /// Indicates if a restore is in progress or not.
         public let restoreInProgress: Bool
         /// The Amazon Resource Name (ARN) of the backup from which the table was restored.
@@ -3426,7 +3426,7 @@ extension DynamoDB {
         /// The ARN of the source table of the backup that is being restored.
         public let sourceTableArn: String?
 
-        public init(restoreDateTime: TimeStamp, restoreInProgress: Bool, sourceBackupArn: String? = nil, sourceTableArn: String? = nil) {
+        public init(restoreDateTime: Date, restoreInProgress: Bool, sourceBackupArn: String? = nil, sourceTableArn: String? = nil) {
             self.restoreDateTime = restoreDateTime
             self.restoreInProgress = restoreInProgress
             self.sourceBackupArn = sourceBackupArn
@@ -3516,7 +3516,7 @@ extension DynamoDB {
         /// Provisioned throughput settings for the restored table.
         public let provisionedThroughputOverride: ProvisionedThroughput?
         /// Time in the past to restore the table to.
-        public let restoreDateTime: TimeStamp?
+        public let restoreDateTime: Date?
         /// The DynamoDB table that will be restored. This value is an Amazon Resource Name (ARN).
         public let sourceTableArn: String?
         /// Name of the source table that is being restored.
@@ -3528,7 +3528,7 @@ extension DynamoDB {
         /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
         public let useLatestRestorableTime: Bool?
 
-        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: TimeStamp? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sSESpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
+        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: Date? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sSESpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
             self.localSecondaryIndexOverride = localSecondaryIndexOverride
@@ -3586,7 +3586,7 @@ extension DynamoDB {
 
     public struct SSEDescription: AWSDecodableShape {
         /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's AWS KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's AWS KMS key is accessible again. DynamoDB will initiate the table archival process when table's AWS KMS key remains inaccessible for more than seven days from this date.
-        public let inaccessibleEncryptionDateTime: TimeStamp?
+        public let inaccessibleEncryptionDateTime: Date?
         /// The AWS KMS customer master key (CMK) ARN used for the AWS KMS encryption.
         public let kMSMasterKeyArn: String?
         /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses AWS Key Management Service. The key is stored in your account and is managed by AWS KMS (AWS KMS charges apply).
@@ -3594,7 +3594,7 @@ extension DynamoDB {
         /// Represents the current state of server-side encryption. The only supported values are:    ENABLED - Server-side encryption is enabled.    UPDATING - Server-side encryption is being updated.
         public let status: SSEStatus?
 
-        public init(inaccessibleEncryptionDateTime: TimeStamp? = nil, kMSMasterKeyArn: String? = nil, sSEType: SSEType? = nil, status: SSEStatus? = nil) {
+        public init(inaccessibleEncryptionDateTime: Date? = nil, kMSMasterKeyArn: String? = nil, sSEType: SSEType? = nil, status: SSEStatus? = nil) {
             self.inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTime
             self.kMSMasterKeyArn = kMSMasterKeyArn
             self.sSEType = sSEType
@@ -3775,7 +3775,7 @@ extension DynamoDB {
         /// ARN of the table for which backup was created.
         public let tableArn: String?
         /// Time when the source table was created.
-        public let tableCreationDateTime: TimeStamp
+        public let tableCreationDateTime: Date
         /// Unique identifier for the table for which the backup was created.
         public let tableId: String
         /// The name of the table for which the backup was created.
@@ -3783,7 +3783,7 @@ extension DynamoDB {
         /// Size of the table in bytes. Note that this is an approximate value.
         public let tableSizeBytes: Int64?
 
-        public init(billingMode: BillingMode? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement], provisionedThroughput: ProvisionedThroughput, tableArn: String? = nil, tableCreationDateTime: TimeStamp, tableId: String, tableName: String, tableSizeBytes: Int64? = nil) {
+        public init(billingMode: BillingMode? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement], provisionedThroughput: ProvisionedThroughput, tableArn: String? = nil, tableCreationDateTime: Date, tableId: String, tableName: String, tableSizeBytes: Int64? = nil) {
             self.billingMode = billingMode
             self.itemCount = itemCount
             self.keySchema = keySchema
@@ -3883,7 +3883,7 @@ extension DynamoDB {
         /// Contains the details for the read/write capacity mode.
         public let billingModeSummary: BillingModeSummary?
         /// The date and time when the table was created, in UNIX epoch time format.
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table. It is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)   You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
         public let globalSecondaryIndexes: [GlobalSecondaryIndexDescription]?
         /// Represents the version of global tables in use, if the table is replicated across AWS Regions.
@@ -3919,7 +3919,7 @@ extension DynamoDB {
         /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The AWS KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the AWS KMS key. DynamoDB will initiate the table archival process when a table's AWS KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public let tableStatus: TableStatus?
 
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: TimeStamp? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sSEDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sSEDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary

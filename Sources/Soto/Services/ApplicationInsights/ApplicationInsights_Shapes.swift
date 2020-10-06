@@ -153,11 +153,11 @@ extension ApplicationInsights {
         ///  The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
         public let eventStatus: ConfigurationEventStatus?
         ///  The timestamp of the event.
-        public let eventTime: TimeStamp?
+        public let eventTime: Date?
         ///  The resource monitored by Application Insights.
         public let monitoredResourceARN: String?
 
-        public init(eventDetail: String? = nil, eventResourceName: String? = nil, eventResourceType: ConfigurationEventResourceType? = nil, eventStatus: ConfigurationEventStatus? = nil, eventTime: TimeStamp? = nil, monitoredResourceARN: String? = nil) {
+        public init(eventDetail: String? = nil, eventResourceName: String? = nil, eventResourceType: ConfigurationEventResourceType? = nil, eventStatus: ConfigurationEventStatus? = nil, eventTime: Date? = nil, monitoredResourceARN: String? = nil) {
             self.eventDetail = eventDetail
             self.eventResourceName = eventResourceName
             self.eventResourceType = eventResourceType
@@ -801,7 +801,7 @@ extension ApplicationInsights {
 
     public struct ListConfigurationHistoryRequest: AWSEncodableShape {
         /// The end time of the event.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
         public let eventStatus: ConfigurationEventStatus?
         ///  The maximum number of results returned by ListConfigurationHistory in paginated output. When this parameter is used, ListConfigurationHistory returns only MaxResults in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another ListConfigurationHistory request with the returned NextToken value. If this parameter is not used, then ListConfigurationHistory returns all results.
@@ -811,9 +811,9 @@ extension ApplicationInsights {
         /// Resource group to which the application belongs.
         public let resourceGroupName: String?
         /// The start time of the event.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, eventStatus: ConfigurationEventStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, eventStatus: ConfigurationEventStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.eventStatus = eventStatus
             self.maxResults = maxResults
@@ -966,7 +966,7 @@ extension ApplicationInsights {
 
     public struct ListProblemsRequest: AWSEncodableShape {
         /// The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token to request the next page of results.
@@ -974,9 +974,9 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String?
         /// The time when the problem was detected, in epoch seconds. If you don't specify a time frame for the request, problems within the past seven days are returned.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1094,7 +1094,7 @@ extension ApplicationInsights {
         ///  The state of the instance, such as STOPPING or TERMINATING.
         public let ec2State: String?
         /// The time when the observation ended, in epoch seconds.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         ///  The Amazon Resource Name (ARN) of the AWS Health Event-based observation.
         public let healthEventArn: String?
         ///  The description of the AWS Health event provided by the service, such as Amazon EC2.
@@ -1108,7 +1108,7 @@ extension ApplicationInsights {
         /// The ID of the observation type.
         public let id: String?
         /// The timestamp in the CloudWatch Logs that specifies when the matched line occurred.
-        public let lineTime: TimeStamp?
+        public let lineTime: Date?
         /// The log filter of the observation.
         public let logFilter: LogFilter?
         /// The log group name.
@@ -1124,7 +1124,7 @@ extension ApplicationInsights {
         /// The source type of the observation.
         public let sourceType: String?
         /// The time when the observation was first detected, in epoch seconds.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The unit of the source observation metric.
         public let unit: String?
         /// The value of the source observation metric.
@@ -1144,7 +1144,7 @@ extension ApplicationInsights {
         ///  The X-Ray request throttle percentage for this node.
         public let xRayThrottlePercent: Int?
 
-        public init(cloudWatchEventDetailType: String? = nil, cloudWatchEventId: String? = nil, cloudWatchEventSource: CloudWatchEventSource? = nil, codeDeployApplication: String? = nil, codeDeployDeploymentGroup: String? = nil, codeDeployDeploymentId: String? = nil, codeDeployInstanceGroupId: String? = nil, codeDeployState: String? = nil, ec2State: String? = nil, endTime: TimeStamp? = nil, healthEventArn: String? = nil, healthEventDescription: String? = nil, healthEventTypeCategory: String? = nil, healthEventTypeCode: String? = nil, healthService: String? = nil, id: String? = nil, lineTime: TimeStamp? = nil, logFilter: LogFilter? = nil, logGroup: String? = nil, logText: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, sourceARN: String? = nil, sourceType: String? = nil, startTime: TimeStamp? = nil, unit: String? = nil, value: Double? = nil, xRayErrorPercent: Int? = nil, xRayFaultPercent: Int? = nil, xRayNodeName: String? = nil, xRayNodeType: String? = nil, xRayRequestAverageLatency: Int64? = nil, xRayRequestCount: Int? = nil, xRayThrottlePercent: Int? = nil) {
+        public init(cloudWatchEventDetailType: String? = nil, cloudWatchEventId: String? = nil, cloudWatchEventSource: CloudWatchEventSource? = nil, codeDeployApplication: String? = nil, codeDeployDeploymentGroup: String? = nil, codeDeployDeploymentId: String? = nil, codeDeployInstanceGroupId: String? = nil, codeDeployState: String? = nil, ec2State: String? = nil, endTime: Date? = nil, healthEventArn: String? = nil, healthEventDescription: String? = nil, healthEventTypeCategory: String? = nil, healthEventTypeCode: String? = nil, healthService: String? = nil, id: String? = nil, lineTime: Date? = nil, logFilter: LogFilter? = nil, logGroup: String? = nil, logText: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, sourceARN: String? = nil, sourceType: String? = nil, startTime: Date? = nil, unit: String? = nil, value: Double? = nil, xRayErrorPercent: Int? = nil, xRayFaultPercent: Int? = nil, xRayNodeName: String? = nil, xRayNodeType: String? = nil, xRayRequestAverageLatency: Int64? = nil, xRayRequestCount: Int? = nil, xRayThrottlePercent: Int? = nil) {
             self.cloudWatchEventDetailType = cloudWatchEventDetailType
             self.cloudWatchEventId = cloudWatchEventId
             self.cloudWatchEventSource = cloudWatchEventSource
@@ -1223,7 +1223,7 @@ extension ApplicationInsights {
         /// The resource affected by the problem.
         public let affectedResource: String?
         /// The time when the problem ended, in epoch seconds.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Feedback provided by the user about the problem.
         public let feedback: [FeedbackKey: FeedbackValue]?
         /// The ID of the problem.
@@ -1235,13 +1235,13 @@ extension ApplicationInsights {
         /// A measure of the level of impact of the problem.
         public let severityLevel: SeverityLevel?
         /// The time when the problem started, in epoch seconds.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the problem.
         public let status: Status?
         /// The name of the problem.
         public let title: String?
 
-        public init(affectedResource: String? = nil, endTime: TimeStamp? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, startTime: TimeStamp? = nil, status: Status? = nil, title: String? = nil) {
+        public init(affectedResource: String? = nil, endTime: Date? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, startTime: Date? = nil, status: Status? = nil, title: String? = nil) {
             self.affectedResource = affectedResource
             self.endTime = endTime
             self.feedback = feedback

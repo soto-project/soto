@@ -605,9 +605,9 @@ extension EMR {
         /// The Amazon Resource Name that created or last modified the configuration.
         public let createdByArn: String
         /// The date and time that the configuration was created.
-        public let creationDateTime: TimeStamp
+        public let creationDateTime: Date
 
-        public init(createdByArn: String, creationDateTime: TimeStamp) {
+        public init(createdByArn: String, creationDateTime: Date) {
             self.createdByArn = createdByArn
             self.creationDateTime = creationDateTime
         }
@@ -968,13 +968,13 @@ extension EMR {
 
     public struct ClusterTimeline: AWSDecodableShape {
         /// The creation date and time of the cluster.
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The date and time when the cluster was terminated.
-        public let endDateTime: TimeStamp?
+        public let endDateTime: Date?
         /// The date and time when the cluster was ready to execute steps.
-        public let readyDateTime: TimeStamp?
+        public let readyDateTime: Date?
 
-        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil) {
+        public init(creationDateTime: Date? = nil, endDateTime: Date? = nil, readyDateTime: Date? = nil) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.readyDateTime = readyDateTime
@@ -1083,11 +1083,11 @@ extension EMR {
 
     public struct CreateSecurityConfigurationOutput: AWSDecodableShape {
         /// The date and time the security configuration was created.
-        public let creationDateTime: TimeStamp
+        public let creationDateTime: Date
         /// The name of the security configuration.
         public let name: String
 
-        public init(creationDateTime: TimeStamp, name: String) {
+        public init(creationDateTime: Date, name: String) {
             self.creationDateTime = creationDateTime
             self.name = name
         }
@@ -1149,15 +1149,15 @@ extension EMR {
 
     public struct DescribeJobFlowsInput: AWSEncodableShape {
         /// Return only job flows created after this date and time.
-        public let createdAfter: TimeStamp?
+        public let createdAfter: Date?
         /// Return only job flows created before this date and time.
-        public let createdBefore: TimeStamp?
+        public let createdBefore: Date?
         /// Return only job flows whose job flow ID is contained in this list.
         public let jobFlowIds: [String]?
         /// Return only job flows whose state is contained in this list.
         public let jobFlowStates: [JobFlowExecutionState]?
 
-        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, jobFlowIds: [String]? = nil, jobFlowStates: [JobFlowExecutionState]? = nil) {
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, jobFlowIds: [String]? = nil, jobFlowStates: [JobFlowExecutionState]? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.jobFlowIds = jobFlowIds
@@ -1246,13 +1246,13 @@ extension EMR {
 
     public struct DescribeSecurityConfigurationOutput: AWSDecodableShape {
         /// The date and time the security configuration was created
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The name of the security configuration.
         public let name: String?
         /// The security configuration details in JSON format.
         public let securityConfiguration: String?
 
-        public init(creationDateTime: TimeStamp? = nil, name: String? = nil, securityConfiguration: String? = nil) {
+        public init(creationDateTime: Date? = nil, name: String? = nil, securityConfiguration: String? = nil) {
             self.creationDateTime = creationDateTime
             self.name = name
             self.securityConfiguration = securityConfiguration
@@ -1819,13 +1819,13 @@ extension EMR {
 
     public struct InstanceFleetTimeline: AWSDecodableShape {
         /// The time and date the instance fleet was created.
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The time and date the instance fleet terminated.
-        public let endDateTime: TimeStamp?
+        public let endDateTime: Date?
         /// The time and date the instance fleet was ready to run jobs.
-        public let readyDateTime: TimeStamp?
+        public let readyDateTime: Date?
 
-        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil) {
+        public init(creationDateTime: Date? = nil, endDateTime: Date? = nil, readyDateTime: Date? = nil) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.readyDateTime = readyDateTime
@@ -1977,9 +1977,9 @@ extension EMR {
         /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         /// The date/time the instance group was created.
-        public let creationDateTime: TimeStamp
+        public let creationDateTime: Date
         /// The date/time the instance group was terminated.
-        public let endDateTime: TimeStamp?
+        public let endDateTime: Date?
         /// Unique identifier for the instance group.
         public let instanceGroupId: String?
         /// Target number of instances to run in the instance group.
@@ -1997,13 +1997,13 @@ extension EMR {
         /// Friendly name for the instance group.
         public let name: String?
         /// The date/time the instance group was available to the cluster.
-        public let readyDateTime: TimeStamp?
+        public let readyDateTime: Date?
         /// The date/time the instance group was started.
-        public let startDateTime: TimeStamp?
+        public let startDateTime: Date?
         /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
         public let state: InstanceGroupState
 
-        public init(bidPrice: String? = nil, creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, instanceGroupId: String? = nil, instanceRequestCount: Int, instanceRole: InstanceRoleType, instanceRunningCount: Int, instanceType: String, lastStateChangeReason: String? = nil, market: MarketType, name: String? = nil, readyDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil, state: InstanceGroupState) {
+        public init(bidPrice: String? = nil, creationDateTime: Date, endDateTime: Date? = nil, instanceGroupId: String? = nil, instanceRequestCount: Int, instanceRole: InstanceRoleType, instanceRunningCount: Int, instanceType: String, lastStateChangeReason: String? = nil, market: MarketType, name: String? = nil, readyDateTime: Date? = nil, startDateTime: Date? = nil, state: InstanceGroupState) {
             self.bidPrice = bidPrice
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -2113,13 +2113,13 @@ extension EMR {
 
     public struct InstanceGroupTimeline: AWSDecodableShape {
         /// The creation date and time of the instance group.
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The date and time when the instance group terminated.
-        public let endDateTime: TimeStamp?
+        public let endDateTime: Date?
         /// The date and time when the instance group became ready to perform tasks.
-        public let readyDateTime: TimeStamp?
+        public let readyDateTime: Date?
 
-        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil) {
+        public init(creationDateTime: Date? = nil, endDateTime: Date? = nil, readyDateTime: Date? = nil) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.readyDateTime = readyDateTime
@@ -2193,13 +2193,13 @@ extension EMR {
 
     public struct InstanceTimeline: AWSDecodableShape {
         /// The creation date and time of the instance.
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The date and time when the instance was terminated.
-        public let endDateTime: TimeStamp?
+        public let endDateTime: Date?
         /// The date and time when the instance was ready to perform tasks.
-        public let readyDateTime: TimeStamp?
+        public let readyDateTime: Date?
 
-        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil) {
+        public init(creationDateTime: Date? = nil, endDateTime: Date? = nil, readyDateTime: Date? = nil) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.readyDateTime = readyDateTime
@@ -2364,19 +2364,19 @@ extension EMR {
 
     public struct JobFlowExecutionStatusDetail: AWSDecodableShape {
         /// The creation date and time of the job flow.
-        public let creationDateTime: TimeStamp
+        public let creationDateTime: Date
         /// The completion date and time of the job flow.
-        public let endDateTime: TimeStamp?
+        public let endDateTime: Date?
         /// Description of the job flow last changed state.
         public let lastStateChangeReason: String?
         /// The date and time when the job flow was ready to start running bootstrap actions.
-        public let readyDateTime: TimeStamp?
+        public let readyDateTime: Date?
         /// The start date and time of the job flow.
-        public let startDateTime: TimeStamp?
+        public let startDateTime: Date?
         /// The state of the job flow.
         public let state: JobFlowExecutionState
 
-        public init(creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, lastStateChangeReason: String? = nil, readyDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil, state: JobFlowExecutionState) {
+        public init(creationDateTime: Date, endDateTime: Date? = nil, lastStateChangeReason: String? = nil, readyDateTime: Date? = nil, startDateTime: Date? = nil, state: JobFlowExecutionState) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.lastStateChangeReason = lastStateChangeReason
@@ -2693,13 +2693,13 @@ extension EMR {
         /// The cluster state filters to apply when listing clusters.
         public let clusterStates: [ClusterState]?
         /// The creation date and time beginning value filter for listing clusters.
-        public let createdAfter: TimeStamp?
+        public let createdAfter: Date?
         /// The creation date and time end value filter for listing clusters.
-        public let createdBefore: TimeStamp?
+        public let createdBefore: Date?
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
 
-        public init(clusterStates: [ClusterState]? = nil, createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, marker: String? = nil) {
+        public init(clusterStates: [ClusterState]? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, marker: String? = nil) {
             self.clusterStates = clusterStates
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -2857,15 +2857,15 @@ extension EMR {
         /// The unique ID of the editor associated with the notebook execution.
         public let editorId: String?
         /// The beginning of time range filter for listing notebook executions. The default is the timestamp of 30 days ago.
-        public let from: TimeStamp?
+        public let from: Date?
         /// The pagination token, returned by a previous ListNotebookExecutions call, that indicates the start of the list for this ListNotebookExecutions call.
         public let marker: String?
         /// The status filter for listing notebook executions.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.
         public let status: NotebookExecutionStatus?
         /// The end of time range filter for listing notebook executions. The default is the current timestamp.
-        public let to: TimeStamp?
+        public let to: Date?
 
-        public init(editorId: String? = nil, from: TimeStamp? = nil, marker: String? = nil, status: NotebookExecutionStatus? = nil, to: TimeStamp? = nil) {
+        public init(editorId: String? = nil, from: Date? = nil, marker: String? = nil, status: NotebookExecutionStatus? = nil, to: Date? = nil) {
             self.editorId = editorId
             self.from = from
             self.marker = marker
@@ -3095,7 +3095,7 @@ extension EMR {
         /// The unique identifier of the EMR Notebook that is used for the notebook execution.
         public let editorId: String?
         /// The timestamp when notebook execution ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The execution engine, such as an EMR cluster, used to run the EMR notebook and perform the notebook execution.
         public let executionEngine: ExecutionEngineConfig?
         /// The reason for the latest status change of the notebook execution.
@@ -3111,13 +3111,13 @@ extension EMR {
         /// The location of the notebook execution's output file in Amazon S3.
         public let outputNotebookURI: String?
         /// The timestamp when notebook execution started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the notebook execution.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.
         public let status: NotebookExecutionStatus?
         /// A list of tags associated with a notebook execution. Tags are user-defined key value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, editorId: String? = nil, endTime: TimeStamp? = nil, executionEngine: ExecutionEngineConfig? = nil, lastStateChangeReason: String? = nil, notebookExecutionId: String? = nil, notebookExecutionName: String? = nil, notebookInstanceSecurityGroupId: String? = nil, notebookParams: String? = nil, outputNotebookURI: String? = nil, startTime: TimeStamp? = nil, status: NotebookExecutionStatus? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, editorId: String? = nil, endTime: Date? = nil, executionEngine: ExecutionEngineConfig? = nil, lastStateChangeReason: String? = nil, notebookExecutionId: String? = nil, notebookExecutionName: String? = nil, notebookInstanceSecurityGroupId: String? = nil, notebookParams: String? = nil, outputNotebookURI: String? = nil, startTime: Date? = nil, status: NotebookExecutionStatus? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.editorId = editorId
             self.endTime = endTime
@@ -3154,17 +3154,17 @@ extension EMR {
         /// The unique identifier of the editor associated with the notebook execution.
         public let editorId: String?
         /// The timestamp when notebook execution started.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The unique identifier of the notebook execution.
         public let notebookExecutionId: String?
         /// The name of the notebook execution.
         public let notebookExecutionName: String?
         /// The timestamp when notebook execution started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the notebook execution.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.
         public let status: NotebookExecutionStatus?
 
-        public init(editorId: String? = nil, endTime: TimeStamp? = nil, notebookExecutionId: String? = nil, notebookExecutionName: String? = nil, startTime: TimeStamp? = nil, status: NotebookExecutionStatus? = nil) {
+        public init(editorId: String? = nil, endTime: Date? = nil, notebookExecutionId: String? = nil, notebookExecutionName: String? = nil, startTime: Date? = nil, status: NotebookExecutionStatus? = nil) {
             self.editorId = editorId
             self.endTime = endTime
             self.notebookExecutionId = notebookExecutionId
@@ -3691,11 +3691,11 @@ extension EMR {
 
     public struct SecurityConfigurationSummary: AWSDecodableShape {
         /// The date and time the security configuration was created.
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The name of the security configuration.
         public let name: String?
 
-        public init(creationDateTime: TimeStamp? = nil, name: String? = nil) {
+        public init(creationDateTime: Date? = nil, name: String? = nil) {
             self.creationDateTime = creationDateTime
             self.name = name
         }
@@ -3976,17 +3976,17 @@ extension EMR {
 
     public struct StepExecutionStatusDetail: AWSDecodableShape {
         /// The creation date and time of the step.
-        public let creationDateTime: TimeStamp
+        public let creationDateTime: Date
         /// The completion date and time of the step.
-        public let endDateTime: TimeStamp?
+        public let endDateTime: Date?
         /// A description of the step's current state.
         public let lastStateChangeReason: String?
         /// The start date and time of the step.
-        public let startDateTime: TimeStamp?
+        public let startDateTime: Date?
         /// The state of the step.
         public let state: StepExecutionState
 
-        public init(creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, lastStateChangeReason: String? = nil, startDateTime: TimeStamp? = nil, state: StepExecutionState) {
+        public init(creationDateTime: Date, endDateTime: Date? = nil, lastStateChangeReason: String? = nil, startDateTime: Date? = nil, state: StepExecutionState) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.lastStateChangeReason = lastStateChangeReason
@@ -4076,13 +4076,13 @@ extension EMR {
 
     public struct StepTimeline: AWSDecodableShape {
         /// The date and time when the cluster step was created.
-        public let creationDateTime: TimeStamp?
+        public let creationDateTime: Date?
         /// The date and time when the cluster step execution completed or failed.
-        public let endDateTime: TimeStamp?
+        public let endDateTime: Date?
         /// The date and time when the cluster step execution started.
-        public let startDateTime: TimeStamp?
+        public let startDateTime: Date?
 
-        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil) {
+        public init(creationDateTime: Date? = nil, endDateTime: Date? = nil, startDateTime: Date? = nil) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.startDateTime = startDateTime

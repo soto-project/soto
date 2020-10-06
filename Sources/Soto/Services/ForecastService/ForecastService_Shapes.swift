@@ -545,15 +545,15 @@ extension ForecastService {
 
     public struct DatasetGroupSummary: AWSDecodableShape {
         /// When the dataset group was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
         /// The name of the dataset group.
         public let datasetGroupName: String?
         /// When the dataset group was created or last updated from a call to the UpdateDatasetGroup operation. While the dataset group is being updated, LastModificationTime is the current time of the ListDatasetGroups call.
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
 
-        public init(creationTime: TimeStamp? = nil, datasetGroupArn: String? = nil, datasetGroupName: String? = nil, lastModificationTime: TimeStamp? = nil) {
+        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, datasetGroupName: String? = nil, lastModificationTime: Date? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
             self.datasetGroupName = datasetGroupName
@@ -570,7 +570,7 @@ extension ForecastService {
 
     public struct DatasetImportJobSummary: AWSDecodableShape {
         /// When the dataset import job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public let datasetImportJobArn: String?
         /// The name of the dataset import job.
@@ -578,13 +578,13 @@ extension ForecastService {
         /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource includes an AWS Key Management Service (KMS) key.
         public let dataSource: DataSource?
         /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The status of the dataset import job. The status is reflected in the status of the dataset. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
-        public init(creationTime: TimeStamp? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSource: DataSource? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSource: DataSource? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetImportJobArn = datasetImportJobArn
             self.datasetImportJobName = datasetImportJobName
@@ -607,7 +607,7 @@ extension ForecastService {
 
     public struct DatasetSummary: AWSDecodableShape {
         /// When the dataset was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
         /// The name of the dataset.
@@ -617,9 +617,9 @@ extension ForecastService {
         /// The domain associated with the dataset.
         public let domain: Domain?
         /// When you create a dataset, LastModificationTime is the same as CreationTime. While data is being imported to the dataset, LastModificationTime is the current time of the ListDatasets call. After a CreateDatasetImportJob operation has finished, LastModificationTime is when the import job completed or failed.
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
 
-        public init(creationTime: TimeStamp? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetType: DatasetType? = nil, domain: Domain? = nil, lastModificationTime: TimeStamp? = nil) {
+        public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetType: DatasetType? = nil, domain: Domain? = nil, lastModificationTime: Date? = nil) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
             self.datasetName = datasetName
@@ -766,7 +766,7 @@ extension ForecastService {
 
     public struct DescribeDatasetGroupResponse: AWSDecodableShape {
         /// When the dataset group was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// An array of Amazon Resource Names (ARNs) of the datasets contained in the dataset group.
         public let datasetArns: [String]?
         /// The ARN of the dataset group.
@@ -776,11 +776,11 @@ extension ForecastService {
         /// The domain associated with the dataset group.
         public let domain: Domain?
         /// When the dataset group was created or last updated from a call to the UpdateDatasetGroup operation. While the dataset group is being updated, LastModificationTime is the current time of the DescribeDatasetGroup call.
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// The status of the dataset group. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply when you call the UpdateDatasetGroup operation.  The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor.
         public let status: String?
 
-        public init(creationTime: TimeStamp? = nil, datasetArns: [String]? = nil, datasetGroupArn: String? = nil, datasetGroupName: String? = nil, domain: Domain? = nil, lastModificationTime: TimeStamp? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, datasetArns: [String]? = nil, datasetGroupArn: String? = nil, datasetGroupName: String? = nil, domain: Domain? = nil, lastModificationTime: Date? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetArns = datasetArns
             self.datasetGroupArn = datasetGroupArn
@@ -821,7 +821,7 @@ extension ForecastService {
 
     public struct DescribeDatasetImportJobResponse: AWSDecodableShape {
         /// When the dataset import job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset that the training data was imported to.
         public let datasetArn: String?
         /// The ARN of the dataset import job.
@@ -835,7 +835,7 @@ extension ForecastService {
         /// Statistical information about each field in the input data.
         public let fieldStatistics: [String: Statistics]?
         /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The status of the dataset import job. The status is reflected in the status of the dataset. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
@@ -843,7 +843,7 @@ extension ForecastService {
         /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D
         public let timestampFormat: String?
 
-        public init(creationTime: TimeStamp? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, fieldStatistics: [String: Statistics]? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil) {
+        public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, fieldStatistics: [String: Statistics]? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
             self.datasetImportJobArn = datasetImportJobArn
@@ -892,7 +892,7 @@ extension ForecastService {
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
         /// When the dataset was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The frequency of data collection. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "M" indicates every month and "30min" indicates every 30 minutes.
         public let dataFrequency: String?
         /// The Amazon Resource Name (ARN) of the dataset.
@@ -906,13 +906,13 @@ extension ForecastService {
         /// The AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
         /// When you create a dataset, LastModificationTime is the same as CreationTime. While data is being imported to the dataset, LastModificationTime is the current time of the DescribeDataset call. After a CreateDatasetImportJob operation has finished, LastModificationTime is when the import job completed or failed.
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// An array of SchemaAttribute objects that specify the dataset fields. Each SchemaAttribute specifies the name and data type of a field.
         public let schema: Schema?
         /// The status of the dataset. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply while data is imported to the dataset from a call to the CreateDatasetImportJob operation and reflect the status of the dataset import job. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS.  The Status of the dataset must be ACTIVE before you can import training data.
         public let status: String?
 
-        public init(creationTime: TimeStamp? = nil, dataFrequency: String? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetType: DatasetType? = nil, domain: Domain? = nil, encryptionConfig: EncryptionConfig? = nil, lastModificationTime: TimeStamp? = nil, schema: Schema? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, dataFrequency: String? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetType: DatasetType? = nil, domain: Domain? = nil, encryptionConfig: EncryptionConfig? = nil, lastModificationTime: Date? = nil, schema: Schema? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.dataFrequency = dataFrequency
             self.datasetArn = datasetArn
@@ -959,7 +959,7 @@ extension ForecastService {
 
     public struct DescribeForecastExportJobResponse: AWSDecodableShape {
         /// When the forecast export job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
         public let destination: DataDestination?
         /// The Amazon Resource Name (ARN) of the exported forecast.
@@ -969,13 +969,13 @@ extension ForecastService {
         /// The name of the forecast export job.
         public let forecastExportJobName: String?
         /// When the last successful export job finished.
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
         public let status: String?
 
-        public init(creationTime: TimeStamp? = nil, destination: DataDestination? = nil, forecastArn: String? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastArn: String? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
             self.forecastArn = forecastArn
@@ -1018,7 +1018,7 @@ extension ForecastService {
 
     public struct DescribeForecastResponse: AWSDecodableShape {
         /// When the forecast creation task was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The ARN of the dataset group that provided the data used to train the predictor.
         public let datasetGroupArn: String?
         /// The forecast ARN as specified in the request.
@@ -1028,7 +1028,7 @@ extension ForecastService {
         /// The quantiles at which probabilistic forecasts were generated.
         public let forecastTypes: [String]?
         /// Initially, the same as CreationTime (status is CREATE_PENDING). Updated when inference (creating the forecast) starts (status changed to CREATE_IN_PROGRESS), and when inference is complete (status changed to ACTIVE) or fails (status changed to CREATE_FAILED).
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The ARN of the predictor used to generate the forecast.
@@ -1036,7 +1036,7 @@ extension ForecastService {
         /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
 
-        public init(creationTime: TimeStamp? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
             self.forecastArn = forecastArn
@@ -1085,7 +1085,7 @@ extension ForecastService {
         /// When PerformAutoML is specified, the ARN of the chosen algorithm.
         public let autoMLAlgorithmArns: [String]?
         /// When the model training task was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// An array of the ARNs of the dataset import jobs used to import training data for the predictor.
         public let datasetImportJobArns: [String]?
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
@@ -1101,7 +1101,7 @@ extension ForecastService {
         /// Describes the dataset group that contains the data to use to train the predictor.
         public let inputDataConfig: InputDataConfig?
         /// Initially, the same as CreationTime (when the status is CREATE_PENDING). This value is updated when training starts (when the status changes to CREATE_IN_PROGRESS), and when training has completed (when the status changes to ACTIVE) or fails (when the status changes to CREATE_FAILED).
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// Whether the predictor is set to perform AutoML.
@@ -1119,7 +1119,7 @@ extension ForecastService {
         /// The default training parameters or overrides selected during model training. If using the AutoML algorithm or if HPO is turned on while using the DeepAR+ algorithms, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, creationTime: TimeStamp? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLAlgorithmArns = autoMLAlgorithmArns
             self.creationTime = creationTime
@@ -1343,7 +1343,7 @@ extension ForecastService {
 
     public struct ForecastExportJobSummary: AWSDecodableShape {
         /// When the forecast export job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
         public let destination: DataDestination?
         /// The Amazon Resource Name (ARN) of the forecast export job.
@@ -1351,13 +1351,13 @@ extension ForecastService {
         /// The name of the forecast export job.
         public let forecastExportJobName: String?
         /// When the last successful export job finished.
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
         public let status: String?
 
-        public init(creationTime: TimeStamp? = nil, destination: DataDestination? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
             self.forecastExportJobArn = forecastExportJobArn
@@ -1380,7 +1380,7 @@ extension ForecastService {
 
     public struct ForecastSummary: AWSDecodableShape {
         /// When the forecast creation task was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that provided the data used to train the predictor.
         public let datasetGroupArn: String?
         /// The ARN of the forecast.
@@ -1388,7 +1388,7 @@ extension ForecastService {
         /// The name of the forecast.
         public let forecastName: String?
         /// Initially, the same as CreationTime (status is CREATE_PENDING). Updated when inference (creating the forecast) starts (status changed to CREATE_IN_PROGRESS), and when inference is complete (status changed to ACTIVE) or fails (status changed to CREATE_FAILED).
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The ARN of the predictor used to generate the forecast.
@@ -1396,7 +1396,7 @@ extension ForecastService {
         /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
 
-        public init(creationTime: TimeStamp? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
             self.forecastArn = forecastArn
@@ -1918,11 +1918,11 @@ extension ForecastService {
 
     public struct PredictorSummary: AWSDecodableShape {
         /// When the model training task was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that contains the data used to train the predictor.
         public let datasetGroupArn: String?
         /// Initially, the same as CreationTime (status is CREATE_PENDING). Updated when training starts (status changed to CREATE_IN_PROGRESS), and when training is complete (status changed to ACTIVE) or fails (status changed to CREATE_FAILED).
-        public let lastModificationTime: TimeStamp?
+        public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The ARN of the predictor.
@@ -1932,7 +1932,7 @@ extension ForecastService {
         /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
         public let status: String?
 
-        public init(creationTime: TimeStamp? = nil, datasetGroupArn: String? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, predictorArn: String? = nil, predictorName: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorName: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
             self.lastModificationTime = lastModificationTime
@@ -2155,11 +2155,11 @@ extension ForecastService {
         /// The status of the test. Possible status values are:    ACTIVE     CREATE_IN_PROGRESS     CREATE_FAILED
         public let status: String?
         /// The time at which the test ended.
-        public let testWindowEnd: TimeStamp?
+        public let testWindowEnd: Date?
         /// The time at which the test began.
-        public let testWindowStart: TimeStamp?
+        public let testWindowStart: Date?
 
-        public init(message: String? = nil, status: String? = nil, testWindowEnd: TimeStamp? = nil, testWindowStart: TimeStamp? = nil) {
+        public init(message: String? = nil, status: String? = nil, testWindowEnd: Date? = nil, testWindowStart: Date? = nil) {
             self.message = message
             self.status = status
             self.testWindowEnd = testWindowEnd
@@ -2262,11 +2262,11 @@ extension ForecastService {
         /// Provides metrics used to evaluate the performance of a predictor.
         public let metrics: Metrics?
         /// The timestamp that defines the end of the window.
-        public let testWindowEnd: TimeStamp?
+        public let testWindowEnd: Date?
         /// The timestamp that defines the start of the window.
-        public let testWindowStart: TimeStamp?
+        public let testWindowStart: Date?
 
-        public init(evaluationType: EvaluationType? = nil, itemCount: Int? = nil, metrics: Metrics? = nil, testWindowEnd: TimeStamp? = nil, testWindowStart: TimeStamp? = nil) {
+        public init(evaluationType: EvaluationType? = nil, itemCount: Int? = nil, metrics: Metrics? = nil, testWindowEnd: Date? = nil, testWindowStart: Date? = nil) {
             self.evaluationType = evaluationType
             self.itemCount = itemCount
             self.metrics = metrics

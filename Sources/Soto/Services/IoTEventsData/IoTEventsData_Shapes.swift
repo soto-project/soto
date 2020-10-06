@@ -182,7 +182,7 @@ extension IoTEventsData {
 
     public struct Detector: AWSDecodableShape {
         /// The time the detector (instance) was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the detector model that created this detector (instance).
         public let detectorModelName: String?
         /// The version of the detector model that created this detector (instance).
@@ -190,11 +190,11 @@ extension IoTEventsData {
         /// The value of the key (identifying the device or system) that caused the creation of this detector (instance).
         public let keyValue: String?
         /// The time the detector (instance) was last updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The current state of the detector (instance).
         public let state: DetectorState?
 
-        public init(creationTime: TimeStamp? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, keyValue: String? = nil, lastUpdateTime: TimeStamp? = nil, state: DetectorState? = nil) {
+        public init(creationTime: Date? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, keyValue: String? = nil, lastUpdateTime: Date? = nil, state: DetectorState? = nil) {
             self.creationTime = creationTime
             self.detectorModelName = detectorModelName
             self.detectorModelVersion = detectorModelVersion
@@ -281,7 +281,7 @@ extension IoTEventsData {
 
     public struct DetectorSummary: AWSDecodableShape {
         /// The time the detector (instance) was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the detector model that created this detector (instance).
         public let detectorModelName: String?
         /// The version of the detector model that created this detector (instance).
@@ -289,11 +289,11 @@ extension IoTEventsData {
         /// The value of the key (identifying the device or system) that caused the creation of this detector (instance).
         public let keyValue: String?
         /// The time the detector (instance) was last updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The current state of the detector (instance).
         public let state: DetectorStateSummary?
 
-        public init(creationTime: TimeStamp? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, keyValue: String? = nil, lastUpdateTime: TimeStamp? = nil, state: DetectorStateSummary? = nil) {
+        public init(creationTime: Date? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, keyValue: String? = nil, lastUpdateTime: Date? = nil, state: DetectorStateSummary? = nil) {
             self.creationTime = creationTime
             self.detectorModelName = detectorModelName
             self.detectorModelVersion = detectorModelVersion
@@ -400,9 +400,9 @@ extension IoTEventsData {
         /// The name of the timer.
         public let name: String
         /// The number of seconds which have elapsed on the timer.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
 
-        public init(name: String, timestamp: TimeStamp) {
+        public init(name: String, timestamp: Date) {
             self.name = name
             self.timestamp = timestamp
         }

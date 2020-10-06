@@ -178,17 +178,17 @@ extension Schemas {
 
     public struct CreateSchemaResponse: AWSDecodableShape {
         public let description: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastModified: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
         public let schemaArn: String?
         public let schemaName: String?
         public let schemaVersion: String?
         public let tags: [String: String]?
         public let `type`: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var versionCreatedDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var versionCreatedDate: Date?
 
-        public init(description: String? = nil, lastModified: TimeStamp? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: TimeStamp? = nil) {
+        public init(description: String? = nil, lastModified: Date? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: Date? = nil) {
             self.description = description
             self.lastModified = lastModified
             self.schemaArn = schemaArn
@@ -314,14 +314,14 @@ extension Schemas {
     }
 
     public struct DescribeCodeBindingResponse: AWSDecodableShape {
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastModified: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
         public let schemaVersion: String?
         public let status: CodeGenerationStatus?
 
-        public init(creationDate: TimeStamp? = nil, lastModified: TimeStamp? = nil, schemaVersion: String? = nil, status: CodeGenerationStatus? = nil) {
+        public init(creationDate: Date? = nil, lastModified: Date? = nil, schemaVersion: String? = nil, status: CodeGenerationStatus? = nil) {
             self.creationDate = creationDate
             self.lastModified = lastModified
             self.schemaVersion = schemaVersion
@@ -435,17 +435,17 @@ extension Schemas {
     public struct DescribeSchemaResponse: AWSDecodableShape {
         public let content: String?
         public let description: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastModified: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
         public let schemaArn: String?
         public let schemaName: String?
         public let schemaVersion: String?
         public let tags: [String: String]?
         public let `type`: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var versionCreatedDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var versionCreatedDate: Date?
 
-        public init(content: String? = nil, description: String? = nil, lastModified: TimeStamp? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: TimeStamp? = nil) {
+        public init(content: String? = nil, description: String? = nil, lastModified: Date? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: Date? = nil) {
             self.content = content
             self.description = description
             self.lastModified = lastModified
@@ -808,14 +808,14 @@ extension Schemas {
     }
 
     public struct PutCodeBindingResponse: AWSDecodableShape {
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationDate: TimeStamp?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastModified: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
         public let schemaVersion: String?
         public let status: CodeGenerationStatus?
 
-        public init(creationDate: TimeStamp? = nil, lastModified: TimeStamp? = nil, schemaVersion: String? = nil, status: CodeGenerationStatus? = nil) {
+        public init(creationDate: Date? = nil, lastModified: Date? = nil, schemaVersion: String? = nil, status: CodeGenerationStatus? = nil) {
             self.creationDate = creationDate
             self.lastModified = lastModified
             self.schemaVersion = schemaVersion
@@ -889,8 +889,8 @@ extension Schemas {
 
     public struct SchemaSummary: AWSDecodableShape {
         /// The date and time that schema was modified.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastModified: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
         /// The ARN of the schema.
         public let schemaArn: String?
         /// The name of the schema.
@@ -900,7 +900,7 @@ extension Schemas {
         /// The number of versions available for the schema.
         public let versionCount: Int64?
 
-        public init(lastModified: TimeStamp? = nil, schemaArn: String? = nil, schemaName: String? = nil, tags: [String: String]? = nil, versionCount: Int64? = nil) {
+        public init(lastModified: Date? = nil, schemaArn: String? = nil, schemaName: String? = nil, tags: [String: String]? = nil, versionCount: Int64? = nil) {
             self.lastModified = lastModified
             self.schemaArn = schemaArn
             self.schemaName = schemaName
@@ -965,12 +965,12 @@ extension Schemas {
 
     public struct SearchSchemaVersionSummary: AWSDecodableShape {
         /// The date the schema version was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         /// The version number of the schema
         public let schemaVersion: String?
 
-        public init(createdDate: TimeStamp? = nil, schemaVersion: String? = nil) {
+        public init(createdDate: Date? = nil, schemaVersion: String? = nil) {
             self.createdDate = createdDate
             self.schemaVersion = schemaVersion
         }
@@ -1247,17 +1247,17 @@ extension Schemas {
 
     public struct UpdateSchemaResponse: AWSDecodableShape {
         public let description: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastModified: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
         public let schemaArn: String?
         public let schemaName: String?
         public let schemaVersion: String?
         public let tags: [String: String]?
         public let `type`: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var versionCreatedDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var versionCreatedDate: Date?
 
-        public init(description: String? = nil, lastModified: TimeStamp? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: TimeStamp? = nil) {
+        public init(description: String? = nil, lastModified: Date? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: Date? = nil) {
             self.description = description
             self.lastModified = lastModified
             self.schemaArn = schemaArn

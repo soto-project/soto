@@ -44,9 +44,9 @@ extension DataPipeline {
         /// The ID of the pipeline.
         public let pipelineId: String
         /// The date and time to resume the pipeline. By default, the pipeline resumes from the last completed execution.
-        public let startTimestamp: TimeStamp?
+        public let startTimestamp: Date?
 
-        public init(parameterValues: [ParameterValue]? = nil, pipelineId: String, startTimestamp: TimeStamp? = nil) {
+        public init(parameterValues: [ParameterValue]? = nil, pipelineId: String, startTimestamp: Date? = nil) {
             self.parameterValues = parameterValues
             self.pipelineId = pipelineId
             self.startTimestamp = startTimestamp

@@ -600,7 +600,7 @@ extension IoT {
         /// The behavior which is being violated.
         public let behavior: Behavior?
         /// The time the most recent violation occurred.
-        public let lastViolationTime: TimeStamp?
+        public let lastViolationTime: Date?
         /// The value of the metric (the measurement) which caused the most recent violation.
         public let lastViolationValue: MetricValue?
         /// The security profile whose behavior is in violation.
@@ -610,9 +610,9 @@ extension IoT {
         /// The ID of the active violation.
         public let violationId: String?
         /// The time the violation started.
-        public let violationStartTime: TimeStamp?
+        public let violationStartTime: Date?
 
-        public init(behavior: Behavior? = nil, lastViolationTime: TimeStamp? = nil, lastViolationValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationId: String? = nil, violationStartTime: TimeStamp? = nil) {
+        public init(behavior: Behavior? = nil, lastViolationTime: Date? = nil, lastViolationValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationId: String? = nil, violationStartTime: Date? = nil) {
             self.behavior = behavior
             self.lastViolationTime = lastViolationTime
             self.lastViolationValue = lastViolationValue
@@ -1095,7 +1095,7 @@ extension IoT {
         /// A unique identifier for this set of audit findings. This identifier is used to apply mitigation tasks to one or more sets of findings.
         public let findingId: String?
         /// The time the result (finding) was discovered.
-        public let findingTime: TimeStamp?
+        public let findingTime: Date?
         ///  Indicates whether the audit finding was suppressed or not during reporting.
         public let isSuppressed: Bool?
         /// The resource that was found to be noncompliant with the audit check.
@@ -1111,9 +1111,9 @@ extension IoT {
         /// The ID of the audit that generated this result (finding).
         public let taskId: String?
         /// The time the audit started.
-        public let taskStartTime: TimeStamp?
+        public let taskStartTime: Date?
 
-        public init(checkName: String? = nil, findingId: String? = nil, findingTime: TimeStamp? = nil, isSuppressed: Bool? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonCompliance: String? = nil, reasonForNonComplianceCode: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskId: String? = nil, taskStartTime: TimeStamp? = nil) {
+        public init(checkName: String? = nil, findingId: String? = nil, findingTime: Date? = nil, isSuppressed: Bool? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonCompliance: String? = nil, reasonForNonComplianceCode: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskId: String? = nil, taskStartTime: Date? = nil) {
             self.checkName = checkName
             self.findingId = findingId
             self.findingTime = findingTime
@@ -1148,7 +1148,7 @@ extension IoT {
         /// The friendly name of the mitigation action being applied by the task.
         public let actionName: String?
         /// The date and time when the task was completed or canceled. Blank if the task is still running.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// If an error occurred, the code that indicates which type of error occurred.
         public let errorCode: String?
         /// The unique identifier for the findings to which the task and associated mitigation action are applied.
@@ -1156,13 +1156,13 @@ extension IoT {
         /// If an error occurred, a message that describes the error.
         public let message: String?
         /// The date and time when the task was started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The current status of the task being executed.
         public let status: AuditMitigationActionsExecutionStatus?
         /// The unique identifier for the task that applies the mitigation action.
         public let taskId: String?
 
-        public init(actionId: String? = nil, actionName: String? = nil, endTime: TimeStamp? = nil, errorCode: String? = nil, findingId: String? = nil, message: String? = nil, startTime: TimeStamp? = nil, status: AuditMitigationActionsExecutionStatus? = nil, taskId: String? = nil) {
+        public init(actionId: String? = nil, actionName: String? = nil, endTime: Date? = nil, errorCode: String? = nil, findingId: String? = nil, message: String? = nil, startTime: Date? = nil, status: AuditMitigationActionsExecutionStatus? = nil, taskId: String? = nil) {
             self.actionId = actionId
             self.actionName = actionName
             self.endTime = endTime
@@ -1189,13 +1189,13 @@ extension IoT {
 
     public struct AuditMitigationActionsTaskMetadata: AWSDecodableShape {
         /// The time at which the audit mitigation actions task was started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The unique identifier for the task.
         public let taskId: String?
         /// The current state of the audit mitigation actions task.
         public let taskStatus: AuditMitigationActionsTaskStatus?
 
-        public init(startTime: TimeStamp? = nil, taskId: String? = nil, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
+        public init(startTime: Date? = nil, taskId: String? = nil, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
             self.startTime = startTime
             self.taskId = taskId
             self.taskStatus = taskStatus
@@ -1278,12 +1278,12 @@ extension IoT {
         ///  The description of the audit suppression.
         public let description: String?
         ///  The expiration date (epoch timestamp in seconds) that you want the suppression to adhere to.
-        public let expirationDate: TimeStamp?
+        public let expirationDate: Date?
         public let resourceIdentifier: ResourceIdentifier
         ///  Indicates whether a suppression should exist indefinitely or not.
         public let suppressIndefinitely: Bool?
 
-        public init(checkName: String, description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
+        public init(checkName: String, description: String? = nil, expirationDate: Date? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
             self.checkName = checkName
             self.description = description
             self.expirationDate = expirationDate
@@ -1398,9 +1398,9 @@ extension IoT {
         /// The authorizer name.
         public let authorizerName: String?
         /// The UNIX timestamp of when the authorizer was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The UNIX timestamp of when the authorizer was last updated.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// Specifies whether AWS IoT validates the token signature in an authorization request.
         public let signingDisabled: Bool?
         /// The status of the authorizer.
@@ -1410,7 +1410,7 @@ extension IoT {
         /// The public keys used to validate the token signature returned by your custom authentication service.
         public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerArn: String? = nil, authorizerFunctionArn: String? = nil, authorizerName: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
+        public init(authorizerArn: String? = nil, authorizerFunctionArn: String? = nil, authorizerName: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
@@ -1677,9 +1677,9 @@ extension IoT {
 
     public struct BillingGroupMetadata: AWSDecodableShape {
         /// The date the billing group was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
 
-        public init(creationDate: TimeStamp? = nil) {
+        public init(creationDate: Date? = nil) {
             self.creationDate = creationDate
         }
 
@@ -1712,11 +1712,11 @@ extension IoT {
         /// The ID of the CA certificate.
         public let certificateId: String?
         /// The date the CA certificate was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The status of the CA certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CACertificateStatus?
 
-        public init(certificateArn: String? = nil, certificateId: String? = nil, creationDate: TimeStamp? = nil, status: CACertificateStatus? = nil) {
+        public init(certificateArn: String? = nil, certificateId: String? = nil, creationDate: Date? = nil, status: CACertificateStatus? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
             self.creationDate = creationDate
@@ -1741,13 +1741,13 @@ extension IoT {
         /// The CA certificate data, in PEM format.
         public let certificatePem: String?
         /// The date the CA certificate was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The customer version of the CA certificate.
         public let customerVersion: Int?
         /// The generation ID of the CA certificate.
         public let generationId: String?
         /// The date the CA certificate was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The owner of the CA certificate.
         public let ownedBy: String?
         /// The status of a CA certificate.
@@ -1755,7 +1755,7 @@ extension IoT {
         /// When the CA certificate is valid.
         public let validity: CertificateValidity?
 
-        public init(autoRegistrationStatus: AutoRegistrationStatus? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, creationDate: TimeStamp? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, ownedBy: String? = nil, status: CACertificateStatus? = nil, validity: CertificateValidity? = nil) {
+        public init(autoRegistrationStatus: AutoRegistrationStatus? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, creationDate: Date? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: Date? = nil, ownedBy: String? = nil, status: CACertificateStatus? = nil, validity: CertificateValidity? = nil) {
             self.autoRegistrationStatus = autoRegistrationStatus
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -1971,11 +1971,11 @@ extension IoT {
         /// The mode of the certificate.
         public let certificateMode: CertificateMode?
         /// The date and time the certificate was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CertificateStatus?
 
-        public init(certificateArn: String? = nil, certificateId: String? = nil, certificateMode: CertificateMode? = nil, creationDate: TimeStamp? = nil, status: CertificateStatus? = nil) {
+        public init(certificateArn: String? = nil, certificateId: String? = nil, certificateMode: CertificateMode? = nil, creationDate: Date? = nil, status: CertificateStatus? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
             self.certificateMode = certificateMode
@@ -2004,13 +2004,13 @@ extension IoT {
         /// The certificate data, in PEM format.
         public let certificatePem: String?
         /// The date and time the certificate was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The customer version of the certificate.
         public let customerVersion: Int?
         /// The generation ID of the certificate.
         public let generationId: String?
         /// The date and time the certificate was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The ID of the AWS account that owns the certificate.
         public let ownedBy: String?
         /// The ID of the AWS account of the previous owner of the certificate.
@@ -2022,7 +2022,7 @@ extension IoT {
         /// When the certificate is valid.
         public let validity: CertificateValidity?
 
-        public init(caCertificateId: String? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificateMode: CertificateMode? = nil, certificatePem: String? = nil, creationDate: TimeStamp? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, ownedBy: String? = nil, previousOwnedBy: String? = nil, status: CertificateStatus? = nil, transferData: TransferData? = nil, validity: CertificateValidity? = nil) {
+        public init(caCertificateId: String? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificateMode: CertificateMode? = nil, certificatePem: String? = nil, creationDate: Date? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: Date? = nil, ownedBy: String? = nil, previousOwnedBy: String? = nil, status: CertificateStatus? = nil, transferData: TransferData? = nil, validity: CertificateValidity? = nil) {
             self.caCertificateId = caCertificateId
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -2059,11 +2059,11 @@ extension IoT {
 
     public struct CertificateValidity: AWSDecodableShape {
         /// The certificate is not valid after this date.
-        public let notAfter: TimeStamp?
+        public let notAfter: Date?
         /// The certificate is not valid before this date.
-        public let notBefore: TimeStamp?
+        public let notBefore: Date?
 
-        public init(notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil) {
+        public init(notAfter: Date? = nil, notBefore: Date? = nil) {
             self.notAfter = notAfter
             self.notBefore = notBefore
         }
@@ -2256,12 +2256,12 @@ extension IoT {
         ///  The description of the audit suppression.
         public let description: String?
         ///  The epoch timestamp in seconds at which this suppression expires.
-        public let expirationDate: TimeStamp?
+        public let expirationDate: Date?
         public let resourceIdentifier: ResourceIdentifier
         ///  Indicates whether a suppression should exist indefinitely or not.
         public let suppressIndefinitely: Bool?
 
-        public init(checkName: String, clientRequestToken: String = CreateAuditSuppressionRequest.idempotencyToken(), description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
+        public init(checkName: String, clientRequestToken: String = CreateAuditSuppressionRequest.idempotencyToken(), description: String? = nil, expirationDate: Date? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
             self.checkName = checkName
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -3147,11 +3147,11 @@ extension IoT {
         /// The provisioning claim certificate.
         public let certificatePem: String?
         /// The provisioning claim expiration time.
-        public let expiration: TimeStamp?
+        public let expiration: Date?
         /// The provisioning claim key pair.
         public let keyPair: KeyPair?
 
-        public init(certificateId: String? = nil, certificatePem: String? = nil, expiration: TimeStamp? = nil, keyPair: KeyPair? = nil) {
+        public init(certificateId: String? = nil, certificatePem: String? = nil, expiration: Date? = nil, keyPair: KeyPair? = nil) {
             self.certificateId = certificateId
             self.certificatePem = certificatePem
             self.expiration = expiration
@@ -4657,9 +4657,9 @@ extension IoT {
         /// Specifies the mitigation actions that should be applied to specific audit checks.
         public let auditCheckToActionsMapping: [String: [String]]?
         /// The date and time when the task was completed or canceled.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The date and time when the task was started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// Identifies the findings to which the mitigation actions are applied. This can be by audit checks, by audit task, or a set of findings.
         public let target: AuditMitigationActionsTaskTarget?
         /// Aggregate counts of the results when the mitigation tasks were applied to the findings for this audit mitigation actions task.
@@ -4667,7 +4667,7 @@ extension IoT {
         /// The current status of the task.
         public let taskStatus: AuditMitigationActionsTaskStatus?
 
-        public init(actionsDefinition: [MitigationAction]? = nil, auditCheckToActionsMapping: [String: [String]]? = nil, endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, target: AuditMitigationActionsTaskTarget? = nil, taskStatistics: [String: TaskStatisticsForAuditCheck]? = nil, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
+        public init(actionsDefinition: [MitigationAction]? = nil, auditCheckToActionsMapping: [String: [String]]? = nil, endTime: Date? = nil, startTime: Date? = nil, target: AuditMitigationActionsTaskTarget? = nil, taskStatistics: [String: TaskStatisticsForAuditCheck]? = nil, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
             self.actionsDefinition = actionsDefinition
             self.auditCheckToActionsMapping = auditCheckToActionsMapping
             self.endTime = endTime
@@ -4712,12 +4712,12 @@ extension IoT {
         ///  The description of the audit suppression.
         public let description: String?
         ///  The epoch timestamp in seconds at which this suppression expires.
-        public let expirationDate: TimeStamp?
+        public let expirationDate: Date?
         public let resourceIdentifier: ResourceIdentifier?
         ///  Indicates whether a suppression should exist indefinitely or not.
         public let suppressIndefinitely: Bool?
 
-        public init(checkName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier? = nil, suppressIndefinitely: Bool? = nil) {
+        public init(checkName: String? = nil, description: String? = nil, expirationDate: Date? = nil, resourceIdentifier: ResourceIdentifier? = nil, suppressIndefinitely: Bool? = nil) {
             self.checkName = checkName
             self.description = description
             self.expirationDate = expirationDate
@@ -4761,7 +4761,7 @@ extension IoT {
         /// The name of the scheduled audit (only if the audit was a scheduled audit).
         public let scheduledAuditName: String?
         /// The time the audit started.
-        public let taskStartTime: TimeStamp?
+        public let taskStartTime: Date?
         /// Statistical information about the audit.
         public let taskStatistics: TaskStatistics?
         /// The status of the audit: one of "IN_PROGRESS", "COMPLETED", "FAILED", or "CANCELED".
@@ -4769,7 +4769,7 @@ extension IoT {
         /// The type of audit: "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
         public let taskType: AuditTaskType?
 
-        public init(auditDetails: [String: AuditCheckDetails]? = nil, scheduledAuditName: String? = nil, taskStartTime: TimeStamp? = nil, taskStatistics: TaskStatistics? = nil, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
+        public init(auditDetails: [String: AuditCheckDetails]? = nil, scheduledAuditName: String? = nil, taskStartTime: Date? = nil, taskStatistics: TaskStatistics? = nil, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
             self.auditDetails = auditDetails
             self.scheduledAuditName = scheduledAuditName
             self.taskStartTime = taskStartTime
@@ -4990,9 +4990,9 @@ extension IoT {
         /// The ARN (Amazon resource name) for the dimension.
         public let arn: String?
         /// The date the dimension was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The date the dimension was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The unique identifier for the dimension.
         public let name: String?
         /// The value or list of values used to scope the dimension. For example, for topic filters, this is the pattern used to match the MQTT topic name.
@@ -5000,7 +5000,7 @@ extension IoT {
         /// The type of the dimension.
         public let `type`: DimensionType?
 
-        public init(arn: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
@@ -5119,13 +5119,13 @@ extension IoT {
 
     public struct DescribeEventConfigurationsResponse: AWSDecodableShape {
         /// The creation date of the event configuration.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The event configurations.
         public let eventConfigurations: [EventType: Configuration]?
         /// The date the event configurations were last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
 
-        public init(creationDate: TimeStamp? = nil, eventConfigurations: [EventType: Configuration]? = nil, lastModifiedDate: TimeStamp? = nil) {
+        public init(creationDate: Date? = nil, eventConfigurations: [EventType: Configuration]? = nil, lastModifiedDate: Date? = nil) {
             self.creationDate = creationDate
             self.eventConfigurations = eventConfigurations
             self.lastModifiedDate = lastModifiedDate
@@ -5295,13 +5295,13 @@ extension IoT {
         /// The type of mitigation action.
         public let actionType: MitigationActionType?
         /// The date and time when the mitigation action was added to your AWS account.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The date and time when the mitigation action was last changed.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The ARN of the IAM role used to apply this action.
         public let roleArn: String?
 
-        public init(actionArn: String? = nil, actionId: String? = nil, actionName: String? = nil, actionParams: MitigationActionParams? = nil, actionType: MitigationActionType? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, roleArn: String? = nil) {
+        public init(actionArn: String? = nil, actionId: String? = nil, actionName: String? = nil, actionParams: MitigationActionParams? = nil, actionType: MitigationActionType? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, roleArn: String? = nil) {
             self.actionArn = actionArn
             self.actionId = actionId
             self.actionName = actionName
@@ -5347,7 +5347,7 @@ extension IoT {
 
     public struct DescribeProvisioningTemplateResponse: AWSDecodableShape {
         /// The date when the fleet provisioning template was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The default fleet template version ID.
         public let defaultVersionId: Int?
         /// The description of the fleet provisioning template.
@@ -5355,7 +5355,7 @@ extension IoT {
         /// True if the fleet provisioning template is enabled, otherwise false.
         public let enabled: Bool?
         /// The date when the fleet provisioning template was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// Gets information about a pre-provisioned hook.
         public let preProvisioningHook: ProvisioningHook?
         /// The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device.
@@ -5367,7 +5367,7 @@ extension IoT {
         /// The name of the fleet provisioning template.
         public let templateName: String?
 
-        public init(creationDate: TimeStamp? = nil, defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: TimeStamp? = nil, preProvisioningHook: ProvisioningHook? = nil, provisioningRoleArn: String? = nil, templateArn: String? = nil, templateBody: String? = nil, templateName: String? = nil) {
+        public init(creationDate: Date? = nil, defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: Date? = nil, preProvisioningHook: ProvisioningHook? = nil, provisioningRoleArn: String? = nil, templateArn: String? = nil, templateBody: String? = nil, templateName: String? = nil) {
             self.creationDate = creationDate
             self.defaultVersionId = defaultVersionId
             self.description = description
@@ -5421,7 +5421,7 @@ extension IoT {
 
     public struct DescribeProvisioningTemplateVersionResponse: AWSDecodableShape {
         /// The date when the fleet provisioning template version was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// True if the fleet provisioning template version is the default version.
         public let isDefaultVersion: Bool?
         /// The JSON formatted contents of the fleet provisioning template version.
@@ -5429,7 +5429,7 @@ extension IoT {
         /// The fleet provisioning template version ID.
         public let versionId: Int?
 
-        public init(creationDate: TimeStamp? = nil, isDefaultVersion: Bool? = nil, templateBody: String? = nil, versionId: Int? = nil) {
+        public init(creationDate: Date? = nil, isDefaultVersion: Bool? = nil, templateBody: String? = nil, versionId: Int? = nil) {
             self.creationDate = creationDate
             self.isDefaultVersion = isDefaultVersion
             self.templateBody = templateBody
@@ -5561,9 +5561,9 @@ extension IoT {
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
         public let behaviors: [Behavior]?
         /// The time the security profile was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The time the security profile was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The ARN of the security profile.
         public let securityProfileArn: String?
         /// A description of the security profile (associated with the security profile when it was created or updated).
@@ -5573,7 +5573,7 @@ extension IoT {
         /// The version of the security profile. A new version is generated whenever the security profile is updated.
         public let version: Int64?
 
-        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
             self.alertTargets = alertTargets
             self.behaviors = behaviors
@@ -5723,7 +5723,7 @@ extension IoT {
 
     public struct DescribeThingRegistrationTaskResponse: AWSDecodableShape {
         /// The task creation date.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The number of things that failed to be provisioned.
         public let failureCount: Int?
         /// The S3 bucket that contains the input file.
@@ -5731,7 +5731,7 @@ extension IoT {
         /// The input file key.
         public let inputFileKey: String?
         /// The date when the task was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The message.
         public let message: String?
         /// The progress of the bulk provisioning task expressed as a percentage.
@@ -5747,7 +5747,7 @@ extension IoT {
         /// The task's template.
         public let templateBody: String?
 
-        public init(creationDate: TimeStamp? = nil, failureCount: Int? = nil, inputFileBucket: String? = nil, inputFileKey: String? = nil, lastModifiedDate: TimeStamp? = nil, message: String? = nil, percentageProgress: Int? = nil, roleArn: String? = nil, status: Status? = nil, successCount: Int? = nil, taskId: String? = nil, templateBody: String? = nil) {
+        public init(creationDate: Date? = nil, failureCount: Int? = nil, inputFileBucket: String? = nil, inputFileKey: String? = nil, lastModifiedDate: Date? = nil, message: String? = nil, percentageProgress: Int? = nil, roleArn: String? = nil, status: Status? = nil, successCount: Int? = nil, taskId: String? = nil, templateBody: String? = nil) {
             self.creationDate = creationDate
             self.failureCount = failureCount
             self.inputFileBucket = inputFileBucket
@@ -6620,13 +6620,13 @@ extension IoT {
 
     public struct GetPolicyResponse: AWSDecodableShape {
         /// The date the policy was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The default policy version ID.
         public let defaultVersionId: String?
         /// The generation ID of the policy.
         public let generationId: String?
         /// The date the policy was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The policy ARN.
         public let policyArn: String?
         /// The JSON document that describes the policy.
@@ -6634,7 +6634,7 @@ extension IoT {
         /// The policy name.
         public let policyName: String?
 
-        public init(creationDate: TimeStamp? = nil, defaultVersionId: String? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, policyArn: String? = nil, policyDocument: String? = nil, policyName: String? = nil) {
+        public init(creationDate: Date? = nil, defaultVersionId: String? = nil, generationId: String? = nil, lastModifiedDate: Date? = nil, policyArn: String? = nil, policyDocument: String? = nil, policyName: String? = nil) {
             self.creationDate = creationDate
             self.defaultVersionId = defaultVersionId
             self.generationId = generationId
@@ -6683,13 +6683,13 @@ extension IoT {
 
     public struct GetPolicyVersionResponse: AWSDecodableShape {
         /// The date the policy was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The generation ID of the policy version.
         public let generationId: String?
         /// Specifies whether the policy version is the default.
         public let isDefaultVersion: Bool?
         /// The date the policy was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The policy ARN.
         public let policyArn: String?
         /// The JSON document that describes the policy.
@@ -6699,7 +6699,7 @@ extension IoT {
         /// The policy version ID.
         public let policyVersionId: String?
 
-        public init(creationDate: TimeStamp? = nil, generationId: String? = nil, isDefaultVersion: Bool? = nil, lastModifiedDate: TimeStamp? = nil, policyArn: String? = nil, policyDocument: String? = nil, policyName: String? = nil, policyVersionId: String? = nil) {
+        public init(creationDate: Date? = nil, generationId: String? = nil, isDefaultVersion: Bool? = nil, lastModifiedDate: Date? = nil, policyArn: String? = nil, policyDocument: String? = nil, policyName: String? = nil, policyVersionId: String? = nil) {
             self.creationDate = creationDate
             self.generationId = generationId
             self.isDefaultVersion = isDefaultVersion
@@ -7125,9 +7125,9 @@ extension IoT {
         /// If the job was updated, describes the reason for the update.
         public let comment: String?
         /// The time, in seconds since the epoch, when the job was completed.
-        public let completedAt: TimeStamp?
+        public let completedAt: Date?
         /// The time, in seconds since the epoch, when the job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// A short text description of the job.
         public let description: String?
         /// Will be true if the job was canceled with the optional force parameter set to true.
@@ -7141,7 +7141,7 @@ extension IoT {
         /// Details about the job process.
         public let jobProcessDetails: JobProcessDetails?
         /// The time, in seconds since the epoch, when the job was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// Configuration for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
         /// If the job was updated, provides the reason code for the update.
@@ -7155,7 +7155,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: TimeStamp? = nil, createdAt: TimeStamp? = nil, description: String? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, lastUpdatedAt: TimeStamp? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, lastUpdatedAt: Date? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
@@ -7206,11 +7206,11 @@ extension IoT {
         /// The unique identifier you assigned to the job when it was created.
         public let jobId: String?
         /// The time, in seconds since the epoch, when the job execution was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The time, in seconds since the epoch, when the job execution was queued.
-        public let queuedAt: TimeStamp?
+        public let queuedAt: Date?
         /// The time, in seconds since the epoch, when the job execution started.
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The status of the job execution (IN_PROGRESS, QUEUED, FAILED, SUCCEEDED, TIMED_OUT, CANCELED, or REJECTED).
         public let status: JobExecutionStatus?
         /// A collection of name/value pairs that describe the status of the job execution.
@@ -7220,7 +7220,7 @@ extension IoT {
         /// The version of the job execution. Job execution versions are incremented each time they are updated by a device.
         public let versionNumber: Int64?
 
-        public init(approximateSecondsBeforeTimedOut: Int64? = nil, executionNumber: Int64? = nil, forceCanceled: Bool? = nil, jobId: String? = nil, lastUpdatedAt: TimeStamp? = nil, queuedAt: TimeStamp? = nil, startedAt: TimeStamp? = nil, status: JobExecutionStatus? = nil, statusDetails: JobExecutionStatusDetails? = nil, thingArn: String? = nil, versionNumber: Int64? = nil) {
+        public init(approximateSecondsBeforeTimedOut: Int64? = nil, executionNumber: Int64? = nil, forceCanceled: Bool? = nil, jobId: String? = nil, lastUpdatedAt: Date? = nil, queuedAt: Date? = nil, startedAt: Date? = nil, status: JobExecutionStatus? = nil, statusDetails: JobExecutionStatusDetails? = nil, thingArn: String? = nil, versionNumber: Int64? = nil) {
             self.approximateSecondsBeforeTimedOut = approximateSecondsBeforeTimedOut
             self.executionNumber = executionNumber
             self.forceCanceled = forceCanceled
@@ -7266,15 +7266,15 @@ extension IoT {
         /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used later in commands which return or update job execution information.
         public let executionNumber: Int64?
         /// The time, in seconds since the epoch, when the job execution was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The time, in seconds since the epoch, when the job execution was queued.
-        public let queuedAt: TimeStamp?
+        public let queuedAt: Date?
         /// The time, in seconds since the epoch, when the job execution started.
-        public let startedAt: TimeStamp?
+        public let startedAt: Date?
         /// The status of the job execution.
         public let status: JobExecutionStatus?
 
-        public init(executionNumber: Int64? = nil, lastUpdatedAt: TimeStamp? = nil, queuedAt: TimeStamp? = nil, startedAt: TimeStamp? = nil, status: JobExecutionStatus? = nil) {
+        public init(executionNumber: Int64? = nil, lastUpdatedAt: Date? = nil, queuedAt: Date? = nil, startedAt: Date? = nil, status: JobExecutionStatus? = nil) {
             self.executionNumber = executionNumber
             self.lastUpdatedAt = lastUpdatedAt
             self.queuedAt = queuedAt
@@ -7395,15 +7395,15 @@ extension IoT {
 
     public struct JobSummary: AWSDecodableShape {
         /// The time, in seconds since the epoch, when the job completed.
-        public let completedAt: TimeStamp?
+        public let completedAt: Date?
         /// The time, in seconds since the epoch, when the job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The job ARN.
         public let jobArn: String?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String?
         /// The time, in seconds since the epoch, when the job was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// The job summary status.
         public let status: JobStatus?
         /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
@@ -7411,7 +7411,7 @@ extension IoT {
         /// The ID of the thing group.
         public let thingGroupId: String?
 
-        public init(completedAt: TimeStamp? = nil, createdAt: TimeStamp? = nil, jobArn: String? = nil, jobId: String? = nil, lastUpdatedAt: TimeStamp? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil) {
+        public init(completedAt: Date? = nil, createdAt: Date? = nil, jobArn: String? = nil, jobId: String? = nil, lastUpdatedAt: Date? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil) {
             self.completedAt = completedAt
             self.createdAt = createdAt
             self.jobArn = jobArn
@@ -7593,7 +7593,7 @@ extension IoT {
         /// A filter to limit results to the findings for the specified audit check.
         public let checkName: String?
         /// A filter to limit results to those found before the specified time. You must specify either the startTime and endTime or the taskId, but not both.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         ///  Boolean flag indicating whether only the suppressed findings or the unsuppressed findings should be listed. If this parameter isn't provided, the response will list both suppressed and unsuppressed findings.
         public let listSuppressedFindings: Bool?
         /// The maximum number of results to return at one time. The default is 25.
@@ -7603,11 +7603,11 @@ extension IoT {
         /// Information identifying the noncompliant resource.
         public let resourceIdentifier: ResourceIdentifier?
         /// A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// A filter to limit results to the audit with the specified ID. You must specify either the taskId or the startTime and endTime, but not both.
         public let taskId: String?
 
-        public init(checkName: String? = nil, endTime: TimeStamp? = nil, listSuppressedFindings: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil, startTime: TimeStamp? = nil, taskId: String? = nil) {
+        public init(checkName: String? = nil, endTime: Date? = nil, listSuppressedFindings: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil, startTime: Date? = nil, taskId: String? = nil) {
             self.checkName = checkName
             self.endTime = endTime
             self.listSuppressedFindings = listSuppressedFindings
@@ -7729,7 +7729,7 @@ extension IoT {
         /// Specify this filter to limit results to tasks that were applied to results for a specific audit.
         public let auditTaskId: String?
         /// Specify this filter to limit results to tasks that were completed or canceled on or before a specific date and time.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// Specify this filter to limit results to tasks that were applied to a specific audit finding.
         public let findingId: String?
         /// The maximum number of results to return at one time. The default is 25.
@@ -7737,11 +7737,11 @@ extension IoT {
         /// The token for the next set of results.
         public let nextToken: String?
         /// Specify this filter to limit results to tasks that began on or after a specific date and time.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// Specify this filter to limit results to tasks that are in a specific state.
         public let taskStatus: AuditMitigationActionsTaskStatus?
 
-        public init(auditTaskId: String? = nil, endTime: TimeStamp, findingId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
+        public init(auditTaskId: String? = nil, endTime: Date, findingId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
             self.auditTaskId = auditTaskId
             self.endTime = endTime
             self.findingId = findingId
@@ -7843,19 +7843,19 @@ extension IoT {
         ]
 
         /// The end of the time period.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The maximum number of results to return at one time. The default is 25.
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The beginning of the time period. Audit information is retained for a limited time (180 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// A filter to limit the output to audits with the specified completion status: can be one of "IN_PROGRESS", "COMPLETED", "FAILED", or "CANCELED".
         public let taskStatus: AuditTaskStatus?
         /// A filter to limit the output to the specified type of audit: can be one of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED__AUDIT_TASK".
         public let taskType: AuditTaskType?
 
-        public init(endTime: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
+        public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -9836,7 +9836,7 @@ extension IoT {
         ]
 
         /// The end time for the alerts to be listed.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -9844,11 +9844,11 @@ extension IoT {
         /// A filter to limit results to those alerts generated by the specified security profile.
         public let securityProfileName: String?
         /// The start time for the alerts to be listed.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// A filter to limit results to those alerts caused by the specified thing.
         public let thingName: String?
 
-        public init(endTime: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, startTime: TimeStamp, thingName: String? = nil) {
+        public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, startTime: Date, thingName: String? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10047,9 +10047,9 @@ extension IoT {
         /// The friendly name of the mitigation action.
         public let actionName: String?
         /// The date when this mitigation action was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
 
-        public init(actionArn: String? = nil, actionName: String? = nil, creationDate: TimeStamp? = nil) {
+        public init(actionArn: String? = nil, actionName: String? = nil, creationDate: Date? = nil) {
             self.actionArn = actionArn
             self.actionName = actionName
             self.creationDate = creationDate
@@ -10198,13 +10198,13 @@ extension IoT {
         /// Configuration information for pre-signed URLs. Valid when protocols contains HTTP.
         public let awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig?
         /// The date when the OTA update was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A description of the OTA update.
         public let description: String?
         /// Error information associated with the OTA update.
         public let errorInfo: ErrorInfo?
         /// The date when the OTA update was last updated.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The OTA update ARN.
         public let otaUpdateArn: String?
         /// A list of files associated with the OTA update.
@@ -10220,7 +10220,7 @@ extension IoT {
         /// Specifies whether the OTA update will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the OTA update (SNAPSHOT). If continuous, the OTA update may also be run on a thing when a change is detected in a target. For example, an OTA update will run on a thing when the thing is added to a target group, even after the OTA update was completed by all things originally in the group.
         public let targetSelection: TargetSelection?
 
-        public init(additionalParameters: [String: String]? = nil, awsIotJobArn: String? = nil, awsIotJobId: String? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, creationDate: TimeStamp? = nil, description: String? = nil, errorInfo: ErrorInfo? = nil, lastModifiedDate: TimeStamp? = nil, otaUpdateArn: String? = nil, otaUpdateFiles: [OTAUpdateFile]? = nil, otaUpdateId: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, protocols: [Protocol]? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil) {
+        public init(additionalParameters: [String: String]? = nil, awsIotJobArn: String? = nil, awsIotJobId: String? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, creationDate: Date? = nil, description: String? = nil, errorInfo: ErrorInfo? = nil, lastModifiedDate: Date? = nil, otaUpdateArn: String? = nil, otaUpdateFiles: [OTAUpdateFile]? = nil, otaUpdateId: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, protocols: [Protocol]? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil) {
             self.additionalParameters = additionalParameters
             self.awsIotJobArn = awsIotJobArn
             self.awsIotJobId = awsIotJobId
@@ -10261,13 +10261,13 @@ extension IoT {
 
     public struct OTAUpdateSummary: AWSDecodableShape {
         /// The date when the OTA update was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The OTA update ARN.
         public let otaUpdateArn: String?
         /// The OTA update ID.
         public let otaUpdateId: String?
 
-        public init(creationDate: TimeStamp? = nil, otaUpdateArn: String? = nil, otaUpdateId: String? = nil) {
+        public init(creationDate: Date? = nil, otaUpdateArn: String? = nil, otaUpdateId: String? = nil) {
             self.creationDate = creationDate
             self.otaUpdateArn = otaUpdateArn
             self.otaUpdateId = otaUpdateId
@@ -10286,15 +10286,15 @@ extension IoT {
         /// The certificate ID.
         public let certificateId: String?
         /// The certificate creation date.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The date the transfer was initiated.
-        public let transferDate: TimeStamp?
+        public let transferDate: Date?
         /// The transfer message.
         public let transferMessage: String?
         /// The AWS account to which the transfer was made.
         public let transferredTo: String?
 
-        public init(certificateArn: String? = nil, certificateId: String? = nil, creationDate: TimeStamp? = nil, transferDate: TimeStamp? = nil, transferMessage: String? = nil, transferredTo: String? = nil) {
+        public init(certificateArn: String? = nil, certificateId: String? = nil, creationDate: Date? = nil, transferDate: Date? = nil, transferMessage: String? = nil, transferredTo: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
             self.creationDate = creationDate
@@ -10349,13 +10349,13 @@ extension IoT {
 
     public struct PolicyVersion: AWSDecodableShape {
         /// The date and time the policy was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// Specifies whether the policy version is the default.
         public let isDefaultVersion: Bool?
         /// The policy version ID.
         public let versionId: String?
 
-        public init(createDate: TimeStamp? = nil, isDefaultVersion: Bool? = nil, versionId: String? = nil) {
+        public init(createDate: Date? = nil, isDefaultVersion: Bool? = nil, versionId: String? = nil) {
             self.createDate = createDate
             self.isDefaultVersion = isDefaultVersion
             self.versionId = versionId
@@ -10442,19 +10442,19 @@ extension IoT {
 
     public struct ProvisioningTemplateSummary: AWSDecodableShape {
         /// The date when the fleet provisioning template summary was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The description of the fleet provisioning template.
         public let description: String?
         /// True if the fleet provision template is enabled, otherwise false.
         public let enabled: Bool?
         /// The date when the fleet provisioning template summary was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The ARN of the fleet provisioning template.
         public let templateArn: String?
         /// The name of the fleet provisioning template.
         public let templateName: String?
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: TimeStamp? = nil, templateArn: String? = nil, templateName: String? = nil) {
+        public init(creationDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: Date? = nil, templateArn: String? = nil, templateName: String? = nil) {
             self.creationDate = creationDate
             self.description = description
             self.enabled = enabled
@@ -10475,13 +10475,13 @@ extension IoT {
 
     public struct ProvisioningTemplateVersionSummary: AWSDecodableShape {
         /// The date when the fleet provisioning template version was created
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// True if the fleet provisioning template version is the default version, otherwise false.
         public let isDefaultVersion: Bool?
         /// The ID of the fleet privisioning template version.
         public let versionId: Int?
 
-        public init(creationDate: TimeStamp? = nil, isDefaultVersion: Bool? = nil, versionId: Int? = nil) {
+        public init(creationDate: Date? = nil, isDefaultVersion: Bool? = nil, versionId: Int? = nil) {
             self.creationDate = creationDate
             self.isDefaultVersion = isDefaultVersion
             self.versionId = versionId
@@ -11040,11 +11040,11 @@ extension IoT {
 
     public struct RoleAliasDescription: AWSDecodableShape {
         /// The UNIX timestamp of when the role alias was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The number of seconds for which the credential is valid.
         public let credentialDurationSeconds: Int?
         /// The UNIX timestamp of when the role alias was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The role alias owner.
         public let owner: String?
         /// The role alias.
@@ -11054,7 +11054,7 @@ extension IoT {
         /// The role ARN.
         public let roleArn: String?
 
-        public init(creationDate: TimeStamp? = nil, credentialDurationSeconds: Int? = nil, lastModifiedDate: TimeStamp? = nil, owner: String? = nil, roleAlias: String? = nil, roleAliasArn: String? = nil, roleArn: String? = nil) {
+        public init(creationDate: Date? = nil, credentialDurationSeconds: Int? = nil, lastModifiedDate: Date? = nil, owner: String? = nil, roleAlias: String? = nil, roleAliasArn: String? = nil, roleArn: String? = nil) {
             self.creationDate = creationDate
             self.credentialDurationSeconds = credentialDurationSeconds
             self.lastModifiedDate = lastModifiedDate
@@ -11833,13 +11833,13 @@ extension IoT {
 
     public struct StreamInfo: AWSDecodableShape {
         /// The date when the stream was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the stream.
         public let description: String?
         /// The files to stream.
         public let files: [StreamFile]?
         /// The date when the stream was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let lastUpdatedAt: Date?
         /// An IAM role AWS IoT assumes to access your S3 files.
         public let roleArn: String?
         /// The stream ARN.
@@ -11849,7 +11849,7 @@ extension IoT {
         /// The stream version.
         public let streamVersion: Int?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, files: [StreamFile]? = nil, lastUpdatedAt: TimeStamp? = nil, roleArn: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, files: [StreamFile]? = nil, lastUpdatedAt: Date? = nil, roleArn: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.files = files
@@ -12293,13 +12293,13 @@ extension IoT {
 
     public struct ThingGroupMetadata: AWSDecodableShape {
         /// The UNIX timestamp of when the thing group was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The parent thing group name.
         public let parentGroupName: String?
         /// The root parent thing group.
         public let rootToParentThingGroups: [GroupNameAndArn]?
 
-        public init(creationDate: TimeStamp? = nil, parentGroupName: String? = nil, rootToParentThingGroups: [GroupNameAndArn]? = nil) {
+        public init(creationDate: Date? = nil, parentGroupName: String? = nil, rootToParentThingGroups: [GroupNameAndArn]? = nil) {
             self.creationDate = creationDate
             self.parentGroupName = parentGroupName
             self.rootToParentThingGroups = rootToParentThingGroups
@@ -12387,13 +12387,13 @@ extension IoT {
 
     public struct ThingTypeMetadata: AWSDecodableShape {
         /// The date and time when the thing type was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
         public let deprecated: Bool?
         /// The date and time when the thing type was deprecated.
-        public let deprecationDate: TimeStamp?
+        public let deprecationDate: Date?
 
-        public init(creationDate: TimeStamp? = nil, deprecated: Bool? = nil, deprecationDate: TimeStamp? = nil) {
+        public init(creationDate: Date? = nil, deprecated: Bool? = nil, deprecationDate: Date? = nil) {
             self.creationDate = creationDate
             self.deprecated = deprecated
             self.deprecationDate = deprecationDate
@@ -12469,7 +12469,7 @@ extension IoT {
         /// The version of the SQL rules engine to use when evaluating the rule.
         public let awsIotSqlVersion: String?
         /// The date and time the rule was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the rule.
         public let description: String?
         /// The action to perform when an error occurs.
@@ -12481,7 +12481,7 @@ extension IoT {
         /// The SQL statement used to query the topic. When using a SQL query with multiple lines, be sure to escape the newline characters.
         public let sql: String?
 
-        public init(actions: [Action]? = nil, awsIotSqlVersion: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, errorAction: Action? = nil, ruleDisabled: Bool? = nil, ruleName: String? = nil, sql: String? = nil) {
+        public init(actions: [Action]? = nil, awsIotSqlVersion: String? = nil, createdAt: Date? = nil, description: String? = nil, errorAction: Action? = nil, ruleDisabled: Bool? = nil, ruleName: String? = nil, sql: String? = nil) {
             self.actions = actions
             self.awsIotSqlVersion = awsIotSqlVersion
             self.createdAt = createdAt
@@ -12573,7 +12573,7 @@ extension IoT {
 
     public struct TopicRuleListItem: AWSDecodableShape {
         /// The date and time the rule was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The rule ARN.
         public let ruleArn: String?
         /// Specifies whether the rule is disabled.
@@ -12583,7 +12583,7 @@ extension IoT {
         /// The pattern for the topic names that apply.
         public let topicPattern: String?
 
-        public init(createdAt: TimeStamp? = nil, ruleArn: String? = nil, ruleDisabled: Bool? = nil, ruleName: String? = nil, topicPattern: String? = nil) {
+        public init(createdAt: Date? = nil, ruleArn: String? = nil, ruleDisabled: Bool? = nil, ruleName: String? = nil, topicPattern: String? = nil) {
             self.createdAt = createdAt
             self.ruleArn = ruleArn
             self.ruleDisabled = ruleDisabled
@@ -12691,17 +12691,17 @@ extension IoT {
 
     public struct TransferData: AWSDecodableShape {
         /// The date the transfer was accepted.
-        public let acceptDate: TimeStamp?
+        public let acceptDate: Date?
         /// The date the transfer was rejected.
-        public let rejectDate: TimeStamp?
+        public let rejectDate: Date?
         /// The reason why the transfer was rejected.
         public let rejectReason: String?
         /// The date the transfer took place.
-        public let transferDate: TimeStamp?
+        public let transferDate: Date?
         /// The transfer message.
         public let transferMessage: String?
 
-        public init(acceptDate: TimeStamp? = nil, rejectDate: TimeStamp? = nil, rejectReason: String? = nil, transferDate: TimeStamp? = nil, transferMessage: String? = nil) {
+        public init(acceptDate: Date? = nil, rejectDate: Date? = nil, rejectReason: String? = nil, transferDate: Date? = nil, transferMessage: String? = nil) {
             self.acceptDate = acceptDate
             self.rejectDate = rejectDate
             self.rejectReason = rejectReason
@@ -12785,12 +12785,12 @@ extension IoT {
         ///  The description of the audit suppression.
         public let description: String?
         ///  The expiration date (epoch timestamp in seconds) that you want the suppression to adhere to.
-        public let expirationDate: TimeStamp?
+        public let expirationDate: Date?
         public let resourceIdentifier: ResourceIdentifier
         ///  Indicates whether a suppression should exist indefinitely or not.
         public let suppressIndefinitely: Bool?
 
-        public init(checkName: String, description: String? = nil, expirationDate: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
+        public init(checkName: String, description: String? = nil, expirationDate: Date? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
             self.checkName = checkName
             self.description = description
             self.expirationDate = expirationDate
@@ -13051,9 +13051,9 @@ extension IoT {
         /// The ARN (Amazon resource name) of the created dimension.
         public let arn: String?
         /// The date and time, in milliseconds since epoch, when the dimension was initially created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The date and time, in milliseconds since epoch, when the dimension was most recently updated.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// A unique identifier for the dimension.
         public let name: String?
         /// The value or list of values used to scope the dimension. For example, for topic filters, this is the pattern used to match the MQTT topic name.
@@ -13061,7 +13061,7 @@ extension IoT {
         /// The type of the dimension.
         public let `type`: DimensionType?
 
-        public init(arn: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
@@ -13559,9 +13559,9 @@ extension IoT {
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
         public let behaviors: [Behavior]?
         /// The time the security profile was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The time the security profile was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The ARN of the security profile that was updated.
         public let securityProfileArn: String?
         /// The description of the security profile.
@@ -13571,7 +13571,7 @@ extension IoT {
         /// The updated version of the security profile.
         public let version: Int64?
 
-        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
             self.alertTargets = alertTargets
             self.behaviors = behaviors
@@ -13880,13 +13880,13 @@ extension IoT {
         /// The name of the thing responsible for the violation event.
         public let thingName: String?
         /// The time the violation event occurred.
-        public let violationEventTime: TimeStamp?
+        public let violationEventTime: Date?
         /// The type of violation event.
         public let violationEventType: ViolationEventType?
         /// The ID of the violation event.
         public let violationId: String?
 
-        public init(behavior: Behavior? = nil, metricValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationEventTime: TimeStamp? = nil, violationEventType: ViolationEventType? = nil, violationId: String? = nil) {
+        public init(behavior: Behavior? = nil, metricValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationEventTime: Date? = nil, violationEventType: ViolationEventType? = nil, violationId: String? = nil) {
             self.behavior = behavior
             self.metricValue = metricValue
             self.securityProfileName = securityProfileName

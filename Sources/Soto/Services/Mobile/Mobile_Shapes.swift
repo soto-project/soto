@@ -346,16 +346,16 @@ extension Mobile {
         ///  Website URL for this project in the AWS Mobile Hub console.
         public let consoleUrl: String?
         ///  Date the project was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         ///  Date of the last modification of the project.
-        public let lastUpdatedDate: TimeStamp?
+        public let lastUpdatedDate: Date?
         public let name: String?
         public let projectId: String?
         public let region: String?
         public let resources: [Resource]?
         public let state: ProjectState?
 
-        public init(consoleUrl: String? = nil, createdDate: TimeStamp? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, projectId: String? = nil, region: String? = nil, resources: [Resource]? = nil, state: ProjectState? = nil) {
+        public init(consoleUrl: String? = nil, createdDate: Date? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, projectId: String? = nil, region: String? = nil, resources: [Resource]? = nil, state: ProjectState? = nil) {
             self.consoleUrl = consoleUrl
             self.createdDate = createdDate
             self.lastUpdatedDate = lastUpdatedDate

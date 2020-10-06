@@ -273,15 +273,15 @@ extension Braket {
 
     public struct GetQuantumTaskResponse: AWSDecodableShape {
         /// The time at which the task was created.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// The ARN of the device the task was run on.
         public let deviceArn: String
         /// The parameters for the device on which the task ran.
         public let deviceParameters: String
         /// The time at which the task ended.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var endedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
         /// The reason that a task failed.
         public let failureReason: String?
         /// The S3 bucket where task results are stored.
@@ -295,7 +295,7 @@ extension Braket {
         /// The status of the task.
         public let status: QuantumTaskStatus
 
-        public init(createdAt: TimeStamp, deviceArn: String, deviceParameters: String, endedAt: TimeStamp? = nil, failureReason: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus) {
+        public init(createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus) {
             self.createdAt = createdAt
             self.deviceArn = deviceArn
             self.deviceParameters = deviceParameters
@@ -324,13 +324,13 @@ extension Braket {
 
     public struct QuantumTaskSummary: AWSDecodableShape {
         /// The time at which the task was created.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// The ARN of the device the task ran on.
         public let deviceArn: String
         /// The time at which the task finished.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var endedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
         /// The S3 bucket where the task result file is stored..
         public let outputS3Bucket: String
         /// The folder in the S3 bucket where the task result file is stored.
@@ -342,7 +342,7 @@ extension Braket {
         /// The status of the task.
         public let status: QuantumTaskStatus
 
-        public init(createdAt: TimeStamp, deviceArn: String, endedAt: TimeStamp? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus) {
+        public init(createdAt: Date, deviceArn: String, endedAt: Date? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus) {
             self.createdAt = createdAt
             self.deviceArn = deviceArn
             self.endedAt = endedAt

@@ -270,9 +270,9 @@ extension Detective {
         /// The ARN of the behavior graph.
         public let arn: String?
         /// The date and time that the behavior graph was created. The value is in milliseconds since the epoch.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil) {
             self.arn = arn
             self.createdTime = createdTime
         }
@@ -421,19 +421,19 @@ extension Detective {
         /// The ARN of the behavior graph that the member account was invited to.
         public let graphArn: String?
         /// The date and time that Detective sent the invitation to the member account. The value is in milliseconds since the epoch.
-        public let invitedTime: TimeStamp?
+        public let invitedTime: Date?
         /// The AWS account identifier of the master account for the behavior graph.
         public let masterId: String?
         /// The member account data volume as a percentage of the maximum allowed data volume. 0 indicates 0 percent, and 100 indicates 100 percent. Note that this is not the percentage of the behavior graph data volume. For example, the data volume for the behavior graph is 80 GB per day. The maximum data volume is 160 GB per day. If the data volume for the member account is 40 GB per day, then PercentOfGraphUtilization is 25. It represents 25% of the maximum allowed data volume.
         public let percentOfGraphUtilization: Double?
         /// The date and time when the graph utilization percentage was last updated.
-        public let percentOfGraphUtilizationUpdatedTime: TimeStamp?
+        public let percentOfGraphUtilizationUpdatedTime: Date?
         /// The current membership status of the member account. The status can have one of the following values:    INVITED - Indicates that the member was sent an invitation but has not yet responded.    VERIFICATION_IN_PROGRESS - Indicates that Detective is verifying that the account identifier and email address provided for the member account match. If they do match, then Detective sends the invitation. If the email address and account identifier don't match, then the member cannot be added to the behavior graph.    VERIFICATION_FAILED - Indicates that the account and email address provided for the member account do not match, and Detective did not send an invitation to the account.    ENABLED - Indicates that the member account accepted the invitation to contribute to the behavior graph.    ACCEPTED_BUT_DISABLED - Indicates that the member account accepted the invitation but is prevented from contributing data to the behavior graph. DisabledReason provides the reason why the member account is not enabled.   Member accounts that declined an invitation or that were removed from the behavior graph are not included.
         public let status: MemberStatus?
         /// The date and time that the member account was last updated. The value is in milliseconds since the epoch.
-        public let updatedTime: TimeStamp?
+        public let updatedTime: Date?
 
-        public init(accountId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: TimeStamp? = nil, masterId: String? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: TimeStamp? = nil, status: MemberStatus? = nil, updatedTime: TimeStamp? = nil) {
+        public init(accountId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: Date? = nil, masterId: String? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil) {
             self.accountId = accountId
             self.disabledReason = disabledReason
             self.emailAddress = emailAddress

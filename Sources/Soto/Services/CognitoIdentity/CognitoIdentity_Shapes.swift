@@ -160,13 +160,13 @@ extension CognitoIdentity {
         /// The Access Key portion of the credentials.
         public let accessKeyId: String?
         /// The date at which these credentials will expire.
-        public let expiration: TimeStamp?
+        public let expiration: Date?
         /// The Secret Access Key portion of the credentials
         public let secretKey: String?
         /// The Session Token portion of the credentials
         public let sessionToken: String?
 
-        public init(accessKeyId: String? = nil, expiration: TimeStamp? = nil, secretKey: String? = nil, sessionToken: String? = nil) {
+        public init(accessKeyId: String? = nil, expiration: Date? = nil, secretKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretKey = secretKey
@@ -522,15 +522,15 @@ extension CognitoIdentity {
 
     public struct IdentityDescription: AWSDecodableShape {
         /// Date on which the identity was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
         /// Date on which the identity was last modified.
-        public let lastModifiedDate: TimeStamp?
+        public let lastModifiedDate: Date?
         /// The provider names.
         public let logins: [String]?
 
-        public init(creationDate: TimeStamp? = nil, identityId: String? = nil, lastModifiedDate: TimeStamp? = nil, logins: [String]? = nil) {
+        public init(creationDate: Date? = nil, identityId: String? = nil, lastModifiedDate: Date? = nil, logins: [String]? = nil) {
             self.creationDate = creationDate
             self.identityId = identityId
             self.lastModifiedDate = lastModifiedDate

@@ -169,19 +169,19 @@ extension IoTSiteWise {
 
     public struct AccessPolicySummary: AWSDecodableShape {
         /// The date the access policy was created, in Unix epoch time.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The ID of the access policy.
         public let id: String
         /// The AWS SSO identity (a user or group).
         public let identity: Identity
         /// The date the access policy was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp?
+        public let lastUpdateDate: Date?
         /// The permissions for the access policy. Note that a project ADMINISTRATOR is also known as a project owner.
         public let permission: Permission
         /// The AWS IoT SiteWise Monitor resource (a portal or project).
         public let resource: Resource
 
-        public init(creationDate: TimeStamp? = nil, id: String, identity: Identity, lastUpdateDate: TimeStamp? = nil, permission: Permission, resource: Resource) {
+        public init(creationDate: Date? = nil, id: String, identity: Identity, lastUpdateDate: Date? = nil, permission: Permission, resource: Resource) {
             self.creationDate = creationDate
             self.id = id
             self.identity = identity
@@ -204,11 +204,11 @@ extension IoTSiteWise {
         /// The quality of the aggregated data.
         public let quality: Quality?
         /// The date the aggregating computations occurred, in Unix epoch time.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
         /// The value of the aggregates.
         public let value: Aggregates
 
-        public init(quality: Quality? = nil, timestamp: TimeStamp, value: Aggregates) {
+        public init(quality: Quality? = nil, timestamp: Date, value: Aggregates) {
             self.quality = quality
             self.timestamp = timestamp
             self.value = value
@@ -449,19 +449,19 @@ extension IoTSiteWise {
         /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
         public let arn: String
         /// The date the asset model was created, in Unix epoch time.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// The asset model description.
         public let description: String
         /// The ID of the asset model (used with AWS IoT SiteWise APIs).
         public let id: String
         /// The date the asset model was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp
+        public let lastUpdateDate: Date
         /// The name of the asset model.
         public let name: String
         /// The current status of the asset model.
         public let status: AssetModelStatus
 
-        public init(arn: String, creationDate: TimeStamp, description: String, id: String, lastUpdateDate: TimeStamp, name: String, status: AssetModelStatus) {
+        public init(arn: String, creationDate: Date, description: String, id: String, lastUpdateDate: Date, name: String, status: AssetModelStatus) {
             self.arn = arn
             self.creationDate = creationDate
             self.description = description
@@ -564,19 +564,19 @@ extension IoTSiteWise {
         /// The ID of the asset model used to create this asset.
         public let assetModelId: String
         /// The date the asset was created, in Unix epoch time.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// A list of asset hierarchies that each contain a hierarchyId. A hierarchy specifies allowed parent/child asset relationships.
         public let hierarchies: [AssetHierarchy]
         /// The ID of the asset.
         public let id: String
         /// The date the asset was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp
+        public let lastUpdateDate: Date
         /// The name of the asset.
         public let name: String
         /// The current status of the asset.
         public let status: AssetStatus
 
-        public init(arn: String, assetModelId: String, creationDate: TimeStamp, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: TimeStamp, name: String, status: AssetStatus) {
+        public init(arn: String, assetModelId: String, creationDate: Date, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: Date, name: String, status: AssetStatus) {
             self.arn = arn
             self.assetModelId = assetModelId
             self.creationDate = creationDate
@@ -648,19 +648,19 @@ extension IoTSiteWise {
         /// The ID of the asset model used to create the asset.
         public let assetModelId: String
         /// The date the asset was created, in Unix epoch time.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// A list of asset hierarchies that each contain a hierarchyId. A hierarchy specifies allowed parent/child asset relationships.
         public let hierarchies: [AssetHierarchy]
         /// The ID of the asset.
         public let id: String
         /// The date the asset was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp
+        public let lastUpdateDate: Date
         /// The name of the asset.
         public let name: String
         /// The current status of the asset.
         public let status: AssetStatus
 
-        public init(arn: String, assetModelId: String, creationDate: TimeStamp, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: TimeStamp, name: String, status: AssetStatus) {
+        public init(arn: String, assetModelId: String, creationDate: Date, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: Date, name: String, status: AssetStatus) {
             self.arn = arn
             self.assetModelId = assetModelId
             self.creationDate = creationDate
@@ -1365,17 +1365,17 @@ extension IoTSiteWise {
 
     public struct DashboardSummary: AWSDecodableShape {
         /// The date the dashboard was created, in Unix epoch time.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The dashboard's description.
         public let description: String?
         /// The ID of the dashboard.
         public let id: String
         /// The date the dashboard was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp?
+        public let lastUpdateDate: Date?
         /// The name of the dashboard
         public let name: String
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, id: String, lastUpdateDate: TimeStamp? = nil, name: String) {
+        public init(creationDate: Date? = nil, description: String? = nil, id: String, lastUpdateDate: Date? = nil, name: String) {
             self.creationDate = creationDate
             self.description = description
             self.id = id
@@ -1657,19 +1657,19 @@ extension IoTSiteWise {
         /// The ARN of the access policy, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId}
         public let accessPolicyArn: String
         /// The date the access policy was created, in Unix epoch time.
-        public let accessPolicyCreationDate: TimeStamp
+        public let accessPolicyCreationDate: Date
         /// The ID of the access policy.
         public let accessPolicyId: String
         /// The AWS SSO identity (user or group) to which this access policy applies.
         public let accessPolicyIdentity: Identity
         /// The date the access policy was last updated, in Unix epoch time.
-        public let accessPolicyLastUpdateDate: TimeStamp
+        public let accessPolicyLastUpdateDate: Date
         /// The access policy permission. Note that a project ADMINISTRATOR is also known as a project owner.
         public let accessPolicyPermission: Permission
         /// The AWS IoT SiteWise Monitor resource (portal or project) to which this access policy provides access.
         public let accessPolicyResource: Resource
 
-        public init(accessPolicyArn: String, accessPolicyCreationDate: TimeStamp, accessPolicyId: String, accessPolicyIdentity: Identity, accessPolicyLastUpdateDate: TimeStamp, accessPolicyPermission: Permission, accessPolicyResource: Resource) {
+        public init(accessPolicyArn: String, accessPolicyCreationDate: Date, accessPolicyId: String, accessPolicyIdentity: Identity, accessPolicyLastUpdateDate: Date, accessPolicyPermission: Permission, accessPolicyResource: Resource) {
             self.accessPolicyArn = accessPolicyArn
             self.accessPolicyCreationDate = accessPolicyCreationDate
             self.accessPolicyId = accessPolicyId
@@ -1715,7 +1715,7 @@ extension IoTSiteWise {
         /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
         public let assetModelArn: String
         /// The date the asset model was created, in Unix epoch time.
-        public let assetModelCreationDate: TimeStamp
+        public let assetModelCreationDate: Date
         /// The asset model's description.
         public let assetModelDescription: String
         /// A list of asset model hierarchies that each contain a childAssetModelId and a hierarchyId (named id). A hierarchy specifies allowed parent/child asset relationships for an asset model.
@@ -1723,7 +1723,7 @@ extension IoTSiteWise {
         /// The ID of the asset model.
         public let assetModelId: String
         /// The date the asset model was last updated, in Unix epoch time.
-        public let assetModelLastUpdateDate: TimeStamp
+        public let assetModelLastUpdateDate: Date
         /// The name of the asset model.
         public let assetModelName: String
         /// The list of asset properties for the asset model.
@@ -1731,7 +1731,7 @@ extension IoTSiteWise {
         /// The current status of the asset model, which contains a state and any error message.
         public let assetModelStatus: AssetModelStatus
 
-        public init(assetModelArn: String, assetModelCreationDate: TimeStamp, assetModelDescription: String, assetModelHierarchies: [AssetModelHierarchy], assetModelId: String, assetModelLastUpdateDate: TimeStamp, assetModelName: String, assetModelProperties: [AssetModelProperty], assetModelStatus: AssetModelStatus) {
+        public init(assetModelArn: String, assetModelCreationDate: Date, assetModelDescription: String, assetModelHierarchies: [AssetModelHierarchy], assetModelId: String, assetModelLastUpdateDate: Date, assetModelName: String, assetModelProperties: [AssetModelProperty], assetModelStatus: AssetModelStatus) {
             self.assetModelArn = assetModelArn
             self.assetModelCreationDate = assetModelCreationDate
             self.assetModelDescription = assetModelDescription
@@ -1834,13 +1834,13 @@ extension IoTSiteWise {
         /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
         public let assetArn: String
         /// The date the asset was created, in Unix epoch time.
-        public let assetCreationDate: TimeStamp
+        public let assetCreationDate: Date
         /// A list of asset hierarchies that each contain a hierarchyId. A hierarchy specifies allowed parent/child asset relationships.
         public let assetHierarchies: [AssetHierarchy]
         /// The ID of the asset.
         public let assetId: String
         /// The date the asset was last updated, in Unix epoch time.
-        public let assetLastUpdateDate: TimeStamp
+        public let assetLastUpdateDate: Date
         /// The ID of the asset model that was used to create the asset.
         public let assetModelId: String
         /// The name of the asset.
@@ -1850,7 +1850,7 @@ extension IoTSiteWise {
         /// The current status of the asset, which contains a state and any error message.
         public let assetStatus: AssetStatus
 
-        public init(assetArn: String, assetCreationDate: TimeStamp, assetHierarchies: [AssetHierarchy], assetId: String, assetLastUpdateDate: TimeStamp, assetModelId: String, assetName: String, assetProperties: [AssetProperty], assetStatus: AssetStatus) {
+        public init(assetArn: String, assetCreationDate: Date, assetHierarchies: [AssetHierarchy], assetId: String, assetLastUpdateDate: Date, assetModelId: String, assetName: String, assetProperties: [AssetProperty], assetStatus: AssetStatus) {
             self.assetArn = assetArn
             self.assetCreationDate = assetCreationDate
             self.assetHierarchies = assetHierarchies
@@ -1900,7 +1900,7 @@ extension IoTSiteWise {
         /// The ARN of the dashboard, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId}
         public let dashboardArn: String
         /// The date the dashboard was created, in Unix epoch time.
-        public let dashboardCreationDate: TimeStamp
+        public let dashboardCreationDate: Date
         /// The dashboard's definition JSON literal. For detailed information, see Creating dashboards (CLI) in the AWS IoT SiteWise User Guide.
         public let dashboardDefinition: String
         /// The dashboard's description.
@@ -1908,13 +1908,13 @@ extension IoTSiteWise {
         /// The ID of the dashboard.
         public let dashboardId: String
         /// The date the dashboard was last updated, in Unix epoch time.
-        public let dashboardLastUpdateDate: TimeStamp
+        public let dashboardLastUpdateDate: Date
         /// The name of the dashboard.
         public let dashboardName: String
         /// The ID of the project that the dashboard is in.
         public let projectId: String
 
-        public init(dashboardArn: String, dashboardCreationDate: TimeStamp, dashboardDefinition: String, dashboardDescription: String? = nil, dashboardId: String, dashboardLastUpdateDate: TimeStamp, dashboardName: String, projectId: String) {
+        public init(dashboardArn: String, dashboardCreationDate: Date, dashboardDefinition: String, dashboardDescription: String? = nil, dashboardId: String, dashboardLastUpdateDate: Date, dashboardName: String, projectId: String) {
             self.dashboardArn = dashboardArn
             self.dashboardCreationDate = dashboardCreationDate
             self.dashboardDefinition = dashboardDefinition
@@ -2013,7 +2013,7 @@ extension IoTSiteWise {
 
     public struct DescribeGatewayResponse: AWSDecodableShape {
         /// The date the gateway was created, in Unix epoch time.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// The ARN of the gateway, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}
         public let gatewayArn: String
         /// A list of gateway capability summaries that each contain a namespace and status. Each gateway capability defines data sources for the gateway. To retrieve a capability configuration's definition, use DescribeGatewayCapabilityConfiguration.
@@ -2025,9 +2025,9 @@ extension IoTSiteWise {
         /// The gateway's platform.
         public let gatewayPlatform: GatewayPlatform?
         /// The date the gateway was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp
+        public let lastUpdateDate: Date
 
-        public init(creationDate: TimeStamp, gatewayArn: String, gatewayCapabilitySummaries: [GatewayCapabilitySummary], gatewayId: String, gatewayName: String, gatewayPlatform: GatewayPlatform? = nil, lastUpdateDate: TimeStamp) {
+        public init(creationDate: Date, gatewayArn: String, gatewayCapabilitySummaries: [GatewayCapabilitySummary], gatewayId: String, gatewayName: String, gatewayPlatform: GatewayPlatform? = nil, lastUpdateDate: Date) {
             self.creationDate = creationDate
             self.gatewayArn = gatewayArn
             self.gatewayCapabilitySummaries = gatewayCapabilitySummaries
@@ -2094,13 +2094,13 @@ extension IoTSiteWise {
         /// The AWS administrator's contact email address.
         public let portalContactEmail: String
         /// The date the portal was created, in Unix epoch time.
-        public let portalCreationDate: TimeStamp
+        public let portalCreationDate: Date
         /// The portal's description.
         public let portalDescription: String?
         /// The ID of the portal.
         public let portalId: String
         /// The date the portal was last updated, in Unix epoch time.
-        public let portalLastUpdateDate: TimeStamp
+        public let portalLastUpdateDate: Date
         /// The portal's logo image, which is available at a URL.
         public let portalLogoImageLocation: ImageLocation?
         /// The name of the portal.
@@ -2112,7 +2112,7 @@ extension IoTSiteWise {
         /// The ARN of the service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
         public let roleArn: String?
 
-        public init(portalArn: String, portalClientId: String, portalContactEmail: String, portalCreationDate: TimeStamp, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: TimeStamp, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
+        public init(portalArn: String, portalClientId: String, portalContactEmail: String, portalCreationDate: Date, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: Date, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
             self.portalArn = portalArn
             self.portalClientId = portalClientId
             self.portalContactEmail = portalContactEmail
@@ -2170,17 +2170,17 @@ extension IoTSiteWise {
         /// The ARN of the project, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}
         public let projectArn: String
         /// The date the project was created, in Unix epoch time.
-        public let projectCreationDate: TimeStamp
+        public let projectCreationDate: Date
         /// The project's description.
         public let projectDescription: String?
         /// The ID of the project.
         public let projectId: String
         /// The date the project was last updated, in Unix epoch time.
-        public let projectLastUpdateDate: TimeStamp
+        public let projectLastUpdateDate: Date
         /// The name of the project.
         public let projectName: String
 
-        public init(portalId: String, projectArn: String, projectCreationDate: TimeStamp, projectDescription: String? = nil, projectId: String, projectLastUpdateDate: TimeStamp, projectName: String) {
+        public init(portalId: String, projectArn: String, projectCreationDate: Date, projectDescription: String? = nil, projectId: String, projectLastUpdateDate: Date, projectName: String) {
             self.portalId = portalId
             self.projectArn = projectArn
             self.projectCreationDate = projectCreationDate
@@ -2321,7 +2321,7 @@ extension IoTSiteWise {
 
     public struct GatewaySummary: AWSDecodableShape {
         /// The date the gateway was created, in Unix epoch time.
-        public let creationDate: TimeStamp
+        public let creationDate: Date
         /// A list of gateway capability summaries that each contain a namespace and status. Each gateway capability defines data sources for the gateway. To retrieve a capability configuration's definition, use DescribeGatewayCapabilityConfiguration.
         public let gatewayCapabilitySummaries: [GatewayCapabilitySummary]?
         /// The ID of the gateway device.
@@ -2329,9 +2329,9 @@ extension IoTSiteWise {
         /// The name of the asset.
         public let gatewayName: String
         /// The date the gateway was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp
+        public let lastUpdateDate: Date
 
-        public init(creationDate: TimeStamp, gatewayCapabilitySummaries: [GatewayCapabilitySummary]? = nil, gatewayId: String, gatewayName: String, lastUpdateDate: TimeStamp) {
+        public init(creationDate: Date, gatewayCapabilitySummaries: [GatewayCapabilitySummary]? = nil, gatewayId: String, gatewayName: String, lastUpdateDate: Date) {
             self.creationDate = creationDate
             self.gatewayCapabilitySummaries = gatewayCapabilitySummaries
             self.gatewayId = gatewayId
@@ -2368,7 +2368,7 @@ extension IoTSiteWise {
         /// The ID of the asset.
         public let assetId: String?
         /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
-        public let endDate: TimeStamp
+        public let endDate: Date
         /// The maximum number of results to be returned per paginated request. Default: 100
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -2382,11 +2382,11 @@ extension IoTSiteWise {
         /// The time interval over which to aggregate data.
         public let resolution: String
         /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
-        public let startDate: TimeStamp
+        public let startDate: Date
         /// The chronological sorting order of the requested information. Default: ASCENDING
         public let timeOrdering: TimeOrdering?
 
-        public init(aggregateTypes: [AggregateType], assetId: String? = nil, endDate: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, resolution: String, startDate: TimeStamp, timeOrdering: TimeOrdering? = nil) {
+        public init(aggregateTypes: [AggregateType], assetId: String? = nil, endDate: Date, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, resolution: String, startDate: Date, timeOrdering: TimeOrdering? = nil) {
             self.aggregateTypes = aggregateTypes
             self.assetId = assetId
             self.endDate = endDate
@@ -2459,7 +2459,7 @@ extension IoTSiteWise {
         /// The ID of the asset.
         public let assetId: String?
         /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
-        public let endDate: TimeStamp?
+        public let endDate: Date?
         /// The maximum number of results to be returned per paginated request. Default: 100
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -2471,11 +2471,11 @@ extension IoTSiteWise {
         /// The quality by which to filter asset data.
         public let qualities: [Quality]?
         /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
-        public let startDate: TimeStamp?
+        public let startDate: Date?
         /// The chronological sorting order of the requested information. Default: ASCENDING
         public let timeOrdering: TimeOrdering?
 
-        public init(assetId: String? = nil, endDate: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, startDate: TimeStamp? = nil, timeOrdering: TimeOrdering? = nil) {
+        public init(assetId: String? = nil, endDate: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, startDate: Date? = nil, timeOrdering: TimeOrdering? = nil) {
             self.assetId = assetId
             self.endDate = endDate
             self.maxResults = maxResults
@@ -3317,13 +3317,13 @@ extension IoTSiteWise {
 
     public struct PortalSummary: AWSDecodableShape {
         /// The date the portal was created, in Unix epoch time.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The portal's description.
         public let description: String?
         /// The ID of the portal.
         public let id: String
         /// The date the portal was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp?
+        public let lastUpdateDate: Date?
         /// The name of the portal.
         public let name: String
         /// The ARN of the service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
@@ -3332,7 +3332,7 @@ extension IoTSiteWise {
         public let startUrl: String
         public let status: PortalStatus
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, id: String, lastUpdateDate: TimeStamp? = nil, name: String, roleArn: String? = nil, startUrl: String, status: PortalStatus) {
+        public init(creationDate: Date? = nil, description: String? = nil, id: String, lastUpdateDate: Date? = nil, name: String, roleArn: String? = nil, startUrl: String, status: PortalStatus) {
             self.creationDate = creationDate
             self.description = description
             self.id = id
@@ -3376,17 +3376,17 @@ extension IoTSiteWise {
 
     public struct ProjectSummary: AWSDecodableShape {
         /// The date the project was created, in Unix epoch time.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The project's description.
         public let description: String?
         /// The ID of the project.
         public let id: String
         /// The date the project was last updated, in Unix epoch time.
-        public let lastUpdateDate: TimeStamp?
+        public let lastUpdateDate: Date?
         /// The name of the project.
         public let name: String
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, id: String, lastUpdateDate: TimeStamp? = nil, name: String) {
+        public init(creationDate: Date? = nil, description: String? = nil, id: String, lastUpdateDate: Date? = nil, name: String) {
             self.creationDate = creationDate
             self.description = description
             self.id = id

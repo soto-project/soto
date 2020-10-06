@@ -67,7 +67,7 @@ extension STS {
                     accessKeyId: credentials.accessKeyId,
                     secretAccessKey: credentials.secretAccessKey,
                     sessionToken: credentials.sessionToken,
-                    expiration: credentials.expiration.dateValue
+                    expiration: credentials.expiration
                 )
             }
         }
@@ -91,7 +91,7 @@ extension STS {
                     accessKeyId: credentials.accessKeyId,
                     secretAccessKey: credentials.secretAccessKey,
                     sessionToken: credentials.sessionToken,
-                    expiration: credentials.expiration.dateValue
+                    expiration: credentials.expiration
                 )
             }
         }
@@ -115,7 +115,7 @@ extension STS {
                     accessKeyId: credentials.accessKeyId,
                     secretAccessKey: credentials.secretAccessKey,
                     sessionToken: credentials.sessionToken,
-                    expiration: credentials.expiration.dateValue
+                    expiration: credentials.expiration
                 )
             }
         }
@@ -139,7 +139,7 @@ extension STS {
                     accessKeyId: credentials.accessKeyId,
                     secretAccessKey: credentials.secretAccessKey,
                     sessionToken: credentials.sessionToken,
-                    expiration: credentials.expiration.dateValue
+                    expiration: credentials.expiration
                 )
             }
         }
@@ -163,7 +163,7 @@ extension STS {
                     accessKeyId: credentials.accessKeyId,
                     secretAccessKey: credentials.secretAccessKey,
                     sessionToken: credentials.sessionToken,
-                    expiration: credentials.expiration.dateValue
+                    expiration: credentials.expiration
                 )
             }
         }

@@ -261,7 +261,7 @@ extension CloudTrail {
         /// The AWS service that the request was made to.
         public let eventSource: String?
         /// The date and time of the event returned.
-        public let eventTime: TimeStamp?
+        public let eventTime: Date?
         /// Information about whether the event is a write event or a read event.
         public let readOnly: String?
         /// A list of resources referenced by the event returned.
@@ -269,7 +269,7 @@ extension CloudTrail {
         /// A user name or role name of the requester that called the API in the event returned.
         public let username: String?
 
-        public init(accessKeyId: String? = nil, cloudTrailEvent: String? = nil, eventId: String? = nil, eventName: String? = nil, eventSource: String? = nil, eventTime: TimeStamp? = nil, readOnly: String? = nil, resources: [Resource]? = nil, username: String? = nil) {
+        public init(accessKeyId: String? = nil, cloudTrailEvent: String? = nil, eventId: String? = nil, eventName: String? = nil, eventSource: String? = nil, eventTime: Date? = nil, readOnly: String? = nil, resources: [Resource]? = nil, username: String? = nil) {
             self.accessKeyId = accessKeyId
             self.cloudTrailEvent = cloudTrailEvent
             self.eventId = eventId
@@ -423,7 +423,7 @@ extension CloudTrail {
         /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
         public let latestCloudWatchLogsDeliveryError: String?
         /// Displays the most recent date and time when CloudTrail delivered logs to CloudWatch Logs.
-        public let latestCloudWatchLogsDeliveryTime: TimeStamp?
+        public let latestCloudWatchLogsDeliveryTime: Date?
         /// This field is no longer in use.
         public let latestDeliveryAttemptSucceeded: String?
         /// This field is no longer in use.
@@ -431,11 +431,11 @@ extension CloudTrail {
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket.
         public let latestDeliveryError: String?
         /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
-        public let latestDeliveryTime: TimeStamp?
+        public let latestDeliveryTime: Date?
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver a digest file to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket.
         public let latestDigestDeliveryError: String?
         /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
-        public let latestDigestDeliveryTime: TimeStamp?
+        public let latestDigestDeliveryTime: Date?
         /// This field is no longer in use.
         public let latestNotificationAttemptSucceeded: String?
         /// This field is no longer in use.
@@ -443,17 +443,17 @@ extension CloudTrail {
         /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide.
         public let latestNotificationError: String?
         /// Specifies the date and time of the most recent Amazon SNS notification that CloudTrail has written a new log file to an account's Amazon S3 bucket.
-        public let latestNotificationTime: TimeStamp?
+        public let latestNotificationTime: Date?
         /// Specifies the most recent date and time when CloudTrail started recording API calls for an AWS account.
-        public let startLoggingTime: TimeStamp?
+        public let startLoggingTime: Date?
         /// Specifies the most recent date and time when CloudTrail stopped recording API calls for an AWS account.
-        public let stopLoggingTime: TimeStamp?
+        public let stopLoggingTime: Date?
         /// This field is no longer in use.
         public let timeLoggingStarted: String?
         /// This field is no longer in use.
         public let timeLoggingStopped: String?
 
-        public init(isLogging: Bool? = nil, latestCloudWatchLogsDeliveryError: String? = nil, latestCloudWatchLogsDeliveryTime: TimeStamp? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestDeliveryAttemptTime: String? = nil, latestDeliveryError: String? = nil, latestDeliveryTime: TimeStamp? = nil, latestDigestDeliveryError: String? = nil, latestDigestDeliveryTime: TimeStamp? = nil, latestNotificationAttemptSucceeded: String? = nil, latestNotificationAttemptTime: String? = nil, latestNotificationError: String? = nil, latestNotificationTime: TimeStamp? = nil, startLoggingTime: TimeStamp? = nil, stopLoggingTime: TimeStamp? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil) {
+        public init(isLogging: Bool? = nil, latestCloudWatchLogsDeliveryError: String? = nil, latestCloudWatchLogsDeliveryTime: Date? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestDeliveryAttemptTime: String? = nil, latestDeliveryError: String? = nil, latestDeliveryTime: Date? = nil, latestDigestDeliveryError: String? = nil, latestDigestDeliveryTime: Date? = nil, latestNotificationAttemptSucceeded: String? = nil, latestNotificationAttemptTime: String? = nil, latestNotificationError: String? = nil, latestNotificationTime: Date? = nil, startLoggingTime: Date? = nil, stopLoggingTime: Date? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil) {
             self.isLogging = isLogging
             self.latestCloudWatchLogsDeliveryError = latestCloudWatchLogsDeliveryError
             self.latestCloudWatchLogsDeliveryTime = latestCloudWatchLogsDeliveryTime
@@ -509,15 +509,13 @@ extension CloudTrail {
 
     public struct ListPublicKeysRequest: AWSEncodableShape {
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var endTime: TimeStamp?
+        public let endTime: Date?
         /// Reserved for future use.
         public let nextToken: String?
         /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.nextToken = nextToken
             self.startTime = startTime
@@ -630,8 +628,7 @@ extension CloudTrail {
 
     public struct LookupEventsRequest: AWSEncodableShape {
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var endTime: TimeStamp?
+        public let endTime: Date?
         /// Specifies the event category. If you do not specify an event category, events of the category are not returned in the response. For example, if you do not specify insight as the value of EventCategory, no Insights events are returned.
         public let eventCategory: EventCategory?
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
@@ -641,10 +638,9 @@ extension CloudTrail {
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-        @OptionalCustomCoding<UnixEpochTimeStampCoder>
-        public var startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, eventCategory: EventCategory? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, eventCategory: EventCategory? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.eventCategory = eventCategory
             self.lookupAttributes = lookupAttributes
@@ -689,13 +685,13 @@ extension CloudTrail {
         /// The fingerprint of the public key.
         public let fingerprint: String?
         /// The ending time of validity of the public key.
-        public let validityEndTime: TimeStamp?
+        public let validityEndTime: Date?
         /// The starting time of validity of the public key.
-        public let validityStartTime: TimeStamp?
+        public let validityStartTime: Date?
         /// The DER encoded public key value in PKCS#1 format.
         public let value: Data?
 
-        public init(fingerprint: String? = nil, validityEndTime: TimeStamp? = nil, validityStartTime: TimeStamp? = nil, value: Data? = nil) {
+        public init(fingerprint: String? = nil, validityEndTime: Date? = nil, validityStartTime: Date? = nil, value: Data? = nil) {
             self.fingerprint = fingerprint
             self.validityEndTime = validityEndTime
             self.validityStartTime = validityStartTime

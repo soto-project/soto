@@ -38,9 +38,9 @@ extension PersonalizeEvents {
         /// The ID of the recommendation.
         public let recommendationId: String?
         /// The timestamp (in Unix time) on the client side when the event occurred.
-        public let sentAt: TimeStamp
+        public let sentAt: Date
 
-        public init(eventId: String? = nil, eventType: String, eventValue: Float? = nil, impression: [String]? = nil, itemId: String? = nil, properties: String? = nil, recommendationId: String? = nil, sentAt: TimeStamp) {
+        public init(eventId: String? = nil, eventType: String, eventValue: Float? = nil, impression: [String]? = nil, itemId: String? = nil, properties: String? = nil, recommendationId: String? = nil, sentAt: Date) {
             self.eventId = eventId
             self.eventType = eventType
             self.eventValue = eventValue

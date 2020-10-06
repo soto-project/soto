@@ -68,13 +68,13 @@ extension Health {
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
         /// The most recent time that the entity was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
         public let statusCode: EntityStatusCode?
         /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported.
         public let tags: [String: String]?
 
-        public init(awsAccountId: String? = nil, entityArn: String? = nil, entityUrl: String? = nil, entityValue: String? = nil, eventArn: String? = nil, lastUpdatedTime: TimeStamp? = nil, statusCode: EntityStatusCode? = nil, tags: [String: String]? = nil) {
+        public init(awsAccountId: String? = nil, entityArn: String? = nil, entityUrl: String? = nil, entityValue: String? = nil, eventArn: String? = nil, lastUpdatedTime: Date? = nil, statusCode: EntityStatusCode? = nil, tags: [String: String]? = nil) {
             self.awsAccountId = awsAccountId
             self.entityArn = entityArn
             self.entityUrl = entityUrl
@@ -99,11 +99,11 @@ extension Health {
 
     public struct DateTimeRange: AWSEncodableShape {
         /// The starting date and time of a time range.
-        public let from: TimeStamp?
+        public let from: Date?
         /// The ending date and time of a time range.
-        public let to: TimeStamp?
+        public let to: Date?
 
-        public init(from: TimeStamp? = nil, to: TimeStamp? = nil) {
+        public init(from: Date? = nil, to: Date? = nil) {
             self.from = from
             self.to = to
         }
@@ -716,7 +716,7 @@ extension Health {
         /// The AWS Availability Zone of the event. For example, us-east-1a.
         public let availabilityZone: String?
         /// The date and time that the event ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
         public let eventScopeCode: EventScopeCode?
         /// The category of the event. Possible values are issue, scheduledChange, and accountNotification.
@@ -724,17 +724,17 @@ extension Health {
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public let eventTypeCode: String?
         /// The most recent date and time that the event was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The AWS region name of the event.
         public let region: String?
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public let service: String?
         /// The date and time that the event began.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
 
-        public init(arn: String? = nil, availabilityZone: String? = nil, endTime: TimeStamp? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
+        public init(arn: String? = nil, availabilityZone: String? = nil, endTime: Date? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: Date? = nil, region: String? = nil, service: String? = nil, startTime: Date? = nil, statusCode: EventStatusCode? = nil) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.endTime = endTime
@@ -1068,7 +1068,7 @@ extension Health {
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let arn: String?
         /// The date and time that the event ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
         public let eventScopeCode: EventScopeCode?
         /// The category of the event type.
@@ -1076,17 +1076,17 @@ extension Health {
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION. For example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public let eventTypeCode: String?
         /// The most recent date and time that the event was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The AWS Region name of the event.
         public let region: String?
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public let service: String?
         /// The date and time that the event began.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
 
-        public init(arn: String? = nil, endTime: TimeStamp? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
+        public init(arn: String? = nil, endTime: Date? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: Date? = nil, region: String? = nil, service: String? = nil, startTime: Date? = nil, statusCode: EventStatusCode? = nil) {
             self.arn = arn
             self.endTime = endTime
             self.eventScopeCode = eventScopeCode

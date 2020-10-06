@@ -322,17 +322,17 @@ extension XRay {
         /// Aliases for the edge.
         public let aliases: [Alias]?
         /// The end time of the last segment on the edge.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Identifier of the edge. Unique within a service map.
         public let referenceId: Int?
         /// A histogram that maps the spread of client response times on an edge.
         public let responseTimeHistogram: [HistogramEntry]?
         /// The start time of the first segment on the edge.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// Response statistics for segments on the edge.
         public let summaryStatistics: EdgeStatistics?
 
-        public init(aliases: [Alias]? = nil, endTime: TimeStamp? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: TimeStamp? = nil, summaryStatistics: EdgeStatistics? = nil) {
+        public init(aliases: [Alias]? = nil, endTime: Date? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: Date? = nil, summaryStatistics: EdgeStatistics? = nil) {
             self.aliases = aliases
             self.endTime = endTime
             self.referenceId = referenceId
@@ -752,13 +752,13 @@ extension XRay {
 
     public struct GetSamplingTargetsResult: AWSDecodableShape {
         /// The last time a user changed the sampling rule configuration. If the sampling rule configuration changed since the service last retrieved it, the service should call GetSamplingRules to get the latest version.
-        public let lastRuleModification: TimeStamp?
+        public let lastRuleModification: Date?
         /// Updated rules that the service should use to sample requests.
         public let samplingTargetDocuments: [SamplingTargetDocument]?
         /// Information about SamplingStatisticsDocument that X-Ray could not process.
         public let unprocessedStatistics: [UnprocessedStatistics]?
 
-        public init(lastRuleModification: TimeStamp? = nil, samplingTargetDocuments: [SamplingTargetDocument]? = nil, unprocessedStatistics: [UnprocessedStatistics]? = nil) {
+        public init(lastRuleModification: Date? = nil, samplingTargetDocuments: [SamplingTargetDocument]? = nil, unprocessedStatistics: [UnprocessedStatistics]? = nil) {
             self.lastRuleModification = lastRuleModification
             self.samplingTargetDocuments = samplingTargetDocuments
             self.unprocessedStatistics = unprocessedStatistics
@@ -773,7 +773,7 @@ extension XRay {
 
     public struct GetServiceGraphRequest: AWSEncodableShape {
         /// The end of the timeframe for which to generate a graph.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The ARN of a group to generate a graph based on.
         public let groupARN: String?
         /// The name of a group to generate a graph based on.
@@ -781,9 +781,9 @@ extension XRay {
         /// Pagination token.
         public let nextToken: String?
         /// The start of the time frame for which to generate a graph.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, startTime: TimeStamp) {
+        public init(endTime: Date, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.groupARN = groupARN
             self.groupName = groupName
@@ -811,15 +811,15 @@ extension XRay {
         /// A flag indicating whether the group's filter expression has been consistent, or if the returned service graph may show traces from an older version of the group's filter expression.
         public let containsOldGroupVersions: Bool?
         /// The end of the time frame for which the graph was generated.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Pagination token.
         public let nextToken: String?
         /// The services that have processed a traced request during the specified time frame.
         public let services: [Service]?
         /// The start of the time frame for which the graph was generated.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(containsOldGroupVersions: Bool? = nil, endTime: TimeStamp? = nil, nextToken: String? = nil, services: [Service]? = nil, startTime: TimeStamp? = nil) {
+        public init(containsOldGroupVersions: Bool? = nil, endTime: Date? = nil, nextToken: String? = nil, services: [Service]? = nil, startTime: Date? = nil) {
             self.containsOldGroupVersions = containsOldGroupVersions
             self.endTime = endTime
             self.nextToken = nextToken
@@ -838,7 +838,7 @@ extension XRay {
 
     public struct GetTimeSeriesServiceStatisticsRequest: AWSEncodableShape {
         /// The end of the time frame for which to aggregate statistics.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned.
         public let entitySelectorExpression: String?
         /// The ARN of the group for which to pull statistics from.
@@ -850,9 +850,9 @@ extension XRay {
         /// Aggregation period in seconds.
         public let period: Int?
         /// The start of the time frame for which to aggregate statistics.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, entitySelectorExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int? = nil, startTime: TimeStamp) {
+        public init(endTime: Date, entitySelectorExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int? = nil, startTime: Date) {
             self.endTime = endTime
             self.entitySelectorExpression = entitySelectorExpression
             self.groupARN = groupARN
@@ -946,7 +946,7 @@ extension XRay {
 
     public struct GetTraceSummariesRequest: AWSEncodableShape {
         /// The end of the time frame for which to retrieve traces.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
         public let filterExpression: String?
         /// Specify the pagination token returned by a previous request to retrieve the next page of results.
@@ -956,11 +956,11 @@ extension XRay {
         /// A paramater to indicate whether to enable sampling on trace summaries. Input parameters are Name and Value.
         public let samplingStrategy: SamplingStrategy?
         /// The start of the time frame for which to retrieve traces.
-        public let startTime: TimeStamp
+        public let startTime: Date
         /// A parameter to indicate whether to query trace summaries by TraceId or Event time.
         public let timeRangeType: TimeRangeType?
 
-        public init(endTime: TimeStamp, filterExpression: String? = nil, nextToken: String? = nil, sampling: Bool? = nil, samplingStrategy: SamplingStrategy? = nil, startTime: TimeStamp, timeRangeType: TimeRangeType? = nil) {
+        public init(endTime: Date, filterExpression: String? = nil, nextToken: String? = nil, sampling: Bool? = nil, samplingStrategy: SamplingStrategy? = nil, startTime: Date, timeRangeType: TimeRangeType? = nil) {
             self.endTime = endTime
             self.filterExpression = filterExpression
             self.nextToken = nextToken
@@ -983,7 +983,7 @@ extension XRay {
 
     public struct GetTraceSummariesResult: AWSDecodableShape {
         /// The start time of this page of results.
-        public let approximateTime: TimeStamp?
+        public let approximateTime: Date?
         /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most most recent results, closest to the end of the time frame.
         public let nextToken: String?
         /// The total number of traces processed, including traces that did not match the specified filter expression.
@@ -991,7 +991,7 @@ extension XRay {
         /// Trace IDs and annotations for traces that were found in the specified time frame.
         public let traceSummaries: [TraceSummary]?
 
-        public init(approximateTime: TimeStamp? = nil, nextToken: String? = nil, tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil) {
+        public init(approximateTime: Date? = nil, nextToken: String? = nil, tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil) {
             self.approximateTime = approximateTime
             self.nextToken = nextToken
             self.tracesProcessedCount = tracesProcessedCount
@@ -1446,13 +1446,13 @@ extension XRay {
 
     public struct SamplingRuleRecord: AWSDecodableShape {
         /// When the rule was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// When the rule was last modified.
-        public let modifiedAt: TimeStamp?
+        public let modifiedAt: Date?
         /// The sampling rule.
         public let samplingRule: SamplingRule?
 
-        public init(createdAt: TimeStamp? = nil, modifiedAt: TimeStamp? = nil, samplingRule: SamplingRule? = nil) {
+        public init(createdAt: Date? = nil, modifiedAt: Date? = nil, samplingRule: SamplingRule? = nil) {
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
             self.samplingRule = samplingRule
@@ -1549,9 +1549,9 @@ extension XRay {
         /// The number of requests recorded.
         public let sampledCount: Int?
         /// The start time of the reporting window.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(borrowCount: Int? = nil, requestCount: Int? = nil, ruleName: String? = nil, sampledCount: Int? = nil, timestamp: TimeStamp? = nil) {
+        public init(borrowCount: Int? = nil, requestCount: Int? = nil, ruleName: String? = nil, sampledCount: Int? = nil, timestamp: Date? = nil) {
             self.borrowCount = borrowCount
             self.requestCount = requestCount
             self.ruleName = ruleName
@@ -1580,9 +1580,9 @@ extension XRay {
         /// The number of requests recorded.
         public let sampledCount: Int
         /// The current time.
-        public let timestamp: TimeStamp
+        public let timestamp: Date
 
-        public init(borrowCount: Int? = nil, clientID: String, requestCount: Int, ruleName: String, sampledCount: Int, timestamp: TimeStamp) {
+        public init(borrowCount: Int? = nil, clientID: String, requestCount: Int, ruleName: String, sampledCount: Int, timestamp: Date) {
             self.borrowCount = borrowCount
             self.clientID = clientID
             self.requestCount = requestCount
@@ -1636,11 +1636,11 @@ extension XRay {
         /// The number of requests per second that X-Ray allocated this service.
         public let reservoirQuota: Int?
         /// When the reservoir quota expires.
-        public let reservoirQuotaTTL: TimeStamp?
+        public let reservoirQuotaTTL: Date?
         /// The name of the sampling rule.
         public let ruleName: String?
 
-        public init(fixedRate: Double? = nil, interval: Int? = nil, reservoirQuota: Int? = nil, reservoirQuotaTTL: TimeStamp? = nil, ruleName: String? = nil) {
+        public init(fixedRate: Double? = nil, interval: Int? = nil, reservoirQuota: Int? = nil, reservoirQuotaTTL: Date? = nil, ruleName: String? = nil) {
             self.fixedRate = fixedRate
             self.interval = interval
             self.reservoirQuota = reservoirQuota
@@ -1682,7 +1682,7 @@ extension XRay {
         /// Connections to downstream services.
         public let edges: [Edge]?
         /// The end time of the last segment that the service generated.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The canonical name of the service.
         public let name: String?
         /// A list of names for the service, including the canonical name.
@@ -1694,7 +1694,7 @@ extension XRay {
         /// Indicates that the service was the first service to process a request.
         public let root: Bool?
         /// The start time of the first segment that the service generated.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The service's state.
         public let state: String?
         /// Aggregated statistics for the service.
@@ -1702,7 +1702,7 @@ extension XRay {
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.
         public let `type`: String?
 
-        public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: TimeStamp? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: TimeStamp? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
+        public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: Date? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: Date? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
             self.accountId = accountId
             self.durationHistogram = durationHistogram
             self.edges = edges
@@ -1846,9 +1846,9 @@ extension XRay {
         public let segmentsRejectedCount: Int?
         public let segmentsSentCount: Int?
         public let segmentsSpilloverCount: Int?
-        public let timestamp: TimeStamp
+        public let timestamp: Date
 
-        public init(backendConnectionErrors: BackendConnectionErrors? = nil, segmentsReceivedCount: Int? = nil, segmentsRejectedCount: Int? = nil, segmentsSentCount: Int? = nil, segmentsSpilloverCount: Int? = nil, timestamp: TimeStamp) {
+        public init(backendConnectionErrors: BackendConnectionErrors? = nil, segmentsReceivedCount: Int? = nil, segmentsRejectedCount: Int? = nil, segmentsSentCount: Int? = nil, segmentsSpilloverCount: Int? = nil, timestamp: Date) {
             self.backendConnectionErrors = backendConnectionErrors
             self.segmentsReceivedCount = segmentsReceivedCount
             self.segmentsRejectedCount = segmentsRejectedCount
@@ -1873,9 +1873,9 @@ extension XRay {
         public let responseTimeHistogram: [HistogramEntry]?
         public let serviceSummaryStatistics: ServiceStatistics?
         /// Timestamp of the window for which statistics are aggregated.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(edgeSummaryStatistics: EdgeStatistics? = nil, responseTimeHistogram: [HistogramEntry]? = nil, serviceSummaryStatistics: ServiceStatistics? = nil, timestamp: TimeStamp? = nil) {
+        public init(edgeSummaryStatistics: EdgeStatistics? = nil, responseTimeHistogram: [HistogramEntry]? = nil, serviceSummaryStatistics: ServiceStatistics? = nil, timestamp: Date? = nil) {
             self.edgeSummaryStatistics = edgeSummaryStatistics
             self.responseTimeHistogram = responseTimeHistogram
             self.serviceSummaryStatistics = serviceSummaryStatistics
@@ -1939,7 +1939,7 @@ extension XRay {
         /// One or more of the segment documents is in progress.
         public let isPartial: Bool?
         /// The matched time stamp of a defined event.
-        public let matchedEventTime: TimeStamp?
+        public let matchedEventTime: Date?
         /// A list of resource ARNs for any resource corresponding to the trace segments.
         public let resourceARNs: [ResourceARNDetail]?
         /// The length of time in seconds between the start and end times of the root segment. If the service performs work asynchronously, the response time measures the time before the response is sent to the user, while the duration measures the amount of time before the last traced activity completes.
@@ -1953,7 +1953,7 @@ extension XRay {
         /// Users from the trace's segment documents.
         public let users: [TraceUser]?
 
-        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: TimeStamp? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
+        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: Date? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
             self.annotations = annotations
             self.availabilityZones = availabilityZones
             self.duration = duration

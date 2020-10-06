@@ -403,7 +403,7 @@ extension CodePipeline {
         /// The URL of a resource external to AWS that is used when running the action (for example, an external repository URL).
         public let externalExecutionUrl: String?
         /// The last status change of the action.
-        public let lastStatusChange: TimeStamp?
+        public let lastStatusChange: Date?
         /// The ARN of the user who last changed the pipeline.
         public let lastUpdatedBy: String?
         /// A percentage of completeness of the action as it runs.
@@ -415,7 +415,7 @@ extension CodePipeline {
         /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState command. It is used to validate that the approval request corresponding to this token is still valid.
         public let token: String?
 
-        public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: TimeStamp? = nil, lastUpdatedBy: String? = nil, percentComplete: Int? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
+        public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: Date? = nil, lastUpdatedBy: String? = nil, percentComplete: Int? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionUrl = externalExecutionUrl
@@ -448,7 +448,7 @@ extension CodePipeline {
         /// Input details for the action execution, such as role ARN, Region, and input artifacts.
         public let input: ActionExecutionInput?
         /// The last update time of the action execution.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// Output details for the action execution, such as the action execution result.
         public let output: ActionExecutionOutput?
         /// The pipeline execution ID for the action execution.
@@ -458,11 +458,11 @@ extension CodePipeline {
         /// The name of the stage that contains the action.
         public let stageName: String?
         /// The start time of the action execution.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         ///  The status of the action execution. Status categories are InProgress, Succeeded, and Failed.
         public let status: ActionExecutionStatus?
 
-        public init(actionExecutionId: String? = nil, actionName: String? = nil, input: ActionExecutionInput? = nil, lastUpdateTime: TimeStamp? = nil, output: ActionExecutionOutput? = nil, pipelineExecutionId: String? = nil, pipelineVersion: Int? = nil, stageName: String? = nil, startTime: TimeStamp? = nil, status: ActionExecutionStatus? = nil) {
+        public init(actionExecutionId: String? = nil, actionName: String? = nil, input: ActionExecutionInput? = nil, lastUpdateTime: Date? = nil, output: ActionExecutionOutput? = nil, pipelineExecutionId: String? = nil, pipelineVersion: Int? = nil, stageName: String? = nil, startTime: Date? = nil, status: ActionExecutionStatus? = nil) {
             self.actionExecutionId = actionExecutionId
             self.actionName = actionName
             self.input = input
@@ -586,13 +586,13 @@ extension CodePipeline {
 
     public struct ActionRevision: AWSEncodableShape & AWSDecodableShape {
         /// The date and time when the most recent version of the action was created, in timestamp format.
-        public let created: TimeStamp
+        public let created: Date
         /// The unique identifier of the change that set the state to this revision (for example, a deployment ID or timestamp).
         public let revisionChangeId: String
         /// The system-generated unique ID that identifies the revision number of the action.
         public let revisionId: String
 
-        public init(created: TimeStamp, revisionChangeId: String, revisionId: String) {
+        public init(created: Date, revisionChangeId: String, revisionId: String) {
             self.created = created
             self.revisionChangeId = revisionChangeId
             self.revisionId = revisionId
@@ -843,7 +843,7 @@ extension CodePipeline {
 
     public struct ArtifactRevision: AWSDecodableShape {
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The name of an artifact. This name might be system-generated, such as "MyApp", or defined by the user when an action is created.
         public let name: String?
         /// An additional identifier for a revision, such as a commit date or, for artifacts stored in Amazon S3 buckets, the ETag value.
@@ -855,7 +855,7 @@ extension CodePipeline {
         /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
         public let revisionUrl: String?
 
-        public init(created: TimeStamp? = nil, name: String? = nil, revisionChangeIdentifier: String? = nil, revisionId: String? = nil, revisionSummary: String? = nil, revisionUrl: String? = nil) {
+        public init(created: Date? = nil, name: String? = nil, revisionChangeIdentifier: String? = nil, revisionId: String? = nil, revisionSummary: String? = nil, revisionUrl: String? = nil) {
             self.created = created
             self.name = name
             self.revisionChangeIdentifier = revisionChangeIdentifier
@@ -1046,13 +1046,13 @@ extension CodePipeline {
         /// The change identifier for the current revision.
         public let changeIdentifier: String
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The revision ID of the current version of an artifact.
         public let revision: String
         /// The summary of the most recent revision of the artifact.
         public let revisionSummary: String?
 
-        public init(changeIdentifier: String, created: TimeStamp? = nil, revision: String, revisionSummary: String? = nil) {
+        public init(changeIdentifier: String, created: Date? = nil, revision: String, revisionSummary: String? = nil) {
             self.changeIdentifier = changeIdentifier
             self.created = created
             self.revision = revision
@@ -1481,7 +1481,7 @@ extension CodePipeline {
 
     public struct GetPipelineStateOutput: AWSDecodableShape {
         /// The date and time the pipeline was created, in timestamp format.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The name of the pipeline for which you want to get the state.
         public let pipelineName: String?
         /// The version number of the pipeline.  A newly created pipeline is always assigned a version number of 1.
@@ -1489,9 +1489,9 @@ extension CodePipeline {
         /// A list of the pipeline stage output information, including stage name, state, most recent run details, whether the stage is disabled, and other data.
         public let stageStates: [StageState]?
         /// The date and time the pipeline was last updated, in timestamp format.
-        public let updated: TimeStamp?
+        public let updated: Date?
 
-        public init(created: TimeStamp? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, stageStates: [StageState]? = nil, updated: TimeStamp? = nil) {
+        public init(created: Date? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, stageStates: [StageState]? = nil, updated: Date? = nil) {
             self.created = created
             self.pipelineName = pipelineName
             self.pipelineVersion = pipelineVersion
@@ -1882,13 +1882,13 @@ extension CodePipeline {
         /// The text of the error message about the webhook.
         public let errorMessage: String?
         /// The date and time a webhook was last successfully triggered, in timestamp format.
-        public let lastTriggered: TimeStamp?
+        public let lastTriggered: Date?
         /// Specifies the tags applied to the webhook.
         public let tags: [Tag]?
         /// A unique URL generated by CodePipeline. When a POST request is made to this URL, the defined pipeline is started as long as the body of the post request satisfies the defined authentication and filtering conditions. Deleting and re-creating a webhook makes the old URL invalid and generates a new one.
         public let url: String
 
-        public init(arn: String? = nil, definition: WebhookDefinition, errorCode: String? = nil, errorMessage: String? = nil, lastTriggered: TimeStamp? = nil, tags: [Tag]? = nil, url: String) {
+        public init(arn: String? = nil, definition: WebhookDefinition, errorCode: String? = nil, errorMessage: String? = nil, lastTriggered: Date? = nil, tags: [Tag]? = nil, url: String) {
             self.arn = arn
             self.definition = definition
             self.errorCode = errorCode
@@ -2080,13 +2080,13 @@ extension CodePipeline {
 
     public struct PipelineExecutionSummary: AWSDecodableShape {
         /// The date and time of the last change to the pipeline execution, in timestamp format.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The ID of the pipeline execution.
         public let pipelineExecutionId: String?
         /// A list of the source artifact revisions that initiated a pipeline execution.
         public let sourceRevisions: [SourceRevision]?
         /// The date and time when the pipeline execution began, in timestamp format.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Stopped: The pipeline execution was manually stopped. For more information, see Stopped Executions.   Stopping: The pipeline execution received a request to be manually stopped. Depending on the selected stop mode, the execution is either completing or abandoning in-progress actions. For more information, see Stopped Executions.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead. For more information, see Superseded Executions.   Failed: The pipeline execution was not completed successfully.
         public let status: PipelineExecutionStatus?
         /// The interaction that stopped a pipeline execution.
@@ -2094,7 +2094,7 @@ extension CodePipeline {
         /// The interaction or event that started a pipeline execution, such as automated change detection or a StartPipelineExecution API call.
         public let trigger: ExecutionTrigger?
 
-        public init(lastUpdateTime: TimeStamp? = nil, pipelineExecutionId: String? = nil, sourceRevisions: [SourceRevision]? = nil, startTime: TimeStamp? = nil, status: PipelineExecutionStatus? = nil, stopTrigger: StopExecutionTrigger? = nil, trigger: ExecutionTrigger? = nil) {
+        public init(lastUpdateTime: Date? = nil, pipelineExecutionId: String? = nil, sourceRevisions: [SourceRevision]? = nil, startTime: Date? = nil, status: PipelineExecutionStatus? = nil, stopTrigger: StopExecutionTrigger? = nil, trigger: ExecutionTrigger? = nil) {
             self.lastUpdateTime = lastUpdateTime
             self.pipelineExecutionId = pipelineExecutionId
             self.sourceRevisions = sourceRevisions
@@ -2117,13 +2117,13 @@ extension CodePipeline {
 
     public struct PipelineMetadata: AWSDecodableShape {
         /// The date and time the pipeline was created, in timestamp format.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public let pipelineArn: String?
         /// The date and time the pipeline was last updated, in timestamp format.
-        public let updated: TimeStamp?
+        public let updated: Date?
 
-        public init(created: TimeStamp? = nil, pipelineArn: String? = nil, updated: TimeStamp? = nil) {
+        public init(created: Date? = nil, pipelineArn: String? = nil, updated: Date? = nil) {
             self.created = created
             self.pipelineArn = pipelineArn
             self.updated = updated
@@ -2138,15 +2138,15 @@ extension CodePipeline {
 
     public struct PipelineSummary: AWSDecodableShape {
         /// The date and time the pipeline was created, in timestamp format.
-        public let created: TimeStamp?
+        public let created: Date?
         /// The name of the pipeline.
         public let name: String?
         /// The date and time of the last update to the pipeline, in timestamp format.
-        public let updated: TimeStamp?
+        public let updated: Date?
         /// The version number of the pipeline.
         public let version: Int?
 
-        public init(created: TimeStamp? = nil, name: String? = nil, updated: TimeStamp? = nil, version: Int? = nil) {
+        public init(created: Date? = nil, name: String? = nil, updated: Date? = nil, version: Int? = nil) {
             self.created = created
             self.name = name
             self.updated = updated
@@ -2342,9 +2342,9 @@ extension CodePipeline {
 
     public struct PutApprovalResultOutput: AWSDecodableShape {
         /// The timestamp showing when the approval or rejection was submitted.
-        public let approvedAt: TimeStamp?
+        public let approvedAt: Date?
 
-        public init(approvedAt: TimeStamp? = nil) {
+        public init(approvedAt: Date? = nil) {
             self.approvedAt = approvedAt
         }
 
@@ -2974,11 +2974,11 @@ extension CodePipeline {
         /// Whether the transition between stages is enabled (true) or disabled (false).
         public let enabled: Bool?
         /// The timestamp when the transition state was last changed.
-        public let lastChangedAt: TimeStamp?
+        public let lastChangedAt: Date?
         /// The ID of the user who last changed the transition state.
         public let lastChangedBy: String?
 
-        public init(disabledReason: String? = nil, enabled: Bool? = nil, lastChangedAt: TimeStamp? = nil, lastChangedBy: String? = nil) {
+        public init(disabledReason: String? = nil, enabled: Bool? = nil, lastChangedAt: Date? = nil, lastChangedBy: String? = nil) {
             self.disabledReason = disabledReason
             self.enabled = enabled
             self.lastChangedAt = lastChangedAt

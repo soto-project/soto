@@ -403,15 +403,15 @@ extension EventBridge {
         /// The name of the SaaS partner that created the event source.
         public let createdBy: String?
         /// The date and time that the event source was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The date and time that the event source will expire if you do not create a matching event bus.
-        public let expirationTime: TimeStamp?
+        public let expirationTime: Date?
         /// The name of the partner event source.
         public let name: String?
         /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
 
-        public init(arn: String? = nil, createdBy: String? = nil, creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, name: String? = nil, state: EventSourceState? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, expirationTime: Date? = nil, name: String? = nil, state: EventSourceState? = nil) {
             self.arn = arn
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -655,15 +655,15 @@ extension EventBridge {
         /// The name of the partner that created the event source.
         public let createdBy: String?
         /// The date and time the event source was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The date and time that the event source will expire, if the AWS account doesn't create a matching event bus for it.
-        public let expirationTime: TimeStamp?
+        public let expirationTime: Date?
         /// The name of the event source.
         public let name: String?
         /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
 
-        public init(arn: String? = nil, createdBy: String? = nil, creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, name: String? = nil, state: EventSourceState? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, expirationTime: Date? = nil, name: String? = nil, state: EventSourceState? = nil) {
             self.arn = arn
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -1187,13 +1187,13 @@ extension EventBridge {
         /// The AWS account ID that the partner event source was offered to.
         public let account: String?
         /// The date and time the event source was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The date and time that the event source will expire, if the AWS account doesn't create a matching event bus for it.
-        public let expirationTime: TimeStamp?
+        public let expirationTime: Date?
         /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
 
-        public init(account: String? = nil, creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, state: EventSourceState? = nil) {
+        public init(account: String? = nil, creationTime: Date? = nil, expirationTime: Date? = nil, state: EventSourceState? = nil) {
             self.account = account
             self.creationTime = creationTime
             self.expirationTime = expirationTime
@@ -1241,9 +1241,9 @@ extension EventBridge {
         /// The source of the event.
         public let source: String?
         /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
-        public let time: TimeStamp?
+        public let time: Date?
 
-        public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: TimeStamp? = nil) {
+        public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: Date? = nil) {
             self.detail = detail
             self.detailType = detailType
             self.eventBusName = eventBusName
@@ -1337,9 +1337,9 @@ extension EventBridge {
         /// The event source that is generating the evntry.
         public let source: String?
         /// The date and time of the event.
-        public let time: TimeStamp?
+        public let time: Date?
 
-        public init(detail: String? = nil, detailType: String? = nil, resources: [String]? = nil, source: String? = nil, time: TimeStamp? = nil) {
+        public init(detail: String? = nil, detailType: String? = nil, resources: [String]? = nil, source: String? = nil, time: Date? = nil) {
             self.detail = detail
             self.detailType = detailType
             self.resources = resources

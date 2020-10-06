@@ -81,9 +81,9 @@ extension WorkMail {
         /// Access protocol actions to include in the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
         public let actions: [String]?
         /// The date that the rule was created.
-        public let dateCreated: TimeStamp?
+        public let dateCreated: Date?
         /// The date that the rule was modified.
-        public let dateModified: TimeStamp?
+        public let dateModified: Date?
         /// The rule description.
         public let description: String?
         /// The rule effect.
@@ -101,7 +101,7 @@ extension WorkMail {
         /// User IDs to include in the rule.
         public let userIds: [String]?
 
-        public init(actions: [String]? = nil, dateCreated: TimeStamp? = nil, dateModified: TimeStamp? = nil, description: String? = nil, effect: AccessControlRuleEffect? = nil, ipRanges: [String]? = nil, name: String? = nil, notActions: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, userIds: [String]? = nil) {
+        public init(actions: [String]? = nil, dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, effect: AccessControlRuleEffect? = nil, ipRanges: [String]? = nil, name: String? = nil, notActions: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, userIds: [String]? = nil) {
             self.actions = actions
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -648,11 +648,11 @@ extension WorkMail {
 
     public struct DescribeGroupResponse: AWSDecodableShape {
         /// The date and time when a user was deregistered from WorkMail, in UNIX epoch time format.
-        public let disabledDate: TimeStamp?
+        public let disabledDate: Date?
         /// The email of the described group.
         public let email: String?
         /// The date and time when a user was registered to WorkMail, in UNIX epoch time format.
-        public let enabledDate: TimeStamp?
+        public let enabledDate: Date?
         /// The identifier of the described group.
         public let groupId: String?
         /// The name of the described group.
@@ -660,7 +660,7 @@ extension WorkMail {
         /// The state of the user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
 
-        public init(disabledDate: TimeStamp? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, groupId: String? = nil, name: String? = nil, state: EntityState? = nil) {
+        public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, groupId: String? = nil, name: String? = nil, state: EntityState? = nil) {
             self.disabledDate = disabledDate
             self.email = email
             self.enabledDate = enabledDate
@@ -702,7 +702,7 @@ extension WorkMail {
         /// The Amazon Resource Name (ARN) of the organization.
         public let arn: String?
         /// The date at which the organization became usable in the WorkMail context, in UNIX epoch time format.
-        public let completedDate: TimeStamp?
+        public let completedDate: Date?
         /// The default mail domain associated with the organization.
         public let defaultMailDomain: String?
         /// The identifier for the directory associated with an Amazon WorkMail organization.
@@ -716,7 +716,7 @@ extension WorkMail {
         /// The state of an organization.
         public let state: String?
 
-        public init(alias: String? = nil, arn: String? = nil, completedDate: TimeStamp? = nil, defaultMailDomain: String? = nil, directoryId: String? = nil, directoryType: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
+        public init(alias: String? = nil, arn: String? = nil, completedDate: Date? = nil, defaultMailDomain: String? = nil, directoryId: String? = nil, directoryType: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
             self.alias = alias
             self.arn = arn
             self.completedDate = completedDate
@@ -767,11 +767,11 @@ extension WorkMail {
         /// The booking options for the described resource.
         public let bookingOptions: BookingOptions?
         /// The date and time when a resource was disabled from WorkMail, in UNIX epoch time format.
-        public let disabledDate: TimeStamp?
+        public let disabledDate: Date?
         /// The email of the described resource.
         public let email: String?
         /// The date and time when a resource was enabled for WorkMail, in UNIX epoch time format.
-        public let enabledDate: TimeStamp?
+        public let enabledDate: Date?
         /// The name of the described resource.
         public let name: String?
         /// The identifier of the described resource.
@@ -781,7 +781,7 @@ extension WorkMail {
         /// The type of the described resource.
         public let `type`: ResourceType?
 
-        public init(bookingOptions: BookingOptions? = nil, disabledDate: TimeStamp? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, name: String? = nil, resourceId: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
+        public init(bookingOptions: BookingOptions? = nil, disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, name: String? = nil, resourceId: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
             self.bookingOptions = bookingOptions
             self.disabledDate = disabledDate
             self.email = email
@@ -829,13 +829,13 @@ extension WorkMail {
 
     public struct DescribeUserResponse: AWSDecodableShape {
         /// The date and time at which the user was disabled for Amazon WorkMail usage, in UNIX epoch time format.
-        public let disabledDate: TimeStamp?
+        public let disabledDate: Date?
         /// The display name of the user.
         public let displayName: String?
         /// The email of the user.
         public let email: String?
         /// The date and time at which the user was enabled for Amazon WorkMail usage, in UNIX epoch time format.
-        public let enabledDate: TimeStamp?
+        public let enabledDate: Date?
         /// The name for the user.
         public let name: String?
         /// The state of a user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to WorkMail).
@@ -845,7 +845,7 @@ extension WorkMail {
         /// In certain cases, other entities are modeled as users. If interoperability is enabled, resources are imported into Amazon WorkMail as users. Because different WorkMail organizations rely on different directory types, administrators can distinguish between an unregistered user (account is disabled and has a user role) and the directory administrators. The values are USER, RESOURCE, and SYSTEM_USER.
         public let userRole: UserRole?
 
-        public init(disabledDate: TimeStamp? = nil, displayName: String? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, name: String? = nil, state: EntityState? = nil, userId: String? = nil, userRole: UserRole? = nil) {
+        public init(disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, name: String? = nil, state: EntityState? = nil, userId: String? = nil, userRole: UserRole? = nil) {
             self.disabledDate = disabledDate
             self.displayName = displayName
             self.email = email
@@ -1097,11 +1097,11 @@ extension WorkMail {
 
     public struct Group: AWSDecodableShape {
         /// The date indicating when the group was disabled from Amazon WorkMail use.
-        public let disabledDate: TimeStamp?
+        public let disabledDate: Date?
         /// The email of the group.
         public let email: String?
         /// The date indicating when the group was enabled for Amazon WorkMail use.
-        public let enabledDate: TimeStamp?
+        public let enabledDate: Date?
         /// The identifier of the group.
         public let id: String?
         /// The name of the group.
@@ -1109,7 +1109,7 @@ extension WorkMail {
         /// The state of the group, which can be ENABLED, DISABLED, or DELETED.
         public let state: EntityState?
 
-        public init(disabledDate: TimeStamp? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil) {
+        public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil) {
             self.disabledDate = disabledDate
             self.email = email
             self.enabledDate = enabledDate
@@ -1578,9 +1578,9 @@ extension WorkMail {
 
     public struct Member: AWSDecodableShape {
         /// The date indicating when the member was disabled from Amazon WorkMail use.
-        public let disabledDate: TimeStamp?
+        public let disabledDate: Date?
         /// The date indicating when the member was enabled for Amazon WorkMail use.
-        public let enabledDate: TimeStamp?
+        public let enabledDate: Date?
         /// The identifier of the member.
         public let id: String?
         /// The name of the member.
@@ -1590,7 +1590,7 @@ extension WorkMail {
         /// A member can be a user or group.
         public let `type`: MemberType?
 
-        public init(disabledDate: TimeStamp? = nil, enabledDate: TimeStamp? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: MemberType? = nil) {
+        public init(disabledDate: Date? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: MemberType? = nil) {
             self.disabledDate = disabledDate
             self.enabledDate = enabledDate
             self.id = id
@@ -1912,11 +1912,11 @@ extension WorkMail {
 
     public struct Resource: AWSDecodableShape {
         /// The date indicating when the resource was disabled from Amazon WorkMail use.
-        public let disabledDate: TimeStamp?
+        public let disabledDate: Date?
         /// The email of the resource.
         public let email: String?
         /// The date indicating when the resource was enabled for Amazon WorkMail use.
-        public let enabledDate: TimeStamp?
+        public let enabledDate: Date?
         /// The identifier of the resource.
         public let id: String?
         /// The name of the resource.
@@ -1926,7 +1926,7 @@ extension WorkMail {
         /// The type of the resource: equipment or room.
         public let `type`: ResourceType?
 
-        public init(disabledDate: TimeStamp? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
+        public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
             self.disabledDate = disabledDate
             self.email = email
             self.enabledDate = enabledDate
@@ -2139,13 +2139,13 @@ extension WorkMail {
 
     public struct User: AWSDecodableShape {
         /// The date indicating when the user was disabled from Amazon WorkMail use.
-        public let disabledDate: TimeStamp?
+        public let disabledDate: Date?
         /// The display name of the user.
         public let displayName: String?
         /// The email of the user.
         public let email: String?
         /// The date indicating when the user was enabled for Amazon WorkMail use.
-        public let enabledDate: TimeStamp?
+        public let enabledDate: Date?
         /// The identifier of the user.
         public let id: String?
         /// The name of the user.
@@ -2155,7 +2155,7 @@ extension WorkMail {
         /// The role of the user.
         public let userRole: UserRole?
 
-        public init(disabledDate: TimeStamp? = nil, displayName: String? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, userRole: UserRole? = nil) {
+        public init(disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, userRole: UserRole? = nil) {
             self.disabledDate = disabledDate
             self.displayName = displayName
             self.email = email

@@ -543,7 +543,7 @@ extension CodeBuild {
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts.   You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key.   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/&lt;alias-name&gt;).
         public let encryptionKey: String?
         /// When the build process ended, expressed in Unix time format.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Information about the build environment for this build.
         public let environment: ProjectEnvironment?
         ///  A list of exported environment variables for this build.
@@ -581,13 +581,13 @@ extension CodeBuild {
         /// Any version identifier for the version of the source code to be built. If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide.
         public let sourceVersion: String?
         /// When the build process started, expressed in Unix time format.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// How long, in minutes, for AWS CodeBuild to wait before timing out this build if it does not get marked as completed.
         public let timeoutInMinutes: Int?
         /// If your AWS CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildBatchArn: String? = nil, buildComplete: Bool? = nil, buildNumber: Int64? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, debugSession: DebugSession? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, exportedEnvironmentVariables: [ExportedEnvironmentVariable]? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, reportArns: [String]? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildBatchArn: String? = nil, buildComplete: Bool? = nil, buildNumber: Int64? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, debugSession: DebugSession? = nil, encryptionKey: String? = nil, endTime: Date? = nil, environment: ProjectEnvironment? = nil, exportedEnvironmentVariables: [ExportedEnvironmentVariable]? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, reportArns: [String]? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: Date? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.buildBatchArn = buildBatchArn
@@ -713,7 +713,7 @@ extension CodeBuild {
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the batch build output artifacts.  You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key.   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/&lt;alias-name&gt;).
         public let encryptionKey: String?
         /// The date and time that the batch build ended.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         public let environment: ProjectEnvironment?
         /// An array of ProjectFileSystemLocation objects for the batch build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System.
         public let fileSystemLocations: [ProjectFileSystemLocation]?
@@ -742,10 +742,10 @@ extension CodeBuild {
         /// The identifier of the version of the source code to be built.
         public let sourceVersion: String?
         /// The date and time that the batch build started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, buildBatchNumber: Int64? = nil, buildBatchStatus: StatusType? = nil, buildGroups: [BuildGroup]? = nil, buildTimeoutInMinutes: Int? = nil, cache: ProjectCache? = nil, complete: Bool? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logConfig: LogsConfig? = nil, phases: [BuildBatchPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, buildBatchNumber: Int64? = nil, buildBatchStatus: StatusType? = nil, buildGroups: [BuildGroup]? = nil, buildTimeoutInMinutes: Int? = nil, cache: ProjectCache? = nil, complete: Bool? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: Date? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logConfig: LogsConfig? = nil, phases: [BuildBatchPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.buildBatchConfig = buildBatchConfig
@@ -829,15 +829,15 @@ extension CodeBuild {
         /// How long, in seconds, between the starting and ending times of the batch build's phase.
         public let durationInSeconds: Int64?
         /// When the batch build phase ended, expressed in Unix time format.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The current status of the batch build phase. Valid values include:  FAILED  The build phase failed.  FAULT  The build phase faulted.  IN_PROGRESS  The build phase is still in progress.  QUEUED  The build has been submitted and is queued behind other submitted builds.  STOPPED  The build phase stopped.  SUCCEEDED  The build phase succeeded.  TIMED_OUT  The build phase timed out.
         public let phaseStatus: StatusType?
         /// The name of the batch build phase. Valid values include:  COMBINE_ARTIFACTS  Build output artifacts are being combined and uploaded to the output location.  DOWNLOAD_BATCHSPEC  The batch build specification is being downloaded.  FAILED  One or more of the builds failed.  IN_PROGRESS  The batch build is in progress.  STOPPED  The batch build was stopped.  SUBMITTED  The btach build has been submitted.  SUCCEEDED  The batch build succeeded.
         public let phaseType: BuildBatchPhaseType?
         /// When the batch build phase started, expressed in Unix time format.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(contexts: [PhaseContext]? = nil, durationInSeconds: Int64? = nil, endTime: TimeStamp? = nil, phaseStatus: StatusType? = nil, phaseType: BuildBatchPhaseType? = nil, startTime: TimeStamp? = nil) {
+        public init(contexts: [PhaseContext]? = nil, durationInSeconds: Int64? = nil, endTime: Date? = nil, phaseStatus: StatusType? = nil, phaseType: BuildBatchPhaseType? = nil, startTime: Date? = nil) {
             self.contexts = contexts
             self.durationInSeconds = durationInSeconds
             self.endTime = endTime
@@ -908,15 +908,15 @@ extension CodeBuild {
         /// How long, in seconds, between the starting and ending times of the build's phase.
         public let durationInSeconds: Int64?
         /// When the build phase ended, expressed in Unix time format.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The current status of the build phase. Valid values include:  FAILED  The build phase failed.  FAULT  The build phase faulted.  IN_PROGRESS  The build phase is still in progress.  QUEUED  The build has been submitted and is queued behind other submitted builds.  STOPPED  The build phase stopped.  SUCCEEDED  The build phase succeeded.  TIMED_OUT  The build phase timed out.
         public let phaseStatus: StatusType?
         /// The name of the build phase. Valid values include:    BUILD: Core build activities typically occur in this build phase.    COMPLETED: The build has been completed.    DOWNLOAD_SOURCE: Source code is being downloaded in this build phase.    FINALIZING: The build process is completing in this build phase.    INSTALL: Installation activities typically occur in this build phase.    POST_BUILD: Post-build activities typically occur in this build phase.    PRE_BUILD: Pre-build activities typically occur in this build phase.    PROVISIONING: The build environment is being set up.    QUEUED: The build has been submitted and is queued behind other submitted builds.    SUBMITTED: The build has been submitted.    UPLOAD_ARTIFACTS: Build output artifacts are being uploaded to the output location.
         public let phaseType: BuildPhaseType?
         /// When the build phase started, expressed in Unix time format.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(contexts: [PhaseContext]? = nil, durationInSeconds: Int64? = nil, endTime: TimeStamp? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil, startTime: TimeStamp? = nil) {
+        public init(contexts: [PhaseContext]? = nil, durationInSeconds: Int64? = nil, endTime: Date? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil, startTime: Date? = nil) {
             self.contexts = contexts
             self.durationInSeconds = durationInSeconds
             self.endTime = endTime
@@ -960,11 +960,11 @@ extension CodeBuild {
         /// A ResolvedArtifact object that represents the primary build artifacts for the build group.
         public let primaryArtifact: ResolvedArtifact?
         /// When the build was started, expressed in Unix time format.
-        public let requestedOn: TimeStamp?
+        public let requestedOn: Date?
         /// An array of ResolvedArtifact objects that represents the secondary build artifacts for the build group.
         public let secondaryArtifacts: [ResolvedArtifact]?
 
-        public init(arn: String? = nil, buildStatus: StatusType? = nil, primaryArtifact: ResolvedArtifact? = nil, requestedOn: TimeStamp? = nil, secondaryArtifacts: [ResolvedArtifact]? = nil) {
+        public init(arn: String? = nil, buildStatus: StatusType? = nil, primaryArtifact: ResolvedArtifact? = nil, requestedOn: Date? = nil, secondaryArtifacts: [ResolvedArtifact]? = nil) {
             self.arn = arn
             self.buildStatus = buildStatus
             self.primaryArtifact = primaryArtifact
@@ -1010,7 +1010,7 @@ extension CodeBuild {
         /// The number of conditional branches that are not covered by your tests.
         public let branchesMissed: Int?
         /// The date and time that the tests were run.
-        public let expired: TimeStamp?
+        public let expired: Date?
         /// The path of the test report file.
         public let filePath: String?
         /// The identifier of the code coverage report.
@@ -1024,7 +1024,7 @@ extension CodeBuild {
         /// The ARN of the report.
         public let reportARN: String?
 
-        public init(branchCoveragePercentage: Double? = nil, branchesCovered: Int? = nil, branchesMissed: Int? = nil, expired: TimeStamp? = nil, filePath: String? = nil, id: String? = nil, lineCoveragePercentage: Double? = nil, linesCovered: Int? = nil, linesMissed: Int? = nil, reportARN: String? = nil) {
+        public init(branchCoveragePercentage: Double? = nil, branchesCovered: Int? = nil, branchesMissed: Int? = nil, expired: Date? = nil, filePath: String? = nil, id: String? = nil, lineCoveragePercentage: Double? = nil, linesCovered: Int? = nil, linesMissed: Int? = nil, reportARN: String? = nil) {
             self.branchCoveragePercentage = branchCoveragePercentage
             self.branchesCovered = branchesCovered
             self.branchesMissed = branchesMissed
@@ -2421,7 +2421,7 @@ extension CodeBuild {
         /// Information about the cache for the build project.
         public let cache: ProjectCache?
         /// When the build project was created, expressed in Unix time format.
-        public let created: TimeStamp?
+        public let created: Date?
         /// A description that makes the build project easy to identify.
         public let description: String?
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts.  You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key.   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/&lt;alias-name&gt;).
@@ -2431,7 +2431,7 @@ extension CodeBuild {
         ///  An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System.
         public let fileSystemLocations: [ProjectFileSystemLocation]?
         /// When the build project's settings were last modified, expressed in Unix time format.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// Information about logs for the build project. A project can create logs in Amazon CloudWatch Logs, an S3 bucket, or both.
         public let logsConfig: LogsConfig?
         /// The name of the build project.
@@ -2459,7 +2459,7 @@ extension CodeBuild {
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
 
-        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, created: TimeStamp? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, lastModified: TimeStamp? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
+        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, created: Date? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, lastModified: Date? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.badge = badge
@@ -2837,11 +2837,11 @@ extension CodeBuild {
         /// A CodeCoverageReportSummary object that contains a code coverage summary for this report.
         public let codeCoverageSummary: CodeCoverageReportSummary?
         ///  The date and time this report run occurred.
-        public let created: TimeStamp?
+        public let created: Date?
         ///  The ARN of the build run that generated this report.
         public let executionId: String?
         ///  The date and time a report expires. A report expires 30 days after it is created. An expired report is not available to view in CodeBuild.
-        public let expired: TimeStamp?
+        public let expired: Date?
         ///  Information about where the raw data used to generate this report was exported.
         public let exportConfig: ReportExportConfig?
         ///  The name of the report that was run.
@@ -2857,7 +2857,7 @@ extension CodeBuild {
         /// The type of the report that was run.  CODE_COVERAGE  A code coverage report.  TEST  A test report.
         public let `type`: ReportType?
 
-        public init(arn: String? = nil, codeCoverageSummary: CodeCoverageReportSummary? = nil, created: TimeStamp? = nil, executionId: String? = nil, expired: TimeStamp? = nil, exportConfig: ReportExportConfig? = nil, name: String? = nil, reportGroupArn: String? = nil, status: ReportStatusType? = nil, testSummary: TestReportSummary? = nil, truncated: Bool? = nil, type: ReportType? = nil) {
+        public init(arn: String? = nil, codeCoverageSummary: CodeCoverageReportSummary? = nil, created: Date? = nil, executionId: String? = nil, expired: Date? = nil, exportConfig: ReportExportConfig? = nil, name: String? = nil, reportGroupArn: String? = nil, status: ReportStatusType? = nil, testSummary: TestReportSummary? = nil, truncated: Bool? = nil, type: ReportType? = nil) {
             self.arn = arn
             self.codeCoverageSummary = codeCoverageSummary
             self.created = created
@@ -2926,11 +2926,11 @@ extension CodeBuild {
         ///  The ARN of a ReportGroup.
         public let arn: String?
         ///  The date and time this ReportGroup was created.
-        public let created: TimeStamp?
+        public let created: Date?
         ///  Information about the destination where the raw data of this ReportGroup is exported.
         public let exportConfig: ReportExportConfig?
         ///  The date and time this ReportGroup was last modified.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         ///  The name of a ReportGroup.
         public let name: String?
         ///  A list of tag key and value pairs associated with this report group.  These tags are available for use by AWS services that support AWS CodeBuild report group tags.
@@ -2938,7 +2938,7 @@ extension CodeBuild {
         ///  The type of the ReportGroup. The one valid value is TEST.
         public let `type`: ReportType?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, exportConfig: ReportExportConfig? = nil, lastModified: TimeStamp? = nil, name: String? = nil, tags: [Tag]? = nil, type: ReportType? = nil) {
+        public init(arn: String? = nil, created: Date? = nil, exportConfig: ReportExportConfig? = nil, lastModified: Date? = nil, name: String? = nil, tags: [Tag]? = nil, type: ReportType? = nil) {
             self.arn = arn
             self.created = created
             self.exportConfig = exportConfig
@@ -3571,7 +3571,7 @@ extension CodeBuild {
         ///  The number of nanoseconds it took to run this test case.
         public let durationInNanoSeconds: Int64?
         ///  The date and time a test case expires. A test case expires 30 days after it is created. An expired test case is not available to view in CodeBuild.
-        public let expired: TimeStamp?
+        public let expired: Date?
         ///  A message associated with a test case. For example, an error message or stack trace.
         public let message: String?
         ///  The name of the test case.
@@ -3585,7 +3585,7 @@ extension CodeBuild {
         ///  The path to the raw data file that contains the test result.
         public let testRawDataPath: String?
 
-        public init(durationInNanoSeconds: Int64? = nil, expired: TimeStamp? = nil, message: String? = nil, name: String? = nil, prefix: String? = nil, reportArn: String? = nil, status: String? = nil, testRawDataPath: String? = nil) {
+        public init(durationInNanoSeconds: Int64? = nil, expired: Date? = nil, message: String? = nil, name: String? = nil, prefix: String? = nil, reportArn: String? = nil, status: String? = nil, testRawDataPath: String? = nil) {
             self.durationInNanoSeconds = durationInNanoSeconds
             self.expired = expired
             self.message = message
@@ -3910,7 +3910,7 @@ extension CodeBuild {
         /// An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type.  For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass.
         public let filterGroups: [[WebhookFilter]]?
         /// A timestamp that indicates the last time a repository's secret token was modified.
-        public let lastModifiedSecret: TimeStamp?
+        public let lastModifiedSecret: Date?
         /// The AWS CodeBuild endpoint where webhook events are sent.
         public let payloadUrl: String?
         /// The secret token of the associated repository.   A Bitbucket webhook does not support secret.
@@ -3918,7 +3918,7 @@ extension CodeBuild {
         /// The URL to the webhook.
         public let url: String?
 
-        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: TimeStamp? = nil, payloadUrl: String? = nil, secret: String? = nil, url: String? = nil) {
+        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: Date? = nil, payloadUrl: String? = nil, secret: String? = nil, url: String? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
             self.filterGroups = filterGroups

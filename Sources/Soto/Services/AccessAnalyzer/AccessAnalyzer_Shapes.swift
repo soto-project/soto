@@ -84,11 +84,11 @@ extension AccessAnalyzer {
         /// The actions that an external principal is granted permission to use by the policy that generated the finding.
         public let actions: [String]?
         /// The time at which the resource was analyzed.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var analyzedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var analyzedAt: Date
         /// The time at which the finding was created.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// An error message.
         public let error: String?
         /// Indicates whether the policy that generated the finding grants public access to the resource.
@@ -104,10 +104,10 @@ extension AccessAnalyzer {
         /// The current status of the finding generated from the analyzed resource.
         public let status: FindingStatus?
         /// The time at which the finding was updated.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
 
-        public init(actions: [String]? = nil, analyzedAt: TimeStamp, createdAt: TimeStamp, error: String? = nil, isPublic: Bool, resourceArn: String, resourceOwnerAccount: String, resourceType: ResourceType, sharedVia: [String]? = nil, status: FindingStatus? = nil, updatedAt: TimeStamp) {
+        public init(actions: [String]? = nil, analyzedAt: Date, createdAt: Date, error: String? = nil, isPublic: Bool, resourceArn: String, resourceOwnerAccount: String, resourceType: ResourceType, sharedVia: [String]? = nil, status: FindingStatus? = nil, updatedAt: Date) {
             self.actions = actions
             self.analyzedAt = analyzedAt
             self.createdAt = createdAt
@@ -161,13 +161,13 @@ extension AccessAnalyzer {
         /// The ARN of the analyzer.
         public let arn: String
         /// A timestamp for the time at which the analyzer was created.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// The resource that was most recently analyzed by the analyzer.
         public let lastResourceAnalyzed: String?
         /// The time at which the most recently analyzed resource was analyzed.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastResourceAnalyzedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastResourceAnalyzedAt: Date?
         /// The name of the analyzer.
         public let name: String
         /// The status of the analyzer. An Active analyzer successfully monitors supported resources and generates new findings. The analyzer is Disabled when a user action, such as removing trusted access for IAM Access Analyzer from AWS Organizations, causes the analyzer to stop generating new findings. The status is Creating when the analyzer creation is in progress and Failed when the analyzer creation has failed.
@@ -179,7 +179,7 @@ extension AccessAnalyzer {
         /// The type of analyzer, which corresponds to the zone of trust chosen for the analyzer.
         public let `type`: `Type`
 
-        public init(arn: String, createdAt: TimeStamp, lastResourceAnalyzed: String? = nil, lastResourceAnalyzedAt: TimeStamp? = nil, name: String, status: AnalyzerStatus, statusReason: StatusReason? = nil, tags: [String: String]? = nil, type: `Type`) {
+        public init(arn: String, createdAt: Date, lastResourceAnalyzed: String? = nil, lastResourceAnalyzedAt: Date? = nil, name: String, status: AnalyzerStatus, statusReason: StatusReason? = nil, tags: [String: String]? = nil, type: `Type`) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastResourceAnalyzed = lastResourceAnalyzed
@@ -206,17 +206,17 @@ extension AccessAnalyzer {
 
     public struct ArchiveRuleSummary: AWSDecodableShape {
         /// The time at which the archive rule was created.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// A filter used to define the archive rule.
         public let filter: [String: Criterion]
         /// The name of the archive rule.
         public let ruleName: String
         /// The time at which the archive rule was last updated.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
 
-        public init(createdAt: TimeStamp, filter: [String: Criterion], ruleName: String, updatedAt: TimeStamp) {
+        public init(createdAt: Date, filter: [String: Criterion], ruleName: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.filter = filter
             self.ruleName = ruleName
@@ -417,13 +417,13 @@ extension AccessAnalyzer {
         /// The action in the analyzed policy statement that an external principal has permission to use.
         public let action: [String]?
         /// The time at which the resource was analyzed.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var analyzedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var analyzedAt: Date
         /// The condition in the analyzed policy statement that resulted in a finding.
         public let condition: [String: String]
         /// The time at which the finding was generated.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// An error.
         public let error: String?
         /// The ID of the finding.
@@ -443,10 +443,10 @@ extension AccessAnalyzer {
         /// The current status of the finding.
         public let status: FindingStatus
         /// The time at which the finding was updated.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
 
-        public init(action: [String]? = nil, analyzedAt: TimeStamp, condition: [String: String], createdAt: TimeStamp, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: TimeStamp) {
+        public init(action: [String]? = nil, analyzedAt: Date, condition: [String: String], createdAt: Date, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: Date) {
             self.action = action
             self.analyzedAt = analyzedAt
             self.condition = condition
@@ -515,13 +515,13 @@ extension AccessAnalyzer {
         /// The action in the analyzed policy statement that an external principal has permission to use.
         public let action: [String]?
         /// The time at which the resource-based policy that generated the finding was analyzed.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var analyzedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var analyzedAt: Date
         /// The condition in the analyzed policy statement that resulted in a finding.
         public let condition: [String: String]
         /// The time at which the finding was created.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var createdAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
         /// The error that resulted in an Error finding.
         public let error: String?
         /// The ID of the finding.
@@ -541,10 +541,10 @@ extension AccessAnalyzer {
         /// The status of the finding.
         public let status: FindingStatus
         /// The time at which the finding was most recently updated.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
 
-        public init(action: [String]? = nil, analyzedAt: TimeStamp, condition: [String: String], createdAt: TimeStamp, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: TimeStamp) {
+        public init(action: [String]? = nil, analyzedAt: Date, condition: [String: String], createdAt: Date, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: Date) {
             self.action = action
             self.analyzedAt = analyzedAt
             self.condition = condition

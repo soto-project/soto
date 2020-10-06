@@ -755,7 +755,7 @@ extension EFS {
 
     public struct FileSystemDescription: AWSDecodableShape {
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
-        public let creationTime: TimeStamp
+        public let creationTime: Date
         /// The opaque string specified in the request.
         public let creationToken: String
         /// A Boolean value that, if true, indicates that the file system is encrypted.
@@ -785,7 +785,7 @@ extension EFS {
         /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
         public let throughputMode: ThroughputMode?
 
-        public init(creationTime: TimeStamp, creationToken: String, encrypted: Bool? = nil, fileSystemArn: String? = nil, fileSystemId: String, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
+        public init(creationTime: Date, creationToken: String, encrypted: Bool? = nil, fileSystemArn: String? = nil, fileSystemId: String, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
             self.creationTime = creationTime
             self.creationToken = creationToken
             self.encrypted = encrypted
@@ -841,7 +841,7 @@ extension EFS {
 
     public struct FileSystemSize: AWSDecodableShape {
         /// The time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         /// The latest known metered size (in bytes) of data stored in the file system.
         public let value: Int64
         /// The latest known metered size (in bytes) of data stored in the Infrequent Access storage class.
@@ -849,7 +849,7 @@ extension EFS {
         /// The latest known metered size (in bytes) of data stored in the Standard storage class.
         public let valueInStandard: Int64?
 
-        public init(timestamp: TimeStamp? = nil, value: Int64, valueInIA: Int64? = nil, valueInStandard: Int64? = nil) {
+        public init(timestamp: Date? = nil, value: Int64, valueInIA: Int64? = nil, valueInStandard: Int64? = nil) {
             self.timestamp = timestamp
             self.value = value
             self.valueInIA = valueInIA

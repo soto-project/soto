@@ -6121,12 +6121,12 @@ extension SecurityHub {
         /// The ID of the invitation sent to the member account.
         public let invitationId: String?
         /// The timestamp of when the invitation was sent.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var invitedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var invitedAt: Date?
         /// The current status of the association between the member and master accounts.
         public let memberStatus: String?
 
-        public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: TimeStamp? = nil, memberStatus: String? = nil) {
+        public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: Date? = nil, memberStatus: String? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
             self.invitedAt = invitedAt
@@ -6477,17 +6477,17 @@ extension SecurityHub {
         /// The email address of the member account.
         public let email: String?
         /// A timestamp for the date and time when the invitation was sent to the member account.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var invitedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var invitedAt: Date?
         /// The AWS account ID of the Security Hub master account associated with this member account.
         public let masterId: String?
         /// The status of the relationship between the member account and its master account.
         public let memberStatus: String?
         /// The timestamp for the date and time when the member account was updated.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var updatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
 
-        public init(accountId: String? = nil, email: String? = nil, invitedAt: TimeStamp? = nil, masterId: String? = nil, memberStatus: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(accountId: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterId: String? = nil, memberStatus: String? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.email = email
             self.invitedAt = invitedAt
@@ -7325,8 +7325,8 @@ extension SecurityHub {
         /// The current status of the security standard control. Indicates whether the control is enabled or disabled. Security Hub does not check against disabled controls.
         public let controlStatus: ControlStatus?
         /// The date and time that the status of the security standard control was most recently updated.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var controlStatusUpdatedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var controlStatusUpdatedAt: Date?
         /// The longer description of the security standard control. Provides information about what the control is checking for.
         public let description: String?
         /// The reason provided for the most recent change in status for the control.
@@ -7342,7 +7342,7 @@ extension SecurityHub {
         /// The title of the security standard control.
         public let title: String?
 
-        public init(controlId: String? = nil, controlStatus: ControlStatus? = nil, controlStatusUpdatedAt: TimeStamp? = nil, description: String? = nil, disabledReason: String? = nil, relatedRequirements: [String]? = nil, remediationUrl: String? = nil, severityRating: SeverityRating? = nil, standardsControlArn: String? = nil, title: String? = nil) {
+        public init(controlId: String? = nil, controlStatus: ControlStatus? = nil, controlStatusUpdatedAt: Date? = nil, description: String? = nil, disabledReason: String? = nil, relatedRequirements: [String]? = nil, remediationUrl: String? = nil, severityRating: SeverityRating? = nil, standardsControlArn: String? = nil, title: String? = nil) {
             self.controlId = controlId
             self.controlStatus = controlStatus
             self.controlStatusUpdatedAt = controlStatusUpdatedAt

@@ -518,13 +518,13 @@ extension Connect {
         /// An access token generated for a federated user to access Amazon Connect.
         public let accessToken: String?
         /// A token generated with an expiration time for the session a user is logged in to Amazon Connect.
-        public let accessTokenExpiration: TimeStamp?
+        public let accessTokenExpiration: Date?
         /// Renews a token generated for a user to access the Amazon Connect instance.
         public let refreshToken: String?
         /// Renews the expiration timer for a generated token.
-        public let refreshTokenExpiration: TimeStamp?
+        public let refreshTokenExpiration: Date?
 
-        public init(accessToken: String? = nil, accessTokenExpiration: TimeStamp? = nil, refreshToken: String? = nil, refreshTokenExpiration: TimeStamp? = nil) {
+        public init(accessToken: String? = nil, accessTokenExpiration: Date? = nil, refreshToken: String? = nil, refreshTokenExpiration: Date? = nil) {
             self.accessToken = accessToken
             self.accessTokenExpiration = accessTokenExpiration
             self.refreshToken = refreshToken
@@ -847,13 +847,13 @@ extension Connect {
 
     public struct GetCurrentMetricDataResponse: AWSDecodableShape {
         /// The time at which the metrics were retrieved and cached for pagination.
-        public let dataSnapshotTime: TimeStamp?
+        public let dataSnapshotTime: Date?
         /// Information about the real-time metrics.
         public let metricResults: [CurrentMetricResult]?
         /// If there are additional results, this is the token for the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
         public let nextToken: String?
 
-        public init(dataSnapshotTime: TimeStamp? = nil, metricResults: [CurrentMetricResult]? = nil, nextToken: String? = nil) {
+        public init(dataSnapshotTime: Date? = nil, metricResults: [CurrentMetricResult]? = nil, nextToken: String? = nil) {
             self.dataSnapshotTime = dataSnapshotTime
             self.metricResults = metricResults
             self.nextToken = nextToken
@@ -905,7 +905,7 @@ extension Connect {
         ]
 
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
-        public let endTime: TimeStamp
+        public let endTime: Date
         /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. The only supported channel is VOICE.
         public let filters: Filters
         /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. The only supported grouping is QUEUE. If no grouping is specified, a summary of metrics for all queues is returned.
@@ -919,9 +919,9 @@ extension Connect {
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15. The start time cannot be earlier than 24 hours before the time of the request. Historical metrics are available only for 24 hours.
-        public let startTime: TimeStamp
+        public let startTime: Date
 
-        public init(endTime: TimeStamp, filters: Filters, groupings: [Grouping]? = nil, historicalMetrics: [HistoricalMetric], instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp) {
+        public init(endTime: Date, filters: Filters, groupings: [Grouping]? = nil, historicalMetrics: [HistoricalMetric], instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.filters = filters
             self.groupings = groupings

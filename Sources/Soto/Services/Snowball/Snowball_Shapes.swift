@@ -219,11 +219,11 @@ extension Snowball {
         /// The current state of this cluster. For information about the state of a specific node, see JobListEntry$JobState.
         public let clusterState: ClusterState?
         /// The creation date for this cluster.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// Defines an optional description of the cluster, for example Environmental Data Cluster-01.
         public let description: String?
 
-        public init(clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: TimeStamp? = nil, description: String? = nil) {
+        public init(clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: Date? = nil, description: String? = nil) {
             self.clusterId = clusterId
             self.clusterState = clusterState
             self.creationDate = creationDate
@@ -246,7 +246,7 @@ extension Snowball {
         /// The current status of the cluster.
         public let clusterState: ClusterState?
         /// The creation date for this cluster.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The optional description of the cluster.
         public let description: String?
         /// The ID of the address that you want a cluster shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
@@ -268,7 +268,7 @@ extension Snowball {
         /// The tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: TimeStamp? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: Date? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.clusterState = clusterState
@@ -886,7 +886,7 @@ extension Snowball {
 
     public struct JobListEntry: AWSDecodableShape {
         /// The creation date for this job.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
         /// A value that indicates that this job is a master job. A master job represents a successful request to create an export job. Master jobs aren't associated with any Snowballs. Instead, each master job will have at least one job part, and each job part is associated with a Snowball. It might take some time before the job parts associated with a particular master job are listed, because they are created after the master job is created.
@@ -900,7 +900,7 @@ extension Snowball {
         /// The type of device used with this job.
         public let snowballType: SnowballType?
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, isMaster: Bool? = nil, jobId: String? = nil, jobState: JobState? = nil, jobType: JobType? = nil, snowballType: SnowballType? = nil) {
+        public init(creationDate: Date? = nil, description: String? = nil, isMaster: Bool? = nil, jobId: String? = nil, jobState: JobState? = nil, jobType: JobType? = nil, snowballType: SnowballType? = nil) {
             self.creationDate = creationDate
             self.description = description
             self.isMaster = isMaster
@@ -948,7 +948,7 @@ extension Snowball {
         /// The 39-character ID for the cluster, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String?
         /// The creation date for this job.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A value that defines the real-time status of a Snowball's data transfer while the device is at AWS. This data is only available while a job has a JobState value of InProgress, for both import and export jobs.
         public let dataTransferProgress: DataTransfer?
         /// The description of the job, provided at job creation.
@@ -981,7 +981,7 @@ extension Snowball {
         /// The metadata associated with the tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: TimeStamp? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: Date? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.creationDate = creationDate

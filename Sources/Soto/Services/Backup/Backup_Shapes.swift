@@ -104,13 +104,13 @@ extension Backup {
         /// The size in bytes transferred to a backup vault at the time that the job status was queried.
         public let bytesTransferred: Int64?
         /// The date and time a job to create a backup job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let completionDate: TimeStamp?
+        public let completionDate: Date?
         /// Contains identifying information about the creation of a backup job, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan used to create it.
         public let createdBy: RecoveryPointCreator?
         /// The date and time a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The date and time a job to back up resources is expected to be completed, in Unix format and Coordinated Universal Time (UTC). The value of ExpectedCompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let expectedCompletionDate: TimeStamp?
+        public let expectedCompletionDate: Date?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
         /// Contains an estimated percentage complete of a job at the time the job status was queried.
@@ -122,13 +122,13 @@ extension Backup {
         /// The type of AWS resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let startBy: TimeStamp?
+        public let startBy: Date?
         /// The current state of a resource recovery point.
         public let state: BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
             self.backupSizeInBytes = backupSizeInBytes
@@ -236,17 +236,17 @@ extension Backup {
         /// The display name of a saved backup plan.
         public let backupPlanName: String?
         /// The date and time a resource backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
         /// The date and time a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let deletionDate: TimeStamp?
+        public let deletionDate: Date?
         /// The last time a job to back up resources was executed with this rule. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let lastExecutionDate: TimeStamp?
+        public let lastExecutionDate: Date?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
 
-        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanName: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, deletionDate: TimeStamp? = nil, lastExecutionDate: TimeStamp? = nil, versionId: String? = nil) {
+        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, deletionDate: Date? = nil, lastExecutionDate: Date? = nil, versionId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.backupPlanName = backupPlanName
@@ -393,7 +393,7 @@ extension Backup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
         /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
         /// Specifies the IAM role Amazon Resource Name (ARN) to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -403,7 +403,7 @@ extension Backup {
         /// The display name of a resource selection document.
         public let selectionName: String?
 
-        public init(backupPlanId: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, iamRoleArn: String? = nil, selectionId: String? = nil, selectionName: String? = nil) {
+        public init(backupPlanId: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, iamRoleArn: String? = nil, selectionId: String? = nil, selectionName: String? = nil) {
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
             self.creatorRequestId = creatorRequestId
@@ -428,7 +428,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// The date and time a resource backup is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
@@ -436,7 +436,7 @@ extension Backup {
         /// The number of recovery points that are stored in a backup vault.
         public let numberOfRecoveryPoints: Int64?
 
-        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, numberOfRecoveryPoints: Int64? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, numberOfRecoveryPoints: Int64? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
@@ -457,11 +457,11 @@ extension Backup {
 
     public struct CalculatedLifecycle: AWSDecodableShape {
         /// A timestamp that specifies when to delete a recovery point.
-        public let deleteAt: TimeStamp?
+        public let deleteAt: Date?
         /// A timestamp that specifies when to transition a recovery point to cold storage.
-        public let moveToColdStorageAt: TimeStamp?
+        public let moveToColdStorageAt: Date?
 
-        public init(deleteAt: TimeStamp? = nil, moveToColdStorageAt: TimeStamp? = nil) {
+        public init(deleteAt: Date? = nil, moveToColdStorageAt: Date? = nil) {
             self.deleteAt = deleteAt
             self.moveToColdStorageAt = moveToColdStorageAt
         }
@@ -515,12 +515,12 @@ extension Backup {
         /// The size, in bytes, of a copy job.
         public let backupSizeInBytes: Int64?
         /// The date and time a copy job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let completionDate: TimeStamp?
+        public let completionDate: Date?
         /// Uniquely identifies a copy job.
         public let copyJobId: String?
         public let createdBy: RecoveryPointCreator?
         /// The date and time a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let destinationBackupVaultArn: String?
         /// An ARN that uniquely identifies a destination recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -540,7 +540,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to copy a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: Date? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
@@ -608,11 +608,11 @@ extension Backup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
         /// The date and time that a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. They cannot be edited.
         public let versionId: String?
 
-        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, versionId: String? = nil) {
+        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: Date? = nil, versionId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
@@ -659,11 +659,11 @@ extension Backup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
         /// The date and time a backup selection is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String?
 
-        public init(backupPlanId: String? = nil, creationDate: TimeStamp? = nil, selectionId: String? = nil) {
+        public init(backupPlanId: String? = nil, creationDate: Date? = nil, selectionId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
             self.selectionId = selectionId
@@ -714,9 +714,9 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// The date and time a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
 
-        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: TimeStamp? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
@@ -750,11 +750,11 @@ extension Backup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
         /// The date and time a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let deletionDate: TimeStamp?
+        public let deletionDate: Date?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
         public let versionId: String?
 
-        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, deletionDate: TimeStamp? = nil, versionId: String? = nil) {
+        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, deletionDate: Date? = nil, versionId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.deletionDate = deletionDate
@@ -893,13 +893,13 @@ extension Backup {
         /// The size in bytes transferred to a backup vault at the time that the job status was queried.
         public let bytesTransferred: Int64?
         /// The date and time that a job to create a backup job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let completionDate: TimeStamp?
+        public let completionDate: Date?
         /// Contains identifying information about the creation of a backup job, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan that is used to create it.
         public let createdBy: RecoveryPointCreator?
         /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The date and time that a job to back up resources is expected to be completed, in Unix format and Coordinated Universal Time (UTC). The value of ExpectedCompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let expectedCompletionDate: TimeStamp?
+        public let expectedCompletionDate: Date?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
         /// Contains an estimated percentage that is complete of a job at the time the job status was queried.
@@ -911,13 +911,13 @@ extension Backup {
         /// The type of AWS resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let startBy: TimeStamp?
+        public let startBy: Date?
         /// The current state of a resource recovery point.
         public let state: BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
             self.backupSizeInBytes = backupSizeInBytes
@@ -981,7 +981,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// The date and time that a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
@@ -989,7 +989,7 @@ extension Backup {
         /// The number of recovery points that are stored in a backup vault.
         public let numberOfRecoveryPoints: Int64?
 
-        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, numberOfRecoveryPoints: Int64? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, numberOfRecoveryPoints: Int64? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
@@ -1053,13 +1053,13 @@ extension Backup {
 
     public struct DescribeProtectedResourceOutput: AWSDecodableShape {
         /// The date and time that a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let lastBackupTime: TimeStamp?
+        public let lastBackupTime: Date?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
         /// The type of AWS resource saved as a recovery point; for example, an EBS volume or an Amazon RDS database.
         public let resourceType: String?
 
-        public init(lastBackupTime: TimeStamp? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+        public init(lastBackupTime: Date? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.lastBackupTime = lastBackupTime
             self.resourceArn = resourceArn
             self.resourceType = resourceType
@@ -1105,11 +1105,11 @@ extension Backup {
         /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
         public let calculatedLifecycle: CalculatedLifecycle?
         /// The date and time that a job to create a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let completionDate: TimeStamp?
+        public let completionDate: Date?
         /// Contains identifying information about the creation of a recovery point, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan used to create it.
         public let createdBy: RecoveryPointCreator?
         /// The date and time that a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The server-side encryption key used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -1117,7 +1117,7 @@ extension Backup {
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public let isEncrypted: Bool?
         /// The date and time that a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let lastRestoreTime: TimeStamp?
+        public let lastRestoreTime: Date?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups that are transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
         public let lifecycle: Lifecycle?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -1131,7 +1131,7 @@ extension Backup {
         /// Specifies the storage class of the recovery point. Valid values are WARM or COLD.
         public let storageClass: StorageClass?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: TimeStamp? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: RecoveryPointStatus? = nil, storageClass: StorageClass? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: RecoveryPointStatus? = nil, storageClass: StorageClass? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -1210,11 +1210,11 @@ extension Backup {
         /// The size, in bytes, of the restored resource.
         public let backupSizeInBytes: Int64?
         /// The date and time that a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let completionDate: TimeStamp?
+        public let completionDate: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource whose recovery point is being restored. The format of the ARN depends on the resource type of the backed-up resource.
         public let createdResourceArn: String?
         /// The date and time that a restore job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The amount of time in minutes that a job restoring a recovery point is expected to take.
         public let expectedCompletionTimeMinutes: Int64?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -1232,7 +1232,7 @@ extension Backup {
         /// A message showing the status of a job to restore a recovery point.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, createdResourceArn: String? = nil, creationDate: TimeStamp? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceType: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: Date? = nil, createdResourceArn: String? = nil, creationDate: Date? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceType: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
@@ -1374,17 +1374,17 @@ extension Backup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
         /// The date and time that a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
         /// The date and time that a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let deletionDate: TimeStamp?
+        public let deletionDate: Date?
         /// The last time a job to back up resources was executed with this backup plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let lastExecutionDate: TimeStamp?
+        public let lastExecutionDate: Date?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
 
-        public init(backupPlan: BackupPlan? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, deletionDate: TimeStamp? = nil, lastExecutionDate: TimeStamp? = nil, versionId: String? = nil) {
+        public init(backupPlan: BackupPlan? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, deletionDate: Date? = nil, lastExecutionDate: Date? = nil, versionId: String? = nil) {
             self.backupPlan = backupPlan
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -1432,13 +1432,13 @@ extension Backup {
         /// Specifies the body of a request to assign a set of resources to a backup plan.
         public let backupSelection: BackupSelection?
         /// The date and time a backup selection is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String?
 
-        public init(backupPlanId: String? = nil, backupSelection: BackupSelection? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, selectionId: String? = nil) {
+        public init(backupPlanId: String? = nil, backupSelection: BackupSelection? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, selectionId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.backupSelection = backupSelection
             self.creationDate = creationDate
@@ -1631,9 +1631,9 @@ extension Backup {
         /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let byBackupVaultName: String?
         /// Returns only backup jobs that were created after the specified date.
-        public let byCreatedAfter: TimeStamp?
+        public let byCreatedAfter: Date?
         /// Returns only backup jobs that were created before the specified date.
-        public let byCreatedBefore: TimeStamp?
+        public let byCreatedBefore: Date?
         /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
         /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway
@@ -1645,7 +1645,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byAccountId: String? = nil, byBackupVaultName: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byBackupVaultName: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byBackupVaultName = byBackupVaultName
             self.byCreatedAfter = byCreatedAfter
@@ -1918,9 +1918,9 @@ extension Backup {
         /// The account ID to list the jobs from. Returns only copy jobs associated with the specified account ID.
         public let byAccountId: String?
         /// Returns only copy jobs that were created after the specified date.
-        public let byCreatedAfter: TimeStamp?
+        public let byCreatedAfter: Date?
         /// Returns only copy jobs that were created before the specified date.
-        public let byCreatedBefore: TimeStamp?
+        public let byCreatedBefore: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a source backup vault to copy from; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let byDestinationVaultArn: String?
         /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
@@ -1934,7 +1934,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byAccountId: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byDestinationVaultArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byDestinationVaultArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
@@ -2031,9 +2031,9 @@ extension Backup {
         /// Returns only recovery points that match the specified backup plan ID.
         public let byBackupPlanId: String?
         /// Returns only recovery points that were created after the specified timestamp.
-        public let byCreatedAfter: TimeStamp?
+        public let byCreatedAfter: Date?
         /// Returns only recovery points that were created before the specified timestamp.
-        public let byCreatedBefore: TimeStamp?
+        public let byCreatedBefore: Date?
         /// Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
         /// Returns only recovery points that match the specified resource type.
@@ -2043,7 +2043,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupVaultName = backupVaultName
             self.byBackupPlanId = byBackupPlanId
             self.byCreatedAfter = byCreatedAfter
@@ -2139,9 +2139,9 @@ extension Backup {
         /// The account ID to list the jobs from. Returns only restore jobs associated with the specified account ID.
         public let byAccountId: String?
         /// Returns only restore jobs that were created after the specified date.
-        public let byCreatedAfter: TimeStamp?
+        public let byCreatedAfter: Date?
         /// Returns only restore jobs that were created before the specified date.
-        public let byCreatedBefore: TimeStamp?
+        public let byCreatedBefore: Date?
         /// Returns only restore jobs associated with the specified job status.
         public let byStatus: RestoreJobStatus?
         /// The maximum number of items to be returned.
@@ -2149,7 +2149,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byAccountId: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byStatus: RestoreJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byStatus: RestoreJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
@@ -2231,13 +2231,13 @@ extension Backup {
 
     public struct ProtectedResource: AWSDecodableShape {
         /// The date and time a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let lastBackupTime: TimeStamp?
+        public let lastBackupTime: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
         /// The type of AWS resource; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
 
-        public init(lastBackupTime: TimeStamp? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+        public init(lastBackupTime: Date? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.lastBackupTime = lastBackupTime
             self.resourceArn = resourceArn
             self.resourceType = resourceType
@@ -2312,11 +2312,11 @@ extension Backup {
         /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
         public let calculatedLifecycle: CalculatedLifecycle?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let completionDate: TimeStamp?
+        public let completionDate: Date?
         /// Contains identifying information about the creation of a recovery point, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan that is used to create it.
         public let createdBy: RecoveryPointCreator?
         /// The date and time a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -2324,7 +2324,7 @@ extension Backup {
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public let isEncrypted: Bool?
         /// The date and time a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let lastRestoreTime: TimeStamp?
+        public let lastRestoreTime: Date?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
         public let lifecycle: Lifecycle?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -2336,7 +2336,7 @@ extension Backup {
         /// A status code specifying the state of the recovery point.
         public let status: RecoveryPointStatus?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: TimeStamp? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: RecoveryPointStatus? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: RecoveryPointStatus? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -2381,7 +2381,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// The date and time a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -2389,7 +2389,7 @@ extension Backup {
         /// A status code specifying the state of the recovery point.
         public let status: RecoveryPointStatus?
 
-        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: TimeStamp? = nil, encryptionKeyArn: String? = nil, recoveryPointArn: String? = nil, status: RecoveryPointStatus? = nil) {
+        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, recoveryPointArn: String? = nil, status: RecoveryPointStatus? = nil) {
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
@@ -2439,11 +2439,11 @@ extension Backup {
         /// The size, in bytes, of the restored resource.
         public let backupSizeInBytes: Int64?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let completionDate: TimeStamp?
+        public let completionDate: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let createdResourceArn: String?
         /// The date and time a restore job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The amount of time in minutes that a job restoring a recovery point is expected to take.
         public let expectedCompletionTimeMinutes: Int64?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -2461,7 +2461,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to restore a recovery point.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, createdResourceArn: String? = nil, creationDate: TimeStamp? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceType: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: Date? = nil, createdResourceArn: String? = nil, creationDate: Date? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceType: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
@@ -2543,11 +2543,11 @@ extension Backup {
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
         /// The date and time that a backup job is started, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
 
-        public init(backupJobId: String? = nil, creationDate: TimeStamp? = nil, recoveryPointArn: String? = nil) {
+        public init(backupJobId: String? = nil, creationDate: Date? = nil, recoveryPointArn: String? = nil) {
             self.backupJobId = backupJobId
             self.creationDate = creationDate
             self.recoveryPointArn = recoveryPointArn
@@ -2600,9 +2600,9 @@ extension Backup {
         /// Uniquely identifies a copy job.
         public let copyJobId: String?
         /// The date and time that a copy job is started, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
 
-        public init(copyJobId: String? = nil, creationDate: TimeStamp? = nil) {
+        public init(copyJobId: String? = nil, creationDate: Date? = nil) {
             self.copyJobId = copyJobId
             self.creationDate = creationDate
         }
@@ -2744,11 +2744,11 @@ extension Backup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
         /// The date and time a backup plan is updated, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
         public let versionId: String?
 
-        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, versionId: String? = nil) {
+        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: Date? = nil, versionId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate

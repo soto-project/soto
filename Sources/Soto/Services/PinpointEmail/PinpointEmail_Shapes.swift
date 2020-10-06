@@ -100,11 +100,11 @@ extension PinpointEmail {
         /// Additional information about the blacklisting event, as provided by the blacklist maintainer.
         public let description: String?
         /// The time when the blacklisting event occurred, shown in Unix time format.
-        public let listingTime: TimeStamp?
+        public let listingTime: Date?
         /// The name of the blacklist that the IP address appears on.
         public let rblName: String?
 
-        public init(description: String? = nil, listingTime: TimeStamp? = nil, rblName: String? = nil) {
+        public init(description: String? = nil, listingTime: Date? = nil, rblName: String? = nil) {
             self.description = description
             self.listingTime = listingTime
             self.rblName = rblName
@@ -359,11 +359,11 @@ extension PinpointEmail {
         /// An object that contains inbox placement metrics for a specified day in the analysis period, broken out by the recipient's email provider.
         public let domainIspPlacements: [DomainIspPlacement]?
         /// The date that the DailyVolume metrics apply to, in Unix time.
-        public let startDate: TimeStamp?
+        public let startDate: Date?
         /// An object that contains inbox placement metrics for a specific day in the analysis period.
         public let volumeStatistics: VolumeStatistics?
 
-        public init(domainIspPlacements: [DomainIspPlacement]? = nil, startDate: TimeStamp? = nil, volumeStatistics: VolumeStatistics? = nil) {
+        public init(domainIspPlacements: [DomainIspPlacement]? = nil, startDate: Date? = nil, volumeStatistics: VolumeStatistics? = nil) {
             self.domainIspPlacements = domainIspPlacements
             self.startDate = startDate
             self.volumeStatistics = volumeStatistics
@@ -483,7 +483,7 @@ extension PinpointEmail {
 
     public struct DeliverabilityTestReport: AWSDecodableShape {
         /// The date and time when the predictive inbox placement test was created, in Unix time format.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
         public let deliverabilityTestStatus: DeliverabilityTestStatus?
         /// The sender address that you specified for the predictive inbox placement test.
@@ -495,7 +495,7 @@ extension PinpointEmail {
         /// The subject line for an email that you submitted in a predictive inbox placement test.
         public let subject: String?
 
-        public init(createDate: TimeStamp? = nil, deliverabilityTestStatus: DeliverabilityTestStatus? = nil, fromEmailAddress: String? = nil, reportId: String? = nil, reportName: String? = nil, subject: String? = nil) {
+        public init(createDate: Date? = nil, deliverabilityTestStatus: DeliverabilityTestStatus? = nil, fromEmailAddress: String? = nil, reportId: String? = nil, reportName: String? = nil, subject: String? = nil) {
             self.createDate = createDate
             self.deliverabilityTestStatus = deliverabilityTestStatus
             self.fromEmailAddress = fromEmailAddress
@@ -581,7 +581,7 @@ extension PinpointEmail {
         /// The major email providers who handled the email message.
         public let esps: [String]?
         /// The first time, in Unix time format, when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.
-        public let firstSeenDateTime: TimeStamp?
+        public let firstSeenDateTime: Date?
         /// The verified email address that the email message was sent from.
         public let fromAddress: String?
         /// The URL of an image that contains a snapshot of the email message that was sent.
@@ -589,7 +589,7 @@ extension PinpointEmail {
         /// The number of email messages that were delivered to recipients’ inboxes.
         public let inboxCount: Int64?
         /// The last time, in Unix time format, when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.
-        public let lastSeenDateTime: TimeStamp?
+        public let lastSeenDateTime: Date?
         /// The projected number of recipients that the email message was sent to.
         public let projectedVolume: Int64?
         /// The percentage of email messages that were opened and then deleted by recipients. Due to technical limitations, this value only includes recipients who opened the message by using an email client that supports images.
@@ -603,7 +603,7 @@ extension PinpointEmail {
         /// The subject line, or title, of the email message.
         public let subject: String?
 
-        public init(campaignId: String? = nil, deleteRate: Double? = nil, esps: [String]? = nil, firstSeenDateTime: TimeStamp? = nil, fromAddress: String? = nil, imageUrl: String? = nil, inboxCount: Int64? = nil, lastSeenDateTime: TimeStamp? = nil, projectedVolume: Int64? = nil, readDeleteRate: Double? = nil, readRate: Double? = nil, sendingIps: [String]? = nil, spamCount: Int64? = nil, subject: String? = nil) {
+        public init(campaignId: String? = nil, deleteRate: Double? = nil, esps: [String]? = nil, firstSeenDateTime: Date? = nil, fromAddress: String? = nil, imageUrl: String? = nil, inboxCount: Int64? = nil, lastSeenDateTime: Date? = nil, projectedVolume: Int64? = nil, readDeleteRate: Double? = nil, readRate: Double? = nil, sendingIps: [String]? = nil, spamCount: Int64? = nil, subject: String? = nil) {
             self.campaignId = campaignId
             self.deleteRate = deleteRate
             self.esps = esps
@@ -644,9 +644,9 @@ extension PinpointEmail {
         /// An object that contains information about the inbox placement data settings for the domain.
         public let inboxPlacementTrackingOption: InboxPlacementTrackingOption?
         /// The date, in Unix time format, when you enabled the Deliverability dashboard for the domain.
-        public let subscriptionStartDate: TimeStamp?
+        public let subscriptionStartDate: Date?
 
-        public init(domain: String? = nil, inboxPlacementTrackingOption: InboxPlacementTrackingOption? = nil, subscriptionStartDate: TimeStamp? = nil) {
+        public init(domain: String? = nil, inboxPlacementTrackingOption: InboxPlacementTrackingOption? = nil, subscriptionStartDate: Date? = nil) {
             self.domain = domain
             self.inboxPlacementTrackingOption = inboxPlacementTrackingOption
             self.subscriptionStartDate = subscriptionStartDate
@@ -1002,9 +1002,9 @@ extension PinpointEmail {
         /// An array of objects, one for each verified domain that you use to send email and currently has an active Deliverability dashboard subscription that's scheduled to expire at the end of the current calendar month.
         public let pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]?
         /// The date, in Unix time format, when your current subscription to the Deliverability dashboard is scheduled to expire, if your subscription is scheduled to expire at the end of the current calendar month. This value is null if you have an active subscription that isn’t due to expire at the end of the month.
-        public let subscriptionExpiryDate: TimeStamp?
+        public let subscriptionExpiryDate: Date?
 
-        public init(accountStatus: DeliverabilityDashboardAccountStatus? = nil, activeSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, dashboardEnabled: Bool, pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, subscriptionExpiryDate: TimeStamp? = nil) {
+        public init(accountStatus: DeliverabilityDashboardAccountStatus? = nil, activeSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, dashboardEnabled: Bool, pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, subscriptionExpiryDate: Date? = nil) {
             self.accountStatus = accountStatus
             self.activeSubscribedDomains = activeSubscribedDomains
             self.dashboardEnabled = dashboardEnabled
@@ -1103,11 +1103,11 @@ extension PinpointEmail {
         /// The domain that you want to obtain deliverability metrics for.
         public let domain: String
         /// The last day (in Unix time) that you want to obtain domain deliverability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate.
-        public let endDate: TimeStamp
+        public let endDate: Date
         /// The first day (in Unix time) that you want to obtain domain deliverability metrics for.
-        public let startDate: TimeStamp
+        public let startDate: Date
 
-        public init(domain: String, endDate: TimeStamp, startDate: TimeStamp) {
+        public init(domain: String, endDate: Date, startDate: Date) {
             self.domain = domain
             self.endDate = endDate
             self.startDate = startDate
@@ -1371,17 +1371,17 @@ extension PinpointEmail {
         ]
 
         /// The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
-        public let endDate: TimeStamp
+        public let endDate: Date
         /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
         public let nextToken: String?
         /// The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results.
         public let pageSize: Int?
         /// The first day, in Unix time format, that you want to obtain deliverability data for.
-        public let startDate: TimeStamp
+        public let startDate: Date
         /// The domain to obtain deliverability data for.
         public let subscribedDomain: String
 
-        public init(endDate: TimeStamp, nextToken: String? = nil, pageSize: Int? = nil, startDate: TimeStamp, subscribedDomain: String) {
+        public init(endDate: Date, nextToken: String? = nil, pageSize: Int? = nil, startDate: Date, subscribedDomain: String) {
             self.endDate = endDate
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -1885,11 +1885,11 @@ extension PinpointEmail {
 
     public struct ReputationOptions: AWSEncodableShape & AWSDecodableShape {
         /// The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
-        public let lastFreshStart: TimeStamp?
+        public let lastFreshStart: Date?
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
         public let reputationMetricsEnabled: Bool?
 
-        public init(lastFreshStart: TimeStamp? = nil, reputationMetricsEnabled: Bool? = nil) {
+        public init(lastFreshStart: Date? = nil, reputationMetricsEnabled: Bool? = nil) {
             self.lastFreshStart = lastFreshStart
             self.reputationMetricsEnabled = reputationMetricsEnabled
         }

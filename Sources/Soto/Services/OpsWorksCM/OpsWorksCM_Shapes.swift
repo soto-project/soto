@@ -140,7 +140,7 @@ extension OpsWorksCM {
         ///  The backup type. Valid values are automated or manual.
         public let backupType: BackupType?
         ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         ///  A user-provided description for a manual backup. This field is empty for automated backups.
         public let description: String?
         ///  The engine type that is obtained from the server when the backup is created.
@@ -178,7 +178,7 @@ extension OpsWorksCM {
         ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups.
         public let userArn: String?
 
-        public init(backupArn: String? = nil, backupId: String? = nil, backupType: BackupType? = nil, createdAt: TimeStamp? = nil, description: String? = nil, engine: String? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, s3LogUrl: String? = nil, securityGroupIds: [String]? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: BackupStatus? = nil, statusDescription: String? = nil, subnetIds: [String]? = nil, toolsVersion: String? = nil, userArn: String? = nil) {
+        public init(backupArn: String? = nil, backupId: String? = nil, backupType: BackupType? = nil, createdAt: Date? = nil, description: String? = nil, engine: String? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, s3LogUrl: String? = nil, securityGroupIds: [String]? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: BackupStatus? = nil, statusDescription: String? = nil, subnetIds: [String]? = nil, toolsVersion: String? = nil, userArn: String? = nil) {
             self.backupArn = backupArn
             self.backupId = backupId
             self.backupType = backupType
@@ -894,7 +894,7 @@ extension OpsWorksCM {
         /// The ARN of the CloudFormation stack that was used to create the server.
         public let cloudFormationStackArn: String?
         /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// An optional public endpoint of a server, such as https://aws.my-company.com. You cannot access the server by using the Endpoint value if the server has a CustomDomain specified.
         public let customDomain: String?
         /// Disables automated backups. The number of stored backups is dependent on the value of PreferredBackupCount.
@@ -936,7 +936,7 @@ extension OpsWorksCM {
         ///  The subnet IDs specified in a CreateServer request.
         public let subnetIds: [String]?
 
-        public init(associatePublicIpAddress: Bool? = nil, backupRetentionCount: Int? = nil, cloudFormationStackArn: String? = nil, createdAt: TimeStamp? = nil, customDomain: String? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverArn: String? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: ServerStatus? = nil, statusReason: String? = nil, subnetIds: [String]? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, backupRetentionCount: Int? = nil, cloudFormationStackArn: String? = nil, createdAt: Date? = nil, customDomain: String? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverArn: String? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: ServerStatus? = nil, statusReason: String? = nil, subnetIds: [String]? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.backupRetentionCount = backupRetentionCount
             self.cloudFormationStackArn = cloudFormationStackArn
@@ -993,7 +993,7 @@ extension OpsWorksCM {
 
     public struct ServerEvent: AWSDecodableShape {
         /// The time when the event occurred.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The Amazon S3 URL of the event's log file.
         public let logUrl: String?
         /// A human-readable informational or status message.
@@ -1001,7 +1001,7 @@ extension OpsWorksCM {
         /// The name of the server on or for which the event occurred.
         public let serverName: String?
 
-        public init(createdAt: TimeStamp? = nil, logUrl: String? = nil, message: String? = nil, serverName: String? = nil) {
+        public init(createdAt: Date? = nil, logUrl: String? = nil, message: String? = nil, serverName: String? = nil) {
             self.createdAt = createdAt
             self.logUrl = logUrl
             self.message = message

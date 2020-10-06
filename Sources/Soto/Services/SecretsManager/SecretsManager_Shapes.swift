@@ -216,11 +216,11 @@ extension SecretsManager {
         /// The ARN of the secret that is now scheduled for deletion.
         public let arn: String?
         /// The date and time after which this secret can be deleted by Secrets Manager and can no longer be restored. This value is the date and time of the delete request plus the number of days specified in RecoveryWindowInDays.
-        public let deletionDate: TimeStamp?
+        public let deletionDate: Date?
         /// The friendly name of the secret that is now scheduled for deletion.
         public let name: String?
 
-        public init(arn: String? = nil, deletionDate: TimeStamp? = nil, name: String? = nil) {
+        public init(arn: String? = nil, deletionDate: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.deletionDate = deletionDate
             self.name = name
@@ -255,19 +255,19 @@ extension SecretsManager {
         /// The ARN of the secret.
         public let arn: String?
         /// The date that the secret was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// This value exists if the secret is scheduled for deletion. Some time after the specified date and time, Secrets Manager deletes the secret and all of its versions. If a secret is scheduled for deletion, then its details, including the encrypted secret information, is not accessible. To cancel a scheduled deletion and restore access, use RestoreSecret.
-        public let deletedDate: TimeStamp?
+        public let deletedDate: Date?
         /// The user-provided description of the secret.
         public let description: String?
         /// The ARN or alias of the AWS KMS customer master key (CMK) that's used to encrypt the SecretString or SecretBinary fields in each version of the secret. If you don't provide a key, then Secrets Manager defaults to encrypting the secret fields with the default AWS KMS CMK (the one named awssecretsmanager) for this account.
         public let kmsKeyId: String?
         /// The last date that this secret was accessed. This value is truncated to midnight of the date and therefore shows only the date, not the time.
-        public let lastAccessedDate: TimeStamp?
+        public let lastAccessedDate: Date?
         /// The last date and time that this secret was modified in any way.
-        public let lastChangedDate: TimeStamp?
+        public let lastChangedDate: Date?
         /// The most recent date and time that the Secrets Manager rotation process was successfully completed. This value is null if the secret has never rotated.
-        public let lastRotatedDate: TimeStamp?
+        public let lastRotatedDate: Date?
         /// The user-provided friendly name of the secret.
         public let name: String?
         /// Returns the name of the service that created this secret.
@@ -283,7 +283,7 @@ extension SecretsManager {
         /// A list of all of the currently assigned VersionStage staging labels and the VersionId that each is attached to. Staging labels are used to keep track of the different versions during the rotation process.  A version that does not have any staging labels attached is considered deprecated and subject to deletion. Such versions are not included in this list.
         public let versionIdsToStages: [String: [String]]?
 
-        public init(arn: String? = nil, createdDate: TimeStamp? = nil, deletedDate: TimeStamp? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: TimeStamp? = nil, lastChangedDate: TimeStamp? = nil, lastRotatedDate: TimeStamp? = nil, name: String? = nil, owningService: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
+        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, owningService: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.deletedDate = deletedDate
@@ -481,7 +481,7 @@ extension SecretsManager {
         /// The ARN of the secret.
         public let arn: String?
         /// The date and time that this version of the secret was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The friendly name of the secret.
         public let name: String?
         /// The decrypted part of the protected secret information that was originally provided as binary data in the form of a byte array. The response parameter represents the binary data as a base64-encoded string. This parameter is not used if the secret is created by the Secrets Manager console. If you store custom information in this field of the secret, then you must code your Lambda rotation function to parse and interpret whatever you store in the SecretString or SecretBinary fields.
@@ -493,7 +493,7 @@ extension SecretsManager {
         /// A list of all of the staging labels currently attached to this version of the secret.
         public let versionStages: [String]?
 
-        public init(arn: String? = nil, createdDate: TimeStamp? = nil, name: String? = nil, secretBinary: Data? = nil, secretString: String? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
+        public init(arn: String? = nil, createdDate: Date? = nil, name: String? = nil, secretBinary: Data? = nil, secretString: String? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.name = name
@@ -855,19 +855,19 @@ extension SecretsManager {
         /// The Amazon Resource Name (ARN) of the secret. For more information about ARNs in Secrets Manager, see Policy Resources in the AWS Secrets Manager User Guide.
         public let arn: String?
         /// The date and time when a secret was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The date and time the deletion of the secret occurred. Not present on active secrets. The secret can be recovered until the number of days in the recovery window has passed, as specified in the RecoveryWindowInDays parameter of the DeleteSecret operation.
-        public let deletedDate: TimeStamp?
+        public let deletedDate: Date?
         /// The user-provided description of the secret.
         public let description: String?
         /// The ARN or alias of the AWS KMS customer master key (CMK) used to encrypt the SecretString and SecretBinary fields in each version of the secret. If you don't provide a key, then Secrets Manager defaults to encrypting the secret fields with the default KMS CMK, the key named awssecretsmanager, for this account.
         public let kmsKeyId: String?
         /// The last date that this secret was accessed. This value is truncated to midnight of the date and therefore shows only the date, not the time.
-        public let lastAccessedDate: TimeStamp?
+        public let lastAccessedDate: Date?
         /// The last date and time that this secret was modified in any way.
-        public let lastChangedDate: TimeStamp?
+        public let lastChangedDate: Date?
         /// The last date and time that the rotation process for this secret was invoked.
-        public let lastRotatedDate: TimeStamp?
+        public let lastRotatedDate: Date?
         /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod.
         public let name: String?
         /// Returns the name of the service that created the secret.
@@ -883,7 +883,7 @@ extension SecretsManager {
         /// The list of user-defined tags associated with the secret. To add tags to a secret, use TagResource. To remove tags, use UntagResource.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdDate: TimeStamp? = nil, deletedDate: TimeStamp? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: TimeStamp? = nil, lastChangedDate: TimeStamp? = nil, lastRotatedDate: TimeStamp? = nil, name: String? = nil, owningService: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, owningService: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.deletedDate = deletedDate
@@ -922,15 +922,15 @@ extension SecretsManager {
 
     public struct SecretVersionsListEntry: AWSDecodableShape {
         /// The date and time this version of the secret was created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The date that this version of the secret was last accessed. Note that the resolution of this field is at the date level and does not include the time.
-        public let lastAccessedDate: TimeStamp?
+        public let lastAccessedDate: Date?
         /// The unique version identifier of this version of the secret.
         public let versionId: String?
         /// An array of staging labels that are currently associated with this version of the secret.
         public let versionStages: [String]?
 
-        public init(createdDate: TimeStamp? = nil, lastAccessedDate: TimeStamp? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
+        public init(createdDate: Date? = nil, lastAccessedDate: Date? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
             self.createdDate = createdDate
             self.lastAccessedDate = lastAccessedDate
             self.versionId = versionId

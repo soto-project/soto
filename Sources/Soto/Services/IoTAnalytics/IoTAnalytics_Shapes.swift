@@ -202,9 +202,9 @@ extension IoTAnalytics {
         /// The ARN of the channel.
         public let arn: String?
         /// When the channel was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// When the channel was last updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The name of the channel.
         public let name: String?
         /// How long, in days, message data is kept for the channel.
@@ -214,7 +214,7 @@ extension IoTAnalytics {
         /// Where channel data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after creation of the channel.
         public let storage: ChannelStorage?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: ChannelStatus? = nil, storage: ChannelStorage? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: ChannelStatus? = nil, storage: ChannelStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
@@ -323,13 +323,13 @@ extension IoTAnalytics {
         /// Where channel data is stored.
         public let channelStorage: ChannelStorageSummary?
         /// When the channel was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The last time the channel was updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The status of the channel.
         public let status: ChannelStatus?
 
-        public init(channelName: String? = nil, channelStorage: ChannelStorageSummary? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, status: ChannelStatus? = nil) {
+        public init(channelName: String? = nil, channelStorage: ChannelStorageSummary? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, status: ChannelStatus? = nil) {
             self.channelName = channelName
             self.channelStorage = channelStorage
             self.creationTime = creationTime
@@ -789,9 +789,9 @@ extension IoTAnalytics {
         /// When data set contents are created they are delivered to destinations specified here.
         public let contentDeliveryRules: [DatasetContentDeliveryRule]?
         /// When the data set was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The last time the data set was updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The name of the data set.
         public let name: String?
         /// [Optional] How long, in days, message data is kept for the data set.
@@ -803,7 +803,7 @@ extension IoTAnalytics {
         /// [Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the "retentionPeriod" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
         public let versioningConfiguration: VersioningConfiguration?
 
-        public init(actions: [DatasetAction]? = nil, arn: String? = nil, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
+        public init(actions: [DatasetAction]? = nil, arn: String? = nil, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.arn = arn
             self.contentDeliveryRules = contentDeliveryRules
@@ -938,17 +938,17 @@ extension IoTAnalytics {
 
     public struct DatasetContentSummary: AWSDecodableShape {
         /// The time the dataset content status was updated to SUCCEEDED or FAILED.
-        public let completionTime: TimeStamp?
+        public let completionTime: Date?
         /// The actual time the creation of the data set contents was started.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The time the creation of the data set contents was scheduled to start.
-        public let scheduleTime: TimeStamp?
+        public let scheduleTime: Date?
         /// The status of the data set contents.
         public let status: DatasetContentStatus?
         /// The version of the data set contents.
         public let version: String?
 
-        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, scheduleTime: TimeStamp? = nil, status: DatasetContentStatus? = nil, version: String? = nil) {
+        public init(completionTime: Date? = nil, creationTime: Date? = nil, scheduleTime: Date? = nil, status: DatasetContentStatus? = nil, version: String? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.scheduleTime = scheduleTime
@@ -1005,17 +1005,17 @@ extension IoTAnalytics {
         /// A list of "DataActionSummary" objects.
         public let actions: [DatasetActionSummary]?
         /// The time the data set was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the data set.
         public let datasetName: String?
         /// The last time the data set was updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The status of the data set.
         public let status: DatasetStatus?
         /// A list of triggers. A trigger causes data set content to be populated at a specified time interval or when another data set is populated. The list of triggers can be empty or contain up to five DataSetTrigger objects
         public let triggers: [DatasetTrigger]?
 
-        public init(actions: [DatasetActionSummary]? = nil, creationTime: TimeStamp? = nil, datasetName: String? = nil, lastUpdateTime: TimeStamp? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil) {
+        public init(actions: [DatasetActionSummary]? = nil, creationTime: Date? = nil, datasetName: String? = nil, lastUpdateTime: Date? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil) {
             self.actions = actions
             self.creationTime = creationTime
             self.datasetName = datasetName
@@ -1059,9 +1059,9 @@ extension IoTAnalytics {
         /// The ARN of the data store.
         public let arn: String?
         /// When the data store was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The last time the data store was updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The name of the data store.
         public let name: String?
         /// How long, in days, message data is kept for the data store. When "customerManagedS3" storage is selected, this parameter is ignored.
@@ -1071,7 +1071,7 @@ extension IoTAnalytics {
         /// Where data store data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after the data store is created.
         public let storage: DatastoreStorage?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
@@ -1170,17 +1170,17 @@ extension IoTAnalytics {
 
     public struct DatastoreSummary: AWSDecodableShape {
         /// When the data store was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The name of the data store.
         public let datastoreName: String?
         /// Where data store data is stored.
         public let datastoreStorage: DatastoreStorageSummary?
         /// The last time the data store was updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The status of the data store.
         public let status: DatastoreStatus?
 
-        public init(creationTime: TimeStamp? = nil, datastoreName: String? = nil, datastoreStorage: DatastoreStorageSummary? = nil, lastUpdateTime: TimeStamp? = nil, status: DatastoreStatus? = nil) {
+        public init(creationTime: Date? = nil, datastoreName: String? = nil, datastoreStorage: DatastoreStorageSummary? = nil, lastUpdateTime: Date? = nil, status: DatastoreStatus? = nil) {
             self.creationTime = creationTime
             self.datastoreName = datastoreName
             self.datastoreStorage = datastoreStorage
@@ -1580,11 +1580,11 @@ extension IoTAnalytics {
 
     public struct EstimatedResourceSize: AWSDecodableShape {
         /// The time when the estimate of the size of the resource was made.
-        public let estimatedOn: TimeStamp?
+        public let estimatedOn: Date?
         /// The estimated size of the resource in bytes.
         public let estimatedSizeInBytes: Double?
 
-        public init(estimatedOn: TimeStamp? = nil, estimatedSizeInBytes: Double? = nil) {
+        public init(estimatedOn: Date? = nil, estimatedSizeInBytes: Double? = nil) {
             self.estimatedOn = estimatedOn
             self.estimatedSizeInBytes = estimatedSizeInBytes
         }
@@ -1658,9 +1658,9 @@ extension IoTAnalytics {
         /// The status of the data set content.
         public let status: DatasetContentStatus?
         /// The time when the request was made.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(entries: [DatasetEntry]? = nil, status: DatasetContentStatus? = nil, timestamp: TimeStamp? = nil) {
+        public init(entries: [DatasetEntry]? = nil, status: DatasetContentStatus? = nil, timestamp: Date? = nil) {
             self.entries = entries
             self.status = status
             self.timestamp = timestamp
@@ -1818,11 +1818,11 @@ extension IoTAnalytics {
         /// The token for the next set of results.
         public let nextToken: String?
         /// A filter to limit results to those data set contents whose creation is scheduled before the given time. See the field triggers.schedule in the CreateDataset request. (timestamp)
-        public let scheduledBefore: TimeStamp?
+        public let scheduledBefore: Date?
         /// A filter to limit results to those data set contents whose creation is scheduled on or after the given time. See the field triggers.schedule in the CreateDataset request. (timestamp)
-        public let scheduledOnOrAfter: TimeStamp?
+        public let scheduledOnOrAfter: Date?
 
-        public init(datasetName: String, maxResults: Int? = nil, nextToken: String? = nil, scheduledBefore: TimeStamp? = nil, scheduledOnOrAfter: TimeStamp? = nil) {
+        public init(datasetName: String, maxResults: Int? = nil, nextToken: String? = nil, scheduledBefore: Date? = nil, scheduledOnOrAfter: Date? = nil) {
             self.datasetName = datasetName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2121,15 +2121,15 @@ extension IoTAnalytics {
         /// The ARN of the pipeline.
         public let arn: String?
         /// When the pipeline was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The last time the pipeline was updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The name of the pipeline.
         public let name: String?
         /// A summary of information about the pipeline reprocessing.
         public let reprocessingSummaries: [ReprocessingSummary]?
 
-        public init(activities: [PipelineActivity]? = nil, arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil) {
+        public init(activities: [PipelineActivity]? = nil, arn: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil) {
             self.activities = activities
             self.arn = arn
             self.creationTime = creationTime
@@ -2212,15 +2212,15 @@ extension IoTAnalytics {
 
     public struct PipelineSummary: AWSDecodableShape {
         /// When the pipeline was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// When the pipeline was last updated.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The name of the pipeline.
         public let pipelineName: String?
         /// A summary of information about the pipeline reprocessing.
         public let reprocessingSummaries: [ReprocessingSummary]?
 
-        public init(creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, pipelineName: String? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil) {
+        public init(creationTime: Date? = nil, lastUpdateTime: Date? = nil, pipelineName: String? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.pipelineName = pipelineName
@@ -2301,13 +2301,13 @@ extension IoTAnalytics {
 
     public struct ReprocessingSummary: AWSDecodableShape {
         /// The time the pipeline reprocessing was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The 'reprocessingId' returned by "StartPipelineReprocessing".
         public let id: String?
         /// The status of the pipeline reprocessing.
         public let status: ReprocessingStatus?
 
-        public init(creationTime: TimeStamp? = nil, id: String? = nil, status: ReprocessingStatus? = nil) {
+        public init(creationTime: Date? = nil, id: String? = nil, status: ReprocessingStatus? = nil) {
             self.creationTime = creationTime
             self.id = id
             self.status = status
@@ -2451,13 +2451,13 @@ extension IoTAnalytics {
         /// The name of the channel whose message samples are retrieved.
         public let channelName: String
         /// The end of the time window from which sample messages are retrieved.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The number of sample messages to be retrieved. The limit is 10, the default is also 10.
         public let maxMessages: Int?
         /// The start of the time window from which sample messages are retrieved.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(channelName: String, endTime: TimeStamp? = nil, maxMessages: Int? = nil, startTime: TimeStamp? = nil) {
+        public init(channelName: String, endTime: Date? = nil, maxMessages: Int? = nil, startTime: Date? = nil) {
             self.channelName = channelName
             self.endTime = endTime
             self.maxMessages = maxMessages
@@ -2579,13 +2579,13 @@ extension IoTAnalytics {
         ]
 
         /// The end time (exclusive) of raw message data that is reprocessed.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The name of the pipeline on which to start reprocessing.
         public let pipelineName: String
         /// The start time (inclusive) of raw message data that is reprocessed.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(endTime: TimeStamp? = nil, pipelineName: String, startTime: TimeStamp? = nil) {
+        public init(endTime: Date? = nil, pipelineName: String, startTime: Date? = nil) {
             self.endTime = endTime
             self.pipelineName = pipelineName
             self.startTime = startTime

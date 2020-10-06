@@ -115,11 +115,11 @@ extension ECR {
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
         public let authorizationToken: String?
         /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
-        public let expiresAt: TimeStamp?
+        public let expiresAt: Date?
         /// The registry URL to use for this authorization token in a docker login command. The Amazon ECR registry URL format is https://aws_account_id.dkr.ecr.region.amazonaws.com. For example, https://012345678910.dkr.ecr.us-east-1.amazonaws.com..
         public let proxyEndpoint: String?
 
-        public init(authorizationToken: String? = nil, expiresAt: TimeStamp? = nil, proxyEndpoint: String? = nil) {
+        public init(authorizationToken: String? = nil, expiresAt: Date? = nil, proxyEndpoint: String? = nil) {
             self.authorizationToken = authorizationToken
             self.expiresAt = expiresAt
             self.proxyEndpoint = proxyEndpoint
@@ -427,7 +427,7 @@ extension ECR {
 
     public struct DeleteLifecyclePolicyResponse: AWSDecodableShape {
         /// The time stamp of the last time that the lifecycle policy was run.
-        public let lastEvaluatedAt: TimeStamp?
+        public let lastEvaluatedAt: Date?
         /// The JSON lifecycle policy text.
         public let lifecyclePolicyText: String?
         /// The registry ID associated with the request.
@@ -435,7 +435,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
-        public init(lastEvaluatedAt: TimeStamp? = nil, lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(lastEvaluatedAt: Date? = nil, lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.lastEvaluatedAt = lastEvaluatedAt
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
@@ -950,7 +950,7 @@ extension ECR {
 
     public struct GetLifecyclePolicyResponse: AWSDecodableShape {
         /// The time stamp of the last time that the lifecycle policy was run.
-        public let lastEvaluatedAt: TimeStamp?
+        public let lastEvaluatedAt: Date?
         /// The JSON lifecycle policy text.
         public let lifecyclePolicyText: String?
         /// The registry ID associated with the request.
@@ -958,7 +958,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
-        public init(lastEvaluatedAt: TimeStamp? = nil, lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(lastEvaluatedAt: Date? = nil, lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.lastEvaluatedAt = lastEvaluatedAt
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
@@ -1055,7 +1055,7 @@ extension ECR {
         /// The media type of the image manifest.
         public let imageManifestMediaType: String?
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository.
-        public let imagePushedAt: TimeStamp?
+        public let imagePushedAt: Date?
         /// A summary of the last completed image scan.
         public let imageScanFindingsSummary: ImageScanFindingsSummary?
         /// The current state of the scan.
@@ -1069,7 +1069,7 @@ extension ECR {
         /// The name of the repository to which this image belongs.
         public let repositoryName: String?
 
-        public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: TimeStamp? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: Date? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
             self.imageManifestMediaType = imageManifestMediaType
@@ -1174,11 +1174,11 @@ extension ECR {
         /// The image vulnerability counts, sorted by severity.
         public let findingSeverityCounts: [FindingSeverity: Int]?
         /// The time of the last completed image scan.
-        public let imageScanCompletedAt: TimeStamp?
+        public let imageScanCompletedAt: Date?
         /// The time when the vulnerability data was last scanned.
-        public let vulnerabilitySourceUpdatedAt: TimeStamp?
+        public let vulnerabilitySourceUpdatedAt: Date?
 
-        public init(findings: [ImageScanFinding]? = nil, findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: TimeStamp? = nil, vulnerabilitySourceUpdatedAt: TimeStamp? = nil) {
+        public init(findings: [ImageScanFinding]? = nil, findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: Date? = nil, vulnerabilitySourceUpdatedAt: Date? = nil) {
             self.findings = findings
             self.findingSeverityCounts = findingSeverityCounts
             self.imageScanCompletedAt = imageScanCompletedAt
@@ -1197,11 +1197,11 @@ extension ECR {
         /// The image vulnerability counts, sorted by severity.
         public let findingSeverityCounts: [FindingSeverity: Int]?
         /// The time of the last completed image scan.
-        public let imageScanCompletedAt: TimeStamp?
+        public let imageScanCompletedAt: Date?
         /// The time when the vulnerability data was last scanned.
-        public let vulnerabilitySourceUpdatedAt: TimeStamp?
+        public let vulnerabilitySourceUpdatedAt: Date?
 
-        public init(findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: TimeStamp? = nil, vulnerabilitySourceUpdatedAt: TimeStamp? = nil) {
+        public init(findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: Date? = nil, vulnerabilitySourceUpdatedAt: Date? = nil) {
             self.findingSeverityCounts = findingSeverityCounts
             self.imageScanCompletedAt = imageScanCompletedAt
             self.vulnerabilitySourceUpdatedAt = vulnerabilitySourceUpdatedAt
@@ -1352,11 +1352,11 @@ extension ECR {
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository.
-        public let imagePushedAt: TimeStamp?
+        public let imagePushedAt: Date?
         /// The list of tags associated with this image.
         public let imageTags: [String]?
 
-        public init(action: LifecyclePolicyRuleAction? = nil, appliedRulePriority: Int? = nil, imageDigest: String? = nil, imagePushedAt: TimeStamp? = nil, imageTags: [String]? = nil) {
+        public init(action: LifecyclePolicyRuleAction? = nil, appliedRulePriority: Int? = nil, imageDigest: String? = nil, imagePushedAt: Date? = nil, imageTags: [String]? = nil) {
             self.action = action
             self.appliedRulePriority = appliedRulePriority
             self.imageDigest = imageDigest
@@ -1701,7 +1701,7 @@ extension ECR {
 
     public struct Repository: AWSDecodableShape {
         /// The date and time, in JavaScript date format, when the repository was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
         public let encryptionConfiguration: EncryptionConfiguration?
         public let imageScanningConfiguration: ImageScanningConfiguration?
@@ -1716,7 +1716,7 @@ extension ECR {
         /// The URI for the repository. You can use this URI for container image push and pull operations.
         public let repositoryUri: String?
 
-        public init(createdAt: TimeStamp? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
+        public init(createdAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
             self.createdAt = createdAt
             self.encryptionConfiguration = encryptionConfiguration
             self.imageScanningConfiguration = imageScanningConfiguration

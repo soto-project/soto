@@ -325,7 +325,7 @@ extension Polly {
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
         public let languageCode: LanguageCode?
         /// Date lexicon was last modified (a timestamp value).
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// Number of lexemes in the lexicon.
         public let lexemesCount: Int?
         /// Amazon Resource Name (ARN) of the lexicon.
@@ -333,7 +333,7 @@ extension Polly {
         /// Total size of the lexicon, in characters.
         public let size: Int?
 
-        public init(alphabet: String? = nil, languageCode: LanguageCode? = nil, lastModified: TimeStamp? = nil, lexemesCount: Int? = nil, lexiconArn: String? = nil, size: Int? = nil) {
+        public init(alphabet: String? = nil, languageCode: LanguageCode? = nil, lastModified: Date? = nil, lexemesCount: Int? = nil, lexiconArn: String? = nil, size: Int? = nil) {
             self.alphabet = alphabet
             self.languageCode = languageCode
             self.lastModified = lastModified
@@ -564,7 +564,7 @@ extension Polly {
 
     public struct SynthesisTask: AWSDecodableShape {
         /// Timestamp for the time the synthesis task was started.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
         /// Optional language code for a synthesis task. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
@@ -594,7 +594,7 @@ extension Polly {
         /// Voice ID to use for the synthesis.
         public let voiceId: VoiceId?
 
-        public init(creationTime: TimeStamp? = nil, engine: Engine? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat? = nil, outputUri: String? = nil, requestCharacters: Int? = nil, sampleRate: String? = nil, snsTopicArn: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, taskId: String? = nil, taskStatus: TaskStatus? = nil, taskStatusReason: String? = nil, textType: TextType? = nil, voiceId: VoiceId? = nil) {
+        public init(creationTime: Date? = nil, engine: Engine? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat? = nil, outputUri: String? = nil, requestCharacters: Int? = nil, sampleRate: String? = nil, snsTopicArn: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, taskId: String? = nil, taskStatus: TaskStatus? = nil, taskStatusReason: String? = nil, textType: TextType? = nil, voiceId: VoiceId? = nil) {
             self.creationTime = creationTime
             self.engine = engine
             self.languageCode = languageCode

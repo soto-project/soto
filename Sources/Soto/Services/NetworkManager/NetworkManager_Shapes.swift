@@ -591,7 +591,7 @@ extension NetworkManager {
 
     public struct Device: AWSDecodableShape {
         /// The date and time that the site was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the device.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the device.
@@ -617,7 +617,7 @@ extension NetworkManager {
         /// The device vendor.
         public let vendor: String?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, deviceArn: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, state: DeviceState? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, deviceArn: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, state: DeviceState? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.deviceArn = deviceArn
@@ -1034,7 +1034,7 @@ extension NetworkManager {
 
     public struct GlobalNetwork: AWSDecodableShape {
         /// The date and time that the global network was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the global network.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the global network.
@@ -1046,7 +1046,7 @@ extension NetworkManager {
         /// The tags for the global network.
         public let tags: [Tag]?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, globalNetworkArn: String? = nil, globalNetworkId: String? = nil, state: GlobalNetworkState? = nil, tags: [Tag]? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, globalNetworkArn: String? = nil, globalNetworkId: String? = nil, state: GlobalNetworkState? = nil, tags: [Tag]? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.globalNetworkArn = globalNetworkArn
@@ -1069,7 +1069,7 @@ extension NetworkManager {
         /// The bandwidth for the link.
         public let bandwidth: Bandwidth?
         /// The date and time that the link was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the link.
         public let description: String?
         /// The ID of the global network.
@@ -1089,7 +1089,7 @@ extension NetworkManager {
         /// The type of the link.
         public let `type`: String?
 
-        public init(bandwidth: Bandwidth? = nil, createdAt: TimeStamp? = nil, description: String? = nil, globalNetworkId: String? = nil, linkArn: String? = nil, linkId: String? = nil, provider: String? = nil, siteId: String? = nil, state: LinkState? = nil, tags: [Tag]? = nil, type: String? = nil) {
+        public init(bandwidth: Bandwidth? = nil, createdAt: Date? = nil, description: String? = nil, globalNetworkId: String? = nil, linkArn: String? = nil, linkId: String? = nil, provider: String? = nil, siteId: String? = nil, state: LinkState? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.bandwidth = bandwidth
             self.createdAt = createdAt
             self.description = description
@@ -1227,7 +1227,7 @@ extension NetworkManager {
 
     public struct Site: AWSDecodableShape {
         /// The date and time that the site was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The description of the site.
         public let description: String?
         /// The ID of the global network.
@@ -1243,7 +1243,7 @@ extension NetworkManager {
         /// The tags for the site.
         public let tags: [Tag]?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, siteArn: String? = nil, siteId: String? = nil, state: SiteState? = nil, tags: [Tag]? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, siteArn: String? = nil, siteId: String? = nil, state: SiteState? = nil, tags: [Tag]? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.globalNetworkId = globalNetworkId

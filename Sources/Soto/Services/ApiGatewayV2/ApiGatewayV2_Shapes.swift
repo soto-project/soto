@@ -145,8 +145,8 @@ extension ApiGatewayV2 {
         /// A CORS configuration. Supported only for HTTP APIs.
         public let corsConfiguration: Cors?
         /// The timestamp when the API was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         /// The description of the API.
         public let description: String?
         /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
@@ -166,7 +166,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -420,8 +420,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -432,7 +432,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -584,14 +584,14 @@ extension ApiGatewayV2 {
 
     public struct CreateDeploymentResponse: AWSDecodableShape {
         public let autoDeployed: Bool?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let deploymentId: String?
         public let deploymentStatus: DeploymentStatus?
         public let deploymentStatusMessage: String?
         public let description: String?
 
-        public init(autoDeployed: Bool? = nil, createdDate: TimeStamp? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
+        public init(autoDeployed: Bool? = nil, createdDate: Date? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.autoDeployed = autoDeployed
             self.createdDate = createdDate
             self.deploymentId = deploymentId
@@ -1094,20 +1094,20 @@ extension ApiGatewayV2 {
         public let apiGatewayManaged: Bool?
         public let autoDeploy: Bool?
         public let clientCertificateId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let defaultRouteSettings: RouteSettings?
         public let deploymentId: String?
         public let description: String?
         public let lastDeploymentStatusMessage: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastUpdatedDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedDate: Date?
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String?
         public let stageVariables: [String: String]?
         public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
             self.autoDeploy = autoDeploy
@@ -1164,8 +1164,8 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateVpcLinkResponse: AWSDecodableShape {
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let name: String?
         public let securityGroupIds: [String]?
         public let subnetIds: [String]?
@@ -1175,7 +1175,7 @@ extension ApiGatewayV2 {
         public let vpcLinkStatusMessage: String?
         public let vpcLinkVersion: VpcLinkVersion?
 
-        public init(createdDate: TimeStamp? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
+        public init(createdDate: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
             self.createdDate = createdDate
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -1480,8 +1480,8 @@ extension ApiGatewayV2 {
         /// Specifies whether a deployment was automatically released.
         public let autoDeployed: Bool?
         /// The date and time when the Deployment resource was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         /// The identifier for the deployment.
         public let deploymentId: String?
         /// The status of the deployment: PENDING, FAILED, or SUCCEEDED.
@@ -1491,7 +1491,7 @@ extension ApiGatewayV2 {
         /// The description for the deployment.
         public let description: String?
 
-        public init(autoDeployed: Bool? = nil, createdDate: TimeStamp? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
+        public init(autoDeployed: Bool? = nil, createdDate: Date? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.autoDeployed = autoDeployed
             self.createdDate = createdDate
             self.deploymentId = deploymentId
@@ -1543,8 +1543,8 @@ extension ApiGatewayV2 {
         /// The user-friendly name of the certificate that will be used by the edge-optimized endpoint for this domain name.
         public let certificateName: String?
         /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var certificateUploadDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var certificateUploadDate: Date?
         /// The status of the domain name migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
         public let domainNameStatus: DomainNameStatus?
         /// An optional text message containing detailed information about status of the domain name migration.
@@ -1556,7 +1556,7 @@ extension ApiGatewayV2 {
         /// The Transport Layer Security (TLS) version of the security policy for this domain name. The valid values are TLS_1_0 and TLS_1_2.
         public let securityPolicy: SecurityPolicy?
 
-        public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil) {
+        public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil) {
             self.apiGatewayDomainName = apiGatewayDomainName
             self.certificateArn = certificateArn
             self.certificateName = certificateName
@@ -1719,8 +1719,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -1731,7 +1731,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -1913,14 +1913,14 @@ extension ApiGatewayV2 {
 
     public struct GetDeploymentResponse: AWSDecodableShape {
         public let autoDeployed: Bool?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let deploymentId: String?
         public let deploymentStatus: DeploymentStatus?
         public let deploymentStatusMessage: String?
         public let description: String?
 
-        public init(autoDeployed: Bool? = nil, createdDate: TimeStamp? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
+        public init(autoDeployed: Bool? = nil, createdDate: Date? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.autoDeployed = autoDeployed
             self.createdDate = createdDate
             self.deploymentId = deploymentId
@@ -2553,20 +2553,20 @@ extension ApiGatewayV2 {
         public let apiGatewayManaged: Bool?
         public let autoDeploy: Bool?
         public let clientCertificateId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let defaultRouteSettings: RouteSettings?
         public let deploymentId: String?
         public let description: String?
         public let lastDeploymentStatusMessage: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastUpdatedDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedDate: Date?
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String?
         public let stageVariables: [String: String]?
         public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
             self.autoDeploy = autoDeploy
@@ -2677,8 +2677,8 @@ extension ApiGatewayV2 {
     }
 
     public struct GetVpcLinkResponse: AWSDecodableShape {
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let name: String?
         public let securityGroupIds: [String]?
         public let subnetIds: [String]?
@@ -2688,7 +2688,7 @@ extension ApiGatewayV2 {
         public let vpcLinkStatusMessage: String?
         public let vpcLinkVersion: VpcLinkVersion?
 
-        public init(createdDate: TimeStamp? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
+        public init(createdDate: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
             self.createdDate = createdDate
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -2772,8 +2772,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -2784,7 +2784,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -3030,8 +3030,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -3042,7 +3042,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -3225,8 +3225,8 @@ extension ApiGatewayV2 {
         /// The identifier of a client certificate for a Stage. Supported only for WebSocket APIs.
         public let clientCertificateId: String?
         /// The timestamp when the stage was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         /// Default route settings for the stage.
         public let defaultRouteSettings: RouteSettings?
         /// The identifier of the Deployment that the Stage is associated with. Can't be updated if autoDeploy is enabled.
@@ -3236,8 +3236,8 @@ extension ApiGatewayV2 {
         /// Describes the status of the last deployment of a stage. Supported only for stages with autoDeploy enabled.
         public let lastDeploymentStatusMessage: String?
         /// The timestamp when the stage was last updated.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastUpdatedDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedDate: Date?
         /// Route settings for the stage, by routeKey.
         public let routeSettings: [String: RouteSettings]?
         /// The name of the stage.
@@ -3247,7 +3247,7 @@ extension ApiGatewayV2 {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
             self.autoDeploy = autoDeploy
@@ -3450,8 +3450,8 @@ extension ApiGatewayV2 {
         public let apiId: String?
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let description: String?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
@@ -3462,7 +3462,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -3617,14 +3617,14 @@ extension ApiGatewayV2 {
 
     public struct UpdateDeploymentResponse: AWSDecodableShape {
         public let autoDeployed: Bool?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let deploymentId: String?
         public let deploymentStatus: DeploymentStatus?
         public let deploymentStatusMessage: String?
         public let description: String?
 
-        public init(autoDeployed: Bool? = nil, createdDate: TimeStamp? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
+        public init(autoDeployed: Bool? = nil, createdDate: Date? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.autoDeployed = autoDeployed
             self.createdDate = createdDate
             self.deploymentId = deploymentId
@@ -4139,20 +4139,20 @@ extension ApiGatewayV2 {
         public let apiGatewayManaged: Bool?
         public let autoDeploy: Bool?
         public let clientCertificateId: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let defaultRouteSettings: RouteSettings?
         public let deploymentId: String?
         public let description: String?
         public let lastDeploymentStatusMessage: String?
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var lastUpdatedDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedDate: Date?
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String?
         public let stageVariables: [String: String]?
         public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
             self.autoDeploy = autoDeploy
@@ -4206,8 +4206,8 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateVpcLinkResponse: AWSDecodableShape {
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         public let name: String?
         public let securityGroupIds: [String]?
         public let subnetIds: [String]?
@@ -4217,7 +4217,7 @@ extension ApiGatewayV2 {
         public let vpcLinkStatusMessage: String?
         public let vpcLinkVersion: VpcLinkVersion?
 
-        public init(createdDate: TimeStamp? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
+        public init(createdDate: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
             self.createdDate = createdDate
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -4244,8 +4244,8 @@ extension ApiGatewayV2 {
 
     public struct VpcLink: AWSDecodableShape {
         /// The timestamp when the VPC link was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var createdDate: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdDate: Date?
         /// The name of the VPC link.
         public let name: String
         /// A list of security group IDs for the VPC link.
@@ -4263,7 +4263,7 @@ extension ApiGatewayV2 {
         /// The version of the VPC link.
         public let vpcLinkVersion: VpcLinkVersion?
 
-        public init(createdDate: TimeStamp? = nil, name: String, securityGroupIds: [String], subnetIds: [String], tags: [String: String]? = nil, vpcLinkId: String, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
+        public init(createdDate: Date? = nil, name: String, securityGroupIds: [String], subnetIds: [String], tags: [String: String]? = nil, vpcLinkId: String, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
             self.createdDate = createdDate
             self.name = name
             self.securityGroupIds = securityGroupIds

@@ -424,13 +424,13 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the analysis.
         public let arn: String?
         /// The time that the analysis was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The ARNs of the datasets of the analysis.
         public let dataSetArns: [String]?
         /// Errors associated with the analysis.
         public let errors: [AnalysisError]?
         /// The time that the analysis was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The descriptive name of the analysis.
         public let name: String?
         /// Status associated with the analysis.
@@ -438,7 +438,7 @@ extension QuickSight {
         /// The ARN of the theme of the analysis.
         public let themeArn: String?
 
-        public init(analysisId: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, errors: [AnalysisError]? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil) {
+        public init(analysisId: String? = nil, arn: String? = nil, createdTime: Date? = nil, dataSetArns: [String]? = nil, errors: [AnalysisError]? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil) {
             self.analysisId = analysisId
             self.arn = arn
             self.createdTime = createdTime
@@ -548,15 +548,15 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) for the analysis.
         public let arn: String?
         /// The time that the analysis was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The time that the analysis was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The name of the analysis. This name is displayed in the QuickSight console.
         public let name: String?
         /// The last known status for the analysis.
         public let status: ResourceStatus?
 
-        public init(analysisId: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, status: ResourceStatus? = nil) {
+        public init(analysisId: String? = nil, arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, status: ResourceStatus? = nil) {
             self.analysisId = analysisId
             self.arn = arn
             self.createdTime = createdTime
@@ -2208,19 +2208,19 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The time that this dataset was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// Dashboard ID.
         public let dashboardId: String?
         /// The last time that this dataset was published.
-        public let lastPublishedTime: TimeStamp?
+        public let lastPublishedTime: Date?
         /// The last time that this dataset was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// A display name for the dashboard.
         public let name: String?
         /// Version.
         public let version: DashboardVersion?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dashboardId: String? = nil, lastPublishedTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, version: DashboardVersion? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, dashboardId: String? = nil, lastPublishedTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, version: DashboardVersion? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.dashboardId = dashboardId
@@ -2345,19 +2345,19 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The time that this dashboard was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// Dashboard ID.
         public let dashboardId: String?
         /// The last time that this dashboard was published.
-        public let lastPublishedTime: TimeStamp?
+        public let lastPublishedTime: Date?
         /// The last time that this dashboard was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// A display name for the dashboard.
         public let name: String?
         /// Published version number.
         public let publishedVersionNumber: Int64?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dashboardId: String? = nil, lastPublishedTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, publishedVersionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, dashboardId: String? = nil, lastPublishedTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, publishedVersionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.dashboardId = dashboardId
@@ -2382,7 +2382,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The time that this dashboard version was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The Amazon Resource Numbers (ARNs) for the datasets that are associated with this version of the dashboard.
         public let dataSetArns: [String]?
         /// Description.
@@ -2398,7 +2398,7 @@ extension QuickSight {
         /// Version number for this version of the dashboard.
         public let versionNumber: Int64?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.dataSetArns = dataSetArns
@@ -2427,7 +2427,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The time that this dashboard version was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// Description.
         public let description: String?
         /// Source entity ARN.
@@ -2437,7 +2437,7 @@ extension QuickSight {
         /// Version number.
         public let versionNumber: Int64?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -2497,13 +2497,13 @@ extension QuickSight {
         /// The amount of SPICE capacity used by this dataset. This is 0 if the dataset isn't imported into SPICE.
         public let consumedSpiceCapacityInBytes: Int64?
         /// The time that this dataset was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The ID of the dataset.
         public let dataSetId: String?
         /// Indicates whether you want to import the data into SPICE.
         public let importMode: DataSetImportMode?
         /// The last time that this dataset was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// Configures the combination and transformation of the data from the physical tables.
         public let logicalTableMap: [String: LogicalTable]?
         /// A display name for the dataset.
@@ -2515,7 +2515,7 @@ extension QuickSight {
         /// The row-level security configuration for the dataset.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
 
-        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: TimeStamp? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: TimeStamp? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
             self.arn = arn
             self.columnGroups = columnGroups
             self.consumedSpiceCapacityInBytes = consumedSpiceCapacityInBytes
@@ -2605,19 +2605,19 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
         /// The time that this dataset was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The ID of the dataset.
         public let dataSetId: String?
         /// Indicates whether you want to import the data into SPICE.
         public let importMode: DataSetImportMode?
         /// The last time that this dataset was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// A display name for the dataset.
         public let name: String?
         /// The row-level security configuration for the dataset.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.dataSetId = dataSetId
@@ -2644,7 +2644,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
         /// The time that this data source was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
         public let dataSourceId: String?
         /// The parameters that Amazon QuickSight uses to connect to your underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
@@ -2652,7 +2652,7 @@ extension QuickSight {
         /// Error information from the last update or the creation of the data source.
         public let errorInfo: DataSourceErrorInfo?
         /// The last time that this data source was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// A display name for the data source.
         public let name: String?
         /// Secure Socket Layer (SSL) properties that apply when QuickSight connects to your underlying source.
@@ -2664,7 +2664,7 @@ extension QuickSight {
         /// The VPC connection information. You need to use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
-        public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
+        public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, arn: String? = nil, createdTime: Date? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
             self.alternateDataSourceParameters = alternateDataSourceParameters
             self.arn = arn
             self.createdTime = createdTime
@@ -2845,9 +2845,9 @@ extension QuickSight {
         /// A display name for the date-time parameter.
         public let name: String
         /// The values for the date-time parameter.
-        public let values: [TimeStamp]
+        public let values: [Date]
 
-        public init(name: String, values: [TimeStamp]) {
+        public init(name: String, values: [Date]) {
             self.name = name
             self.values = values
         }
@@ -2979,13 +2979,13 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the deleted analysis.
         public let arn: String?
         /// The date and time that the analysis is scheduled to be deleted.
-        public let deletionTime: TimeStamp?
+        public let deletionTime: Date?
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
 
-        public init(analysisId: String? = nil, arn: String? = nil, deletionTime: TimeStamp? = nil, requestId: String? = nil, status: Int? = nil) {
+        public init(analysisId: String? = nil, arn: String? = nil, deletionTime: Date? = nil, requestId: String? = nil, status: Int? = nil) {
             self.analysisId = analysisId
             self.arn = arn
             self.deletionTime = deletionTime
@@ -5308,7 +5308,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String
         /// The time that this ingestion started.
-        public let createdTime: TimeStamp
+        public let createdTime: Date
         /// Error information for this ingestion.
         public let errorInfo: ErrorInfo?
         /// Ingestion ID.
@@ -5326,7 +5326,7 @@ extension QuickSight {
         public let requestType: IngestionRequestType?
         public let rowInfo: RowInfo?
 
-        public init(arn: String, createdTime: TimeStamp, errorInfo: ErrorInfo? = nil, ingestionId: String? = nil, ingestionSizeInBytes: Int64? = nil, ingestionStatus: IngestionStatus, ingestionTimeInSeconds: Int64? = nil, queueInfo: QueueInfo? = nil, requestSource: IngestionRequestSource? = nil, requestType: IngestionRequestType? = nil, rowInfo: RowInfo? = nil) {
+        public init(arn: String, createdTime: Date, errorInfo: ErrorInfo? = nil, ingestionId: String? = nil, ingestionSizeInBytes: Int64? = nil, ingestionStatus: IngestionStatus, ingestionTimeInSeconds: Int64? = nil, queueInfo: QueueInfo? = nil, requestSource: IngestionRequestSource? = nil, requestType: IngestionRequestType? = nil, rowInfo: RowInfo? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.errorInfo = errorInfo
@@ -7901,9 +7901,9 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the template.
         public let arn: String?
         /// Time when this was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// Time when this was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The display name of the template.
         public let name: String?
         /// The ID for the template. This is unique per AWS Region for each AWS account.
@@ -7911,7 +7911,7 @@ extension QuickSight {
         /// A structure describing the versions of the template.
         public let version: TemplateVersion?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, templateId: String? = nil, version: TemplateVersion? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, templateId: String? = nil, version: TemplateVersion? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -8030,9 +8030,9 @@ extension QuickSight {
         /// A summary of a template.
         public let arn: String?
         /// The last time that this template was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The last time that this template was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// A structure containing a list of version numbers for the template summary.
         public let latestVersionNumber: Int64?
         /// A display name for the template.
@@ -8040,7 +8040,7 @@ extension QuickSight {
         /// The ID of the template. This ID is unique per AWS Region for each AWS account.
         public let templateId: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, templateId: String? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, templateId: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -8061,7 +8061,7 @@ extension QuickSight {
 
     public struct TemplateVersion: AWSDecodableShape {
         /// The time that this template version was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// Schema of the dataset identified by the placeholder. Any dashboard created from this template should be bound to new datasets matching the same schema described through this API operation.
         public let dataSetConfigurations: [DataSetConfiguration]?
         /// The description of the template.
@@ -8077,7 +8077,7 @@ extension QuickSight {
         /// The version number of the template version.
         public let versionNumber: Int64?
 
-        public init(createdTime: TimeStamp? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
+        public init(createdTime: Date? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.createdTime = createdTime
             self.dataSetConfigurations = dataSetConfigurations
             self.description = description
@@ -8104,7 +8104,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the template version.
         public let arn: String?
         /// The time that this template version was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description of the template version.
         public let description: String?
         /// The status of the template version.
@@ -8112,7 +8112,7 @@ extension QuickSight {
         /// The version number of the template version.
         public let versionNumber: Int64?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -8163,9 +8163,9 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the theme.
         public let arn: String?
         /// The date and time that the theme was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The date and time that the theme was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The name that the user gives to the theme.
         public let name: String?
         /// The identifier that the user gives to the theme.
@@ -8174,7 +8174,7 @@ extension QuickSight {
         public let `type`: ThemeType?
         public let version: ThemeVersion?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, themeId: String? = nil, type: ThemeType? = nil, version: ThemeVersion? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, themeId: String? = nil, type: ThemeType? = nil, version: ThemeVersion? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -8263,9 +8263,9 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The date and time that this theme was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The last date and time that this theme was updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// The latest version number for the theme.
         public let latestVersionNumber: Int64?
         /// the display name for the theme.
@@ -8273,7 +8273,7 @@ extension QuickSight {
         /// The ID of the theme. This ID is unique per AWS Region for each AWS account.
         public let themeId: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, themeId: String? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, themeId: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -8300,7 +8300,7 @@ extension QuickSight {
         /// The theme configuration, which contains all the theme display properties.
         public let configuration: ThemeConfiguration?
         /// The date and time that this theme version was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description of the theme.
         public let description: String?
         /// Errors associated with the theme.
@@ -8310,7 +8310,7 @@ extension QuickSight {
         /// The version number of the theme.
         public let versionNumber: Int64?
 
-        public init(arn: String? = nil, baseThemeId: String? = nil, configuration: ThemeConfiguration? = nil, createdTime: TimeStamp? = nil, description: String? = nil, errors: [ThemeError]? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+        public init(arn: String? = nil, baseThemeId: String? = nil, configuration: ThemeConfiguration? = nil, createdTime: Date? = nil, description: String? = nil, errors: [ThemeError]? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.baseThemeId = baseThemeId
             self.configuration = configuration
@@ -8337,7 +8337,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the theme version.
         public let arn: String?
         /// The date and time that this theme version was created.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description of the theme version.
         public let description: String?
         /// The status of the theme version.
@@ -8345,7 +8345,7 @@ extension QuickSight {
         /// The version number of the theme version.
         public let versionNumber: Int64?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description

@@ -129,13 +129,13 @@ extension Kinesis {
     public struct Consumer: AWSDecodableShape {
         /// When you register a consumer, Kinesis Data Streams generates an ARN for it. You need this ARN to be able to call SubscribeToShard. If you delete a consumer and then create a new one with the same name, it won't have the same ARN. That's because consumer ARNs contain the creation timestamp. This is important to keep in mind if you have IAM policies that reference consumer ARNs.
         public let consumerARN: String
-        public let consumerCreationTimestamp: TimeStamp
+        public let consumerCreationTimestamp: Date
         /// The name of the consumer is something you choose when you register the consumer.
         public let consumerName: String
         /// A consumer can't read data while in the CREATING or DELETING states.
         public let consumerStatus: ConsumerStatus
 
-        public init(consumerARN: String, consumerCreationTimestamp: TimeStamp, consumerName: String, consumerStatus: ConsumerStatus) {
+        public init(consumerARN: String, consumerCreationTimestamp: Date, consumerName: String, consumerStatus: ConsumerStatus) {
             self.consumerARN = consumerARN
             self.consumerCreationTimestamp = consumerCreationTimestamp
             self.consumerName = consumerName
@@ -153,7 +153,7 @@ extension Kinesis {
     public struct ConsumerDescription: AWSDecodableShape {
         /// When you register a consumer, Kinesis Data Streams generates an ARN for it. You need this ARN to be able to call SubscribeToShard. If you delete a consumer and then create a new one with the same name, it won't have the same ARN. That's because consumer ARNs contain the creation timestamp. This is important to keep in mind if you have IAM policies that reference consumer ARNs.
         public let consumerARN: String
-        public let consumerCreationTimestamp: TimeStamp
+        public let consumerCreationTimestamp: Date
         /// The name of the consumer is something you choose when you register the consumer.
         public let consumerName: String
         /// A consumer can't read data while in the CREATING or DELETING states.
@@ -161,7 +161,7 @@ extension Kinesis {
         /// The ARN of the stream with which you registered the consumer.
         public let streamARN: String
 
-        public init(consumerARN: String, consumerCreationTimestamp: TimeStamp, consumerName: String, consumerStatus: ConsumerStatus, streamARN: String) {
+        public init(consumerARN: String, consumerCreationTimestamp: Date, consumerName: String, consumerStatus: ConsumerStatus, streamARN: String) {
             self.consumerARN = consumerARN
             self.consumerCreationTimestamp = consumerCreationTimestamp
             self.consumerName = consumerName
@@ -567,9 +567,9 @@ extension Kinesis {
         /// The name of the Amazon Kinesis data stream.
         public let streamName: String
         /// The time stamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, the iterator returned is for the next (later) record. If the time stamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(shardId: String, shardIteratorType: ShardIteratorType, startingSequenceNumber: String? = nil, streamName: String, timestamp: TimeStamp? = nil) {
+        public init(shardId: String, shardIteratorType: ShardIteratorType, startingSequenceNumber: String? = nil, streamName: String, timestamp: Date? = nil) {
             self.shardId = shardId
             self.shardIteratorType = shardIteratorType
             self.startingSequenceNumber = startingSequenceNumber
@@ -748,11 +748,11 @@ extension Kinesis {
         public let nextToken: String?
         public let shardFilter: ShardFilter?
         /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the shards for. You cannot specify this parameter if you specify the NextToken parameter.
-        public let streamCreationTimestamp: TimeStamp?
+        public let streamCreationTimestamp: Date?
         /// The name of the data stream whose shards you want to list.  You cannot specify this parameter if you specify the NextToken parameter.
         public let streamName: String?
 
-        public init(exclusiveStartShardId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, shardFilter: ShardFilter? = nil, streamCreationTimestamp: TimeStamp? = nil, streamName: String? = nil) {
+        public init(exclusiveStartShardId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, shardFilter: ShardFilter? = nil, streamCreationTimestamp: Date? = nil, streamName: String? = nil) {
             self.exclusiveStartShardId = exclusiveStartShardId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -810,9 +810,9 @@ extension Kinesis {
         /// The ARN of the Kinesis data stream for which you want to list the registered consumers. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let streamARN: String
         /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the consumers for.  You can't specify this parameter if you specify the NextToken parameter.
-        public let streamCreationTimestamp: TimeStamp?
+        public let streamCreationTimestamp: Date?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, streamARN: String, streamCreationTimestamp: TimeStamp? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, streamARN: String, streamCreationTimestamp: Date? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.streamARN = streamARN
@@ -1144,7 +1144,7 @@ extension Kinesis {
 
     public struct Record: AWSDecodableShape {
         /// The approximate time that the record was inserted into the stream.
-        public let approximateArrivalTimestamp: TimeStamp?
+        public let approximateArrivalTimestamp: Date?
         /// The data blob. The data in the blob is both opaque and immutable to Kinesis Data Streams, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
         public let data: Data
         /// The encryption type used on the record. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed AWS KMS key.
@@ -1154,7 +1154,7 @@ extension Kinesis {
         /// The unique identifier of the record within its shard.
         public let sequenceNumber: String
 
-        public init(approximateArrivalTimestamp: TimeStamp? = nil, data: Data, encryptionType: EncryptionType? = nil, partitionKey: String, sequenceNumber: String) {
+        public init(approximateArrivalTimestamp: Date? = nil, data: Data, encryptionType: EncryptionType? = nil, partitionKey: String, sequenceNumber: String) {
             self.approximateArrivalTimestamp = approximateArrivalTimestamp
             self.data = data
             self.encryptionType = encryptionType
@@ -1313,10 +1313,10 @@ extension Kinesis {
 
     public struct ShardFilter: AWSEncodableShape {
         public let shardId: String?
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         public let `type`: ShardFilterType
 
-        public init(shardId: String? = nil, timestamp: TimeStamp? = nil, type: ShardFilterType) {
+        public init(shardId: String? = nil, timestamp: Date? = nil, type: ShardFilterType) {
             self.shardId = shardId
             self.timestamp = timestamp
             self.`type` = `type`
@@ -1399,11 +1399,11 @@ extension Kinesis {
         /// The sequence number of the data record in the shard from which to start streaming. To specify a sequence number, set StartingPosition to AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER.
         public let sequenceNumber: String?
         /// The time stamp of the data record from which to start reading. To specify a time stamp, set StartingPosition to Type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, records will be streamed from the next (later) record. If the time stamp is older than the current trim horizon, records will be streamed from the oldest untrimmed data record (TRIM_HORIZON).
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
         /// You can set the starting position to one of the following values:  AT_SEQUENCE_NUMBER: Start streaming from the position denoted by the sequence number specified in the SequenceNumber field.  AFTER_SEQUENCE_NUMBER: Start streaming right after the position denoted by the sequence number specified in the SequenceNumber field.  AT_TIMESTAMP: Start streaming from the position denoted by the time stamp specified in the Timestamp field.  TRIM_HORIZON: Start streaming at the last untrimmed record in the shard, which is the oldest data record in the shard.  LATEST: Start streaming just after the most recent record in the shard, so that you always read the most recent data in the shard.
         public let `type`: ShardIteratorType
 
-        public init(sequenceNumber: String? = nil, timestamp: TimeStamp? = nil, type: ShardIteratorType) {
+        public init(sequenceNumber: String? = nil, timestamp: Date? = nil, type: ShardIteratorType) {
             self.sequenceNumber = sequenceNumber
             self.timestamp = timestamp
             self.`type` = `type`
@@ -1465,13 +1465,13 @@ extension Kinesis {
         /// The Amazon Resource Name (ARN) for the stream being described.
         public let streamARN: String
         /// The approximate time that the stream was created.
-        public let streamCreationTimestamp: TimeStamp
+        public let streamCreationTimestamp: Date
         /// The name of the stream being described.
         public let streamName: String
         /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Kinesis Data Streams immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Kinesis Data Streams completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.
         public let streamStatus: StreamStatus
 
-        public init(encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, keyId: String? = nil, retentionPeriodHours: Int, shards: [Shard], streamARN: String, streamCreationTimestamp: TimeStamp, streamName: String, streamStatus: StreamStatus) {
+        public init(encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, keyId: String? = nil, retentionPeriodHours: Int, shards: [Shard], streamARN: String, streamCreationTimestamp: Date, streamName: String, streamStatus: StreamStatus) {
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
             self.hasMoreShards = hasMoreShards
@@ -1514,13 +1514,13 @@ extension Kinesis {
         /// The Amazon Resource Name (ARN) for the stream being described.
         public let streamARN: String
         /// The approximate time that the stream was created.
-        public let streamCreationTimestamp: TimeStamp
+        public let streamCreationTimestamp: Date
         /// The name of the stream being described.
         public let streamName: String
         /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Kinesis Data Streams immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Kinesis Data Streams completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.
         public let streamStatus: StreamStatus
 
-        public init(consumerCount: Int? = nil, encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], keyId: String? = nil, openShardCount: Int, retentionPeriodHours: Int, streamARN: String, streamCreationTimestamp: TimeStamp, streamName: String, streamStatus: StreamStatus) {
+        public init(consumerCount: Int? = nil, encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], keyId: String? = nil, openShardCount: Int, retentionPeriodHours: Int, streamARN: String, streamCreationTimestamp: Date, streamName: String, streamStatus: StreamStatus) {
             self.consumerCount = consumerCount
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring

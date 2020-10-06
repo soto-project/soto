@@ -110,11 +110,11 @@ extension KinesisVideoArchivedMedia {
 
     public struct ClipTimestampRange: AWSEncodableShape {
         /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
-        public let endTimestamp: TimeStamp
+        public let endTimestamp: Date
         /// The starting timestamp in the range of timestamps for which to return fragments.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
-        public let startTimestamp: TimeStamp
+        public let startTimestamp: Date
 
-        public init(endTimestamp: TimeStamp, startTimestamp: TimeStamp) {
+        public init(endTimestamp: Date, startTimestamp: Date) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
         }
@@ -144,11 +144,11 @@ extension KinesisVideoArchivedMedia {
 
     public struct DASHTimestampRange: AWSEncodableShape {
         /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
-        public let endTimestamp: TimeStamp?
+        public let endTimestamp: Date?
         /// The start of the timestamp range for the requested media. If the DASHTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
-        public let startTimestamp: TimeStamp?
+        public let startTimestamp: Date?
 
-        public init(endTimestamp: TimeStamp? = nil, startTimestamp: TimeStamp? = nil) {
+        public init(endTimestamp: Date? = nil, startTimestamp: Date? = nil) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
         }
@@ -167,11 +167,11 @@ extension KinesisVideoArchivedMedia {
         /// The total fragment size, including information about the fragment and contained media data.
         public let fragmentSizeInBytes: Int64?
         /// The timestamp from the producer corresponding to the fragment.
-        public let producerTimestamp: TimeStamp?
+        public let producerTimestamp: Date?
         /// The timestamp from the AWS server corresponding to the fragment.
-        public let serverTimestamp: TimeStamp?
+        public let serverTimestamp: Date?
 
-        public init(fragmentLengthInMilliseconds: Int64? = nil, fragmentNumber: String? = nil, fragmentSizeInBytes: Int64? = nil, producerTimestamp: TimeStamp? = nil, serverTimestamp: TimeStamp? = nil) {
+        public init(fragmentLengthInMilliseconds: Int64? = nil, fragmentNumber: String? = nil, fragmentSizeInBytes: Int64? = nil, producerTimestamp: Date? = nil, serverTimestamp: Date? = nil) {
             self.fragmentLengthInMilliseconds = fragmentLengthInMilliseconds
             self.fragmentNumber = fragmentNumber
             self.fragmentSizeInBytes = fragmentSizeInBytes
@@ -472,11 +472,11 @@ extension KinesisVideoArchivedMedia {
 
     public struct HLSTimestampRange: AWSEncodableShape {
         /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
-        public let endTimestamp: TimeStamp?
+        public let endTimestamp: Date?
         /// The start of the timestamp range for the requested media. If the HLSTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
-        public let startTimestamp: TimeStamp?
+        public let startTimestamp: Date?
 
-        public init(endTimestamp: TimeStamp? = nil, startTimestamp: TimeStamp? = nil) {
+        public init(endTimestamp: Date? = nil, startTimestamp: Date? = nil) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
         }
@@ -542,11 +542,11 @@ extension KinesisVideoArchivedMedia {
 
     public struct TimestampRange: AWSEncodableShape {
         /// The ending timestamp in the range of timestamps for which to return fragments.
-        public let endTimestamp: TimeStamp
+        public let endTimestamp: Date
         /// The starting timestamp in the range of timestamps for which to return fragments.
-        public let startTimestamp: TimeStamp
+        public let startTimestamp: Date
 
-        public init(endTimestamp: TimeStamp, startTimestamp: TimeStamp) {
+        public init(endTimestamp: Date, startTimestamp: Date) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
         }

@@ -238,17 +238,17 @@ extension KinesisAnalytics {
         /// Describes the CloudWatch log streams that are configured to receive application messages. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs.
         public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
         /// Time stamp when the application version was created.
-        public let createTimestamp: TimeStamp?
+        public let createTimestamp: Date?
         /// Describes the application input configuration. For more information, see Configuring Application Input.
         public let inputDescriptions: [InputDescription]?
         /// Time stamp when the application was last updated.
-        public let lastUpdateTimestamp: TimeStamp?
+        public let lastUpdateTimestamp: Date?
         /// Describes the application output configuration. For more information, see Configuring Application Output.
         public let outputDescriptions: [OutputDescription]?
         /// Describes reference data sources configured for the application. For more information, see Configuring Application Input.
         public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
 
-        public init(applicationARN: String, applicationCode: String? = nil, applicationDescription: String? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, createTimestamp: TimeStamp? = nil, inputDescriptions: [InputDescription]? = nil, lastUpdateTimestamp: TimeStamp? = nil, outputDescriptions: [OutputDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
+        public init(applicationARN: String, applicationCode: String? = nil, applicationDescription: String? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, createTimestamp: Date? = nil, inputDescriptions: [InputDescription]? = nil, lastUpdateTimestamp: Date? = nil, outputDescriptions: [OutputDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
             self.applicationARN = applicationARN
             self.applicationCode = applicationCode
             self.applicationDescription = applicationDescription
@@ -670,9 +670,9 @@ extension KinesisAnalytics {
         /// Name of the Amazon Kinesis Analytics application to delete.
         public let applicationName: String
         ///  You can use the DescribeApplication operation to get this value.
-        public let createTimestamp: TimeStamp
+        public let createTimestamp: Date
 
-        public init(applicationName: String, createTimestamp: TimeStamp) {
+        public init(applicationName: String, createTimestamp: Date) {
             self.applicationName = applicationName
             self.createTimestamp = createTimestamp
         }

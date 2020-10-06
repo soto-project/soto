@@ -597,8 +597,8 @@ extension AppConfig {
         /// The ID of the application that was deployed.
         public let applicationId: String?
         /// The time the deployment completed.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var completedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var completedAt: Date?
         /// Information about the source location of the configuration.
         public let configurationLocationUri: String?
         /// The name of the configuration.
@@ -628,12 +628,12 @@ extension AppConfig {
         /// The percentage of targets for which the deployment is available.
         public let percentageComplete: Float?
         /// The time the deployment started.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var startedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
         /// The state of the deployment.
         public let state: DeploymentState?
 
-        public init(applicationId: String? = nil, completedAt: TimeStamp? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: TimeStamp? = nil, state: DeploymentState? = nil) {
+        public init(applicationId: String? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
             self.applicationId = applicationId
             self.completedAt = completedAt
             self.configurationLocationUri = configurationLocationUri
@@ -682,12 +682,12 @@ extension AppConfig {
         /// The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; the start or completion of a rollback.
         public let eventType: DeploymentEventType?
         /// The date and time the event occurred.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var occurredAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var occurredAt: Date?
         /// The entity that triggered the deployment event. Events can be triggered by a user, AWS AppConfig, an Amazon CloudWatch alarm, or an internal error.
         public let triggeredBy: TriggeredBy?
 
-        public init(description: String? = nil, eventType: DeploymentEventType? = nil, occurredAt: TimeStamp? = nil, triggeredBy: TriggeredBy? = nil) {
+        public init(description: String? = nil, eventType: DeploymentEventType? = nil, occurredAt: Date? = nil, triggeredBy: TriggeredBy? = nil) {
             self.description = description
             self.eventType = eventType
             self.occurredAt = occurredAt
@@ -762,8 +762,8 @@ extension AppConfig {
 
     public struct DeploymentSummary: AWSDecodableShape {
         /// Time the deployment completed.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var completedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var completedAt: Date?
         /// The name of the configuration.
         public let configurationName: String?
         /// The version of the configuration.
@@ -781,12 +781,12 @@ extension AppConfig {
         /// The percentage of targets for which the deployment is available.
         public let percentageComplete: Float?
         /// Time the deployment started.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var startedAt: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
         /// The state of the deployment.
         public let state: DeploymentState?
 
-        public init(completedAt: TimeStamp? = nil, configurationName: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: TimeStamp? = nil, state: DeploymentState? = nil) {
+        public init(completedAt: Date? = nil, configurationName: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
             self.completedAt = completedAt
             self.configurationName = configurationName
             self.configurationVersion = configurationVersion

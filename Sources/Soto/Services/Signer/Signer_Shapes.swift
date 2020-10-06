@@ -97,9 +97,9 @@ extension Signer {
 
     public struct DescribeSigningJobResponse: AWSDecodableShape {
         /// Date and time that the signing job was completed.
-        public let completedAt: TimeStamp?
+        public let completedAt: Date?
         /// Date and time that the signing job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The ID of the signing job on output.
         public let jobId: String?
         /// A list of any overrides that were applied to the signing operation.
@@ -123,7 +123,7 @@ extension Signer {
         /// String value that contains the status reason.
         public let statusReason: String?
 
-        public init(completedAt: TimeStamp? = nil, createdAt: TimeStamp? = nil, jobId: String? = nil, overrides: SigningPlatformOverrides? = nil, platformId: String? = nil, profileName: String? = nil, requestedBy: String? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, source: Source? = nil, status: SigningStatus? = nil, statusReason: String? = nil) {
+        public init(completedAt: Date? = nil, createdAt: Date? = nil, jobId: String? = nil, overrides: SigningPlatformOverrides? = nil, platformId: String? = nil, profileName: String? = nil, requestedBy: String? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, source: Source? = nil, status: SigningStatus? = nil, statusReason: String? = nil) {
             self.completedAt = completedAt
             self.createdAt = createdAt
             self.jobId = jobId
@@ -682,7 +682,7 @@ extension Signer {
 
     public struct SigningJob: AWSDecodableShape {
         /// The date and time that the signing job was created.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// The ID of the signing job.
         public let jobId: String?
         /// A SignedObject structure that contains information about a signing job's signed code image.
@@ -694,7 +694,7 @@ extension Signer {
         /// The status of the signing job.
         public let status: SigningStatus?
 
-        public init(createdAt: TimeStamp? = nil, jobId: String? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, source: Source? = nil, status: SigningStatus? = nil) {
+        public init(createdAt: Date? = nil, jobId: String? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, source: Source? = nil, status: SigningStatus? = nil) {
             self.createdAt = createdAt
             self.jobId = jobId
             self.signedObject = signedObject

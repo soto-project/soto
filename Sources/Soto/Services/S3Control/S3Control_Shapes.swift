@@ -563,7 +563,7 @@ extension S3Control {
         /// The name of the bucket associated with the specified access point.
         public let bucket: String?
         /// The date and time when the specified access point was created.
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         /// The name of the specified access point.
         public let name: String?
         /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies.
@@ -572,7 +572,7 @@ extension S3Control {
         /// Contains the virtual private cloud (VPC) configuration for the specified access point.
         public let vpcConfiguration: VpcConfiguration?
 
-        public init(bucket: String? = nil, creationDate: TimeStamp? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(bucket: String? = nil, creationDate: Date? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.bucket = bucket
             self.creationDate = creationDate
             self.name = name
@@ -675,7 +675,7 @@ extension S3Control {
         /// Indicates whether confirmation is required before Amazon S3 begins running the specified job. Confirmation is required only for jobs created through the Amazon S3 console.
         public let confirmationRequired: Bool?
         /// A timestamp indicating when this job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The description for this job, if one was provided in this job's Create Job request.
         public let description: String?
         /// If the specified job failed, this field contains information describing the failure.
@@ -703,11 +703,11 @@ extension S3Control {
         /// The reason why the specified job was suspended. A job is only suspended if you create it through the Amazon S3 console. When you create the job, it enters the Suspended state to await confirmation before running. After you confirm the job, it automatically exits the Suspended state.
         public let suspendedCause: String?
         /// The timestamp when this job was suspended, if it has been suspended.
-        public let suspendedDate: TimeStamp?
+        public let suspendedDate: Date?
         /// A timestamp indicating when this job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
-        public let terminationDate: TimeStamp?
+        public let terminationDate: Date?
 
-        public init(confirmationRequired: Bool? = nil, creationTime: TimeStamp? = nil, description: String? = nil, failureReasons: [JobFailure]? = nil, jobArn: String? = nil, jobId: String? = nil, manifest: JobManifest? = nil, operation: JobOperation? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, report: JobReport? = nil, roleArn: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil, suspendedCause: String? = nil, suspendedDate: TimeStamp? = nil, terminationDate: TimeStamp? = nil) {
+        public init(confirmationRequired: Bool? = nil, creationTime: Date? = nil, description: String? = nil, failureReasons: [JobFailure]? = nil, jobArn: String? = nil, jobId: String? = nil, manifest: JobManifest? = nil, operation: JobOperation? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, report: JobReport? = nil, roleArn: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil, suspendedCause: String? = nil, suspendedDate: Date? = nil, terminationDate: Date? = nil) {
             self.confirmationRequired = confirmationRequired
             self.creationTime = creationTime
             self.description = description
@@ -767,7 +767,7 @@ extension S3Control {
 
     public struct JobListDescriptor: AWSDecodableShape {
         /// A timestamp indicating when the specified job was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The user-specified description that was included in the specified job's Create Job request.
         public let description: String?
         /// The ID for the specified job.
@@ -781,9 +781,9 @@ extension S3Control {
         /// The specified job's current status.
         public let status: JobStatus?
         /// A timestamp indicating when the specified job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
-        public let terminationDate: TimeStamp?
+        public let terminationDate: Date?
 
-        public init(creationTime: TimeStamp? = nil, description: String? = nil, jobId: String? = nil, operation: OperationName? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, status: JobStatus? = nil, terminationDate: TimeStamp? = nil) {
+        public init(creationTime: Date? = nil, description: String? = nil, jobId: String? = nil, operation: OperationName? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, status: JobStatus? = nil, terminationDate: Date? = nil) {
             self.creationTime = creationTime
             self.description = description
             self.jobId = jobId
@@ -1292,7 +1292,7 @@ extension S3Control {
         public var accessControlGrants: [S3Grant]?
         public let cannedAccessControlList: S3CannedAccessControlList?
         public let metadataDirective: S3MetadataDirective?
-        public let modifiedSinceConstraint: TimeStamp?
+        public let modifiedSinceConstraint: Date?
         public let newObjectMetadata: S3ObjectMetadata?
         @OptionalCustomCoding<StandardArrayCoder>
         public var newObjectTagging: [S3Tag]?
@@ -1301,16 +1301,16 @@ extension S3Control {
         /// The Retention mode to be applied to all objects in the Batch Operations job.
         public let objectLockMode: S3ObjectLockMode?
         /// The date when the applied Object Retention configuration will expire on all objects in the Batch Operations job.
-        public let objectLockRetainUntilDate: TimeStamp?
+        public let objectLockRetainUntilDate: Date?
         public let redirectLocation: String?
         public let requesterPays: Bool?
         public let sSEAwsKmsKeyId: String?
         public let storageClass: S3StorageClass?
         public let targetKeyPrefix: String?
         public let targetResource: String?
-        public let unModifiedSinceConstraint: TimeStamp?
+        public let unModifiedSinceConstraint: Date?
 
-        public init(accessControlGrants: [S3Grant]? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: TimeStamp? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sSEAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: TimeStamp? = nil) {
+        public init(accessControlGrants: [S3Grant]? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: Date? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sSEAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: Date? = nil) {
             self.accessControlGrants = accessControlGrants
             self.cannedAccessControlList = cannedAccessControlList
             self.metadataDirective = metadataDirective
@@ -1452,13 +1452,13 @@ extension S3Control {
         public let contentLength: Int64?
         public let contentMD5: String?
         public let contentType: String?
-        public let httpExpiresDate: TimeStamp?
+        public let httpExpiresDate: Date?
         public let requesterCharged: Bool?
         public let sSEAlgorithm: S3SSEAlgorithm?
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var userMetadata: [String: String]?
 
-        public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: TimeStamp? = nil, requesterCharged: Bool? = nil, sSEAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
+        public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: Date? = nil, requesterCharged: Bool? = nil, sSEAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
@@ -1534,9 +1534,9 @@ extension S3Control {
         /// The Retention mode to be applied to all objects in the Batch Operations job.
         public let mode: S3ObjectLockRetentionMode?
         /// The date when the applied Object Retention will expire on all objects in the Batch Operations job.
-        public let retainUntilDate: TimeStamp?
+        public let retainUntilDate: Date?
 
-        public init(mode: S3ObjectLockRetentionMode? = nil, retainUntilDate: TimeStamp? = nil) {
+        public init(mode: S3ObjectLockRetentionMode? = nil, retainUntilDate: Date? = nil) {
             self.mode = mode
             self.retainUntilDate = retainUntilDate
         }

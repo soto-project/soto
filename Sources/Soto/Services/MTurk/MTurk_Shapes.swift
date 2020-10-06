@@ -182,31 +182,31 @@ extension MTurk {
 
     public struct Assignment: AWSDecodableShape {
         ///  The date and time the Worker accepted the assignment.
-        public let acceptTime: TimeStamp?
+        public let acceptTime: Date?
         ///  The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
         public let answer: String?
         ///  If the Worker has submitted results and the Requester has approved the results, ApprovalTime is the date and time the Requester approved the results. This value is omitted from the assignment if the Requester has not yet approved the results.
-        public let approvalTime: TimeStamp?
+        public let approvalTime: Date?
         ///  A unique identifier for the assignment.
         public let assignmentId: String?
         ///  The status of the assignment.
         public let assignmentStatus: AssignmentStatus?
         ///  If results have been submitted, AutoApprovalTime is the date and time the results of the assignment results are considered Approved automatically if they have not already been explicitly approved or rejected by the Requester. This value is derived from the auto-approval delay specified by the Requester in the HIT. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public let autoApprovalTime: TimeStamp?
+        public let autoApprovalTime: Date?
         ///  The date and time of the deadline for the assignment. This value is derived from the deadline specification for the HIT and the date and time the Worker accepted the HIT.
-        public let deadline: TimeStamp?
+        public let deadline: Date?
         ///  The ID of the HIT.
         public let hITId: String?
         ///  If the Worker has submitted results and the Requester has rejected the results, RejectionTime is the date and time the Requester rejected the results.
-        public let rejectionTime: TimeStamp?
+        public let rejectionTime: Date?
         ///  The feedback string included with the call to the ApproveAssignment operation or the RejectAssignment operation, if the Requester approved or rejected the assignment and specified feedback.
         public let requesterFeedback: String?
         ///  If the Worker has submitted results, SubmitTime is the date and time the assignment was submitted. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         ///  The ID of the Worker who accepted the HIT.
         public let workerId: String?
 
-        public init(acceptTime: TimeStamp? = nil, answer: String? = nil, approvalTime: TimeStamp? = nil, assignmentId: String? = nil, assignmentStatus: AssignmentStatus? = nil, autoApprovalTime: TimeStamp? = nil, deadline: TimeStamp? = nil, hITId: String? = nil, rejectionTime: TimeStamp? = nil, requesterFeedback: String? = nil, submitTime: TimeStamp? = nil, workerId: String? = nil) {
+        public init(acceptTime: Date? = nil, answer: String? = nil, approvalTime: Date? = nil, assignmentId: String? = nil, assignmentStatus: AssignmentStatus? = nil, autoApprovalTime: Date? = nil, deadline: Date? = nil, hITId: String? = nil, rejectionTime: Date? = nil, requesterFeedback: String? = nil, submitTime: Date? = nil, workerId: String? = nil) {
             self.acceptTime = acceptTime
             self.answer = answer
             self.approvalTime = approvalTime
@@ -280,13 +280,13 @@ extension MTurk {
         public let assignmentId: String?
         public let bonusAmount: String?
         /// The date and time of when the bonus was granted.
-        public let grantTime: TimeStamp?
+        public let grantTime: Date?
         /// The Reason text given when the bonus was granted, if any.
         public let reason: String?
         /// The ID of the Worker to whom the bonus was paid.
         public let workerId: String?
 
-        public init(assignmentId: String? = nil, bonusAmount: String? = nil, grantTime: TimeStamp? = nil, reason: String? = nil, workerId: String? = nil) {
+        public init(assignmentId: String? = nil, bonusAmount: String? = nil, grantTime: Date? = nil, reason: String? = nil, workerId: String? = nil) {
             self.assignmentId = assignmentId
             self.bonusAmount = bonusAmount
             self.grantTime = grantTime
@@ -960,11 +960,11 @@ extension MTurk {
         /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid.
         public let autoApprovalDelayInSeconds: Int64?
         ///  The date and time the HIT was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         ///  A general description of the HIT.
         public let description: String?
         /// The date and time the HIT expires.
-        public let expiration: TimeStamp?
+        public let expiration: Date?
         ///  The ID of the HIT Group of this HIT.
         public let hITGroupId: String?
         ///  A unique identifier for the HIT.
@@ -997,7 +997,7 @@ extension MTurk {
         ///  The title of the HIT.
         public let title: String?
 
-        public init(assignmentDurationInSeconds: Int64? = nil, autoApprovalDelayInSeconds: Int64? = nil, creationTime: TimeStamp? = nil, description: String? = nil, expiration: TimeStamp? = nil, hITGroupId: String? = nil, hITId: String? = nil, hITLayoutId: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITStatus: HITStatus? = nil, hITTypeId: String? = nil, keywords: String? = nil, maxAssignments: Int? = nil, numberOfAssignmentsAvailable: Int? = nil, numberOfAssignmentsCompleted: Int? = nil, numberOfAssignmentsPending: Int? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String? = nil, title: String? = nil) {
+        public init(assignmentDurationInSeconds: Int64? = nil, autoApprovalDelayInSeconds: Int64? = nil, creationTime: Date? = nil, description: String? = nil, expiration: Date? = nil, hITGroupId: String? = nil, hITId: String? = nil, hITLayoutId: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITStatus: HITStatus? = nil, hITTypeId: String? = nil, keywords: String? = nil, maxAssignments: Int? = nil, numberOfAssignmentsAvailable: Int? = nil, numberOfAssignmentsCompleted: Int? = nil, numberOfAssignmentsPending: Int? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String? = nil, title: String? = nil) {
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
             self.creationTime = creationTime
@@ -1753,7 +1753,7 @@ extension MTurk {
 
     public struct Qualification: AWSDecodableShape {
         ///  The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
-        public let grantTime: TimeStamp?
+        public let grantTime: Date?
         ///  The value (score) of the Qualification, if the Qualification has an integer value.
         public let integerValue: Int?
         public let localeValue: Locale?
@@ -1764,7 +1764,7 @@ extension MTurk {
         ///  The ID of the Worker who possesses the Qualification.
         public let workerId: String?
 
-        public init(grantTime: TimeStamp? = nil, integerValue: Int? = nil, localeValue: Locale? = nil, qualificationTypeId: String? = nil, status: QualificationStatus? = nil, workerId: String? = nil) {
+        public init(grantTime: Date? = nil, integerValue: Int? = nil, localeValue: Locale? = nil, qualificationTypeId: String? = nil, status: QualificationStatus? = nil, workerId: String? = nil) {
             self.grantTime = grantTime
             self.integerValue = integerValue
             self.localeValue = localeValue
@@ -1791,13 +1791,13 @@ extension MTurk {
         ///  The ID of the Qualification type the Worker is requesting, as returned by the CreateQualificationType operation.
         public let qualificationTypeId: String?
         /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test.
-        public let submitTime: TimeStamp?
+        public let submitTime: Date?
         ///  The contents of the Qualification test that was presented to the Worker, if the type has a test and the Worker has submitted answers. This value is identical to the QuestionForm associated with the Qualification type at the time the Worker requests the Qualification.
         public let test: String?
         ///  The ID of the Worker requesting the Qualification.
         public let workerId: String?
 
-        public init(answer: String? = nil, qualificationRequestId: String? = nil, qualificationTypeId: String? = nil, submitTime: TimeStamp? = nil, test: String? = nil, workerId: String? = nil) {
+        public init(answer: String? = nil, qualificationRequestId: String? = nil, qualificationTypeId: String? = nil, submitTime: Date? = nil, test: String? = nil, workerId: String? = nil) {
             self.answer = answer
             self.qualificationRequestId = qualificationRequestId
             self.qualificationTypeId = qualificationTypeId
@@ -1859,7 +1859,7 @@ extension MTurk {
         ///  The Qualification integer value to use for automatically granted Qualifications, if AutoGranted is true. This is 1 by default.
         public let autoGrantedValue: Int?
         ///  The date and time the Qualification type was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         ///  A long description for the Qualification type.
         public let description: String?
         ///  Specifies whether the Qualification type is one that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test. This value is False for Qualifications assigned automatically by the system. Valid values are True | False.
@@ -1879,7 +1879,7 @@ extension MTurk {
         ///  The amount of time, in seconds, given to a Worker to complete the Qualification test, beginning from the time the Worker requests the Qualification.
         public let testDurationInSeconds: Int64?
 
-        public init(answerKey: String? = nil, autoGranted: Bool? = nil, autoGrantedValue: Int? = nil, creationTime: TimeStamp? = nil, description: String? = nil, isRequestable: Bool? = nil, keywords: String? = nil, name: String? = nil, qualificationTypeId: String? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, retryDelayInSeconds: Int64? = nil, test: String? = nil, testDurationInSeconds: Int64? = nil) {
+        public init(answerKey: String? = nil, autoGranted: Bool? = nil, autoGrantedValue: Int? = nil, creationTime: Date? = nil, description: String? = nil, isRequestable: Bool? = nil, keywords: String? = nil, name: String? = nil, qualificationTypeId: String? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, retryDelayInSeconds: Int64? = nil, test: String? = nil, testDurationInSeconds: Int64? = nil) {
             self.answerKey = answerKey
             self.autoGranted = autoGranted
             self.autoGrantedValue = autoGrantedValue
@@ -1966,7 +1966,7 @@ extension MTurk {
         ///  The nature of the action itself. The Review Policy is responsible for examining the HIT and Assignments, emitting results, and deciding which other actions will be necessary.
         public let actionName: String?
         ///  The date when the action was completed.
-        public let completeTime: TimeStamp?
+        public let completeTime: Date?
         ///  Present only when the Results have a FAILED Status.
         public let errorCode: String?
         ///  A description of the outcome of the review.
@@ -1978,7 +1978,7 @@ extension MTurk {
         ///  The type of object in TargetId.
         public let targetType: String?
 
-        public init(actionId: String? = nil, actionName: String? = nil, completeTime: TimeStamp? = nil, errorCode: String? = nil, result: String? = nil, status: ReviewActionStatus? = nil, targetId: String? = nil, targetType: String? = nil) {
+        public init(actionId: String? = nil, actionName: String? = nil, completeTime: Date? = nil, errorCode: String? = nil, result: String? = nil, status: ReviewActionStatus? = nil, targetId: String? = nil, targetType: String? = nil) {
             self.actionId = actionId
             self.actionName = actionName
             self.completeTime = completeTime
@@ -2136,11 +2136,11 @@ extension MTurk {
 
     public struct UpdateExpirationForHITRequest: AWSEncodableShape {
         ///  The date and time at which you want the HIT to expire
-        public let expireAt: TimeStamp
+        public let expireAt: Date
         ///  The HIT to update.
         public let hITId: String
 
-        public init(expireAt: TimeStamp, hITId: String) {
+        public init(expireAt: Date, hITId: String) {
             self.expireAt = expireAt
             self.hITId = hITId
         }

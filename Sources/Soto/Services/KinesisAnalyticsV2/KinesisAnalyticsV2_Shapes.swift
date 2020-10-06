@@ -611,15 +611,15 @@ extension KinesisAnalyticsV2 {
         /// Describes the application Amazon CloudWatch logging options.
         public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
         /// The current timestamp when the application was created.
-        public let createTimestamp: TimeStamp?
+        public let createTimestamp: Date?
         /// The current timestamp when the application was last updated.
-        public let lastUpdateTimestamp: TimeStamp?
+        public let lastUpdateTimestamp: Date?
         /// The runtime environment for the application (SQL-1.0 or FLINK-1_6).
         public let runtimeEnvironment: RuntimeEnvironment
         /// Specifies the IAM role that the application uses to access external resources.
         public let serviceExecutionRole: String?
 
-        public init(applicationARN: String, applicationConfigurationDescription: ApplicationConfigurationDescription? = nil, applicationDescription: String? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, createTimestamp: TimeStamp? = nil, lastUpdateTimestamp: TimeStamp? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String? = nil) {
+        public init(applicationARN: String, applicationConfigurationDescription: ApplicationConfigurationDescription? = nil, applicationDescription: String? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, createTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationConfigurationDescription = applicationConfigurationDescription
             self.applicationDescription = applicationDescription
@@ -1301,9 +1301,9 @@ extension KinesisAnalyticsV2 {
         /// The name of the application to delete.
         public let applicationName: String
         /// Use the DescribeApplication operation to get this value.
-        public let createTimestamp: TimeStamp
+        public let createTimestamp: Date
 
-        public init(applicationName: String, createTimestamp: TimeStamp) {
+        public init(applicationName: String, createTimestamp: Date) {
             self.applicationName = applicationName
             self.createTimestamp = createTimestamp
         }
@@ -1328,11 +1328,11 @@ extension KinesisAnalyticsV2 {
         /// The name of an existing application.
         public let applicationName: String
         /// The creation timestamp of the application snapshot to delete. You can retrieve this value using or .
-        public let snapshotCreationTimestamp: TimeStamp
+        public let snapshotCreationTimestamp: Date
         /// The identifier for the snapshot delete.
         public let snapshotName: String
 
-        public init(applicationName: String, snapshotCreationTimestamp: TimeStamp, snapshotName: String) {
+        public init(applicationName: String, snapshotCreationTimestamp: Date, snapshotName: String) {
             self.applicationName = applicationName
             self.snapshotCreationTimestamp = snapshotCreationTimestamp
             self.snapshotName = snapshotName
@@ -3150,13 +3150,13 @@ extension KinesisAnalyticsV2 {
         /// The current application version ID when the snapshot was created.
         public let applicationVersionId: Int64
         /// The timestamp of the application snapshot.
-        public let snapshotCreationTimestamp: TimeStamp?
+        public let snapshotCreationTimestamp: Date?
         /// The identifier for the application snapshot.
         public let snapshotName: String
         /// The status of the application snapshot.
         public let snapshotStatus: SnapshotStatus
 
-        public init(applicationVersionId: Int64, snapshotCreationTimestamp: TimeStamp? = nil, snapshotName: String, snapshotStatus: SnapshotStatus) {
+        public init(applicationVersionId: Int64, snapshotCreationTimestamp: Date? = nil, snapshotName: String, snapshotStatus: SnapshotStatus) {
             self.applicationVersionId = applicationVersionId
             self.snapshotCreationTimestamp = snapshotCreationTimestamp
             self.snapshotName = snapshotName

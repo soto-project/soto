@@ -114,11 +114,11 @@ extension DocDB {
         /// The thumbprint of the certificate.
         public let thumbprint: String?
         /// The starting date-time from which the certificate is valid. Example: 2019-07-31T17:57:09Z
-        public let validFrom: TimeStamp?
+        public let validFrom: Date?
         /// The date-time after which the certificate is no longer valid. Example: 2024-07-31T17:57:09Z
-        public let validTill: TimeStamp?
+        public let validTill: Date?
 
-        public init(certificateArn: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil, thumbprint: String? = nil, validFrom: TimeStamp? = nil, validTill: TimeStamp? = nil) {
+        public init(certificateArn: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil, thumbprint: String? = nil, validFrom: Date? = nil, validTill: Date? = nil) {
             self.certificateArn = certificateArn
             self.certificateIdentifier = certificateIdentifier
             self.certificateType = certificateType
@@ -558,7 +558,7 @@ extension DocDB {
         /// Specifies the number of days for which automatic snapshots are retained.
         public let backupRetentionPeriod: Int?
         /// Specifies the time when the cluster was created, in Universal Coordinated Time (UTC).
-        public let clusterCreateTime: TimeStamp?
+        public let clusterCreateTime: Date?
         /// The Amazon Resource Name (ARN) for the cluster.
         public let dBClusterArn: String?
         /// Contains a user-supplied cluster identifier. This identifier is the unique key that identifies a cluster.
@@ -575,7 +575,7 @@ extension DocDB {
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// The earliest time to which a database can be restored with point-in-time restore.
-        public let earliestRestorableTime: TimeStamp?
+        public let earliestRestorableTime: Date?
         /// A list of log types that this cluster is configured to export to Amazon CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enabledCloudwatchLogsExports: [String]?
@@ -590,7 +590,7 @@ extension DocDB {
         /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted cluster.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        public let latestRestorableTime: TimeStamp?
+        public let latestRestorableTime: Date?
         /// Contains the master user name for the cluster.
         public let masterUsername: String?
         /// Specifies whether the cluster has instances in multiple Availability Zones.
@@ -613,7 +613,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, clusterCreateTime: Date? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -825,7 +825,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
         /// Specifies the time when the cluster was created, in Universal Coordinated Time (UTC).
-        public let clusterCreateTime: TimeStamp?
+        public let clusterCreateTime: Date?
         /// Specifies the cluster identifier of the cluster that this cluster snapshot was created from.
         public let dBClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) for the cluster snapshot.
@@ -845,7 +845,7 @@ extension DocDB {
         /// Specifies the port that the cluster was listening on at the time of the snapshot.
         public let port: Int?
         /// Provides the time when the snapshot was taken, in UTC.
-        public let snapshotCreateTime: TimeStamp?
+        public let snapshotCreateTime: Date?
         /// Provides the type of the cluster snapshot.
         public let snapshotType: String?
         /// If the cluster snapshot was copied from a source cluster snapshot, the ARN for the source cluster snapshot; otherwise, a null value.
@@ -857,7 +857,7 @@ extension DocDB {
         /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public let vpcId: String?
 
-        public init(availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterCreateTime: Date? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -1059,11 +1059,11 @@ extension DocDB {
         /// Indicates the database engine version.
         public let engineVersion: String?
         /// Provides the date and time that the instance was created.
-        public let instanceCreateTime: TimeStamp?
+        public let instanceCreateTime: Date?
         ///  If StorageEncrypted is true, the AWS KMS key identifier for the encrypted instance.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        public let latestRestorableTime: TimeStamp?
+        public let latestRestorableTime: Date?
         /// Specifies that changes to the instance are pending. This element is included only when changes are pending. Specific changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
         ///  Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
@@ -1083,7 +1083,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -1708,7 +1708,7 @@ extension DocDB {
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int?
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2009-07-08T18:00Z
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// A list of event categories that trigger notifications for an event notification subscription.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
@@ -1724,9 +1724,9 @@ extension DocDB {
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2009-07-08T18:00Z
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(duration: Int? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: Date? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: Date? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.eventCategories = eventCategories
@@ -1872,7 +1872,7 @@ extension DocDB {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
 
         /// Specifies the date and time of the event.
-        public let date: TimeStamp?
+        public let date: Date?
         /// Specifies the category for the event.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
@@ -1885,7 +1885,7 @@ extension DocDB {
         /// Specifies the source type for this event.
         public let sourceType: SourceType?
 
-        public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceArn: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
+        public init(date: Date? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceArn: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
             self.message = message
@@ -2384,17 +2384,17 @@ extension DocDB {
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
-        public let autoAppliedAfterDate: TimeStamp?
+        public let autoAppliedAfterDate: Date?
         /// The effective date when the pending maintenance action is applied to the resource.
-        public let currentApplyDate: TimeStamp?
+        public let currentApplyDate: Date?
         /// A description providing more detail about the maintenance action.
         public let description: String?
         /// The date when the maintenance action is automatically applied. The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any immediate opt-in requests are ignored.
-        public let forcedApplyDate: TimeStamp?
+        public let forcedApplyDate: Date?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
 
-        public init(action: String? = nil, autoAppliedAfterDate: TimeStamp? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil, forcedApplyDate: TimeStamp? = nil, optInStatus: String? = nil) {
+        public init(action: String? = nil, autoAppliedAfterDate: Date? = nil, currentApplyDate: Date? = nil, description: String? = nil, forcedApplyDate: Date? = nil, optInStatus: String? = nil) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
             self.currentApplyDate = currentApplyDate
@@ -2684,7 +2684,7 @@ extension DocDB {
         /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The default port for the engine.
         public let port: Int?
         /// The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints:   Must be before the latest restorable time for the instance.   Must be specified if the UseLatestRestorableTime parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example: 2015-03-07T23:45:00Z
-        public let restoreToTime: TimeStamp?
+        public let restoreToTime: Date?
         /// The identifier of the source cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.
         public let sourceDBClusterIdentifier: String
         /// The tags to be assigned to the restored cluster.
@@ -2696,7 +2696,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: TimeStamp? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBSubnetGroupName = dBSubnetGroupName
             self.deletionProtection = deletionProtection

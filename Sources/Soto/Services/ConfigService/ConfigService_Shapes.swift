@@ -398,13 +398,13 @@ extension ConfigService {
         /// The resource compliance status. For the AggregationEvaluationResult data type, AWS Config supports only the COMPLIANT and NON_COMPLIANT. AWS Config does not support the NOT_APPLICABLE and INSUFFICIENT_DATA value.
         public let complianceType: ComplianceType?
         /// The time when the AWS Config rule evaluated the AWS resource.
-        public let configRuleInvokedTime: TimeStamp?
+        public let configRuleInvokedTime: Date?
         /// Uniquely identifies the evaluation result.
         public let evaluationResultIdentifier: EvaluationResultIdentifier?
         /// The time when AWS Config recorded the aggregate evaluation result.
-        public let resultRecordedTime: TimeStamp?
+        public let resultRecordedTime: Date?
 
-        public init(accountId: String? = nil, annotation: String? = nil, awsRegion: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: TimeStamp? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: TimeStamp? = nil) {
+        public init(accountId: String? = nil, annotation: String? = nil, awsRegion: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: Date? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: Date? = nil) {
             self.accountId = accountId
             self.annotation = annotation
             self.awsRegion = awsRegion
@@ -472,13 +472,13 @@ extension ConfigService {
         /// Filters the last updated status type.   Valid value FAILED indicates errors while moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid value OUTDATED indicates the data is not the most recent.
         public let lastUpdateStatus: AggregatedSourceStatusType?
         /// The time of the last update.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The source account ID or an organization.
         public let sourceId: String?
         /// The source account or an organization.
         public let sourceType: AggregatedSourceType?
 
-        public init(awsRegion: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastUpdateStatus: AggregatedSourceStatusType? = nil, lastUpdateTime: TimeStamp? = nil, sourceId: String? = nil, sourceType: AggregatedSourceType? = nil) {
+        public init(awsRegion: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastUpdateStatus: AggregatedSourceStatusType? = nil, lastUpdateTime: Date? = nil, sourceId: String? = nil, sourceType: AggregatedSourceType? = nil) {
             self.awsRegion = awsRegion
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
@@ -507,9 +507,9 @@ extension ConfigService {
         /// The region authorized to collect aggregated data.
         public let authorizedAwsRegion: String?
         /// The time stamp when the aggregation authorization was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
 
-        public init(aggregationAuthorizationArn: String? = nil, authorizedAccountId: String? = nil, authorizedAwsRegion: String? = nil, creationTime: TimeStamp? = nil) {
+        public init(aggregationAuthorizationArn: String? = nil, authorizedAccountId: String? = nil, authorizedAwsRegion: String? = nil, creationTime: Date? = nil) {
             self.aggregationAuthorizationArn = aggregationAuthorizationArn
             self.authorizedAccountId = authorizedAccountId
             self.authorizedAwsRegion = authorizedAwsRegion
@@ -536,13 +536,13 @@ extension ConfigService {
         /// The description of the resource configuration.
         public let configuration: String?
         /// The time when the configuration recording was initiated.
-        public let configurationItemCaptureTime: TimeStamp?
+        public let configurationItemCaptureTime: Date?
         /// The configuration item status. The valid values are:   OK – The resource configuration has been updated   ResourceDiscovered – The resource was newly discovered   ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder excludes the recording of resources of this type   ResourceDeleted – The resource was deleted   ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type    The CIs do not incur any cost.
         public let configurationItemStatus: ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public let configurationStateId: String?
         /// The time stamp when the resource was created.
-        public let resourceCreationTime: TimeStamp?
+        public let resourceCreationTime: Date?
         /// The ID of the resource (for example., sg-xxxxxx).
         public let resourceId: String?
         /// The custom name of the resource, if available.
@@ -554,7 +554,7 @@ extension ConfigService {
         /// The version number of the resource configuration.
         public let version: String?
 
-        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: TimeStamp? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, resourceCreationTime: TimeStamp? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, version: String? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: Date? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, resourceCreationTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, version: String? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -746,13 +746,13 @@ extension ConfigService {
 
     public struct ComplianceSummary: AWSDecodableShape {
         /// The time that AWS Config created the compliance summary.
-        public let complianceSummaryTimestamp: TimeStamp?
+        public let complianceSummaryTimestamp: Date?
         /// The number of AWS Config rules or AWS resources that are compliant, up to a maximum of 25 for rules and 100 for resources.
         public let compliantResourceCount: ComplianceContributorCount?
         /// The number of AWS Config rules or AWS resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
         public let nonCompliantResourceCount: ComplianceContributorCount?
 
-        public init(complianceSummaryTimestamp: TimeStamp? = nil, compliantResourceCount: ComplianceContributorCount? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil) {
+        public init(complianceSummaryTimestamp: Date? = nil, compliantResourceCount: ComplianceContributorCount? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil) {
             self.complianceSummaryTimestamp = complianceSummaryTimestamp
             self.compliantResourceCount = compliantResourceCount
             self.nonCompliantResourceCount = nonCompliantResourceCount
@@ -784,7 +784,7 @@ extension ConfigService {
 
     public struct ConfigExportDeliveryInfo: AWSDecodableShape {
         /// The time of the last attempted delivery.
-        public let lastAttemptTime: TimeStamp?
+        public let lastAttemptTime: Date?
         /// The error code from the last attempted delivery.
         public let lastErrorCode: String?
         /// The error message from the last attempted delivery.
@@ -792,11 +792,11 @@ extension ConfigService {
         /// Status of the last attempted delivery.
         public let lastStatus: DeliveryStatus?
         /// The time of the last successful delivery.
-        public let lastSuccessfulTime: TimeStamp?
+        public let lastSuccessfulTime: Date?
         /// The time that the next delivery occurs.
-        public let nextDeliveryTime: TimeStamp?
+        public let nextDeliveryTime: Date?
 
-        public init(lastAttemptTime: TimeStamp? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastSuccessfulTime: TimeStamp? = nil, nextDeliveryTime: TimeStamp? = nil) {
+        public init(lastAttemptTime: Date? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastSuccessfulTime: Date? = nil, nextDeliveryTime: Date? = nil) {
             self.lastAttemptTime = lastAttemptTime
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
@@ -947,25 +947,25 @@ extension ConfigService {
         /// The name of the AWS Config rule.
         public let configRuleName: String?
         /// The time that you first activated the AWS Config rule.
-        public let firstActivatedTime: TimeStamp?
+        public let firstActivatedTime: Date?
         /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.
         public let firstEvaluationStarted: Bool?
         /// The time that you last turned off the AWS Config rule.
-        public let lastDeactivatedTime: TimeStamp?
+        public let lastDeactivatedTime: Date?
         /// The error code that AWS Config returned when the rule last failed.
         public let lastErrorCode: String?
         /// The error message that AWS Config returned when the rule last failed.
         public let lastErrorMessage: String?
         /// The time that AWS Config last failed to evaluate your AWS resources against the rule.
-        public let lastFailedEvaluationTime: TimeStamp?
+        public let lastFailedEvaluationTime: Date?
         /// The time that AWS Config last failed to invoke the AWS Config rule to evaluate your AWS resources.
-        public let lastFailedInvocationTime: TimeStamp?
+        public let lastFailedInvocationTime: Date?
         /// The time that AWS Config last successfully evaluated your AWS resources against the rule.
-        public let lastSuccessfulEvaluationTime: TimeStamp?
+        public let lastSuccessfulEvaluationTime: Date?
         /// The time that AWS Config last successfully invoked the AWS Config rule to evaluate your AWS resources.
-        public let lastSuccessfulInvocationTime: TimeStamp?
+        public let lastSuccessfulInvocationTime: Date?
 
-        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, firstActivatedTime: TimeStamp? = nil, firstEvaluationStarted: Bool? = nil, lastDeactivatedTime: TimeStamp? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: TimeStamp? = nil, lastFailedInvocationTime: TimeStamp? = nil, lastSuccessfulEvaluationTime: TimeStamp? = nil, lastSuccessfulInvocationTime: TimeStamp? = nil) {
+        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, firstActivatedTime: Date? = nil, firstEvaluationStarted: Bool? = nil, lastDeactivatedTime: Date? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: Date? = nil, lastFailedInvocationTime: Date? = nil, lastSuccessfulEvaluationTime: Date? = nil, lastSuccessfulInvocationTime: Date? = nil) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
             self.configRuleName = configRuleName
@@ -1017,9 +1017,9 @@ extension ConfigService {
         /// Status of the last attempted delivery.  Note Providing an SNS topic on a DeliveryChannel for AWS Config is optional. If the SNS delivery is turned off, the last status will be Not_Applicable.
         public let lastStatus: DeliveryStatus?
         /// The time from the last status change.
-        public let lastStatusChangeTime: TimeStamp?
+        public let lastStatusChangeTime: Date?
 
-        public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: TimeStamp? = nil) {
+        public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: Date? = nil) {
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
             self.lastStatus = lastStatus
@@ -1044,13 +1044,13 @@ extension ConfigService {
         /// AWS service that created the configuration aggregator.
         public let createdBy: String?
         /// The time stamp when the configuration aggregator was created.
-        public let creationTime: TimeStamp?
+        public let creationTime: Date?
         /// The time of the last update.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         /// Provides an organization and list of regions to be aggregated.
         public let organizationAggregationSource: OrganizationAggregationSource?
 
-        public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorArn: String? = nil, configurationAggregatorName: String? = nil, createdBy: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, organizationAggregationSource: OrganizationAggregationSource? = nil) {
+        public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorArn: String? = nil, configurationAggregatorName: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, lastUpdatedTime: Date? = nil, organizationAggregationSource: OrganizationAggregationSource? = nil) {
             self.accountAggregationSources = accountAggregationSources
             self.configurationAggregatorArn = configurationAggregatorArn
             self.configurationAggregatorName = configurationAggregatorName
@@ -1083,7 +1083,7 @@ extension ConfigService {
         /// The description of the resource configuration.
         public let configuration: String?
         /// The time when the configuration recording was initiated.
-        public let configurationItemCaptureTime: TimeStamp?
+        public let configurationItemCaptureTime: Date?
         /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
         public let configurationItemMD5Hash: String?
         /// The configuration item status. The valid values are:   OK – The resource configuration has been updated   ResourceDiscovered – The resource was newly discovered   ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder excludes the recording of resources of this type   ResourceDeleted – The resource was deleted   ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type    The CIs do not incur any cost.
@@ -1095,7 +1095,7 @@ extension ConfigService {
         /// A list of related AWS resources.
         public let relationships: [Relationship]?
         /// The time stamp when the resource was created.
-        public let resourceCreationTime: TimeStamp?
+        public let resourceCreationTime: Date?
         /// The ID of the resource (for example, sg-xxxxxx).
         public let resourceId: String?
         /// The custom name of the resource, if available.
@@ -1109,7 +1109,7 @@ extension ConfigService {
         /// The version number of the resource configuration.
         public let version: String?
 
-        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: TimeStamp? = nil, configurationItemMD5Hash: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, relatedEvents: [String]? = nil, relationships: [Relationship]? = nil, resourceCreationTime: TimeStamp? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: Date? = nil, configurationItemMD5Hash: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, relatedEvents: [String]? = nil, relationships: [Relationship]? = nil, resourceCreationTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -1184,19 +1184,19 @@ extension ConfigService {
         /// The message indicating that the recording failed due to an error.
         public let lastErrorMessage: String?
         /// The time the recorder was last started.
-        public let lastStartTime: TimeStamp?
+        public let lastStartTime: Date?
         /// The last (previous) status of the recorder.
         public let lastStatus: RecorderStatus?
         /// The time when the status was last changed.
-        public let lastStatusChangeTime: TimeStamp?
+        public let lastStatusChangeTime: Date?
         /// The time the recorder was last stopped.
-        public let lastStopTime: TimeStamp?
+        public let lastStopTime: Date?
         /// The name of the configuration recorder.
         public let name: String?
         /// Specifies whether or not the recorder is currently recording.
         public let recording: Bool?
 
-        public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStartTime: TimeStamp? = nil, lastStatus: RecorderStatus? = nil, lastStatusChangeTime: TimeStamp? = nil, lastStopTime: TimeStamp? = nil, name: String? = nil, recording: Bool? = nil) {
+        public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStartTime: Date? = nil, lastStatus: RecorderStatus? = nil, lastStatusChangeTime: Date? = nil, lastStopTime: Date? = nil, name: String? = nil, recording: Bool? = nil) {
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
             self.lastStartTime = lastStartTime
@@ -1278,9 +1278,9 @@ extension ConfigService {
         /// The prefix for the Amazon S3 bucket.
         public let deliveryS3KeyPrefix: String?
         /// Last time when conformation pack update was requested.
-        public let lastUpdateRequestedTime: TimeStamp?
+        public let lastUpdateRequestedTime: Date?
 
-        public init(conformancePackArn: String, conformancePackId: String, conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, createdBy: String? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, lastUpdateRequestedTime: TimeStamp? = nil) {
+        public init(conformancePackArn: String, conformancePackId: String, conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, createdBy: String? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, lastUpdateRequestedTime: Date? = nil) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
             self.conformancePackInputParameters = conformancePackInputParameters
@@ -1351,12 +1351,12 @@ extension ConfigService {
         /// The compliance type. The allowed values are COMPLIANT and NON_COMPLIANT.
         public let complianceType: ConformancePackComplianceType
         /// The time when AWS Config rule evaluated AWS resource.
-        public let configRuleInvokedTime: TimeStamp
+        public let configRuleInvokedTime: Date
         public let evaluationResultIdentifier: EvaluationResultIdentifier
         /// The time when AWS Config recorded the evaluation result.
-        public let resultRecordedTime: TimeStamp
+        public let resultRecordedTime: Date
 
-        public init(annotation: String? = nil, complianceType: ConformancePackComplianceType, configRuleInvokedTime: TimeStamp, evaluationResultIdentifier: EvaluationResultIdentifier, resultRecordedTime: TimeStamp) {
+        public init(annotation: String? = nil, complianceType: ConformancePackComplianceType, configRuleInvokedTime: Date, evaluationResultIdentifier: EvaluationResultIdentifier, resultRecordedTime: Date) {
             self.annotation = annotation
             self.complianceType = complianceType
             self.configRuleInvokedTime = configRuleInvokedTime
@@ -1426,13 +1426,13 @@ extension ConfigService {
         /// The reason of conformance pack creation failure.
         public let conformancePackStatusReason: String?
         /// Last time when conformation pack creation and update was successful.
-        public let lastUpdateCompletedTime: TimeStamp?
+        public let lastUpdateCompletedTime: Date?
         /// Last time when conformation pack creation and update was requested.
-        public let lastUpdateRequestedTime: TimeStamp
+        public let lastUpdateRequestedTime: Date
         /// Amazon Resource Name (ARN) of AWS CloudFormation stack.
         public let stackArn: String
 
-        public init(conformancePackArn: String, conformancePackId: String, conformancePackName: String, conformancePackState: ConformancePackState, conformancePackStatusReason: String? = nil, lastUpdateCompletedTime: TimeStamp? = nil, lastUpdateRequestedTime: TimeStamp, stackArn: String) {
+        public init(conformancePackArn: String, conformancePackId: String, conformancePackName: String, conformancePackState: ConformancePackState, conformancePackStatusReason: String? = nil, lastUpdateCompletedTime: Date? = nil, lastUpdateRequestedTime: Date, stackArn: String) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
             self.conformancePackName = conformancePackName
@@ -2971,9 +2971,9 @@ extension ConfigService {
         /// Indicates whether the AWS resource complies with the AWS Config rule that it was evaluated against. For the Evaluation data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for this data type. Similarly, AWS Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an AWS Lambda function for a custom AWS Config rule cannot pass an INSUFFICIENT_DATA value to AWS Config.
         public let complianceType: ComplianceType
         /// The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
-        public let orderingTimestamp: TimeStamp
+        public let orderingTimestamp: Date
 
-        public init(annotation: String? = nil, complianceResourceId: String, complianceResourceType: String, complianceType: ComplianceType, orderingTimestamp: TimeStamp) {
+        public init(annotation: String? = nil, complianceResourceId: String, complianceResourceType: String, complianceType: ComplianceType, orderingTimestamp: Date) {
             self.annotation = annotation
             self.complianceResourceId = complianceResourceId
             self.complianceResourceType = complianceResourceType
@@ -3005,15 +3005,15 @@ extension ConfigService {
         /// Indicates whether the AWS resource complies with the AWS Config rule that evaluated it. For the EvaluationResult data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for the EvaluationResult data type.
         public let complianceType: ComplianceType?
         /// The time when the AWS Config rule evaluated the AWS resource.
-        public let configRuleInvokedTime: TimeStamp?
+        public let configRuleInvokedTime: Date?
         /// Uniquely identifies the evaluation result.
         public let evaluationResultIdentifier: EvaluationResultIdentifier?
         /// The time when AWS Config recorded the evaluation result.
-        public let resultRecordedTime: TimeStamp?
+        public let resultRecordedTime: Date?
         /// An encrypted token that associates an evaluation with an AWS Config rule. The token identifies the rule, the AWS resource being evaluated, and the event that triggered the evaluation.
         public let resultToken: String?
 
-        public init(annotation: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: TimeStamp? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: TimeStamp? = nil, resultToken: String? = nil) {
+        public init(annotation: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: Date? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: Date? = nil, resultToken: String? = nil) {
             self.annotation = annotation
             self.complianceType = complianceType
             self.configRuleInvokedTime = configRuleInvokedTime
@@ -3036,9 +3036,9 @@ extension ConfigService {
         /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
         public let evaluationResultQualifier: EvaluationResultQualifier?
         /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
-        public let orderingTimestamp: TimeStamp?
+        public let orderingTimestamp: Date?
 
-        public init(evaluationResultQualifier: EvaluationResultQualifier? = nil, orderingTimestamp: TimeStamp? = nil) {
+        public init(evaluationResultQualifier: EvaluationResultQualifier? = nil, orderingTimestamp: Date? = nil) {
             self.evaluationResultQualifier = evaluationResultQualifier
             self.orderingTimestamp = orderingTimestamp
         }
@@ -3792,9 +3792,9 @@ extension ConfigService {
         /// The chronological order for configuration items listed. By default, the results are listed in reverse chronological order.
         public let chronologicalOrder: ChronologicalOrder?
         /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start when the first configuration item was recorded.
-        public let earlierTime: TimeStamp?
+        public let earlierTime: Date?
         /// The time stamp that indicates a later time. If not specified, current time is taken.
-        public let laterTime: TimeStamp?
+        public let laterTime: Date?
         /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -3804,7 +3804,7 @@ extension ConfigService {
         /// The resource type.
         public let resourceType: ResourceType
 
-        public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: TimeStamp? = nil, laterTime: TimeStamp? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
+        public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Date? = nil, laterTime: Date? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
             self.chronologicalOrder = chronologicalOrder
             self.earlierTime = earlierTime
             self.laterTime = laterTime
@@ -4035,11 +4035,11 @@ extension ConfigService {
         /// An error message indicating that config rule account creation or deletion has failed due to an error in the member account.
         public let errorMessage: String?
         /// The timestamp of the last status update.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// Indicates deployment status for config rule in the member account. When master account calls PutOrganizationConfigRule action for the first time, config rule status is created in the member account. When master account calls PutOrganizationConfigRule action for the second time, config rule status is updated in the member account. Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.   AWS Config sets the state of the rule to:    CREATE_SUCCESSFUL when config rule has been created in the member account.     CREATE_IN_PROGRESS when config rule is being created in the member account.    CREATE_FAILED when config rule creation has failed in the member account.    DELETE_FAILED when config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when config rule is being deleted in the member account.    DELETE_SUCCESSFUL when config rule has been deleted in the member account.     UPDATE_SUCCESSFUL when config rule has been updated in the member account.    UPDATE_IN_PROGRESS when config rule is being updated in the member account.    UPDATE_FAILED when config rule deletion has failed in the member account.
         public let memberAccountRuleStatus: MemberAccountRuleStatus
 
-        public init(accountId: String, configRuleName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, memberAccountRuleStatus: MemberAccountRuleStatus) {
+        public init(accountId: String, configRuleName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, memberAccountRuleStatus: MemberAccountRuleStatus) {
             self.accountId = accountId
             self.configRuleName = configRuleName
             self.errorCode = errorCode
@@ -4087,7 +4087,7 @@ extension ConfigService {
         /// A comma-separated list of accounts excluded from organization config rule.
         public let excludedAccounts: [String]?
         /// The timestamp of the last update.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// Amazon Resource Name (ARN) of organization config rule.
         public let organizationConfigRuleArn: String
         /// The name that you assign to organization config rule.
@@ -4097,7 +4097,7 @@ extension ConfigService {
         /// An OrganizationManagedRuleMetadata object.
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
 
-        public init(excludedAccounts: [String]? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleArn: String, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
+        public init(excludedAccounts: [String]? = nil, lastUpdateTime: Date? = nil, organizationConfigRuleArn: String, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
             self.excludedAccounts = excludedAccounts
             self.lastUpdateTime = lastUpdateTime
             self.organizationConfigRuleArn = organizationConfigRuleArn
@@ -4122,13 +4122,13 @@ extension ConfigService {
         /// An error message indicating that organization config rule creation or deletion failed due to an error.
         public let errorMessage: String?
         /// The timestamp of the last update.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The name that you assign to organization config rule.
         public let organizationConfigRuleName: String
         /// Indicates deployment status of an organization config rule. When master account calls PutOrganizationConfigRule action for the first time, config rule status is created in all the member accounts. When master account calls PutOrganizationConfigRule action for the second time, config rule status is updated in all the member accounts. Additionally, config rule status is updated when one or more member accounts join or leave an organization. Config rule status is deleted when the master account deletes OrganizationConfigRule in all the member accounts and disables service access for config-multiaccountsetup.amazonaws.com. AWS Config sets the state of the rule to:    CREATE_SUCCESSFUL when an organization config rule has been successfully created in all the member accounts.     CREATE_IN_PROGRESS when an organization config rule creation is in progress.    CREATE_FAILED when an organization config rule creation failed in one or more member accounts within that organization.    DELETE_FAILED when an organization config rule deletion failed in one or more member accounts within that organization.    DELETE_IN_PROGRESS when an organization config rule deletion is in progress.    DELETE_SUCCESSFUL when an organization config rule has been successfully deleted from all the member accounts.    UPDATE_SUCCESSFUL when an organization config rule has been successfully updated in all the member accounts.    UPDATE_IN_PROGRESS when an organization config rule update is in progress.    UPDATE_FAILED when an organization config rule update failed in one or more member accounts within that organization.
         public let organizationRuleStatus: OrganizationRuleStatus
 
-        public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleName: String, organizationRuleStatus: OrganizationRuleStatus) {
+        public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, organizationConfigRuleName: String, organizationRuleStatus: OrganizationRuleStatus) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.lastUpdateTime = lastUpdateTime
@@ -4155,13 +4155,13 @@ extension ConfigService {
         /// A comma-separated list of accounts excluded from organization conformance pack.
         public let excludedAccounts: [String]?
         /// Last time when organization conformation pack was updated.
-        public let lastUpdateTime: TimeStamp
+        public let lastUpdateTime: Date
         /// Amazon Resource Name (ARN) of organization conformance pack.
         public let organizationConformancePackArn: String
         /// The name you assign to an organization conformance pack.
         public let organizationConformancePackName: String
 
-        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, lastUpdateTime: TimeStamp, organizationConformancePackArn: String, organizationConformancePackName: String) {
+        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, lastUpdateTime: Date, organizationConformancePackArn: String, organizationConformancePackName: String) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.deliveryS3Bucket = deliveryS3Bucket
             self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
@@ -4192,11 +4192,11 @@ extension ConfigService {
         /// An error message indicating that conformance pack account creation or deletion has failed due to an error in the member account.
         public let errorMessage: String?
         /// The timestamp of the last status update.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// Indicates deployment status for conformance pack in a member account. When master account calls PutOrganizationConformancePack action for the first time, conformance pack status is created in the member account. When master account calls PutOrganizationConformancePack action for the second time, conformance pack status is updated in the member account. Conformance pack status is deleted when the master account deletes OrganizationConformancePack and disables service access for config-multiaccountsetup.amazonaws.com.   AWS Config sets the state of the conformance pack to:    CREATE_SUCCESSFUL when conformance pack has been created in the member account.     CREATE_IN_PROGRESS when conformance pack is being created in the member account.    CREATE_FAILED when conformance pack creation has failed in the member account.    DELETE_FAILED when conformance pack deletion has failed in the member account.    DELETE_IN_PROGRESS when conformance pack is being deleted in the member account.    DELETE_SUCCESSFUL when conformance pack has been deleted in the member account.     UPDATE_SUCCESSFUL when conformance pack has been updated in the member account.    UPDATE_IN_PROGRESS when conformance pack is being updated in the member account.    UPDATE_FAILED when conformance pack deletion has failed in the member account.
         public let status: OrganizationResourceDetailedStatus
 
-        public init(accountId: String, conformancePackName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, status: OrganizationResourceDetailedStatus) {
+        public init(accountId: String, conformancePackName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, status: OrganizationResourceDetailedStatus) {
             self.accountId = accountId
             self.conformancePackName = conformancePackName
             self.errorCode = errorCode
@@ -4221,13 +4221,13 @@ extension ConfigService {
         /// An error message indicating that organization conformance pack creation or deletion failed due to an error.
         public let errorMessage: String?
         /// The timestamp of the last update.
-        public let lastUpdateTime: TimeStamp?
+        public let lastUpdateTime: Date?
         /// The name that you assign to organization conformance pack.
         public let organizationConformancePackName: String
         /// Indicates deployment status of an organization conformance pack. When master account calls PutOrganizationConformancePack for the first time, conformance pack status is created in all the member accounts. When master account calls PutOrganizationConformancePack for the second time, conformance pack status is updated in all the member accounts. Additionally, conformance pack status is updated when one or more member accounts join or leave an organization. Conformance pack status is deleted when the master account deletes OrganizationConformancePack in all the member accounts and disables service access for config-multiaccountsetup.amazonaws.com. AWS Config sets the state of the conformance pack to:    CREATE_SUCCESSFUL when an organization conformance pack has been successfully created in all the member accounts.     CREATE_IN_PROGRESS when an organization conformance pack creation is in progress.    CREATE_FAILED when an organization conformance pack creation failed in one or more member accounts within that organization.    DELETE_FAILED when an organization conformance pack deletion failed in one or more member accounts within that organization.    DELETE_IN_PROGRESS when an organization conformance pack deletion is in progress.    DELETE_SUCCESSFUL when an organization conformance pack has been successfully deleted from all the member accounts.    UPDATE_SUCCESSFUL when an organization conformance pack has been successfully updated in all the member accounts.    UPDATE_IN_PROGRESS when an organization conformance pack update is in progress.    UPDATE_FAILED when an organization conformance pack update failed in one or more member accounts within that organization.
         public let status: OrganizationResourceStatus
 
-        public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, organizationConformancePackName: String, status: OrganizationResourceStatus) {
+        public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, organizationConformancePackName: String, status: OrganizationResourceStatus) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.lastUpdateTime = lastUpdateTime
@@ -4842,13 +4842,13 @@ extension ConfigService {
         /// The name of the AWS Config rule for which you want to create remediation exception.
         public let configRuleName: String
         /// The exception is automatically deleted after the expiration date.
-        public let expirationTime: TimeStamp?
+        public let expirationTime: Date?
         /// The message contains an explanation of the exception.
         public let message: String?
         /// An exception list of resource exception keys to be processed with the current request. AWS Config adds exception for each resource key. For example, AWS Config adds 3 exceptions for 3 resource keys.
         public let resourceKeys: [RemediationExceptionResourceKey]
 
-        public init(configRuleName: String, expirationTime: TimeStamp? = nil, message: String? = nil, resourceKeys: [RemediationExceptionResourceKey]) {
+        public init(configRuleName: String, expirationTime: Date? = nil, message: String? = nil, resourceKeys: [RemediationExceptionResourceKey]) {
             self.configRuleName = configRuleName
             self.expirationTime = expirationTime
             self.message = message
@@ -5105,7 +5105,7 @@ extension ConfigService {
         /// The name of the AWS Config rule.
         public let configRuleName: String
         /// The time when the remediation exception will be deleted.
-        public let expirationTime: TimeStamp?
+        public let expirationTime: Date?
         /// An explanation of an remediation exception.
         public let message: String?
         /// The ID of the resource (for example., sg-xxxxxx).
@@ -5113,7 +5113,7 @@ extension ConfigService {
         /// The type of a resource.
         public let resourceType: String
 
-        public init(configRuleName: String, expirationTime: TimeStamp? = nil, message: String? = nil, resourceId: String, resourceType: String) {
+        public init(configRuleName: String, expirationTime: Date? = nil, message: String? = nil, resourceId: String, resourceType: String) {
             self.configRuleName = configRuleName
             self.expirationTime = expirationTime
             self.message = message
@@ -5156,16 +5156,16 @@ extension ConfigService {
 
     public struct RemediationExecutionStatus: AWSDecodableShape {
         /// Start time when the remediation was executed.
-        public let invocationTime: TimeStamp?
+        public let invocationTime: Date?
         /// The time when the remediation execution was last updated.
-        public let lastUpdatedTime: TimeStamp?
+        public let lastUpdatedTime: Date?
         public let resourceKey: ResourceKey?
         /// ENUM of the values.
         public let state: RemediationExecutionState?
         /// Details of every step.
         public let stepDetails: [RemediationExecutionStep]?
 
-        public init(invocationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, resourceKey: ResourceKey? = nil, state: RemediationExecutionState? = nil, stepDetails: [RemediationExecutionStep]? = nil) {
+        public init(invocationTime: Date? = nil, lastUpdatedTime: Date? = nil, resourceKey: ResourceKey? = nil, state: RemediationExecutionState? = nil, stepDetails: [RemediationExecutionStep]? = nil) {
             self.invocationTime = invocationTime
             self.lastUpdatedTime = lastUpdatedTime
             self.resourceKey = resourceKey
@@ -5188,13 +5188,13 @@ extension ConfigService {
         /// The details of the step.
         public let name: String?
         /// The time when the step started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The valid status of the step.
         public let state: RemediationExecutionStepState?
         /// The time when the step stopped.
-        public let stopTime: TimeStamp?
+        public let stopTime: Date?
 
-        public init(errorMessage: String? = nil, name: String? = nil, startTime: TimeStamp? = nil, state: RemediationExecutionStepState? = nil, stopTime: TimeStamp? = nil) {
+        public init(errorMessage: String? = nil, name: String? = nil, startTime: Date? = nil, state: RemediationExecutionStepState? = nil, stopTime: Date? = nil) {
             self.errorMessage = errorMessage
             self.name = name
             self.startTime = startTime
@@ -5311,7 +5311,7 @@ extension ConfigService {
 
     public struct ResourceIdentifier: AWSDecodableShape {
         /// The time that the resource was deleted.
-        public let resourceDeletionTime: TimeStamp?
+        public let resourceDeletionTime: Date?
         /// The ID of the resource (for example, sg-xxxxxx).
         public let resourceId: String?
         /// The custom name of the resource (if available).
@@ -5319,7 +5319,7 @@ extension ConfigService {
         /// The type of resource.
         public let resourceType: ResourceType?
 
-        public init(resourceDeletionTime: TimeStamp? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil) {
+        public init(resourceDeletionTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceDeletionTime = resourceDeletionTime
             self.resourceId = resourceId
             self.resourceName = resourceName

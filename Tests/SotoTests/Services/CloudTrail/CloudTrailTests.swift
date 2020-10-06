@@ -43,7 +43,7 @@ class CloudTrailTests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
         let from = Date(timeIntervalSinceNow: -1 * 24 * 60 * 60)
         let to = Date()
-        let request = CloudTrail.LookupEventsRequest(endTime: TimeStamp(to), lookupAttributes: nil, startTime: TimeStamp(from))
+        let request = CloudTrail.LookupEventsRequest(endTime: to, lookupAttributes: nil, startTime: from)
         let response = Self.cloudTrail.lookupEvents(request)
             .flatMapThrowing { response in
                 if let event = response.events?.first {

@@ -3205,7 +3205,7 @@ extension GuardDuty {
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let arn: String?
         /// The date and time the bucket was created at.
-        public let createdAt: TimeStamp?
+        public let createdAt: Date?
         /// Describes the server side encryption method used in the S3 bucket.
         public let defaultServerSideEncryption: DefaultServerSideEncryption?
         /// The name of the S3 bucket.
@@ -3219,7 +3219,7 @@ extension GuardDuty {
         /// Describes whether the bucket is a source or destination bucket.
         public let `type`: String?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, defaultServerSideEncryption: DefaultServerSideEncryption? = nil, name: String? = nil, owner: Owner? = nil, publicAccess: PublicAccess? = nil, tags: [Tag]? = nil, type: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, defaultServerSideEncryption: DefaultServerSideEncryption? = nil, name: String? = nil, owner: Owner? = nil, publicAccess: PublicAccess? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.defaultServerSideEncryption = defaultServerSideEncryption

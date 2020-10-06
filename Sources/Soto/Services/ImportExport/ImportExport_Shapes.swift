@@ -202,7 +202,7 @@ extension ImportExport {
         @OptionalCustomCoding<StandardArrayCoder>
         public var artifactList: [Artifact]?
         public let carrier: String?
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         public let currentManifest: String?
         public let errorCount: Int?
         public let jobId: String?
@@ -217,7 +217,7 @@ extension ImportExport {
         public let signatureFileContents: String?
         public let trackingNumber: String?
 
-        public init(artifactList: [Artifact]? = nil, carrier: String? = nil, creationDate: TimeStamp? = nil, currentManifest: String? = nil, errorCount: Int? = nil, jobId: String? = nil, jobType: JobType? = nil, locationCode: String? = nil, locationMessage: String? = nil, logBucket: String? = nil, logKey: String? = nil, progressCode: String? = nil, progressMessage: String? = nil, signature: String? = nil, signatureFileContents: String? = nil, trackingNumber: String? = nil) {
+        public init(artifactList: [Artifact]? = nil, carrier: String? = nil, creationDate: Date? = nil, currentManifest: String? = nil, errorCount: Int? = nil, jobId: String? = nil, jobType: JobType? = nil, locationCode: String? = nil, locationMessage: String? = nil, logBucket: String? = nil, logKey: String? = nil, progressCode: String? = nil, progressMessage: String? = nil, signature: String? = nil, signatureFileContents: String? = nil, trackingNumber: String? = nil) {
             self.artifactList = artifactList
             self.carrier = carrier
             self.creationDate = creationDate
@@ -257,12 +257,12 @@ extension ImportExport {
     }
 
     public struct Job: AWSDecodableShape {
-        public let creationDate: TimeStamp?
+        public let creationDate: Date?
         public let isCanceled: Bool?
         public let jobId: String?
         public let jobType: JobType?
 
-        public init(creationDate: TimeStamp? = nil, isCanceled: Bool? = nil, jobId: String? = nil, jobType: JobType? = nil) {
+        public init(creationDate: Date? = nil, isCanceled: Bool? = nil, jobId: String? = nil, jobType: JobType? = nil) {
             self.creationDate = creationDate
             self.isCanceled = isCanceled
             self.jobId = jobId

@@ -1644,14 +1644,14 @@ extension SES {
 
     public struct MessageDsn: AWSEncodableShape {
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
-        public let arrivalDate: TimeStamp?
+        public let arrivalDate: Date?
         /// Additional X-headers to include in the DSN.
         @OptionalCustomCoding<StandardArrayCoder>
         public var extensionFields: [ExtensionField]?
         /// The reporting MTA that attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). The default value is dns; inbound-smtp.[region].amazonaws.com.
         public let reportingMta: String
 
-        public init(arrivalDate: TimeStamp? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
+        public init(arrivalDate: Date? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
             self.arrivalDate = arrivalDate
             self.extensionFields = extensionFields
             self.reportingMta = reportingMta
@@ -1854,11 +1854,11 @@ extension SES {
 
     public struct ReceiptRuleSetMetadata: AWSDecodableShape {
         /// The date and time the receipt rule set was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The name of the receipt rule set. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
         public let name: String?
 
-        public init(createdTimestamp: TimeStamp? = nil, name: String? = nil) {
+        public init(createdTimestamp: Date? = nil, name: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
         }
@@ -1880,13 +1880,13 @@ extension SES {
         /// The email address that the message was ultimately delivered to. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient will be set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message.  Do not prepend the FinalRecipient email address with rfc 822;, as described in RFC 3798.
         public let finalRecipient: String?
         /// The time the final delivery attempt was made, in RFC 822 date-time format.
-        public let lastAttemptDate: TimeStamp?
+        public let lastAttemptDate: Date?
         /// The MTA to which the remote MTA attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). This parameter typically applies only to propagating synchronous bounces.
         public let remoteMta: String?
         /// The status code that indicates what went wrong. This is required by RFC 3464.
         public let status: String
 
-        public init(action: DsnAction, diagnosticCode: String? = nil, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, lastAttemptDate: TimeStamp? = nil, remoteMta: String? = nil, status: String) {
+        public init(action: DsnAction, diagnosticCode: String? = nil, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, lastAttemptDate: Date? = nil, remoteMta: String? = nil, status: String) {
             self.action = action
             self.diagnosticCode = diagnosticCode
             self.extensionFields = extensionFields
@@ -1931,13 +1931,13 @@ extension SES {
 
     public struct ReputationOptions: AWSDecodableShape {
         /// The date and time at which the reputation metrics for the configuration set were last reset. Resetting these metrics is known as a fresh start. When you disable email sending for a configuration set using UpdateConfigurationSetSendingEnabled and later re-enable it, the reputation metrics for the configuration set (but not for the entire Amazon SES account) are reset. If email sending for the configuration set has never been disabled and later re-enabled, the value of this attribute is null.
-        public let lastFreshStart: TimeStamp?
+        public let lastFreshStart: Date?
         /// Describes whether or not Amazon SES publishes reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch. If the value is true, reputation metrics are published. If the value is false, reputation metrics are not published. The default value is false.
         public let reputationMetricsEnabled: Bool?
         /// Describes whether email sending is enabled or disabled for the configuration set. If the value is true, then Amazon SES will send emails that use the configuration set. If the value is false, Amazon SES will not send emails that use the configuration set. The default value is true. You can change this setting using UpdateConfigurationSetSendingEnabled.
         public let sendingEnabled: Bool?
 
-        public init(lastFreshStart: TimeStamp? = nil, reputationMetricsEnabled: Bool? = nil, sendingEnabled: Bool? = nil) {
+        public init(lastFreshStart: Date? = nil, reputationMetricsEnabled: Bool? = nil, sendingEnabled: Bool? = nil) {
             self.lastFreshStart = lastFreshStart
             self.reputationMetricsEnabled = reputationMetricsEnabled
             self.sendingEnabled = sendingEnabled
@@ -2173,9 +2173,9 @@ extension SES {
         /// Number of emails rejected by Amazon SES.
         public let rejects: Int64?
         /// Time of the data point.
-        public let timestamp: TimeStamp?
+        public let timestamp: Date?
 
-        public init(bounces: Int64? = nil, complaints: Int64? = nil, deliveryAttempts: Int64? = nil, rejects: Int64? = nil, timestamp: TimeStamp? = nil) {
+        public init(bounces: Int64? = nil, complaints: Int64? = nil, deliveryAttempts: Int64? = nil, rejects: Int64? = nil, timestamp: Date? = nil) {
             self.bounces = bounces
             self.complaints = complaints
             self.deliveryAttempts = deliveryAttempts
@@ -2583,11 +2583,11 @@ extension SES {
 
     public struct TemplateMetadata: AWSDecodableShape {
         /// The time and date the template was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The name of the template.
         public let name: String?
 
-        public init(createdTimestamp: TimeStamp? = nil, name: String? = nil) {
+        public init(createdTimestamp: Date? = nil, name: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
         }

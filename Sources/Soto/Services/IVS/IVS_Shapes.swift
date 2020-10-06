@@ -866,13 +866,13 @@ extension IVS {
         /// URL of the video master manifest, required by the video player to play the HLS stream.
         public let playbackUrl: String?
         /// ISO-8601 formatted timestamp of the stream’s start.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The stream’s state.
         public let state: StreamState?
         /// Number of current viewers of the stream.
         public let viewerCount: Int64?
 
-        public init(channelArn: String? = nil, health: StreamHealth? = nil, playbackUrl: String? = nil, startTime: TimeStamp? = nil, state: StreamState? = nil, viewerCount: Int64? = nil) {
+        public init(channelArn: String? = nil, health: StreamHealth? = nil, playbackUrl: String? = nil, startTime: Date? = nil, state: StreamState? = nil, viewerCount: Int64? = nil) {
             self.channelArn = channelArn
             self.health = health
             self.playbackUrl = playbackUrl
@@ -943,13 +943,13 @@ extension IVS {
         /// The stream’s health.
         public let health: StreamHealth?
         /// ISO-8601 formatted timestamp of the stream’s start.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The stream’s state.
         public let state: StreamState?
         /// Number of current viewers of the stream.
         public let viewerCount: Int64?
 
-        public init(channelArn: String? = nil, health: StreamHealth? = nil, startTime: TimeStamp? = nil, state: StreamState? = nil, viewerCount: Int64? = nil) {
+        public init(channelArn: String? = nil, health: StreamHealth? = nil, startTime: Date? = nil, state: StreamState? = nil, viewerCount: Int64? = nil) {
             self.channelArn = channelArn
             self.health = health
             self.startTime = startTime

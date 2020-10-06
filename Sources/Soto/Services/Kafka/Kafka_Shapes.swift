@@ -238,8 +238,8 @@ extension Kafka {
         /// The name of the cluster.
         public let clusterName: String?
         /// The time when the cluster was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationTime: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
         /// Information about the version of software currently deployed on the Kafka brokers in the cluster.
         public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
         /// The current version of the MSK cluster. Cluster versions aren't simple integers. You can obtain the current version by describing the cluster. An example version is KTVPDKIKX0DER.
@@ -262,7 +262,7 @@ extension Kafka {
         /// The connection string to use to connect to the Apache ZooKeeper cluster.
         public let zookeeperConnectString: String?
 
-        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: TimeStamp? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil) {
+        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -307,11 +307,11 @@ extension Kafka {
         /// ARN of the cluster.
         public let clusterArn: String?
         /// The time at which operation was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationTime: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
         /// The time at which the operation finished.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var endTime: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         /// Describes the error if the operation fails.
         public let errorInfo: ErrorInfo?
         /// ARN of the cluster operation.
@@ -327,7 +327,7 @@ extension Kafka {
         /// Information about cluster attributes after a cluster is updated.
         public let targetClusterInfo: MutableClusterInfo?
 
-        public init(clientRequestId: String? = nil, clusterArn: String? = nil, creationTime: TimeStamp? = nil, endTime: TimeStamp? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationSteps: [ClusterOperationStep]? = nil, operationType: String? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil) {
+        public init(clientRequestId: String? = nil, clusterArn: String? = nil, creationTime: Date? = nil, endTime: Date? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationSteps: [ClusterOperationStep]? = nil, operationType: String? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil) {
             self.clientRequestId = clientRequestId
             self.clusterArn = clusterArn
             self.creationTime = creationTime
@@ -404,8 +404,8 @@ extension Kafka {
     public struct Configuration: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var creationTime: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
         /// The description of the configuration.
         public let description: String
         /// An array of the versions of Apache Kafka with which you can use this MSK configuration. You can use this configuration for an MSK cluster only if the Apache Kafka version specified for the cluster appears in this array.
@@ -416,7 +416,7 @@ extension Kafka {
         public let name: String
         public let state: ConfigurationState
 
-        public init(arn: String, creationTime: TimeStamp, description: String, kafkaVersions: [String], latestRevision: ConfigurationRevision, name: String, state: ConfigurationState) {
+        public init(arn: String, creationTime: Date, description: String, kafkaVersions: [String], latestRevision: ConfigurationRevision, name: String, state: ConfigurationState) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -456,14 +456,14 @@ extension Kafka {
 
     public struct ConfigurationRevision: AWSDecodableShape {
         /// The time when the configuration revision was created.
-        @CustomCoding<ISO8601TimeStampCoder>
-        public var creationTime: TimeStamp
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
         /// The description of the configuration revision.
         public let description: String?
         /// The revision number.
         public let revision: Int64
 
-        public init(creationTime: TimeStamp, description: String? = nil, revision: Int64) {
+        public init(creationTime: Date, description: String? = nil, revision: Int64) {
             self.creationTime = creationTime
             self.description = description
             self.revision = revision
@@ -588,8 +588,8 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// The time when the configuration was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationTime: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
         /// Latest revision of the configuration.
         public let latestRevision: ConfigurationRevision?
         /// The name of the configuration. Configuration names are strings that match the regex "^[0-9A-Za-z-]+$".
@@ -597,7 +597,7 @@ extension Kafka {
         /// The state of the configuration. The possible states are ACTIVE, DELETING and DELETE_FAILED.
         public let state: ConfigurationState?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.latestRevision = latestRevision
@@ -752,8 +752,8 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// The time when the configuration was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationTime: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
         /// The description of the configuration.
         public let description: String?
         /// The versions of Apache Kafka with which you can use this MSK configuration.
@@ -765,7 +765,7 @@ extension Kafka {
         /// The state of the configuration. The possible states are ACTIVE, DELETING and DELETE_FAILED.
         public let state: ConfigurationState?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -807,15 +807,15 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// The time when the configuration was created.
-        @OptionalCustomCoding<ISO8601TimeStampCoder>
-        public var creationTime: TimeStamp?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
         /// The description of the configuration.
         public let description: String?
         /// The revision number.
         public let revision: Int64?
         public let serverProperties: Data?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, revision: Int64? = nil, serverProperties: Data? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, revision: Int64? = nil, serverProperties: Data? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description

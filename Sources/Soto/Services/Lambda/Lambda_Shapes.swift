@@ -462,11 +462,11 @@ extension Lambda {
         /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is only supported for Amazon Kinesis streams.
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
-        public let startingPositionTimestamp: TimeStamp?
+        public let startingPositionTimestamp: Date?
         ///  (MSK) The name of the Kafka topic.
         public let topics: [String]?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil, topics: [String]? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -906,7 +906,7 @@ extension Lambda {
         /// The ARN of the Lambda function.
         public let functionArn: String?
         /// The date that the event source mapping was last updated, or its state changed.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The result of the last AWS Lambda invocation of your Lambda function.
         public let lastProcessingResult: String?
         /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
@@ -926,7 +926,7 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, uuid: String? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, uuid: String? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -1162,13 +1162,13 @@ extension Lambda {
         /// The Amazon Resource Name (ARN) of the function.
         public let functionArn: String?
         /// The date and time that the configuration was last updated.
-        public let lastModified: TimeStamp?
+        public let lastModified: Date?
         /// The maximum age of a request that Lambda sends to a function for processing.
         public let maximumEventAgeInSeconds: Int?
         /// The maximum number of times to retry when the function returns an error.
         public let maximumRetryAttempts: Int?
 
-        public init(destinationConfig: DestinationConfig? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil) {
+        public init(destinationConfig: DestinationConfig? = nil, functionArn: String? = nil, lastModified: Date? = nil, maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil) {
             self.destinationConfig = destinationConfig
             self.functionArn = functionArn
             self.lastModified = lastModified

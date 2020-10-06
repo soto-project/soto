@@ -598,7 +598,7 @@ extension DirectConnect {
         /// The ID of the LAG.
         public let lagId: String?
         /// The time of the most recent call to DescribeLoa for this connection.
-        public let loaIssueTime: TimeStamp?
+        public let loaIssueTime: Date?
         /// The location of the connection.
         public let location: String?
         /// The ID of the AWS account that owns the connection.
@@ -614,7 +614,7 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int?
 
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.bandwidth = bandwidth
@@ -1783,7 +1783,7 @@ extension DirectConnect {
         /// The ID of the LAG.
         public let lagId: String?
         /// The time of the most recent call to DescribeLoa for this connection.
-        public let loaIssueTime: TimeStamp?
+        public let loaIssueTime: Date?
         /// The location of the connection.
         public let location: String?
         /// The name of the service provider associated with the interconnect.
@@ -1793,7 +1793,7 @@ extension DirectConnect {
         /// The tags associated with the interconnect.
         public let tags: [Tag]?
 
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, interconnectId: String? = nil, interconnectName: String? = nil, interconnectState: InterconnectState? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, interconnectId: String? = nil, interconnectName: String? = nil, interconnectState: InterconnectState? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.bandwidth = bandwidth
@@ -2776,11 +2776,11 @@ extension DirectConnect {
         /// The BGP peers that were put in the DOWN state as part of the virtual interface failover test.
         public let bgpPeers: [String]?
         /// The time that the virtual interface moves out of the DOWN state.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// The owner ID of the tested virtual interface.
         public let ownerAccount: String?
         /// The time that the virtual interface moves to the DOWN state.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The status of the virtual interface failover test.
         public let status: String?
         /// The time that the virtual interface failover test ran in minutes.
@@ -2790,7 +2790,7 @@ extension DirectConnect {
         /// The ID of the tested virtual interface.
         public let virtualInterfaceId: String?
 
-        public init(bgpPeers: [String]? = nil, endTime: TimeStamp? = nil, ownerAccount: String? = nil, startTime: TimeStamp? = nil, status: String? = nil, testDurationInMinutes: Int? = nil, testId: String? = nil, virtualInterfaceId: String? = nil) {
+        public init(bgpPeers: [String]? = nil, endTime: Date? = nil, ownerAccount: String? = nil, startTime: Date? = nil, status: String? = nil, testDurationInMinutes: Int? = nil, testId: String? = nil, virtualInterfaceId: String? = nil) {
             self.bgpPeers = bgpPeers
             self.endTime = endTime
             self.ownerAccount = ownerAccount

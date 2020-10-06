@@ -34,13 +34,13 @@ extension MarketplaceEntitlementService {
         /// The dimension for which the given entitlement applies. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
         public let dimension: String?
         /// The expiration date represents the minimum date through which this entitlement is expected to remain valid. For contractual products listed on AWS Marketplace, the expiration date is the date at which the customer will renew or cancel their contract. Customers who are opting to renew their contract will still have entitlements with an expiration date.
-        public let expirationDate: TimeStamp?
+        public let expirationDate: Date?
         /// The product code for which the given entitlement applies. Product codes are provided by AWS Marketplace when the product listing is created.
         public let productCode: String?
         /// The EntitlementValue represents the amount of capacity that the customer is entitled to for the product.
         public let value: EntitlementValue?
 
-        public init(customerIdentifier: String? = nil, dimension: String? = nil, expirationDate: TimeStamp? = nil, productCode: String? = nil, value: EntitlementValue? = nil) {
+        public init(customerIdentifier: String? = nil, dimension: String? = nil, expirationDate: Date? = nil, productCode: String? = nil, value: EntitlementValue? = nil) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.expirationDate = expirationDate

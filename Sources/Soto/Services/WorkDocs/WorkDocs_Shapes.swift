@@ -321,11 +321,11 @@ extension WorkDocs {
         /// The metadata of the resource involved in the user action.
         public let resourceMetadata: ResourceMetadata?
         /// The timestamp when the action was performed.
-        public let timeStamp: TimeStamp?
+        public let timeStamp: Date?
         /// The activity type.
         public let `type`: ActivityType?
 
-        public init(commentMetadata: CommentMetadata? = nil, initiator: UserMetadata? = nil, isIndirectActivity: Bool? = nil, organizationId: String? = nil, originalParent: ResourceMetadata? = nil, participants: Participants? = nil, resourceMetadata: ResourceMetadata? = nil, timeStamp: TimeStamp? = nil, type: ActivityType? = nil) {
+        public init(commentMetadata: CommentMetadata? = nil, initiator: UserMetadata? = nil, isIndirectActivity: Bool? = nil, organizationId: String? = nil, originalParent: ResourceMetadata? = nil, participants: Participants? = nil, resourceMetadata: ResourceMetadata? = nil, timeStamp: Date? = nil, type: ActivityType? = nil) {
             self.commentMetadata = commentMetadata
             self.initiator = initiator
             self.isIndirectActivity = isIndirectActivity
@@ -409,7 +409,7 @@ extension WorkDocs {
         /// The details of the user who made the comment.
         public let contributor: User?
         /// The time that the comment was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The ID of the parent comment.
         public let parentId: String?
         /// If the comment is a reply to another user's comment, this field contains the user ID of the user being replied to.
@@ -423,7 +423,7 @@ extension WorkDocs {
         /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
         public let visibility: CommentVisibilityType?
 
-        public init(commentId: String, contributor: User? = nil, createdTimestamp: TimeStamp? = nil, parentId: String? = nil, recipientId: String? = nil, status: CommentStatusType? = nil, text: String? = nil, threadId: String? = nil, visibility: CommentVisibilityType? = nil) {
+        public init(commentId: String, contributor: User? = nil, createdTimestamp: Date? = nil, parentId: String? = nil, recipientId: String? = nil, status: CommentStatusType? = nil, text: String? = nil, threadId: String? = nil, visibility: CommentVisibilityType? = nil) {
             self.commentId = commentId
             self.contributor = contributor
             self.createdTimestamp = createdTimestamp
@@ -456,11 +456,11 @@ extension WorkDocs {
         /// The user who made the comment.
         public let contributor: User?
         /// The timestamp that the comment was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The ID of the user being replied to.
         public let recipientId: String?
 
-        public init(commentId: String? = nil, commentStatus: CommentStatusType? = nil, contributor: User? = nil, createdTimestamp: TimeStamp? = nil, recipientId: String? = nil) {
+        public init(commentId: String? = nil, commentStatus: CommentStatusType? = nil, contributor: User? = nil, createdTimestamp: Date? = nil, recipientId: String? = nil) {
             self.commentId = commentId
             self.commentStatus = commentStatus
             self.contributor = contributor
@@ -1148,7 +1148,7 @@ extension WorkDocs {
         /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The timestamp that determines the end time of the activities. The response includes the activities performed before the specified timestamp.
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// Includes indirect activities. An indirect activity results from a direct activity performed on a parent resource. For example, sharing a parent folder (the direct activity) shares all of the subfolders and documents within the parent folder (the indirect activity).
         public let includeIndirectActivities: Bool?
         /// The maximum number of items to return.
@@ -1160,11 +1160,11 @@ extension WorkDocs {
         /// The document or folder ID for which to describe activity types.
         public let resourceId: String?
         /// The timestamp that determines the starting time of the activities. The response includes the activities performed after the specified timestamp.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests.
         public let userId: String?
 
-        public init(activityTypes: String? = nil, authenticationToken: String? = nil, endTime: TimeStamp? = nil, includeIndirectActivities: Bool? = nil, limit: Int? = nil, marker: String? = nil, organizationId: String? = nil, resourceId: String? = nil, startTime: TimeStamp? = nil, userId: String? = nil) {
+        public init(activityTypes: String? = nil, authenticationToken: String? = nil, endTime: Date? = nil, includeIndirectActivities: Bool? = nil, limit: Int? = nil, marker: String? = nil, organizationId: String? = nil, resourceId: String? = nil, startTime: Date? = nil, userId: String? = nil) {
             self.activityTypes = activityTypes
             self.authenticationToken = authenticationToken
             self.endTime = endTime
@@ -1748,7 +1748,7 @@ extension WorkDocs {
 
     public struct DocumentMetadata: AWSDecodableShape {
         /// The time when the document was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The ID of the creator.
         public let creatorId: String?
         /// The ID of the document.
@@ -1758,13 +1758,13 @@ extension WorkDocs {
         /// The latest version of the document.
         public let latestVersionMetadata: DocumentVersionMetadata?
         /// The time when the document was updated.
-        public let modifiedTimestamp: TimeStamp?
+        public let modifiedTimestamp: Date?
         /// The ID of the parent folder.
         public let parentFolderId: String?
         /// The resource state.
         public let resourceState: ResourceStateType?
 
-        public init(createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, id: String? = nil, labels: [String]? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, modifiedTimestamp: TimeStamp? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil) {
+        public init(createdTimestamp: Date? = nil, creatorId: String? = nil, id: String? = nil, labels: [String]? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil) {
             self.createdTimestamp = createdTimestamp
             self.creatorId = creatorId
             self.id = id
@@ -1789,19 +1789,19 @@ extension WorkDocs {
 
     public struct DocumentVersionMetadata: AWSDecodableShape {
         /// The timestamp when the content of the document was originally created.
-        public let contentCreatedTimestamp: TimeStamp?
+        public let contentCreatedTimestamp: Date?
         /// The timestamp when the content of the document was modified.
-        public let contentModifiedTimestamp: TimeStamp?
+        public let contentModifiedTimestamp: Date?
         /// The content type of the document.
         public let contentType: String?
         /// The timestamp when the document was first uploaded.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The ID of the creator.
         public let creatorId: String?
         /// The ID of the version.
         public let id: String?
         /// The timestamp when the document was last uploaded.
-        public let modifiedTimestamp: TimeStamp?
+        public let modifiedTimestamp: Date?
         /// The name of the version.
         public let name: String?
         /// The signature of the document.
@@ -1815,7 +1815,7 @@ extension WorkDocs {
         /// The thumbnail of the document.
         public let thumbnail: [DocumentThumbnailType: String]?
 
-        public init(contentCreatedTimestamp: TimeStamp? = nil, contentModifiedTimestamp: TimeStamp? = nil, contentType: String? = nil, createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, id: String? = nil, modifiedTimestamp: TimeStamp? = nil, name: String? = nil, signature: String? = nil, size: Int64? = nil, source: [DocumentSourceType: String]? = nil, status: DocumentStatusType? = nil, thumbnail: [DocumentThumbnailType: String]? = nil) {
+        public init(contentCreatedTimestamp: Date? = nil, contentModifiedTimestamp: Date? = nil, contentType: String? = nil, createdTimestamp: Date? = nil, creatorId: String? = nil, id: String? = nil, modifiedTimestamp: Date? = nil, name: String? = nil, signature: String? = nil, size: Int64? = nil, source: [DocumentSourceType: String]? = nil, status: DocumentStatusType? = nil, thumbnail: [DocumentThumbnailType: String]? = nil) {
             self.contentCreatedTimestamp = contentCreatedTimestamp
             self.contentModifiedTimestamp = contentModifiedTimestamp
             self.contentType = contentType
@@ -1850,7 +1850,7 @@ extension WorkDocs {
 
     public struct FolderMetadata: AWSDecodableShape {
         /// The time when the folder was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The ID of the creator.
         public let creatorId: String?
         /// The ID of the folder.
@@ -1860,7 +1860,7 @@ extension WorkDocs {
         /// The size of the latest version of the folder metadata.
         public let latestVersionSize: Int64?
         /// The time when the folder was updated.
-        public let modifiedTimestamp: TimeStamp?
+        public let modifiedTimestamp: Date?
         /// The name of the folder.
         public let name: String?
         /// The ID of the parent folder.
@@ -1872,7 +1872,7 @@ extension WorkDocs {
         /// The size of the folder metadata.
         public let size: Int64?
 
-        public init(createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, id: String? = nil, labels: [String]? = nil, latestVersionSize: Int64? = nil, modifiedTimestamp: TimeStamp? = nil, name: String? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil, signature: String? = nil, size: Int64? = nil) {
+        public init(createdTimestamp: Date? = nil, creatorId: String? = nil, id: String? = nil, labels: [String]? = nil, latestVersionSize: Int64? = nil, modifiedTimestamp: Date? = nil, name: String? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil, signature: String? = nil, size: Int64? = nil) {
             self.createdTimestamp = createdTimestamp
             self.creatorId = creatorId
             self.id = id
@@ -2299,9 +2299,9 @@ extension WorkDocs {
         /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The timestamp when the content of the document was originally created.
-        public let contentCreatedTimestamp: TimeStamp?
+        public let contentCreatedTimestamp: Date?
         /// The timestamp when the content of the document was modified.
-        public let contentModifiedTimestamp: TimeStamp?
+        public let contentModifiedTimestamp: Date?
         /// The content type of the document.
         public let contentType: String?
         /// The size of the document, in bytes.
@@ -2313,7 +2313,7 @@ extension WorkDocs {
         /// The ID of the parent folder.
         public let parentFolderId: String
 
-        public init(authenticationToken: String? = nil, contentCreatedTimestamp: TimeStamp? = nil, contentModifiedTimestamp: TimeStamp? = nil, contentType: String? = nil, documentSizeInBytes: Int64? = nil, id: String? = nil, name: String? = nil, parentFolderId: String) {
+        public init(authenticationToken: String? = nil, contentCreatedTimestamp: Date? = nil, contentModifiedTimestamp: Date? = nil, contentType: String? = nil, documentSizeInBytes: Int64? = nil, id: String? = nil, name: String? = nil, parentFolderId: String) {
             self.authenticationToken = authenticationToken
             self.contentCreatedTimestamp = contentCreatedTimestamp
             self.contentModifiedTimestamp = contentModifiedTimestamp
@@ -2905,7 +2905,7 @@ extension WorkDocs {
 
     public struct User: AWSDecodableShape {
         /// The time when the user was created.
-        public let createdTimestamp: TimeStamp?
+        public let createdTimestamp: Date?
         /// The email address of the user.
         public let emailAddress: String?
         /// The given name of the user.
@@ -2915,7 +2915,7 @@ extension WorkDocs {
         /// The locale of the user.
         public let locale: LocaleType?
         /// The time when the user was modified.
-        public let modifiedTimestamp: TimeStamp?
+        public let modifiedTimestamp: Date?
         /// The ID of the organization.
         public let organizationId: String?
         /// The ID of the recycle bin folder.
@@ -2935,7 +2935,7 @@ extension WorkDocs {
         /// The login name of the user.
         public let username: String?
 
-        public init(createdTimestamp: TimeStamp? = nil, emailAddress: String? = nil, givenName: String? = nil, id: String? = nil, locale: LocaleType? = nil, modifiedTimestamp: TimeStamp? = nil, organizationId: String? = nil, recycleBinFolderId: String? = nil, rootFolderId: String? = nil, status: UserStatusType? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, timeZoneId: String? = nil, type: UserType? = nil, username: String? = nil) {
+        public init(createdTimestamp: Date? = nil, emailAddress: String? = nil, givenName: String? = nil, id: String? = nil, locale: LocaleType? = nil, modifiedTimestamp: Date? = nil, organizationId: String? = nil, recycleBinFolderId: String? = nil, rootFolderId: String? = nil, status: UserStatusType? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, timeZoneId: String? = nil, type: UserType? = nil, username: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.emailAddress = emailAddress
             self.givenName = givenName

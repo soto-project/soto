@@ -3683,7 +3683,7 @@ extension ServiceCatalog {
         /// The ARN assigned to the portfolio.
         public let arn: String?
         /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description of the portfolio.
         public let description: String?
         /// The name to use for display purposes.
@@ -3693,7 +3693,7 @@ extension ServiceCatalog {
         /// The name of the portfolio provider.
         public let providerName: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, id: String? = nil, providerName: String? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, id: String? = nil, providerName: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -3748,7 +3748,7 @@ extension ServiceCatalog {
 
     public struct ProductViewDetail: AWSDecodableShape {
         /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The ARN of the product.
         public let productARN: String?
         /// Summary information about the product view.
@@ -3756,7 +3756,7 @@ extension ServiceCatalog {
         /// The status of the product.    AVAILABLE - The product is ready for use.    CREATING - Product creation has started; the product is not ready for use.    FAILED - An action failed.
         public let status: Status?
 
-        public init(createdTime: TimeStamp? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, status: Status? = nil) {
+        public init(createdTime: Date? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, status: Status? = nil) {
             self.createdTime = createdTime
             self.productARN = productARN
             self.productViewSummary = productViewSummary
@@ -3939,7 +3939,7 @@ extension ServiceCatalog {
         /// The ARN of the provisioned product.
         public let arn: String?
         /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The identifier of the provisioned product.
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
@@ -3975,7 +3975,7 @@ extension ServiceCatalog {
         /// The ARN of the IAM user in the session. This ARN might contain a session ID.
         public let userArnSession: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, physicalId: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, type: String? = nil, userArn: String? = nil, userArnSession: String? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, physicalId: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, type: String? = nil, userArn: String? = nil, userArnSession: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -4024,7 +4024,7 @@ extension ServiceCatalog {
         /// The ARN of the provisioned product.
         public let arn: String?
         /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The identifier of the provisioned product.
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
@@ -4048,7 +4048,7 @@ extension ServiceCatalog {
         /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
         public let `type`: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -4083,7 +4083,7 @@ extension ServiceCatalog {
 
     public struct ProvisionedProductPlanDetails: AWSDecodableShape {
         /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
         public let notificationArns: [String]?
         /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
@@ -4111,9 +4111,9 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
         /// The time when the plan was last updated.
-        public let updatedTime: TimeStamp?
+        public let updatedTime: Date?
 
-        public init(createdTime: TimeStamp? = nil, notificationArns: [String]? = nil, pathId: String? = nil, planId: String? = nil, planName: String? = nil, planType: ProvisionedProductPlanType? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisionProductId: String? = nil, provisionProductName: String? = nil, status: ProvisionedProductPlanStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, updatedTime: TimeStamp? = nil) {
+        public init(createdTime: Date? = nil, notificationArns: [String]? = nil, pathId: String? = nil, planId: String? = nil, planName: String? = nil, planType: ProvisionedProductPlanType? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisionProductId: String? = nil, provisionProductName: String? = nil, status: ProvisionedProductPlanStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, updatedTime: Date? = nil) {
             self.createdTime = createdTime
             self.notificationArns = notificationArns
             self.pathId = pathId
@@ -4185,7 +4185,7 @@ extension ServiceCatalog {
 
     public struct ProvisioningArtifact: AWSDecodableShape {
         /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description of the provisioning artifact.
         public let description: String?
         /// Information set by the administrator to provide guidance to end users about which provisioning artifacts to use.
@@ -4195,7 +4195,7 @@ extension ServiceCatalog {
         /// The name of the provisioning artifact.
         public let name: String?
 
-        public init(createdTime: TimeStamp? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil) {
+        public init(createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil) {
             self.createdTime = createdTime
             self.description = description
             self.guidance = guidance
@@ -4216,7 +4216,7 @@ extension ServiceCatalog {
         /// Indicates whether the product version is active.
         public let active: Bool?
         /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description of the provisioning artifact.
         public let description: String?
         /// Information set by the administrator to provide guidance to end users about which provisioning artifacts to use.
@@ -4228,7 +4228,7 @@ extension ServiceCatalog {
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources
         public let `type`: ProvisioningArtifactType?
 
-        public init(active: Bool? = nil, createdTime: TimeStamp? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
+        public init(active: Bool? = nil, createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.active = active
             self.createdTime = createdTime
             self.description = description
@@ -4352,7 +4352,7 @@ extension ServiceCatalog {
 
     public struct ProvisioningArtifactSummary: AWSDecodableShape {
         /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description of the provisioning artifact.
         public let description: String?
         /// The identifier of the provisioning artifact.
@@ -4362,7 +4362,7 @@ extension ServiceCatalog {
         /// The metadata for the provisioning artifact. This is used with AWS Marketplace products.
         public let provisioningArtifactMetadata: [String: String]?
 
-        public init(createdTime: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, provisioningArtifactMetadata: [String: String]? = nil) {
+        public init(createdTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, provisioningArtifactMetadata: [String: String]? = nil) {
             self.createdTime = createdTime
             self.description = description
             self.id = id
@@ -4466,7 +4466,7 @@ extension ServiceCatalog {
 
     public struct RecordDetail: AWSDecodableShape {
         /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The path identifier.
         public let pathId: String?
         /// The product identifier.
@@ -4490,9 +4490,9 @@ extension ServiceCatalog {
         /// The status of the provisioned product.    CREATED - The request was created but the operation has not started.    IN_PROGRESS - The requested operation is in progress.    IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.    SUCCEEDED - The requested operation has successfully completed.    FAILED - The requested operation has unsuccessfully completed. Investigate using the error messages returned.
         public let status: RecordStatus?
         /// The time when the record was last updated.
-        public let updatedTime: TimeStamp?
+        public let updatedTime: Date?
 
-        public init(createdTime: TimeStamp? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisionedProductType: String? = nil, provisioningArtifactId: String? = nil, recordErrors: [RecordError]? = nil, recordId: String? = nil, recordTags: [RecordTag]? = nil, recordType: String? = nil, status: RecordStatus? = nil, updatedTime: TimeStamp? = nil) {
+        public init(createdTime: Date? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisionedProductType: String? = nil, provisioningArtifactId: String? = nil, recordErrors: [RecordError]? = nil, recordId: String? = nil, recordTags: [RecordTag]? = nil, recordType: String? = nil, status: RecordStatus? = nil, updatedTime: Date? = nil) {
             self.createdTime = createdTime
             self.pathId = pathId
             self.productId = productId
@@ -4674,7 +4674,7 @@ extension ServiceCatalog {
         /// The ARN of the resource.
         public let arn: String?
         /// The creation time of the resource.
-        public let createdTime: TimeStamp?
+        public let createdTime: Date?
         /// The description of the resource.
         public let description: String?
         /// The identifier of the resource.
@@ -4682,7 +4682,7 @@ extension ServiceCatalog {
         /// The name of the resource.
         public let name: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description

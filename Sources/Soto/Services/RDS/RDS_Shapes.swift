@@ -357,7 +357,7 @@ extension RDS {
 
     public struct BacktrackDBClusterMessage: AWSEncodableShape {
         /// The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page.   If the specified time isn't a consistent time for the DB cluster, Aurora automatically chooses the nearest possible consistent time for the DB cluster.  Constraints:   Must contain a valid ISO 8601 timestamp.   Can't contain a timestamp set in the future.   Example: 2017-07-08T18:00Z
-        public let backtrackTo: TimeStamp
+        public let backtrackTo: Date
         /// The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
         public let dBClusterIdentifier: String
         /// A value that indicates whether to force the DB cluster to backtrack when binary logging is enabled. Otherwise, an error occurs when binary logging is enabled.
@@ -365,7 +365,7 @@ extension RDS {
         /// A value that indicates whether to backtrack the DB cluster to the earliest possible backtrack time when BacktrackTo is set to a timestamp earlier than the earliest backtrack time. When this parameter is disabled and BacktrackTo is set to a timestamp earlier than the earliest backtrack time, an error occurs.
         public let useEarliestTimeOnPointInTimeUnavailable: Bool?
 
-        public init(backtrackTo: TimeStamp, dBClusterIdentifier: String, force: Bool? = nil, useEarliestTimeOnPointInTimeUnavailable: Bool? = nil) {
+        public init(backtrackTo: Date, dBClusterIdentifier: String, force: Bool? = nil, useEarliestTimeOnPointInTimeUnavailable: Bool? = nil) {
             self.backtrackTo = backtrackTo
             self.dBClusterIdentifier = dBClusterIdentifier
             self.force = force
@@ -403,15 +403,15 @@ extension RDS {
         /// Whether there is an override for the default certificate identifier.
         public let customerOverride: Bool?
         /// If there is an override for the default certificate identifier, when the override expires.
-        public let customerOverrideValidTill: TimeStamp?
+        public let customerOverrideValidTill: Date?
         /// The thumbprint of the certificate.
         public let thumbprint: String?
         /// The starting date from which the certificate is valid.
-        public let validFrom: TimeStamp?
+        public let validFrom: Date?
         /// The final date that the certificate continues to be valid.
-        public let validTill: TimeStamp?
+        public let validTill: Date?
 
-        public init(certificateArn: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil, customerOverride: Bool? = nil, customerOverrideValidTill: TimeStamp? = nil, thumbprint: String? = nil, validFrom: TimeStamp? = nil, validTill: TimeStamp? = nil) {
+        public init(certificateArn: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil, customerOverride: Bool? = nil, customerOverrideValidTill: Date? = nil, thumbprint: String? = nil, validFrom: Date? = nil, validTill: Date? = nil) {
             self.certificateArn = certificateArn
             self.certificateIdentifier = certificateIdentifier
             self.certificateType = certificateType
@@ -1896,7 +1896,7 @@ extension RDS {
         /// Identifies the clone group to which the DB cluster is associated.
         public let cloneGroupId: String?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        public let clusterCreateTime: TimeStamp?
+        public let clusterCreateTime: Date?
         /// Specifies whether tags are copied from the DB cluster to snapshots of the DB cluster.
         public let copyTagsToSnapshot: Bool?
         /// Specifies whether the DB cluster is a clone of a DB cluster owned by a different AWS account.
@@ -1928,9 +1928,9 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_DomainMembershipsEncoding, DomainMembership>>
         public var domainMemberships: [DomainMembership]?
         /// The earliest time to which a DB cluster can be backtracked.
-        public let earliestBacktrackTime: TimeStamp?
+        public let earliestBacktrackTime: Date?
         /// The earliest time to which a database can be restored with point-in-time restore.
-        public let earliestRestorableTime: TimeStamp?
+        public let earliestRestorableTime: Date?
         /// A list of log types that this DB cluster is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see Amazon RDS Database Log Files in the Amazon Aurora User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enabledCloudwatchLogsExports: [String]?
@@ -1955,7 +1955,7 @@ extension RDS {
         /// If StorageEncrypted is enabled, the AWS KMS key identifier for the encrypted DB cluster.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        public let latestRestorableTime: TimeStamp?
+        public let latestRestorableTime: Date?
         /// Contains the master username for the DB cluster.
         public let masterUsername: String?
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
@@ -1984,7 +1984,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: TimeStamp? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
             self.activityStreamMode = activityStreamMode
@@ -2101,19 +2101,19 @@ extension RDS {
 
     public struct DBClusterBacktrack: AWSDecodableShape {
         /// The timestamp of the time from which the DB cluster was backtracked.
-        public let backtrackedFrom: TimeStamp?
+        public let backtrackedFrom: Date?
         /// Contains the backtrack identifier.
         public let backtrackIdentifier: String?
         /// The timestamp of the time at which the backtrack was requested.
-        public let backtrackRequestCreationTime: TimeStamp?
+        public let backtrackRequestCreationTime: Date?
         /// The timestamp of the time to which the DB cluster was backtracked.
-        public let backtrackTo: TimeStamp?
+        public let backtrackTo: Date?
         /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
         public let dBClusterIdentifier: String?
         /// The status of the backtrack. This property returns one of the following values:    applying - The backtrack is currently being applied to or rolled back from the DB cluster.    completed - The backtrack has successfully been applied to or rolled back from the DB cluster.    failed - An error occurred while the backtrack was applied to or rolled back from the DB cluster.    pending - The backtrack is currently pending application to or rollback from the DB cluster.
         public let status: String?
 
-        public init(backtrackedFrom: TimeStamp? = nil, backtrackIdentifier: String? = nil, backtrackRequestCreationTime: TimeStamp? = nil, backtrackTo: TimeStamp? = nil, dBClusterIdentifier: String? = nil, status: String? = nil) {
+        public init(backtrackedFrom: Date? = nil, backtrackIdentifier: String? = nil, backtrackRequestCreationTime: Date? = nil, backtrackTo: Date? = nil, dBClusterIdentifier: String? = nil, status: String? = nil) {
             self.backtrackedFrom = backtrackedFrom
             self.backtrackIdentifier = backtrackIdentifier
             self.backtrackRequestCreationTime = backtrackRequestCreationTime
@@ -2422,7 +2422,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        public let clusterCreateTime: TimeStamp?
+        public let clusterCreateTime: Date?
         /// Specifies the DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
         public let dBClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) for the DB cluster snapshot.
@@ -2446,7 +2446,7 @@ extension RDS {
         /// Specifies the port that the DB cluster was listening on at the time of the snapshot.
         public let port: Int?
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        public let snapshotCreateTime: TimeStamp?
+        public let snapshotCreateTime: Date?
         /// Provides the type of the DB cluster snapshot.
         public let snapshotType: String?
         /// If the DB cluster snapshot was copied from a source DB cluster snapshot, the Amazon Resource Name (ARN) for the source DB cluster snapshot, otherwise, a null value.
@@ -2458,7 +2458,7 @@ extension RDS {
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: Date? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
@@ -2744,13 +2744,13 @@ extension RDS {
         /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false. IAM database authentication can be enabled for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher. To enable IAM database authentication for Aurora, see DBCluster Type.
         public let iAMDatabaseAuthenticationEnabled: Bool?
         /// Provides the date and time the DB instance was created.
-        public let instanceCreateTime: TimeStamp?
+        public let instanceCreateTime: Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
         public let iops: Int?
         ///  If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB instance.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        public let latestRestorableTime: TimeStamp?
+        public let latestRestorableTime: Date?
         /// License model information for this DB instance.
         public let licenseModel: String?
         /// Specifies the listener connection endpoint for SQL Server Always On.
@@ -2814,7 +2814,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2959,7 +2959,7 @@ extension RDS {
         /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
         /// Provides the date and time that the DB instance was created.
-        public let instanceCreateTime: TimeStamp?
+        public let instanceCreateTime: Date?
         /// The IOPS (I/O operations per second) value for the automated backup.
         public let iops: Int?
         /// The AWS KMS key ID for an automated backup. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
@@ -2987,7 +2987,7 @@ extension RDS {
         /// Provides the VPC ID associated with the DB instance
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dBInstanceArn: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, port: Int? = nil, region: String? = nil, restoreWindow: RestoreWindow? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dBInstanceArn: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, port: Int? = nil, region: String? = nil, restoreWindow: RestoreWindow? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.dBInstanceArn = dBInstanceArn
@@ -3226,7 +3226,7 @@ extension RDS {
         @OptionalCustomCoding<StandardArrayCoder>
         public var auth: [UserAuthConfigInfo]?
         /// The date and time when the proxy was first created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The Amazon Resource Name (ARN) for the proxy.
         public let dBProxyArn: String?
         /// The identifier for the proxy. This name must be unique for all proxies owned by your AWS account in the specified AWS Region.
@@ -3246,7 +3246,7 @@ extension RDS {
         /// The current status of this proxy. A status of available means the proxy is ready to handle requests. Other values indicate that you must wait for the proxy to be ready, or take some action to resolve an issue.
         public let status: DBProxyStatus?
         /// The date and time when the proxy was last updated.
-        public let updatedDate: TimeStamp?
+        public let updatedDate: Date?
         /// Provides a list of VPC security groups that the proxy belongs to.
         @OptionalCustomCoding<StandardArrayCoder>
         public var vpcSecurityGroupIds: [String]?
@@ -3254,7 +3254,7 @@ extension RDS {
         @OptionalCustomCoding<StandardArrayCoder>
         public var vpcSubnetIds: [String]?
 
-        public init(auth: [UserAuthConfigInfo]? = nil, createdDate: TimeStamp? = nil, dBProxyArn: String? = nil, dBProxyName: String? = nil, debugLogging: Bool? = nil, endpoint: String? = nil, engineFamily: String? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, status: DBProxyStatus? = nil, updatedDate: TimeStamp? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(auth: [UserAuthConfigInfo]? = nil, createdDate: Date? = nil, dBProxyArn: String? = nil, dBProxyName: String? = nil, debugLogging: Bool? = nil, endpoint: String? = nil, engineFamily: String? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, status: DBProxyStatus? = nil, updatedDate: Date? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.auth = auth
             self.createdDate = createdDate
             self.dBProxyArn = dBProxyArn
@@ -3330,7 +3330,7 @@ extension RDS {
         /// The settings that determine the size and behavior of the connection pool for the target group.
         public let connectionPoolConfig: ConnectionPoolConfigurationInfo?
         /// The date and time when the target group was first created.
-        public let createdDate: TimeStamp?
+        public let createdDate: Date?
         /// The identifier for the RDS proxy associated with this target group.
         public let dBProxyName: String?
         /// Whether this target group is the first one used for connection requests by the associated proxy. Because each proxy is currently associated with a single target group, currently this setting is always true.
@@ -3342,9 +3342,9 @@ extension RDS {
         /// The identifier for the target group. This name must be unique for all target groups owned by your AWS account in the specified AWS Region.
         public let targetGroupName: String?
         /// The date and time when the target group was last updated.
-        public let updatedDate: TimeStamp?
+        public let updatedDate: Date?
 
-        public init(connectionPoolConfig: ConnectionPoolConfigurationInfo? = nil, createdDate: TimeStamp? = nil, dBProxyName: String? = nil, isDefault: Bool? = nil, status: String? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, updatedDate: TimeStamp? = nil) {
+        public init(connectionPoolConfig: ConnectionPoolConfigurationInfo? = nil, createdDate: Date? = nil, dBProxyName: String? = nil, isDefault: Bool? = nil, status: String? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, updatedDate: Date? = nil) {
             self.connectionPoolConfig = connectionPoolConfig
             self.createdDate = createdDate
             self.dBProxyName = dBProxyName
@@ -3470,7 +3470,7 @@ extension RDS {
         /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
         /// Specifies the time in Coordinated Universal Time (UTC) when the DB instance, from which the snapshot was taken, was created.
-        public let instanceCreateTime: TimeStamp?
+        public let instanceCreateTime: Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value of the DB instance at the time of the snapshot.
         public let iops: Int?
         ///  If Encrypted is true, the AWS KMS key identifier for the encrypted DB snapshot.
@@ -3489,7 +3489,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_ProcessorFeaturesEncoding, ProcessorFeature>>
         public var processorFeatures: [ProcessorFeature]?
         /// Specifies when the snapshot was taken in Coodinated Universal Time (UTC).
-        public let snapshotCreateTime: TimeStamp?
+        public let snapshotCreateTime: Date?
         /// Provides the type of the DB snapshot.
         public let snapshotType: String?
         /// The DB snapshot Amazon Resource Name (ARN) that the DB snapshot was copied from. It only has value in case of cross-customer or cross-region copy.
@@ -3507,7 +3507,7 @@ extension RDS {
         /// Provides the VPC ID associated with the DB snapshot.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dBSnapshotArn: String? = nil, dBSnapshotIdentifier: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, percentProgress: Int? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dBSnapshotArn: String? = nil, dBSnapshotIdentifier: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, percentProgress: Int? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.dBInstanceIdentifier = dBInstanceIdentifier
@@ -5017,7 +5017,7 @@ extension RDS {
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int?
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        public let endTime: TimeStamp?
+        public let endTime: Date?
         /// A list of event categories that trigger notifications for a event notification subscription.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
@@ -5033,9 +5033,9 @@ extension RDS {
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        public let startTime: TimeStamp?
+        public let startTime: Date?
 
-        public init(duration: Int? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: Date? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: Date? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.eventCategories = eventCategories
@@ -5616,7 +5616,7 @@ extension RDS {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
 
         /// Specifies the date and time of the event.
-        public let date: TimeStamp?
+        public let date: Date?
         /// Specifies the category for the event.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
@@ -5629,7 +5629,7 @@ extension RDS {
         /// Specifies the source type for this event.
         public let sourceType: SourceType?
 
-        public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceArn: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
+        public init(date: Date? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceArn: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
             self.message = message
@@ -5797,21 +5797,21 @@ extension RDS {
         /// The Amazon S3 bucket prefix that is the file name and path of the exported snapshot.
         public let s3Prefix: String?
         /// The time that the snapshot was created.
-        public let snapshotTime: TimeStamp?
+        public let snapshotTime: Date?
         /// The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
         public let sourceArn: String?
         /// The progress status of the export task.
         public let status: String?
         /// The time that the snapshot export task completed.
-        public let taskEndTime: TimeStamp?
+        public let taskEndTime: Date?
         /// The time that the snapshot export task started.
-        public let taskStartTime: TimeStamp?
+        public let taskStartTime: Date?
         /// The total amount of data exported, in gigabytes.
         public let totalExtractedDataInGB: Int?
         /// A warning about the snapshot export task.
         public let warningMessage: String?
 
-        public init(exportOnly: [String]? = nil, exportTaskIdentifier: String? = nil, failureCause: String? = nil, iamRoleArn: String? = nil, kmsKeyId: String? = nil, percentProgress: Int? = nil, s3Bucket: String? = nil, s3Prefix: String? = nil, snapshotTime: TimeStamp? = nil, sourceArn: String? = nil, status: String? = nil, taskEndTime: TimeStamp? = nil, taskStartTime: TimeStamp? = nil, totalExtractedDataInGB: Int? = nil, warningMessage: String? = nil) {
+        public init(exportOnly: [String]? = nil, exportTaskIdentifier: String? = nil, failureCause: String? = nil, iamRoleArn: String? = nil, kmsKeyId: String? = nil, percentProgress: Int? = nil, s3Bucket: String? = nil, s3Prefix: String? = nil, snapshotTime: Date? = nil, sourceArn: String? = nil, status: String? = nil, taskEndTime: Date? = nil, taskStartTime: Date? = nil, totalExtractedDataInGB: Int? = nil, warningMessage: String? = nil) {
             self.exportOnly = exportOnly
             self.exportTaskIdentifier = exportTaskIdentifier
             self.failureCause = failureCause
@@ -7591,17 +7591,17 @@ extension RDS {
         /// The type of pending maintenance action that is available for the resource. Valid actions are system-update, db-upgrade, hardware-maintenance, and ca-certificate-rotation.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
-        public let autoAppliedAfterDate: TimeStamp?
+        public let autoAppliedAfterDate: Date?
         /// The effective date when the pending maintenance action is applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API, the AutoAppliedAfterDate, and the ForcedApplyDate. This value is blank if an opt-in request has not been received and nothing has been specified as AutoAppliedAfterDate or ForcedApplyDate.
-        public let currentApplyDate: TimeStamp?
+        public let currentApplyDate: Date?
         /// A description providing more detail about the maintenance action.
         public let description: String?
         /// The date when the maintenance action is automatically applied. The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource.
-        public let forcedApplyDate: TimeStamp?
+        public let forcedApplyDate: Date?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
 
-        public init(action: String? = nil, autoAppliedAfterDate: TimeStamp? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil, forcedApplyDate: TimeStamp? = nil, optInStatus: String? = nil) {
+        public init(action: String? = nil, autoAppliedAfterDate: Date? = nil, currentApplyDate: Date? = nil, description: String? = nil, forcedApplyDate: Date? = nil, optInStatus: String? = nil) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
             self.currentApplyDate = currentApplyDate
@@ -8082,13 +8082,13 @@ extension RDS {
         /// The offering identifier.
         public let reservedDBInstancesOfferingId: String?
         /// The time the reservation started.
-        public let startTime: TimeStamp?
+        public let startTime: Date?
         /// The state of the reserved DB instance.
         public let state: String?
         /// The hourly price charged for this reserved DB instance.
         public let usagePrice: Double?
 
-        public init(currencyCode: String? = nil, dBInstanceClass: String? = nil, dBInstanceCount: Int? = nil, duration: Int? = nil, fixedPrice: Double? = nil, leaseId: String? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedDBInstanceArn: String? = nil, reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
+        public init(currencyCode: String? = nil, dBInstanceClass: String? = nil, dBInstanceCount: Int? = nil, duration: Int? = nil, fixedPrice: Double? = nil, leaseId: String? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedDBInstanceArn: String? = nil, reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String? = nil, startTime: Date? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.dBInstanceClass = dBInstanceClass
             self.dBInstanceCount = dBInstanceCount
@@ -8588,7 +8588,7 @@ extension RDS {
         /// The port number on which the new DB cluster accepts connections. Constraints: A value from 1150-65535.  Default: The default port for the engine.
         public let port: Int?
         /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Must be specified if UseLatestRestorableTime parameter isn't provided   Can't be specified if the UseLatestRestorableTime parameter is enabled   Can't be specified if the RestoreType parameter is copy-on-write    Example: 2015-03-07T23:45:00Z
-        public let restoreToTime: TimeStamp?
+        public let restoreToTime: Date?
         /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
         public let restoreType: String?
         /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.
@@ -8601,7 +8601,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: TimeStamp? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.backtrackWindow = backtrackWindow
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -9049,7 +9049,7 @@ extension RDS {
         /// A value that indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its DNS endpoint resolves to the private IP address from within the DB instance's VPC, and to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses, and that public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance.
         public let publiclyAccessible: Bool?
         /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Can't be specified if the UseLatestRestorableTime parameter is enabled   Example: 2009-09-07T23:45:00Z
-        public let restoreTime: TimeStamp?
+        public let restoreTime: Date?
         /// The identifier of the source DB instance from which to restore. Constraints:   Must match the identifier of an existing DB instance.
         public let sourceDBInstanceIdentifier: String?
         /// The resource ID of the source DB instance from which to restore.
@@ -9072,7 +9072,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: TimeStamp? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -9155,11 +9155,11 @@ extension RDS {
 
     public struct RestoreWindow: AWSDecodableShape {
         /// The earliest time you can restore an instance to.
-        public let earliestTime: TimeStamp?
+        public let earliestTime: Date?
         /// The latest time you can restore an instance to.
-        public let latestTime: TimeStamp?
+        public let latestTime: Date?
 
-        public init(earliestTime: TimeStamp? = nil, latestTime: TimeStamp? = nil) {
+        public init(earliestTime: Date? = nil, latestTime: Date? = nil) {
             self.earliestTime = earliestTime
             self.latestTime = latestTime
         }

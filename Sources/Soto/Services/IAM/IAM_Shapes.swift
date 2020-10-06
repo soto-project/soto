@@ -197,7 +197,7 @@ extension IAM {
         /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. AWS does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root users) in the reported Organizations entity attempted to access the service within the reporting period.
         public let entityPath: String?
         /// The date and time, in ISO 8601 date-time format, when an authenticated principal most recently attempted to access the service. AWS does not report unauthenticated requests. This field is null if no principals in the reported Organizations entity attempted to access the service within the reporting period.
-        public let lastAuthenticatedTime: TimeStamp?
+        public let lastAuthenticatedTime: Date?
         /// The Region where the last service access attempt occurred. This field is null if no principals in the reported Organizations entity attempted to access the service within the reporting period.
         public let region: String?
         /// The name of the service in which access was attempted.
@@ -207,7 +207,7 @@ extension IAM {
         /// The number of accounts with authenticated principals (root users, IAM users, and IAM roles) that attempted to access the service in the reporting period.
         public let totalAuthenticatedEntities: Int?
 
-        public init(entityPath: String? = nil, lastAuthenticatedTime: TimeStamp? = nil, region: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil) {
+        public init(entityPath: String? = nil, lastAuthenticatedTime: Date? = nil, region: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil) {
             self.entityPath = entityPath
             self.lastAuthenticatedTime = lastAuthenticatedTime
             self.region = region
@@ -230,7 +230,7 @@ extension IAM {
         /// The ID for this access key.
         public let accessKeyId: String
         /// The date when the access key was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The secret key used to sign requests.
         public let secretAccessKey: String
         /// The status of the access key. Active means that the key is valid for API calls, while Inactive means it is not.
@@ -238,7 +238,7 @@ extension IAM {
         /// The name of the IAM user that the access key is associated with.
         public let userName: String
 
-        public init(accessKeyId: String, createDate: TimeStamp? = nil, secretAccessKey: String, status: StatusType, userName: String) {
+        public init(accessKeyId: String, createDate: Date? = nil, secretAccessKey: String, status: StatusType, userName: String) {
             self.accessKeyId = accessKeyId
             self.createDate = createDate
             self.secretAccessKey = secretAccessKey
@@ -257,13 +257,13 @@ extension IAM {
 
     public struct AccessKeyLastUsed: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user.
-        public let lastUsedDate: TimeStamp
+        public let lastUsedDate: Date
         /// The AWS Region where this access key was most recently used. The value for this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user.   For more information about AWS Regions, see Regions and Endpoints in the Amazon Web Services General Reference.
         public let region: String
         /// The name of the AWS service with which this access key was most recently used. The value of this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM started tracking this information.   There is no sign-in data associated with the user.
         public let serviceName: String
 
-        public init(lastUsedDate: TimeStamp, region: String, serviceName: String) {
+        public init(lastUsedDate: Date, region: String, serviceName: String) {
             self.lastUsedDate = lastUsedDate
             self.region = region
             self.serviceName = serviceName
@@ -280,13 +280,13 @@ extension IAM {
         /// The ID for this access key.
         public let accessKeyId: String?
         /// The date when the access key was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The status of the access key. Active means that the key is valid for API calls; Inactive means it is not.
         public let status: StatusType?
         /// The name of the IAM user that the key is associated with.
         public let userName: String?
 
-        public init(accessKeyId: String? = nil, createDate: TimeStamp? = nil, status: StatusType? = nil, userName: String? = nil) {
+        public init(accessKeyId: String? = nil, createDate: Date? = nil, status: StatusType? = nil, userName: String? = nil) {
             self.accessKeyId = accessKeyId
             self.createDate = createDate
             self.status = status
@@ -1780,9 +1780,9 @@ extension IAM {
         /// The EntityInfo object that contains details about the entity (user or role).
         public let entityInfo: EntityInfo
         /// The date and time, in ISO 8601 date-time format, when the authenticated entity last attempted to access AWS. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
-        public let lastAuthenticated: TimeStamp?
+        public let lastAuthenticated: Date?
 
-        public init(entityInfo: EntityInfo, lastAuthenticated: TimeStamp? = nil) {
+        public init(entityInfo: EntityInfo, lastAuthenticated: Date? = nil) {
             self.entityInfo = entityInfo
             self.lastAuthenticated = lastAuthenticated
         }
@@ -2174,11 +2174,11 @@ extension IAM {
         /// Contains the credential report. The report is Base64-encoded.
         public let content: Data?
         ///  The date and time when the credential report was created, in ISO 8601 date-time format.
-        public let generatedTime: TimeStamp?
+        public let generatedTime: Date?
         /// The format (MIME type) of the credential report.
         public let reportFormat: ReportFormatType?
 
-        public init(content: Data? = nil, generatedTime: TimeStamp? = nil, reportFormat: ReportFormatType? = nil) {
+        public init(content: Data? = nil, generatedTime: Date? = nil, reportFormat: ReportFormatType? = nil) {
             self.content = content
             self.generatedTime = generatedTime
             self.reportFormat = reportFormat
@@ -2383,14 +2383,14 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder>
         public var clientIDList: [String]?
         /// The date and time when the IAM OIDC provider resource object was created in the AWS account.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
         @OptionalCustomCoding<StandardArrayCoder>
         public var thumbprintList: [String]?
         /// The URL that the IAM OIDC provider resource object is associated with. For more information, see CreateOpenIDConnectProvider.
         public let url: String?
 
-        public init(clientIDList: [String]? = nil, createDate: TimeStamp? = nil, thumbprintList: [String]? = nil, url: String? = nil) {
+        public init(clientIDList: [String]? = nil, createDate: Date? = nil, thumbprintList: [String]? = nil, url: String? = nil) {
             self.clientIDList = clientIDList
             self.createDate = createDate
             self.thumbprintList = thumbprintList
@@ -2448,9 +2448,9 @@ extension IAM {
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
-        public let jobCompletionDate: TimeStamp?
+        public let jobCompletionDate: Date?
         /// The date and time, in ISO 8601 date-time format, when the report job was created.
-        public let jobCreationDate: TimeStamp
+        public let jobCreationDate: Date
         /// The status of the job.
         public let jobStatus: JobStatusType
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -2460,7 +2460,7 @@ extension IAM {
         /// The number of services that account principals are allowed but did not attempt to access.
         public let numberOfServicesNotAccessed: Int?
 
-        public init(accessDetails: [AccessDetail]? = nil, errorDetails: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: TimeStamp? = nil, jobCreationDate: TimeStamp, jobStatus: JobStatusType, marker: String? = nil, numberOfServicesAccessible: Int? = nil, numberOfServicesNotAccessed: Int? = nil) {
+        public init(accessDetails: [AccessDetail]? = nil, errorDetails: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: Date? = nil, jobCreationDate: Date, jobStatus: JobStatusType, marker: String? = nil, numberOfServicesAccessible: Int? = nil, numberOfServicesNotAccessed: Int? = nil) {
             self.accessDetails = accessDetails
             self.errorDetails = errorDetails
             self.isTruncated = isTruncated
@@ -2651,13 +2651,13 @@ extension IAM {
 
     public struct GetSAMLProviderResponse: AWSDecodableShape {
         /// The date and time when the SAML provider was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The XML metadata document that includes information about an identity provider.
         public let sAMLMetadataDocument: String?
         /// The expiration date and time for the SAML provider.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(createDate: TimeStamp? = nil, sAMLMetadataDocument: String? = nil, validUntil: TimeStamp? = nil) {
+        public init(createDate: Date? = nil, sAMLMetadataDocument: String? = nil, validUntil: Date? = nil) {
             self.createDate = createDate
             self.sAMLMetadataDocument = sAMLMetadataDocument
             self.validUntil = validUntil
@@ -2782,9 +2782,9 @@ extension IAM {
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
-        public let jobCompletionDate: TimeStamp
+        public let jobCompletionDate: Date
         /// The date and time, in ISO 8601 date-time format, when the report job was created.
-        public let jobCreationDate: TimeStamp
+        public let jobCreationDate: Date
         /// The status of the job.
         public let jobStatus: JobStatusType
         /// The type of job. Service jobs return information about when each service was last accessed. Action jobs also include information about when tracked actions within the service were last accessed.
@@ -2795,7 +2795,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder>
         public var servicesLastAccessed: [ServiceLastAccessed]
 
-        public init(error: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: TimeStamp, jobCreationDate: TimeStamp, jobStatus: JobStatusType, jobType: AccessAdvisorUsageGranularityType? = nil, marker: String? = nil, servicesLastAccessed: [ServiceLastAccessed]) {
+        public init(error: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: Date, jobCreationDate: Date, jobStatus: JobStatusType, jobType: AccessAdvisorUsageGranularityType? = nil, marker: String? = nil, servicesLastAccessed: [ServiceLastAccessed]) {
             self.error = error
             self.isTruncated = isTruncated
             self.jobCompletionDate = jobCompletionDate
@@ -2865,15 +2865,15 @@ extension IAM {
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
-        public let jobCompletionDate: TimeStamp
+        public let jobCompletionDate: Date
         /// The date and time, in ISO 8601 date-time format, when the report job was created.
-        public let jobCreationDate: TimeStamp
+        public let jobCreationDate: Date
         /// The status of the job.
         public let jobStatus: JobStatusType
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
 
-        public init(entityDetailsList: [EntityDetails], error: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: TimeStamp, jobCreationDate: TimeStamp, jobStatus: JobStatusType, marker: String? = nil) {
+        public init(entityDetailsList: [EntityDetails], error: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: Date, jobCreationDate: Date, jobStatus: JobStatusType, marker: String? = nil) {
             self.entityDetailsList = entityDetailsList
             self.error = error
             self.isTruncated = isTruncated
@@ -3012,7 +3012,7 @@ extension IAM {
         ///  The Amazon Resource Name (ARN) specifying the group. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide.
         public let arn: String
         /// The date and time, in ISO 8601 date-time format, when the group was created.
-        public let createDate: TimeStamp
+        public let createDate: Date
         ///  The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let groupId: String
         /// The friendly name that identifies the group.
@@ -3020,7 +3020,7 @@ extension IAM {
         /// The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String
 
-        public init(arn: String, createDate: TimeStamp, groupId: String, groupName: String, path: String) {
+        public init(arn: String, createDate: Date, groupId: String, groupName: String, path: String) {
             self.arn = arn
             self.createDate = createDate
             self.groupId = groupId
@@ -3043,7 +3043,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder>
         public var attachedManagedPolicies: [AttachedPolicy]?
         /// The date and time, in ISO 8601 date-time format, when the group was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let groupId: String?
         /// The friendly name that identifies the group.
@@ -3054,7 +3054,7 @@ extension IAM {
         /// The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
 
-        public init(arn: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: TimeStamp? = nil, groupId: String? = nil, groupName: String? = nil, groupPolicyList: [PolicyDetail]? = nil, path: String? = nil) {
+        public init(arn: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: Date? = nil, groupId: String? = nil, groupName: String? = nil, groupPolicyList: [PolicyDetail]? = nil, path: String? = nil) {
             self.arn = arn
             self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
@@ -3079,7 +3079,7 @@ extension IAM {
         ///  The Amazon Resource Name (ARN) specifying the instance profile. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide.
         public let arn: String
         /// The date when the instance profile was created.
-        public let createDate: TimeStamp
+        public let createDate: Date
         ///  The stable and unique string identifying the instance profile. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let instanceProfileId: String
         /// The name identifying the instance profile.
@@ -3090,7 +3090,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder>
         public var roles: [Role]
 
-        public init(arn: String, createDate: TimeStamp, instanceProfileId: String, instanceProfileName: String, path: String, roles: [Role]) {
+        public init(arn: String, createDate: Date, instanceProfileId: String, instanceProfileName: String, path: String, roles: [Role]) {
             self.arn = arn
             self.createDate = createDate
             self.instanceProfileId = instanceProfileId
@@ -4603,13 +4603,13 @@ extension IAM {
 
     public struct LoginProfile: AWSDecodableShape {
         /// The date when the password for the user was created.
-        public let createDate: TimeStamp
+        public let createDate: Date
         /// Specifies whether the user is required to set a new password on next sign-in.
         public let passwordResetRequired: Bool?
         /// The name of the user, which can be used for signing in to the AWS Management Console.
         public let userName: String
 
-        public init(createDate: TimeStamp, passwordResetRequired: Bool? = nil, userName: String) {
+        public init(createDate: Date, passwordResetRequired: Bool? = nil, userName: String) {
             self.createDate = createDate
             self.passwordResetRequired = passwordResetRequired
             self.userName = userName
@@ -4624,13 +4624,13 @@ extension IAM {
 
     public struct MFADevice: AWSDecodableShape {
         /// The date when the MFA device was enabled for the user.
-        public let enableDate: TimeStamp
+        public let enableDate: Date
         /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN.
         public let serialNumber: String
         /// The user with whom the MFA device is associated.
         public let userName: String
 
-        public init(enableDate: TimeStamp, serialNumber: String, userName: String) {
+        public init(enableDate: Date, serialNumber: String, userName: String) {
             self.enableDate = enableDate
             self.serialNumber = serialNumber
             self.userName = userName
@@ -4648,7 +4648,7 @@ extension IAM {
         /// The number of principal entities (users, groups, and roles) that the policy is attached to.
         public let attachmentCount: Int?
         /// The date and time, in ISO 8601 date-time format, when the policy was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The identifier for the version of the policy that is set as the default (operative) version. For more information about policy versions, see Versioning for Managed Policies in the IAM User Guide.
         public let defaultVersionId: String?
         /// A friendly description of the policy.
@@ -4667,9 +4667,9 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder>
         public var policyVersionList: [PolicyVersion]?
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
-        public let updateDate: TimeStamp?
+        public let updateDate: Date?
 
-        public init(arn: String? = nil, attachmentCount: Int? = nil, createDate: TimeStamp? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: TimeStamp? = nil) {
+        public init(arn: String? = nil, attachmentCount: Int? = nil, createDate: Date? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: Date? = nil) {
             self.arn = arn
             self.attachmentCount = attachmentCount
             self.createDate = createDate
@@ -4792,7 +4792,7 @@ extension IAM {
         /// The number of entities (users, groups, and roles) that the policy is attached to.
         public let attachmentCount: Int?
         /// The date and time, in ISO 8601 date-time format, when the policy was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The identifier for the version of the policy that is set as the default version.
         public let defaultVersionId: String?
         /// A friendly description of the policy. This element is included in the response to the GetPolicy operation. It is not included in the response to the ListPolicies operation.
@@ -4808,9 +4808,9 @@ extension IAM {
         /// The friendly name (not ARN) identifying the policy.
         public let policyName: String?
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
-        public let updateDate: TimeStamp?
+        public let updateDate: Date?
 
-        public init(arn: String? = nil, attachmentCount: Int? = nil, createDate: TimeStamp? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, updateDate: TimeStamp? = nil) {
+        public init(arn: String? = nil, attachmentCount: Int? = nil, createDate: Date? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, updateDate: Date? = nil) {
             self.arn = arn
             self.attachmentCount = attachmentCount
             self.createDate = createDate
@@ -4937,7 +4937,7 @@ extension IAM {
 
     public struct PolicyVersion: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the policy version was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The policy document. The policy document is returned in the response to the GetPolicyVersion and GetAccountAuthorizationDetails operations. It is not returned in the response to the CreatePolicyVersion or ListPolicyVersions operations.  The policy document returned in this structure is URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.
         public let document: String?
         /// Specifies whether the policy version is set as the policy's default version.
@@ -4945,7 +4945,7 @@ extension IAM {
         /// The identifier for the policy version. Policy version identifiers always begin with v (always lowercase). When a policy is created, the first policy version is v1.
         public let versionId: String?
 
-        public init(createDate: TimeStamp? = nil, document: String? = nil, isDefaultVersion: Bool? = nil, versionId: String? = nil) {
+        public init(createDate: Date? = nil, document: String? = nil, isDefaultVersion: Bool? = nil, versionId: String? = nil) {
             self.createDate = createDate
             self.document = document
             self.isDefaultVersion = isDefaultVersion
@@ -5323,7 +5323,7 @@ extension IAM {
         /// The policy that grants an entity permission to assume the role.
         public let assumeRolePolicyDocument: String?
         /// The date and time, in ISO 8601 date-time format, when the role was created.
-        public let createDate: TimeStamp
+        public let createDate: Date
         /// A description of the role that you provide.
         public let description: String?
         /// The maximum session duration (in seconds) for the specified role. Anyone who uses the AWS CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.
@@ -5342,7 +5342,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: TimeStamp, description: String? = nil, maxSessionDuration: Int? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleLastUsed: RoleLastUsed? = nil, roleName: String, tags: [Tag]? = nil) {
+        public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: Date, description: String? = nil, maxSessionDuration: Int? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleLastUsed: RoleLastUsed? = nil, roleName: String, tags: [Tag]? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.createDate = createDate
@@ -5379,7 +5379,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder>
         public var attachedManagedPolicies: [AttachedPolicy]?
         /// The date and time, in ISO 8601 date-time format, when the role was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// A list of instance profiles that contain this role.
         @OptionalCustomCoding<StandardArrayCoder>
         public var instanceProfileList: [InstanceProfile]?
@@ -5400,7 +5400,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(arn: String? = nil, assumeRolePolicyDocument: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: TimeStamp? = nil, instanceProfileList: [InstanceProfile]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String? = nil, roleLastUsed: RoleLastUsed? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, assumeRolePolicyDocument: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: Date? = nil, instanceProfileList: [InstanceProfile]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String? = nil, roleLastUsed: RoleLastUsed? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.attachedManagedPolicies = attachedManagedPolicies
@@ -5433,11 +5433,11 @@ extension IAM {
 
     public struct RoleLastUsed: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format that the role was last used. This field is null if the role has not been used within the IAM tracking period. For more information about the tracking period, see Regions Where Data Is Tracked in the IAM User Guide.
-        public let lastUsedDate: TimeStamp?
+        public let lastUsedDate: Date?
         /// The name of the AWS Region in which the role was last used.
         public let region: String?
 
-        public init(lastUsedDate: TimeStamp? = nil, region: String? = nil) {
+        public init(lastUsedDate: Date? = nil, region: String? = nil) {
             self.lastUsedDate = lastUsedDate
             self.region = region
         }
@@ -5470,11 +5470,11 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the SAML provider.
         public let arn: String?
         /// The date and time when the SAML provider was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// The expiration date and time for the SAML provider.
-        public let validUntil: TimeStamp?
+        public let validUntil: Date?
 
-        public init(arn: String? = nil, createDate: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
+        public init(arn: String? = nil, createDate: Date? = nil, validUntil: Date? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.validUntil = validUntil
@@ -5497,11 +5497,11 @@ extension IAM {
         /// The status of the SSH public key. Active means that the key can be used for authentication with an AWS CodeCommit repository. Inactive means that the key cannot be used.
         public let status: StatusType
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
-        public let uploadDate: TimeStamp?
+        public let uploadDate: Date?
         /// The name of the IAM user associated with the SSH public key.
         public let userName: String
 
-        public init(fingerprint: String, sSHPublicKeyBody: String, sSHPublicKeyId: String, status: StatusType, uploadDate: TimeStamp? = nil, userName: String) {
+        public init(fingerprint: String, sSHPublicKeyBody: String, sSHPublicKeyId: String, status: StatusType, uploadDate: Date? = nil, userName: String) {
             self.fingerprint = fingerprint
             self.sSHPublicKeyBody = sSHPublicKeyBody
             self.sSHPublicKeyId = sSHPublicKeyId
@@ -5526,11 +5526,11 @@ extension IAM {
         /// The status of the SSH public key. Active means that the key can be used for authentication with an AWS CodeCommit repository. Inactive means that the key cannot be used.
         public let status: StatusType
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
-        public let uploadDate: TimeStamp
+        public let uploadDate: Date
         /// The name of the IAM user associated with the SSH public key.
         public let userName: String
 
-        public init(sSHPublicKeyId: String, status: StatusType, uploadDate: TimeStamp, userName: String) {
+        public init(sSHPublicKeyId: String, status: StatusType, uploadDate: Date, userName: String) {
             self.sSHPublicKeyId = sSHPublicKeyId
             self.status = status
             self.uploadDate = uploadDate
@@ -5570,7 +5570,7 @@ extension IAM {
         ///  The Amazon Resource Name (ARN) specifying the server certificate. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide.
         public let arn: String
         /// The date on which the certificate is set to expire.
-        public let expiration: TimeStamp?
+        public let expiration: Date?
         ///  The path to the server certificate. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String
         ///  The stable and unique string identifying the server certificate. For more information about IDs, see IAM Identifiers in the IAM User Guide.
@@ -5578,9 +5578,9 @@ extension IAM {
         /// The name that identifies the server certificate.
         public let serverCertificateName: String
         /// The date when the server certificate was uploaded.
-        public let uploadDate: TimeStamp?
+        public let uploadDate: Date?
 
-        public init(arn: String, expiration: TimeStamp? = nil, path: String, serverCertificateId: String, serverCertificateName: String, uploadDate: TimeStamp? = nil) {
+        public init(arn: String, expiration: Date? = nil, path: String, serverCertificateId: String, serverCertificateName: String, uploadDate: Date? = nil) {
             self.arn = arn
             self.expiration = expiration
             self.path = path
@@ -5601,7 +5601,7 @@ extension IAM {
 
     public struct ServiceLastAccessed: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
-        public let lastAuthenticated: TimeStamp?
+        public let lastAuthenticated: Date?
         /// The ARN of the authenticated entity (user or role) that last attempted to access the service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
         public let lastAuthenticatedEntity: String?
         /// The Region from which the authenticated entity (user or role) last attempted to access the service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
@@ -5616,7 +5616,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder>
         public var trackedActionsLastAccessed: [TrackedActionLastAccessed]?
 
-        public init(lastAuthenticated: TimeStamp? = nil, lastAuthenticatedEntity: String? = nil, lastAuthenticatedRegion: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil, trackedActionsLastAccessed: [TrackedActionLastAccessed]? = nil) {
+        public init(lastAuthenticated: Date? = nil, lastAuthenticatedEntity: String? = nil, lastAuthenticatedRegion: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil, trackedActionsLastAccessed: [TrackedActionLastAccessed]? = nil) {
             self.lastAuthenticated = lastAuthenticated
             self.lastAuthenticatedEntity = lastAuthenticatedEntity
             self.lastAuthenticatedRegion = lastAuthenticatedRegion
@@ -5639,7 +5639,7 @@ extension IAM {
 
     public struct ServiceSpecificCredential: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
-        public let createDate: TimeStamp
+        public let createDate: Date
         /// The name of the service associated with the service-specific credential.
         public let serviceName: String
         /// The generated password for the service-specific credential.
@@ -5653,7 +5653,7 @@ extension IAM {
         /// The name of the IAM user associated with the service-specific credential.
         public let userName: String
 
-        public init(createDate: TimeStamp, serviceName: String, servicePassword: String, serviceSpecificCredentialId: String, serviceUserName: String, status: StatusType, userName: String) {
+        public init(createDate: Date, serviceName: String, servicePassword: String, serviceSpecificCredentialId: String, serviceUserName: String, status: StatusType, userName: String) {
             self.createDate = createDate
             self.serviceName = serviceName
             self.servicePassword = servicePassword
@@ -5676,7 +5676,7 @@ extension IAM {
 
     public struct ServiceSpecificCredentialMetadata: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
-        public let createDate: TimeStamp
+        public let createDate: Date
         /// The name of the service associated with the service-specific credential.
         public let serviceName: String
         /// The unique identifier for the service-specific credential.
@@ -5688,7 +5688,7 @@ extension IAM {
         /// The name of the IAM user associated with the service-specific credential.
         public let userName: String
 
-        public init(createDate: TimeStamp, serviceName: String, serviceSpecificCredentialId: String, serviceUserName: String, status: StatusType, userName: String) {
+        public init(createDate: Date, serviceName: String, serviceSpecificCredentialId: String, serviceUserName: String, status: StatusType, userName: String) {
             self.createDate = createDate
             self.serviceName = serviceName
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
@@ -5751,11 +5751,11 @@ extension IAM {
         /// The status of the signing certificate. Active means that the key is valid for API calls, while Inactive means it is not.
         public let status: StatusType
         /// The date when the signing certificate was uploaded.
-        public let uploadDate: TimeStamp?
+        public let uploadDate: Date?
         /// The name of the user the signing certificate is associated with.
         public let userName: String
 
-        public init(certificateBody: String, certificateId: String, status: StatusType, uploadDate: TimeStamp? = nil, userName: String) {
+        public init(certificateBody: String, certificateId: String, status: StatusType, uploadDate: Date? = nil, userName: String) {
             self.certificateBody = certificateBody
             self.certificateId = certificateId
             self.status = status
@@ -6106,9 +6106,9 @@ extension IAM {
         /// The Region from which the authenticated entity (user or role) last attempted to access the tracked action. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
         public let lastAccessedRegion: String?
         /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the tracked service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
-        public let lastAccessedTime: TimeStamp?
+        public let lastAccessedTime: Date?
 
-        public init(actionName: String? = nil, lastAccessedEntity: String? = nil, lastAccessedRegion: String? = nil, lastAccessedTime: TimeStamp? = nil) {
+        public init(actionName: String? = nil, lastAccessedEntity: String? = nil, lastAccessedRegion: String? = nil, lastAccessedTime: Date? = nil) {
             self.actionName = actionName
             self.lastAccessedEntity = lastAccessedEntity
             self.lastAccessedRegion = lastAccessedRegion
@@ -6791,9 +6791,9 @@ extension IAM {
         /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see IAM Identifiers in the IAM User Guide.
         public let arn: String
         /// The date and time, in ISO 8601 date-time format, when the user was created.
-        public let createDate: TimeStamp
+        public let createDate: Date
         /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential Reports topic in the IAM User Guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. If the field is null (no value), then it indicates that they never signed in with a password. This can be because:   The user never had a password.   A password exists but has not been used since IAM started tracking this information on October 20, 2014.   A null value does not mean that the user never had a password. Also, if the user does not currently have a password but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the GetUser and ListUsers operations.
-        public let passwordLastUsed: TimeStamp?
+        public let passwordLastUsed: Date?
         /// The path to the user. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String
         /// The ARN of the policy used to set the permissions boundary for the user. For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
@@ -6806,7 +6806,7 @@ extension IAM {
         /// The friendly name identifying the user.
         public let userName: String
 
-        public init(arn: String, createDate: TimeStamp, passwordLastUsed: TimeStamp? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, tags: [Tag]? = nil, userId: String, userName: String) {
+        public init(arn: String, createDate: Date, passwordLastUsed: Date? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, tags: [Tag]? = nil, userId: String, userName: String) {
             self.arn = arn
             self.createDate = createDate
             self.passwordLastUsed = passwordLastUsed
@@ -6835,7 +6835,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder>
         public var attachedManagedPolicies: [AttachedPolicy]?
         /// The date and time, in ISO 8601 date-time format, when the user was created.
-        public let createDate: TimeStamp?
+        public let createDate: Date?
         /// A list of IAM groups that the user is in.
         @OptionalCustomCoding<StandardArrayCoder>
         public var groupList: [String]?
@@ -6854,7 +6854,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userPolicyList: [PolicyDetail]?
 
-        public init(arn: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: TimeStamp? = nil, groupList: [String]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, tags: [Tag]? = nil, userId: String? = nil, userName: String? = nil, userPolicyList: [PolicyDetail]? = nil) {
+        public init(arn: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: Date? = nil, groupList: [String]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, tags: [Tag]? = nil, userId: String? = nil, userName: String? = nil, userPolicyList: [PolicyDetail]? = nil) {
             self.arn = arn
             self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
@@ -6885,7 +6885,7 @@ extension IAM {
         ///  The base32 seed defined as specified in RFC3548. The Base32StringSeed is base64-encoded.
         public let base32StringSeed: Data?
         /// The date and time on which the virtual MFA device was enabled.
-        public let enableDate: TimeStamp?
+        public let enableDate: Date?
         ///  A QR code PNG image that encodes otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String where $virtualMFADeviceName is one of the create call arguments. AccountName is the user name if set (otherwise, the account ID otherwise), and Base32String is the seed in base32 format. The Base32String value is base64-encoded.
         public let qRCodePNG: Data?
         /// The serial number associated with VirtualMFADevice.
@@ -6893,7 +6893,7 @@ extension IAM {
         /// The IAM user associated with this virtual MFA device.
         public let user: User?
 
-        public init(base32StringSeed: Data? = nil, enableDate: TimeStamp? = nil, qRCodePNG: Data? = nil, serialNumber: String, user: User? = nil) {
+        public init(base32StringSeed: Data? = nil, enableDate: Date? = nil, qRCodePNG: Data? = nil, serialNumber: String, user: User? = nil) {
             self.base32StringSeed = base32StringSeed
             self.enableDate = enableDate
             self.qRCodePNG = qRCodePNG
