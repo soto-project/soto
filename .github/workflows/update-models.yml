@@ -1,6 +1,7 @@
 name: Update AWS service files
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
