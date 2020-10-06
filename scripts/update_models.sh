@@ -66,6 +66,10 @@ build_files()
     cd "$CURRENT_FOLDER"
 
     swiftformat Sources/Soto/Services
+}
+
+compile_files()
+{
     echo "Compile service files"
     # build services after having generated the files
     swift build
@@ -107,6 +111,7 @@ while getopts 'cv:' option
 do
     case $option in
         v) AWS_MODELS_VERSION=$OPTARG ;;
+        c) COMPILE_FILES=1 ;;
         *) usage ;;
     esac
 done
@@ -129,5 +134,7 @@ TARGET_MODELS=models
 copy_model_files "$AWS_SDK_GO_MODELS" "$TARGET_MODELS"
 
 build_files
-
+if [ -n "$COMPILE_FILES" ]; then
+    compile_files
+fi
 commit_changes "$AWS_MODELS_VERSION"
