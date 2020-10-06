@@ -1,8 +1,9 @@
 name: Update AWS service files
 
 on:
-  push:
   workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'
 
 jobs:
   macos:
@@ -28,4 +29,5 @@ jobs:
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         branch: aws-sdk-go-update-models
         title: 'Update models from aws-sdk-go'
+        body: 'Automated update of AWS service files from json model files in aws-sdk-go repository'
         base: main
