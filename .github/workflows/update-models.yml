@@ -25,13 +25,13 @@ jobs:
         mint install nicklockwood/swiftformat
     - name: Update Models
       run: |
-        ./scripts/update_models.sh -b
+        ./scripts/update_models.sh -b | grep AWS_MODELS_VERSION >> $GITHUB_ENV 
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ steps.generate-token.outputs.token }}
-        commit-message: 'Update models from aws-sdk-go'
+        commit-message: 'Update models from aws-sdk-go ${AWS_MODELS_VERSION}'
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         branch: aws-sdk-go-update-models
