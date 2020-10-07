@@ -13,7 +13,7 @@
 ##
 ##===----------------------------------------------------------------------===##
 
-set -eux
+set -eu
 
 TEMP_DIR=""
 
@@ -129,6 +129,8 @@ echo "Get aws-sdk-go models"
 AWS_SDK_GO=$TEMP_DIR/aws-sdk-go/
 AWS_MODELS_VERSION=$(get_aws_sdk_go "$AWS_SDK_GO" "$AWS_MODELS_VERSION")
 
+# required by update_models.yml to extract the version number of the models
+echo "AWS_MODELS_VERSION=$AWS_MODELS_VERSION"
 echo "Copy models to soto"
 AWS_SDK_GO_MODELS=$AWS_SDK_GO/models
 TARGET_MODELS=models
