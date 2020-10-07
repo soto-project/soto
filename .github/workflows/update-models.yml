@@ -1,7 +1,6 @@
 name: Update AWS service files
 
 on:
-  push:
   workflow_dispatch:
   schedule:
     - cron: '0 1 * * *'
@@ -10,7 +9,8 @@ jobs:
   macos:
     runs-on: macOS-latest
     steps:
-    - uses: tibdex/github-app-token@v1
+    - name: App Token
+      uses: tibdex/github-app-token@v1
       id: generate-token
       with:
         app_id: ${{ secrets.APP_ID }}
