@@ -6,7 +6,7 @@ on:
     - cron: '0 1 * * *'
 
 jobs:
-  macos:
+  build:
     runs-on: macOS-latest
     steps:
     - name: App Token
@@ -24,17 +24,18 @@ jobs:
         brew install mint
         mint install nicklockwood/swiftformat
     - name: Update Models
+      id: update-models
       run: |
-        ./scripts/update_models.sh -b
+        ./scripts/update_models.sh -b | grep AWS_MODELS_VERSION >> $GITHUB_ENV 
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ steps.generate-token.outputs.token }}
-        commit-message: 'Update models from aws-sdk-go'
+        commit-message: 'Update models from aws-sdk-go ${{ env.AWS_MODELS_VERSION }}'
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         branch: aws-sdk-go-update-models
-        title: 'Update models from aws-sdk-go'
+        title: 'Update models from aws-sdk-go ${{ env.AWS_MODELS_VERSION }}'
         body: 'Automated update of AWS service files from json model files in aws-sdk-go repository'
         base: main
