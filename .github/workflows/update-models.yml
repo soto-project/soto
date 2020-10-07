@@ -32,7 +32,7 @@ jobs:
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ steps.generate-token.outputs.token }}
-        commit-message: 'Update models from aws-sdk-go $AWS_MODELS_VERSION'
+        commit-message: 'Update models from aws-sdk-go ${{ env.AWS_MODELS_VERSION }}'
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         branch: aws-sdk-go-update-models
