@@ -88,7 +88,7 @@ class APIGatewayV2Tests: XCTestCase {
 
     /// tests whether created date is loading correctly
     func testGetApis() {
-        // get date from 1 minute before now.
+        // get date 1 minute before now.
         let date = Date(timeIntervalSinceNow: -60.0)
         let response = self.testRestApi { id in
             return Self.apiGatewayV2.getApis(.init())
