@@ -341,7 +341,7 @@ class S3ExtensionTests: XCTestCase {
         let s3 = Self.s3.with(options: .s3ForceVirtualHost)
         XCTAssertEqual(try self.testS3VirtualAddressing("https://localhost:8000/bucket/filename", config: s3.config), "https://bucket.localhost:8000/filename")
     }
-    
+
     func testMD5Calculation() throws {
         let url = URL(string: "http://s3.us-east-1.amazonaws.com/bucket")!
         let request = try AWSRequest(
@@ -354,7 +354,7 @@ class S3ExtensionTests: XCTestCase {
             body: .text("TestContent")
         ).applyMiddlewares(Self.s3.config.middlewares, config: Self.s3.config)
         XCTAssertEqual(request.httpHeaders["Content-MD5"].first, "6728ab89sfsdff==")
-        
+
         let request2 = try AWSRequest(
             region: .useast1,
             url: url,
