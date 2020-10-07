@@ -1,0 +1,40 @@
+name: Update AWS service files
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 1 * * *'
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+    - name: App Token
+      uses: tibdex/github-app-token@v1
+      id: generate-token
+      with:
+        app_id: ${{ secrets.APP_ID }}
+        private_key: ${{ secrets.APP_PRIVATE_KEY }}
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install Dependencies
+      run: |
+        brew install mint
+        mint install nicklockwood/swiftformat
+    - name: Update Models
+      run: |
+        ./scripts/update_models.sh -b
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ steps.generate-token.outputs.token }}
+        commit-message: 'Update models from aws-sdk-go'
+        committer: GitHub <noreply@github.com>
+        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        branch: aws-sdk-go-update-models
+        title: 'Update models from aws-sdk-go'
+        body: 'Automated update of AWS service files from json model files in aws-sdk-go repository'
+        base: main

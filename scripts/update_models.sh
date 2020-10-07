@@ -107,11 +107,12 @@ cleanup()
 
 AWS_MODELS_VERSION=""
 
-while getopts 'cv:' option
+while getopts 'bcv:' option
 do
     case $option in
         v) AWS_MODELS_VERSION=$OPTARG ;;
         c) COMPILE_FILES=1 ;;
+        b) DONT_COMMIT=1 ;;
         *) usage ;;
     esac
 done
@@ -137,4 +138,6 @@ build_files
 if [ -n "$COMPILE_FILES" ]; then
     compile_files
 fi
-commit_changes "$AWS_MODELS_VERSION"
+if [ -z "$DONT_COMMIT" ]; then
+    commit_changes "$AWS_MODELS_VERSION"
+fi
