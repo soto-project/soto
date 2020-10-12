@@ -16,17 +16,20 @@ import ArgumentParser
 import Foundation
 
 struct CodeGeneratorCommand: ParsableCommand {
-    @Option(name: .shortAndLong, default: Self.defaultOutputFolder, help: "Folder to output service files to")
-    var outputFolder: String
+    @Option(name: .shortAndLong, help: "Folder to output service files to")
+    var outputFolder: String = Self.defaultOutputFolder
 
-    @Option(name: .shortAndLong, default: Self.defaultInputFolder, help: "Folder to find json model files")
-    var inputFolder: String
+    @Option(name: .shortAndLong, help: "Folder to find json model files")
+    var inputFolder: String = Self.defaultInputFolder
 
     @Option(name: .shortAndLong, help: "Only output files for specified module")
     var module: String?
 
-    @Flag(name: .long, default: true, inversion: .prefixedNo, help: "Output files")
-    var output: Bool
+    @Flag(name: .long, inversion: .prefixedNo, help: "Output files")
+    var output: Bool = true
+
+    @Flag(name: .shortAndLong, help: "Verbose logging")
+    var verbose: Bool = false
 
     static var rootPath: String {
         return #file
